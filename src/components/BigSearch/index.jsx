@@ -2,9 +2,14 @@ import { useRef } from "react"
 import styled from "styled-components"
 import Typewriter from 'typewriter-effect/dist/core';
 
+const Box = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+`
+
 const SearchInput = styled.input`
   padding: 30px 0;
-  width: 100%;
+  grid-column: 2 / 3;
 
   background: #FFFFFF;
   border: 1px solid #000000;
@@ -27,7 +32,9 @@ const BigSearch = props => {
     const input = inputRef.current;
 
     return (
-        <SearchInput ref={inputRef} placeholder="Search by name" type="text" />
+        <Box>
+          <SearchInput ref={inputRef} placeholder="Search by name" type="text" />
+        </Box>
     )
 }
 
