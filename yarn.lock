@@ -9691,6 +9691,11 @@ react-error-overlay@^6.0.9:
   resolved "https://registry.npmjs.org/react-error-overlay/-/react-error-overlay-6.0.9.tgz"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
+react-icons@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.2.0.tgz#6dda80c8a8f338ff96a1851424d63083282630d0"
+  integrity sha512-rmzEDFt+AVXRzD7zDE21gcxyBizD/3NqjbX6cmViAgdqfJ2UiLer8927/QhhrXQV7dEj/1EGuOTPp7JnLYVJKQ==
+
 react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
@@ -9700,6 +9705,13 @@ react-is@^17.0.1:
   version "17.0.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.1.tgz"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+
+react-particles-js@^3.5.3:
+  version "3.5.3"
+  resolved "https://registry.yarnpkg.com/react-particles-js/-/react-particles-js-3.5.3.tgz#5fa8912cd3317061e4d31ed7743d331d9d7f2afe"
+  integrity sha512-e9GWBT51WDtPkcaSy0ZLUAT93lBzDvuqrfW81NOf6G69XSurgCtVy4+ZYpUCnLhZgkokzsjrhtVOSj1FxPVyEw==
+  dependencies:
+    lodash "^4.17.11"
 
 react-redux@^7.2.5:
   version "7.2.5"

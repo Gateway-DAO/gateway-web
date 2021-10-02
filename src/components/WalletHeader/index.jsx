@@ -7,8 +7,8 @@ const ConnectToWallet = styled.button`
     background: transparent;
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
-    border: 1px solid;
-    border-image-source: linear-gradient(90deg, #FF00B8 0%, #7E3BDC 50.52%, #0075FF 100%);
+    border: 1px solid transparent;
+    border-image: linear-gradient(90deg, #FF00B8 0%, #7E3BDC 50.52%, #0075FF 100%);
     padding: 10px 20px;
 `
 

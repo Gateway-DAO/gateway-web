@@ -1,49 +1,80 @@
 import React from 'react'
 import styled from 'styled-components'
-import WrappedBigSearch from '../../components/BigSearch'
-import Categories from '../../components/Categories'
 
 import Header from '../../components/Header'
+import WrappedBigSearch from '../../components/BigSearch'
+import Categories from '../../components/Categories'
+import Footer from '../../components/Footer'
 
-const HomeContainer = styled("main")`
+import CTA_BG from '../../assets/Landing CTA Background.svg';
+
+// import '../../utils/canvas';
+
+const HomeContainer = styled.main`
     background-color: #170627;
-    height: 100vh;
+    height: 100%;
 `
 
 const BigText = styled.h1`
-    font-size: 56px;
-    line-height: 80px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 96px;
+    line-height: 90px;
+    /* or 94% */
+
+    text-align: center;
+    letter-spacing: -0.015em;
+
+    /* Background */
     background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-    font-family: Montserrat, sans-serif;
-    font-weight: 800;
-    font-style: normal;
-    text-align: center;
-    letter-spacing: -0.015em;
+
+    /* Spacing */
+    margin: 0 25%;
 `
 
 const MediumText = styled.h2`
-    font-size: 46px;
-    line-height: 80px;
     background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-    font-family: Montserrat, sans-serif;
-    font-weight: 800;
+
+    font-family: Poppins;
     font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 64px;
+    /* or 100% */
+
     text-align: center;
     letter-spacing: -0.015em;
 `
 
+const MainBox = styled.section`
+    margin: 100px 0;
+`
+
+const SpaceBox = styled.canvas`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+`
+
 const CTABox = styled.section`
+    margin: 125px 0;
     display: flex;
     align-items: center;
     flex-direction: column;
+    background-image: url('${CTA_BG}');
+    background-position: center;
+    background-size: contain;
+    height: 100vh;
+    justify-content: center;
 `
 
 const CTAButton = styled.button`
@@ -51,6 +82,7 @@ const CTAButton = styled.button`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
     padding: 10px 50px;
+    margin-top: 70px;
 `
 
 const CTAButtonText = styled.p`
@@ -71,15 +103,19 @@ const Home = props => {
     return (
         <HomeContainer>
             <Header />
-            <BigText>Discover Your Community</BigText>
-            <WrappedBigSearch />
+            <SpaceBox id="space-canvas"></SpaceBox>
+            <MainBox>
+                <BigText>Discover Your Community</BigText>
+                <WrappedBigSearch />
+            </MainBox>
             <Categories />
 
             { /* Call to Action */ }
             <CTABox>
-                <MediumText>Join us to build the future of communities</MediumText>
+                <MediumText>Join us to build the<br />future of communities</MediumText>
                 <CTAButton><CTAButtonText>Join Today</CTAButtonText></CTAButton>
             </CTABox>
+            <Footer />
         </HomeContainer>
     )
 }

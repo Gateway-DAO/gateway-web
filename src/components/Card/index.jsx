@@ -2,7 +2,9 @@ import styled from "styled-components"
 
 const CardBox = styled.div`
     background-color: white;
-    border-radius: 20px
+    border-radius: 20px;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
 `
 
 const CardBanner = styled.div`
@@ -10,22 +12,30 @@ const CardBanner = styled.div`
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     background-image: url('${props => props.src}');
+    grid-row: 1 / span 2;
 `
 
 const CardLogo = styled.img`
     position: absolute;
     border-radius: 100%;
     width: 50px;
+    top: 15px;
+    left: 15px;
+`
+
+const CardBody = styled.div`
+    grid-row: 3 / span 2;
+    padding: 15px;
 `
 
 const CardTitle = styled.h1`
-    font-family: "Be Vietnam", sans-serif;
-    font-style: normal;
-    font-weight: bold;
+    font-family: "Be Vietnam";
     font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
     line-height: 26px;
-    display: flex;
-    align-items: center;
+    letter-spacing: 0em;
+    text-align: left;
 
     color: #170627;
 `
@@ -46,7 +56,10 @@ const CardDesc = styled.p`
 const CardInfoBox = styled.div`
     border-top: 1px solid rgba(229, 229, 229, 0.5);
     background-color: white;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    padding: 0 15px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
 `
@@ -88,8 +101,10 @@ const Card = props => (
             <CardBanner src={props.bannerURL}>
                 <CardLogo src={props.logoURL} />
             </CardBanner>
-            <CardTitle>{props.title}</CardTitle>
-            <CardDesc>{props.description}</CardDesc>
+            <CardBody>
+                <CardTitle>{props.title}</CardTitle>
+                <CardDesc>{props.description}</CardDesc>
+            </CardBody>
             <CardInfoBox>
                 {props.ranking && 
                     <CardInfo

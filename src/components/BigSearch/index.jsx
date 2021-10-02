@@ -5,6 +5,7 @@ import Typewriter from 'typewriter-effect/dist/core';
 const Box = styled.div`
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
+  margin-top: 60px;
 `
 
 const SearchInput = styled.input`

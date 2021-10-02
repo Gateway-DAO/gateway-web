@@ -17,10 +17,13 @@ const DUMMY_CARDS = [
     }
 ]
 
+const Box = styled.div`
+    margin: 0 40px;
+`
+
 const CategoriesContainer = styled.ul`
-    display: flex;
-    flex-direction: row;
     text-color: white;
+    margin-bottom: 55px;
 `
 
 const Category = styled.li`
@@ -28,18 +31,21 @@ const Category = styled.li`
     
     font-family: Be Vietnam;
     font-style: normal;
-    font-weight: normal;
+    font-weight: ${props => props.active ? 'bold' : 'normal'};
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
 
-    color: rgba(255, 255, 255, 0.6);
+    color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.6)'};
+
+    margin-right: 25px;
 `
 
 const CardBox = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 20px;
 `
 
 const Categories = props => {
@@ -58,8 +64,10 @@ const Categories = props => {
     }, [categories]);
 
     return (
-        <ul>
-            {categories.map(cat => <Category>{cat}</Category>)}
+        <Box>
+            <CategoriesContainer>
+                {categories.map((cat, idx) => <Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{cat}</Category>)}
+            </CategoriesContainer>
             <CardBox>
                 {cards.map(card => {
                     return (<Card 
@@ -73,7 +81,7 @@ const Categories = props => {
                     />);
                 })}
             </CardBox>
-        </ul>
+        </Box>
     )
 }
 

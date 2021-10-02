@@ -10,6 +10,8 @@ const HeaderDiv = styled.header`
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    grid-column-gap: 20px;
+    margin: 0 40px;
 `
 
 const Box = styled.div`
@@ -23,7 +25,8 @@ const LogoBox = styled(Box)`
 `
 
 const WalletBox = styled(Box)`
-    grid-column: 10 / 13;
+    grid-column: 9 / main-end;
+    justify-content: flex-end;
 `
 
 const LogoText = styled.h1`
@@ -37,6 +40,8 @@ const LogoText = styled.h1`
     letter-spacing: 0.4em;
 
     color: #E5E5E5;
+
+    margin-left: 20px;
 `
 
 const Text = styled.p`
@@ -49,6 +54,8 @@ const Text = styled.p`
     /* identical to box height */
 
     letter-spacing: 0.05em;
+
+    margin-right: 20px;
 `
 
 const Header = props => {
