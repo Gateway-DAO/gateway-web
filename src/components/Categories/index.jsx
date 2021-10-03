@@ -2,6 +2,10 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import Card from "../Card"
 
+import { query, getDocs, where } from "firebase/firestore"
+import { DAORef } from "../../api/db"
+import { getTokenFromAddress } from "../../api/coingecko"
+
 const DUMMY_CATEGORIES = ["Trending", "DeFi", "Investment", "Media", "Social", "All"]
 
 const DUMMY_CARDS = [
@@ -55,12 +59,38 @@ const Categories = props => {
 
     // Fetch categories from DB
     useEffect(() => {
-
+        
     }, []);
 
-    // Fetch cards from DB
+    // Fetch cards from DB - currently, for testing purposes, fetching all DAOs
     useEffect(() => {
+        // const docs = query(DAORef);
+        const snapshot = getDocs(DAORef);
+        snapshot.then(e => {
+            e.docs.forEach(async doc => {
+                const data = doc.data();
+                
+                // Once we have data, start fetching content from CoinGecko
+                const json = await getTokenFromAddress(data.tokenAddress)
 
+                console.log(json);
+
+                const tokenInfo = {
+                    ranking: json.market_cap_rank,
+                    price: `$${json.market_data.current_price.usd}`,
+                    token: json.symbol.toUpperCase(),
+                    logoURL: json.image.large
+                }
+
+                setCards([
+                    ...cards,
+                    {
+                        ...data,
+                        ...tokenInfo
+                    }
+                ]);
+            })
+        })
     }, [categories]);
 
     return (
@@ -70,15 +100,17 @@ const Categories = props => {
             </CategoriesContainer>
             <CardBox>
                 {cards.map(card => {
-                    return (<Card 
-                        title={card.name}
-                        description={card.description}
-                        ranking={card.ranking}
-                        token={card.token}
-                        price={card.price}
-                        logoURL={card.logoURL}
-                        bannerURL={card.bannerURL}
-                    />);
+                    return (
+                        <Card 
+                            title={card.name}
+                            description={card.description}
+                            ranking={card.ranking}
+                            token={card.token}
+                            price={card.price}
+                            logoURL={card.logoURL}
+                            bannerURL={card.bannerURL}
+                        />
+                    );
                 })}
             </CardBox>
         </Box>

@@ -7,13 +7,17 @@ import {
   } from "react-router-dom";
 
 import Home from './Home'
+import DAO from './DAO'
 
 const App = props => {
     return (
         <Router>
             <Switch>
-                <Route path="/">
+                <Route exact path="/">
                     <Home />
+                </Route>
+                <Route path="/dao/:id">
+                    <DAO />
                 </Route>
             </Switch>
         </Router>

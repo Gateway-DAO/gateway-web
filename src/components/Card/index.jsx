@@ -63,6 +63,7 @@ const CardInfoBox = styled.div`
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
 `
+
 const CardInfoTitle = styled.h2`
     font-family: "Be Vietnam", sans-serif;
     font-style: normal;
