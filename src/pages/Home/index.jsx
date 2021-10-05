@@ -103,7 +103,7 @@ const Home = props => {
     return (
         <HomeContainer>
             <Header />
-            <SpaceBox id="space-canvas"></SpaceBox>
+            
             <MainBox>
                 <BigText>Discover Your Community</BigText>
                 <WrappedBigSearch />

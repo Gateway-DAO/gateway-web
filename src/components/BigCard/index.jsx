@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import { FiArrowUpRight } from "react-icons/fi";
 import { RiArrowUpSFill, RiArrowDownSFill} from "react-icons/ri";
+import { useWeb3React } from "@web3-react/core";
 
 import { shortenAddress } from "../../utils/web3";
+import { useEffect } from "react";
+import { useState } from "react";
+import { BigNumber } from "@ethersproject/bignumber";
 
 const Container = styled.main`
     display: grid;
-    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-columns: 2fr 8fr 2fr;
 `
 
 const CardBox = styled.div`
@@ -17,15 +21,21 @@ const CardBox = styled.div`
     padding: 50px;
     grid-column: 2 / 3;
     position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
 `
 
-const CardBanner = styled.img`
+const CardBanner = styled.div`
     position: relative;
     width: calc(100% + 100px);
     top: -50px;
     left: -50px;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    height: 40vh;
+    background-image: url(${props => props.src});
+    background-size: cover;
+    background-position: center;
 `
 
 const CardContainer = styled.div`
@@ -34,9 +44,19 @@ const CardContainer = styled.div`
     grid-column-gap: 20px;
 `
 
+const Logo = styled.img`
+    border: 1px solid #E5E5E5;
+    border-radius: 100%;
+    margin-bottom: 20px;
+    width: 100px;
+    background-color: white;
+`
+
 const TokenInfo = styled.div`
     grid-column: 1 / span 5;
     margin-right: 30px;
+    position: relative;
+    top: -100px;
 `
 
 const TokenFeed = styled.div`
@@ -188,12 +208,25 @@ const Category = styled.li`
 `
 
 const BigCard = props => {
+    const web3 = useWeb3React();
+    const [balance, setBalance] = useState(BigNumber.from(0));
+    
+    useEffect(() => {
+       const getBalance = async tokenAddress => web3.active && web3.library && setBalance(await web3.library.provider.getBalance(tokenAddress));
+       getBalance(props.tokenAddress);
+
+        console.log(web3.library);
+
+       alert(balance.toNumber());
+    }, [web3.active]);
+
     return (
         <Container>
             <CardBox>
-                <CardBanner src="https://uniswap.org/static/147dde1dd5e18705f26c7304e44ff1dc/7f945/banner.jpg" />
+                <CardBanner src={props.backgroundURL} />
                 <CardContainer>
                     <TokenInfo>
+                        <Logo src={props.logoURL} />
                         <Title>{props.name}</Title>
                         <Description>{props.description}</Description>
                         <CategoryList>
@@ -201,6 +234,9 @@ const BigCard = props => {
                         </CategoryList>
                     </TokenInfo>
                     <TokenFeed>
+                        {web3.active &&
+                            <Text>You have {balance.toNumber()} ${props.symbol.toUpperCase()}</Text>
+                        }
                         <TokenName>${props.symbol.toUpperCase()}</TokenName>
                         <PriceContainer>
                             <TokenPrice>${props.tokenFeed.price}</TokenPrice>

@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import logo from "../../assets/Gateway.svg"
+import { Link } from "react-router-dom"
 
 import Wallet from "../WalletHeader"
 
@@ -20,8 +21,12 @@ const Box = styled.div`
     align-items: center;
 `
 
-const LogoBox = styled(Box)`
+const LogoBox = styled(Link)`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     grid-column: 1 / 3;
+    text-decoration: none;
 `
 
 const WalletBox = styled(Box)`
@@ -61,7 +66,7 @@ const Text = styled.p`
 const Header = props => {
     return (
         <HeaderDiv>
-            <LogoBox>
+            <LogoBox to="/">
                 <img src={logo} alt="Gateway Logo" />
                 <LogoText>GATEWAY</LogoText>
             </LogoBox>
