@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { FiArrowUpRight } from "react-icons/fi";
 import { RiArrowUpSFill, RiArrowDownSFill} from "react-icons/ri";
+import Collapsible from 'react-collapsible';
+
 
 import { shortenAddress } from "../../utils/web3";
 
@@ -113,6 +115,19 @@ const Text = styled.p`
     color: ${props => props.color || "#170627"};
 `
 
+const StyledCollapsible = styled(Collapsible)`
+    font-family: Be Vietnam;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+    align-items: center;
+
+    color: #170627;
+`
+  
+
 const PercentageText = styled(Text)`
     margin-right: 5px;
 `
@@ -199,6 +214,20 @@ const BigCard = props => {
                         <CategoryList>
                             {props.categories.map(e => <Category>{e}</Category>)}
                         </CategoryList>
+                        <div>
+                            <StyledCollapsible tabIndex={0} trigger="How to join?">
+                                <Description>If you are a core team member or key contributor, please reach out to Gateway via this form</Description>
+                            </StyledCollapsible>
+                            <StyledCollapsible tabIndex={0} trigger="Bounties">
+                                <Description>If you are a core team member or key contributor, please reach out to Gateway via this form</Description>
+                            </StyledCollapsible>
+                            <StyledCollapsible tabIndex={0} trigger="Governance Proposals">
+                                <Description>⚡️Snapshot integration coming soon.</Description>
+                            </StyledCollapsible>
+                            <StyledCollapsible tabIndex={0} trigger="Token Benefits/Utility">
+                                <Description>If you are a core team member or key contributor, please reach out to Gateway via this form</Description>
+                            </StyledCollapsible>
+                        </div>
                     </TokenInfo>
                     <TokenFeed>
                         <TokenName>${props.symbol.toUpperCase()}</TokenName>
