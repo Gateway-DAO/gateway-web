@@ -2,6 +2,8 @@ import { useRef } from "react"
 import styled from "styled-components"
 import Typewriter from 'typewriter-effect/dist/core';
 
+import { daos } from "../../api/algolia";
+
 const Box = styled.div`
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
@@ -32,9 +34,19 @@ const BigSearch = props => {
     const inputRef = useRef();
     const input = inputRef.current;
 
+    const handleInput = async e => {
+      if (e.key === "Enter") {
+        const query = e.target.value;
+        console.log(`Searching for: ${query}`);
+        const res = await daos.search(query);
+        console.log(`Found: ${res.nbHits} result(s)`);
+        console.log(res.hits);
+      }
+    }
+
     return (
         <Box>
-          <SearchInput ref={inputRef} placeholder="Search by name" type="text" />
+          <SearchInput ref={inputRef} onKeyPress={handleInput} placeholder="Search by name" type="text" />
         </Box>
     )
 }

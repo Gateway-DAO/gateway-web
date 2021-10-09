@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Card from "../Card"
 
 import { query, getDocs, where } from "firebase/firestore"
-import { DAORef } from "../../api/db"
+import { DAORef, allDocs } from "../../api/db"
 import { getTokenFromAddress } from "../../api/coingecko"
 
 const DUMMY_CATEGORIES = ["Trending", "DeFi", "Investment", "Media", "Social", "All"]
@@ -37,6 +37,7 @@ const CardBox = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 20px;
+    grid-row-gap: 20px;
 `
 
 const Categories = props => {
@@ -44,45 +45,43 @@ const Categories = props => {
     const [activeCategory, setActiveCategory] = useState(0);
     const [cards, setCards] = useState([]);
 
-    // Fetch categories from DB
-    useEffect(() => {
-        
-    }, []);
+    const fetchCards = async () => {
+        // If Trending or All, implement a different behavior
+        let q;
 
-    // Fetch cards from DB
-    useEffect(() => {
-        setCards([]);
+        switch (activeCategory) {
+            case 0: // TODO: Need to come up with something for Trending
+            case 5:
+                // All
+                q = await allDocs;
+                break;
+            default:
+                q = await getDocs(query(DAORef, where("categories", "array-contains", DUMMY_CATEGORIES[activeCategory])));
+        }
 
-        const q = query(DAORef, where("categories", "array-contains", DUMMY_CATEGORIES[activeCategory]));
-        // const snapshot = getDocs(DAORef);
-        const docs = getDocs(q);
+        let { docs } = q;
 
-        docs.then(e => {
-            let newCards = [...cards];
+        let newCards = docs.map(async doc => {
+            const data = doc.data();
+            
+            // Once we have data, start fetching content from CoinGecko
+            const json = await getTokenFromAddress(data.tokenAddress);
 
-            e.docs.forEach(async doc => {
-                const data = doc.data();
-                
-                // Once we have data, start fetching content from CoinGecko
-                const json = await getTokenFromAddress(data.tokenAddress)
+            const tokenInfo = {
+                ranking: json.market_cap_rank,
+                price: json.market_data.current_price.usd || "Nope",
+                token: json.symbol.toUpperCase()
+            }
 
-                console.log(data.name);
-                console.log(data.tokenAddress);
-                console.log(json);
-
-                const tokenInfo = {
-                    ranking: json.market_cap_rank,
-                    price: json.market_data.current_price.usd || "Nope",
-                    token: json.symbol.toUpperCase()
-                }
-
-                newCards.push({ ...data, ...tokenInfo });
-            })
-
-            setCards(newCards);
+            return { ...data, ...tokenInfo }
         });
 
-    }, [activeCategory]);
+        const resolved = await Promise.all(newCards)
+        setCards(resolved);
+    }
+
+    // Fetch cards from DB
+    useEffect(() => fetchCards(), [activeCategory]);
 
     return (
         <Box>

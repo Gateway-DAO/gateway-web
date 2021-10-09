@@ -37,20 +37,7 @@ const DAO = props => {
         const handleData = async () => {
             const dbData = await getDBData();
             const cgData = await getCGData(dbData.tokenAddress);
-
-            /**
-             * symbol
-             * market_cap_rank
-             * market_data.current_price.usd
-             * market_data.ath.usd
-             * market_data.atl.usd
-             * market_data.market_cap.usd
-             * market_data.price_change_percentage_24h
-             * market_data.price_change_percentage_7d
-             * market_data.total_supply
-             * market_data.circulating_supply
-             */
-
+            
             // Organize presentable data
             const data = {
                 ...dbData,

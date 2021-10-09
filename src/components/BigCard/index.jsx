@@ -135,7 +135,6 @@ const Text = styled.p`
 
 const StyledCollapsible = styled(Collapsible)`
     font-family: Be Vietnam;
-    font-family: Be Vietnam;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
@@ -143,6 +142,8 @@ const StyledCollapsible = styled(Collapsible)`
     align-items: center;
 
     color: #170627;
+
+    margin: 20px 0;
 `
   
 
@@ -225,12 +226,11 @@ const BigCard = props => {
     const [balance, setBalance] = useState(BigNumber.from(0));
     
     useEffect(() => {
-       const getBalance = async tokenAddress => web3.active && web3.library && setBalance(await web3.library.provider.getBalance(tokenAddress));
+       const getBalance = async tokenAddress => web3.active && web3.library && setBalance(await web3.library.getBalance(tokenAddress));
        getBalance(props.tokenAddress);
 
         console.log(web3.library);
 
-       alert(balance.toNumber());
     }, [web3.active]);
 
     return (

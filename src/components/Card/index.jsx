@@ -12,6 +12,8 @@ const CardBanner = styled.div`
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     background-image: url('${props => props.src}');
+    background-position: center;
+    background-size: cover;
     grid-row: 1 / span 2;
 `
 
@@ -21,6 +23,7 @@ const CardLogo = styled.img`
     width: 50px;
     top: 15px;
     left: 15px;
+    background-color: white;
 `
 
 const CardBody = styled.div`
