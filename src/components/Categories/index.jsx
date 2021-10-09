@@ -63,6 +63,7 @@ const Categories = props => {
 
         let newCards = docs.map(async doc => {
             const data = doc.data();
+            const id = doc.id;
             
             // Once we have data, start fetching content from CoinGecko
             const json = await getTokenFromAddress(data.tokenAddress);
@@ -73,7 +74,7 @@ const Categories = props => {
                 token: json.symbol.toUpperCase()
             }
 
-            return { ...data, ...tokenInfo }
+            return { id, ...data, ...tokenInfo }
         });
 
         const resolved = await Promise.all(newCards)
@@ -91,7 +92,8 @@ const Categories = props => {
             <CardBox>
                 {cards.map(card => {
                     return (
-                        <Card 
+                        <Card
+                            id={card.id} 
                             title={card.name}
                             description={card.description}
                             ranking={card.ranking}

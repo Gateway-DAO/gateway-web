@@ -8,6 +8,7 @@ import {
 
 import Home from './Home'
 import DAO from './DAO'
+import Search from './Search'
 
 const App = props => {
     return (
@@ -18,6 +19,9 @@ const App = props => {
                 </Route>
                 <Route path="/dao/:id">
                     <DAO />
+                </Route>
+                <Route path="/search/:query">
+                    <Search />
                 </Route>
             </Switch>
         </Router>

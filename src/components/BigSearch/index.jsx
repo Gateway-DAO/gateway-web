@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { useHistory } from "react-router";
 import styled from "styled-components"
 import Typewriter from 'typewriter-effect/dist/core';
 
@@ -33,14 +34,11 @@ const SearchInput = styled.input`
 const BigSearch = props => {
     const inputRef = useRef();
     const input = inputRef.current;
+    const history = useHistory()
 
     const handleInput = async e => {
       if (e.key === "Enter") {
-        const query = e.target.value;
-        console.log(`Searching for: ${query}`);
-        const res = await daos.search(query);
-        console.log(`Found: ${res.nbHits} result(s)`);
-        console.log(res.hits);
+        history.push(`search/${e.target.value}`);
       }
     }
 

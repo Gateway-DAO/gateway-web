@@ -1,8 +1,12 @@
 import styled from "styled-components"
-import logo from "../../assets/Gateway.svg"
 import { Link } from "react-router-dom"
+import { FiSearch } from "react-icons/fi"
+import { useState } from "react"
+import { useHistory } from "react-router"
 
 import Wallet from "../WalletHeader"
+
+import logo from "../../assets/Gateway.svg"
 
 const HeaderDiv = styled.header`
     height: 90px;
@@ -32,6 +36,27 @@ const LogoBox = styled(Link)`
 const WalletBox = styled(Box)`
     grid-column: 9 / main-end;
     justify-content: flex-end;
+`
+
+const SearchBox = styled(Box)`
+    display: flex;
+    flex-direction: row;
+    grid-column: 5 / 8;
+    align-items: center;
+`
+
+const SearchInputBox = styled.div`
+    background: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    width: 100%;
+    padding: 10px 30px;
+    flex: auto;
+`
+
+const SearchInput = styled.input`
+    border: none;
+    outline: none;
 `
 
 const LogoText = styled.h1`
@@ -64,12 +89,31 @@ const Text = styled.p`
 `
 
 const Header = props => {
+    const [search, setSearch] = useState(props.search || {})
+    const [inputVal, setInputVal] = useState(search.value || "")
+    const history = useHistory();
+
+    const handleEnter = e => {
+        if (e.key === "Enter") {
+            history.push(`/search/${e.target.value}`);
+        }
+    }
+
     return (
         <HeaderDiv>
             <LogoBox to="/">
                 <img src={logo} alt="Gateway Logo" />
                 <LogoText>GATEWAY</LogoText>
             </LogoBox>
+            {
+                search && search.visible &&
+                <SearchBox>
+                    <SearchInputBox>
+                        <SearchInput value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyPress={handleEnter} />
+                        <FiSearch size={20} />
+                    </SearchInputBox>
+                </SearchBox>
+            }
             <WalletBox>
                 <Text color="#FF00B8">Add Your Community</Text>
                 <Wallet />
