@@ -5,15 +5,20 @@ import logo from "../../assets/Gateway.svg"
 import { Link } from "react-router-dom"
 
 const FooterBox = styled.footer`
+    /*
     display: grid;
     grid-template-columns: 3fr 2fr 2fr 2fr 3fr;
+    */
     margin: 0 40px;
     grid-column-gap: 20px;
     padding: 80px 0;
+
+    display: flex;
+    justify-content: center;
 `
 
 const LogoAndSocialsBox = styled.div`
-    
+
 `
 
 const LogoBox = styled.div`
@@ -24,7 +29,7 @@ const LogoBox = styled.div`
 
 const SocialsBox = styled.div`
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin-bottom: 20px;
 `
 
@@ -151,6 +156,7 @@ const Footer = props => {
                     <p>All rights reserved.</p>
                 </CopyBox>
             </LogoAndSocialsBox>
+            {/*
             <LinkColumn>
                 <ColItem title>Learn</ColItem>
                 <br/>
@@ -179,6 +185,7 @@ const Footer = props => {
                 <CTAText>Join us to build the future of communities</CTAText>
                 <CTABtn>Join Today</CTABtn>
             </CTABox>
+            */}
         </FooterBox>
     )
 }

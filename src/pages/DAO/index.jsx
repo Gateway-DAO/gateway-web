@@ -63,7 +63,7 @@ const DAO = props => {
 
     return (
         <Container>
-            <Header />
+            <Header search={{visible: true}} />
             {daoData && React.createElement(BigCard, daoData)}
             <Footer />
         </Container>

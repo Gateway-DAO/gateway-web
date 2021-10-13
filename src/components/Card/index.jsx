@@ -120,7 +120,7 @@ const Card = (props) => {
       <CardInfoBox>
         {props.ranking && <CardInfo title="Ranking" value={props.ranking} />}
         {props.token && <CardInfo title="Token" value={props.token} />}
-        {props.price && <CardInfo title="Price" value={props.price} />}
+        {props.price && <CardInfo title="Price" value={`$${Number(props.price).toFixed(2)}`} />}
       </CardInfoBox>
     </CardBox>
   );

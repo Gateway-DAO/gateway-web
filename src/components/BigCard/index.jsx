@@ -266,7 +266,7 @@ const BigCard = props => {
                         }
                         <TokenName>${props.symbol.toUpperCase()}</TokenName>
                         <PriceContainer>
-                            <TokenPrice>${props.tokenFeed.price}</TokenPrice>
+                            <TokenPrice>${Number(props.tokenFeed.price).toFixed(2)}</TokenPrice>
                             <PercentageText color={props.tokenFeed.change24h > 0 ? "#72B841" : "#EE787B"}>
                                 {props.tokenFeed.change24h > 0 ? <RiArrowUpSFill /> : <RiArrowDownSFill />}
                                 {props.tokenFeed.change24h.toLocaleString("en-US", { maximumFractionDigits: 1 })}%
