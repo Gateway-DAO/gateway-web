@@ -5,13 +5,13 @@
     
 */
 
-export default function space() {
+export default function space(height, width) {
   var canvas = document.getElementById("space-canvas");
   var flr = Math.floor;
   var vec3 = window.vec3;
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
 
   var halfw = canvas.width / 2,
     halfh = canvas.height / 2,

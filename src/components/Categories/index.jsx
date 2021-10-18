@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 import Card from "../Card"
 
@@ -84,6 +84,7 @@ const Categories = props => {
     const [categories, setCategories] = useState(DUMMY_CATEGORIES);
     const [activeCategory, setActiveCategory] = useState(0);
     const [cards, setCards] = useState([]);
+    const cardRef = useRef(null);
 
     const fetchCards = async () => {
         // If Trending or All, implement a different behavior
@@ -124,12 +125,40 @@ const Categories = props => {
     // Fetch cards from DB
     useEffect(() => fetchCards(), [activeCategory]);
 
+    let mouseDown = false;
+    let startX, scrollLeft;
+
+    let startDragging = function (e) {
+        mouseDown = true;
+        startX = e.pageX - cardRef.current.offsetLeft;
+        scrollLeft = cardRef.current.scrollLeft;
+    }
+
+    let stopDragging = function (event) {
+        mouseDown = false;
+    }
+
+    useEffect(() => {
+        cardRef.current.addEventListener('mousemove', (e) => {
+            e.preventDefault();
+            if(!mouseDown) { return; }
+            const x = e.pageX - cardRef.current.offsetLeft;
+            const scroll = x - startX;
+            cardRef.current.scrollLeft = scrollLeft - scroll;
+        });
+          
+        // Add the event listeners
+        cardRef.current.addEventListener('mousedown', startDragging, false);
+        cardRef.current.addEventListener('mouseup', stopDragging, false);
+        cardRef.current.addEventListener('mouseleave', stopDragging, false);
+    }, [])
+
     return (
         <Box>
             <CategoriesContainer>
                 {categories.map((cat, idx) => <Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{cat}</Category>)}
             </CategoriesContainer>
-            <CardBox className="full">
+            <CardBox className="full" ref={cardRef}>
                 {cards.map(card => {
                     return (
                         <Card

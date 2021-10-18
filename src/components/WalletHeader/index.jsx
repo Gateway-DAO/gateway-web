@@ -12,6 +12,10 @@ const ConnectToWallet = styled.a`
                         linear-gradient(90deg, #FF00B8 0%, #7E3BDC 50.52%, #0075FF 100%);
     background-origin: border-box;
     background-clip: content-box, border-box;
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 const ConnectText = styled.p`

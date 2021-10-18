@@ -6,6 +6,7 @@ const CardBox = styled.div`
   border-radius: 20px;
   display: grid;
   grid-template-rows: repeat(5, 1fr);
+  cursor: pointer;
 `;
 
 const CardBanner = styled.div`
