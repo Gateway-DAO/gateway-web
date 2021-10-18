@@ -3,13 +3,15 @@ import styled from "styled-components";
 import { shortenAddress, CONNECTORS } from "../../utils/web3";
 import { useWeb3React } from "@web3-react/core";
 
-const ConnectToWallet = styled.button`
-    background: transparent;
+const ConnectToWallet = styled.a`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
-    border: 1px solid transparent;
-    border-image: linear-gradient(90deg, #FF00B8 0%, #7E3BDC 50.52%, #0075FF 100%);
-    padding: 10px 20px;
+
+    border: double 1px transparent;
+    background-image:   linear-gradient(#170627, #170627), 
+                        linear-gradient(90deg, #FF00B8 0%, #7E3BDC 50.52%, #0075FF 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
 `
 
 const ConnectText = styled.p`
@@ -24,6 +26,8 @@ const ConnectText = styled.p`
     text-transform: uppercase;
 
     color: #E5E5E5;
+
+    margin: 10px 20px;
 `
 
 const Wallet = props => {
@@ -32,7 +36,7 @@ const Wallet = props => {
     return active ? 
         account && (
             <ConnectToWallet>
-                <ConnectText>{shortenAddress(account)}</ConnectText>
+                <ConnectText>{shortenAddress(account, 4, 12)}</ConnectText>
             </ConnectToWallet>
         ) : (
             <ConnectToWallet onClick={e => activate(CONNECTORS.Injected)}>

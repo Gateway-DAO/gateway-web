@@ -9,7 +9,16 @@ import { getTokenFromAddress } from "../../api/coingecko"
 const DUMMY_CATEGORIES = ["Trending", "DeFi", "Investment", "Media", "Social", "All"]
 
 const Box = styled.div`
-    margin: 0 40px;
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+
+    & > * {
+        grid-column: 2 / -2;
+    }
+
+    & > .full {
+        grid-column: 1 / -1;
+    }
 `
 
 const CategoriesContainer = styled.ul`
@@ -31,13 +40,44 @@ const Category = styled.li`
     color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.6)'};
 
     margin-right: 25px;
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 
+/*
 const CardBox = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 20px;
     grid-row-gap: 20px;
+`
+*/
+
+const CardBox = styled.div`
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 10px;
+    grid-template-rows: minmax(150px, 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: calc(30% - 20px * 2);
+
+    overflow-x: scroll;
+    scroll-snap-type: x proximity;
+
+    &::-webkit-scrollbar { 
+        display: none;  /* Safari and Chrome */
+    }
+
+    & > *:last-child {
+        margin-right: 20px;
+    }
+
+    &:before {
+        content: '';
+        width: 10px;
+    }
 `
 
 const Categories = props => {
@@ -89,7 +129,7 @@ const Categories = props => {
             <CategoriesContainer>
                 {categories.map((cat, idx) => <Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{cat}</Category>)}
             </CategoriesContainer>
-            <CardBox>
+            <CardBox className="full">
                 {cards.map(card => {
                     return (
                         <Card

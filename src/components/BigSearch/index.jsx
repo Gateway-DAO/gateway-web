@@ -1,6 +1,8 @@
 import { useRef } from "react"
 import { useHistory } from "react-router";
 import styled from "styled-components"
+import { FiSearch } from "react-icons/fi";
+
 import Typewriter from 'typewriter-effect/dist/core';
 
 import { daos } from "../../api/algolia";
@@ -11,6 +13,7 @@ const Box = styled.div`
   margin-top: 60px;
 `
 
+/*
 const SearchInput = styled.input`
   padding: 30px 0;
   grid-column: 2 / 3;
@@ -24,11 +27,46 @@ const SearchInput = styled.input`
   font-family: "Poppins" sans-serif;
   font-size: 64px;
   line-height: 80px;
-  /* identical to box height, or 125% */
 
   letter-spacing: -0.05em;
 
   color: #E5E5E5;
+`
+*/
+
+const SearchInputBox = styled.div`
+    grid-column: 2 / 3;
+    background: #FFFFFF;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+`
+
+const SearchInput = styled.input`
+    border: none;
+    outline: none;
+    flex: 1;
+
+    padding: 30px;
+    border-radius: 100px;
+
+    text-align: center;
+    font-family: "Poppins" sans-serif;
+    font-size: 64px;
+    line-height: 80px;
+
+    letter-spacing: -0.05em;
+
+    color: #E5E5E5;
+`
+
+const WrappedFiSearch = styled(FiSearch)`
+  padding-right: 40px;
 `
 
 const BigSearch = props => {
@@ -43,9 +81,12 @@ const BigSearch = props => {
     }
 
     return (
-        <Box>
-          <SearchInput ref={inputRef} onKeyPress={handleInput} placeholder="Search by name" type="text" />
-        </Box>
+      <Box>
+        <SearchInputBox>
+          <SearchInput type="search" placeholder="Search by name" onKeyPress={handleInput} />
+          <WrappedFiSearch size={60} />
+        </SearchInputBox>
+      </Box>
     )
 }
 

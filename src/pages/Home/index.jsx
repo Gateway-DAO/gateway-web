@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import Header from '../../components/Header'
@@ -8,11 +8,22 @@ import Footer from '../../components/Footer'
 
 import CTA_BG from '../../assets/Landing CTA Background.svg';
 
-// import '../../utils/canvas';
+import space from '../../utils/canvas';
 
 const HomeContainer = styled.main`
-    background-color: #170627;
+    background-color: transparent;
     height: 100%;
+    position: relative;
+    overflow-x: hidden;
+    
+    &:before {
+        position: absolute;
+        content: '';
+        z-index: -2;
+        background-color: #170627;
+        height: 100%;
+        width: 100%;
+    }
 `
 
 const BigText = styled.h1`
@@ -61,12 +72,12 @@ const MainBox = styled.section`
 
 const SpaceBox = styled.canvas`
     position: absolute;
-    width: 100%;
-    height: 100%;
+    top: 90px;
+    z-index: -1;
 `
 
 const CTABox = styled.section`
-    margin: 125px 0;
+    margin: 125px 0 50px 0;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -77,12 +88,16 @@ const CTABox = styled.section`
     justify-content: center;
 `
 
-const CTAButton = styled.button`
+const CTAButton = styled.a`
     background: linear-gradient(88.53deg, #EE787B 2.77%, #E153F2 51.87%, #495BE0 98.96%);
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
     padding: 10px 50px;
     margin-top: 70px;
+
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 const CTAButtonText = styled.p`
@@ -100,14 +115,18 @@ const CTAButtonText = styled.p`
 `
 
 const Home = props => {
+    useEffect(() => space(), []);
+
     return (
         <HomeContainer>
             <Header />
             
             <MainBox>
+                <SpaceBox id="space-canvas" />
                 <BigText>Discover Your Community</BigText>
                 <WrappedBigSearch />
             </MainBox>
+
             <Categories />
 
             { /* Call to Action */ }
