@@ -280,7 +280,7 @@ export const BalanceText = styled.span`
   color: #7E3BDC;
 `;
 
-export const TradeButton = styled.a`
+export const Button = styled.a`
   background: #ffffff;
   border: 1px solid #a5a5a5;
   box-sizing: border-box;
@@ -301,12 +301,17 @@ export const TradeButton = styled.a`
 
   text-decoration: none;
 
+  position: relative;
   padding: 10px;
-  margin-top: 20px;
-  width: calc(100% - 20px);
-  position: absolute;
+  width: 100%;
 
   &:hover {
     cursor: pointer;
   }
+`
+
+export const TradeButton = styled(Button)`
+  margin-top: 20px;
+  width: calc(100% - 20px);
+  position: absolute;
 `;
