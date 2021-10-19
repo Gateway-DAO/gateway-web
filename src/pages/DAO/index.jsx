@@ -56,6 +56,7 @@ const DAO = props => {
             const data = {
                 ...dbData,
                 related,
+                id,
                 symbol: cgData.symbol,
                 ranking: cgData.market_cap_rank,
                 tokenFeed: {

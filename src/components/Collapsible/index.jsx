@@ -27,6 +27,7 @@ font-family: Be Vietnam;
 
 const Body = styled.div`
     margin-top: 10px;
+    display: flex;
 `;
 
 const Collapsible = props => {
