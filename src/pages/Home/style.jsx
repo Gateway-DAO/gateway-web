@@ -22,9 +22,7 @@ export const BigText = styled.h1`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 96px;
-    line-height: 90px;
-    /* or 94% */
+    font-size: 48px;
 
     text-align: center;
     letter-spacing: -0.015em;
@@ -36,8 +34,16 @@ export const BigText = styled.h1`
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
-    /* Spacing */
-    margin: 0 25%;
+    margin: 0 30px;
+
+    @media only screen and (min-width: 768px) {
+        font-size: 96px;
+        line-height: 90px;
+        /* or 94% */
+
+        /* Spacing */
+        margin: 0 25%;
+    }
 `
 
 export const MediumText = styled.h2`

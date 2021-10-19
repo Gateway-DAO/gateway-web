@@ -31,16 +31,31 @@ const DAO = props => {
             return dao.data();
         }
 
+        const getRelatedDAOLogo = async (dao) => {
+            const daoDoc = doc(db, "daos", dao);
+            const relatedDao = await getDoc(daoDoc);
+            return relatedDao.data().logoURL;
+        }
+
         // Get CoinGecko data
         const getCGData = async address => await getTokenFromAddress(address);
 
         const handleData = async () => {
             const dbData = await getDBData();
             const cgData = await getCGData(dbData.tokenAddress);
+            let related = []
+
+            // If a DAO has a "related-daos" field, fetch the related DAOs
+            if ("related-daos" in dbData) {
+                related = dbData["related-daos"].map(getRelatedDAOLogo);
+            }
+
+            related = await Promise.all(related)
             
             // Organize presentable data
             const data = {
                 ...dbData,
+                related,
                 symbol: cgData.symbol,
                 ranking: cgData.market_cap_rank,
                 tokenFeed: {
@@ -55,11 +70,12 @@ const DAO = props => {
                 }
             }
 
+            console.log(data);
             setDaoData(data);
         }
 
         handleData();
-    }, []);
+    }, [id]);
 
     return (
         <Container>

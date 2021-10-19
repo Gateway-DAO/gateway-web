@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { BigNumber } from "@ethersproject/bignumber";
 import Collapsible from "../Collapsible";
 import * as Styled from "./style";
+import { Link } from "react-router-dom";
 
 const BigCard = (props) => {
   const web3 = useWeb3React();
@@ -116,6 +117,13 @@ const BigCard = (props) => {
                   out to Gateway via this form
                 </Styled.Description>
               </Collapsible>
+              {props["related-daos"] &&
+                <Collapsible title="Related DAOS">
+                  {props["related-daos"].map((dao, idx) => {
+                    return <Link to={`/dao/${dao}`}><Styled.Logo src={props.related[idx]} title={dao} /></Link>
+                  })}
+                </Collapsible>
+              }
             </div>
           </Styled.TokenInfo>
           <Styled.TokenFeed>
