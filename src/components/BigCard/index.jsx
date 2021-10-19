@@ -11,6 +11,8 @@ import * as Styled from "./style";
 import { Link } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import BountyModal from "../Modal/BountyModal";
+import TokenBenefitModal from "../Modal/TokenBenefitModal";
+import HowtoJoinModal from "../Modal/HowtoJoinModal";
 
 const BigCard = (props) => {
   const web3 = useWeb3React();
@@ -103,11 +105,10 @@ const BigCard = (props) => {
             <Styled.SocialsList>{socials}</Styled.SocialsList>
             <div>
               <Collapsible title="How to join?">
-                <Styled.Description>
-                  If you are a core team member or key contributor, please reach
-                  out to Gateway via this form
-                </Styled.Description>
+              {isAdmin && <Styled.Button onClick={toggleModal}>Add Steps</Styled.Button>}
+                {showModal && <HowtoJoinModal id={props.id} />}
               </Collapsible>
+
               <Collapsible title="Bounties">
                 {isAdmin && <Styled.Button onClick={toggleModal}>Add Bounty</Styled.Button>}
                 {showModal && <BountyModal id={props.id} />}
@@ -116,10 +117,8 @@ const BigCard = (props) => {
                 <Styled.Description>⚡️Snapshot integration coming soon.</Styled.Description>
               </Collapsible>
               <Collapsible title="Token Benefits/Utility">
-                <Styled.Description>
-                  If you are a core team member or key contributor, please reach
-                  out to Gateway via this form
-                </Styled.Description>
+                {isAdmin && <Styled.Button onClick={toggleModal}>Add Token Benefit</Styled.Button>}
+                {showModal && <TokenBenefitModal id={props.id} />}
               </Collapsible>
               {props["related-daos"] &&
                 <Collapsible title="Related DAOS">
