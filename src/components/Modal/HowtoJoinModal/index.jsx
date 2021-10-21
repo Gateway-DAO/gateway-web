@@ -6,18 +6,16 @@ import { collection, doc, getDoc, query, updateDoc } from "@firebase/firestore";
 import { useState } from "react";
 
 const HowtoJoinModal = props => {
-
     const [description, setDescription] = useState(null);
+
     const submitToDB = async () => {
         const dao = doc(db, "daos", props.id)
-        const howtojoin = (await getDoc(dao)).data().howtojoin;
+        const howToJoin = (await getDoc(dao)).data().howToJoin;
         updateDoc(dao, {
-            howtojoin: [
-                ...(howtojoin || []),
+            howToJoin: [
+                ...(howToJoin || []),
                 {
-
                     description
-
                 }
             ]
         })

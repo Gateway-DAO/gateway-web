@@ -15,12 +15,13 @@ import React from "react";
 
 const Container = styled.main`
     background-color: #170627;
-    height: 100%;
+    height: ${props => props.isLoaded ? "100%" : "100vh"};
+    position: relative;
 `
 
 const DAO = props => {
     const { id } = useParams();
-    const [daoData, setDaoData] = useState();
+    const [daoData, setDaoData] = useState(null);
 
     // Fetch data regarding these
     useEffect(() => {
@@ -79,7 +80,7 @@ const DAO = props => {
     }, [id]);
 
     return (
-        <Container>
+        <Container isLoaded={!!daoData}>
             <Header search={{visible: true}} />
             {daoData && React.createElement(BigCard, daoData)}
             <Footer />

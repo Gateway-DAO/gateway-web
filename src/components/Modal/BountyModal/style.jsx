@@ -10,7 +10,10 @@ export const Container = styled.div`
   width: 500px;
 `
 
-export const GridBox = styled.fieldset`
+export const GridBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 30px;
+  margin: 10px 0;
 `

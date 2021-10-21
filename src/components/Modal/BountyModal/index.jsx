@@ -16,7 +16,7 @@ const BountyModal = props => {
     const [endDate, setEndDate] = useState(null);
 
     const submitToDB = async () => {
-        const dao = doc(db, "daos", props.id)
+        const dao = doc(db, "daos", props.id);
         const bounties = (await getDoc(dao)).data().bounties;
         let parsedCategories = [];
         let currentDate = new Date();
@@ -68,63 +68,27 @@ const BountyModal = props => {
                     <ModalStyled.Textarea height="100px" id="description" onChange={e => setDescription(e.target.value)}></ModalStyled.Textarea>
                 </ModalStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
+                <ModalStyled.Fieldset marginBottom="30px">
                     <ModalStyled.Label>Categories</ModalStyled.Label>
                     <Styled.GridBox>
-                        <div>
-                            <input id="category-1" name="category" value="Design" type="checkbox" />
-                            <label for="category-1">Design</label>
-                        </div>
-                        <div>
-                            <input id="category-2" name="category" value="Technical" type="checkbox" />
-                            <label for="category-2">Technical</label>
-                        </div>
-                        <div>
-                            <input id="category-3" name="category" value="Business" type="checkbox" />
-                            <label for="category-3">Business</label>
-                        </div>
-                        <div>
-                            <input id="category-4" name="category" value="Creative" type="checkbox" />
-                            <label for="category-4">Creative</label>
-                        </div>
-                        <div>
-                            <input id="category-5" name="category" value="Strategy" type="checkbox" />
-                            <label for="category-5">Strategy</label>
-                        </div>
-                        <div>
-                            <input id="category-6" name="category" value="Product" type="checkbox" />
-                            <label for="category-6">Product</label>
-                        </div>
-                        <div>
-                            <input id="category-7" name="category" value="Other" type="checkbox" />
-                            <label for="category-7">Other</label>
-                        </div>
+                        <ModalStyled.Checkbox id="category-1" name="category" value="Design" label="Design" />
+                        <ModalStyled.Checkbox id="category-2" name="category" value="Technical" label="Technical" />
+                        <ModalStyled.Checkbox id="category-3" name="category" value="Business" label="Business" />
+                        <ModalStyled.Checkbox id="category-4" name="category" value="Creative" label="Creative" />
+                        <ModalStyled.Checkbox id="category-5" name="category" value="Strategy" label="Strategy" />
+                        <ModalStyled.Checkbox id="category-6" name="category" value="Product" label="Product" />
+                        <ModalStyled.Checkbox id="category-7" name="category" value="Other" label="Other" />
                     </Styled.GridBox>
                 </ModalStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
+                <ModalStyled.Fieldset marginBottom="30px">
                     <ModalStyled.Label>Level</ModalStyled.Label>
                     <Styled.GridBox onChange={e => setLevel(e.target.value)}>
-                        <div>
-                            <input id="level-1" name="level" value="Novice" type="radio" />
-                            <label for="level-1">Novice</label>
-                        </div>
-                        <div>
-                            <input id="level-2" name="level" value="Warrior" type="radio" />
-                            <label for="level-2">Warrior</label>
-                        </div>
-                        <div>
-                            <input id="level-3" name="level" value="Master" type="radio" />
-                            <label for="level-3">Master</label>
-                        </div>
-                        <div>
-                            <input id="level-4" name="level" value="Champion" type="radio" />
-                            <label for="level-4">Champion</label>
-                        </div>
-                        <div>
-                            <input id="level-5" name="level" value="Legend" type="radio" />
-                            <label for="level-5">Legend</label>
-                        </div>
+                        <ModalStyled.Radio id="level-1" name="level" value="Novice" label="Novice" checked={level === "Novice"} />
+                        <ModalStyled.Radio id="level-2" name="level" value="Warrior" label="Warrior" checked={level === "Warrior"} />
+                        <ModalStyled.Radio id="level-3" name="level" value="Master" label="Master" checked={level === "Master"} />
+                        <ModalStyled.Radio id="level-4" name="level" value="Champion" label="Champion" checked={level === "Champion"} />
+                        <ModalStyled.Radio id="level-5" name="level" value="Legend" label="Legend" checked={level === "Legend"} />
                     </Styled.GridBox>
                 </ModalStyled.Fieldset>
 

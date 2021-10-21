@@ -47,19 +47,26 @@ export const Logo = styled.img`
   background-color: white;
 `;
 
-export const TokenInfo = styled.div`
+export const ColumnOne = styled.div`
   grid-column: 1 / span 5;
   margin-right: 30px;
   position: relative;
   top: -100px;
 `;
 
-export const TokenFeed = styled.div`
+export const ColumnTwo = styled.div`
   grid-column: 6 / span 3;
   border-left: 1px solid rgba(229, 229, 229, 0.5);
   padding-left: 20px;
 
   position: relative;
+`;
+
+export const TokenFeed = styled.div`
+  ${props => props.showBorderBottom ? "border-bottom: 1px solid rgba(229, 229, 229, 0.5);" : ""}
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const TokenFeedData = styled.div`
@@ -312,8 +319,7 @@ export const Button = styled.a`
 
 export const TradeButton = styled(Button)`
   margin-top: 20px;
-  width: calc(100% - 20px);
-  position: absolute;
+  width: 100%;
 `;
 
 export const BountyCollapsible = styled.div`
@@ -321,3 +327,15 @@ export const BountyCollapsible = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+
+export const SubDAOImg = styled.img`
+  border: 1px solid #e5e5e5;
+  border-radius: 100%;
+  margin-bottom: 20px;
+  width: 50px;
+  background-color: white;
+`
+
+export const SubDAOContainer = styled.div`
+  margin-top: 20px;
+`
