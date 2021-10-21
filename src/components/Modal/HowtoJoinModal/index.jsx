@@ -1,6 +1,7 @@
 import Modal from "../index";
 import { db } from "../../../api/firebase";
 import * as Styled from "./style";
+import * as ModalStyled from "../style";
 import { collection, doc, getDoc, query, updateDoc } from "@firebase/firestore";
 import { useState } from "react";
 
@@ -30,17 +31,17 @@ const HowtoJoinModal = props => {
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
 
-                <Styled.HowtoJoinHeader>How to Join? </Styled.HowtoJoinHeader>
+                <ModalStyled.Header>How to Join? </ModalStyled.Header>
 
                 <Styled.Fieldset>
-                    <Styled.HowtoJoinLabel for="description">Description</Styled.HowtoJoinLabel>
-                    <Styled.HowtoJoinTextarea id="description"
+                    <ModalStyled.Label for="description">Description</ModalStyled.Label>
+                    <ModalStyled.Textarea id="description"
                         placeholder="If you hold the required amount of tokens, you are given access to the discord"
-                        onChange={e => setDescription(e.target.value)}></Styled.HowtoJoinTextarea>
+                        onChange={e => setDescription(e.target.value)}></ModalStyled.Textarea>
                 </Styled.Fieldset>
 
 
-                <Styled.HowtoJoinButton id="submit_msg" type="button" onClick={submitToDB}>Submit</Styled.HowtoJoinButton>
+                <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
             </Styled.Container>
         </Modal>
     )

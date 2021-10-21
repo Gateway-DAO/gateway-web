@@ -91,13 +91,18 @@ const BigCard = (props) => {
   const toggleTBModal = () => setShowTBModal(!showTBModal);
   const toggleHTJModal = () => setShowHTJModal(!showHTJModal);
 
-  return (
-    <Styled.Container>
+  const Modals = props => (
+    <>
       {/* Modals */}
       <HowtoJoinModal id={props.id} show={showHTJModal} toggle={toggleHTJModal} />
       <BountyModal id={props.id} show={showBountyModal} toggle={toggleBountyModal} />
       <TokenBenefitModal id={props.id} show={showTBModal} toggle={toggleTBModal} />
+    </>
+  )
 
+  return (
+    <Styled.Container>
+      <Modals />
       <Styled.CardBox>
         <Styled.CardBanner src={props.backgroundURL} />
         <Styled.CardContainer>
