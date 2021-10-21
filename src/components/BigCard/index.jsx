@@ -11,6 +11,7 @@ import * as Styled from "./style";
 import { Link } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import BountyModal from "../Modal/BountyModal";
+import BountyCard from "../BountyCard";
 
 const BigCard = (props) => {
   const web3 = useWeb3React();
@@ -109,8 +110,16 @@ const BigCard = (props) => {
                 </Styled.Description>
               </Collapsible>
               <Collapsible title="Bounties">
-                {isAdmin && <Styled.Button onClick={toggleModal}>Add Bounty</Styled.Button>}
-                {showModal && <BountyModal id={props.id} />}
+                <Styled.BountyCollapsible>
+                  {isAdmin && <Styled.Button onClick={toggleModal}>Add Bounty</Styled.Button>}
+                  {showModal && <BountyModal id={props.id} />}
+
+                  {props.bounties && props.bounties.map(bounty => {
+                    return (
+                      <BountyCard bounty={bounty} />
+                    )
+                  })}
+                </Styled.BountyCollapsible>
               </Collapsible>
               <Collapsible title="Governance Proposals">
                 <Styled.Description>⚡️Snapshot integration coming soon.</Styled.Description>

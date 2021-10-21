@@ -315,3 +315,9 @@ export const TradeButton = styled(Button)`
   width: calc(100% - 20px);
   position: absolute;
 `;
+
+export const BountyCollapsible = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;

@@ -8,24 +8,47 @@ const BountyModal = props => {
     const [description, setDescription] = useState(null);
     const [categories, setCategories] = useState([]);
     const [level, setLevel] = useState(null);
+    const [reward, setReward] = useState(null);
+    const [directions, setDirections] = useState(null);
+    const [link, setLink] = useState(null);
+    const [endDate, setEndDate] = useState(null);
 
     const submitToDB = async () => {
         const dao = doc(db, "daos", props.id)
         const bounties = (await getDoc(dao)).data().bounties;
+        let parsedCategories = [];
+        let currentDate = new Date();
+
+        categories.forEach(cat => parsedCategories.push(cat))
+
         updateDoc(dao, {
             bounties: [
                 ...(bounties || []),
                 {
                     headline,
                     description,
-                    level
+                    level,
+                    categories: parsedCategories,
+                    reward,
+                    directions,
+                    link,
+                    endDate,
+                    postDate: `${currentDate.getFullYear()}-${String(currentDate.getUTCMonth()).padStart(2, '0')}-${String(currentDate.getUTCDay()).padStart(2, '0')}`
                 }
             ]
         })
     }
 
-    const selectCheckBox = e => {
-        const value = e.target.value
+    const toggleCheckbox = e => {
+        const value = e.target.value;
+        console.log(e);
+
+        if (categories.includes(value) && !e.target.checked) {
+            setCategories(categories.filter(cat => cat !== value));
+        }
+        else if (e.target.checked) {
+            setCategories([...categories, value]);
+        }
     }
 
     return (
@@ -40,19 +63,19 @@ const BountyModal = props => {
             </fieldset>
 
             <fieldset>
-                <input id="category-1" name="category" value="Design" type="checkbox" />
+                <input id="category-1" name="category" value="Design" type="checkbox" onChange={toggleCheckbox} />
                 <label for="category-1">Design</label>
-                <input id="category-2" name="category" value="Technical" type="checkbox" />
+                <input id="category-2" name="category" value="Technical" type="checkbox" onChange={toggleCheckbox} />
                 <label for="category-2">Technical</label>
-                <input id="category-3" name="category" value="Business" type="checkbox" />
+                <input id="category-3" name="category" value="Business" type="checkbox" onChange={toggleCheckbox} />
                 <label for="category-3">Business</label>
-                <input id="category-4" name="category" value="Creative" type="checkbox" />
+                <input id="category-4" name="category" value="Creative" type="checkbox" onChange={toggleCheckbox} />
                 <label for="category-4">Creative</label>
-                <input id="category-5" name="category" value="Strategy" type="checkbox" />
+                <input id="category-5" name="category" value="Strategy" type="checkbox" onChange={toggleCheckbox} />
                 <label for="category-5">Strategy</label>
-                <input id="category-6" name="category" value="Product" type="checkbox" />
+                <input id="category-6" name="category" value="Product" type="checkbox" onChange={toggleCheckbox} />
                 <label for="category-6">Product</label>
-                <input id="category-7" name="category" value="Other" type="checkbox" />
+                <input id="category-7" name="category" value="Other" type="checkbox" onChange={toggleCheckbox} />
                 <label for="category-7">Other</label>
             </fieldset>
 
@@ -71,22 +94,22 @@ const BountyModal = props => {
 
             <fieldset>
                 <label for="reward">Reward</label>
-                <input id="reward" type="number" min="0.001" />
+                <input id="reward" type="number" min="0.001" onChange={e => setReward(e.target.value)} />
             </fieldset>
 
             <fieldset>
                 <label for="directions">Directions</label>
-                <textarea id="directions"></textarea>
+                <textarea id="directions" onChange={e => setDirections(e.target.value)}></textarea>
             </fieldset>
 
             <fieldset>
                 <label for="links">Important Links</label>
-                <input id="links" type="text" />
+                <input id="links" type="text" onChange={e => setLink(e.target.value)} />
             </fieldset>
 
             <fieldset>
                 <label for="end-date">End Date</label>
-                <input id="end-date" type="date" />
+                <input id="end-date" type="date" onChange={e => setEndDate(e.target.value)} />
             </fieldset>
 
             <button id="submit_msg" type="button" onClick={submitToDB}>Submit</button>
