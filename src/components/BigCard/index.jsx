@@ -18,7 +18,9 @@ const BigCard = (props) => {
   const web3 = useWeb3React();
   const [balance, setBalance] = useState(BigNumber.from(0));
   const { isAdmin } = useAdmin(props.whitelistedAddresses);
-  const [showModal, setShowModal] = useState(false);
+  const [showBountyModal, setShowBountyModal] = useState(false);
+  const [showTBModal, setShowTBModal] = useState(false);
+  const [showHTJModal, setShowHTJModal] = useState(false);
 
   useEffect(() => {
     const getBalance = async (tokenAddress) =>
@@ -84,10 +86,17 @@ const BigCard = (props) => {
     }
   });
 
-  const toggleModal = () => setShowModal(!showModal);
+  const toggleBountyModal = () => setShowBountyModal(!showBountyModal);
+  const toggleTBModal = () => setShowTBModal(!showTBModal);
+  const toggleHTJModal = () => setShowHTJModal(!showHTJModal);
 
   return (
     <Styled.Container>
+      {/* Modals */}
+      <HowtoJoinModal id={props.id} show={showHTJModal} toggle={toggleHTJModal} />
+      <BountyModal id={props.id} show={showBountyModal} toggle={toggleBountyModal} />
+      <TokenBenefitModal id={props.id} show={showTBModal} toggle={toggleTBModal} />
+
       <Styled.CardBox>
         <Styled.CardBanner src={props.backgroundURL} />
         <Styled.CardContainer>
@@ -105,20 +114,16 @@ const BigCard = (props) => {
             <Styled.SocialsList>{socials}</Styled.SocialsList>
             <div>
               <Collapsible title="How to join?">
-              {isAdmin && <Styled.Button onClick={toggleModal}>Add Steps</Styled.Button>}
-                {showModal && <HowtoJoinModal id={props.id} />}
+                {isAdmin && <Styled.Button onClick={toggleHTJModal}>Add Steps</Styled.Button>}
               </Collapsible>
-
               <Collapsible title="Bounties">
-                {isAdmin && <Styled.Button onClick={toggleModal}>Add Bounty</Styled.Button>}
-                {showModal && <BountyModal id={props.id} />}
+                {isAdmin && <Styled.Button onClick={toggleBountyModal}>Add Bounty</Styled.Button>}
               </Collapsible>
               <Collapsible title="Governance Proposals">
                 <Styled.Description>⚡️Snapshot integration coming soon.</Styled.Description>
               </Collapsible>
               <Collapsible title="Token Benefits/Utility">
-                {isAdmin && <Styled.Button onClick={toggleModal}>Add Token Benefit</Styled.Button>}
-                {showModal && <TokenBenefitModal id={props.id} />}
+                {isAdmin && <Styled.Button onClick={toggleTBModal}>Add Token Benefit</Styled.Button>}
               </Collapsible>
               {props["related-daos"] &&
                 <Collapsible title="Related DAOS">

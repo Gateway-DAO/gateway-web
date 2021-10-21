@@ -1,4 +1,5 @@
 import Modal from "../index";
+import * as Styled from "./style";
 import { db } from "../../../api/firebase";
 import { collection, doc, getDoc, query, updateDoc } from "@firebase/firestore";
 import { useState } from "react";
@@ -34,18 +35,20 @@ const TokenBenefitModal = props => {
     }
 
     return (
-        <Modal>
-            <h1>Add Token Benefits</h1>
+        <Modal show={props.show} toggle={props.toggle}>
+            <Styled.Container>
+                
+                <Styled.TokenBenefitHeader>Add Token Benefits</Styled.TokenBenefitHeader>
 
             <label for="title">Title</label>
             <input onChange={e => setTitle(e.target.value)} type="text" id="title" name="title" placeholder="Discord Access" />
 
-            <fieldset>
+            <Styled.Fieldset>
                 <label for="description">Description</label>
                 <textarea id="description"
                  placeholder = "If you hold the required amount of tokens, you are given access to the discord"  
                 onChange={e => setDescription(e.target.value)}></textarea>
-            </fieldset>
+            </Styled.Fieldset>
 
             <fieldset>
                 <label for="token">Token</label>
@@ -61,14 +64,10 @@ const TokenBenefitModal = props => {
                  onChange={e => setAmount(e.target.value)}></textarea>
             </fieldset>
 
-            <fieldset>
-                <label for="information">Additional Information</label>
-                <textarea id="information"
-                onChange={e => setInformation(e.target.value)}></textarea>
-            </fieldset>
 
-            <button id="submit_msg" type="button" onClick={submitToDB}>Submit</button>
+            <Styled.TokenBenefitButton      id="submit_msg" type="button" onClick={submitToDB}>Submit</Styled.TokenBenefitButton>
 
+            </Styled.Container>
         </Modal>
     )
 }
