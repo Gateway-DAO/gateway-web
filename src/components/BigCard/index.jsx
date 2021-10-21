@@ -11,13 +11,17 @@ import * as Styled from "./style";
 import { Link } from "react-router-dom";
 import useAdmin from "../../hooks/useAdmin";
 import BountyModal from "../Modal/BountyModal";
+import TokenBenefitModal from "../Modal/TokenBenefitModal";
+import HowtoJoinModal from "../Modal/HowtoJoinModal";
 import BountyCard from "../BountyCard";
 
 const BigCard = (props) => {
   const web3 = useWeb3React();
   const [balance, setBalance] = useState(BigNumber.from(0));
   const { isAdmin } = useAdmin(props.whitelistedAddresses);
-  const [showModal, setShowModal] = useState(false);
+  const [showBountyModal, setShowBountyModal] = useState(false);
+  const [showTBModal, setShowTBModal] = useState(false);
+  const [showHTJModal, setShowHTJModal] = useState(false);
 
   useEffect(() => {
     const getBalance = async (tokenAddress) =>
@@ -83,10 +87,17 @@ const BigCard = (props) => {
     }
   });
 
-  const toggleModal = () => setShowModal(!showModal);
+  const toggleBountyModal = () => setShowBountyModal(!showBountyModal);
+  const toggleTBModal = () => setShowTBModal(!showTBModal);
+  const toggleHTJModal = () => setShowHTJModal(!showHTJModal);
 
   return (
     <Styled.Container>
+      {/* Modals */}
+      <HowtoJoinModal id={props.id} show={showHTJModal} toggle={toggleHTJModal} />
+      <BountyModal id={props.id} show={showBountyModal} toggle={toggleBountyModal} />
+      <TokenBenefitModal id={props.id} show={showTBModal} toggle={toggleTBModal} />
+
       <Styled.CardBox>
         <Styled.CardBanner src={props.backgroundURL} />
         <Styled.CardContainer>
@@ -104,15 +115,12 @@ const BigCard = (props) => {
             <Styled.SocialsList>{socials}</Styled.SocialsList>
             <div>
               <Collapsible title="How to join?">
-                <Styled.Description>
-                  If you are a core team member or key contributor, please reach
-                  out to Gateway via this form
-                </Styled.Description>
+                {isAdmin && <Styled.Button onClick={toggleHTJModal}>Add Steps</Styled.Button>}
               </Collapsible>
               <Collapsible title="Bounties">
                 <Styled.BountyCollapsible>
-                  {isAdmin && <Styled.Button onClick={toggleModal}>Add Bounty</Styled.Button>}
-                  {showModal && <BountyModal id={props.id} />}
+                  {isAdmin && <Styled.Button onClick={toggleBountyModal}>Add Bounty</Styled.Button>}
+                  {showBountyModal && <BountyModal id={props.id} />}
 
                   {props.bounties && props.bounties.map(bounty => {
                     return (
@@ -125,10 +133,7 @@ const BigCard = (props) => {
                 <Styled.Description>⚡️Snapshot integration coming soon.</Styled.Description>
               </Collapsible>
               <Collapsible title="Token Benefits/Utility">
-                <Styled.Description>
-                  If you are a core team member or key contributor, please reach
-                  out to Gateway via this form
-                </Styled.Description>
+                {isAdmin && <Styled.Button onClick={toggleTBModal}>Add Token Benefit</Styled.Button>}
               </Collapsible>
               {props["related-daos"] &&
                 <Collapsible title="Related DAOS">

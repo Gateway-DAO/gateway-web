@@ -2,13 +2,21 @@ import { useState } from "react"
 import * as Styled from "./style"
 
 const Modal = props => {
-    const [isShowing, setShowing] = useState(props.show);
     const toggle = props.toggle;
 
+    console.log(props);
+
+    if (!props.show) {
+        return null;
+    }
+
     return (
-        <Styled.Container>
-            {props.children}
-        </Styled.Container>
+        <Styled.Wrapper>
+            <Styled.Container>
+                <Styled.CloseBtn size={24} color="white" onClick={toggle} />
+                {props.children}
+            </Styled.Container>
+        </Styled.Wrapper>
     )
 }
 
