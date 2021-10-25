@@ -31,16 +31,20 @@ const Search = props => {
         const searchAsync = async () => {
             const { hits: res } = await daos.search(query);
             const parsedInfo = res.map(async hit => {
-                // Once we have data, start fetching content from CoinGecko
-                const json = await getTokenFromAddress(hit.tokenAddress);
+                // Once we have data, start fetching content from CoinGecko (if the DAO has a token)
+                if (hit.tokenAddress) {
+                    const json = await getTokenFromAddress(hit.tokenAddress);
 
-                const tokenInfo = {
-                    ranking: json.market_cap_rank,
-                    price: json.market_data.current_price.usd || "Nope",
-                    token: json.symbol.toUpperCase()
+                    const tokenInfo = {
+                        ranking: json.market_cap_rank,
+                        price: json.market_data.current_price.usd || "Nope",
+                        token: json.symbol.toUpperCase()
+                    }
+
+                    return { ...hit, ...tokenInfo }
                 }
 
-                return { ...hit, ...tokenInfo }
+                return hit
             })
 
             const resolved = await Promise.all(parsedInfo)

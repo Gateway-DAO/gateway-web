@@ -7,6 +7,7 @@ const CardBox = styled.div`
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   cursor: pointer;
+  height: 25em;
 `;
 
 const CardBanner = styled.div`
@@ -118,11 +119,13 @@ const Card = (props) => {
         <CardTitle>{props.title}</CardTitle>
         <CardDesc>{props.description}</CardDesc>
       </CardBody>
-      <CardInfoBox>
-        {props.ranking && <CardInfo title="Ranking" value={props.ranking} />}
-        {props.token && <CardInfo title="Token" value={props.token} />}
-        {props.price && <CardInfo title="Price" value={`$${Number(props.price).toFixed(2)}`} />}
-      </CardInfoBox>
+      {props.token &&
+        <CardInfoBox>
+          {props.ranking && <CardInfo title="Ranking" value={props.ranking} />}
+          {props.token && <CardInfo title="Token" value={props.token} />}
+          {props.price && <CardInfo title="Price" value={`$${Number(props.price).toFixed(2)}`} />}
+        </CardInfoBox>
+      }
     </CardBox>
   );
 };

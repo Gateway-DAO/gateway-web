@@ -2,7 +2,7 @@ import Modal from "../index";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
 import { db } from "../../../api/firebase";
-import { collection, doc, getDoc, query, updateDoc } from "@firebase/firestore";
+import { doc, getDoc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
 
 const BountyModal = props => {
@@ -19,26 +19,35 @@ const BountyModal = props => {
         const dao = doc(db, "daos", props.id);
         const bounties = (await getDoc(dao)).data().bounties;
         let parsedCategories = [];
-        let currentDate = new Date();
+        let currentDate = new Date().toISOString().slice(0, 10)
 
         categories.forEach(cat => parsedCategories.push(cat))
 
-        updateDoc(dao, {
-            bounties: [
-                ...(bounties || []),
-                {
-                    headline,
-                    description,
-                    level,
-                    categories: parsedCategories,
-                    reward,
-                    directions,
-                    link,
-                    endDate,
-                    postDate: `${currentDate.getFullYear()}-${String(currentDate.getUTCMonth()).padStart(2, '0')}-${String(currentDate.getUTCDay()).padStart(2, '0')}`
-                }
-            ]
+        const newBounties = [
+            ...(bounties || []),
+            {
+                headline,
+                description,
+                level,
+                categories: parsedCategories,
+                reward,
+                directions,
+                link,
+                endDate,
+                postDate: currentDate
+            }
+        ]
+
+        const unsub = onSnapshot(dao, (doc) => {
+            props.set(newBounties)
+            props.toggle()
+        });
+
+        await updateDoc(dao, {
+            bounties: newBounties
         })
+
+        unsub()
     }
 
     const toggleCheckbox = e => {
@@ -71,13 +80,13 @@ const BountyModal = props => {
                 <ModalStyled.Fieldset marginBottom="30px">
                     <ModalStyled.Label>Categories</ModalStyled.Label>
                     <Styled.GridBox>
-                        <ModalStyled.Checkbox id="category-1" name="category" value="Design" label="Design" />
-                        <ModalStyled.Checkbox id="category-2" name="category" value="Technical" label="Technical" />
-                        <ModalStyled.Checkbox id="category-3" name="category" value="Business" label="Business" />
-                        <ModalStyled.Checkbox id="category-4" name="category" value="Creative" label="Creative" />
-                        <ModalStyled.Checkbox id="category-5" name="category" value="Strategy" label="Strategy" />
-                        <ModalStyled.Checkbox id="category-6" name="category" value="Product" label="Product" />
-                        <ModalStyled.Checkbox id="category-7" name="category" value="Other" label="Other" />
+                        <ModalStyled.Checkbox id="category-1" name="category" value="Design" label="Design" onChange={toggleCheckbox} />
+                        <ModalStyled.Checkbox id="category-2" name="category" value="Technical" label="Technical" onChange={toggleCheckbox} />
+                        <ModalStyled.Checkbox id="category-3" name="category" value="Business" label="Business" onChange={toggleCheckbox} />
+                        <ModalStyled.Checkbox id="category-4" name="category" value="Creative" label="Creative" onChange={toggleCheckbox} />
+                        <ModalStyled.Checkbox id="category-5" name="category" value="Strategy" label="Strategy" onChange={toggleCheckbox} />
+                        <ModalStyled.Checkbox id="category-6" name="category" value="Product" label="Product" onChange={toggleCheckbox} />
+                        <ModalStyled.Checkbox id="category-7" name="category" value="Other" label="Other" onChange={toggleCheckbox} />
                     </Styled.GridBox>
                 </ModalStyled.Fieldset>
 
@@ -94,22 +103,22 @@ const BountyModal = props => {
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="reward">Reward</ModalStyled.Label>
-                    <ModalStyled.Input id="reward" type="number" min="0.001" />
+                    <ModalStyled.Input id="reward" type="number" min="0.001" onChange={e => setReward(e.target.value)} />
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="directions">Directions</ModalStyled.Label>
-                    <ModalStyled.Textarea height="100px" id="directions"></ModalStyled.Textarea>
+                    <ModalStyled.Textarea height="100px" id="directions" onChange={e => setDirections(e.target.value)}></ModalStyled.Textarea>
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="links">Important Links</ModalStyled.Label>
-                    <ModalStyled.Input id="links" type="text" />
+                    <ModalStyled.Input id="links" type="text" onChange={e => setLink(e.target.value)} />
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="end-date">End Date</ModalStyled.Label>
-                    <ModalStyled.Input id="end-date" type="date" />
+                    <ModalStyled.Input id="end-date" type="date" onChange={e => setEndDate(e.target.value)} />
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>

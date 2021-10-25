@@ -220,7 +220,10 @@ const CheckboxLabel = styled.label`
 export const Checkbox = props => {
     const [checked, setChecked] = useState(false);
 
-    const toggleChecked = e => setChecked(e.target.checked)
+    const toggleChecked = e => {
+        setChecked(e.target.checked)
+        props.onChange(e)
+    }
 
     return (
         <CheckboxContainer checked={checked}>

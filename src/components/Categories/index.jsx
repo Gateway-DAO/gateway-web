@@ -107,13 +107,13 @@ const Categories = props => {
             const id = doc.id;
             
             // Once we have data, start fetching content from CoinGecko
-            const json = await getTokenFromAddress(data.tokenAddress);
+            const json = data.tokenAddress ? await getTokenFromAddress(data.tokenAddress) : {};
 
-            const tokenInfo = {
+            const tokenInfo = data.tokenAddress ? {
                 ranking: json.market_cap_rank,
                 price: json.market_data.current_price.usd || "Nope",
                 token: json.symbol.toUpperCase()
-            }
+            } : {}
 
             return { id, ...data, ...tokenInfo }
         });

@@ -43,7 +43,7 @@ const DAO = props => {
 
         const handleData = async () => {
             const dbData = await getDBData();
-            const cgData = await getCGData(dbData.tokenAddress);
+            const cgData = dbData.tokenAddress ? await getCGData(dbData.tokenAddress) : {};
             let related = []
 
             // If a DAO has a "related-daos" field, fetch the related DAOs
@@ -52,12 +52,8 @@ const DAO = props => {
             }
 
             related = await Promise.all(related)
-            
-            // Organize presentable data
-            const data = {
-                ...dbData,
-                related,
-                id,
+
+            const tokenData = dbData.tokenAddress ? {
                 symbol: cgData.symbol,
                 ranking: cgData.market_cap_rank,
                 tokenFeed: {
@@ -68,8 +64,16 @@ const DAO = props => {
                     change24h: cgData.market_data.price_change_percentage_24h,
                     change7d: cgData.market_data.price_change_percentage_7d,
                     totalSupply: cgData.market_data.total_supply,
-                    circulatingSupply: cgData.market_data.circulating_supply
+                    circulatingSupply: cgData.market_data.circulating_supply,
                 }
+            } : {}
+            
+            // Organize presentable data
+            const data = {
+                ...dbData,
+                related,
+                id,
+                ...tokenData
             }
 
             console.log(data);

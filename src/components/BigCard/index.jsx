@@ -25,18 +25,20 @@ const BigCard = (props) => {
     const web3 = useWeb3React()
     const [balance, setBalance] = useState(BigNumber.from(0))
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
+    const [bounties, setBounties] = useState(props.bounties)
     const [showBountyModal, setShowBountyModal] = useState(false)
     const [showTBModal, setShowTBModal] = useState(false)
     const [showHTJModal, setShowHTJModal] = useState(false)
 
     useEffect(() => {
-        const getBalance = async (tokenAddress) =>
-            web3.active &&
-            web3.library &&
-            setBalance(await web3.library.getBalance(tokenAddress))
-        getBalance(props.tokenAddress)
-
-        console.log(web3.library)
+        if (props.tokenAddress) {
+            const getBalance = async (tokenAddress) =>
+                web3.active &&
+                web3.library &&
+                setBalance(await web3.library.getBalance(tokenAddress))
+                
+            getBalance(props.tokenAddress)
+        }
     }, [web3.active])
 
     const socials = Object.keys(props.socials).map((key) => {
@@ -138,6 +140,7 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showBountyModal}
                 toggle={toggleBountyModal}
+                set={(newBounties) => setBounties(newBounties)}
             />
             <TokenBenefitModal
                 id={props.id}
@@ -186,12 +189,9 @@ const BigCard = (props) => {
                                             Add Bounty
                                         </Styled.Button>
                                     )}
-                                    {showBountyModal && (
-                                        <BountyModal id={props.id} />
-                                    )}
 
-                                    {props.bounties &&
-                                        props.bounties.map((bounty) => {
+                                    {bounties &&
+                                        bounties.map((bounty) => {
                                             return (
                                                 <BountyCard bounty={bounty} />
                                             )
@@ -212,150 +212,152 @@ const BigCard = (props) => {
                             </Collapsible>
                         </div>
                     </Styled.ColumnOne>
-                    <Styled.ColumnTwo>
-                        <Styled.TokenFeed showBorderBottom={props['related-daos'] ? true : false}>
-                            {web3.active && (
-                                <Styled.TokenHoldings>
-                                    <Styled.Text>
-                                        Your token holdings is{' '}
-                                        <Styled.BalanceText>
-                                            {balance.toNumber()} $
-                                            {props.symbol.toUpperCase()}
-                                        </Styled.BalanceText>
+                    {props.tokenAddress && 
+                        <Styled.ColumnTwo>
+                            <Styled.TokenFeed showBorderBottom={props['related-daos'] ? true : false}>
+                                {web3.active && (
+                                    <Styled.TokenHoldings>
+                                        <Styled.Text>
+                                            Your token holdings is{' '}
+                                            <Styled.BalanceText>
+                                                {balance.toNumber()} $
+                                                {props.symbol.toUpperCase()}
+                                            </Styled.BalanceText>
+                                        </Styled.Text>
+                                    </Styled.TokenHoldings>
+                                )}
+                                <Styled.TokenName>
+                                    ${props.symbol.toUpperCase()}
+                                </Styled.TokenName>
+                                <Styled.PriceContainer>
+                                    <Styled.TokenPrice>
+                                        ${Number(props.tokenFeed.price).toFixed(2)}
+                                    </Styled.TokenPrice>
+                                    <Styled.PercentageText
+                                        color={
+                                            props.tokenFeed.change24h > 0
+                                                ? '#72B841'
+                                                : '#EE787B'
+                                        }
+                                    >
+                                        {props.tokenFeed.change24h > 0 ? (
+                                            <RiArrowUpSFill />
+                                        ) : (
+                                            <RiArrowDownSFill />
+                                        )}
+                                        {props.tokenFeed.change24h.toLocaleString(
+                                            'en-US',
+                                            {
+                                                maximumFractionDigits: 1,
+                                            }
+                                        )}
+                                        %
+                                    </Styled.PercentageText>
+                                    <Styled.Text color="#A5A5A5">24h</Styled.Text>
+                                </Styled.PriceContainer>
+                                <Styled.PastWeekContainer>
+                                    <Styled.PercentageText
+                                        color={
+                                            props.tokenFeed.change7d > 0
+                                                ? '#72B841'
+                                                : '#EE787B'
+                                        }
+                                    >
+                                        {props.tokenFeed.change7d > 0 ? (
+                                            <RiArrowUpSFill />
+                                        ) : (
+                                            <RiArrowDownSFill />
+                                        )}
+                                        {props.tokenFeed.change7d.toLocaleString(
+                                            'en-US',
+                                            {
+                                                maximumFractionDigits: 1,
+                                            }
+                                        )}
+                                        %
+                                    </Styled.PercentageText>
+                                    <Styled.Text color="#A5A5A5">
+                                        Past Week
                                     </Styled.Text>
-                                </Styled.TokenHoldings>
+                                </Styled.PastWeekContainer>
+                                <Styled.TokenFeedData>
+                                    <Styled.Text>All-time High</Styled.Text>
+                                    <Styled.TextRight>
+                                        {props.tokenFeed.ath.toLocaleString(
+                                            'en-US',
+                                            {
+                                                style: 'currency',
+                                                currency: 'USD',
+                                            }
+                                        )}
+                                    </Styled.TextRight>
+                                    <Styled.Text>All-time Low</Styled.Text>
+                                    <Styled.TextRight>
+                                        {props.tokenFeed.atl.toLocaleString(
+                                            'en-US',
+                                            {
+                                                style: 'currency',
+                                                currency: 'USD',
+                                            }
+                                        )}
+                                    </Styled.TextRight>
+                                    <Styled.Text>Market Cap</Styled.Text>
+                                    <Styled.TextRight>
+                                        {props.tokenFeed.marketCap.toLocaleString(
+                                            'en-US',
+                                            {
+                                                style: 'currency',
+                                                currency: 'USD',
+                                            }
+                                        )}
+                                    </Styled.TextRight>
+                                    <Styled.Text>Current Supply</Styled.Text>
+                                    <Styled.TextRight>
+                                        {props.tokenFeed.circulatingSupply.toLocaleString(
+                                            'en-US'
+                                        )}
+                                    </Styled.TextRight>
+                                    <Styled.Text>Total Supply</Styled.Text>
+                                    <Styled.TextRight>
+                                        {props.tokenFeed.totalSupply.toLocaleString(
+                                            'en-US'
+                                        )}
+                                    </Styled.TextRight>
+                                    <Styled.Text>Contract</Styled.Text>
+                                    <Styled.TextRight>
+                                        {shortenAddress(props.tokenAddress, 3, 3)}
+                                    </Styled.TextRight>
+                                    <Styled.Text>Explorer</Styled.Text>
+                                    <Styled.StyledExplorerLinkRight
+                                        href={`https://etherscan.io/token/${props.tokenAddress}`}
+                                    >
+                                        Etherscan
+                                    </Styled.StyledExplorerLinkRight>
+                                </Styled.TokenFeedData>
+                                <Styled.TradeButton
+                                    href={`https://app.uniswap.org/#/swap?outputCurrency=${props.tokenAddress}&exactField=output`}
+                                    target="_blank"
+                                >
+                                    TRADE
+                                </Styled.TradeButton>
+                            </Styled.TokenFeed>
+                            {props['related-daos'] && (
+                                <Styled.SubDAOContainer>
+                                <Styled.Title>Sub DAOs</Styled.Title>
+                                    {props['related-daos'].map((dao, idx) => {
+                                        return (
+                                            <Link to={`/dao/${dao}`}>
+                                                <Styled.SubDAOImg
+                                                    src={props.related[idx]}
+                                                    title={dao}
+                                                />
+                                            </Link>
+                                        )
+                                    })}
+                                </Styled.SubDAOContainer>
                             )}
-                            <Styled.TokenName>
-                                ${props.symbol.toUpperCase()}
-                            </Styled.TokenName>
-                            <Styled.PriceContainer>
-                                <Styled.TokenPrice>
-                                    ${Number(props.tokenFeed.price).toFixed(2)}
-                                </Styled.TokenPrice>
-                                <Styled.PercentageText
-                                    color={
-                                        props.tokenFeed.change24h > 0
-                                            ? '#72B841'
-                                            : '#EE787B'
-                                    }
-                                >
-                                    {props.tokenFeed.change24h > 0 ? (
-                                        <RiArrowUpSFill />
-                                    ) : (
-                                        <RiArrowDownSFill />
-                                    )}
-                                    {props.tokenFeed.change24h.toLocaleString(
-                                        'en-US',
-                                        {
-                                            maximumFractionDigits: 1,
-                                        }
-                                    )}
-                                    %
-                                </Styled.PercentageText>
-                                <Styled.Text color="#A5A5A5">24h</Styled.Text>
-                            </Styled.PriceContainer>
-                            <Styled.PastWeekContainer>
-                                <Styled.PercentageText
-                                    color={
-                                        props.tokenFeed.change7d > 0
-                                            ? '#72B841'
-                                            : '#EE787B'
-                                    }
-                                >
-                                    {props.tokenFeed.change7d > 0 ? (
-                                        <RiArrowUpSFill />
-                                    ) : (
-                                        <RiArrowDownSFill />
-                                    )}
-                                    {props.tokenFeed.change7d.toLocaleString(
-                                        'en-US',
-                                        {
-                                            maximumFractionDigits: 1,
-                                        }
-                                    )}
-                                    %
-                                </Styled.PercentageText>
-                                <Styled.Text color="#A5A5A5">
-                                    Past Week
-                                </Styled.Text>
-                            </Styled.PastWeekContainer>
-                            <Styled.TokenFeedData>
-                                <Styled.Text>All-time High</Styled.Text>
-                                <Styled.TextRight>
-                                    {props.tokenFeed.ath.toLocaleString(
-                                        'en-US',
-                                        {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        }
-                                    )}
-                                </Styled.TextRight>
-                                <Styled.Text>All-time Low</Styled.Text>
-                                <Styled.TextRight>
-                                    {props.tokenFeed.atl.toLocaleString(
-                                        'en-US',
-                                        {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        }
-                                    )}
-                                </Styled.TextRight>
-                                <Styled.Text>Market Cap</Styled.Text>
-                                <Styled.TextRight>
-                                    {props.tokenFeed.marketCap.toLocaleString(
-                                        'en-US',
-                                        {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        }
-                                    )}
-                                </Styled.TextRight>
-                                <Styled.Text>Current Supply</Styled.Text>
-                                <Styled.TextRight>
-                                    {props.tokenFeed.circulatingSupply.toLocaleString(
-                                        'en-US'
-                                    )}
-                                </Styled.TextRight>
-                                <Styled.Text>Total Supply</Styled.Text>
-                                <Styled.TextRight>
-                                    {props.tokenFeed.totalSupply.toLocaleString(
-                                        'en-US'
-                                    )}
-                                </Styled.TextRight>
-                                <Styled.Text>Contract</Styled.Text>
-                                <Styled.TextRight>
-                                    {shortenAddress(props.tokenAddress, 3, 3)}
-                                </Styled.TextRight>
-                                <Styled.Text>Explorer</Styled.Text>
-                                <Styled.StyledExplorerLinkRight
-                                    href={`https://etherscan.io/token/${props.tokenAddress}`}
-                                >
-                                    Etherscan
-                                </Styled.StyledExplorerLinkRight>
-                            </Styled.TokenFeedData>
-                            <Styled.TradeButton
-                                href={`https://app.uniswap.org/#/swap?outputCurrency=${props.tokenAddress}&exactField=output`}
-                                target="_blank"
-                            >
-                                TRADE
-                            </Styled.TradeButton>
-                        </Styled.TokenFeed>
-                        {props['related-daos'] && (
-                            <Styled.SubDAOContainer>
-                              <Styled.Title>Sub DAOs</Styled.Title>
-                                {props['related-daos'].map((dao, idx) => {
-                                    return (
-                                        <Link to={`/dao/${dao}`}>
-                                            <Styled.SubDAOImg
-                                                src={props.related[idx]}
-                                                title={dao}
-                                            />
-                                        </Link>
-                                    )
-                                })}
-                            </Styled.SubDAOContainer>
-                        )}
-                    </Styled.ColumnTwo>
+                        </Styled.ColumnTwo>
+                    }
                 </Styled.CardContainer>
             </Styled.CardBox>
         </Styled.Container>
