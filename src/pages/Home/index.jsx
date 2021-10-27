@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Waypoint } from 'react-waypoint';
 
 import Header from '../../components/Header'
 import WrappedBigSearch from '../../components/BigSearch'
@@ -13,6 +12,22 @@ const Home = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => space(window.innerHeight, window.innerWidth), [window.innerHeight, window.innerWidth]);
     
+    const [activeGradient, setActiveGradient] = useState(0)
+
+
+    const activateGradient = () => {
+        const entireDocumentHeight = window.document.body.offsetHeight;
+        const yOffset = window.pageYOffset;
+        if(yOffset > 0.25 * entireDocumentHeight){
+            setActiveGradient(1)
+        } else (setActiveGradient(0))
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', activateGradient, { passive: true });
+    }, []);
+
+
     return (
         <Styled.HomeContainer>
             <Header />
@@ -23,7 +38,7 @@ const Home = props => {
                 <WrappedBigSearch />
             </Styled.MainBox>
             
-            <Categories/>
+            <Categories activeGradient={activeGradient}/>
 
             { /* Call to Action */ }
             <Styled.CTABox>
@@ -31,6 +46,7 @@ const Home = props => {
                 <Styled.CTAButton><Styled.CTAButtonText>Join Today</Styled.CTAButtonText></Styled.CTAButton>
             </Styled.CTABox>
             <Footer />
+            
             
         </Styled.HomeContainer>
     )

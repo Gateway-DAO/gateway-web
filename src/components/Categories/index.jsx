@@ -7,7 +7,7 @@ import { DAORef, allDocs } from "../../api/db"
 import { getTokenFromAddress } from "../../api/coingecko"
 
 const DUMMY_CATEGORIES = ["Trending", "DeFi", "Investment", "Media", "Social", "All"]
-const DUMMY_CATEGORIES_EMOJI = ["🔥", "🔗", "💸", "📱", "🧑‍🤝‍🧑", "💯"]
+const DUMMY_CATEGORIES_EMOJI = ["🔥", "", "", "", "", ""]
 
 const Box = styled.div`
     display: grid;
@@ -42,11 +42,11 @@ const Category = styled.li`
     color: rgba(255, 255, 255, 0.6);
 
     /* Background */
-    background: ${props => props.active ? 'linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);' : null};
-    -webkit-background-clip: ${props => props.active ? 'text' : null };
-    -webkit-text-fill-color:  ${props => props.active ? 'transparent' : null}; 
-    -moz-background-clip: ${props => props.active ? 'text' : null};
-    -moz-text-fill-color: ${props => props.active ? 'transparent' : null};
+    background: ${props => props.activeGradient ? 'linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);' : null};
+    -webkit-background-clip: ${props => props.activeGradient ? 'text' : null };
+    -webkit-text-fill-color:  ${props => props.activeGradient ? 'transparent' : null}; 
+    -moz-background-clip: ${props => props.activeGradient ? 'text' : null};
+    -moz-text-fill-color: ${props => props.activeGradient ? 'transparent' : null};
 
     margin-right: 25px;
 
@@ -57,7 +57,7 @@ const Category = styled.li`
 
 const CategoryEmoji = styled.p`
     display: inline;
-    font-size: ${props => props.activateGradient ? '24px' : '14px'};
+    font-size: ${props => props.activeGradient ? '24px' : '14px'};
     line-height: 20px;
     /* Background - turning off gradeint for emojis*/
     -webkit-text-fill-color: white;
@@ -174,8 +174,15 @@ const Categories = props => {
         cardRef.current.addEventListener('mousedown', startDragging, false);
         cardRef.current.addEventListener('mouseup', stopDragging, false);
         cardRef.current.addEventListener('mouseleave', stopDragging, false);
-    }, [])
+    }, []);
 
+    const LogProp = () => {
+        console.log(props.activeGradient)
+       
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', LogProp, { passive: true });
+    }, []);
 
 
     return (
@@ -183,6 +190,7 @@ const Categories = props => {
             <CategoriesContainer>
                 {categories.map((cat, idx) =><Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}><CategoryEmoji active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{categoriesEmoji[idx]}</CategoryEmoji> {cat}</Category>)}
             </CategoriesContainer>
+        
             <CardBox className="full" ref={cardRef}>
                 {cards.map(card => {
                     return (
