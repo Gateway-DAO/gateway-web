@@ -21,6 +21,7 @@ import BountyModal from '../Modal/BountyModal'
 import TokenBenefitModal from '../Modal/TokenBenefitModal'
 import HowtoJoinModal from '../Modal/HowtoJoinModal'
 import BountyCard from '../BountyCard'
+import { useHistory } from "react-router";
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
@@ -41,6 +42,11 @@ const BigCard = (props) => {
             getBalance(props.tokenAddress)
         }
     }, [web3.active])
+
+    const history = useHistory()
+    const navigate = e => {
+        history.push(`/`)
+    }
 
     const socials = Object.keys(props.socials).map((key) => {
         switch (key) {
@@ -156,6 +162,9 @@ const BigCard = (props) => {
             <Modals id={props.id} />
             <Styled.CardBox>
                 <Styled.CardBanner src={props.backgroundURL} />
+                <Styled.BackHomeButton onClick={navigate}>
+                    &#8592;
+                </Styled.BackHomeButton>
                 <Styled.CardContainer>
                     <Styled.ColumnOne>
                         <Styled.Logo src={props.logoURL} />

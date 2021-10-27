@@ -358,4 +358,12 @@ export const LinkTo = styled(Button)`
   letter-spacing: 0.05em;
 
   color: ${(props) => props.color || "#170627"};
-`;
+`
+
+export const BackHomeButton = styled(Button)`
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+`
