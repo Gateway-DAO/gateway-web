@@ -7,6 +7,7 @@ import { DAORef, allDocs } from "../../api/db"
 import { getTokenFromAddress } from "../../api/coingecko"
 
 const DUMMY_CATEGORIES = ["Trending", "DeFi", "Investment", "Media", "Social", "All"]
+const DUMMY_CATEGORIES_EMOJI = ["🔥", "🔗", "💸", "📱", "🧑‍🤝‍🧑", "💯"]
 
 const Box = styled.div`
     display: grid;
@@ -29,15 +30,23 @@ const CategoriesContainer = styled.ul`
 const Category = styled.li`
     display: inline;
     
-    font-family: Be Vietnam;
+    font-family: ${props => props.active ? 'Montserrat' : 'Be Vietnam'};
     font-style: normal;
-    font-weight: ${props => props.active ? 'bold' : 'normal'};
-    font-size: 14px;
+    font-weight: ${props => props.active ? '800' : 'normal'};
+
+    font-size: ${props => props.active ? '24px' : '14px'};
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
 
-    color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.6)'};
+    color: rgba(255, 255, 255, 0.6);
+
+    /* Background */
+    background: ${props => props.active ? 'linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);' : null};
+    -webkit-background-clip: ${props => props.active ? 'text' : null };
+    -webkit-text-fill-color:  ${props => props.active ? 'transparent' : null}; 
+    -moz-background-clip: ${props => props.active ? 'text' : null};
+    -moz-text-fill-color: ${props => props.active ? 'transparent' : null};
 
     margin-right: 25px;
 
@@ -45,6 +54,19 @@ const Category = styled.li`
         cursor: pointer;
     }
 `
+
+const CategoryEmoji = styled.p`
+    display: inline;
+    font-size: ${props => props.activateGradient ? '24px' : '14px'};
+    line-height: 20px;
+    /* Background - turning off gradeint for emojis*/
+    -webkit-text-fill-color: white;
+    -moz-text-fill-color: white;
+`
+
+
+
+
 
 /*
 const CardBox = styled.div`
@@ -82,6 +104,7 @@ const CardBox = styled.div`
 
 const Categories = props => {
     const [categories, setCategories] = useState(DUMMY_CATEGORIES);
+    const [categoriesEmoji, setCategoriesEmoji] = useState(DUMMY_CATEGORIES_EMOJI);
     const [activeCategory, setActiveCategory] = useState(0);
     const [cards, setCards] = useState([]);
     const cardRef = useRef(null);
@@ -153,10 +176,12 @@ const Categories = props => {
         cardRef.current.addEventListener('mouseleave', stopDragging, false);
     }, [])
 
+
+
     return (
         <Box>
             <CategoriesContainer>
-                {categories.map((cat, idx) => <Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{cat}</Category>)}
+                {categories.map((cat, idx) =><Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}><CategoryEmoji active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{categoriesEmoji[idx]}</CategoryEmoji> {cat}</Category>)}
             </CategoriesContainer>
             <CardBox className="full" ref={cardRef}>
                 {cards.map(card => {

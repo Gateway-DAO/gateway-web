@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Waypoint } from 'react-waypoint';
 
 import Header from '../../components/Header'
 import WrappedBigSearch from '../../components/BigSearch'
@@ -11,7 +12,7 @@ import space from '../../utils/canvas';
 const Home = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => space(window.innerHeight, window.innerWidth), [window.innerHeight, window.innerWidth]);
-
+    
     return (
         <Styled.HomeContainer>
             <Header />
@@ -21,8 +22,8 @@ const Home = props => {
                 <Styled.BigText>Discover Your Community</Styled.BigText>
                 <WrappedBigSearch />
             </Styled.MainBox>
-
-            <Categories />
+            
+            <Categories/>
 
             { /* Call to Action */ }
             <Styled.CTABox>
@@ -30,6 +31,7 @@ const Home = props => {
                 <Styled.CTAButton><Styled.CTAButtonText>Join Today</Styled.CTAButtonText></Styled.CTAButton>
             </Styled.CTABox>
             <Footer />
+            
         </Styled.HomeContainer>
     )
 }
