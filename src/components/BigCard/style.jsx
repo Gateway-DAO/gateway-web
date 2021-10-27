@@ -339,3 +339,23 @@ export const SubDAOImg = styled.img`
 export const SubDAOContainer = styled.div`
   margin-top: 20px;
 `
+
+export const ShareColumn = styled.div`
+  display: flex;
+  flex-direction: column
+`
+
+export const LinkTo = styled(Button)`
+  border: none;
+  font-family: Be Vietnam;
+  text-transform: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 28px;
+  text-align: left;
+  padding: 1px;  
+  letter-spacing: 0.05em;
+
+  color: ${(props) => props.color || "#170627"};
+`;
