@@ -31,6 +31,10 @@ export const LogoBox = styled(Link)`
 export const WalletBox = styled(Box)`
     grid-column: 9 / main-end;
     justify-content: flex-end;
+
+    @media only screen and (max-width: 1170px) {
+        grid-column: 6 / main-end;
+    }
 `
 
 export const SearchBox = styled(Box)`
@@ -89,4 +93,19 @@ export const Text = styled.p`
     letter-spacing: 0.05em;
 
     margin-right: 20px;
+
+    @media only screen and (max-width: 1170px) {
+        font-size: 12px;
+        line-height: 18px;
+        margin-right: 15px;
+    }
+    @media only screen and (max-width: 768px) {
+        font-size: 11px;
+        line-height: 16px;
+        margin-right: 10px;
+    }
+
+    @media only screen and (max-width: 550px) {
+        display: none;
+    }
 `

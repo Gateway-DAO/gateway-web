@@ -15,6 +15,14 @@ export const FooterBox = styled.footer`
 
     position: relative;
     bottom: 0;
+
+    @media only screen and (max-width: 1170px) {
+        padding: 70px 0;
+    }
+
+    @media only screen and (max-width: 768px) {
+        padding: 40px 0;
+    }
 `
 
 export const LogoAndSocialsBox = styled.div`
@@ -25,6 +33,7 @@ export const LogoBox = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    
 `
 
 export const SocialsBox = styled.div`
@@ -60,8 +69,13 @@ export const CopyBox = styled.div`
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
+    text-align: center;
 
     color: rgba(255, 255, 255, 0.5);
+
+    @media only screen and (max-width: 768px) {
+        font-size: 12px;
+    }
 `
 
 export const LinkColumn = styled.div`

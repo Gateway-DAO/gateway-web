@@ -8,6 +8,12 @@ const CardBox = styled.div`
   grid-template-rows: repeat(5, 1fr);
   cursor: pointer;
   height: 25em;
+
+  @media only screen and (max-width: 1170px) {
+    height: 27em;
+    min-width: 15em;
+  }
+
 `;
 
 const CardBanner = styled.div`

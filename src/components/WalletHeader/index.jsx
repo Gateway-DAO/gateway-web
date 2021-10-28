@@ -32,6 +32,16 @@ const ConnectText = styled.p`
     color: #E5E5E5;
 
     margin: 10px 20px;
+
+    @media only screen and (max-width: 1170px) {
+        margin: 8px 16px;
+        font-size: 11px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        margin: 6px 12px;
+        font-size: 9px;
+    }
 `
 
 const Wallet = props => {

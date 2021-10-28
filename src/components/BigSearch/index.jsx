@@ -22,7 +22,7 @@ const BigSearch = props => {
       <Styled.Box>
         <Styled.SearchInputBox>
           <Styled.SearchInput type="search" placeholder="Search by name" onKeyPress={handleInput} />
-          <Styled.WrappedFiSearch size={60} />
+          <Styled.WrappedFiSearch/>
         </Styled.SearchInputBox>
       </Styled.Box>
     )

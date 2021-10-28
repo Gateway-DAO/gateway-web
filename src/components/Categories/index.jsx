@@ -24,6 +24,8 @@ const Box = styled.div`
 const CategoriesContainer = styled.ul`
     text-color: white;
     margin-bottom: 55px;
+    display: flex;
+    flex-wrap: wrap;
 `
 
 const Category = styled.li`
@@ -36,6 +38,7 @@ const Category = styled.li`
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
+    padding: 5px;
 
     color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.6)'};
 
@@ -43,6 +46,17 @@ const Category = styled.li`
 
     &:hover {
         cursor: pointer;
+    }
+
+    @media only screen and (max-width: 1170px) {
+        font-size: 13px;
+        line-height: 19px;
+        margin-right: 20px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        line-height: 18px;
+        margin-right: 18px;
     }
 `
 
@@ -64,7 +78,7 @@ const CardBox = styled.div`
     grid-auto-columns: calc(30% - 20px * 2);
 
     overflow-x: scroll;
-    scroll-snap-type: x proximity;
+    overflow-y: hidden;
 
     &::-webkit-scrollbar { 
         display: none;  /* Safari and Chrome */
@@ -77,6 +91,26 @@ const CardBox = styled.div`
     &:before {
         content: '';
         width: 10px;
+    }
+
+    @media only screen and (max-width: 1170px) {
+        grid-auto-columns: calc(40% - 20px * 2);
+    }
+
+    @media only screen and (max-width: 768px) {
+        grid-auto-columns: calc(50% - 20px * 2);
+    }
+
+    @media only screen and (max-width: 550px) {
+        grid-auto-columns: calc(60% - 20px * 2);
+    }
+
+    @media only screen and (max-width: 480px) {
+        grid-auto-columns: calc(90% - 20px * 2);
+    }
+
+    @media only screen and (max-width: 300px) {
+        grid-auto-columns: calc(100% - 20px * 2);
     }
 `
 
