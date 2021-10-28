@@ -12,22 +12,6 @@ const Home = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => space(window.innerHeight, window.innerWidth), [window.innerHeight, window.innerWidth]);
     
-    const [activeGradient, setActiveGradient] = useState(0)
-
-
-    const activateGradient = () => {
-        const entireDocumentHeight = window.document.body.offsetHeight;
-        const yOffset = window.pageYOffset;
-        if(yOffset > 0.25 * entireDocumentHeight){
-            setActiveGradient(1)
-        } else (setActiveGradient(0))
-    }
-
-    useEffect(() => {
-        window.addEventListener('scroll', activateGradient, { passive: true });
-    }, []);
-
-
     return (
         <Styled.HomeContainer>
             <Header />
@@ -38,7 +22,7 @@ const Home = props => {
                 <WrappedBigSearch />
             </Styled.MainBox>
             
-            <Categories activeGradient={activeGradient}/>
+            <Categories />
 
             { /* Call to Action */ }
             <Styled.CTABox>

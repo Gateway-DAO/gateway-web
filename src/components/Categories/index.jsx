@@ -39,14 +39,14 @@ const Category = styled.li`
     letter-spacing: 0.05em;
     text-transform: capitalize;
 
-    color: rgba(255, 255, 255, 0.6);
+    color: ${props => props.activeGradient&&props.active ? null : 'rgba(255, 255, 255, 0.6)'};
 
     /* Background */
-    background: ${props => props.activeGradient ? 'linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);' : null};
-    -webkit-background-clip: ${props => props.activeGradient ? 'text' : null };
-    -webkit-text-fill-color:  ${props => props.activeGradient ? 'transparent' : null}; 
-    -moz-background-clip: ${props => props.activeGradient ? 'text' : null};
-    -moz-text-fill-color: ${props => props.activeGradient ? 'transparent' : null};
+    background: ${props => props.activeGradient&&props.active ? 'linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%)' : null};
+    -webkit-background-clip: ${props => props.activeGradient&&props.active ? 'text' : null };
+    -webkit-text-fill-color:  ${props => props.activeGradient&&props.active ? 'transparent' : null}; 
+    -moz-background-clip: ${props => props.activeGradient&&props.active ? 'text' : null};
+    -moz-text-fill-color: ${props => props.activeGradient&&props.active ? 'transparent' : null};
 
     margin-right: 25px;
 
@@ -176,19 +176,26 @@ const Categories = props => {
         cardRef.current.addEventListener('mouseleave', stopDragging, false);
     }, []);
 
-    const LogProp = () => {
-        console.log(props.activeGradient)
-       
-    }
-    useEffect(() => {
-        window.addEventListener('scroll', LogProp, { passive: true });
-    }, []);
+    const [activeGradient, setActiveGradient] = useState(0)
 
+    const activateGradient = () => {
+        const entireDocumentHeight = window.document.body.offsetHeight;
+        if(window.pageYOffset > 0.25 * entireDocumentHeight){
+            console.log('pageYOffset: ' + window.pageYOffset)
+            console.log('window.document.body.offsetHeight: ' + window.document.body.offsetHeight)
+            setActiveGradient(1)
+            console.log("activeGradient: " + activeGradient)
+        } else {setActiveGradient(0)}
+    }
+    
+    useEffect(() => {
+        window.addEventListener('scroll', activateGradient, { passive: true });
+    }, []);
 
     return (
         <Box>
             <CategoriesContainer>
-                {categories.map((cat, idx) =><Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}><CategoryEmoji active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{categoriesEmoji[idx]}</CategoryEmoji> {cat}</Category>)}
+                {categories.map((cat, idx) =><Category activeGradient={activeGradient} active={idx === activeCategory} onClick={e => setActiveCategory(idx)}><CategoryEmoji active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{categoriesEmoji[idx]}</CategoryEmoji> {cat}</Category>)}
             </CategoriesContainer>
         
             <CardBox className="full" ref={cardRef}>
