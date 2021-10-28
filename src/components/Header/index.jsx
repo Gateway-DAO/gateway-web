@@ -30,7 +30,7 @@ const Header = props => {
                 <Styled.SearchBox>
                     <Styled.SearchInputBox>
                         <Styled.SearchInput type="search" value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyPress={handleEnter} />
-                        <Styled.WrappedFiSearch size={20} />
+                        <Styled.WrappedFiSearch />
                     </Styled.SearchInputBox>
                 </Styled.SearchBox>
             }

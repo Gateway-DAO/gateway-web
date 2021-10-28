@@ -75,7 +75,7 @@ const CardBox = styled.div`
     grid-template-columns: 10px;
     grid-template-rows: minmax(150px, 1fr);
     grid-auto-flow: column;
-    grid-auto-columns: calc(30% - 20px * 2);
+    grid-auto-columns: calc(25% - 20px * 2);
 
     overflow-x: scroll;
     overflow-y: hidden;
@@ -93,8 +93,12 @@ const CardBox = styled.div`
         width: 10px;
     }
 
+    @media only screen and (max-width: 1450px) {
+        grid-auto-columns: calc(30% - 20px * 2);
+    }
+
     @media only screen and (max-width: 1170px) {
-        grid-auto-columns: calc(40% - 20px * 2);
+        grid-auto-columns: calc(37.5% - 20px * 2);
     }
 
     @media only screen and (max-width: 768px) {

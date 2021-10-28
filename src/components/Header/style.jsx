@@ -3,12 +3,13 @@ import { Link } from "react-router-dom"
 import { FiSearch } from "react-icons/fi"
 
 export const HeaderDiv = styled.header`
+    width: 100vw;
+    position: relative;
     height: 90px;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     grid-column-gap: 20px;
     margin: 0 40px;
     background: #170627;
@@ -24,32 +25,65 @@ export const LogoBox = styled(Link)`
     display: flex;
     flex-direction: row;
     align-items: center;
-    grid-column: 1 / 3;
+    position: absolute;
+    top: 25px;
+    left: 10px;
     text-decoration: none;
 `
 
 export const WalletBox = styled(Box)`
-    grid-column: 9 / main-end;
-    justify-content: flex-end;
-
-    @media only screen and (max-width: 1170px) {
-        grid-column: 6 / main-end;
-    }
+    position: absolute;
+    top: 25px;
+    right: 50px;
 `
 
 export const SearchBox = styled(Box)`
-    grid-column: 5 / 8;
+    margin-left: -20px;
+    margin-rigth: 20px;
+    grid-column: 6 / 8;
+
+    @media only screen and (max-width: 1170px) {
+        margin-left: 10px;
+        grid-column: 6 / 4;    
+    }
+
+    @media only screen and (max-width: 945px) {
+        width: 100%;
+        margin: 120px auto;
+    }
+
+    @media only screen and (max-width: 710px) {
+        display: flex;
+        width: 60vw;
+        justify-content: center;
+    }
+
+    @media only screen and (max-width: 480px) {
+        display: flex;
+        width: 60vw;
+        justify-content: center;
+        margin-left: -15px;
+        margin-top: 120px;
+    }
+
+    @media only screen and (max-width: 430px) {
+        width: 50vw;
+        justify-content: center;
+    }
+
+    @media only screen and (max-width: 340px) {
+        margin-left: -30px;    
+    }
 `
 
 export const SearchInputBox = styled.div`
     background: #FFFFFF;
-    width: 100%;
+    width: 100vw;
     justify-content: space-between;
     align-items: center;
     display: flex;
     flex-direction: row;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 100px;
 `
 
@@ -57,12 +91,12 @@ export const SearchInput = styled.input`
     border: none;
     outline: none;
     flex: 1;
-
     padding: 10px 30px;
     border-radius: 100px;
 `
 
 export const WrappedFiSearch = styled(FiSearch)`
+    font-size: 20px;
     padding-right: 20px;
 `
 

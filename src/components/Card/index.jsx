@@ -7,11 +7,16 @@ const CardBox = styled.div`
   display: grid;
   grid-template-rows: repeat(5, 1fr);
   cursor: pointer;
-  height: 25em;
+  height: 30em;
+  
 
   @media only screen and (max-width: 1170px) {
     height: 27em;
     min-width: 15em;
+  }
+
+  @media only screen and (max-width: 300px) {
+    min-width: 200px;
   }
 
 `;
