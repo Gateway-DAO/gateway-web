@@ -339,3 +339,11 @@ export const SubDAOImg = styled.img`
 export const SubDAOContainer = styled.div`
   margin-top: 20px;
 `
+
+export const BackHomeButton = styled(Button)`
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+`;
