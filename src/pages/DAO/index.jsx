@@ -17,6 +17,7 @@ const Container = styled.main`
     background-color: #170627;
     height: ${props => props.isLoaded ? "100%" : "100vh"};
     width: 100vw;
+    width: 100vw;
 `
 
 const DAO = props => {

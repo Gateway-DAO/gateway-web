@@ -37,10 +37,6 @@ export const CardBox = styled.div`
     padding: 20px;
   }
 
-  @media only screen and (max-width: 350px) {
-    margin-top: 60px;
-    padding: 0;
-  }
 `;
 
 export const CardBanner = styled.div`
@@ -80,9 +76,9 @@ export const CardBanner = styled.div`
   }
 
   @media only screen and (max-width: 350px) {
-    width: calc(100%);
-    top: -10px;
-    left: 0px;
+    width: calc(100% + 40px);
+    top: -20px;
+    left: -20px;
   }
 `;
 
@@ -109,14 +105,21 @@ export const Logo = styled.img`
     margin-top: -20px;
   }
 
-  @media only screen and (max-width: 435px) {
-    margin-top: 40px;
+  @media only screen and (max-width: 650px) {
+    margin-top: 30px;
     width: 80px;
   }
 
+
+  @media only screen and (max-width: 435px) {
+    margin-top: 45px;
+    width: 70px;
+  }
+
+
   @media only screen and (max-width: 350px) {
-    margin-top: 65px;
-    margin-left: 10px;
+    margin-top: 45px;
+    margin-left: -10px;
     width: 60px;
   }
 `;
@@ -143,7 +146,7 @@ export const ColumnOne = styled.div`
   @media only screen and (max-width: 350px) {
     display: flex;
     flex-direction: column;
-    padding: 0 5px;
+    padding: 0 20px;
     margin: 0 auto;
     justify-content: center;
   }
@@ -276,6 +279,7 @@ export const StyledCollapsible = styled(Collapsible)`
   color: #170627;
 
   margin: 20px 0;
+
 `;
 
 export const PercentageText = styled(Text)`
@@ -342,6 +346,11 @@ export const TokenPrice = styled.h3`
 
 export const CategoryList = styled.ul`
   margin-bottom: 15px;
+  @media only screen and (max-width: 380px) {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
 `;
 
 export const Category = styled.li`
@@ -363,6 +372,10 @@ export const Category = styled.li`
 
   padding: 2px 6px;
   margin-right: 10px;
+
+  @media only screen and (max-width: 380px) {
+    margin: 5px;
+  }
 `;
 
 export const CategoryLink = styled(Link)`
@@ -379,7 +392,13 @@ export const SocialsList = styled.ul`
   border-top: 1px solid rgba(229, 229, 229, 0.5);
   border-bottom: 1px solid rgba(229, 229, 229, 0.5);
 
-  
+  @media only screen and (max-width: 380px) {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 `;
 
 export const Social = styled.li`
@@ -491,7 +510,7 @@ export const BackHomeButton = styled(Button)`
   }
 `;
 
-export const BackHomeButtonText = styled.p`
+export const BackHomeButtonText = styled.a`
   position: absolute;
   top: 10px;
   left: 10px;

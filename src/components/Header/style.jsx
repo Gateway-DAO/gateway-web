@@ -34,7 +34,7 @@ export const LogoBox = styled(Link)`
 export const WalletBox = styled(Box)`
     position: absolute;
     top: 25px;
-    right: 50px;
+    right: 30px;
 `
 
 export const SearchBox = styled.div`
@@ -53,6 +53,11 @@ export const SearchBox = styled.div`
         top: 120px; 
         left: calc(50% - 135px);
     }
+
+    @media only screen and (max-width: 350px) {
+        width: 120px;
+        left: calc(50% - 100px);
+  }
 `
 
 export const SearchInputBox = styled.div`
@@ -64,6 +69,9 @@ export const SearchInputBox = styled.div`
     flex-direction: row;
     position: relative;
     border-radius: 100px;
+    @media only screen and (max-width: 350px) {
+        width:  80%;
+  }
 `
 
 export const SearchInput = styled.input`

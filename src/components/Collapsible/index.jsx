@@ -5,6 +5,7 @@ import styled from "styled-components";
 const Container = styled.div`
     position: relative;
     margin: 20px 0;
+    
 `;
 
 const Header = styled.header`
@@ -23,6 +24,7 @@ font-family: Be Vietnam;
   align-items: center;
 
   color: #170627;
+  
 `;
 
 const Body = styled.div`
