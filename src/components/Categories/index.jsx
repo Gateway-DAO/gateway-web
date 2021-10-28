@@ -176,15 +176,13 @@ const Categories = props => {
         cardRef.current.addEventListener('mouseleave', stopDragging, false);
     }, []);
 
+    //Activate gradient on active category if y page offset is bigger than 0.2 height of page 
     const [activeGradient, setActiveGradient] = useState(0)
 
     const activateGradient = () => {
         const entireDocumentHeight = window.document.body.offsetHeight;
-        if(window.pageYOffset > 0.25 * entireDocumentHeight){
-            console.log('pageYOffset: ' + window.pageYOffset)
-            console.log('window.document.body.offsetHeight: ' + window.document.body.offsetHeight)
+        if(window.pageYOffset > 0.2 * entireDocumentHeight){
             setActiveGradient(1)
-            console.log("activeGradient: " + activeGradient)
         } else {setActiveGradient(0)}
     }
     
