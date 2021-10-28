@@ -11,7 +11,7 @@ export const HeaderDiv = styled.header`
     justify-content: space-between;
     align-items: center;
     grid-column-gap: 20px;
-    margin: 0 40px;
+    margin: 0 -20px;
     background: #170627;
 `
 
@@ -27,7 +27,7 @@ export const LogoBox = styled(Link)`
     align-items: center;
     position: absolute;
     top: 25px;
-    left: 10px;
+    left: 50px;
     text-decoration: none;
 `
 
@@ -37,48 +37,27 @@ export const WalletBox = styled(Box)`
     right: 50px;
 `
 
-export const SearchBox = styled(Box)`
-    margin-left: -20px;
-    margin-rigth: 20px;
-    grid-column: 6 / 8;
+export const SearchBox = styled.div`
+    width: 270px;
+    position: absolute;
+    top: 30px; 
+    left: 40%;
+
 
     @media only screen and (max-width: 1170px) {
-        margin-left: 10px;
-        grid-column: 6 / 4;    
+        top: 30px; 
+        left: 30%;
     }
 
     @media only screen and (max-width: 945px) {
-        width: 100%;
-        margin: 120px auto;
-    }
-
-    @media only screen and (max-width: 710px) {
-        display: flex;
-        width: 60vw;
-        justify-content: center;
-    }
-
-    @media only screen and (max-width: 480px) {
-        display: flex;
-        width: 60vw;
-        justify-content: center;
-        margin-left: -15px;
-        margin-top: 120px;
-    }
-
-    @media only screen and (max-width: 430px) {
-        width: 50vw;
-        justify-content: center;
-    }
-
-    @media only screen and (max-width: 340px) {
-        margin-left: -30px;    
+        top: 120px; 
+        left: calc(50% - 135px);
     }
 `
 
 export const SearchInputBox = styled.div`
     background: #FFFFFF;
-    width: 100vw;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     display: flex;

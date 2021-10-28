@@ -6,6 +6,7 @@ import { useWeb3React } from "@web3-react/core";
 const ConnectToWallet = styled.a`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
+    margin-right: 10px;
 
     border: double 1px transparent;
     background-image:   linear-gradient(#170627, #170627), 

@@ -162,7 +162,7 @@ const BigCard = (props) => {
             <Styled.CardBox>
                 <Styled.CardBanner src={props.backgroundURL} />
                 <Styled.BackHomeButton onClick={navigate}>
-                    &#8592;
+                    <Styled.BackHomeButtonText>&#8592;</Styled.BackHomeButtonText>
                 </Styled.BackHomeButton>
                 <Styled.CardContainer>
                     <Styled.ColumnOne>
