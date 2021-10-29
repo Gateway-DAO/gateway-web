@@ -19,6 +19,7 @@ import useAdmin from '../../hooks/useAdmin'
 import BountyModal from '../Modal/BountyModal'
 import TokenBenefitModal from '../Modal/TokenBenefitModal'
 import HowtoJoinModal from '../Modal/HowtoJoinModal'
+import FAQModal from '../Modal/FAQModal'
 import BountyCard from '../BountyCard'
 import { useHistory } from "react-router";
 
@@ -189,6 +190,13 @@ const BigCard = (props) => {
                                     </Styled.Button>
                                 )}
                             </Collapsible>
+                            <Collapsible title="How to Use?">
+                                {isAdmin && (
+                                    <Styled.Button onClick={toggleHTJModal}>
+                                        Add Steps
+                                    </Styled.Button>
+                                )}
+                            </Collapsible>
                             <Collapsible title="Bounties">
                                 <Styled.BountyCollapsible>
                                     {isAdmin && (
@@ -219,6 +227,14 @@ const BigCard = (props) => {
                                     </Styled.Button>
                                 )}
                             </Collapsible>
+                            <Collapsible title="Frequently Asked Questions">
+                                {isAdmin && (
+                                    <Styled.Button onClick={toggleHTJModal}>
+                                        Add Steps
+                                    </Styled.Button>
+                                )}
+                            </Collapsible>
+                            
                         </div>
                     </Styled.ColumnOne>
                     {props.tokenAddress && 
