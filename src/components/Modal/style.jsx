@@ -151,6 +151,11 @@ export const Button = styled.button`
     cursor: pointer;
 `
 
+export const IconButton = styled(Button)`
+    display: flex;
+    padding: 10px;
+`
+
 export const Fieldset = styled.fieldset`
     width: 100%;
     display: flex;
@@ -175,6 +180,7 @@ export const Input = styled.input`
   background: #170627;
   color: #e5e5e5;
   margin: 12px 0;
+  width: 100%;
 `
 
 const CheckboxContainer = styled.div`

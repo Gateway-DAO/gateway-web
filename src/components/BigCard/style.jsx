@@ -322,7 +322,7 @@ export const TradeButton = styled(Button)`
   width: 100%;
 `;
 
-export const BountyCollapsible = styled.div`
+export const CollapsibleChildren = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;

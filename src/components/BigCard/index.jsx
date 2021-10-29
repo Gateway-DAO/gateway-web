@@ -21,12 +21,18 @@ import TokenBenefitModal from '../Modal/TokenBenefitModal'
 import HowtoJoinModal from '../Modal/HowtoJoinModal'
 import BountyCard from '../BountyCard'
 import { useHistory } from "react-router";
+import HTJCard from '../HTJCard'
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
     const [balance, setBalance] = useState(BigNumber.from(0))
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
+
+    // Data
     const [bounties, setBounties] = useState(props.bounties)
+    const [HTJ, setHTJ] = useState(props.howToJoin)
+
+    // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
     const [showTBModal, setShowTBModal] = useState(false)
     const [showHTJModal, setShowHTJModal] = useState(false)
@@ -141,6 +147,8 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showHTJModal}
                 toggle={toggleHTJModal}
+                data={HTJ || [ { description: "" } ]}
+                set={(newHTJ) => setHTJ(newHTJ)}
             />
             <BountyModal
                 id={props.id}
@@ -183,14 +191,18 @@ const BigCard = (props) => {
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <div>
                             <Collapsible title="How to join?">
-                                {isAdmin && (
-                                    <Styled.Button onClick={toggleHTJModal}>
-                                        Add Steps
-                                    </Styled.Button>
-                                )}
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button onClick={toggleHTJModal}>
+                                            Add Steps
+                                        </Styled.Button>
+                                    )}
+
+                                    {HTJ && <HTJCard steps={HTJ} />}
+                                </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Bounties">
-                                <Styled.BountyCollapsible>
+                                <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button
                                             onClick={toggleBountyModal}
@@ -205,7 +217,7 @@ const BigCard = (props) => {
                                                 <BountyCard bounty={bounty} />
                                             )
                                         })}
-                                </Styled.BountyCollapsible>
+                                </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Governance Proposals">
                                 <Styled.Description>
