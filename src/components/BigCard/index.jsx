@@ -7,6 +7,7 @@ import {
     FaGithub,
     FaLink,
 } from 'react-icons/fa'
+import { TwitterShareButton, TelegramShareButton } from "react-share";
 import { BsChatTextFill } from 'react-icons/bs'
 import { useWeb3React } from '@web3-react/core'
 import { shortenAddress } from '../../utils/web3'
@@ -377,6 +378,25 @@ const BigCard = (props) => {
                                     })}
                                 </Styled.SubDAOContainer>
                             )}
+                            <Styled.ShareColumn>
+                                <Styled.LinkTo onClick={() => {navigator.clipboard.writeText(`https://etherscan.io/token/${props.tokenAddress}`)}}>🔗 Copy Link</Styled.LinkTo>
+                                <Styled.LinkTo>
+                                    <TwitterShareButton
+                                        title={"Share Twitter"}
+                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
+                                    >
+                                        🦆 Share Twitter
+                                    </TwitterShareButton>
+                                </Styled.LinkTo>
+                                <Styled.LinkTo>
+                                    <TelegramShareButton
+                                        title={"Share Twitter"}
+                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
+                                    >
+                                        📋 Share Telegram
+                                    </TelegramShareButton>
+                                </Styled.LinkTo>
+                            </Styled.ShareColumn>
                         </Styled.ColumnTwo>
                     }
                 </Styled.CardContainer>
