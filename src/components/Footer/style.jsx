@@ -6,6 +6,7 @@ export const FooterBox = styled.footer`
     display: grid;
     grid-template-columns: 3fr 2fr 2fr 2fr 3fr;
     */
+   
     margin: 0 40px;
     grid-column-gap: 20px;
     padding: 80px 0;

@@ -13,3 +13,8 @@ export const Container = styled.div`
 export const Fieldset = styled.fieldset`
   width: 100%;
 `
+
+export const InputWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`
