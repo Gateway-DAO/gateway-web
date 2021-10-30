@@ -6,12 +6,13 @@ import {
     FaMedium,
     FaGithub,
     FaLink,
+    FaPencilAlt
 } from 'react-icons/fa'
 import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { BsChatTextFill } from 'react-icons/bs'
 import { useWeb3React } from '@web3-react/core'
 import { shortenAddress } from '../../utils/web3'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BigNumber } from '@ethersproject/bignumber'
 import Collapsible from '../Collapsible'
 import * as Styled from './style'
@@ -26,6 +27,7 @@ import BountyCard from '../BountyCard'
 import { useHistory } from 'react-router'
 import HTJCard from '../HTJCard'
 import TokenBenefitCard from '../TokenBenefitCard'
+import EditCardModal from '../Modal/EditCardModal'
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
@@ -43,6 +45,7 @@ const BigCard = (props) => {
     const [showHTJModal, setShowHTJModal] = useState(false)
     const [showFAQModal, setShowFAQModal] = useState(false)
     const [showWDWDModal, setShowWDWDModal] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
 
     useEffect(() => {
         if (props.tokenAddress) {
@@ -149,8 +152,9 @@ const BigCard = (props) => {
     const toggleHTJModal = () => setShowHTJModal(!showHTJModal)
     const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
     const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal)
+    const toggleEditModal = () => setShowEditModal(!showEditModal)
 
-    const Modals = (props) => (
+    const Modals = () => (
         <>
             {/* Modals */}
             <HowtoJoinModal
@@ -181,21 +185,25 @@ const BigCard = (props) => {
                 show={showFAQModal}
                 toggle={toggleFAQModal}
             />
+            {React.createElement(EditCardModal, { ...props, show: showEditModal, toggle: toggleEditModal })}
         </>
     )
 
     return (
         <Styled.Container>
-            <Modals id={props.id} />
+            <Modals />
             <Styled.CardBox>
                 <Styled.CardBanner src={props.backgroundURL} />
                 <Styled.BackHomeButton onClick={navigate}>
                     &#8592;
                 </Styled.BackHomeButton>
                 <Styled.CardContainer>
-                    <Styled.ColumnOne>
+                    <Styled.ColumnOne fullWidth={!props.tokenAddress}>
                         <Styled.Logo src={props.logoURL} />
-                        <Styled.Title>{props.name}</Styled.Title>
+                        <Styled.TitleContainer>
+                            <Styled.Title>{props.name}</Styled.Title>
+                            {isAdmin && <FaPencilAlt onClick={toggleEditModal} />}
+                        </Styled.TitleContainer>
                         <Styled.Description>
                             {props.description}
                         </Styled.Description>
@@ -259,30 +267,32 @@ const BigCard = (props) => {
                                     ⚡️Snapshot integration coming soon.
                                 </Styled.Description>
                             </Collapsible>
-                            <Collapsible title="Token Benefits/Utility">
-                                <Styled.CollapsibleChildren>
-                                    {isAdmin && (
-                                        <Styled.Button onClick={toggleTBModal}>
-                                            Add Token Benefit
-                                        </Styled.Button>
-                                    )}
+                            {props.tokenAddress && (
+                                <Collapsible title="Token Benefits/Utility">
+                                    <Styled.CollapsibleChildren>
+                                        {isAdmin && (
+                                            <Styled.Button onClick={toggleTBModal}>
+                                                Add Token Benefit
+                                            </Styled.Button>
+                                        )}
 
-                                    {benefits &&
-                                        benefits.map((benefit, idx) => {
-                                            return (
-                                                <TokenBenefitCard
-                                                    id={props.id}
-                                                    tbs={benefits}
-                                                    idx={idx}
-                                                    set={(newTBs) =>
-                                                        setBenefits(newTBs)
-                                                    }
-                                                    admin={isAdmin}
-                                                />
-                                            )
-                                        })}
-                                </Styled.CollapsibleChildren>
-                            </Collapsible>
+                                        {benefits &&
+                                            benefits.map((benefit, idx) => {
+                                                return (
+                                                    <TokenBenefitCard
+                                                        id={props.id}
+                                                        tbs={benefits}
+                                                        idx={idx}
+                                                        set={(newTBs) =>
+                                                            setBenefits(newTBs)
+                                                        }
+                                                        admin={isAdmin}
+                                                    />
+                                                )
+                                            })}
+                                    </Styled.CollapsibleChildren>
+                                </Collapsible>
+                            )}
                             <Collapsible title="Frequently Asked Questions">
                                 {isAdmin && (
                                     <Styled.Button onClick={toggleFAQModal}>

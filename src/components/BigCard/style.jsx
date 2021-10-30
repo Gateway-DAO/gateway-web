@@ -48,7 +48,7 @@ export const Logo = styled.img`
 `;
 
 export const ColumnOne = styled.div`
-  grid-column: 1 / span 5;
+  grid-column: ${props => props.fullWidth ? "1 / 9" : "1 / span 5"};
   margin-right: 30px;
   position: relative;
   top: -100px;
@@ -82,6 +82,12 @@ export const PastWeekContainer = styled.div`
 export const PriceContainer = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 export const Title = styled.h1`
