@@ -20,6 +20,7 @@ import BountyModal from '../Modal/BountyModal'
 import TokenBenefitModal from '../Modal/TokenBenefitModal'
 import HowtoJoinModal from '../Modal/HowtoJoinModal'
 import FAQModal from '../Modal/FAQModal'
+import WDWDModal from '../Modal/WDWDModal'
 import BountyCard from '../BountyCard'
 import { useHistory } from "react-router";
 import HTJCard from '../HTJCard'
@@ -37,6 +38,8 @@ const BigCard = (props) => {
     const [showBountyModal, setShowBountyModal] = useState(false)
     const [showTBModal, setShowTBModal] = useState(false)
     const [showHTJModal, setShowHTJModal] = useState(false)
+    const [showFAQModal, setShowFAQModal] = useState(false)
+    const [showWDWDModal, setShowWDWDModal] = useState (false)
 
     useEffect(() => {
         if (props.tokenAddress) {
@@ -140,6 +143,9 @@ const BigCard = (props) => {
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
     const toggleTBModal = () => setShowTBModal(!showTBModal)
     const toggleHTJModal = () => setShowHTJModal(!showHTJModal)
+    const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
+    const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal)
+
 
     const Modals = (props) => (
         <>
@@ -151,6 +157,11 @@ const BigCard = (props) => {
                 data={HTJ || [ { description: "" } ]}
                 set={(newHTJ) => setHTJ(newHTJ)}
             />
+             <WDWDModal
+                id={props.id}
+                show={showWDWDModal}
+                toggle={toggleWDWDModal}
+            />
             <BountyModal
                 id={props.id}
                 show={showBountyModal}
@@ -161,6 +172,11 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showTBModal}
                 toggle={toggleTBModal}
+            />
+            <FAQModal
+                id={props.id}
+                show = {showFAQModal}
+                toggle = {toggleFAQModal}
             />
         </>
     )
@@ -202,10 +218,11 @@ const BigCard = (props) => {
                                     {HTJ && <HTJCard steps={HTJ} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            <Collapsible title="How to Use?">
+                            <Collapsible title="What Do We Do?">
                                 {isAdmin && (
-                                    <Styled.Button onClick={toggleHTJModal}>
-                                        Add Steps
+                                    <Styled.Button onClick={toggleWDWDModal}
+                                    >
+                                        Change Information
                                     </Styled.Button>
                                 )}
                             </Collapsible>
@@ -241,8 +258,8 @@ const BigCard = (props) => {
                             </Collapsible>
                             <Collapsible title="Frequently Asked Questions">
                                 {isAdmin && (
-                                    <Styled.Button onClick={toggleHTJModal}>
-                                        Add Steps
+                                    <Styled.Button onClick={toggleFAQModal}>
+                                        Add Questions
                                     </Styled.Button>
                                 )}
                             </Collapsible>
