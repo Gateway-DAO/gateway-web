@@ -54,6 +54,7 @@ const BigCard = (props) => {
     }, [web3.active])
 
     const history = useHistory()
+
     const navigate = e => {
         history.push(`/`)
     }
@@ -238,9 +239,9 @@ const BigCard = (props) => {
                                     )}
 
                                     {bounties &&
-                                        bounties.map((bounty) => {
+                                        bounties.map((bounty, idx) => {
                                             return (
-                                                <BountyCard bounty={bounty} />
+                                                <BountyCard id={props.id} bounties={bounties} idx={idx} set={(newBounties) => setBounties(newBounties)} />
                                             )
                                         })}
                                 </Styled.CollapsibleChildren>

@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { Text as BGText } from "../BigCard/style";
+import { FaTrashAlt } from "react-icons/fa"
 
 export const Container = styled.div`
     background: #FFFFFF;
@@ -8,6 +9,7 @@ export const Container = styled.div`
     border-radius: 6px;
     margin: 10px 0;
     padding: 25px;
+    position: relative;
 `
 
 export const BountyInfoBox = styled.div`
@@ -28,3 +30,9 @@ export const Text = styled(BGText)`
 `
 
 export const BoldText = styled(Text)`font-weight: bold;`
+
+export const TrashBtn = styled(FaTrashAlt)`
+    position: absolute;
+    top: 20px;
+    right: 20px;
+`
