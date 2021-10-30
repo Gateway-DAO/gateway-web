@@ -6,7 +6,7 @@ import { collection, doc, getDoc, query, updateDoc } from "@firebase/firestore";
 import { useState } from "react";
 
 const FAQModal = props => {
-    const [description, setDescription] = useState(null);
+    const [questions, setQuestions] = useState(null);
 
     const submitToDB = async () => {
         const dao = doc(db, "daos", props.id)
@@ -34,8 +34,11 @@ const FAQModal = props => {
                 <Styled.Fieldset>
                     <ModalStyled.Label for="questions">Questions</ModalStyled.Label>
                     <ModalStyled.Textarea id="questions"
-                        placeholder="If you hold the required amount of tokens, you are given access to the discord"
-                        onChange={e => setDescription(e.target.value)}></ModalStyled.Textarea>
+                        placeholder="
+                        Q. What does Gateway do?
+                        A. We help people find their communities!
+                        "
+                        onChange={e => setQuestions(e.target.value)}></ModalStyled.Textarea>
                 </Styled.Fieldset>
 
 
