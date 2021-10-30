@@ -2,6 +2,7 @@ import * as Styled from "./style";
 import { Category, CategoryList } from "../BigCard/style";
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { db } from "../../api/firebase";
+import useAdmin from "../../hooks/useAdmin";
 
 const BountyCard = props => {
     const bounty = props.bounties[props.idx]
@@ -46,7 +47,7 @@ const BountyCard = props => {
                 </Styled.BountyInfo>
             </Styled.BountyInfoBox>
 
-            <Styled.TrashBtn onClick={deleteBounty} />
+            {props.admin && <Styled.TrashBtn onClick={deleteBounty} size={14} />}
         </Styled.Container>
     )
 }

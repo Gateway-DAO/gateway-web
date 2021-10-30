@@ -7,7 +7,7 @@ import {
     FaGithub,
     FaLink,
 } from 'react-icons/fa'
-import { TwitterShareButton, TelegramShareButton } from "react-share";
+import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { BsChatTextFill } from 'react-icons/bs'
 import { useWeb3React } from '@web3-react/core'
 import { shortenAddress } from '../../utils/web3'
@@ -23,8 +23,9 @@ import HowtoJoinModal from '../Modal/HowtoJoinModal'
 import FAQModal from '../Modal/FAQModal'
 import WDWDModal from '../Modal/WDWDModal'
 import BountyCard from '../BountyCard'
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router'
 import HTJCard from '../HTJCard'
+import TokenBenefitCard from '../TokenBenefitCard'
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
@@ -33,6 +34,7 @@ const BigCard = (props) => {
 
     // Data
     const [bounties, setBounties] = useState(props.bounties)
+    const [benefits, setBenefits] = useState(props.tokenBenefits)
     const [HTJ, setHTJ] = useState(props.howToJoin)
 
     // Show modals
@@ -40,7 +42,7 @@ const BigCard = (props) => {
     const [showTBModal, setShowTBModal] = useState(false)
     const [showHTJModal, setShowHTJModal] = useState(false)
     const [showFAQModal, setShowFAQModal] = useState(false)
-    const [showWDWDModal, setShowWDWDModal] = useState (false)
+    const [showWDWDModal, setShowWDWDModal] = useState(false)
 
     useEffect(() => {
         if (props.tokenAddress) {
@@ -48,14 +50,14 @@ const BigCard = (props) => {
                 web3.active &&
                 web3.library &&
                 setBalance(await web3.library.getBalance(tokenAddress))
-                
+
             getBalance(props.tokenAddress)
         }
     }, [web3.active])
 
     const history = useHistory()
 
-    const navigate = e => {
+    const navigate = (e) => {
         history.push(`/`)
     }
 
@@ -148,7 +150,6 @@ const BigCard = (props) => {
     const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
     const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal)
 
-
     const Modals = (props) => (
         <>
             {/* Modals */}
@@ -156,10 +157,10 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showHTJModal}
                 toggle={toggleHTJModal}
-                data={HTJ || [ { description: "" } ]}
+                data={HTJ || [{ description: '' }]}
                 set={(newHTJ) => setHTJ(newHTJ)}
             />
-             <WDWDModal
+            <WDWDModal
                 id={props.id}
                 show={showWDWDModal}
                 toggle={toggleWDWDModal}
@@ -177,8 +178,8 @@ const BigCard = (props) => {
             />
             <FAQModal
                 id={props.id}
-                show = {showFAQModal}
-                toggle = {toggleFAQModal}
+                show={showFAQModal}
+                toggle={toggleFAQModal}
             />
         </>
     )
@@ -222,8 +223,7 @@ const BigCard = (props) => {
                             </Collapsible>
                             <Collapsible title="What Do We Do?">
                                 {isAdmin && (
-                                    <Styled.Button onClick={toggleWDWDModal}
-                                    >
+                                    <Styled.Button onClick={toggleWDWDModal}>
                                         Change Information
                                     </Styled.Button>
                                 )}
@@ -241,7 +241,15 @@ const BigCard = (props) => {
                                     {bounties &&
                                         bounties.map((bounty, idx) => {
                                             return (
-                                                <BountyCard id={props.id} bounties={bounties} idx={idx} set={(newBounties) => setBounties(newBounties)} />
+                                                <BountyCard
+                                                    id={props.id}
+                                                    bounties={bounties}
+                                                    idx={idx}
+                                                    set={(newBounties) =>
+                                                        setBounties(newBounties)
+                                                    }
+                                                    admin={isAdmin}
+                                                />
                                             )
                                         })}
                                 </Styled.CollapsibleChildren>
@@ -252,11 +260,28 @@ const BigCard = (props) => {
                                 </Styled.Description>
                             </Collapsible>
                             <Collapsible title="Token Benefits/Utility">
-                                {isAdmin && (
-                                    <Styled.Button onClick={toggleTBModal}>
-                                        Add Token Benefit
-                                    </Styled.Button>
-                                )}
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button onClick={toggleTBModal}>
+                                            Add Token Benefit
+                                        </Styled.Button>
+                                    )}
+
+                                    {benefits &&
+                                        benefits.map((benefit, idx) => {
+                                            return (
+                                                <TokenBenefitCard
+                                                    id={props.id}
+                                                    tbs={benefits}
+                                                    idx={idx}
+                                                    set={(newTBs) =>
+                                                        setBenefits(newTBs)
+                                                    }
+                                                    admin={isAdmin}
+                                                />
+                                            )
+                                        })}
+                                </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Frequently Asked Questions">
                                 {isAdmin && (
@@ -265,12 +290,15 @@ const BigCard = (props) => {
                                     </Styled.Button>
                                 )}
                             </Collapsible>
-                            
                         </div>
                     </Styled.ColumnOne>
-                    {props.tokenAddress && 
+                    {props.tokenAddress && (
                         <Styled.ColumnTwo>
-                            <Styled.TokenFeed showBorderBottom={props['related-daos'] ? true : false}>
+                            <Styled.TokenFeed
+                                showBorderBottom={
+                                    props['related-daos'] ? true : false
+                                }
+                            >
                                 {web3.active && (
                                     <Styled.TokenHoldings>
                                         <Styled.Text>
@@ -287,7 +315,10 @@ const BigCard = (props) => {
                                 </Styled.TokenName>
                                 <Styled.PriceContainer>
                                     <Styled.TokenPrice>
-                                        ${Number(props.tokenFeed.price).toFixed(2)}
+                                        $
+                                        {Number(props.tokenFeed.price).toFixed(
+                                            2
+                                        )}
                                     </Styled.TokenPrice>
                                     <Styled.PercentageText
                                         color={
@@ -309,7 +340,9 @@ const BigCard = (props) => {
                                         )}
                                         %
                                     </Styled.PercentageText>
-                                    <Styled.Text color="#A5A5A5">24h</Styled.Text>
+                                    <Styled.Text color="#A5A5A5">
+                                        24h
+                                    </Styled.Text>
                                 </Styled.PriceContainer>
                                 <Styled.PastWeekContainer>
                                     <Styled.PercentageText
@@ -381,7 +414,11 @@ const BigCard = (props) => {
                                     </Styled.TextRight>
                                     <Styled.Text>Contract</Styled.Text>
                                     <Styled.TextRight>
-                                        {shortenAddress(props.tokenAddress, 3, 3)}
+                                        {shortenAddress(
+                                            props.tokenAddress,
+                                            3,
+                                            3
+                                        )}
                                     </Styled.TextRight>
                                     <Styled.Text>Explorer</Styled.Text>
                                     <Styled.StyledExplorerLinkRight
@@ -399,7 +436,7 @@ const BigCard = (props) => {
                             </Styled.TokenFeed>
                             {props['related-daos'] && (
                                 <Styled.SubDAOContainer>
-                                <Styled.Title>Sub DAOs</Styled.Title>
+                                    <Styled.Title>Sub DAOs</Styled.Title>
                                     {props['related-daos'].map((dao, idx) => {
                                         return (
                                             <Link to={`/dao/${dao}`}>
@@ -413,10 +450,18 @@ const BigCard = (props) => {
                                 </Styled.SubDAOContainer>
                             )}
                             <Styled.ShareColumn>
-                                <Styled.LinkTo onClick={() => {navigator.clipboard.writeText(`https://etherscan.io/token/${props.tokenAddress}`)}}>🔗 Copy Link</Styled.LinkTo>
+                                <Styled.LinkTo
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(
+                                            `https://etherscan.io/token/${props.tokenAddress}`
+                                        )
+                                    }}
+                                >
+                                    🔗 Copy Link
+                                </Styled.LinkTo>
                                 <Styled.LinkTo>
                                     <TwitterShareButton
-                                        title={"Share Twitter"}
+                                        title={'Share Twitter'}
                                         url={`https://etherscan.io/token/${props.tokenAddress}`}
                                     >
                                         🦆 Share Twitter
@@ -424,7 +469,7 @@ const BigCard = (props) => {
                                 </Styled.LinkTo>
                                 <Styled.LinkTo>
                                     <TelegramShareButton
-                                        title={"Share Twitter"}
+                                        title={'Share Twitter'}
                                         url={`https://etherscan.io/token/${props.tokenAddress}`}
                                     >
                                         📋 Share Telegram
@@ -432,7 +477,7 @@ const BigCard = (props) => {
                                 </Styled.LinkTo>
                             </Styled.ShareColumn>
                         </Styled.ColumnTwo>
-                    }
+                    )}
                 </Styled.CardContainer>
             </Styled.CardBox>
         </Styled.Container>

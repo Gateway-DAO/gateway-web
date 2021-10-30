@@ -11,11 +11,12 @@ const TokenBenefitModal = (props) => {
     const [token, setToken] = useState(null)
     const [amount, setAmount] = useState(null)
     const [information, setInformation] = useState(null)
+
     const submitToDB = async () => {
         const dao = doc(db, 'daos', props.id)
-        const tokenbenefit = (await getDoc(dao)).data().tokenbenefit
+        const tokenbenefit = (await getDoc(dao)).data().tokenBenefits
         updateDoc(dao, {
-            tokenbenefit: [
+            tokenBenefits: [
                 ...(tokenbenefit || []),
                 {
                     title,
@@ -26,10 +27,6 @@ const TokenBenefitModal = (props) => {
                 },
             ],
         })
-    }
-
-    const selectCheckBox = (e) => {
-        const value = e.target.value
     }
 
     return (
