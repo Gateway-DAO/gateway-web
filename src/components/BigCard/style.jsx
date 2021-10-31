@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 export const Container = styled.main`
   display: grid;
   grid-template-columns: 2fr 8fr 2fr;
+
+  @media only screen and (max-width: 945px) {
+        padding-top: 60px;
+  }
 `;
 
 export const CardBox = styled.div`
@@ -18,6 +22,21 @@ export const CardBox = styled.div`
   position: relative;
   display: grid;
   grid-template-rows: 1fr auto;
+
+  @media only screen and (max-width: 1190px) {
+    padding: 70px;
+  }
+
+  @media only screen and (max-width: 650px) {
+    padding: 35px;
+  }
+
+  @media only screen and (max-width: 435px) {
+    margin: 0 auto;
+    margin-top: 60px;
+    padding: 20px;
+  }
+
 `;
 
 export const CardBanner = styled.div`
@@ -31,12 +50,47 @@ export const CardBanner = styled.div`
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
+
+  @media only screen and (max-width: 1190px) {
+    width: calc(100% + 140px);
+    top: -70px;
+    left: -70px;
+  }
+
+  @media only screen and (max-width: 1030px) {
+    height: 20vh;
+  }
+  
+  @media only screen and (max-width: 650px) {
+    width: calc(100% + 70px);
+    top: -35px;
+    left: -35px;
+    height: 20vh;
+  }
+
+  @media only screen and (max-width: 435px) {
+    width: calc(100% + 40px);
+    top: -20px;
+    left: -20px;
+    height: 15vh;
+  }
+
+  @media only screen and (max-width: 350px) {
+    width: calc(100% + 40px);
+    top: -20px;
+    left: -20px;
+  }
 `;
 
 export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-column-gap: 20px;
+  
+  @media only screen and (max-width: 1030px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const Logo = styled.img`
@@ -45,6 +99,29 @@ export const Logo = styled.img`
   margin-bottom: 20px;
   width: 100px;
   background-color: white;
+
+  @media only screen and (max-width: 1190px) {
+    border-radius: 100%;
+    margin-top: -20px;
+  }
+
+  @media only screen and (max-width: 650px) {
+    margin-top: 30px;
+    width: 80px;
+  }
+
+
+  @media only screen and (max-width: 435px) {
+    margin-top: 45px;
+    width: 70px;
+  }
+
+
+  @media only screen and (max-width: 350px) {
+    margin-top: 45px;
+    margin-left: -10px;
+    width: 60px;
+  }
 `;
 
 export const ColumnOne = styled.div`
@@ -52,14 +129,49 @@ export const ColumnOne = styled.div`
   margin-right: 30px;
   position: relative;
   top: -100px;
+
+  @media only screen and (max-width: 1190px) {
+    margin-right: 0;
+    margin-left: -35px;
+  }
+
+  @media only screen and (max-width: 1030px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  @media only screen and (max-width: 350px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    margin: 0 auto;
+    justify-content: center;
+  }
 `;
 
 export const ColumnTwo = styled.div`
   grid-column: 6 / span 3;
   border-left: 1px solid rgba(229, 229, 229, 0.5);
   padding-left: 20px;
-
+  margin-right: -10px;
   position: relative;
+
+  @media only screen and (max-width: 1190px) {
+    padding-left: 10px;
+    margin-right: -40px;
+  }
+
+  @media only screen and (max-width: 1030px) {
+    border-left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    justify-content: center;
+    margin: 0 -20px;
+  }
 `;
 
 export const TokenFeed = styled.div`
@@ -102,6 +214,10 @@ export const Title = styled.h1`
   color: #170627;
 
   margin-bottom: 15px;
+
+  @media only screen and (max-width: 300px) {
+      font-size: 14px;
+  }
 `;
 
 export const Subtitle = styled.h2`
@@ -113,6 +229,10 @@ export const Subtitle = styled.h2`
   align-items: center;
 
   color: #170627;
+
+  @media only screen and (max-width: 300px) {
+      font-size: 14px;
+  }
 `;
 
 export const Description = styled.p`
@@ -128,6 +248,10 @@ export const Description = styled.p`
   color: #170627;
 
   margin-bottom: 15px;
+  
+  @media only screen and (max-width: 300px) {
+    font-size: 10px;
+  }
 `;
 
 export const Text = styled.p`
@@ -141,6 +265,14 @@ export const Text = styled.p`
   letter-spacing: 0.05em;
 
   color: ${(props) => props.color || "#170627"};
+
+  @media only screen and (max-width: 1190px) {
+    font-size: 11px;
+  }
+
+  @media only screen and (max-width: 300px) {
+    font-size: 10px;
+  }
 `;
 
 export const StyledCollapsible = styled(Collapsible)`
@@ -154,6 +286,7 @@ export const StyledCollapsible = styled(Collapsible)`
   color: #170627;
 
   margin: 20px 0;
+
 `;
 
 export const PercentageText = styled(Text)`
@@ -220,6 +353,11 @@ export const TokenPrice = styled.h3`
 
 export const CategoryList = styled.ul`
   margin-bottom: 15px;
+  @media only screen and (max-width: 380px) {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
 `;
 
 export const Category = styled.li`
@@ -241,6 +379,10 @@ export const Category = styled.li`
 
   padding: 2px 6px;
   margin-right: 10px;
+
+  @media only screen and (max-width: 380px) {
+    margin: 5px;
+  }
 `;
 
 export const CategoryLink = styled(Link)`
@@ -256,12 +398,29 @@ export const SocialsList = styled.ul`
 
   border-top: 1px solid rgba(229, 229, 229, 0.5);
   border-bottom: 1px solid rgba(229, 229, 229, 0.5);
+
+  @media only screen and (max-width: 380px) {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
 `;
 
 export const Social = styled.li`
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    padding: 0 10px;
+
+    @media only screen and (max-width: 1190px) {
+      flex-direction: column;
+    }
+    @media only screen and (max-width: 980px) {
+      flex-direction: column;
+    }
 `;
 
 export const SocialLink = styled.a`
@@ -291,6 +450,7 @@ export const TokenHoldings = styled.div`
 export const BalanceText = styled.span`
   font-weight: bold;
   color: #7E3BDC;
+
 `;
 
 export const Button = styled.a`
@@ -313,8 +473,6 @@ export const Button = styled.a`
   color: #170627;
 
   text-decoration: none;
-
-  position: relative;
   padding: 10px;
   width: 100%;
 
@@ -368,8 +526,26 @@ export const LinkTo = styled(Button)`
 
 export const BackHomeButton = styled(Button)`
   width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  @media only screen and (max-width: 350px) {
+    width: 30px;
+    height: 30px;
+  }
+`;
+
+export const BackHomeButtonText = styled.a`
   position: absolute;
   top: 10px;
   left: 10px;
   font-size: 20px;
+
+  @media only screen and (max-width: 350px) {
+    top: 4px;
+    left: 7.5px;
+    font-size: 15px;
+  }
 `

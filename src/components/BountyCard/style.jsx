@@ -10,6 +10,10 @@ export const Container = styled.div`
     margin: 10px 0;
     padding: 25px;
     position: relative;
+
+    @media only screen and (max-width: 350px) {
+        padding: 0;
+    }
 `
 
 export const BountyInfoBox = styled.div`

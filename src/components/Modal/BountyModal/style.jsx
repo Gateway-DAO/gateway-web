@@ -16,4 +16,5 @@ export const GridBox = styled.div`
   grid-column-gap: 10px;
   grid-row-gap: 30px;
   margin: 10px 0;
+  
 `

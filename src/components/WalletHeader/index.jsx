@@ -6,6 +6,7 @@ import { useWeb3React } from "@web3-react/core";
 const ConnectToWallet = styled.a`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
+    margin-right: 10px;
 
     border: double 1px transparent;
     background-image:   linear-gradient(#170627, #170627), 
@@ -32,6 +33,16 @@ const ConnectText = styled.p`
     color: #E5E5E5;
 
     margin: 10px 20px;
+
+    @media only screen and (max-width: 1170px) {
+        margin: 8px 16px;
+        font-size: 11px;
+    }
+
+    @media only screen and (max-width: 768px) {
+        margin: 6px 12px;
+        font-size: 9px;
+    }
 `
 
 const Wallet = props => {

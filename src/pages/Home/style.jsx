@@ -22,7 +22,10 @@ export const BigText = styled.h1`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 48px;
+    font-size: 96px;
+    z-index: 100;
+    word-spacing: 100vw; 
+    line-height: 90px;
 
     text-align: center;
     letter-spacing: -0.015em;
@@ -36,14 +39,26 @@ export const BigText = styled.h1`
 
     margin: 0 30px;
 
-    @media only screen and (min-width: 768px) {
-        font-size: 96px;
+    @media only screen and (max-width: 1170px) {
+        font-size: 86px;
         line-height: 90px;
-        /* or 94% */
-
-        /* Spacing */
-        margin: 0 25%;
     }
+
+    @media only screen and (max-width: 768px) {
+        font-size: 66px;
+        line-height: 65px;
+    }
+
+    @media only screen and (max-width: 470px) {
+        font-size: 46px;
+        line-height: 45px;
+        margin: 0 10px;
+    }
+
+    @media only screen and (max-width: 310px) {
+        font-size: 40px;
+    }
+
 `
 
 export const MediumText = styled.h2`
@@ -62,6 +77,24 @@ export const MediumText = styled.h2`
 
     text-align: center;
     letter-spacing: -0.015em;
+
+    @media only screen and (max-width: 768px) {
+        font-size: 50px;
+        line-height: 54px;
+        margin: 0 30px;
+    }
+
+    @media only screen and (max-width: 460px) {
+        font-size: 40px;
+        line-height: 44px;
+        margin: 0 25px;
+    }
+
+    @media only screen and (max-width: 350px) {
+        font-size: 30px;
+        line-height: 38px;
+        margin: 0 20px;
+    }
 `
 
 export const MainBox = styled.section`
@@ -81,9 +114,17 @@ export const CTABox = styled.section`
     flex-direction: column;
     background-image: url('${CTA_BG}');
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     height: 100vh;
     justify-content: center;
+    
+    @media only screen and (max-width: 1550px) {
+        margin: 100px 0 50px 0;
+    }
+
+    @media only screen and (max-width: 768px) {
+        margin: 100px 0 50px 0;
+    }
 `
 
 export const CTAButton = styled.a`

@@ -2,7 +2,8 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
     position: relative;
-    margin: 20px 0;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(229,229,229,0.5);
 `;
 
 export const Header = styled.header`
