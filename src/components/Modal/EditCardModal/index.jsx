@@ -4,6 +4,7 @@ import * as ModalStyled from "../style";
 import { db } from "../../../api/firebase";
 import { doc, getDoc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const EditCardModal = props => {
     const [name, setName] = useState(props.name)
@@ -11,6 +12,8 @@ const EditCardModal = props => {
     const [logoURL, setLogoURL] = useState(props.logoURL)
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress)
     const [description, setDescription] = useState(props.description)
+
+    const history = useHistory()
 
     const submitToDB = async () => {
         const dao = doc(db, "daos", props.id);
@@ -25,6 +28,7 @@ const EditCardModal = props => {
 
         const unsub = onSnapshot(dao, (doc) => {
             props.toggle()
+            history.go(0)
         });
 
         await updateDoc(dao, newInfo)

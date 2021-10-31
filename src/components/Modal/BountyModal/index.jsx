@@ -103,7 +103,7 @@ const BountyModal = props => {
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="reward">Reward</ModalStyled.Label>
-                    <ModalStyled.Input id="reward" type="number" min="0.001" onChange={e => setReward(e.target.value)} />
+                    <ModalStyled.Input id="reward" type="text" onChange={e => setReward(e.target.value)} />
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
