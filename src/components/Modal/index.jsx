@@ -1,10 +1,7 @@
-import { useRef, useState } from 'react'
 import * as Styled from './style'
 
 const Modal = (props) => {
     const toggle = props.toggle
-
-    console.log(props)
 
     if (!props.show) {
         return null

@@ -2,7 +2,7 @@ import Modal from '../index'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
 import { db } from '../../../api/firebase'
-import { collection, doc, getDoc, query, updateDoc } from '@firebase/firestore'
+import { doc, getDoc, onSnapshot, updateDoc } from '@firebase/firestore'
 import { useState } from 'react'
 
 const TokenBenefitModal = (props) => {
@@ -10,23 +10,30 @@ const TokenBenefitModal = (props) => {
     const [description, setDescription] = useState(null)
     const [token, setToken] = useState(null)
     const [amount, setAmount] = useState(null)
-    const [information, setInformation] = useState(null)
 
     const submitToDB = async () => {
         const dao = doc(db, 'daos', props.id)
-        const tokenbenefit = (await getDoc(dao)).data().tokenBenefits
-        updateDoc(dao, {
-            tokenBenefits: [
-                ...(tokenbenefit || []),
-                {
-                    title,
-                    description,
-                    token,
-                    amount,
-                    information,
-                },
-            ],
+        const TBs = (await getDoc(dao)).data().tokenBenefits
+        const newTB = [
+            ...(TBs || []),
+            {
+                title,
+                description,
+                token,
+                amount
+            },
+        ]
+
+        const unsub = onSnapshot(dao, (doc) => {
+            props.set(newTB)
+            props.toggle()
+        });
+
+        await updateDoc(dao, {
+            tokenBenefits: newTB
         })
+
+        unsub()
     }
 
     return (

@@ -32,6 +32,7 @@ import EditCardModal from '../Modal/EditCardModal'
 import ShowBountyModal from '../Modal/ShowBountyModal'
 import { BountyInfo } from '../BountyCard/style'
 import FAQCard from '../FAQCard'
+import WDWDCard from '../WDWDCard'
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
@@ -42,6 +43,7 @@ const BigCard = (props) => {
     const [bounties, setBounties] = useState(props.bounties || [])
     const [benefits, setBenefits] = useState(props.tokenBenefits || [])
     const [HTJ, setHTJ] = useState(props.howToJoin || [])
+    const [WDWD, setWDWD] = useState(props.whatDoWeDo || "")
     const [FAQ, setFAQ] = useState(props.FAQ || [])
 
     // Show modals
@@ -187,6 +189,8 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showWDWDModal}
                 toggle={toggleWDWDModal}
+                data={WDWD}
+                set={(newWDWD) => setWDWD(newWDWD)}
             />
             <BountyModal
                 id={props.id}
@@ -198,12 +202,13 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showTBModal}
                 toggle={toggleTBModal}
+                set={(newTB) => setBenefits(newTB)}
             />
             <FAQModal
                 id={props.id}
                 show={showFAQModal}
                 toggle={toggleFAQModal}
-                faq={FAQ}
+                data={FAQ}
                 set={(newFAQ) => setFAQ(newFAQ)}
             />
             {showBountyInfo.bounty && 
@@ -258,11 +263,15 @@ const BigCard = (props) => {
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="What Do We Do?">
-                                {isAdmin && (
-                                    <Styled.Button onClick={toggleWDWDModal}>
-                                        Change Information
-                                    </Styled.Button>
-                                )}
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button onClick={toggleWDWDModal}>
+                                            Change Information
+                                        </Styled.Button>
+                                    )}
+
+                                    {WDWD && <WDWDCard data={WDWD} />}
+                                </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Bounties">
                                 <Styled.CollapsibleChildren>

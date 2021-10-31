@@ -7,7 +7,7 @@ import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 
 const FAQModal = props => {
-    const [FAQ, setFAQ] = useState(props.faq);
+    const [FAQ, setFAQ] = useState(props.data);
 
     const submitToDB = async () => {
         const dao = doc(db, "daos", props.id);

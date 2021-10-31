@@ -1,7 +1,8 @@
 import * as Styled from "./style";
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { db } from "../../api/firebase";
-import useAdmin from "../../hooks/useAdmin";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const TokenBenefitCard = props => {
     const benefit = props.tbs[props.idx]
@@ -24,7 +25,7 @@ const TokenBenefitCard = props => {
     return (
         <Styled.Container>
             <Styled.BoldText>{benefit.title}</Styled.BoldText>
-            <Styled.Text>{benefit.description}</Styled.Text>
+            <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{benefit.description}</ReactMarkdown></Styled.Text>
             <Styled.TBInfoBox>
                 <Styled.TBInfo>
                     <Styled.Text>Token</Styled.Text>
