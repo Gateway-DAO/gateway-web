@@ -2,12 +2,12 @@ import * as Styled from "./style";
 import { Category, CategoryList } from "../BigCard/style";
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { db } from "../../api/firebase";
-import useAdmin from "../../hooks/useAdmin";
 
 const BountyCard = props => {
     const bounty = props.bounties[props.idx]
 
-    const deleteBounty = async () => {
+    const deleteBounty = async e => {
+        e.stopPropagation();
         const dao = doc(db, "daos", props.id)
         const newBounties = props.bounties.filter((bounty, idx) => idx !== props.idx)
 
@@ -23,7 +23,7 @@ const BountyCard = props => {
     }
 
     return (
-        <Styled.Container>
+        <Styled.Container onClick={() => props.showInfo(props.idx)}>
             <CategoryList>
                 {bounty.categories.map((e) => <Category>{e}</Category>)}
             </CategoryList>

@@ -52,19 +52,19 @@ const HowtoJoinModal = props => {
                 {inputs.map((step, idx) => (
                     <Styled.Fieldset>
                         <ModalStyled.Label for={`description-${idx}`}>Step {idx + 1}</ModalStyled.Label>
-                        <Styled.InputWrapper>
+                        <ModalStyled.InputWrapper>
                             <ModalStyled.Input id={`description-${idx}`} key={`htj-input-${idx}`}
                                 placeholder="If you hold the required amount of tokens, you are given access to the discord"
                                 onChange={e => changeInput(idx, e)} value={step.description} type="text" />
                             <ModalStyled.IconButton onClick={() => deleteInput(idx)} style={{ marginLeft: "10px" }}><FaTrashAlt /></ModalStyled.IconButton>
-                        </Styled.InputWrapper>
+                        </ModalStyled.InputWrapper>
                     </Styled.Fieldset>
                 ))}
 
-                <Styled.InputWrapper>
+                <ModalStyled.InputWrapper>
                     <ModalStyled.IconButton style={{ marginRight: "10px" }} onClick={e => setInputs([...inputs, { description: "" }])}><FaPlus /></ModalStyled.IconButton>
                     <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
-                </Styled.InputWrapper>
+                </ModalStyled.InputWrapper>
             </Styled.Container>
         </Modal>
     )

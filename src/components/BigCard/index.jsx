@@ -5,6 +5,7 @@ import {
     FaTwitter,
     FaMedium,
     FaGithub,
+    FaTelegram,
     FaLink,
     FaPencilAlt
 } from 'react-icons/fa'
@@ -28,6 +29,8 @@ import { useHistory } from 'react-router'
 import HTJCard from '../HTJCard'
 import TokenBenefitCard from '../TokenBenefitCard'
 import EditCardModal from '../Modal/EditCardModal'
+import ShowBountyModal from '../Modal/ShowBountyModal'
+import { BountyInfo } from '../BountyCard/style'
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
@@ -41,6 +44,7 @@ const BigCard = (props) => {
 
     // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
+    const [showBountyInfo, setShowBountyInfo] = useState({ bounty: bounties ? bounties[0] : {}, show: false })
     const [showTBModal, setShowTBModal] = useState(false)
     const [showHTJModal, setShowHTJModal] = useState(false)
     const [showFAQModal, setShowFAQModal] = useState(false)
@@ -126,6 +130,18 @@ const BigCard = (props) => {
                         </Styled.SocialLink>
                     </Styled.Social>
                 )
+            case 'telegram':
+                return (
+                    <Styled.Social>
+                        <FaTelegram />
+                        <Styled.SocialLink
+                            href={props.socials[key]}
+                            target="_blank"
+                        >
+                            Telegram
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
             case 'chat':
                 return (
                     <Styled.Social>
@@ -148,6 +164,7 @@ const BigCard = (props) => {
     })
 
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
+    const toggleBountyInfoModal = idx => setShowBountyInfo({ bounty: bounties[idx], show: !showBountyInfo.show });
     const toggleTBModal = () => setShowTBModal(!showTBModal)
     const toggleHTJModal = () => setShowHTJModal(!showHTJModal)
     const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
@@ -185,7 +202,14 @@ const BigCard = (props) => {
                 show={showFAQModal}
                 toggle={toggleFAQModal}
             />
-            {React.createElement(EditCardModal, { ...props, show: showEditModal, toggle: toggleEditModal })}
+            {showBountyInfo.bounty && 
+                <ShowBountyModal
+                    bounty={showBountyInfo.bounty}
+                    show={showBountyInfo.show}
+                    toggle={() => setShowBountyInfo(!showBountyInfo)}
+                />
+            }
+            {React.createElement(EditCardModal, { ...props, show: showEditModal, toggle: toggleEditModal, changeDAOData: props.changeDAOData })}
         </>
     )
 
@@ -257,6 +281,7 @@ const BigCard = (props) => {
                                                         setBounties(newBounties)
                                                     }
                                                     admin={isAdmin}
+                                                    showInfo={toggleBountyInfoModal}
                                                 />
                                             )
                                         })}

@@ -224,7 +224,7 @@ const CheckboxLabel = styled.label`
 `
 
 export const Checkbox = props => {
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(props.checked);
 
     const toggleChecked = e => {
         setChecked(e.target.checked)
@@ -233,7 +233,16 @@ export const Checkbox = props => {
 
     return (
         <CheckboxContainer checked={checked}>
-            <CheckboxInput type="checkbox" id={props.id} name={props.name} value={props.value} onChange={toggleChecked} />
+            <CheckboxInput checked={checked} type="checkbox" id={props.id} name={props.name} value={props.value} onChange={toggleChecked} />
+            <CheckboxLabel>{props.label}</CheckboxLabel>
+        </CheckboxContainer>
+    )
+}
+
+export const LockedCheckbox = props => {
+    return (
+        <CheckboxContainer checked={props.checked}>
+            <CheckboxInput type="checkbox" id={props.id} name={props.name} value={props.value} disabled />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </CheckboxContainer>
     )
@@ -247,3 +256,27 @@ export const Radio = props => {
         </CheckboxContainer>
     )
 }
+
+export const InputWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`
+
+export const Select = styled.select`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    margin: 12px 0;
+    // width: 100%;
+`
