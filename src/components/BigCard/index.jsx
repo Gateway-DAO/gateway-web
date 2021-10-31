@@ -31,6 +31,7 @@ import TokenBenefitCard from '../TokenBenefitCard'
 import EditCardModal from '../Modal/EditCardModal'
 import ShowBountyModal from '../Modal/ShowBountyModal'
 import { BountyInfo } from '../BountyCard/style'
+import FAQCard from '../FAQCard'
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
@@ -38,9 +39,10 @@ const BigCard = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
 
     // Data
-    const [bounties, setBounties] = useState(props.bounties)
-    const [benefits, setBenefits] = useState(props.tokenBenefits)
-    const [HTJ, setHTJ] = useState(props.howToJoin)
+    const [bounties, setBounties] = useState(props.bounties || [])
+    const [benefits, setBenefits] = useState(props.tokenBenefits || [])
+    const [HTJ, setHTJ] = useState(props.howToJoin || [])
+    const [FAQ, setFAQ] = useState(props.FAQ || [])
 
     // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
@@ -201,6 +203,8 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showFAQModal}
                 toggle={toggleFAQModal}
+                faq={FAQ}
+                set={(newFAQ) => setFAQ(newFAQ)}
             />
             {showBountyInfo.bounty && 
                 <ShowBountyModal
@@ -242,7 +246,7 @@ const BigCard = (props) => {
                         </Styled.CategoryList>
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <div>
-                            <Collapsible title="How to join?">
+                            <Collapsible title="How To Join?">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button onClick={toggleHTJModal}>
@@ -319,11 +323,15 @@ const BigCard = (props) => {
                                 </Collapsible>
                             )}
                             <Collapsible title="Frequently Asked Questions">
-                                {isAdmin && (
-                                    <Styled.Button onClick={toggleFAQModal}>
-                                        Add Questions
-                                    </Styled.Button>
-                                )}
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button onClick={toggleFAQModal}>
+                                            Add Questions
+                                        </Styled.Button>
+                                    )}
+
+                                    <FAQCard faq={FAQ} />
+                                </Styled.CollapsibleChildren>
                             </Collapsible>
                         </div>
                     </Styled.ColumnOne>

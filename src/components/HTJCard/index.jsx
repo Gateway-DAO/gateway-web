@@ -1,4 +1,6 @@
 import * as Styled from "./style";
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 const HTJCard = props => {
     return (
@@ -7,7 +9,7 @@ const HTJCard = props => {
                 return (
                     <Styled.HTJStep>
                         <Styled.BoldText>Step {idx + 1}</Styled.BoldText>
-                        <Styled.Text>{step.description}</Styled.Text>
+                        <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{step.description}</ReactMarkdown></Styled.Text>
                     </Styled.HTJStep>
                 )
             })}
