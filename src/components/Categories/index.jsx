@@ -29,29 +29,43 @@ const CategoriesContainer = styled.ul`
 
 const Category = styled.li`
     display: inline;
-    
-    font-family: ${props => props.active ? 'Montserrat' : 'Be Vietnam'};
+    font-family: ${props => props.activeGradient ? 'Montserrat' : 'Be Vietnam'};
     font-style: normal;
-    font-weight: ${props => props.active ? '800' : 'normal'};
-
-    font-size: ${props => props.active ? '24px' : '14px'};
+    font-weight: ${props => props.active ? '700' : '400'};
+    font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
-
-    color: ${props => props.activeGradient&&props.active ? null : 'rgba(255, 255, 255, 0.6)'};
-
-    /* Background */
-    background: ${props => props.activeGradient&&props.active ? 'linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%)' : null};
-    -webkit-background-clip: ${props => props.activeGradient&&props.active ? 'text' : null };
-    -webkit-text-fill-color:  ${props => props.activeGradient&&props.active ? 'transparent' : null}; 
-    -moz-background-clip: ${props => props.activeGradient&&props.active ? 'text' : null};
-    -moz-text-fill-color: ${props => props.activeGradient&&props.active ? 'transparent' : null};
-
+    color: ${props => props.activeGradient&&props.active ? '#E5E5E5' : 'rgba(255, 255, 255, 0.6)'};
     margin-right: 25px;
 
     &:hover {
         cursor: pointer;
+    }
+
+    /* Active category after scoll gradient*/
+    animation: ${props => props.activeGradient&&props.active ? 'gradient 1s 1 both;' : null};
+    @keyframes gradient {
+        0% 
+        {
+            background: #E5E5E5;
+            letter-spacing: 0.05em;
+            font-size: 14px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+        }
+        100%
+        {   
+            background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+            letter-spacing: -0.015em;
+            font-size: 24px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+        }
     }
 `
 
