@@ -4,48 +4,34 @@ import * as ModalStyled from "../style";
 import { db } from "../../../api/firebase";
 import { doc, getDoc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-const BountyModal = props => {
-    const [headline, setHeadline] = useState(null);
-    const [description, setDescription] = useState(null);
-    const [categories, setCategories] = useState([]);
-    const [level, setLevel] = useState(null);
-    const [reward, setReward] = useState(null);
-    const [directions, setDirections] = useState(null);
-    const [link, setLink] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+const EditCardModal = props => {
+    const [name, setName] = useState(props.name)
+    const [backgroundURL, setBackgroundURL] = useState(props.backgroundURL)
+    const [logoURL, setLogoURL] = useState(props.logoURL)
+    const [tokenAddress, setTokenAddress] = useState(props.tokenAddress)
+    const [description, setDescription] = useState(props.description)
+
+    const history = useHistory()
 
     const submitToDB = async () => {
         const dao = doc(db, "daos", props.id);
-        const bounties = (await getDoc(dao)).data().bounties;
-        let parsedCategories = [];
-        let currentDate = new Date().toISOString().slice(0, 10)
 
-        categories.forEach(cat => parsedCategories.push(cat))
-
-        const newBounties = [
-            ...(bounties || []),
-            {
-                headline,
-                description,
-                level,
-                categories: parsedCategories,
-                reward,
-                directions,
-                link,
-                endDate,
-                postDate: currentDate
-            }
-        ]
+        const newInfo = {
+            name,
+            backgroundURL,
+            logoURL,
+            tokenAddress,
+            description
+        }
 
         const unsub = onSnapshot(dao, (doc) => {
-            props.set(newBounties)
             props.toggle()
+            history.go(0)
         });
 
-        await updateDoc(dao, {
-            bounties: newBounties
-        })
+        await updateDoc(dao, newInfo)
 
         unsub()
     }
@@ -54,29 +40,41 @@ const BountyModal = props => {
         const value = e.target.value;
         console.log(e);
 
+        /*
         if (categories.includes(value) && !e.target.checked) {
             setCategories(categories.filter(cat => cat !== value));
         }
         else if (e.target.checked) {
             setCategories([...categories, value]);
         }
+        */
     }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
-                <ModalStyled.Header>Add Bounty</ModalStyled.Header>
+                <ModalStyled.Header>Edit Information</ModalStyled.Header>
                 <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="headline">Headline
-                    </ModalStyled.Label>
-                    <ModalStyled.Input onChange={e => setHeadline(e.target.value)} type="text" id="headline" name="headline" placeholder="Integrate your community on Gateway" />
+                    <ModalStyled.Label for="name">Name</ModalStyled.Label>
+                    <ModalStyled.Input onChange={e => setName(e.target.value)} type="text" id="name" name="name" placeholder="Your DAO name" value={name} />
+                </ModalStyled.Fieldset>
+
+                <ModalStyled.Fieldset>
+                    <ModalStyled.Label for="logoURL">Logo URL</ModalStyled.Label>
+                    <ModalStyled.Input onChange={e => setLogoURL(e.target.value)} type="text" id="logoURL" name="logoURL" placeholder="Your DAO logo URL" value={logoURL} />
+                </ModalStyled.Fieldset>
+
+                <ModalStyled.Fieldset>
+                    <ModalStyled.Label for="backgroundURL">Background URL</ModalStyled.Label>
+                    <ModalStyled.Input onChange={e => setBackgroundURL(e.target.value)} type="text" id="backgroundURL" name="backgroundURL" placeholder="Your DAO background URL" value={backgroundURL} />
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="description">Description</ModalStyled.Label>
-                    <ModalStyled.Textarea height="100px" id="description" onChange={e => setDescription(e.target.value)}></ModalStyled.Textarea>
+                    <ModalStyled.Textarea height="100px" id="description" onChange={e => setDescription(e.target.value)}>{description}</ModalStyled.Textarea>
                 </ModalStyled.Fieldset>
 
+                {/*
                 <ModalStyled.Fieldset marginBottom="30px">
                     <ModalStyled.Label>Categories</ModalStyled.Label>
                     <Styled.GridBox>
@@ -100,31 +98,17 @@ const BountyModal = props => {
                         <ModalStyled.Radio id="level-5" name="level" value="Legend" label="Legend" checked={level === "Legend"} />
                     </Styled.GridBox>
                 </ModalStyled.Fieldset>
+                */}
 
                 <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="reward">Reward</ModalStyled.Label>
-                    <ModalStyled.Input id="reward" type="text" onChange={e => setReward(e.target.value)} />
+                    <ModalStyled.Label for="tokenAddress">Token Address</ModalStyled.Label>
+                    <ModalStyled.Input id="tokenAddress" type="text" onChange={e => setTokenAddress(e.target.value)} value={tokenAddress} />
                 </ModalStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="directions">Directions</ModalStyled.Label>
-                    <ModalStyled.Textarea height="100px" id="directions" onChange={e => setDirections(e.target.value)}></ModalStyled.Textarea>
-                </ModalStyled.Fieldset>
-
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="links">Important Links</ModalStyled.Label>
-                    <ModalStyled.Input id="links" type="text" onChange={e => setLink(e.target.value)} />
-                </ModalStyled.Fieldset>
-
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="end-date">End Date</ModalStyled.Label>
-                    <ModalStyled.Input id="end-date" type="date" onChange={e => setEndDate(e.target.value)} />
-                </ModalStyled.Fieldset>
-
-                <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
+                <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Save Changes</ModalStyled.Button>
             </Styled.Container>
         </Modal>
     )
 }
 
-export default BountyModal
+export default EditCardModal

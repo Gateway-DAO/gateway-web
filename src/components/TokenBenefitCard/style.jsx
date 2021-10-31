@@ -9,20 +9,17 @@ export const Container = styled.div`
     border-radius: 6px;
     margin: 10px 0;
     padding: 25px;
-
-    @media only screen and (max-width: 350px) {
-        padding: 0;
-    }
+    position: relative;
 `
 
-export const BountyInfoBox = styled.div`
+export const TBInfoBox = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-top: 15px;
 `
 
-export const BountyInfo = styled.div`
+export const TBInfo = styled.div`
     display: flex;
     flex-direction: column;
 `
