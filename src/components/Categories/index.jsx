@@ -7,6 +7,7 @@ import { DAORef, allDocs } from "../../api/db"
 import { getTokenFromAddress } from "../../api/coingecko"
 
 const DUMMY_CATEGORIES = ["Trending", "DeFi", "Investment", "Media", "Social", "All"]
+const DUMMY_CATEGORIES_EMOJI = ["🔥", "", "", "", "", ""]
 
 const Box = styled.div`
     display: grid;
@@ -28,23 +29,58 @@ const CategoriesContainer = styled.ul`
 
 const Category = styled.li`
     display: inline;
-    
-    font-family: Be Vietnam;
+    font-family: ${props => props.activeGradient ? 'Montserrat' : 'Be Vietnam'};
     font-style: normal;
-    font-weight: ${props => props.active ? 'bold' : 'normal'};
+    font-weight: ${props => props.active ? '700' : '400'};
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
-
-    color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.6)'};
-
+    color: ${props => props.activeGradient&&props.active ? '#E5E5E5' : 'rgba(255, 255, 255, 0.6)'};
     margin-right: 25px;
 
     &:hover {
         cursor: pointer;
     }
+
+    /* Active category after scoll gradient*/
+    animation: ${props => props.activeGradient&&props.active ? 'gradient 1s 1 both;' : null};
+    @keyframes gradient {
+        0% 
+        {
+            background: #E5E5E5;
+            letter-spacing: 0.05em;
+            font-size: 14px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+        }
+        100%
+        {   
+            background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+            letter-spacing: -0.015em;
+            font-size: 24px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+        }
+    }
 `
+
+const CategoryEmoji = styled.p`
+    display: inline;
+    font-size: ${props => props.activeGradient ? '24px' : '14px'};
+    line-height: 20px;
+    /* Background - turning off gradeint for emojis*/
+    -webkit-text-fill-color: white;
+    -moz-text-fill-color: white;
+`
+
+
+
+
 
 /*
 const CardBox = styled.div`
@@ -82,6 +118,7 @@ const CardBox = styled.div`
 
 const Categories = props => {
     const [categories, setCategories] = useState(DUMMY_CATEGORIES);
+    const [categoriesEmoji, setCategoriesEmoji] = useState(DUMMY_CATEGORIES_EMOJI);
     const [activeCategory, setActiveCategory] = useState(0);
     const [cards, setCards] = useState([]);
     const cardRef = useRef(null);
@@ -151,13 +188,28 @@ const Categories = props => {
         cardRef.current.addEventListener('mousedown', startDragging, false);
         cardRef.current.addEventListener('mouseup', stopDragging, false);
         cardRef.current.addEventListener('mouseleave', stopDragging, false);
-    }, [])
+    }, []);
+
+    //Activate gradient on active category if y page offset is bigger than 0.2 height of page 
+    const [activeGradient, setActiveGradient] = useState(0)
+
+    const activateGradient = () => {
+        const entireDocumentHeight = window.document.body.offsetHeight;
+        if(window.pageYOffset > 0.2 * entireDocumentHeight){
+            setActiveGradient(1)
+        } else {setActiveGradient(0)}
+    }
+    
+    useEffect(() => {
+        window.addEventListener('scroll', activateGradient, { passive: true });
+    }, []);
 
     return (
         <Box>
             <CategoriesContainer>
-                {categories.map((cat, idx) => <Category active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{cat}</Category>)}
+                {categories.map((cat, idx) =><Category activeGradient={activeGradient} active={idx === activeCategory} onClick={e => setActiveCategory(idx)}><CategoryEmoji active={idx === activeCategory} onClick={e => setActiveCategory(idx)}>{categoriesEmoji[idx]}</CategoryEmoji> {cat}</Category>)}
             </CategoriesContainer>
+        
             <CardBox className="full" ref={cardRef}>
                 {cards.map(card => {
                     return (
