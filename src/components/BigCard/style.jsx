@@ -155,16 +155,17 @@ export const ColumnOne = styled.div`
 export const ColumnTwo = styled.div`
   grid-column: 6 / span 3;
   border-left: 1px solid rgba(229, 229, 229, 0.5);
-  padding-left: -10px;
+  padding-left: 10px;
   margin-right: -10px;
   position: relative;
 
   @media only screen and (max-width: 1190px) {
-    padding-left: 0;
+    padding-left: 10px;
     margin-right: -40px;
   }
 
   @media only screen and (max-width: 1030px) {
+    border-left: 0;
     display: flex;
     flex-direction: column;
     padding: 0 20px;
@@ -479,7 +480,7 @@ export const TradeButton = styled(Button)`
   width: 100%;
 `;
 
-export const BountyCollapsible = styled.div`
+export const CollapsibleChildren = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -495,6 +496,26 @@ export const SubDAOImg = styled.img`
 
 export const SubDAOContainer = styled.div`
   margin-top: 20px;
+`
+
+export const ShareColumn = styled.div`
+  display: flex;
+  flex-direction: column
+`
+
+export const LinkTo = styled(Button)`
+  border: none;
+  font-family: Be Vietnam;
+  text-transform: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 28px;
+  text-align: left;
+  padding: 1px;  
+  letter-spacing: 0.05em;
+
+  color: ${(props) => props.color || "#170627"};
 `
 
 export const BackHomeButton = styled(Button)`

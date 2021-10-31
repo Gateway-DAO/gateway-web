@@ -51,6 +51,61 @@ const CardContainer = styled.div`
     }
 `
 
+// const SearhTermContainer = styled.div`
+//     text-color: white;
+//     margin-bottom: 55px;
+// `
+
+// const SearchTerm = styled.p`
+//     display: inline;
+    
+//     font-family: 'Montserrat';
+//     font-style: normal;
+//     font-weight:  '800';
+//     font-size: '104px';
+//     line-height: 20px;
+//     letter-spacing: 0.05em;
+//     text-transform: capitalize;
+//     color: rgba(255, 255, 255, 0.6);
+//     /* Background */
+//     background:  'linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);';
+//     -webkit-background-clip: 'text';
+//     -webkit-text-fill-color: 'transparent';
+//     -moz-background-clip: 'text';
+//     -moz-text-fill-color: 'transparent';
+// `
+
+const SearchTermContainer = styled.div`
+    margin-top: 25px;
+    margin-left: 40px;
+    text-color: white;
+    display: flex;
+    text-transform: capitalize;
+
+    @media only screen and (max-width: 945px) {
+        padding-top: 70px;
+        margin-left: -30px;
+        justify-content: center;
+    }
+`
+
+const SearchTerm = styled.p`
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 0.6);
+    /* Background */
+    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color:  transparent; 
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+`;
+
 const Search = props => {
     const { query } = useParams();
     const [hits, setHits] = useState([]);
@@ -89,27 +144,28 @@ const Search = props => {
                 visible: true,
                 value: query
             }} />
-            <CardContainer>
-                {hits && 
-                    <CardBox>
-                        {hits.map((card, idx) => {
-                            return (
-                                <Card 
-                                    key={idx}
-                                    id={card.objectID}
-                                    title={card.name}
-                                    description={card.description}
-                                    ranking={card.ranking}
-                                    token={card.token}
-                                    price={card.price}
-                                    logoURL={card.logoURL}
-                                    bannerURL={card.backgroundURL}
-                                />
-                            );
-                        })}
-                    </CardBox>
-                }
-            </CardContainer>
+            <SearchTermContainer>
+                <SearchTerm>{query}</SearchTerm>
+            </SearchTermContainer>
+            {hits && 
+                <CardBox>
+                    {hits.map((card, idx) => {
+                        return (
+                            <Card 
+                                key={idx}
+                                id={card.objectID}
+                                title={card.name}
+                                description={card.description}
+                                ranking={card.ranking}
+                                token={card.token}
+                                price={card.price}
+                                logoURL={card.logoURL}
+                                bannerURL={card.backgroundURL}
+                            />
+                        );
+                    })}
+                </CardBox>
+            }
             <Footer />
         </Container>
     )

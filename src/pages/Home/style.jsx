@@ -79,21 +79,21 @@ export const MediumText = styled.h2`
     letter-spacing: -0.015em;
 
     @media only screen and (max-width: 768px) {
-        font-size: 54px;
+        font-size: 50px;
         line-height: 54px;
-        margin: 0 20px;
+        margin: 0 30px;
     }
 
     @media only screen and (max-width: 460px) {
-        font-size: 44px;
+        font-size: 40px;
         line-height: 44px;
-        margin: 0 15px;
+        margin: 0 25px;
     }
 
     @media only screen and (max-width: 350px) {
-        font-size: 38px;
+        font-size: 30px;
         line-height: 38px;
-        margin: 0 15px;
+        margin: 0 20px;
     }
 `
 
@@ -114,7 +114,7 @@ export const CTABox = styled.section`
     flex-direction: column;
     background-image: url('${CTA_BG}');
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     height: 100vh;
     justify-content: center;
     

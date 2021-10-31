@@ -7,6 +7,7 @@ import {
     FaGithub,
     FaLink,
 } from 'react-icons/fa'
+import { TwitterShareButton, TelegramShareButton } from "react-share";
 import { BsChatTextFill } from 'react-icons/bs'
 import { useWeb3React } from '@web3-react/core'
 import { shortenAddress } from '../../utils/web3'
@@ -19,17 +20,27 @@ import useAdmin from '../../hooks/useAdmin'
 import BountyModal from '../Modal/BountyModal'
 import TokenBenefitModal from '../Modal/TokenBenefitModal'
 import HowtoJoinModal from '../Modal/HowtoJoinModal'
+import FAQModal from '../Modal/FAQModal'
+import WDWDModal from '../Modal/WDWDModal'
 import BountyCard from '../BountyCard'
 import { useHistory } from "react-router";
+import HTJCard from '../HTJCard'
 
 const BigCard = (props) => {
     const web3 = useWeb3React()
     const [balance, setBalance] = useState(BigNumber.from(0))
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
+
+    // Data
     const [bounties, setBounties] = useState(props.bounties)
+    const [HTJ, setHTJ] = useState(props.howToJoin)
+
+    // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
     const [showTBModal, setShowTBModal] = useState(false)
     const [showHTJModal, setShowHTJModal] = useState(false)
+    const [showFAQModal, setShowFAQModal] = useState(false)
+    const [showWDWDModal, setShowWDWDModal] = useState (false)
 
     useEffect(() => {
         if (props.tokenAddress) {
@@ -133,6 +144,9 @@ const BigCard = (props) => {
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
     const toggleTBModal = () => setShowTBModal(!showTBModal)
     const toggleHTJModal = () => setShowHTJModal(!showHTJModal)
+    const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
+    const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal)
+
 
     const Modals = (props) => (
         <>
@@ -141,6 +155,13 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showHTJModal}
                 toggle={toggleHTJModal}
+                data={HTJ || [ { description: "" } ]}
+                set={(newHTJ) => setHTJ(newHTJ)}
+            />
+             <WDWDModal
+                id={props.id}
+                show={showWDWDModal}
+                toggle={toggleWDWDModal}
             />
             <BountyModal
                 id={props.id}
@@ -152,6 +173,11 @@ const BigCard = (props) => {
                 id={props.id}
                 show={showTBModal}
                 toggle={toggleTBModal}
+            />
+            <FAQModal
+                id={props.id}
+                show = {showFAQModal}
+                toggle = {toggleFAQModal}
             />
         </>
     )
@@ -183,14 +209,26 @@ const BigCard = (props) => {
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <div>
                             <Collapsible title="How to join?">
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button onClick={toggleHTJModal}>
+                                            Add Steps
+                                        </Styled.Button>
+                                    )}
+
+                                    {HTJ && <HTJCard steps={HTJ} />}
+                                </Styled.CollapsibleChildren>
+                            </Collapsible>
+                            <Collapsible title="What Do We Do?">
                                 {isAdmin && (
-                                    <Styled.Button onClick={toggleHTJModal}>
-                                        Add Steps
+                                    <Styled.Button onClick={toggleWDWDModal}
+                                    >
+                                        Change Information
                                     </Styled.Button>
                                 )}
                             </Collapsible>
                             <Collapsible title="Bounties">
-                                <Styled.BountyCollapsible>
+                                <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button
                                             onClick={toggleBountyModal}
@@ -205,7 +243,7 @@ const BigCard = (props) => {
                                                 <BountyCard bounty={bounty} />
                                             )
                                         })}
-                                </Styled.BountyCollapsible>
+                                </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Governance Proposals">
                                 <Styled.Description>
@@ -219,6 +257,14 @@ const BigCard = (props) => {
                                     </Styled.Button>
                                 )}
                             </Collapsible>
+                            <Collapsible title="Frequently Asked Questions">
+                                {isAdmin && (
+                                    <Styled.Button onClick={toggleFAQModal}>
+                                        Add Questions
+                                    </Styled.Button>
+                                )}
+                            </Collapsible>
+                            
                         </div>
                     </Styled.ColumnOne>
                     {props.tokenAddress && 
@@ -365,6 +411,25 @@ const BigCard = (props) => {
                                     })}
                                 </Styled.SubDAOContainer>
                             )}
+                            <Styled.ShareColumn>
+                                <Styled.LinkTo onClick={() => {navigator.clipboard.writeText(`https://etherscan.io/token/${props.tokenAddress}`)}}>🔗 Copy Link</Styled.LinkTo>
+                                <Styled.LinkTo>
+                                    <TwitterShareButton
+                                        title={"Share Twitter"}
+                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
+                                    >
+                                        🦆 Share Twitter
+                                    </TwitterShareButton>
+                                </Styled.LinkTo>
+                                <Styled.LinkTo>
+                                    <TelegramShareButton
+                                        title={"Share Twitter"}
+                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
+                                    >
+                                        📋 Share Telegram
+                                    </TelegramShareButton>
+                                </Styled.LinkTo>
+                            </Styled.ShareColumn>
                         </Styled.ColumnTwo>
                     }
                 </Styled.CardContainer>

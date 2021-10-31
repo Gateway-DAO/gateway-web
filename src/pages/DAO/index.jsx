@@ -14,10 +14,10 @@ import { getTokenFromAddress } from "../../api/coingecko";
 import React from "react";
 
 const Container = styled.main`
+
     background-color: #170627;
-    height: ${props => props.isLoaded ? "100%" : "100vh"};
-    width: 100vw;
-    width: 100vw;
+    height: 100%;
+    width: auto;
 `
 
 const DAO = props => {
