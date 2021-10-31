@@ -120,12 +120,10 @@ export const CTABox = styled.section`
     
     @media only screen and (max-width: 1550px) {
         margin: 100px 0 50px 0;
-        height: 70vh;
     }
 
     @media only screen and (max-width: 768px) {
         margin: 100px 0 50px 0;
-        height: 50vh;
     }
 `
 

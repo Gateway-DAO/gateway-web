@@ -155,7 +155,7 @@ export const ColumnOne = styled.div`
 export const ColumnTwo = styled.div`
   grid-column: 6 / span 3;
   border-left: 1px solid rgba(229, 229, 229, 0.5);
-  padding-left: 10px;
+  padding-left: 20px;
   margin-right: -10px;
   position: relative;
 
