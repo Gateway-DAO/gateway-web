@@ -133,6 +133,7 @@ export const CTAButton = styled.a`
     border-radius: 20px;
     padding: 10px 50px;
     margin-top: 70px;
+    text-decoration: none;
 
     &:hover {
         cursor: pointer;

@@ -1,4 +1,4 @@
-import { FaDiscord, FaTwitter, FaGithub } from "react-icons/fa"
+import { FaDiscord, FaTwitter, FaMedium } from "react-icons/fa"
 import * as Styled from "./style"
 
 import logo from "../../assets/Gateway.svg"
@@ -12,14 +12,14 @@ const Footer = props => {
                     <Styled.LogoText>GATEWAY</Styled.LogoText>
                 </Styled.LogoBox>
                 <Styled.SocialsBox>
-                    <Styled.SocialBtn>
+                    <Styled.SocialBtn href="https://discord.gg/dsrjqPRfNj" target="_blank">
                         <FaDiscord color="white" size={24} />
                     </Styled.SocialBtn>
-                    <Styled.SocialBtn>
+                    <Styled.SocialBtn href="https://twitter.com/tryGateway" target="_blank">
                         <FaTwitter color="white" size={24} />
                     </Styled.SocialBtn>
-                    <Styled.SocialBtn>
-                        <FaGithub color="white" size={24} />
+                    <Styled.SocialBtn href="https://medium.com/@gatewaydao" target="_blank">
+                        <FaMedium color="white" size={24} />
                     </Styled.SocialBtn>
                 </Styled.SocialsBox>
                 <Styled.CopyBox>

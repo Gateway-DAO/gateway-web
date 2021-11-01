@@ -71,7 +71,7 @@ const BigCard = (props) => {
     const history = useHistory()
 
     const navigate = (e) => {
-        history.push(`/`)
+        history.goBack()
     }
 
     const socials = Object.keys(props.socials).map((key) => {
@@ -238,7 +238,7 @@ const BigCard = (props) => {
             <Styled.CardBox>
                 <Styled.CardBanner src={props.backgroundURL} />
                 <Styled.BackHomeButton onClick={navigate}>
-                    <Styled.BackHomeButtonText onClick={navigate}>&#8592;</Styled.BackHomeButtonText>
+                    <Styled.BackHomeButtonText>&#8592;</Styled.BackHomeButtonText>
                 </Styled.BackHomeButton>
                 <Styled.CardContainer>
                     <Styled.ColumnOne fullWidth={!props.tokenAddress}>

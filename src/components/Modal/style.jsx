@@ -128,6 +128,7 @@ export const Textarea = styled.textarea`
     border-radius: 5px;
     padding: 12px;
     margin: 12px 0;
+    resize: vertical;
 `
 
 export const Button = styled.button`
