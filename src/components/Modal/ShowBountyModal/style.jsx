@@ -27,4 +27,8 @@ export const Text = styled.p`
   letter-spacing: 0.05em;
 
   color: rgba(255, 255, 255, 0.6);
+
+  & a:visited {
+    color: #7E3BDC;
+  }
 `

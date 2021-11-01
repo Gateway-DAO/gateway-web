@@ -1,6 +1,8 @@
 import Modal from "../index";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const ShowBountyModal = props => {
     return (
@@ -14,7 +16,7 @@ const ShowBountyModal = props => {
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="description">Description</ModalStyled.Label>
-                    <Styled.Text>{props.bounty.description}</Styled.Text>
+                    <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{props.bounty.description}</ReactMarkdown></Styled.Text>
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset marginBottom="30px">
@@ -48,12 +50,14 @@ const ShowBountyModal = props => {
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="directions">Directions</ModalStyled.Label>
-                    <Styled.Text>{props.bounty.directions}</Styled.Text>
+                    <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{props.bounty.directions}</ReactMarkdown></Styled.Text>
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="links">Important Links</ModalStyled.Label>
-                    <Styled.Text>{props.bounty.link}</Styled.Text>
+                    {props.bounty.links.map(link => {
+                        return <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{link}</ReactMarkdown></Styled.Text>
+                    })}
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>

@@ -24,7 +24,7 @@ export const BigText = styled.h1`
     font-weight: bold;
     font-size: 96px;
     z-index: 100;
-    word-spacing: 100vw; 
+    // word-spacing: 100vw; 
     line-height: 90px;
 
     text-align: center;
@@ -37,7 +37,7 @@ export const BigText = styled.h1`
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
-    margin: 0 30px;
+    margin: 0 15%;
 
     @media only screen and (max-width: 1170px) {
         font-size: 86px;

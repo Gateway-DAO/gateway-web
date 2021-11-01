@@ -40,8 +40,10 @@ export const SearchInput = styled.input`
     font-family: "Poppins" sans-serif;
     font-size: 44px;
     letter-spacing: -0.05em;
-    color: #E5E5E5;
+    color: #170627;
     width: 100%;
+    font-style: normal;
+    font-weight: normal;
 
     @media only screen and (min-width: 768px) {
         padding: 25px;
@@ -69,6 +71,10 @@ export const SearchInput = styled.input`
     @media only screen and (max-width: 300px) {
         font-size: 20px;
         padding: 5px;
+    }
+
+    &::placeholder {
+      color: #e5e5e5;
     }
 `
 

@@ -4,6 +4,7 @@ import * as ModalStyled from "../style";
 import { db } from "../../../api/firebase";
 import { doc, getDoc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
+import { FaTrashAlt, FaPlus } from "react-icons/fa";
 
 const BountyModal = props => {
     const [headline, setHeadline] = useState(null);
@@ -12,7 +13,7 @@ const BountyModal = props => {
     const [level, setLevel] = useState(null);
     const [reward, setReward] = useState(null);
     const [directions, setDirections] = useState(null);
-    const [link, setLink] = useState(null);
+    const [links, setLinks] = useState([""]);
     const [endDate, setEndDate] = useState(null);
 
     const submitToDB = async () => {
@@ -32,7 +33,7 @@ const BountyModal = props => {
                 categories: parsedCategories,
                 reward,
                 directions,
-                link,
+                links,
                 endDate,
                 postDate: currentDate
             }
@@ -60,6 +61,21 @@ const BountyModal = props => {
         else if (e.target.checked) {
             setCategories([...categories, value]);
         }
+    }
+
+    const deleteLink = idx => {
+        setLinks(links.filter((i, index) => index !== idx))
+    }
+
+    const changeLink = (idx, e) => {
+        e.preventDefault();
+        setLinks(links.map((i, index) => {
+            if (index === idx) {
+                return e.target.value
+            }
+
+            return i
+        }))
     }
 
     return (
@@ -113,7 +129,16 @@ const BountyModal = props => {
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="links">Important Links</ModalStyled.Label>
-                    <ModalStyled.Input id="links" type="text" onChange={e => setLink(e.target.value)} />
+
+                    {links.map((step, idx) => (
+                        <ModalStyled.InputWrapper>
+                            <ModalStyled.Input id={`link-${idx}`} key={`bounty-link-${idx}`}
+                                onChange={e => changeLink(idx, e)} value={step.description} type="text" />
+                            <ModalStyled.IconButton onClick={() => deleteLink(idx)} style={{ marginLeft: "10px" }}><FaTrashAlt /></ModalStyled.IconButton>
+                        </ModalStyled.InputWrapper>
+                    ))}
+
+                    <ModalStyled.IconButton onClick={() => setLinks([ ...links, "" ])} style={{ width: "fit-content", alignSelf: "center" }}><FaPlus /></ModalStyled.IconButton>
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
