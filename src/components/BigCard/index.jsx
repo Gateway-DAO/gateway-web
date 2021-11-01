@@ -24,13 +24,13 @@ import TokenBenefitModal from '../Modal/TokenBenefitModal'
 import HowtoJoinModal from '../Modal/HowtoJoinModal'
 import FAQModal from '../Modal/FAQModal'
 import WDWDModal from '../Modal/WDWDModal'
+import UHModal from '../Modal/UHModal'
 import BountyCard from '../BountyCard'
 import { useHistory } from 'react-router'
 import HTJCard from '../HTJCard'
 import TokenBenefitCard from '../TokenBenefitCard'
 import EditCardModal from '../Modal/EditCardModal'
 import ShowBountyModal from '../Modal/ShowBountyModal'
-import { BountyInfo } from '../BountyCard/style'
 import FAQCard from '../FAQCard'
 import WDWDCard from '../WDWDCard'
 
@@ -44,6 +44,7 @@ const BigCard = (props) => {
     const [benefits, setBenefits] = useState(props.tokenBenefits || [])
     const [HTJ, setHTJ] = useState(props.howToJoin || [])
     const [WDWD, setWDWD] = useState(props.whatDoWeDo || "")
+    const [UH, setUH] = useState(props.upcomingHangouts || "")
     const [FAQ, setFAQ] = useState(props.FAQ || [])
 
     // Show modals
@@ -53,6 +54,7 @@ const BigCard = (props) => {
     const [showHTJModal, setShowHTJModal] = useState(false)
     const [showFAQModal, setShowFAQModal] = useState(false)
     const [showWDWDModal, setShowWDWDModal] = useState(false)
+    const [showUHModal, setShowUHModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
 
     useEffect(() => {
@@ -173,6 +175,7 @@ const BigCard = (props) => {
     const toggleHTJModal = () => setShowHTJModal(!showHTJModal)
     const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
     const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal)
+    const toggleUHModal = () => setShowUHModal(!showUHModal)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
 
     const Modals = () => (
@@ -191,6 +194,13 @@ const BigCard = (props) => {
                 toggle={toggleWDWDModal}
                 data={WDWD}
                 set={(newWDWD) => setWDWD(newWDWD)}
+            />
+            <UHModal
+                id={props.id}
+                show={showUHModal}
+                toggle={toggleUHModal}
+                data={UH}
+                set={(newUH) => setUH(newUH)}
             />
             <BountyModal
                 id={props.id}
@@ -271,6 +281,17 @@ const BigCard = (props) => {
                                     )}
 
                                     {WDWD && <WDWDCard data={WDWD} />}
+                                </Styled.CollapsibleChildren>
+                            </Collapsible>
+                            <Collapsible title="Upcoming Hangouts">
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button onClick={toggleUHModal}>
+                                            Change Information
+                                        </Styled.Button>
+                                    )}
+
+                                    {UH && <WDWDCard data={UH} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Bounties">
