@@ -8,6 +8,7 @@ import { getTokenFromAddress } from "../../api/coingecko"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Card from "../../components/Card"
+import BigLogo from "../../assets/Gateway.svg"
 
 const Container = styled.main`
     background-color: #170627;
@@ -108,13 +109,70 @@ const SearchTerm = styled.p`
     -moz-text-fill-color: transparent;
 `;
 
+const NoResultsView = styled.div`
+    height: 30vh;
+    width: auto;
+    margin-top: 20px;
+    margin-bottom: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+`
+const BigLogoImg = styled.img`
+    width: 198.11px;
+    height: 198.11px;
+`
+
+const HeaderMedium = styled.p`
+    font-weight: 700;
+    font-family: Poppins;
+    font-size: 21px;
+    line-height: 80px;
+    font-style: normal;
+    letter-spacing: -0.015em;
+    color: #E5E5E5;
+`
+
+const TextInfo = styled.div`
+    font-weight: 400;
+    font-family: Poppins;
+    font-size: 12px;
+    line-height: 16px;
+    font-style: normal;
+    letter-spacing: -0.015em;
+    color: #E5E5E5;
+    text-align: center;
+`
+
+const SearchTextViolet = styled.button`
+    color: #7E3BDC;
+    text-decoration: none;
+`
+
+const CommunityTextPink = styled.a`
+    color: #FE02B9;
+    text-decoration: none;
+`
+
+
 const Search = props => {
     const { query } = useParams();
     const [hits, setHits] = useState([]);
+    // const [numResults, setNumResults] = useState();
+    // const [showNoResultsView, setShowNoResultsView] = useState(false);
+
+    // const setResults = () => {
+    //     if(numResults === 0) {
+    //         setShowNoResultsView(true);
+    //     } else {
+    //         setShowNoResultsView(false)
+    //     }
+    // }
 
     useEffect(() => {
         const searchAsync = async () => {
             const { hits: res } = await daos.search(query);
+            
             const parsedInfo = res.map(async hit => {
                 // Once we have data, start fetching content from CoinGecko (if the DAO has a token)
                 if (hit.tokenAddress) {
@@ -138,7 +196,13 @@ const Search = props => {
         }
 
         searchAsync();
+        
+        // setNumResults(hits.length);
+        // setResults();
     }, [query]);
+
+
+    
 
     return (
         <Container>
@@ -149,7 +213,7 @@ const Search = props => {
             <SearchTermContainer>
                 <SearchTerm>{query}</SearchTerm>
             </SearchTermContainer>
-            {hits && 
+            {hits.length > 0 ? 
                 <CardBox>
                     {hits.map((card, idx) => {
                         return (
@@ -167,6 +231,17 @@ const Search = props => {
                         );
                     })}
                 </CardBox>
+                :
+                <NoResultsView>
+                    <BigLogoImg src={BigLogo}/>
+                    <HeaderMedium>
+                        Opps! No results found :(
+                    </HeaderMedium>
+                    <TextInfo>
+                        We couldn't find what you're looking for.<br/>
+                        Try to <SearchTextViolet as="a" href="/">Search again</SearchTextViolet> or <CommunityTextPink as="a" href="#">Add your community.</CommunityTextPink>
+                    </TextInfo>
+                </NoResultsView>
             }
             <Footer />
         </Container>
