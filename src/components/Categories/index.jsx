@@ -174,6 +174,7 @@ const Categories = (props) => {
     const [activeCategory, setActiveCategory] = useState(0)
     const [cards, setCards] = useState([])
     const cardRef = useRef(null)
+    const [isScrolling, setIsScrolling] = useState(false);
 
     const fetchCards = async () => {
         // If Trending or All, implement a different behavior
@@ -251,6 +252,10 @@ const Categories = (props) => {
             cardRef.current.scrollLeft = scrollLeft - scroll
         })
 
+        cardRef.current.addEventListener('mousedown', () => setIsScrolling(false));
+        cardRef.current.addEventListener('mousemove', () => setIsScrolling(true));
+        cardRef.current.addEventListener('mouseup', () => console.log(isScrolling ? 'drag' : 'click'));
+
         // Add the event listeners
         cardRef.current.addEventListener('mousedown', startDragging, false)
         cardRef.current.addEventListener('mouseup', stopDragging, false)
@@ -305,6 +310,7 @@ const Categories = (props) => {
                             price={card.price}
                             logoURL={card.logoURL}
                             bannerURL={card.backgroundURL}
+                            isScrolling={isScrolling}
                         />
                     )
                 })}
