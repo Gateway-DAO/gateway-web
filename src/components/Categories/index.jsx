@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Card from '../Card'
+import ContentLoader from "react-content-loader"
 
 import { query, getDocs, where } from 'firebase/firestore'
 import { DAORef, allDocs } from '../../api/db'
@@ -166,6 +167,36 @@ const CardBox = styled.div`
     }
 `
 
+const CardBoxAnimation = styled.div`
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 10px;
+    grid-template-rows: minmax(150px, 1fr);
+    grid-auto-flow: column;
+    grid-auto-columns: calc(25% - 20px * 2);
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+`
+
+const MyLoader = (props) => (
+    <ContentLoader 
+      speed={2}
+      width={1880}
+      height={450}
+      viewBox="0 0 1880 450"
+      backgroundColor="#E5E5E5"
+      foregroundColor="#170627"
+      {...props}
+    >
+      <rect x="20" y="0" rx="15" ry="15" width="356" height="450" /> 
+      <rect x="396" y="0" rx="15" ry="15" width="356" height="450" /> 
+      <rect x="772" y="0" rx="15" ry="15" width="356" height="450" /> 
+      <rect x="1148" y="0" rx="15" ry="15" width="356" height="450" />
+      <rect x="1524" y="0" rx="15" ry="15" width="356" height="450" />
+    </ContentLoader>
+  )
+
 const Categories = (props) => {
     const [categories, setCategories] = useState(DUMMY_CATEGORIES)
     const [categoriesEmoji, setCategoriesEmoji] = useState(
@@ -292,23 +323,24 @@ const Categories = (props) => {
                     </Category>
                 ))}
             </CategoriesContainer>
-
-            <CardBox className="full" ref={cardRef}>
-                {cards.map((card) => {
-                    return (
-                        <Card
-                            id={card.id}
-                            title={card.name}
-                            description={card.description}
-                            ranking={card.ranking}
-                            token={card.token}
-                            price={card.price}
-                            logoURL={card.logoURL}
-                            bannerURL={card.backgroundURL}
-                        />
-                    )
-                })}
-            </CardBox>
+                <CardBox className="full" ref={cardRef}>
+                    {(cards.length > 0) ? cards.map((card) => {
+                        return (
+                            <Card
+                                id={card.id}
+                                title={card.name}
+                                description={card.description}
+                                ranking={card.ranking}
+                                token={card.token}
+                                price={card.price}
+                                logoURL={card.logoURL}
+                                bannerURL={card.backgroundURL}
+                            />
+                        )
+                    }):
+                    <MyLoader/>
+                    }
+                </CardBox> 
         </Box>
     )
 }
