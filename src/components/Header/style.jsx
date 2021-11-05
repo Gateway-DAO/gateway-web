@@ -11,6 +11,16 @@ export const HeaderDiv = styled.header`
     align-items: center;
     grid-column-gap: 20px;
     background: #170627;
+
+    &:before{
+        content: "";
+        position: absolute;
+        left: 3%;
+        bottom: 0;
+        height: 1px;
+        width: 94%;  /* or 100px */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
 `
 
 export const Box = styled.div`
