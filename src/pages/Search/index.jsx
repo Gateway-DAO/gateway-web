@@ -85,8 +85,9 @@ const SearchTermContainer = styled.div`
     text-transform: capitalize;
 
     @media only screen and (max-width: 945px) {
-        margin-top: 0;
-        flex-direction: column;
+        margin-top: 25px;
+        margin-bottom: -25px;
+        flex-direction: column-reverse;
         align-items: center;
     }
 `
@@ -120,7 +121,7 @@ const SearchInputBox = styled.div`
     margin-right: 40px;
     padding-left: 30px;
     background: #FFFFFF;
-    width: 22.5%;
+    width: 30%;
     justify-content: space-between;
     align-items: center;
     display: flex;
@@ -129,6 +130,9 @@ const SearchInputBox = styled.div`
     border-radius: 100px;
     @media only screen and (max-width: 945px) {
         margin: 0;
+    }
+    @media only screen and (max-width: 700px) {
+        width: 45%;
     }
     @media only screen and (max-width: 480px) {
         width: 60%;
