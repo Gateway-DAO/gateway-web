@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-import { FiSearch } from "react-icons/fi"
 
 export const HeaderDiv = styled.header`
     width: 100vw;
@@ -11,7 +10,6 @@ export const HeaderDiv = styled.header`
     justify-content: space-between;
     align-items: center;
     grid-column-gap: 20px;
-    margin: 0 -20px;
     background: #170627;
 `
 
@@ -34,57 +32,7 @@ export const LogoBox = styled(Link)`
 export const WalletBox = styled(Box)`
     position: absolute;
     top: 25px;
-    right: 30px;
-`
-
-export const SearchBox = styled.div`
-    width: 270px;
-    position: absolute;
-    top: 30px; 
-    left: 40%;
-
-
-    @media only screen and (max-width: 1170px) {
-        top: 30px; 
-        left: 30%;
-    }
-
-    @media only screen and (max-width: 945px) {
-        top: 120px; 
-        left: calc(50% - 135px);
-    }
-
-    @media only screen and (max-width: 350px) {
-        width: 120px;
-        left: calc(50% - 100px);
-  }
-`
-
-export const SearchInputBox = styled.div`
-    background: #FFFFFF;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    border-radius: 100px;
-    @media only screen and (max-width: 350px) {
-        width:  80%;
-  }
-`
-
-export const SearchInput = styled.input`
-    border: none;
-    outline: none;
-    flex: 1;
-    padding: 10px 30px;
-    border-radius: 100px;
-`
-
-export const WrappedFiSearch = styled(FiSearch)`
-    font-size: 20px;
-    padding-right: 20px;
+    right: 45px;
 `
 
 export const LogoText = styled.h1`
@@ -113,7 +61,7 @@ export const Text = styled.p`
 
     letter-spacing: 0.05em;
 
-    margin-right: 20px;
+    margin-left: 40px;
 
     @media only screen and (max-width: 1170px) {
         font-size: 12px;
@@ -124,9 +72,6 @@ export const Text = styled.p`
         font-size: 11px;
         line-height: 16px;
         margin-right: 10px;
-    }
-
-    @media only screen and (max-width: 550px) {
         display: none;
     }
 `

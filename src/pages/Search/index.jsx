@@ -1,6 +1,7 @@
 import styled from "styled-components"
-import { useParams } from "react-router"
+import { useParams, useHistory } from "react-router"
 import { useEffect, useState } from "react"
+import { FiSearch } from "react-icons/fi"
 
 import { daos } from "../../api/algolia"
 import { getTokenFromAddress } from "../../api/coingecko"
@@ -39,7 +40,6 @@ const CardBox = styled.section`
     }
 
     @media only screen and (max-width: 480px) {
-        margin: 0 auto;
         margin-top: 60px;
     }
 
@@ -79,19 +79,21 @@ const CardContainer = styled.div`
 
 const SearchTermContainer = styled.div`
     margin-top: 25px;
-    margin-left: 40px;
     text-color: white;
     display: flex;
+    justify-content: space-between;
     text-transform: capitalize;
 
     @media only screen and (max-width: 945px) {
-        padding-top: 70px;
-        margin-left: -30px;
-        justify-content: center;
+        margin-top: 0;
+        flex-direction: column;
+        align-items: center;
     }
 `
 
 const SearchTerm = styled.p`
+    padding: 0 30px;
+    margin-left: 20px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 800;
@@ -106,7 +108,45 @@ const SearchTerm = styled.p`
     -webkit-text-fill-color:  transparent; 
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
+
+    @media only screen and (max-width: 945px) {
+        padding: 30px 0;
+        margin-left: 0px;
+    }
 `;
+
+
+const SearchInputBox = styled.div`
+    margin-right: 40px;
+    padding-left: 30px;
+    background: #FFFFFF;
+    width: 22.5%;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    border-radius: 100px;
+    @media only screen and (max-width: 945px) {
+        margin: 0;
+    }
+    @media only screen and (max-width: 480px) {
+        width: 60%;
+    }
+`
+
+const SearchInput = styled.input`
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 100px;
+`
+
+const WrappedFiSearch = styled(FiSearch)`
+    font-size: 20px;
+    padding-right: 20px;
+`
 
 const Search = props => {
     const { query } = useParams();
@@ -140,14 +180,24 @@ const Search = props => {
         searchAsync();
     }, [query]);
 
+    const [inputVal, setInputVal] = useState(query || "")
+    const history = useHistory();
+
+    const handleEnter = e => {
+        if (e.key === "Enter") {
+            history.push(`/search/${e.target.value}`);
+        }
+    }
+
     return (
         <Container>
-            <Header search={{
-                visible: true,
-                value: query
-            }} />
+            <Header/>
             <SearchTermContainer>
                 <SearchTerm>{query}</SearchTerm>
+                <SearchInputBox>
+                    <SearchInput type="search" value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyPress={handleEnter} />
+                    <WrappedFiSearch />
+                </SearchInputBox>
             </SearchTermContainer>
             {hits && 
                 <CardBox>
