@@ -1,4 +1,4 @@
-import { useParams } from "react-router"
+import { useParams, useHistory } from "react-router"
 import { useEffect, useState } from "react"
 
 import * as Styled from "./style"
@@ -9,26 +9,14 @@ import { getTokenFromAddress } from "../../api/coingecko"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Card from "../../components/Card"
-import BigLogo from "../../assets/Gateway.svg"
 
 const Search = props => {
     const { query } = useParams();
     const [hits, setHits] = useState([]);
-    // const [numResults, setNumResults] = useState();
-    // const [showNoResultsView, setShowNoResultsView] = useState(false);
-
-    // const setResults = () => {
-    //     if(numResults === 0) {
-    //         setShowNoResultsView(true);
-    //     } else {
-    //         setShowNoResultsView(false)
-    //     }
-    // }
 
     useEffect(() => {
         const searchAsync = async () => {
             const { hits: res } = await daos.search(query);
-            
             const parsedInfo = res.map(async hit => {
                 // Once we have data, start fetching content from CoinGecko (if the DAO has a token)
 
@@ -55,51 +43,45 @@ const Search = props => {
         }
 
         searchAsync();
-        
-        // setNumResults(hits.length);
-        // setResults();
     }, [query]);
+
+    const [inputVal, setInputVal] = useState(query || "")
+    const history = useHistory();
+
+    const handleEnter = e => {
+        if (e.key === "Enter") {
+            history.push(`/search/${e.target.value}`);
+        }
+    }
 
     return (
         <Styled.Container>
-            <Header search={{
-                visible: true,
-                value: query
-            }} />
+            <Header/>
             <Styled.SearchTermContainer>
                 <Styled.SearchTerm>{query}</Styled.SearchTerm>
+                <Styled.SearchInputBox>
+                    <Styled.SearchInput type="search" value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyPress={handleEnter} />
+                    <Styled.WrappedFiSearch />
+                </Styled.SearchInputBox>
             </Styled.SearchTermContainer>
-            {hits.length > 0 ? 
-                <Styled.ResultsView>
-                    <Styled.CardBox>
-                        {hits.map((card, idx) => {
-                            return (
-                                <Card 
-                                    key={idx}
-                                    id={card.objectID}
-                                    title={card.name}
-                                    description={card.description}
-                                    ranking={card.ranking}
-                                    token={card.token}
-                                    price={card.price}
-                                    logoURL={card.logoURL}
-                                    bannerURL={card.backgroundURL}
-                                />
-                            );
-                        })}
-                    </Styled.CardBox>
-                </Styled.ResultsView>
-                :
-                <Styled.NoResultsView>
-                    {/* <BigLogoImg src={BigLogo}/> */}
-                    <Styled.HeaderMedium>
-                        Oops! No results found :(
-                    </Styled.HeaderMedium>
-                    <Styled.TextInfo>
-                        We couldn't find what you're looking for.<br/>
-                        Try to <Styled.SearchTextViolet as="a" href="/">Search again</Styled.SearchTextViolet> or <Styled.CommunityTextPink as="a" href="#">Add your community.</Styled.CommunityTextPink>
-                    </Styled.TextInfo>
-                </Styled.NoResultsView>
+            {hits && 
+                <Styled.CardBox>
+                    {hits.map((card, idx) => {
+                        return (
+                            <Card 
+                                key={idx}
+                                id={card.objectID}
+                                title={card.name}
+                                description={card.description}
+                                // ranking={card.ranking}
+                                // token={card.token}
+                                // price={card.price}
+                                logoURL={card.logoURL}
+                                bannerURL={card.backgroundURL}
+                            />
+                        );
+                    })}
+                </Styled.CardBox>
             }
             <Footer />
         </Styled.Container>
