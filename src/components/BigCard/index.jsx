@@ -42,7 +42,7 @@ const BigCard = (props) => {
     // Data
     const [bounties, setBounties] = useState(props.bounties || [])
     const [benefits, setBenefits] = useState(props.tokenBenefits || [])
-    const [HTJ, setHTJ] = useState(props.howToJoin || [])
+    const [HTJ, setHTJ] = useState(props.howToJoin || "")
     const [WDWD, setWDWD] = useState(props.whatDoWeDo || "")
     const [UH, setUH] = useState(props.upcomingHangouts || "")
     const [FAQ, setFAQ] = useState(props.FAQ || [])
