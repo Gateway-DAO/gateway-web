@@ -130,11 +130,11 @@ const Card = (props) => {
         <CardTitle>{props.title}</CardTitle>
         <CardDesc>{props.description}</CardDesc>
       </CardBody>
-      {props.token &&
+      {
         <CardInfoBox>
-          {props.ranking && <CardInfo title="Ranking" value={props.ranking} />}
-          {props.token && <CardInfo title="Token" value={props.token} />}
-          {props.price && <CardInfo title="Price" value={`$${Number(props.price).toFixed(2)}`} />}
+          {<CardInfo title="Ranking" value={props.ranking ? props.ranking : '-'} />}
+          {<CardInfo title="Token" value={(props.token != null) ? props.ranking : '-'} />}
+          {<CardInfo title="Price" value={props.price? `$${Number(props.price).toFixed(2)}` : "-"} />}
         </CardInfoBox>
       }
     </CardBox>
