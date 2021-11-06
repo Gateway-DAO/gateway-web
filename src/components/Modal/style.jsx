@@ -279,5 +279,5 @@ export const Select = styled.select`
     background: #170627;
     color: #e5e5e5;
     margin: 12px 0;
-    // width: 100%;
+    ${'' /* width: 100%; */}
 `

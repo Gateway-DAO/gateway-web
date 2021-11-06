@@ -1,10 +1,10 @@
 import { useParams } from "react-router"
 import { useEffect, useState } from "react"
 
+import * as Styled from "./style"
+
 import { daos } from "../../api/algolia"
 import { getTokenFromAddress } from "../../api/coingecko"
-
-import * as Styled from "./style"
 
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
@@ -31,6 +31,8 @@ const Search = props => {
             
             const parsedInfo = res.map(async hit => {
                 // Once we have data, start fetching content from CoinGecko (if the DAO has a token)
+
+                /*
                 if (hit.tokenAddress) {
                     const json = await getTokenFromAddress(hit.tokenAddress);
 
@@ -42,6 +44,7 @@ const Search = props => {
 
                     return { ...hit, ...tokenInfo }
                 }
+                */
 
                 return hit
             })
@@ -56,9 +59,6 @@ const Search = props => {
         // setNumResults(hits.length);
         // setResults();
     }, [query]);
-
-
-    
 
     return (
         <Styled.Container>

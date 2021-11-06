@@ -78,19 +78,22 @@ export const CardContainer = styled.div`
 
 export const SearchTermContainer = styled.div`
     margin-top: 25px;
-    margin-left: 40px;
     text-color: white;
     display: flex;
+    justify-content: space-between;
     text-transform: capitalize;
 
     @media only screen and (max-width: 945px) {
-        padding-top: 70px;
-        margin-left: -30px;
-        justify-content: center;
+        margin-top: 25px;
+        margin-bottom: -25px;
+        flex-direction: column-reverse;
+        align-items: center;
     }
 `
 
 export const SearchTerm = styled.p`
+    padding: 0 30px;
+    margin-left: 20px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 800;
