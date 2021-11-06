@@ -57,7 +57,10 @@ const Categories = (props) => {
             const data = doc.data()
             const id = doc.id
 
-            // Once we have data, start fetching content from CoinGecko
+            /**
+             * Once we have data, start fetching content from CoinGecko
+             * UPDATE: for now, let's remove this
+             
             const json = data.tokenAddress
                 ? await getTokenFromAddress(data.tokenAddress)
                 : {}
@@ -71,6 +74,10 @@ const Categories = (props) => {
                 : {}
 
             return { id, ...data, ...tokenInfo }
+            
+            **/
+
+            return { id, ...data }
         })
 
         const resolved = await Promise.all(newCards)
@@ -157,9 +164,9 @@ const Categories = (props) => {
                             id={card.id}
                             title={card.name}
                             description={card.description}
-                            ranking={card.ranking}
-                            token={card.token}
-                            price={card.price}
+                            // ranking={card.ranking}
+                            // token={card.token}
+                            // price={card.price}
                             logoURL={card.logoURL}
                             bannerURL={card.backgroundURL}
                             isScrolling={isScrolling}

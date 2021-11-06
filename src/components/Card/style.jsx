@@ -4,11 +4,12 @@ export const CardBox = styled.div`
   background-color: white;
   border-radius: 20px;
   display: grid;
+  // With the card bottom => grid-template-rows: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   cursor: pointer;
-  height: 30em;
+  // With the card bottom => height: 30em;
+  height: 25em;
   
-
   @media only screen and (max-width: 1170px) {
     height: 27em;
     min-width: 15em;
