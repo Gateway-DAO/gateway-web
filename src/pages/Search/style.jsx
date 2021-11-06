@@ -1,17 +1,11 @@
 import styled from "styled-components"
+import { FiSearch } from "react-icons/fi"
 
 export const Container = styled.main`
     background-color: #170627;
-    min-height: 100vh;
+    height: 100vh;
     overflow-x: hidden;
     margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-`
-
-export const ResultsView = styled.div`
-    display: flex;
-    flex: 1;
 `
 
 export const CardBox = styled.section`
@@ -21,7 +15,6 @@ export const CardBox = styled.section`
     grid-row-gap: 20px;
     margin: 0 40px;
     margin-top: 60px;
-    flex: 1;
 
     /*
     @media only screen and (max-width: 1700px) {
@@ -38,7 +31,6 @@ export const CardBox = styled.section`
     }
 
     @media only screen and (max-width: 480px) {
-        margin: 0 auto;
         margin-top: 60px;
     }
 
@@ -108,50 +100,45 @@ export const SearchTerm = styled.p`
     -webkit-text-fill-color:  transparent; 
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
+
+    @media only screen and (max-width: 945px) {
+        padding: 30px 0;
+        margin-left: 0px;
+    }
 `;
 
-export const NoResultsView = styled.div`
-    // height: 30vh;
-    width: auto;
-    margin: 30px 0;
-    display: flex;
-    flex: 1;
+
+export const SearchInputBox = styled.div`
+    margin-right: 40px;
+    padding-left: 30px;
+    background: #FFFFFF;
+    width: 30%;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-`
-export const BigLogoImg = styled.img`
-    width: 198.11px;
-    height: 198.11px;
-`
-
-export const HeaderMedium = styled.p`
-    font-weight: 700;
-    font-family: Poppins;
-    font-size: 21px;
-    line-height: 80px;
-    font-style: normal;
-    letter-spacing: -0.015em;
-    color: #E5E5E5;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    border-radius: 100px;
+    @media only screen and (max-width: 945px) {
+        margin: 0;
+    }
+    @media only screen and (max-width: 700px) {
+        width: 45%;
+    }
+    @media only screen and (max-width: 480px) {
+        width: 60%;
+    }
 `
 
-export const TextInfo = styled.div`
-    font-weight: 400;
-    font-family: Poppins;
-    font-size: 12px;
-    line-height: 16px;
-    font-style: normal;
-    letter-spacing: -0.015em;
-    color: #E5E5E5;
-    text-align: center;
+export const SearchInput = styled.input`
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 100px;
 `
 
-export const SearchTextViolet = styled.button`
-    color: #7E3BDC;
-    text-decoration: none;
-`
-
-export const CommunityTextPink = styled.a`
-    color: #FE02B9;
-    text-decoration: none;
+export const WrappedFiSearch = styled(FiSearch)`
+    font-size: 20px;
+    padding-right: 20px;
 `
