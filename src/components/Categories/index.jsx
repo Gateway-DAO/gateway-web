@@ -70,8 +70,8 @@ const Category = styled.li`
 
     /* Active category after scoll gradient*/
     animation: ${(props) =>
-        props.activeGradient && props.active ? 'gradient 1s 1 both;' : null};
-    @keyframes gradient {
+        props.activeGradient && props.active ? 'gradientIn 1s 1 both;' : 'gradientOut 1s 1 both;'};
+    @keyframes gradientIn {
         0% {
             background: #e5e5e5;
             letter-spacing: 0.05em;
@@ -80,6 +80,10 @@ const Category = styled.li`
             -webkit-text-fill-color: transparent;
             -moz-background-clip: text;
             -moz-text-fill-color: transparent;
+            -o-background-clip: text;
+            -o-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
         }
         100% {
             background: linear-gradient(
@@ -95,7 +99,47 @@ const Category = styled.li`
             -webkit-text-fill-color: transparent;
             -moz-background-clip: text;
             -moz-text-fill-color: transparent;
+            -o-background-clip: text;
+            -o-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
         }
+    }
+
+    @keyframes gradientOut {
+        0% {
+            background: linear-gradient(
+                88.04deg,
+                #ee787b 22.54%,
+                #e153f2 41.08%,
+                #495be0 65.25%,
+                #6a39f3 86.1%
+            );
+            letter-spacing: -0.015em;
+            font-size: 24px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+            -o-background-clip: text;
+            -o-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        100% {
+            background: #e5e5e5;
+            letter-spacing: 0.05em;
+            font-size: 14px;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -moz-background-clip: text;
+            -moz-text-fill-color: transparent;
+            -o-background-clip: text;
+            -o-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
     }
 `
 
