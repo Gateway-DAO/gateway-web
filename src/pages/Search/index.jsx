@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { useParams } from "react-router"
 import { useEffect, useState } from "react"
+import ContentLoader from "react-content-loader"
 
 import { daos } from "../../api/algolia"
 import { getTokenFromAddress } from "../../api/coingecko"
@@ -140,6 +141,27 @@ const Search = props => {
         searchAsync();
     }, [query]);
 
+    const MyLoader = (props) => (
+        <ContentLoader 
+          speed={2}
+          width={'100vw'}
+          height={'100vh'}
+          viewBox="50 0 1800 1000"
+          backgroundColor="#E5E5E5"
+          foregroundColor="#170627"
+          {...props}
+        >
+          <rect x="1%" y="0" rx="15" ry="15" width="23.75%" height="450" /> 
+          <rect x="25.75%" y="0" rx="15" ry="15" width="23.75%" height="450" /> 
+          <rect x="50.5%" y="0" rx="15" ry="15" width="23.75%" height="450" /> 
+          <rect x="75.25%" y="0" rx="15" ry="15" width="23.75%" height="450" />
+          <rect x="1%" y="475" rx="15" ry="15" width="23.75%" height="450" /> 
+          <rect x="25.75%" y="475" rx="15" ry="15" width="23.75%" height="450" /> 
+          <rect x="50.5%" y="475" rx="15" ry="15" width="23.75%" height="450" /> 
+          <rect x="75.25%" y="475" rx="15" ry="15" width="23.75%" height="450" />
+        </ContentLoader>
+      )
+
     return (
         <Container>
             <Header search={{
@@ -151,7 +173,7 @@ const Search = props => {
             </SearchTermContainer>
             {hits && 
                 <CardBox>
-                    {hits.map((card, idx) => {
+                    {(hits.length > 0) ? hits.map((card, idx) =>  {
                         return (
                             <Card 
                                 key={idx}
@@ -165,7 +187,9 @@ const Search = props => {
                                 bannerURL={card.backgroundURL}
                             />
                         );
-                    })}
+                    }) : 
+                    <MyLoader/>
+                    }
                 </CardBox>
             }
             <Footer />
