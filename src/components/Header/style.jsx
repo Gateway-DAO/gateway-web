@@ -29,13 +29,20 @@ export const Box = styled.div`
     align-items: center;
 `
 
-export const LogoBox = styled(Link)`
+export const LogoBox = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
     position: absolute;
     top: 25px;
     left: 50px;
+    text-decoration: none;
+`
+
+export const Logo = styled(Link)`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     text-decoration: none;
 `
 

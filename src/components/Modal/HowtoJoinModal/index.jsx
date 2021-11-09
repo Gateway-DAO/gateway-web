@@ -47,7 +47,7 @@ const HowtoJoinModal = props => {
     return (
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
-                <ModalStyled.Header>How to Join?</ModalStyled.Header>
+                <ModalStyled.Header>How to Contribute?</ModalStyled.Header>
 
                 {inputs.map((step, idx) => (
                     <Styled.Fieldset>
