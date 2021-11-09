@@ -7,7 +7,7 @@ import {
     FaGithub,
     FaTelegram,
     FaLink,
-    FaPencilAlt
+    FaPencilAlt,
 } from 'react-icons/fa'
 import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { BsChatTextFill } from 'react-icons/bs'
@@ -42,14 +42,17 @@ const BigCard = (props) => {
     // Data
     const [bounties, setBounties] = useState(props.bounties || [])
     const [benefits, setBenefits] = useState(props.tokenBenefits || [])
-    const [HTJ, setHTJ] = useState(props.howToJoin || "")
-    const [WDWD, setWDWD] = useState(props.whatDoWeDo || "")
-    const [UH, setUH] = useState(props.upcomingHangouts || "")
+    const [HTJ, setHTJ] = useState(props.howToJoin || '')
+    const [WDWD, setWDWD] = useState(props.whatDoWeDo || '')
+    const [UH, setUH] = useState(props.upcomingHangouts || '')
     const [FAQ, setFAQ] = useState(props.FAQ || [])
 
     // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
-    const [showBountyInfo, setShowBountyInfo] = useState({ bounty: bounties ? bounties[0] : {}, show: false })
+    const [showBountyInfo, setShowBountyInfo] = useState({
+        bounty: bounties ? bounties[0] : {},
+        show: false,
+    })
     const [showTBModal, setShowTBModal] = useState(false)
     const [showHTJModal, setShowHTJModal] = useState(false)
     const [showFAQModal, setShowFAQModal] = useState(false)
@@ -170,7 +173,8 @@ const BigCard = (props) => {
     })
 
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
-    const toggleBountyInfoModal = idx => setShowBountyInfo({ bounty: bounties[idx], show: !showBountyInfo.show });
+    const toggleBountyInfoModal = (idx) =>
+        setShowBountyInfo({ bounty: bounties[idx], show: !showBountyInfo.show })
     const toggleTBModal = () => setShowTBModal(!showTBModal)
     const toggleHTJModal = () => setShowHTJModal(!showHTJModal)
     const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
@@ -221,14 +225,19 @@ const BigCard = (props) => {
                 data={FAQ}
                 set={(newFAQ) => setFAQ(newFAQ)}
             />
-            {showBountyInfo.bounty && 
+            {showBountyInfo.bounty && (
                 <ShowBountyModal
                     bounty={showBountyInfo.bounty}
                     show={showBountyInfo.show}
                     toggle={() => setShowBountyInfo(!showBountyInfo)}
                 />
-            }
-            {React.createElement(EditCardModal, { ...props, show: showEditModal, toggle: toggleEditModal, changeDAOData: props.changeDAOData })}
+            )}
+            {React.createElement(EditCardModal, {
+                ...props,
+                show: showEditModal,
+                toggle: toggleEditModal,
+                changeDAOData: props.changeDAOData,
+            })}
         </>
     )
 
@@ -238,14 +247,18 @@ const BigCard = (props) => {
             <Styled.CardBox>
                 <Styled.CardBanner src={props.backgroundURL} />
                 <Styled.BackHomeButton onClick={navigate}>
-                    <Styled.BackHomeButtonText>&#8592;</Styled.BackHomeButtonText>
+                    <Styled.BackHomeButtonText>
+                        &#8592;
+                    </Styled.BackHomeButtonText>
                 </Styled.BackHomeButton>
                 <Styled.CardContainer>
                     <Styled.ColumnOne fullWidth={!props.tokenAddress}>
                         <Styled.Logo src={props.logoURL} />
                         <Styled.TitleContainer>
                             <Styled.Title>{props.name}</Styled.Title>
-                            {isAdmin && <FaPencilAlt onClick={toggleEditModal} />}
+                            {isAdmin && (
+                                <FaPencilAlt onClick={toggleEditModal} />
+                            )}
                         </Styled.TitleContainer>
                         <Styled.Description>
                             {props.description}
@@ -261,21 +274,12 @@ const BigCard = (props) => {
                         </Styled.CategoryList>
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <div>
-                            <Collapsible title="How To Join?">
-                                <Styled.CollapsibleChildren>
-                                    {isAdmin && (
-                                        <Styled.Button onClick={toggleHTJModal}>
-                                            Add Steps
-                                        </Styled.Button>
-                                    )}
-
-                                    {HTJ && <HTJCard steps={HTJ} />}
-                                </Styled.CollapsibleChildren>
-                            </Collapsible>
                             <Collapsible title="What Do We Do?">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
-                                        <Styled.Button onClick={toggleWDWDModal}>
+                                        <Styled.Button
+                                            onClick={toggleWDWDModal}
+                                        >
                                             Change Information
                                         </Styled.Button>
                                     )}
@@ -283,54 +287,24 @@ const BigCard = (props) => {
                                     {WDWD && <WDWDCard data={WDWD} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            <Collapsible title="Upcoming Hangouts">
+                            <Collapsible title="Frequently Asked Questions">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
-                                        <Styled.Button onClick={toggleUHModal}>
-                                            Change Information
+                                        <Styled.Button onClick={toggleFAQModal}>
+                                            Add Questions
                                         </Styled.Button>
                                     )}
 
-                                    {UH && <WDWDCard data={UH} />}
+                                    <FAQCard faq={FAQ} />
                                 </Styled.CollapsibleChildren>
-                            </Collapsible>
-                            <Collapsible title="Bounties">
-                                <Styled.CollapsibleChildren>
-                                    {isAdmin && (
-                                        <Styled.Button
-                                            onClick={toggleBountyModal}
-                                        >
-                                            Add Bounty
-                                        </Styled.Button>
-                                    )}
-
-                                    {bounties &&
-                                        bounties.map((bounty, idx) => {
-                                            return (
-                                                <BountyCard
-                                                    id={props.id}
-                                                    bounties={bounties}
-                                                    idx={idx}
-                                                    set={(newBounties) =>
-                                                        setBounties(newBounties)
-                                                    }
-                                                    admin={isAdmin}
-                                                    showInfo={toggleBountyInfoModal}
-                                                />
-                                            )
-                                        })}
-                                </Styled.CollapsibleChildren>
-                            </Collapsible>
-                            <Collapsible title="Governance Proposals">
-                                <Styled.Description>
-                                    ⚡️Snapshot integration coming soon.
-                                </Styled.Description>
                             </Collapsible>
                             {props.tokenAddress && (
                                 <Collapsible title="Token Benefits/Utility">
                                     <Styled.CollapsibleChildren>
                                         {isAdmin && (
-                                            <Styled.Button onClick={toggleTBModal}>
+                                            <Styled.Button
+                                                onClick={toggleTBModal}
+                                            >
                                                 Add Token Benefit
                                             </Styled.Button>
                                         )}
@@ -352,16 +326,62 @@ const BigCard = (props) => {
                                     </Styled.CollapsibleChildren>
                                 </Collapsible>
                             )}
-                            <Collapsible title="Frequently Asked Questions">
+                            <Collapsible title="Upcoming Hangouts">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
-                                        <Styled.Button onClick={toggleFAQModal}>
-                                            Add Questions
+                                        <Styled.Button onClick={toggleUHModal}>
+                                            Change Information
                                         </Styled.Button>
                                     )}
 
-                                    <FAQCard faq={FAQ} />
+                                    {UH && <WDWDCard data={UH} />}
                                 </Styled.CollapsibleChildren>
+                            </Collapsible>
+                            <Collapsible title="How To Contribute?">
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button onClick={toggleHTJModal}>
+                                            Add Steps
+                                        </Styled.Button>
+                                    )}
+
+                                    {HTJ && <HTJCard steps={HTJ} />}
+                                </Styled.CollapsibleChildren>
+                            </Collapsible>
+                            
+                            <Collapsible title="Bounties">
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button
+                                            onClick={toggleBountyModal}
+                                        >
+                                            Add Bounty
+                                        </Styled.Button>
+                                    )}
+
+                                    {bounties &&
+                                        bounties.map((bounty, idx) => {
+                                            return (
+                                                <BountyCard
+                                                    id={props.id}
+                                                    bounties={bounties}
+                                                    idx={idx}
+                                                    set={(newBounties) =>
+                                                        setBounties(newBounties)
+                                                    }
+                                                    admin={isAdmin}
+                                                    showInfo={
+                                                        toggleBountyInfoModal
+                                                    }
+                                                />
+                                            )
+                                        })}
+                                </Styled.CollapsibleChildren>
+                            </Collapsible>
+                            <Collapsible title="Governance Proposals">
+                                <Styled.Description>
+                                    ⚡️Snapshot integration coming soon.
+                                </Styled.Description>
                             </Collapsible>
                         </div>
                     </Styled.ColumnOne>
