@@ -13,13 +13,14 @@ export const Container = styled.div`
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
-    line-height: 18px;
+    line-height: 190%;
     /* or 233% */
 
     letter-spacing: 0.05em;
 
     & h1, h2, h3, h4, h5, h6 {
         font-weight: bold;
+        margin: 10px 0;
     }
 
     & h1 {
@@ -40,6 +41,7 @@ export const Container = styled.div`
 
     & ul {
         margin-top: 10px;
+        margin: 10px 0;
     }
 
     & ul li {
