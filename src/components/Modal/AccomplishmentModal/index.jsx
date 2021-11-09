@@ -6,18 +6,18 @@ import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
 
 const AccomplishmentModal = props => {
-    const [Accomplish, setAccomplish] = useState(props.data);
+    const [accomplish, setAccomplish] = useState(props.data);
 
     const submitToDB = async () => {
         const dao = doc(db, "daos", props.id);
 
         const unsub = onSnapshot(dao, (doc) => {
-            props.set(Accomplish)
+            props.set(accomplish)
             props.toggle()
         });
 
         await updateDoc(dao, {
-            accomplish: Accomplish
+            accomplishments: accomplish
         })
 
         unsub()
@@ -30,7 +30,7 @@ const AccomplishmentModal = props => {
 
                 <Styled.Fieldset>
                     <ModalStyled.Label for="information">Information</ModalStyled.Label>
-                    <ModalStyled.Textarea id="information" placeholder="We recently raised $5mm from Cowfund!" onChange={e => setAccomplish(e.target.value)}>{Accomplish}</ModalStyled.Textarea>
+                    <ModalStyled.Textarea id="information" placeholder="We recently raised $5mm from Cowfund!" onChange={e => setAccomplish(e.target.value)}>{accomplish}</ModalStyled.Textarea>
                 </Styled.Fieldset>
 
                 <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>

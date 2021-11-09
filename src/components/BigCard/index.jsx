@@ -25,6 +25,8 @@ import HowtoJoinModal from '../Modal/HowtoJoinModal'
 import FAQModal from '../Modal/FAQModal'
 import WDWDModal from '../Modal/WDWDModal'
 import UHModal from '../Modal/UHModal'
+import AccomplishmentModal from '../Modal/AccomplishmentModal'
+import MVModal from '../Modal/MVModal'
 import BountyCard from '../BountyCard'
 import { useHistory } from 'react-router'
 import HTJCard from '../HTJCard'
@@ -45,6 +47,8 @@ const BigCard = (props) => {
     const [HTJ, setHTJ] = useState(props.howToJoin || '')
     const [WDWD, setWDWD] = useState(props.whatDoWeDo || '')
     const [UH, setUH] = useState(props.upcomingHangouts || '')
+    const [MV, setMV] = useState(props.missionAndVision || '')
+    const [ACC, setACC] = useState(props.accomplishments || '')
     const [FAQ, setFAQ] = useState(props.FAQ || [])
 
     // Show modals
@@ -58,6 +62,8 @@ const BigCard = (props) => {
     const [showFAQModal, setShowFAQModal] = useState(false)
     const [showWDWDModal, setShowWDWDModal] = useState(false)
     const [showUHModal, setShowUHModal] = useState(false)
+    const [showAccomplishmentModal, setShowAccomplishmentModal] = useState(false)
+    const [showMVModal, setShowMVModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
 
     useEffect(() => {
@@ -180,6 +186,8 @@ const BigCard = (props) => {
     const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
     const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal)
     const toggleUHModal = () => setShowUHModal(!showUHModal)
+    const toggleAccomplishmentModal = () => setShowAccomplishmentModal(!showAccomplishmentModal)
+    const toggleMVModal = () => setShowMVModal(!showMVModal)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
 
     const Modals = () => (
@@ -198,6 +206,20 @@ const BigCard = (props) => {
                 toggle={toggleWDWDModal}
                 data={WDWD}
                 set={(newWDWD) => setWDWD(newWDWD)}
+            />
+            <AccomplishmentModal
+                id={props.id}
+                show={showAccomplishmentModal}
+                toggle={toggleAccomplishmentModal}
+                data={ACC}
+                set={(newACC) => setACC(newACC)}
+            />
+            <MVModal
+                id={props.id}
+                show={showMVModal}
+                toggle={toggleMVModal}
+                data={MV}
+                set={(newMV) => setMV(newMV)}
             />
             <UHModal
                 id={props.id}
@@ -287,6 +309,32 @@ const BigCard = (props) => {
                                     {WDWD && <WDWDCard data={WDWD} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
+                            <Collapsible title="Mission and Vision">
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button
+                                            onClick={toggleMVModal}
+                                        >
+                                            Change Information
+                                        </Styled.Button>
+                                    )}
+
+                                    {MV && <WDWDCard data={MV} />}
+                                </Styled.CollapsibleChildren>
+                            </Collapsible>
+                            <Collapsible title="Accomplishments">
+                                <Styled.CollapsibleChildren>
+                                    {isAdmin && (
+                                        <Styled.Button
+                                            onClick={toggleAccomplishmentModal}
+                                        >
+                                            Change Information
+                                        </Styled.Button>
+                                    )}
+
+                                    {ACC && <WDWDCard data={ACC} />}
+                                </Styled.CollapsibleChildren>
+                            </Collapsible>
                             <Collapsible title="Frequently Asked Questions">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
@@ -295,7 +343,7 @@ const BigCard = (props) => {
                                         </Styled.Button>
                                     )}
 
-                                    <FAQCard faq={FAQ} />
+                                    {FAQ.length != 0 && <FAQCard faq={FAQ} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             {props.tokenAddress && (
