@@ -37,121 +37,101 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifySignedMessage = exports.getNonceToSign = void 0;
-var functions = require('firebase-functions');
+var functions = require("firebase-functions");
 var corsLib = require("cors");
 var eth_sig_util_1 = require("@metamask/eth-sig-util");
-var admin = require('firebase-admin');
-admin.initializeApp();
+var firebase_admin_1 = require("firebase-admin");
+var admin = (0, firebase_admin_1.initializeApp)();
 var cors = corsLib({
     origin: true,
 });
 var generateRandomNonce = function () { return Math.round(Math.random() * 100000000); };
-exports.getNonceToSign = functions.https.onRequest(function (request, response) {
-    return cors(request, response, function () { return __awaiter(void 0, void 0, void 0, function () {
-        var userDoc, existingNonce, generatedNonce, createdUser, err_1;
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 6, , 7]);
-                    if (request.method !== 'POST') {
-                        return [2, response.sendStatus(403)];
-                    }
-                    if (!request.body.address) {
-                        return [2, response.sendStatus(400)];
-                    }
-                    return [4, admin
-                            .firestore()
-                            .collection('users')
-                            .doc(request.body.address)
-                            .get()];
-                case 1:
-                    userDoc = _b.sent();
-                    if (!userDoc.exists) return [3, 2];
-                    existingNonce = (_a = userDoc.data()) === null || _a === void 0 ? void 0 : _a.nonce;
-                    return [2, response.status(200).json({ nonce: existingNonce })];
-                case 2:
-                    generatedNonce = generateRandomNonce();
-                    return [4, admin.auth().createUser({
-                            uid: request.body.address,
-                        })];
-                case 3:
-                    createdUser = _b.sent();
-                    return [4, admin
-                            .firestore()
-                            .collection('users')
-                            .doc(createdUser.uid)
-                            .set({
-                            nonce: generatedNonce,
-                        })];
-                case 4:
-                    _b.sent();
-                    return [2, response.status(200).json({ nonce: generatedNonce })];
-                case 5: return [3, 7];
-                case 6:
-                    err_1 = _b.sent();
-                    console.log(err_1);
-                    return [2, response.sendStatus(500)];
-                case 7: return [2];
-            }
-        });
-    }); });
-});
-exports.verifySignedMessage = functions.https.onRequest(function (request, response) {
-    return cors(request, response, function () { return __awaiter(void 0, void 0, void 0, function () {
-        var address, sig, userDocRef, userDoc, existingNonce, recoveredAddress, firebaseToken, err_2;
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 8, , 9]);
-                    if (request.method !== 'POST') {
-                        return [2, response.sendStatus(403)];
-                    }
-                    if (!request.body.address || !request.body.signature) {
-                        return [2, response.sendStatus(400)];
-                    }
-                    address = request.body.address;
-                    sig = request.body.signature;
-                    userDocRef = admin
+exports.getNonceToSign = functions.https.onCall(function (data, context) { return __awaiter(void 0, void 0, void 0, function () {
+    var userDoc, existingNonce, generatedNonce, createdUser, err_1;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 6, , 7]);
+                return [4, admin
                         .firestore()
                         .collection('users')
-                        .doc(address);
-                    return [4, userDocRef.get()];
-                case 1:
-                    userDoc = _b.sent();
-                    if (!userDoc.exists) return [3, 6];
-                    existingNonce = (_a = userDoc.data()) === null || _a === void 0 ? void 0 : _a.nonce;
-                    recoveredAddress = (0, eth_sig_util_1.recoverPersonalSignature)({
-                        data: "0x" + parseInt(existingNonce, 16),
-                        signature: sig,
-                    });
-                    if (!(recoveredAddress === address)) return [3, 4];
-                    return [4, userDocRef.update({
-                            nonce: generateRandomNonce(),
-                        })];
-                case 2:
-                    _b.sent();
-                    return [4, admin
-                            .auth()
-                            .createCustomToken(address)];
-                case 3:
-                    firebaseToken = _b.sent();
-                    return [2, response
-                            .status(200)
-                            .json({ token: firebaseToken })];
-                case 4: return [2, response.sendStatus(401)];
-                case 5: return [3, 7];
-                case 6:
-                    console.log('User doc does not exist');
-                    return [2, response.sendStatus(500)];
-                case 7: return [3, 9];
-                case 8:
-                    err_2 = _b.sent();
-                    console.log(err_2);
-                    return [2, response.sendStatus(500)];
-                case 9: return [2];
-            }
-        });
-    }); });
-});
+                        .doc(data.address)
+                        .get()];
+            case 1:
+                userDoc = _b.sent();
+                if (!userDoc.exists) return [3, 2];
+                existingNonce = (_a = userDoc.data()) === null || _a === void 0 ? void 0 : _a.nonce;
+                return [2, { nonce: existingNonce }];
+            case 2:
+                generatedNonce = generateRandomNonce();
+                return [4, admin.auth().createUser({
+                        uid: data.address,
+                    })];
+            case 3:
+                createdUser = _b.sent();
+                return [4, admin
+                        .firestore()
+                        .collection('users')
+                        .doc(createdUser.uid)
+                        .set({
+                        nonce: generatedNonce,
+                    })];
+            case 4:
+                _b.sent();
+                return [2, { nonce: generatedNonce }];
+            case 5: return [3, 7];
+            case 6:
+                err_1 = _b.sent();
+                console.log(err_1);
+                throw new functions.https.HttpsError('internal', err_1.message);
+            case 7: return [2];
+        }
+    });
+}); });
+exports.verifySignedMessage = functions.https.onCall(function (data, context) { return __awaiter(void 0, void 0, void 0, function () {
+    var address, sig, userDocRef, userDoc, existingNonce, recoveredAddress, firebaseToken, err_2;
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 8, , 9]);
+                address = data.address;
+                sig = data.signature;
+                userDocRef = admin
+                    .firestore()
+                    .collection('users')
+                    .doc(address);
+                return [4, userDocRef.get()];
+            case 1:
+                userDoc = _b.sent();
+                if (!userDoc.exists) return [3, 6];
+                existingNonce = (_a = userDoc.data()) === null || _a === void 0 ? void 0 : _a.nonce;
+                recoveredAddress = (0, eth_sig_util_1.recoverPersonalSignature)({
+                    data: "0x" + parseInt(existingNonce, 16),
+                    signature: sig,
+                });
+                if (!(recoveredAddress === address)) return [3, 4];
+                return [4, userDocRef.update({
+                        nonce: generateRandomNonce(),
+                    })];
+            case 2:
+                _b.sent();
+                return [4, admin
+                        .auth()
+                        .createCustomToken(address)];
+            case 3:
+                firebaseToken = _b.sent();
+                return [2, { token: firebaseToken }];
+            case 4: throw new functions.https.HttpsError('invalid-argument', "The signature couldn't be verified");
+            case 5: return [3, 7];
+            case 6: throw new functions.https.HttpsError('invalid-argument', 'User doc does not exist');
+            case 7: return [3, 9];
+            case 8:
+                err_2 = _b.sent();
+                console.log(err_2);
+                throw new functions.https.HttpsError('internal', err_2);
+            case 9: return [2];
+        }
+    });
+}); });

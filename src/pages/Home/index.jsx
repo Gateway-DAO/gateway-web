@@ -8,9 +8,12 @@ import * as Styled from './style'
 
 import space from '../../utils/canvas';
 
+import { useLogin } from '../../hooks/useLogin';
+
 const Home = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => space(window.innerHeight, window.innerWidth), [window.innerHeight, window.innerWidth]);
+    const login = useLogin();
     
     return (
         <Styled.HomeContainer>
@@ -28,6 +31,7 @@ const Home = props => {
             <Styled.CTABox>
                 <Styled.MediumText>Join us to build the<br />future of communities</Styled.MediumText>
                 <Styled.CTAButton href="https://forms.gle/w6WqEuqznbaK8QeT9" target="_blank"><Styled.CTAButtonText>Join Today</Styled.CTAButtonText></Styled.CTAButton>
+                <Styled.CTAButton onClick={() => alert("Logged")}><Styled.CTAButtonText>Login</Styled.CTAButtonText></Styled.CTAButton>
             </Styled.CTABox>
             <Footer />
             

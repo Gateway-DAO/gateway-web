@@ -91,3 +91,254 @@ Dev App Server is now running.
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
 [debug] [2021-11-10T19:51:39.293Z] [worker-~diagnostic~-306ee71f-88c7-45d3-9e54-b356bdab3b32]: IDLE {"metadata":{"emulator":{"name":"functions"},"message":"[worker-~diagnostic~-306ee71f-88c7-45d3-9e54-b356bdab3b32]: IDLE"}}
+[debug] [2021-11-11T01:06:34.217Z] ----------------------------------------------------------------------
+[debug] [2021-11-11T01:06:34.219Z] Command:       /home/nunom/.nvm/versions/node/v14.17.5/bin/node /home/nunom/.yarn/bin/firebase emulators:start --import ./functions/database
+[debug] [2021-11-11T01:06:34.220Z] CLI Version:   9.21.0
+[debug] [2021-11-11T01:06:34.220Z] Platform:      linux
+[debug] [2021-11-11T01:06:34.220Z] Node Version:  v14.17.5
+[debug] [2021-11-11T01:06:34.220Z] Time:          Thu Nov 11 2021 01:06:34 GMT+0000 (Western European Standard Time)
+[debug] [2021-11-11T01:06:34.221Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-11T01:06:34.278Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-11T01:06:34.279Z] > authorizing via signed-in user (nunoormaker21@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions, firestore, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, hosting, storage"}}
+[debug] [2021-11-11T01:06:34.290Z] [hub] writing locator at /tmp/hub-gateway-dao.json
+[info] i  firestore: Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database {"metadata":{"emulator":{"name":"firestore"},"message":"Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: database, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mdatabase, pubsub\u001b[22m"}}
+[info] ✔  functions: Using node@14 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@14 from host."}}
+[debug] [2021-11-11T01:06:34.331Z] defaultcredentials: writing to file /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json
+[debug] [2021-11-11T01:06:34.343Z] Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json"}}
+[debug] [2021-11-11T01:06:34.346Z] > refreshing access token with scopes: []
+[debug] [2021-11-11T01:06:34.347Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-11-11T01:06:34.490Z] <<< HTTP RESPONSE 200 {"pragma":"no-cache","cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Thu, 11 Nov 2021 01:06:34 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-11-11T01:06:34.516Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig [none]
+[debug] [2021-11-11T01:06:34.844Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig 200
+[debug] [2021-11-11T01:06:34.844Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig {"projectId":"gateway-dao","storageBucket":"gateway-dao.appspot.com","locationId":"us-central"}
+[info] i  firestore: Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata"}}
+[debug] [2021-11-11T01:06:34.862Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2021-11-11T01:06:34.862Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-11-11T01:06:34.862Z] Starting Firestore Emulator with command {"binary":"java","args":["-Djava.net.preferIPv4Stack=true","-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","127.0.0.1","--port",8080,"--seed_from_export","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata","--rules","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules","--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Djava.net.preferIPv4Stack=true\",\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--seed_from_export\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata\",\"--rules\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules\",\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2021-11-11T01:06:35.765Z] Nov 11, 2021 1:06:35 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:29619
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 11, 2021 1:06:35 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:29619\n"}}
+[debug] [2021-11-11T01:06:35.790Z] API endpoint: http://127.0.0.1 {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://127.0.0.1"}}
+[debug] [2021-11-11T01:06:35.790Z] :8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":":8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nDev App Server is now running.\n\n"}}
+[debug] [2021-11-11T01:06:38.454Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2021-11-11T01:06:38.659Z] Temp file directory for storage emulator: /tmp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /tmp/firebase/storage/blobs"}}
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2021-11-11T01:06:38.666Z] *** shutting down gRPC server since JVM is shutting down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down\n"}}
+[debug] [2021-11-11T01:06:38.676Z] *** server shut down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down\n"}}
+[info] i  auth: Stopping Authentication Emulator {"metadata":{"emulator":{"name":"auth"},"message":"Stopping Authentication Emulator"}}
+[info] i  storage: Stopping Storage Emulator {"metadata":{"emulator":{"name":"storage"},"message":"Stopping Storage Emulator"}}
+[info] i  hub: Stopping emulator hub {"metadata":{"emulator":{"name":"hub"},"message":"Stopping emulator hub"}}
+[debug] [2021-11-11T01:06:39.031Z] Error: ENOENT: no such file or directory, open '/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/storage.rules'
+    at Object.openSync (fs.js:498:3)
+    at Object.readFileSync (fs.js:394:35)
+    at StorageEmulator.updateRulesSource (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:66:33)
+    at StorageEmulator.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:38:18)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Function.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/registry.js:16:9)
+    at async startEmulator (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:90:5)
+    at async Object.startAll (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:401:9)
+    at async Command.actionFn (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/commands/emulators-start.js:26:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2021-11-11T01:08:01.676Z] ----------------------------------------------------------------------
+[debug] [2021-11-11T01:08:01.678Z] Command:       /home/nunom/.nvm/versions/node/v14.17.5/bin/node /home/nunom/.yarn/bin/firebase emulators:start --import ./functions/database
+[debug] [2021-11-11T01:08:01.678Z] CLI Version:   9.21.0
+[debug] [2021-11-11T01:08:01.678Z] Platform:      linux
+[debug] [2021-11-11T01:08:01.679Z] Node Version:  v14.17.5
+[debug] [2021-11-11T01:08:01.680Z] Time:          Thu Nov 11 2021 01:08:01 GMT+0000 (Western European Standard Time)
+[debug] [2021-11-11T01:08:01.680Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-11T01:08:01.736Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-11T01:08:01.736Z] > authorizing via signed-in user (nunoormaker21@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions, firestore, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, hosting, storage"}}
+[debug] [2021-11-11T01:08:01.748Z] [hub] writing locator at /tmp/hub-gateway-dao.json
+[info] i  firestore: Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database {"metadata":{"emulator":{"name":"firestore"},"message":"Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: database, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mdatabase, pubsub\u001b[22m"}}
+[info] ✔  functions: Using node@14 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@14 from host."}}
+[debug] [2021-11-11T01:08:01.790Z] defaultcredentials: writing to file /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json
+[debug] [2021-11-11T01:08:01.802Z] Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json"}}
+[debug] [2021-11-11T01:08:01.806Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig [none]
+[debug] [2021-11-11T01:08:02.138Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig 200
+[debug] [2021-11-11T01:08:02.138Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig {"projectId":"gateway-dao","storageBucket":"gateway-dao.appspot.com","locationId":"us-central"}
+[info] i  firestore: Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata"}}
+[debug] [2021-11-11T01:08:02.159Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2021-11-11T01:08:02.160Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-11-11T01:08:02.160Z] Starting Firestore Emulator with command {"binary":"java","args":["-Djava.net.preferIPv4Stack=true","-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","127.0.0.1","--port",8080,"--seed_from_export","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata","--rules","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules","--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Djava.net.preferIPv4Stack=true\",\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--seed_from_export\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata\",\"--rules\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules\",\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2021-11-11T01:08:03.131Z] Nov 11, 2021 1:08:03 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:29900
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 11, 2021 1:08:03 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:29900\n"}}
+[debug] [2021-11-11T01:08:03.158Z] API endpoint: http://127.0.0.1 {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://127.0.0.1"}}
+[debug] [2021-11-11T01:08:03.158Z] :8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":":8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nDev App Server is now running.\n\n"}}
+[debug] [2021-11-11T01:08:05.804Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2021-11-11T01:08:06.022Z] Temp file directory for storage emulator: /tmp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /tmp/firebase/storage/blobs"}}
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2021-11-11T01:08:06.029Z] *** shutting down gRPC server since JVM is shutting down {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down"}}
+[debug] [2021-11-11T01:08:06.030Z] 
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n"}}
+[debug] [2021-11-11T01:08:06.041Z] *** server shut down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down\n"}}
+[info] i  auth: Stopping Authentication Emulator {"metadata":{"emulator":{"name":"auth"},"message":"Stopping Authentication Emulator"}}
+[info] i  storage: Stopping Storage Emulator {"metadata":{"emulator":{"name":"storage"},"message":"Stopping Storage Emulator"}}
+[info] i  hub: Stopping emulator hub {"metadata":{"emulator":{"name":"hub"},"message":"Stopping emulator hub"}}
+[debug] [2021-11-11T01:08:06.396Z] Error: ENOENT: no such file or directory, open '/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/storage.rules'
+    at Object.openSync (fs.js:498:3)
+    at Object.readFileSync (fs.js:394:35)
+    at StorageEmulator.updateRulesSource (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:66:33)
+    at StorageEmulator.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:38:18)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Function.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/registry.js:16:9)
+    at async startEmulator (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:90:5)
+    at async Object.startAll (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:401:9)
+    at async Command.actionFn (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/commands/emulators-start.js:26:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2021-11-11T01:10:16.644Z] ----------------------------------------------------------------------
+[debug] [2021-11-11T01:10:16.646Z] Command:       /home/nunom/.nvm/versions/node/v14.17.5/bin/node /home/nunom/.yarn/bin/firebase emulators:start --import ./functions/database
+[debug] [2021-11-11T01:10:16.646Z] CLI Version:   9.21.0
+[debug] [2021-11-11T01:10:16.646Z] Platform:      linux
+[debug] [2021-11-11T01:10:16.647Z] Node Version:  v14.17.5
+[debug] [2021-11-11T01:10:16.647Z] Time:          Thu Nov 11 2021 01:10:16 GMT+0000 (Western European Standard Time)
+[debug] [2021-11-11T01:10:16.647Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-11T01:10:16.731Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-11T01:10:16.732Z] > authorizing via signed-in user (nunoormaker21@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions, firestore, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, hosting, storage"}}
+[debug] [2021-11-11T01:10:16.749Z] [hub] writing locator at /tmp/hub-gateway-dao.json
+[info] i  firestore: Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database {"metadata":{"emulator":{"name":"firestore"},"message":"Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: database, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mdatabase, pubsub\u001b[22m"}}
+[info] ✔  functions: Using node@14 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@14 from host."}}
+[debug] [2021-11-11T01:10:16.816Z] defaultcredentials: writing to file /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json
+[debug] [2021-11-11T01:10:16.828Z] Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json"}}
+[debug] [2021-11-11T01:10:16.833Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig [none]
+[debug] [2021-11-11T01:10:17.182Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig 200
+[debug] [2021-11-11T01:10:17.183Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig {"projectId":"gateway-dao","storageBucket":"gateway-dao.appspot.com","locationId":"us-central"}
+[info] i  firestore: Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata"}}
+[debug] [2021-11-11T01:10:17.196Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2021-11-11T01:10:17.197Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-11-11T01:10:17.197Z] Starting Firestore Emulator with command {"binary":"java","args":["-Djava.net.preferIPv4Stack=true","-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","127.0.0.1","--port",8080,"--seed_from_export","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata","--rules","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules","--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Djava.net.preferIPv4Stack=true\",\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--seed_from_export\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata\",\"--rules\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules\",\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2021-11-11T01:10:18.156Z] Nov 11, 2021 1:10:18 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:1450
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 11, 2021 1:10:18 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:1450\n"}}
+[debug] [2021-11-11T01:10:18.182Z] API endpoint: http://127.0.0.1:8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+ {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://127.0.0.1:8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n"}}
+[debug] [2021-11-11T01:10:18.182Z] 
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nDev App Server is now running.\n\n"}}
+[debug] [2021-11-11T01:10:20.833Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2021-11-11T01:10:21.047Z] Temp file directory for storage emulator: /tmp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /tmp/firebase/storage/blobs"}}
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2021-11-11T01:10:21.053Z] *** shutting down gRPC server since JVM is shutting down {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down"}}
+[debug] [2021-11-11T01:10:21.053Z] 
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n"}}
+[debug] [2021-11-11T01:10:21.063Z] *** server shut down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down\n"}}
+[info] i  auth: Stopping Authentication Emulator {"metadata":{"emulator":{"name":"auth"},"message":"Stopping Authentication Emulator"}}
+[info] i  storage: Stopping Storage Emulator {"metadata":{"emulator":{"name":"storage"},"message":"Stopping Storage Emulator"}}
+[info] i  hub: Stopping emulator hub {"metadata":{"emulator":{"name":"hub"},"message":"Stopping emulator hub"}}
+[debug] [2021-11-11T01:10:21.417Z] Error: ENOENT: no such file or directory, open '/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/storage.rules'
+    at Object.openSync (fs.js:498:3)
+    at Object.readFileSync (fs.js:394:35)
+    at StorageEmulator.updateRulesSource (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:66:33)
+    at StorageEmulator.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:38:18)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Function.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/registry.js:16:9)
+    at async startEmulator (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:90:5)
+    at async Object.startAll (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:401:9)
+    at async Command.actionFn (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/commands/emulators-start.js:26:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2021-11-11T01:12:54.062Z] ----------------------------------------------------------------------
+[debug] [2021-11-11T01:12:54.064Z] Command:       /home/nunom/.nvm/versions/node/v14.17.5/bin/node /home/nunom/.yarn/bin/firebase emulators:start --import ./functions/database
+[debug] [2021-11-11T01:12:54.064Z] CLI Version:   9.21.0
+[debug] [2021-11-11T01:12:54.064Z] Platform:      linux
+[debug] [2021-11-11T01:12:54.064Z] Node Version:  v14.17.5
+[debug] [2021-11-11T01:12:54.065Z] Time:          Thu Nov 11 2021 01:12:54 GMT+0000 (Western European Standard Time)
+[debug] [2021-11-11T01:12:54.065Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-11T01:12:54.120Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-11T01:12:54.120Z] > authorizing via signed-in user (nunoormaker21@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions, firestore, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, hosting, storage"}}
+[debug] [2021-11-11T01:12:54.132Z] [hub] writing locator at /tmp/hub-gateway-dao.json
+[info] i  firestore: Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database {"metadata":{"emulator":{"name":"firestore"},"message":"Detected non-emulator Firestore export at /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: database, pubsub {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mdatabase, pubsub\u001b[22m"}}
+[info] ✔  functions: Using node@14 from host. {"metadata":{"emulator":{"name":"functions"},"message":"Using node@14 from host."}}
+[debug] [2021-11-11T01:12:54.177Z] defaultcredentials: writing to file /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json
+[debug] [2021-11-11T01:12:54.189Z] Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/nunom/.config/firebase/nunoormaker21_gmail_com_application_default_credentials.json"}}
+[debug] [2021-11-11T01:12:54.193Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig [none]
+[debug] [2021-11-11T01:12:54.559Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig 200
+[debug] [2021-11-11T01:12:54.560Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/gateway-dao/adminSdkConfig {"projectId":"gateway-dao","storageBucket":"gateway-dao.appspot.com","locationId":"us-central"}
+[info] i  firestore: Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata"}}
+[debug] [2021-11-11T01:12:54.580Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2021-11-11T01:12:54.580Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-11-11T01:12:54.580Z] Starting Firestore Emulator with command {"binary":"java","args":["-Djava.net.preferIPv4Stack=true","-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","127.0.0.1","--port",8080,"--seed_from_export","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata","--rules","/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules","--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Djava.net.preferIPv4Stack=true\",\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/home/nunom/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--seed_from_export\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/functions/database/database.overall_export_metadata\",\"--rules\",\"/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/firestore.rules\",\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2021-11-11T01:12:55.570Z] Nov 11, 2021 1:12:55 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:1498
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 11, 2021 1:12:55 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:1498\n"}}
+[debug] [2021-11-11T01:12:55.606Z] API endpoint: http://127.0.0.1:8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run: {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://127.0.0.1:8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:"}}
+[debug] [2021-11-11T01:12:55.606Z] 
+
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nDev App Server is now running.\n\n"}}
+[debug] [2021-11-11T01:12:58.415Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2021-11-11T01:12:58.637Z] Temp file directory for storage emulator: /tmp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /tmp/firebase/storage/blobs"}}
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2021-11-11T01:12:58.644Z] *** shutting down gRPC server since JVM is shutting down {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down"}}
+[debug] [2021-11-11T01:12:58.645Z] 
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n"}}
+[debug] [2021-11-11T01:12:58.655Z] *** server shut down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down\n"}}
+[info] i  auth: Stopping Authentication Emulator {"metadata":{"emulator":{"name":"auth"},"message":"Stopping Authentication Emulator"}}
+[info] i  storage: Stopping Storage Emulator {"metadata":{"emulator":{"name":"storage"},"message":"Stopping Storage Emulator"}}
+[info] i  hub: Stopping emulator hub {"metadata":{"emulator":{"name":"hub"},"message":"Stopping emulator hub"}}
+[debug] [2021-11-11T01:12:59.009Z] Error: ENOENT: no such file or directory, open '/mnt/c/Users/nuno-/Desktop/Programming/gateway-web/storage.rules'
+    at Object.openSync (fs.js:498:3)
+    at Object.readFileSync (fs.js:394:35)
+    at StorageEmulator.updateRulesSource (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:66:33)
+    at StorageEmulator.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/storage/index.js:38:18)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+    at async Function.start (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/registry.js:16:9)
+    at async startEmulator (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:90:5)
+    at async Object.startAll (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/emulator/controller.js:401:9)
+    at async Command.actionFn (/home/nunom/.config/yarn/global/node_modules/firebase-tools/lib/commands/emulators-start.js:26:9)
+[error] 
+[error] Error: An unexpected error has occurred.
