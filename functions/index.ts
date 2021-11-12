@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import * as corsLib from 'cors'
-import { recoverPersonalSignature } from '@metamask/eth-sig-util'
+import { ethers } from 'ethers'
 import { initializeApp } from 'firebase-admin'
 
 // The Firebase Admin SDK to access Firestore.
@@ -9,6 +9,14 @@ const admin = initializeApp()
 const cors = corsLib({
     origin: true,
 })
+
+const toHex = (stringToConvert) => {
+    return stringToConvert
+        .toString()
+        .split('')
+        .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
+        .join('')
+}
 
 /** Utility functions **/
 const generateRandomNonce = () => Math.round(Math.random() * 100000000)
@@ -183,11 +191,16 @@ export const verifySignedMessage = functions.https.onCall(
             if (userDoc.exists) {
                 const existingNonce = userDoc.data()?.nonce
 
+                const hash = await ethers.utils.keccak256(address)
+
                 // Recover the address of the account used to create the given Ethereum signature.
-                const recoveredAddress = recoverPersonalSignature({
-                    data: `0x${parseInt(existingNonce, 16)}`,
-                    signature: sig,
-                })
+                let pubKey = ethers.utils.recoverPublicKey(
+                    ethers.utils.arrayify(
+                        ethers.utils.hashMessage(ethers.utils.arrayify(hash))
+                    ),
+                    sig
+                )
+                let recoveredAddress = ethers.utils.computeAddress(pubKey)
 
                 // See if that matches the address the user is claiming the signature is from
                 if (recoveredAddress === address) {

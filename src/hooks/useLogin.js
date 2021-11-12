@@ -1,15 +1,54 @@
 import { useActiveWeb3 } from "./web3"
+import { ethers } from "ethers"
+import { useState } from "react"
+
+// Firebase
+import { signInWithCustomToken } from "firebase/auth";
 import { getFunctions, httpsCallable } from "firebase/functions"
-import { functions } from "../api/firebase";
+import { collection, doc, getDoc, query } from "firebase/firestore";
+import { auth, functions, db } from "../api/firebase"
 
 const getNonceToSign = httpsCallable(functions, "getNonceToSign");
 const verifySignedMessage = httpsCallable(functions, "verifySignedMessage");
 
-export const useLogin = async () => {
+export const useLogin = () => {
+    /* State */
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [userInfo, setUserInfo] = useState({});
+
     const { account, library } = useActiveWeb3();
-    const nonce = await getNonceToSign({ address: account });
-    console.log({
-        library,
-        nonce
-    })
+    
+    const signIn = async () => {
+        try {
+            const { data: { nonce }} = await getNonceToSign({ address: account });
+            const signer = library.getSigner();
+
+            const hash = await ethers.utils.keccak256(account)
+            const sig = await signer.signMessage(ethers.utils.arrayify(hash))
+
+            const { data: { token } } = await verifySignedMessage({ address: account, signature: sig });
+
+            if (token) {
+                setLoggedIn(true);
+                const { user } = await signInWithCustomToken(auth, token);
+
+                // Get other user info from db
+                const userDoc = doc(db, "users", user.uid);
+                const userDB = (await getDoc(userDoc)).data();
+                
+                setUserInfo({
+                    ...user
+                });
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+
+    return {
+        signIn,
+        loggedIn,
+        userInfo
+    }
 }
