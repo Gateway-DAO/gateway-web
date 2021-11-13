@@ -19,14 +19,23 @@ const Card = (props) => {
     }
 
   return (
-    <Styled.CardBox onClick={navigate}>
-      <Styled.CardBanner src={props.bannerURL}>
+    <Styled.CardBox >
+      <Styled.CardBanner src={props.bannerURL} onClick={navigate}>
         <Styled.CardLogo src={props.logoURL} />
       </Styled.CardBanner>
-      <Styled.CardBody>
+      <Styled.CardBody onClick={navigate}>
         <Styled.CardTitle>{props.title}</Styled.CardTitle>
         <Styled.CardDesc>{props.description.substring(0, 300) + (props.description.length > 300 ? "..." : "")}</Styled.CardDesc>
       </Styled.CardBody>
+      <Styled.CategoryList>
+        {props.categories.map((e) => (
+            <Styled.Category>
+                <Styled.CategoryLink to={`/search/${e}`}>
+                    {e}
+                </Styled.CategoryLink>
+            </Styled.Category>
+        ))}
+      </Styled.CategoryList>
       {/*
         <Styled.CardInfoBox>
           {<CardInfo title="Ranking" value={props.ranking ? props.ranking : '-'} />}
