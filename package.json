@@ -34,11 +34,11 @@
     "yarn": "^1.22.15"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "deploy": "yarn build && firebase deploy",
-    "deploy-dev": "yarn build && firebase deploy --only hosting:dev",
+    "start": "cross-env CI= react-scripts start",
+    "build": "cross-env CI= react-scripts build",
+    "test": "cross-env CI= react-scripts test",
+    "deploy": "cross-env CI= yarn build && firebase deploy",
+    "deploy-dev": "cross-env CI= yarn build && firebase deploy --only hosting:dev",
     "dev": "cross-env REACT_APP_NODE_ENV=dev yarn start",
     "firebase-dev": "cross-env REACT_APP_NODE_ENV=dev firebase emulators:start --import ./functions/database",
     "eject": "react-scripts eject"
