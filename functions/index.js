@@ -40,8 +40,8 @@ exports.verifySignedMessage = exports.getNonceToSign = void 0;
 var functions = require("firebase-functions");
 var corsLib = require("cors");
 var ethers_1 = require("ethers");
-var firebase_admin_1 = require("firebase-admin");
-var admin = (0, firebase_admin_1.initializeApp)();
+var admin = require("firebase-admin");
+var app = admin.initializeApp();
 var cors = corsLib({
     origin: true,
 });
@@ -60,7 +60,7 @@ exports.getNonceToSign = functions.https.onCall(function (data, context) { retur
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 6, , 7]);
-                return [4, admin
+                return [4, app
                         .firestore()
                         .collection('users')
                         .doc(data.address)
@@ -72,12 +72,12 @@ exports.getNonceToSign = functions.https.onCall(function (data, context) { retur
                 return [2, { nonce: existingNonce }];
             case 2:
                 generatedNonce = generateRandomNonce();
-                return [4, admin.auth().createUser({
+                return [4, app.auth().createUser({
                         uid: data.address,
                     })];
             case 3:
                 createdUser = _b.sent();
-                return [4, admin
+                return [4, app
                         .firestore()
                         .collection('users')
                         .doc(createdUser.uid)
@@ -105,7 +105,7 @@ exports.verifySignedMessage = functions.https.onCall(function (data, context) { 
                 _b.trys.push([0, 9, , 10]);
                 address = data.address;
                 sig = data.signature;
-                userDocRef = admin
+                userDocRef = app
                     .firestore()
                     .collection('users')
                     .doc(address);
@@ -125,7 +125,7 @@ exports.verifySignedMessage = functions.https.onCall(function (data, context) { 
                     })];
             case 3:
                 _b.sent();
-                return [4, admin
+                return [4, app
                         .auth()
                         .createCustomToken(address)];
             case 4:

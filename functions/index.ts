@@ -1,10 +1,10 @@
 import * as functions from 'firebase-functions'
 import * as corsLib from 'cors'
 import { ethers } from 'ethers'
-import { initializeApp } from 'firebase-admin'
+import * as admin from 'firebase-admin'
 
 // The Firebase Admin SDK to access Firestore.
-const admin = initializeApp()
+const app = admin.initializeApp()
 
 const cors = corsLib({
     origin: true,
@@ -74,7 +74,7 @@ export const getNonceToSign = functions.https.onRequest((request, response) =>
 export const getNonceToSign = functions.https.onCall(async (data, context) => {
     try {
         // Get the user document for that address
-        const userDoc = await admin
+        const userDoc = await app
             .firestore()
             .collection('users')
             .doc(data.address)
@@ -89,12 +89,12 @@ export const getNonceToSign = functions.https.onCall(async (data, context) => {
             const generatedNonce = generateRandomNonce()
 
             // Create an Auth user
-            const createdUser = await admin.auth().createUser({
+            const createdUser = await app.auth().createUser({
                 uid: data.address,
             })
 
             // Associate the nonce with that user
-            await admin
+            await app
                 .firestore()
                 .collection('users')
                 .doc(createdUser.uid)
@@ -181,7 +181,7 @@ export const verifySignedMessage = functions.https.onCall(
             const sig = data.signature
 
             // Get the nonce for this address
-            const userDocRef = admin
+            const userDocRef = app
                 .firestore()
                 .collection('users')
                 .doc(address)
@@ -210,7 +210,7 @@ export const verifySignedMessage = functions.https.onCall(
                     })
 
                     // Create a custom token for the specified address
-                    const firebaseToken = await admin
+                    const firebaseToken = await app
                         .auth()
                         .createCustomToken(address)
 

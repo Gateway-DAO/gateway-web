@@ -10,7 +10,7 @@
     "build": "tsc"
   },
   "engines": {
-    "node": "16.8.0"
+    "node": "16"
   },
   "main": "index.js",
   "dependencies": {
