@@ -1,6 +1,6 @@
-import { useActiveWeb3 } from "./web3"
+import React, { createContext, useState } from "react"
+import { useActiveWeb3 } from "../hooks/web3"
 import { ethers } from "ethers"
-import { useState } from "react"
 
 // Firebase
 import { signInWithCustomToken } from "firebase/auth";
@@ -11,7 +11,10 @@ import { auth, functions, db } from "../api/firebase"
 const getNonceToSign = httpsCallable(functions, "getNonceToSign");
 const verifySignedMessage = httpsCallable(functions, "verifySignedMessage");
 
-export const useLogin = () => {
+export const userContext = createContext({});
+const { Provider } = userContext
+
+export const UserProvider = ({ children }) => {
     /* State */
     const [loggedIn, setLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({});
@@ -46,9 +49,5 @@ export const useLogin = () => {
         }
     }
 
-    return {
-        signIn,
-        loggedIn,
-        userInfo
-    }
+    return <Provider value={{ signIn, loggedIn, userInfo }}>{children}</Provider>;
 }
