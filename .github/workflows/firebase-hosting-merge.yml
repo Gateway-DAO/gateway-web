@@ -23,11 +23,11 @@ jobs:
           yarn build
           
       - name: Deploy to dev site
-        if: github.ref == 'refs/heads/staging'
+        if: github.ref == 'refs/heads/dev'
         run: firebase deploy --only hosting:dev --non-interactive --token ${{ secrets.FIREBASE_TOKEN }} -m "${{ github.event.head_commit.message }}"
         
       - name: Deploy to production site
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: firebase deploy --only hosting:main --non-interactive --token ${{ secrets.FIREBASE_TOKEN }} -m "${{ github.event.head_commit.message }}"
 
       - name: Archive build Artifact
