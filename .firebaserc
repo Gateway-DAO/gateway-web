@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "gateway-dao"
+  },
+  "targets": {
+    "gateway-dao": {
+      "hosting": {
+        "main": [
+          "gateway-dao"
+        ],
+        "dev": [
+          "gateway-dao-dev"
+        ]
+      }
+    }
   }
 }
