@@ -56,17 +56,18 @@ export const CardTitle = styled.h1`
   line-height: 26px;
   letter-spacing: 0em;
   text-align: left;
-
   color: #170627;
 `;
 
 
 export const CategoryList = styled.ul`
-  margin-bottom: 15px;
+  margin-top: 25px;
+  // margin-bottom: 15px;
   margin-left: 15px;
   display:flex;
   align-items:center;
   @media only screen and (max-width: 380px) {
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items:start;
