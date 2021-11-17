@@ -9,6 +9,7 @@ import {
 import Home from './Home'
 import DAO from './DAO'
 import Search from './Search'
+import ProfilePage from './ProfilePage';
 
 const App = props => {
     return (
@@ -22,6 +23,9 @@ const App = props => {
                 </Route>
                 <Route path="/search/:query">
                     <Search />
+                </Route>
+                <Route path="/profile/:searchTerm?">
+                    <ProfilePage />
                 </Route>
             </Switch>
         </Router>

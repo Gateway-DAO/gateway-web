@@ -29,9 +29,8 @@ const Home = props => {
                 <Styled.MediumText>Join us to build the<br />future of communities</Styled.MediumText>
                 <Styled.CTAButton href="https://forms.gle/w6WqEuqznbaK8QeT9" target="_blank"><Styled.CTAButtonText>Join Today</Styled.CTAButtonText></Styled.CTAButton>
             </Styled.CTABox>
+            
             <Footer />
-            
-            
         </Styled.HomeContainer>
     )
 }
