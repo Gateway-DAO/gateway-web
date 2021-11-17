@@ -9,6 +9,7 @@ import {
 import Home from './Home'
 import DAO from './DAO'
 import Search from './Search'
+import About from './About';
 
 const App = props => {
     return (
@@ -16,6 +17,9 @@ const App = props => {
             <Switch>
                 <Route exact path="/">
                     <Home />
+                </Route>
+                <Route path="/aboutus">
+                    <About />
                 </Route>
                 <Route path="/dao/:id">
                     <DAO />

@@ -13,6 +13,7 @@ const Header = props => {
                     <img src={logo} alt="Gateway Logo" />
                     {!xs || <Styled.LogoText>GATEWAY</Styled.LogoText>}
                 </Styled.Logo>
+                {!xs || <a href="/aboutus" target="_self" style={{textDecoration:"none"}} rel="noreferrer"><Styled.Text color="#FF00B8">About Us</Styled.Text></a>}
                 {!xs || <a href="https://readymag.com/u13829565/499896/" target="_blank" style={{textDecoration:"none"}} rel="noreferrer"><Styled.Text color="#FF00B8">What are DAOs?</Styled.Text></a>}
                 {!xs || <a href="https://forms.gle/xxTYYVqok8oT3Ku47" target="_blank" style={{textDecoration:"none"}} rel="noreferrer"><Styled.Text color="#FF00B8">Add Your Community</Styled.Text></a>}
             </Styled.LogoBox>
