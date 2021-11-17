@@ -1,18 +1,16 @@
-import styled from "styled-components"
-import { Link } from "react-router-dom"
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const FooterBox = styled.footer`
-    /*
     display: grid;
     grid-template-columns: 3fr 2fr 2fr 2fr 3fr;
-    */
-   
+
     margin: 0 40px;
     grid-column-gap: 20px;
     padding: 80px 0;
 
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
 
     position: relative;
     bottom: 0;
@@ -26,15 +24,13 @@ export const FooterBox = styled.footer`
     }
 `
 
-export const LogoAndSocialsBox = styled.div`
-
-`
+export const LogoAndSocialsBox = styled.div``
 
 export const LogoBox = styled.div`
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
-    
 `
 
 export const SocialsBox = styled.div`
@@ -57,7 +53,7 @@ export const LogoText = styled.h1`
 
     letter-spacing: 0.4em;
 
-    color: #E5E5E5;
+    color: #e5e5e5;
 
     margin-left: 20px;
 `
@@ -82,7 +78,7 @@ export const CopyBox = styled.div`
 export const LinkColumn = styled.div`
     display: flex;
     flex-direction: column;
-`;
+`
 
 export const ColItem = styled(Link)`
     font-family: Be Vietnam;
@@ -95,7 +91,7 @@ export const ColItem = styled(Link)`
     letter-spacing: 0.05em;
     text-transform: capitalize;
 
-    color: ${props => props.title ? "white" : "rgba(255, 255, 255, 0.5)"};
+    color: ${(props) => (props.title ? 'white' : 'rgba(255, 255, 255, 0.5)')};
 
     text-decoration: none;
 `
@@ -107,9 +103,15 @@ export const CTABox = styled.div`
 `
 
 export const CTAText = styled.h3`
-    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
+    -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
@@ -144,5 +146,5 @@ export const CTABtn = styled.a`
     text-transform: uppercase;
     text-align: center;
 
-    color: #E5E5E5;
+    color: #e5e5e5;
 `
