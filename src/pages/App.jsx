@@ -9,7 +9,8 @@ import {
 import Home from './Home'
 import DAO from './DAO'
 import Search from './Search'
-import ProfilePage from './ProfilePage';
+import ProfilePage from './ProfilePage'
+import SignIn from './SignIn'
 
 const App = props => {
     return (
@@ -26,6 +27,9 @@ const App = props => {
                 </Route>
                 <Route path="/profile/:searchTerm?">
                     <ProfilePage />
+                </Route>
+                <Route path="/signIn">
+                    <SignIn />
                 </Route>
             </Switch>
         </Router>
