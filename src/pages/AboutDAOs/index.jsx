@@ -8,10 +8,12 @@ const AboutDAOS = (props) => {
     return (
         <Styled.PageContainer>
             <Header />
-            <Styled.CTABox>
-                <Styled.HeadingText>What are DAOs?</Styled.HeadingText>
-            </Styled.CTABox>
+   
+                <Styled.BubbleImageContainer>
+                    <Styled.HeadingText>What are DAOs?</Styled.HeadingText>
+                </Styled.BubbleImageContainer>
             <Styled.BoxContainer>
+            
                 <Styled.ContentContainer>
                     <Styled.ParagraphContainer>
                         DAOs or Decentralized Autonomous Organizations are a lot

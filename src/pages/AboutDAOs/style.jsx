@@ -1,25 +1,5 @@
 import styled from 'styled-components'
-import CTA_BG from '../../assets/Landing CTA Background.png'
-
-export const CTABox = styled.section`
-    margin: 25px 150px 150px 150px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background-image: url('${CTA_BG}');
-    background-position: center;
-    background-size: cover;
-    height: 100vh;
-    justify-content: center;
-
-    @media only screen and (max-width: 1550px) {
-        margin: 100px 0 50px 0;
-    }
-
-    @media only screen and (max-width: 768px) {
-        margin: 100px 0 50px 0;
-    }
-`
+import CTA_BG from '../../assets/bubbles.png'
 
 export const PageContainer = styled.main`
     background-color: transparent;
@@ -37,6 +17,15 @@ export const PageContainer = styled.main`
         width: 100%;
     }
 `
+export const BubbleImageContainer = styled.div`
+    display: flex;
+    width: 100vw;
+    height: 95vh;
+    background-image: url('${CTA_BG}');
+    background-position: center;
+    background-size: cover;
+    justify-content: center;
+`
 
 export const HeadingText = styled.h2`
     background: linear-gradient(
@@ -50,16 +39,16 @@ export const HeadingText = styled.h2`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 96px;
+    font-size: 85px;
     line-height: 64px;
     /* or 100% */
-
-    text-align: center;
     letter-spacing: -0.015em;
+    display: flex;
+    align-self: center;
+    padding: 5px;
 
     @media only screen and (max-width: 768px) {
         font-size: 50px;
@@ -68,7 +57,7 @@ export const HeadingText = styled.h2`
     }
 
     @media only screen and (max-width: 460px) {
-        font-size: 40px;
+        font-size: 35px;
         line-height: 44px;
         margin: 0 25px;
     }
