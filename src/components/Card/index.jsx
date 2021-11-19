@@ -19,23 +19,45 @@ const Card = (props) => {
     }
 
   return (
-    <Styled.CardBox onClick={navigate}>
-      <Styled.CardBanner src={props.bannerURL}>
-        <Styled.CardLogo src={props.logoURL} />
-      </Styled.CardBanner>
-      <Styled.CardBody>
-        <Styled.CardTitle>{props.title}</Styled.CardTitle>
-        <Styled.CardDesc>{props.description.substring(0, 300) + (props.description.length > 300 ? "..." : "")}</Styled.CardDesc>
-      </Styled.CardBody>
-      {/*
-        <Styled.CardInfoBox>
-          {<CardInfo title="Ranking" value={props.ranking ? props.ranking : '-'} />}
-          {<CardInfo title="Token" value={(props.token != null) ? props.ranking : '-'} />}
-          {<CardInfo title="Price" value={props.price? `$${Number(props.price).toFixed(2)}` : "-"} />}
-        </Styled.CardInfoBox>
-      */}
-    </Styled.CardBox>
-  );
+      <Styled.CardBox onClick={navigate}>
+          <Styled.CardBanner src={props.bannerURL}>
+              <Styled.CardLogo src={props.logoURL} />
+          </Styled.CardBanner>
+          <Styled.CardBody>
+              <Styled.CardTitle>{props.title}</Styled.CardTitle>
+              <Styled.CardDesc>
+                  {props.description.substring(0, 300) +
+                      (props.description.length > 300 ? '...' : '')}
+              </Styled.CardDesc>
+          </Styled.CardBody>
+          {props.cardFooterInfo && (
+              <Styled.CardInfoBox>
+                  {
+                      <CardInfo
+                          title="Ranking"
+                          value={props.ranking ? props.ranking : '-'}
+                      />
+                  }
+                  {
+                      <CardInfo
+                          title="Token"
+                          value={props.token != null ? props.ranking : '-'}
+                      />
+                  }
+                  {
+                      <CardInfo
+                          title="Price"
+                          value={
+                              props.price
+                                  ? `$${Number(props.price).toFixed(2)}`
+                                  : '-'
+                          }
+                      />
+                  }
+              </Styled.CardInfoBox>
+          )}
+      </Styled.CardBox>
+  )
 };
 
 export default Card;

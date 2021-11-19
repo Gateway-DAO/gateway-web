@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { Link } from "react-router-dom"
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const HeaderDiv = styled.header`
     width: 100vw;
@@ -12,13 +12,13 @@ export const HeaderDiv = styled.header`
     grid-column-gap: 20px;
     background: #170627;
 
-    &:before{
-        content: "";
+    &:before {
+        content: '';
         position: absolute;
         left: 3%;
         bottom: 0;
         height: 1px;
-        width: 94%;  /* or 100px */
+        width: 94%; /* or 100px */
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 `
@@ -62,13 +62,13 @@ export const LogoText = styled.h1`
 
     letter-spacing: 0.4em;
 
-    color: #E5E5E5;
+    color: #e5e5e5;
 
     margin-left: 20px;
 `
 
 export const Text = styled.p`
-    color: ${props => props.color};
+    color: ${(props) => props.color};
     font-family: Poppins, sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -91,4 +91,8 @@ export const Text = styled.p`
         margin-right: 10px;
         display: none;
     }
+`
+
+export const OptionLink = styled(Link)`
+    text-decoration: none;
 `
