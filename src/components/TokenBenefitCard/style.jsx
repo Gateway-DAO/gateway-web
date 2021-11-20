@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Text as BGText } from "../BigCard/style";
+import { Text as BGText } from "../BigCard/DummyStylingForReference/style";
 import { FaTrashAlt } from "react-icons/fa"
 
 export const Container = styled.div`

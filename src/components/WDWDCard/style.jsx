@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { Text as BGText } from "../BigCard/style";
+import { Text as BGText } from "../BigCard/DummyStylingForReference/style";
 
 export const Container = styled.div`
     background: #FFFFFF;

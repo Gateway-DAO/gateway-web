@@ -1,5 +1,5 @@
 import * as Styled from "./style";
-import { Category, CategoryList } from "../BigCard/style";
+import { Category, CategoryList } from "../BigCard/DummyStylingForReference/style";
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { db } from "../../api/firebase";
 
