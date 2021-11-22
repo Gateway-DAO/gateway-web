@@ -1,7 +1,5 @@
-import ProfileCard from '../index'
-
-import { FiGlobe } from 'react-icons/fi'
-import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
+import * as Styled from './style'
+import { Link } from 'react-router-dom'
 import {
     FaDiscord,
     FaTwitter,
@@ -11,43 +9,46 @@ import {
     FaLink,
     FaPencilAlt,
 } from 'react-icons/fa'
-import { TwitterShareButton, TelegramShareButton } from 'react-share'
+import { FiGlobe } from 'react-icons/fi'
 import { BsChatTextFill } from 'react-icons/bs'
-import { useWeb3React } from '@web3-react/core'
-import { shortenAddress } from '../../../utils/web3'
-import React, { useEffect, useState } from 'react'
-import { BigNumber } from '@ethersproject/bignumber'
-import Collapsible from '../../Collapsible'
-import * as Styled from './style'
-import { Link } from 'react-router-dom'
-import useAdmin from '../../../hooks/useAdmin'
-import BountyModal from '../../Modal/BountyModal'
-import TokenBenefitModal from '../../Modal/TokenBenefitModal'
-import HowtoJoinModal from '../../Modal/HowtoJoinModal'
-import FAQModal from '../../Modal/FAQModal'
-import WDWDModal from '../../Modal/WDWDModal'
-import UHModal from '../../Modal/UHModal'
-import AccomplishmentModal from '../../Modal/AccomplishmentModal'
-import MVModal from '../../Modal/MVModal'
-import BountyCard from '../../BountyCard'
-import { useHistory } from 'react-router'
-import HTJCard from '../../HTJCard'
-import TokenBenefitCard from '../../TokenBenefitCard'
-import EditCardModal from '../../Modal/EditCardModal'
-import ShowBountyModal from '../../Modal/ShowBountyModal'
-import FAQCard from '../../FAQCard'
-import WDWDCard from '../../WDWDCard'
+import { useState } from 'react'
+import React from 'react'
 
-const BigCard = (props) => {
-    const web3 = useWeb3React()
-    const [balance, setBalance] = useState(BigNumber.from(0))
+import useAdmin from '../../../../hooks/useAdmin'
+
+// Modals
+
+import BountyModal from '../../../Modal/BountyModal'
+import TokenBenefitModal from '../../../Modal/TokenBenefitModal'
+import HowtoJoinModal from '../../../Modal/HowtoJoinModal'
+import FAQModal from '../../../Modal/FAQModal'
+import WDWDModal from '../../../Modal/WDWDModal'
+import UHModal from '../../../Modal/UHModal'
+import AccomplishmentModal from '../../../Modal/AccomplishmentModal'
+import MVModal from '../../../Modal/MVModal'
+import EditCardModal from '../../../Modal/EditCardModal'
+import ShowBountyModal from '../../../Modal/ShowBountyModal'
+
+//  styling
+
+import Collapsible from '../../../Collapsible'
+
+// card
+import FAQCard from '../../../FAQCard'
+import WDWDCard from '../../../WDWDCard'
+import TokenBenefitCard from '../../../TokenBenefitCard'
+import HTJCard from '../../../HTJCard'
+import BountyCard from '../../../BountyCard'
+
+// column second import
+
+import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
+import { TwitterShareButton, TelegramShareButton } from 'react-share'
+import { shortenAddress } from '../../../../utils/web3'
+
+const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
 
-    // Profile and Feed Section
-
-    const [option, SetOption] = useState(false)
-
-    // Data
     const [bounties, setBounties] = useState(props.bounties || [])
     const [benefits, setBenefits] = useState(props.tokenBenefits || [])
     const [HTJ, setHTJ] = useState(props.howToJoin || '')
@@ -72,23 +73,6 @@ const BigCard = (props) => {
         useState(false)
     const [showMVModal, setShowMVModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
-
-    useEffect(() => {
-        if (props.tokenAddress) {
-            const getBalance = async (tokenAddress) =>
-                web3.active &&
-                web3.library &&
-                setBalance(await web3.library.getBalance(tokenAddress))
-
-            getBalance(props.tokenAddress)
-        }
-    }, [web3.active])
-
-    const history = useHistory()
-
-    const navigate = (e) => {
-        history.goBack()
-    }
 
     const socials = Object.keys(props.socials).map((key) => {
         switch (key) {
@@ -272,48 +256,43 @@ const BigCard = (props) => {
     )
 
     return (
-        
         <Styled.Container>
             <Modals />
-            <Styled.CardBox>
-                <Styled.CardBanner src={props.backgroundURL} />
-                <Styled.BackHomeButton onClick={navigate}>
-                    <Styled.BackHomeButtonText>
-                        &#8592;
-                    </Styled.BackHomeButtonText>
-                </Styled.BackHomeButton>
-                <Styled.CardContainer>
-                    <Styled.ColumnOne fullWidth={!props.tokenAddress}>
-                        <Styled.DaoProfileContainer>
-                            <Styled.Logo src={props.logoURL} />
-                            <Styled.TitleContainer>
-                                <Styled.Title>{props.name}</Styled.Title>
-                                {isAdmin && (
-                                    <FaPencilAlt onClick={toggleEditModal} />
-                                )}
-                            </Styled.TitleContainer>
-                        </Styled.DaoProfileContainer>
-                        <Styled.ProfileAndFeedContainer>
-                            <Styled.ProfileDiv>
-                                <Styled.Profile>Profile</Styled.Profile>
-                                <Styled.Profile>Feed</Styled.Profile>
-                            </Styled.ProfileDiv>
-                            {web3.active && (
-                                <Styled.TokenHoldings>
-                                    <Styled.Text>
-                                        Your token holdings is{' '}
-                                        <Styled.BalanceText>
-                                            {balance.toNumber()} $
-                                            {props.symbol.toUpperCase()}
-                                        </Styled.BalanceText>
-                                    </Styled.Text>
-                                </Styled.TokenHoldings>
-                            )}
-                        </Styled.ProfileAndFeedContainer>
-                    </Styled.ColumnOne>
-                    <Styled.Description>
+            <Styled.DAOContainer>
+                <Styled.DivideContainer>
+                    <Styled.ColumnOne>
+                        <Styled.Description>
                             {props.description}
                         </Styled.Description>
+                        <Styled.MemberContainer>
+                            <Styled.SubText>Members :</Styled.SubText>
+                            <Styled.PastWeekContainer>
+                                <Styled.PercentageText
+                                    color={
+                                        props.tokenFeed.change7d > 0
+                                            ? '#72B841'
+                                            : '#EE787B'
+                                    }
+                                >
+                                    {props.tokenFeed.change7d > 0 ? (
+                                        <RiArrowUpSFill />
+                                    ) : (
+                                        <RiArrowDownSFill />
+                                    )}
+                                    {props.tokenFeed.change7d.toLocaleString(
+                                        'en-US',
+                                        {
+                                            maximumFractionDigits: 1,
+                                        }
+                                    )}
+                                    %
+                                </Styled.PercentageText>
+                                <Styled.Text color="#A5A5A5">
+                                    Past Week
+                                </Styled.Text>
+                            </Styled.PastWeekContainer>{' '}
+                        </Styled.MemberContainer>
+                        {/* categories like : social Defi */}
                         <Styled.CategoryList>
                             {props.categories.map((e) => (
                                 <Styled.Category>
@@ -323,8 +302,9 @@ const BigCard = (props) => {
                                 </Styled.Category>
                             ))}
                         </Styled.CategoryList>
+                        {/* social media for the DAO */}
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
-                        <div>
+                        <Styled.DivContainer>
                             <Collapsible title="What Do We Do?">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
@@ -458,7 +438,7 @@ const BigCard = (props) => {
                                     ⚡️Snapshot integration coming soon.
                                 </Styled.Description>
                             </Collapsible>
-                        </div>
+                        </Styled.DivContainer>
                     </Styled.ColumnOne>
                     {props.tokenAddress && (
                         <Styled.ColumnTwo>
@@ -635,10 +615,10 @@ const BigCard = (props) => {
                             </Styled.ShareColumn>
                         </Styled.ColumnTwo>
                     )}
-                </Styled.CardContainer>
-            </Styled.CardBox>
+                </Styled.DivideContainer>
+            </Styled.DAOContainer>
         </Styled.Container>
     )
 }
 
-export default BigCard
+export default Profile

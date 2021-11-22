@@ -12,7 +12,7 @@ export const CardContainer = styled.div`
     border-radius: 20px;
     margin: 60px 0;
     background-color: #ffffff;
-    height: 80vh;
+    /* height: 80vh; */
 `
 
 export const CardBanner = styled.div`

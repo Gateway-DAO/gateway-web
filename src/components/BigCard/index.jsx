@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from '@ethersproject/bignumber'
 import { FaPencilAlt } from 'react-icons/fa'
+import Profile from './components/Profiles'
 
 const NewCard = (props) => {
     const web3 = useWeb3React()
@@ -72,6 +73,7 @@ const NewCard = (props) => {
                         </Styled.TokenHoldings>
                     )}
                 </Styled.ProfileAndFeedContainer>
+                <Profile {...props} />
             </Styled.CardContainer>
         </Styled.Container>
     )
