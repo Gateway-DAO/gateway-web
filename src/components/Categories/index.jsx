@@ -164,6 +164,7 @@ const Categories = (props) => {
                             id={card.id}
                             title={card.name}
                             description={card.description}
+                            categories={card.categories}
                             // ranking={card.ranking}
                             // token={card.token}
                             // price={card.price}
