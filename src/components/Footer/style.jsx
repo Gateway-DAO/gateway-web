@@ -9,8 +9,8 @@ export const FooterBox = styled.footer`
     grid-column-gap: 20px;
     padding: 80px 0;
 
-    /* display: flex;
-    justify-content: center; */
+    display: flex;
+    justify-content: center;
 
     position: relative;
     bottom: 0;

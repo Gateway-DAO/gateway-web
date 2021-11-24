@@ -29,7 +29,7 @@ export const Container = styled.div`
     justify-content: space-between;
 `
 
-export const About_Image = styled.div`
+export const AboutImage = styled.div`
     // position: absolute;
     // width: 473px;
     // height: 397px;
@@ -38,7 +38,7 @@ export const About_Image = styled.div`
     margin-right: 10%;
     
 `
-export const Text_Content = styled.div`
+export const TextContent = styled.div`
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
@@ -98,11 +98,11 @@ margin: -50px;
 // border: 1px solid blue;
 `
 
-export const Read_more = styled.a`
+export const ReadMore = styled.a`
     text-decoration:none;
     color: purple;
 `
-export const Mission_Image = styled.div`
+export const MissionImage = styled.div`
     // position: absolute;
     // width: 447.61px;
     // height: 423.38px;
@@ -128,7 +128,7 @@ export const Box = styled.div`
     color: #0075FF;
 `
 
-export const WWD_Frame= styled.div`
+export const WWDFrame= styled.div`
     position: absolute;
     width: 1440px;
     height: 2546px;
@@ -136,22 +136,15 @@ export const WWD_Frame= styled.div`
     top: 0px;
 
 `
-export const WWD_Image = styled.div`
+export const WWDImage = styled.div`
     padding:0;
     margin:0;
     flex:0;
 `
-export const Footer_Container = styled.div`
+export const FooterContainer = styled.div`
     position: absolute;
     width: 1361px;
     // height: 248px;
     left: 39px;
     top: 2232px;
-`
-export const Footer_Box_1 = styled.div`
-    position: absolute;
-    // width: 165px;
-    // height: 42px;
-    left: 494px;
-    // top: 2286px;
 `
