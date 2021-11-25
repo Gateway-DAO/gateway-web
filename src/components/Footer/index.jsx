@@ -36,7 +36,7 @@ const Footer = (props) => {
                     <p>All rights reserved.</p>
                 </Styled.CopyBox>
             </Styled.LogoAndSocialsBox>
-
+            {/*
             <Styled.LinkColumn>
                 <Styled.ColItem title>Learn</Styled.ColItem>
                 <br />
@@ -67,6 +67,7 @@ const Footer = (props) => {
                 </Styled.CTAText>
                 <Styled.CTABtn>Join Today</Styled.CTABtn>
             </Styled.CTABox>
+            */}
         </Styled.FooterBox>
     )
 }
