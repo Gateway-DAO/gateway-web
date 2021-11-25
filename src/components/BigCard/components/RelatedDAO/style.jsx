@@ -79,3 +79,8 @@ export const StyledShowAllButton = styled(Link)`
     line-height: 31px;
     color: #e5e5e5;
 `
+export const NoRelatedDao = styled.div`
+    color: white;
+    font-size: 20px;
+    font-family: Be Vietnam;
+` 
