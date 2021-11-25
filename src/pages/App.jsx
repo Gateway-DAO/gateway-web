@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './Home'
 import DAO from './DAO'
 import Search from './Search'
-import About from './About';
-import AboutDAOS from './AboutDAOs/aboutDAOs'
+import About from './About'
+import AboutDAOS from './AboutDAOs'
 
 const App = (props) => {
     return (
