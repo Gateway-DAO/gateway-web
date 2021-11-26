@@ -1,6 +1,7 @@
 import * as Styled from './style'
 import PostCard from '../../../PostCard'
 import CommentPostCard from '../../../CommentPostCard'
+import FeedLogic from './FeedLogic'
 
 const Feed = () => {
     const Channels = ['General🌐', 'Events🎈', 'NFTs🖼️ ', 'Web3🚀', 'DeFi💰']
@@ -14,6 +15,8 @@ const Feed = () => {
                 ))}
             </Styled.ChannelContainer>
             <Styled.FeedMessageContainer>
+                <FeedLogic />
+
                 <PostCard />
                 <CommentPostCard />
                 <PostCard />
