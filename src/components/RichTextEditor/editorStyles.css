@@ -1,0 +1,33 @@
+
+
+.editor {
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    color: black !important;
+    cursor: text;
+    padding: 16px;
+    border-radius: 2px;
+    margin-bottom: 2em;
+    box-shadow: inset 0px 1px 8px -3px #ABABAB;
+    background: #fefefe;
+  }
+  .ePhapY{
+    color: black !important;
+  }
+  .bnTFkh{
+    color: black !important;
+  }
+  .rdw-editor-toolbar{
+    background: #170627 !important;
+    position: sticky;
+    z-index: 50;
+    top: 0;
+  }
+  
+  .editor :global(.public-DraftEditor-content) {
+    min-height: 140px;
+  }
+  
+  .options {
+    margin-bottom: 20px;
+  }
