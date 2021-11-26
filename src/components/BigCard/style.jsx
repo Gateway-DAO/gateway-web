@@ -1,412 +1,411 @@
-import styled from "styled-components";
-import Collapsible from "react-collapsible";
-import { FiArrowUpRight } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import styled from 'styled-components'
+import Collapsible from 'react-collapsible'
+import { FiArrowUpRight } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 
 export const Container = styled.main`
-  display: grid;
-  grid-template-columns: 2fr 8fr 2fr;
+    display: grid;
+    grid-template-columns: 2fr 8fr 2fr;
 
-  @media only screen and (max-width: 945px) {
+    @media only screen and (max-width: 945px) {
         padding-top: 60px;
-  }
-`;
+    }
+`
 
 export const CardBox = styled.div`
-  background-color: white;
-  border-radius: 20px;
-  margin: 0 40px;
-  margin-top: 60px;
-  padding: 50px;
-  grid-column: 2 / 3;
-  position: relative;
-  display: grid;
-  grid-template-rows: 1fr auto;
-
-  @media only screen and (max-width: 1190px) {
-    padding: 70px;
-  }
-
-  @media only screen and (max-width: 650px) {
-    padding: 35px;
-  }
-
-  @media only screen and (max-width: 435px) {
-    margin: 0 auto;
+    background-color: white;
+    border-radius: 20px;
+    margin: 0 40px;
     margin-top: 60px;
-    padding: 20px;
-  }
+    padding: 50px;
+    grid-column: 2 / 3;
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
 
-`;
+    @media only screen and (max-width: 1190px) {
+        padding: 70px;
+    }
+
+    @media only screen and (max-width: 650px) {
+        padding: 35px;
+    }
+
+    @media only screen and (max-width: 435px) {
+        margin: 0 auto;
+        margin-top: 60px;
+        padding: 20px;
+    }
+`
 
 export const CardBanner = styled.div`
-  position: relative;
-  width: calc(100% + 100px);
-  top: -50px;
-  left: -50px;
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  height: 40vh;
-  background-image: url(${(props) => props.src});
-  background-size: cover;
-  background-position: center;
+    position: relative;
+    width: calc(100% + 100px);
+    top: -50px;
+    left: -50px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    height: 40vh;
+    background-image: url(${(props) => props.src});
+    background-size: cover;
+    background-position: center;
 
-  @media only screen and (max-width: 1190px) {
-    width: calc(100% + 140px);
-    top: -70px;
-    left: -70px;
-  }
+    @media only screen and (max-width: 1190px) {
+        width: calc(100% + 140px);
+        top: -70px;
+        left: -70px;
+    }
 
-  @media only screen and (max-width: 1030px) {
-    height: 20vh;
-  }
-  
-  @media only screen and (max-width: 650px) {
-    width: calc(100% + 70px);
-    top: -35px;
-    left: -35px;
-    height: 20vh;
-  }
+    @media only screen and (max-width: 1030px) {
+        height: 20vh;
+    }
 
-  @media only screen and (max-width: 435px) {
-    width: calc(100% + 40px);
-    top: -20px;
-    left: -20px;
-    height: 15vh;
-  }
+    @media only screen and (max-width: 650px) {
+        width: calc(100% + 70px);
+        top: -35px;
+        left: -35px;
+        height: 20vh;
+    }
 
-  @media only screen and (max-width: 350px) {
-    width: calc(100% + 40px);
-    top: -20px;
-    left: -20px;
-  }
-`;
+    @media only screen and (max-width: 435px) {
+        width: calc(100% + 40px);
+        top: -20px;
+        left: -20px;
+        height: 15vh;
+    }
+
+    @media only screen and (max-width: 350px) {
+        width: calc(100% + 40px);
+        top: -20px;
+        left: -20px;
+    }
+`
 
 export const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-column-gap: 20px;
-  
-  @media only screen and (max-width: 1030px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-column-gap: 20px;
+
+    @media only screen and (max-width: 1030px) {
+        display: flex;
+        flex-direction: column;
+    }
+`
 
 export const Logo = styled.img`
-  border: 1px solid #e5e5e5;
-  border-radius: 100%;
-  margin-bottom: 20px;
-  width: 100px;
-  background-color: white;
-
-  @media only screen and (max-width: 1190px) {
+    border: 1px solid #e5e5e5;
     border-radius: 100%;
-    margin-top: -20px;
-  }
+    margin-bottom: 20px;
+    width: 100px;
+    background-color: white;
 
-  @media only screen and (max-width: 650px) {
-    margin-top: 30px;
-    width: 80px;
-  }
+    @media only screen and (max-width: 1190px) {
+        border-radius: 100%;
+        margin-top: -20px;
+    }
 
+    @media only screen and (max-width: 650px) {
+        margin-top: 30px;
+        width: 80px;
+    }
 
-  @media only screen and (max-width: 435px) {
-    margin-top: 45px;
-    width: 70px;
-  }
+    @media only screen and (max-width: 435px) {
+        margin-top: 45px;
+        width: 70px;
+    }
 
-
-  @media only screen and (max-width: 350px) {
-    margin-top: 45px;
-    margin-left: -10px;
-    width: 60px;
-  }
-`;
+    @media only screen and (max-width: 350px) {
+        margin-top: 45px;
+        margin-left: -10px;
+        width: 60px;
+    }
+`
 
 export const ColumnOne = styled.div`
-  grid-column: ${props => props.fullWidth ? "1 / 9" : "1 / span 5"};
-  margin-right: 30px;
-  position: relative;
-  top: -100px;
+    grid-column: ${(props) => (props.fullWidth ? '1 / 9' : '1 / span 5')};
+    margin-right: 30px;
+    position: relative;
+    top: -100px;
 
-  @media only screen and (max-width: 1190px) {
-    margin-right: 0;
-    margin-left: -35px;
-  }
+    @media only screen and (max-width: 1190px) {
+        margin-right: 0;
+        margin-left: -35px;
+    }
 
-  @media only screen and (max-width: 1030px) {
-    display: flex;
-    flex-direction: column;
-    padding: 0 10px;
-    margin: 0 auto;
-    justify-content: center;
-  }
+    @media only screen and (max-width: 1030px) {
+        display: flex;
+        flex-direction: column;
+        padding: 0 10px;
+        margin: 0 auto;
+        justify-content: center;
+    }
 
-  @media only screen and (max-width: 350px) {
-    display: flex;
-    flex-direction: column;
-    padding: 0 20px;
-    margin: 0 auto;
-    justify-content: center;
-  }
-`;
+    @media only screen and (max-width: 350px) {
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        margin: 0 auto;
+        justify-content: center;
+    }
+`
 
 export const ColumnTwo = styled.div`
-  grid-column: 6 / span 3;
-  border-left: 1px solid rgba(229, 229, 229, 0.5);
-  padding-left: 20px;
-  margin-right: -10px;
-  position: relative;
+    grid-column: 6 / span 3;
+    border-left: 1px solid rgba(229, 229, 229, 0.5);
+    padding-left: 20px;
+    margin-right: -10px;
+    position: relative;
 
-  @media only screen and (max-width: 1190px) {
-    padding-left: 10px;
-    margin-right: -40px;
-  }
+    @media only screen and (max-width: 1190px) {
+        padding-left: 10px;
+        margin-right: -40px;
+    }
 
-  @media only screen and (max-width: 1030px) {
-    border-left: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 0 20px;
-    justify-content: center;
-    margin: 0 -20px;
-  }
-`;
+    @media only screen and (max-width: 1030px) {
+        border-left: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        justify-content: center;
+        margin: 0 -20px;
+    }
+`
 
 export const TokenFeed = styled.div`
-  ${props => props.showBorderBottom ? "border-bottom: 1px solid rgba(229, 229, 229, 0.5);" : ""}
-  padding-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-`;
+    ${(props) =>
+        props.showBorderBottom
+            ? 'border-bottom: 1px solid rgba(229, 229, 229, 0.5);'
+            : ''}
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+`
 
 export const TokenFeedData = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-`;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+`
 
 export const PastWeekContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
+    display: flex;
+    flex-direction: row;
+`
 
 export const PriceContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
+    display: flex;
+    flex-direction: row;
+`
 
 export const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
 
 export const Title = styled.h1`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 26px;
-  display: flex;
-  align-items: center;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
 
-  color: #170627;
+    color: #170627;
 
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 
-  @media only screen and (max-width: 300px) {
-      font-size: 14px;
-  }
-`;
+    @media only screen and (max-width: 300px) {
+        font-size: 14px;
+    }
+`
 
 export const Subtitle = styled.h2`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 26px;
-  align-items: center;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+    align-items: center;
 
-  color: #170627;
+    color: #170627;
 
-  @media only screen and (max-width: 300px) {
-      font-size: 14px;
-  }
-`;
+    @media only screen and (max-width: 300px) {
+        font-size: 14px;
+    }
+`
 
 export const Description = styled.p`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.05em;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
 
-  color: #170627;
+    color: #170627;
 
-  margin-bottom: 15px;
-  
-  @media only screen and (max-width: 300px) {
-    font-size: 10px;
-  }
-`;
+    margin-bottom: 15px;
+
+    @media only screen and (max-width: 300px) {
+        font-size: 10px;
+    }
+`
 
 export const Text = styled.p`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 28px;
-  /* or 233% */
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 28px;
+    /* or 233% */
 
-  letter-spacing: 0.05em;
+    letter-spacing: 0.05em;
 
-  color: ${(props) => props.color || "#170627"};
+    color: ${(props) => props.color || '#170627'};
 
-  @media only screen and (max-width: 1190px) {
-    font-size: 11px;
-  }
+    @media only screen and (max-width: 1190px) {
+        font-size: 11px;
+    }
 
-  @media only screen and (max-width: 300px) {
-    font-size: 10px;
-  }
-`;
+    @media only screen and (max-width: 300px) {
+        font-size: 10px;
+    }
+`
 
 export const StyledCollapsible = styled(Collapsible)`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 26px;
-  align-items: center;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+    align-items: center;
 
-  color: #170627;
+    color: #170627;
 
-  margin: 20px 0;
-
-`;
+    margin: 20px 0;
+`
 
 export const PercentageText = styled(Text)`
-  margin-right: 5px;
-`;
+    margin-right: 5px;
+`
 
 export const TextRight = styled(Text)`
-  text-align: right;
-`;
+    text-align: right;
+`
 
 export const ExplorerLink = (props) => (
-  <a
-    className={props.className}
-    href={props.href}
-    target={props.target || "_blank"}
-  >
-    {props.children}
-    <FiArrowUpRight />
-  </a>
-);
+    <a
+        className={props.className}
+        href={props.href}
+        target={props.target || '_blank'}
+    >
+        {props.children}
+        <FiArrowUpRight />
+    </a>
+)
 
 export const StyledExplorerLink = styled(ExplorerLink)`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 28px;
-  /* or 233% */
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 28px;
+    /* or 233% */
 
-  letter-spacing: 0.05em;
+    letter-spacing: 0.05em;
 
-  color: #170627;
-`;
+    color: #170627;
+`
 
 export const StyledExplorerLinkRight = styled(StyledExplorerLink)`
-  text-align: right;
-`;
+    text-align: right;
+`
 
 export const TokenName = styled.h2`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 28px;
-  /* or 156% */
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 28px;
+    /* or 156% */
 
-  letter-spacing: 0.05em;
+    letter-spacing: 0.05em;
 
-  color: #170627;
-`;
+    color: #170627;
+`
 
 export const TokenPrice = styled.h3`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 28px;
-  /* or 156% */
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 28px;
+    /* or 156% */
 
-  letter-spacing: 0.05em;
+    letter-spacing: 0.05em;
 
-  color: #170627;
-`;
+    color: #170627;
+`
 
 export const CategoryList = styled.ul`
-  margin-bottom: 15px;
-  @media only screen and (max-width: 380px) {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-`;
+    margin-bottom: 15px;
+    @media only screen and (max-width: 380px) {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+`
 
 export const Category = styled.li`
-  border: 1px solid #170627;
-  box-sizing: border-box;
-  border-radius: 20px;
-  display: inline-block;
+    border: 1px solid #170627;
+    box-sizing: border-box;
+    border-radius: 20px;
+    display: inline-block;
 
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  /* identical to box height */
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
 
-  letter-spacing: 0.05em;
+    letter-spacing: 0.05em;
 
-  color: #170627;
+    color: #170627;
 
-  padding: 2px 6px;
-  margin-right: 10px;
+    padding: 2px 6px;
+    margin-right: 10px;
 
-  @media only screen and (max-width: 380px) {
-    margin: 5px;
-  }
-`;
+    @media only screen and (max-width: 380px) {
+        margin: 5px;
+    }
+`
 
 export const CategoryLink = styled(Link)`
-  text-decoration: none;
-  color: #170627;
-`;
+    text-decoration: none;
+    color: #170627;
+`
 
 export const SocialsList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 20px 0;
-  grid-row-gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 20px 0;
+    grid-row-gap: 10px;
 
-  border-top: 1px solid rgba(229, 229, 229, 0.5);
-  border-bottom: 1px solid rgba(229, 229, 229, 0.5);
+    border-top: 1px solid rgba(229, 229, 229, 0.5);
+    border-bottom: 1px solid rgba(229, 229, 229, 0.5);
 
-  @media only screen and (max-width: 380px) {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-`;
+    @media only screen and (max-width: 380px) {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+`
 
 export const Social = styled.li`
     display: flex;
@@ -416,136 +415,220 @@ export const Social = styled.li`
     padding: 0 10px;
 
     @media only screen and (max-width: 1190px) {
-      flex-direction: column;
+        flex-direction: column;
     }
     @media only screen and (max-width: 980px) {
-      flex-direction: column;
+        flex-direction: column;
     }
-`;
+`
 
 export const SocialLink = styled.a`
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.05em;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
 
-  color: #170627;
+    color: #170627;
 
-  text-decoration: none;
+    text-decoration: none;
 
-  margin-left: 5px;
-`;
+    margin-left: 5px;
+`
 
 export const TokenHoldings = styled.div`
-  border: 1px solid #7E3BDC;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding: 10px;
-`;
+    border: 1px solid #7e3bdc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+`
 
 export const BalanceText = styled.span`
-  font-weight: bold;
-  color: #7E3BDC;
-
-`;
+    font-weight: bold;
+    color: #7e3bdc;
+`
 
 export const Button = styled.a`
-  background: #ffffff;
-  border: 1px solid #a5a5a5;
-  box-sizing: border-box;
-  border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid #a5a5a5;
+    box-sizing: border-box;
+    border-radius: 20px;
 
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 13px;
-  line-height: 19px;
-  /* identical to box height */
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
 
-  text-align: center;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 
-  color: #170627;
+    color: #170627;
 
-  text-decoration: none;
-  padding: 10px;
-  width: 100%;
+    text-decoration: none;
+    padding: 10px;
+    width: 100%;
 
-  &:hover {
-    cursor: pointer;
-  }
+    &:hover {
+        cursor: pointer;
+    }
 `
 
 export const TradeButton = styled(Button)`
-  margin-top: 20px;
-  width: 100%;
-`;
+    margin-top: 20px;
+    width: 100%;
+`
 
 export const CollapsibleChildren = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+`
 
 export const SubDAOImg = styled.img`
-  border: 1px solid #e5e5e5;
-  border-radius: 100%;
-  margin-bottom: 20px;
-  width: 50px;
-  background-color: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 100%;
+    margin-bottom: 20px;
+    width: 50px;
+    background-color: white;
 `
 
 export const SubDAOContainer = styled.div`
-  margin-top: 20px;
+    margin-top: 20px;
 `
 
 export const ShareColumn = styled.div`
-  display: flex;
-  flex-direction: column
+    display: flex;
+    flex-direction: column;
 `
 
 export const LinkTo = styled(Button)`
-  border: none;
-  font-family: Be Vietnam;
-  text-transform: none;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 28px;
-  text-align: left;
-  padding: 1px;  
-  letter-spacing: 0.05em;
+    border: none;
+    font-family: Be Vietnam;
+    text-transform: none;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 28px;
+    text-align: left;
+    padding: 1px;
+    letter-spacing: 0.05em;
 
-  color: ${(props) => props.color || "#170627"};
+    color: ${(props) => props.color || '#170627'};
 `
 
 export const BackHomeButton = styled(Button)`
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 
-  @media only screen and (max-width: 350px) {
-    width: 30px;
-    height: 30px;
-  }
-`;
+    @media only screen and (max-width: 350px) {
+        width: 30px;
+        height: 30px;
+    }
+`
 
 export const BackHomeButtonText = styled.a`
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 20px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
 
-  @media only screen and (max-width: 350px) {
-    top: 4px;
-    left: 7.5px;
-    font-size: 15px;
-  }
+    @media only screen and (max-width: 350px) {
+        top: 4px;
+        left: 7.5px;
+        font-size: 15px;
+    }
+`
+
+export const CheckWhiteListedAddress = styled.div`
+    background-image: radial-gradient(
+            circle at 100% 100%,
+            transparent 4px,
+            #e359df 4px,
+            #e359df 6px,
+            transparent 6px
+        ),
+        linear-gradient(to right, #e359df, #489afb),
+        radial-gradient(
+            circle at 0% 100%,
+            transparent 4px,
+            #489afb 4px,
+            #489afb 6px,
+            transparent 6px
+        ),
+        linear-gradient(to bottom, #489afb, #489afb),
+        radial-gradient(
+            circle at 0% 0%,
+            transparent 4px,
+            #489afb 4px,
+            #489afb 6px,
+            transparent 6px
+        ),
+        linear-gradient(to left, #489afb, #e359df),
+        radial-gradient(
+            circle at 100% 0%,
+            transparent 4px,
+            #e359df 4px,
+            #e359df 6px,
+            transparent 6px
+        ),
+        linear-gradient(to top, #e359df, #e359df);
+    background-size: 6px 6px, calc(100% - 12px) 2px, 6px 6px,
+        2px calc(100% - 12px);
+    background-position: top left, top center, top right, center right,
+        bottom right, bottom center, bottom left, center left;
+    background-repeat: no-repeat;
+
+    padding: 10px 5px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+`
+
+export const CheckWLText = styled.h2`
+  padding-left: 2px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 9px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    font-weight: 300;
+    /* letter-spacing: 0.05em; */
+    color: #fd43c3;
+    @media only screen and (max-width: 300px) {
+        font-size: 10px;
+    }
+    font-weight: bold;
+`
+
+export const CheckWLButton = styled(Button)`
+    align-self: flex-end;
+    -webkit-border-radius: 28;
+    -moz-border-radius: 28;
+    border-radius: 28px;
+    font-family: Be Vietnam;
+    color: #ffffff;
+    font-size: 9px;
+    background: #7e43d9;
+    padding: 0px;
+    margin: auto 3px;
+    text-decoration: none;
+    border: none;
+    width: 80px;
+    min-width: 80px;
+    padding: 3px 5px;
+    &:hover {
+        transition: all 0.3s ease 0s;
+        background-color: #6f32d1;
+    }
 `

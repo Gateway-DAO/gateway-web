@@ -4,17 +4,33 @@
 name: Deploy to Firebase Hosting on merge
 'on':
   push:
-    branches:
-      - main
+    branches: [ main, dev ]
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - run: yarn build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      
+      - name: Install firebase tools
+        run: |
+          sudo npm install -g firebase-tools --unsafe
+          firebase use gateway-dao --token ${{ secrets.FIREBASE_TOKEN }}
+      - name: Build website
+        run: |
+          yarn
+          yarn build
+          
+      - name: Deploy to dev site
+        if: github.ref == 'refs/heads/dev'
+        run: firebase deploy --only hosting:dev --non-interactive --token ${{ secrets.FIREBASE_TOKEN }} -m "${{ github.event.head_commit.message }}"
+        
+      - name: Deploy to production site
+        if: github.ref == 'refs/heads/main'
+        run: firebase deploy --only hosting:main --non-interactive --token ${{ secrets.FIREBASE_TOKEN }} -m "${{ github.event.head_commit.message }}"
+
+      - name: Archive build Artifact
+        uses: actions/upload-artifact@master
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GATEWAY_DAO }}'
-          channelId: live
-          projectId: gateway-dao
+          path: build

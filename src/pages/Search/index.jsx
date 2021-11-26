@@ -61,6 +61,7 @@ const Search = props => {
                 <Styled.SearchTerm>{query}</Styled.SearchTerm>
                 <Styled.SearchInputBox>
                     <Styled.SearchInput type="search" value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyPress={handleEnter} />
+
                     <Styled.WrappedFiSearch />
                 </Styled.SearchInputBox>
             </Styled.SearchTermContainer>
@@ -73,6 +74,7 @@ const Search = props => {
                                 id={card.objectID}
                                 title={card.name}
                                 description={card.description}
+                                categories={card.categories}
                                 // ranking={card.ranking}
                                 // token={card.token}
                                 // price={card.price}

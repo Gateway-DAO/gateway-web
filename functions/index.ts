@@ -1,14 +1,22 @@
-const functions = require('firebase-functions')
+import * as functions from 'firebase-functions'
 import * as corsLib from 'cors'
-import { recoverPersonalSignature } from '@metamask/eth-sig-util'
+import { ethers } from 'ethers'
+import * as admin from 'firebase-admin'
 
 // The Firebase Admin SDK to access Firestore.
-const admin = require('firebase-admin')
-admin.initializeApp()
+const app = admin.initializeApp()
 
 const cors = corsLib({
     origin: true,
 })
+
+const toHex = (stringToConvert) => {
+    return stringToConvert
+        .toString()
+        .split('')
+        .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
+        .join('')
+}
 
 /** Utility functions **/
 const generateRandomNonce = () => Math.round(Math.random() * 100000000)
@@ -63,10 +71,10 @@ export const getNonceToSign = functions.https.onRequest((request, response) =>
 )
 */
 
-export const getNonceToSign = functions.https.onCall(async(data, context) => {
+export const getNonceToSign = functions.https.onCall(async (data, context) => {
     try {
         // Get the user document for that address
-        const userDoc = await admin
+        const userDoc = await app
             .firestore()
             .collection('users')
             .doc(data.address)
@@ -81,12 +89,12 @@ export const getNonceToSign = functions.https.onCall(async(data, context) => {
             const generatedNonce = generateRandomNonce()
 
             // Create an Auth user
-            const createdUser = await admin.auth().createUser({
+            const createdUser = await app.auth().createUser({
                 uid: data.address,
             })
 
             // Associate the nonce with that user
-            await admin
+            await app
                 .firestore()
                 .collection('users')
                 .doc(createdUser.uid)
@@ -98,7 +106,7 @@ export const getNonceToSign = functions.https.onCall(async(data, context) => {
         }
     } catch (err) {
         console.log(err)
-        throw new functions.https.HttpsError(err)
+        throw new functions.https.HttpsError('internal', err.message)
     }
 })
 
@@ -166,51 +174,64 @@ export const verifySignedMessage = functions.https.onRequest(
 )
 */
 
-export const verifySignedMessage = functions.https.onCall(async (data, context) => {
-    try {
-        const address = data.address
-        const sig = data.signature
+export const verifySignedMessage = functions.https.onCall(
+    async (data, context) => {
+        try {
+            const address = data.address
+            const sig = data.signature
 
-        // Get the nonce for this address
-        const userDocRef = admin
-            .firestore()
-            .collection('users')
-            .doc(address)
+            // Get the nonce for this address
+            const userDocRef = app
+                .firestore()
+                .collection('users')
+                .doc(address)
 
-        const userDoc = await userDocRef.get()
+            const userDoc = await userDocRef.get()
 
-        if (userDoc.exists) {
-            const existingNonce = userDoc.data()?.nonce
+            if (userDoc.exists) {
+                const existingNonce = userDoc.data()?.nonce
 
-            // Recover the address of the account used to create the given Ethereum signature.
-            const recoveredAddress = recoverPersonalSignature({
-                data: `0x${parseInt(existingNonce, 16)}`,
-                signature: sig,
-            })
+                const hash = await ethers.utils.keccak256(address)
 
-            // See if that matches the address the user is claiming the signature is from
-            if (recoveredAddress === address) {
-                // The signature was verified - update the nonce to prevent replay attacks
-                await userDocRef.update({
-                    nonce: generateRandomNonce(),
-                })
+                // Recover the address of the account used to create the given Ethereum signature.
+                let pubKey = ethers.utils.recoverPublicKey(
+                    ethers.utils.arrayify(
+                        ethers.utils.hashMessage(ethers.utils.arrayify(hash))
+                    ),
+                    sig
+                )
+                let recoveredAddress = ethers.utils.computeAddress(pubKey)
 
-                // Create a custom token for the specified address
-                const firebaseToken = await admin
-                    .auth()
-                    .createCustomToken(address)
+                // See if that matches the address the user is claiming the signature is from
+                if (recoveredAddress === address) {
+                    // The signature was verified - update the nonce to prevent replay attacks
+                    await userDocRef.update({
+                        nonce: generateRandomNonce(),
+                    })
 
-                // Return the token
-                return { token: firebaseToken }
+                    // Create a custom token for the specified address
+                    const firebaseToken = await app
+                        .auth()
+                        .createCustomToken(address)
+
+                    // Return the token
+                    return { token: firebaseToken }
+                } else {
+                    // The signature could not be verified
+                    throw new functions.https.HttpsError(
+                        'invalid-argument',
+                        "The signature couldn't be verified"
+                    )
+                }
             } else {
-                // The signature could not be verified
-                throw functions.https.HttpsError("The signature couldn't be verified")
+                throw new functions.https.HttpsError(
+                    'invalid-argument',
+                    'User doc does not exist'
+                )
             }
-        } else {
-            throw new functions.https.HttpsError('User doc does not exist')
+        } catch (err) {
+            console.log(err)
+            throw new functions.https.HttpsError('internal', err)
         }
-    } catch (err) {
-        console.log(err)
-        throw new functions.https.HttpsError(err)
     }
-})
+)

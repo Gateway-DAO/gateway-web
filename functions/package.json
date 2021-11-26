@@ -2,26 +2,24 @@
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
-    "lint": "eslint .",
     "serve": "tsc && firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "build": "npm run lint && tsc"
+    "build": "tsc"
   },
   "engines": {
-    "node": "14"
+    "node": "16"
   },
   "main": "index.js",
   "dependencies": {
     "@metamask/eth-sig-util": "^4.0.0",
+    "ethers": "^5.5.1",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.14.1"
   },
   "devDependencies": {
-    "eslint": "^7.6.0",
-    "eslint-config-google": "^0.14.0",
     "firebase-functions-test": "^0.2.0",
     "typescript": "^4.4.4"
   },

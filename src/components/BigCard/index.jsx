@@ -82,6 +82,9 @@ const BigCard = (props) => {
     const navigate = (e) => {
         history.goBack()
     }
+   const checkWLButtonHandler=()=>{
+       window.open('https://forms.gle/bcbCwL47X1StsUJu9', '_blank')
+   }
 
     const socials = Object.keys(props.socials).map((key) => {
         switch (key) {
@@ -285,6 +288,19 @@ const BigCard = (props) => {
                         <Styled.Description>
                             {props.description}
                         </Styled.Description>
+                        {/* Check the whitelistedAddresses */}
+                        {!props.whitelistedAddresses && (
+                            <Styled.CheckWhiteListedAddress>
+                                <Styled.CheckWLText>
+                                    CORE CONTRIBUTOR/COMMUNITY MANAGER HELP US
+                                    INTEGRATE YOUR COMMUNITY
+                                </Styled.CheckWLText>
+                                    <Styled.CheckWLButton onClick={checkWLButtonHandler}>
+                                        Submit Info
+                                    </Styled.CheckWLButton>
+                            </Styled.CheckWhiteListedAddress>
+                        )}
+
                         <Styled.CategoryList>
                             {props.categories.map((e) => (
                                 <Styled.Category>
@@ -312,9 +328,7 @@ const BigCard = (props) => {
                             <Collapsible title="Mission and Vision">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
-                                        <Styled.Button
-                                            onClick={toggleMVModal}
-                                        >
+                                        <Styled.Button onClick={toggleMVModal}>
                                             Change Information
                                         </Styled.Button>
                                     )}
@@ -396,7 +410,7 @@ const BigCard = (props) => {
                                     {HTJ && <HTJCard steps={HTJ} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            
+
                             <Collapsible title="Bounties">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
