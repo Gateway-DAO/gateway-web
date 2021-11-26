@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams, useHistory } from 'react-router'
 import { useEffect } from "react";
 import styled from "styled-components";
 
@@ -12,6 +12,7 @@ import NewCard from "../../components/BigCard";
 import { useState } from "react";
 import { getTokenFromAddress } from "../../api/coingecko";
 import React from "react";
+import * as Styled from "./style";
 
 const Container = styled.main`
     background-color: #170627;
@@ -27,6 +28,9 @@ const DAO = props => {
     const { id } = useParams();
     const [daoData, setDaoData] = useState({ tokenAddress: "", socials: {}, categories: [], bounties: [], description: "", howToJoin: [], tags: [], tokenBenefits: [], whitelistedAddresses: [] });
     const [loaded, setLoaded] = useState(false);
+       const [inputVal, setInputVal] = useState(query || '')
+       const history = useHistory()
+
 
     // Get CoinGecko data
     const getCGData = async address => await getTokenFromAddress(address);
@@ -114,10 +118,35 @@ const DAO = props => {
         handleData();
     }, [id]);
 
+     const handleEnter = (e) => {
+         if (e.key === 'Enter') {
+             history.push(`/search/${e.target.value}`)
+         }
+     }
+
     return (
         <Container isLoaded={loaded}>
-            <Header search={{visible: true}} />
-            {loaded && React.createElement(NewCard, {...daoData, changeDAOData: (data) => setDaoData({ ...daoData, ...data })})}
+            <Header search={{ visible: true }} />
+            <Styled.SearchTermContainer>
+                <Styled.SearchTerm>{id}</Styled.SearchTerm>
+                <Styled.SearchInputBox>
+                    <Styled.SearchInput
+                        type="search"
+                        placeholder="Search DAO"
+                        value={inputVal}
+                        onChange={(e) => setInputVal(e.target.value)}
+                        onKeyPress={handleEnter}
+                    />
+
+                    <Styled.WrappedFiSearch />
+                </Styled.SearchInputBox>
+            </Styled.SearchTermContainer>
+            {loaded &&
+                React.createElement(NewCard, {
+                    ...daoData,
+                    changeDAOData: (data) =>
+                        setDaoData({ ...daoData, ...data }),
+                })}
             <Footer />
         </Container>
     )
