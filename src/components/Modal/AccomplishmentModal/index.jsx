@@ -4,6 +4,7 @@ import * as Styled from "./style";
 import * as ModalStyled from "../style";
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
+import RichEditor from "../../RichTextEditor";
 
 const AccomplishmentModal = props => {
     const [accomplish, setAccomplish] = useState(props.data);
@@ -30,7 +31,7 @@ const AccomplishmentModal = props => {
 
                 <Styled.Fieldset>
                     <ModalStyled.Label for="information">Information</ModalStyled.Label>
-                    <ModalStyled.Textarea id="information" placeholder="We recently raised $5mm from Cowfund!" onChange={e => setAccomplish(e.target.value)}>{accomplish}</ModalStyled.Textarea>
+                    <RichEditor set={setAccomplish} value={accomplish} />
                 </Styled.Fieldset>
 
                 <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>

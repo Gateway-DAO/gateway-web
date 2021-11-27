@@ -4,6 +4,7 @@ import * as ModalStyled from '../style'
 import { db } from '../../../api/firebase'
 import { doc, getDoc, onSnapshot, updateDoc } from '@firebase/firestore'
 import { useState } from 'react'
+import RichEditor from '../../RichTextEditor'
 
 const TokenBenefitModal = (props) => {
     const [title, setTitle] = useState(null)
@@ -56,11 +57,7 @@ const TokenBenefitModal = (props) => {
                     <ModalStyled.Label for="description">
                         Description
                     </ModalStyled.Label>
-                    <ModalStyled.Textarea
-                        id="description"
-                        placeholder="If you hold the required amount of tokens, you are given access to the discord"
-                        onChange={(e) => setDescription(e.target.value)}
-                    ></ModalStyled.Textarea>
+                    <RichEditor set={setDescription} value={description} />
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset>
