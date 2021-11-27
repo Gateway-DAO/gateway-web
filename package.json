@@ -49,7 +49,7 @@
     "deploy": "cross-env CI= yarn build && firebase deploy",
     "deploy-dev": "cross-env CI= yarn build && firebase deploy --only hosting:dev",
     "dev": "cross-env REACT_APP_NODE_ENV=dev yarn start",
-    "firebase-dev": "cross-env REACT_APP_NODE_ENV=dev firebase emulators:start --import ./functions/database",
+    "firebase-dev": "cross-env REACT_APP_NODE_ENV=dev firebase emulators:start --import ./functions/database --export-on-exit",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
