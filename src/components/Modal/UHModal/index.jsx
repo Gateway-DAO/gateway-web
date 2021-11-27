@@ -4,6 +4,7 @@ import * as Styled from "./style";
 import * as ModalStyled from "../style";
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
+import RichEditor from "../../RichTextEditor";
 
 const UHModal = props => {
     const [UH, setUH] = useState(props.data);
@@ -30,7 +31,7 @@ const UHModal = props => {
 
                 <Styled.Fieldset>
                     <ModalStyled.Label for="information">Information</ModalStyled.Label>
-                    <ModalStyled.Textarea id="information" placeholder="We provide the ability for people to find their Web3 communties through an in-depth aggregator with dynamic ability for whitelisted addresses to change information!" onChange={e => setUH(e.target.value)}>{UH}</ModalStyled.Textarea>
+                    <RichEditor set={setUH} value={UH} />
                 </Styled.Fieldset>
 
                 <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
