@@ -8,7 +8,7 @@ import { collection, doc, getDoc, query } from "@firebase/firestore";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
-import BigCard from "../../components/BigCard";
+import NewCard from "../../components/BigCard";
 import { useState } from "react";
 import { getTokenFromAddress } from "../../api/coingecko";
 import React from "react";
@@ -117,7 +117,7 @@ const DAO = props => {
     return (
         <Container isLoaded={loaded}>
             <Header search={{visible: true}} />
-            {loaded && React.createElement(BigCard, {...daoData, changeDAOData: (data) => setDaoData({ ...daoData, ...data })})}
+            {loaded && React.createElement(NewCard, {...daoData, changeDAOData: (data) => setDaoData({ ...daoData, ...data })})}
             <Footer />
         </Container>
     )
