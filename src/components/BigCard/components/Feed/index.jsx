@@ -1,29 +1,29 @@
 import * as Styled from './style'
-import PostCard from '../../../PostCard'
-import CommentPostCard from '../../../CommentPostCard'
+import { useState } from 'react'
+import FeedPostWrapper from '../../../FeedPostWrapper'
 import FeedLogic from './FeedLogic'
 
 const Feed = () => {
-    const Channels = ['General🌐', 'Events🎈', 'NFTs🖼️ ', 'Web3🚀', 'DeFi💰']
+    const Channels = ['General🌐', 'Events🎈', 'NFTs🖼️', 'Web3🚀', 'DeFi💰']
+    const [selected, setSelected] = useState('General🌐')
 
     return (
         <Styled.FeedContainer>
-            <Styled.ChannelContainer>
+            <Styled.ChannelContainer> 
+                <FeedLogic/>
                 <Styled.H4Text>CHANNELS</Styled.H4Text>
                 {Channels.map((name) => (
-                    <Styled.H5Text>#{name}</Styled.H5Text>
+                    <Styled.H5Text
+                        key={name}
+                        onClick={(e) => setSelected(name)}
+                        active={selected === name}
+                    >
+                        #{name}
+                    </Styled.H5Text>
                 ))}
             </Styled.ChannelContainer>
             <Styled.FeedMessageContainer>
-                <FeedLogic />
-
-                <PostCard />
-                <CommentPostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
+                <FeedPostWrapper channel={selected} />
             </Styled.FeedMessageContainer>
         </Styled.FeedContainer>
     )
