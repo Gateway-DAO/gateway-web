@@ -1,8 +1,9 @@
 import styled from "styled-components"
+import { AiOutlineLoading } from "react-icons/ai"
 
 export const Container = styled.main`
     background-color: transparent;
-    height: 100%;
+    height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -29,6 +30,7 @@ export const MainBox = styled.section`
 
 export const SpaceBox = styled.canvas`
     position: absolute;
+    height: calc(100vh - 90px);
     top: 90px;
     z-index: -1;
 `
@@ -53,6 +55,8 @@ export const MainText = styled.h1`
 `
 
 export const Button = styled.a`
+    display: flex;
+    flex-direction: row;
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
 
@@ -91,4 +95,19 @@ export const ButtonText = styled.p`
         margin: 6px 12px;
         font-size: 9px;
     }
+`
+
+export const SpinningLoader = styled(AiOutlineLoading)`
+    animation: spin 1s linear infinite;
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    margin-right: 5px;
 `

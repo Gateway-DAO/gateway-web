@@ -5,11 +5,11 @@ import space from '../../utils/canvas'
 import * as Styled from './style'
 import Header from '../../components/Header'
 
-import { userContext } from '../../contexts/UserContext'
+import { useAuth } from '../../contexts/UserContext'
 import { Redirect } from 'react-router'
 
 const SignIn = () => {
-    const { signIn, loggedIn, userInfo } = useContext(userContext)
+    const { signIn, loggedIn, userInfo, loggingIn } = useAuth()
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
@@ -25,6 +25,7 @@ const SignIn = () => {
                 <Styled.SpaceBox id="space-canvas" />
                 <Styled.MainText>Please, Sign In To Continue</Styled.MainText>
                 <Styled.Button>
+                    { loggingIn && <Styled.SpinningLoader /> }
                     <Styled.ButtonText onClick={signIn}>
                         Connect Wallet
                     </Styled.ButtonText>

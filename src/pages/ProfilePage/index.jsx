@@ -1,23 +1,65 @@
-import React, { useEffect } from "react"
-import * as Styled from "./style"
-import { useParams } from "react-router"
+import React, { useEffect, useState } from 'react'
+import * as Styled from './style'
+import { useParams, useHistory, Redirect } from 'react-router'
+import { useAuth } from '../../contexts/UserContext'
 
-import Header from "../../components/Header"
-import Footer from "../../components/Footer"
+// Components
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
 
-import BioBox from "./components/BioBox"
-import ProfileBox from "./components/ProfileBox"
-import BadgeBox from "./components/BadgeBox"
+// Sub-components
+import BioBox from './components/BioBox'
+import ProfileBox from './components/ProfileBox'
+import BadgeBox from './components/BadgeBox'
+
+// Database
+import { db } from '../../api/firebase'
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+} from '@firebase/firestore'
 
 const ProfilePage = () => {
-    const { searchTerm } = useParams();
+    const { searchTerm } = useParams()
+    const history = useHistory()
+    const { userInfo: authUser, loggedIn, loading } = useAuth()
+    const [userInfo, setUserInfo] = useState({
+        bio: '',
+        name: '',
+        username: '',
+        socials: {},
+    })
 
     useEffect(() => {
-        // Get user
-        
-    }, [searchTerm])
+        const getUser = async () => {
+            // Get user
+            if (searchTerm) {
+                try {
+                    const userRef = collection(db, 'users')
+                    const q = query(userRef, where('username', '==', searchTerm))
 
-    return (
+                    const user = (await getDocs(q)).docs[0]
+                    setUserInfo(user.data())
+                }
+                catch (err) {
+                    history.push("/404")
+                }
+            } else {
+                if (loggedIn && !loading) {
+                    setUserInfo(authUser)
+                    console.log(userInfo)
+                }
+                else if (!loggedIn && !loading) {
+                    history.push('/sign-in')
+                }
+            }
+        }
+        getUser()
+    }, [searchTerm, authUser, loading])
+
+    return (!searchTerm && authUser && !authUser.init) ? <Redirect to="/create-profile" /> : (
         <Styled.Container>
             <Header />
             <Styled.MainBox>
@@ -25,7 +67,7 @@ const ProfilePage = () => {
                     <ProfileBox />
                 </Styled.LeftSidebar>
                 <Styled.Feed>
-                    <BioBox />
+                    {React.createElement(BioBox, { ...userInfo })}
                 </Styled.Feed>
                 <Styled.RightSidebar>
                     <BadgeBox />
