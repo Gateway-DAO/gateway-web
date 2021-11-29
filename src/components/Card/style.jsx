@@ -105,7 +105,7 @@ export const CategoryLink = styled(Link)`
   color: #170627;
 `;
 
-export const CardDesc = styled.p`
+export const CardDesc = styled.div`
   font-family: "Be Vietnam", sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -116,6 +116,10 @@ export const CardDesc = styled.p`
   letter-spacing: 0.05em;
 
   color: #170627;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const CardInfoBox = styled.div`

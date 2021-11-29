@@ -10,6 +10,8 @@ const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
 const SignIn = React.lazy(() => import('./SignIn'))
 const CreateProfile = React.lazy(() => import('./CreateProfile'))
+const AboutDAOs = React.lazy(() => import('./AboutDAOs'))
+const About = React.lazy(() => import('./About'))
 
 const App = (props) => {
     return (
@@ -18,6 +20,12 @@ const App = (props) => {
                 <Switch>
                     <Route exact path="/">
                         <Home />
+                    </Route>
+                    <Route path="/about-us">
+                        <About />
+                    </Route>
+                    <Route path="/what-are-daos">
+                        <AboutDAOs />
                     </Route>
                     <Route path="/dao/:id">
                         <DAO />

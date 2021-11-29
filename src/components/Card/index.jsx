@@ -1,4 +1,5 @@
 import { useHistory } from "react-router";
+import parser from "html-react-parser";
 
 import * as Styled from "./style"
 
@@ -19,13 +20,13 @@ const Card = (props) => {
     }
 
   return (
-    <Styled.CardBox >
+    <Styled.CardBox>
       <Styled.CardBanner src={props.bannerURL} onClick={navigate}>
         <Styled.CardLogo src={props.logoURL} />
       </Styled.CardBanner>
       <Styled.CardBody onClick={navigate}>
         <Styled.CardTitle>{props.title}</Styled.CardTitle>
-        <Styled.CardDesc>{props.description.substring(0, 300) + (props.description.length > 300 ? "..." : "")}</Styled.CardDesc>
+        <Styled.CardDesc>{parser(props.description)}</Styled.CardDesc>
       </Styled.CardBody>
       <Styled.CategoryList>
         {props.categories.map((e) => (

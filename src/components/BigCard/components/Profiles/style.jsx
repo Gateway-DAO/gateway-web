@@ -34,7 +34,7 @@ export const ColumnOne = styled.div`
     margin-bottom: 60px;
 `
 
-export const Description = styled.p`
+export const Description = styled.div`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
@@ -47,6 +47,11 @@ export const Description = styled.p`
     color: #170627;
 
     margin-top: 15px;
+
+    display: flex;
+    flex-direction: column;
+    text-direction: left;
+    align-items: flex-start;
 
     @media only screen and (max-width: 300px) {
         font-size: 10px;

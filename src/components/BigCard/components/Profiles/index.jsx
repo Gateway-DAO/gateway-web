@@ -13,11 +13,11 @@ import { FiGlobe } from 'react-icons/fi'
 import { BsChatTextFill } from 'react-icons/bs'
 import { useState } from 'react'
 import React from 'react'
+import parser from "html-react-parser";
 
 import useAdmin from '../../../../hooks/useAdmin'
 
 // Modals
-
 import BountyModal from '../../../Modal/BountyModal'
 import TokenBenefitModal from '../../../Modal/TokenBenefitModal'
 import HowtoJoinModal from '../../../Modal/HowtoJoinModal'
@@ -30,7 +30,6 @@ import EditCardModal from '../../../Modal/EditCardModal'
 import ShowBountyModal from '../../../Modal/ShowBountyModal'
 
 //  styling
-
 import Collapsible from '../../../Collapsible'
 
 // card
@@ -41,10 +40,10 @@ import HTJCard from '../../../HTJCard'
 import BountyCard from '../../../BountyCard'
 
 // column second import
-
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
 import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { shortenAddress } from '../../../../utils/web3'
+import { parseTransaction } from 'ethers/lib/utils'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
@@ -267,7 +266,7 @@ const Profile = (props) => {
                 <Styled.DivideContainer>
                     <Styled.ColumnOne fullWidth={!props.tokenAddress}>
                         <Styled.Description>
-                            {props.description}
+                            {parser(props.description)}
                         </Styled.Description>
                         {/* <Styled.MemberContainer>
                             <Styled.SubText>Members :</Styled.SubText>

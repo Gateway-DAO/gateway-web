@@ -6,11 +6,12 @@ import { doc, getDoc, updateDoc, onSnapshot } from '@firebase/firestore'
 import { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import RichEditor from '../../RichTextEditor'
+import parser from "html-react-parser";
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name)
     const [backgroundURL, setBackgroundURL] = useState(props.backgroundURL)
-    const [youtubeURL, setyoutubeURL] = useState(props.youtubeURL)
+    const [youtubeURL, setyoutubeURL] = useState(props.youtubeURL || "")
     const [logoURL, setLogoURL] = useState(props.logoURL)
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress)
     const [description, setDescription] = useState(props.description)
