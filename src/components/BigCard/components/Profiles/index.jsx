@@ -265,7 +265,7 @@ const Profile = (props) => {
             <Modals />
             <Styled.DAOContainer>
                 <Styled.DivideContainer>
-                    <Styled.ColumnOne>
+                    <Styled.ColumnOne fullWidth={!props.tokenAddress}>
                         <Styled.Description>
                             {props.description}
                         </Styled.Description>
@@ -418,7 +418,7 @@ const Profile = (props) => {
                                         </Styled.Button>
                                     )}
 
-                                    {HTJ && <HTJCard steps={HTJ} />}
+                                    {!!HTJ.length && <HTJCard steps={HTJ} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
 

@@ -128,7 +128,7 @@ const DAO = props => {
         <Container isLoaded={loaded}>
             <Header search={{ visible: true }} />
             <Styled.SearchTermContainer>
-                <Styled.SearchTerm>{id}</Styled.SearchTerm>
+                <Styled.SearchTerm>{daoData.name || "Loading..."}</Styled.SearchTerm>
                 <Styled.SearchInputBox>
                     <Styled.SearchInput
                         type="search"

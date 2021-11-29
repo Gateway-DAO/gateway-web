@@ -37,7 +37,7 @@ const Home = (props) => {
                         Don't know what a DAO is? Perfect.
                     </Styled.EMSMediumText>
                     <Styled.EMSButton to="/what-are-DAOs">
-                        <Styled.CTAButtonText>ENLIGHT ME</Styled.CTAButtonText>
+                        <Styled.CTAButtonText>ENLIGHTEN ME</Styled.CTAButtonText>
                     </Styled.EMSButton>
                 </Styled.EMSContentContainer>
             </Styled.EMSBox>

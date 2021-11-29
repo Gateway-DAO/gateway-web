@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { Text as BGText } from "../BigCard/style";
 
 export const Container = styled.div`
     background: #FFFFFF;
@@ -8,7 +7,7 @@ export const Container = styled.div`
     border-radius: 6px;
     margin: 10px 0;
     padding: 25px;
-    max-width:500px;
+    // max-width:500px;
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;

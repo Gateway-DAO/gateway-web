@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import Collapsible from 'react-collapsible'
 import { FiArrowUpRight } from 'react-icons/fi'
 
 export const Container = styled.main`
@@ -30,8 +29,8 @@ export const DivideContainer = styled.div`
 `
 
 export const ColumnOne = styled.div`
-    /* grid-column: ${(props) => (props.fullWidth ? '1 / 9' : '1 / span 5')}; */
-    grid-column: 1 / span 5;
+    grid-column: ${(props) => (props.fullWidth ? '1 / 9' : '1 / span 5')};
+    // grid-column: 1 / span 5;
     margin-bottom: 60px;
 `
 
@@ -129,7 +128,7 @@ export const SubText = styled.h4`
 // categories section
 
 export const CategoryList = styled.ul`
-    margin-top: 15px;
+    margin: 15px 0;
     @media only screen and (max-width: 380px) {
         display: flex;
         flex-direction: column;
@@ -231,6 +230,7 @@ export const ColumnTwo = styled.div`
     margin-right: -10px;
     position: relative;
     margin-bottom: 60px;
+    margin-top: 15px;
 
     @media only screen and (max-width: 1190px) {
         padding-left: 10px;
