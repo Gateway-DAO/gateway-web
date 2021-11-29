@@ -89,9 +89,11 @@ const ProfilePage = () => {
                 <Styled.Feed>
                     {React.createElement(BioBox, { ...userInfo })}
                 </Styled.Feed>
+                {/*
                 <Styled.RightSidebar>
                     <BadgeBox />
                 </Styled.RightSidebar>
+                */}
             </Styled.MainBox>
             <Footer />
         </Styled.Container>

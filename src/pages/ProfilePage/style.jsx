@@ -12,7 +12,7 @@ export const Container = styled.main`
 
 export const MainBox = styled.section`
     display: grid;
-    grid-template-columns: 1fr 2fr 6fr 2fr 1fr;
+    grid-template-columns: 2fr 2fr 6fr 2fr;
     grid-column-gap: 20px;
     margin-top: 40px;
 `
