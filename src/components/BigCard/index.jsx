@@ -6,12 +6,12 @@ import React, { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from '@ethersproject/bignumber'
 import { FaPencilAlt } from 'react-icons/fa'
-import RelatedDAOSection from './components/RelatedDAO';
+import RelatedDAOSection from './components/RelatedDAO'
+import EditCardModal from '../Modal/EditCardModal'
 
 // Profile tab options
 import Profile from './components/Profiles'
 import Feed from './components/Feed'
-
 
 const NewCard = (props) => {
     const web3 = useWeb3React()
@@ -38,9 +38,21 @@ const NewCard = (props) => {
     // useState Hook to change betweenn Profile Dom And Fedd Dom
     const [profileAndFeed, setProfileAndFeed] = useState(true)
 
+    const Modals = () => (
+        <>
+            {React.createElement(EditCardModal, {
+                ...props,
+                show: showEditModal,
+                toggle: toggleEditModal,
+                changeDAOData: props.changeDAOData,
+            })}
+        </>
+    )
+
     return (
         <React.Fragment>
             <Styled.Container>
+                <Modals />
                 <Styled.CardContainer>
                     <Styled.CardBanner src={props?.backgroundURL} />
                     <Styled.BackHomeButton onClick={(e) => navigate()}>
@@ -50,7 +62,14 @@ const NewCard = (props) => {
                     </Styled.BackHomeButton>
                     <Styled.DAOProfileContainer>
                         <Styled.Logo src={props?.logoURL} />
-                        <Styled.Title>{props?.name}</Styled.Title>
+                        <Styled.Title>
+                            {props?.name}
+                            <h1 style={{ margin: '5px' }}>
+                                {true && (
+                                    <FaPencilAlt onClick={toggleEditModal} />
+                                )}{' '}
+                            </h1>
+                        </Styled.Title>
                     </Styled.DAOProfileContainer>
                     <Styled.ProfileAndFeedContainer>
                         <Styled.ProfileDiv>
@@ -86,7 +105,10 @@ const NewCard = (props) => {
                     {profileAndFeed ? <Profile {...props} /> : <Feed />}
                 </Styled.CardContainer>
             </Styled.Container>
-            <RelatedDAOSection categories={props.categories} name={props.name} />
+            <RelatedDAOSection
+                categories={props.categories}
+                name={props.name}
+            />
         </React.Fragment>
     )
 }

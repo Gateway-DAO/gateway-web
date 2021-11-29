@@ -264,7 +264,7 @@ const Profile = (props) => {
                         <Styled.Description>
                             {props.description}
                         </Styled.Description>
-                        <Styled.MemberContainer>
+                        {/* <Styled.MemberContainer>
                             <Styled.SubText>Members :</Styled.SubText>
                             <Styled.PastWeekContainer>
                                 <Styled.PercentageText
@@ -291,7 +291,7 @@ const Profile = (props) => {
                                     Past Week
                                 </Styled.Text>
                             </Styled.PastWeekContainer>{' '}
-                        </Styled.MemberContainer>
+                        </Styled.MemberContainer> */}
                         {/* categories like : social Defi */}
                         <Styled.CategoryList>
                             {props.categories.map((e) => (
