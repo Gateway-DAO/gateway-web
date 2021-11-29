@@ -1,5 +1,10 @@
 import React from 'react'
-import { doc, setDoc } from 'firebase/firestore'
+import {
+    doc,
+    setDoc,
+    getDoc,
+    updateDoc,
+} from 'firebase/firestore'
 import { db } from '../../../../../api/firebase'
 
 const FeedLogic = () => {
@@ -63,75 +68,49 @@ const FeedLogic = () => {
     ]
 
     const setUsersHandler = async () => {
-        // await setDoc(doc(db, 'users', 'testUser-4'), dummyUsers[3])
+        await setDoc(doc(db, 'users', 'testUser-4'), dummyUsers[3])
     }
 
-    const dummyPost = {
-        userID: 'testUser-',
-        title: 'Title here',
-        content: {
-            data: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            image1: 'https://res.cloudinary.com/grohealth/image/upload/$wpsize_!_cld_full!,w_800,h_400,c_scale/v1620316360/greenspace.jpg',
-        },
-        comments: {
-            uniqueID: {
-                text: ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                userID: 'testUser-1',
-                upvotes: ['testUser-1', 'testUser-2'],
-                createdAt: 'time stamp',
-            },
-            upvotes: ['testUser-1', 'testUser-1'],
-            createdAt: '26 November 2021',
-        },
-    }
-
-    const setPostHandler = async () => {
-        await setDoc(doc(db, 'posts', 'testPost-4'), {
-            userID: 'testUser-4',
-            title: 'Title goes here',
-            content: {
-                data: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                image1: 'https://res.cloudinary.com/grohealth/image/upload/$wpsize_!_cld_full!,w_800,h_400,c_scale/v1620316360/greenspace.jpg',
-            },
-            comments: {
-                testComment: {
-                    text: ' Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                    userID: 'testUser-1',
-                    upvotes: [
-                        'testUser-1',
-                        'testUser-2',
-                        'testUser-3',
-                        'testUser-4',
-                    ],
-                    downvotes: [
-                        'testUser-1',
-                        'testUser-2',
-                        'testUser-3',
-                        'testUser-4',
-                    ],
-                    createdAt: 'time stamp',
-                },
-                upvotes: [
-                    'testUser-1',
-                    'testUser-2',
-                    'testUser-3',
-                    'testUser-4',
-                ],
-                downvotes: [
-                    'testUser-1',
-                    'testUser-2',
-                    'testUser-3',
-                    'testUser-4',
-                ],
-                createdAt: Date.now(),
-            },
+    const setPostIDHandler = async (channelName, newPostID) => {
+        const daoDoc = doc(db, 'daos', 'Forefront')
+        const daoFetch = await getDoc(daoDoc)
+        const data = daoFetch.data()
+        const allChannels = data.channels
+        const channelToUpdateArray = data.channels[channelName]
+        let updatedArray
+        if (channelToUpdateArray) {
+            updatedArray = [newPostID, ...channelToUpdateArray]
+        } else {
+            updatedArray = [newPostID]
+        }
+        let channels
+        switch (channelName) {
+            case 'General':
+                channels = { General: updatedArray, ...allChannels }
+                break
+            case 'Events':
+                channels = { Events: updatedArray, ...allChannels }
+                break
+            case 'NFTs':
+                channels = { NFTs: updatedArray, ...allChannels }
+                break
+            case 'Web3':
+                channels = { Web3: updatedArray, ...allChannels }
+                break
+            case 'DeFi':
+                channels = { DeFi: updatedArray, ...allChannels }
+                break
+            default:
+                break
+        }
+        await updateDoc(daoDoc, {
+            channels: channels,
         })
     }
 
     return (
         <React.Fragment>
-            <button onClick={setUsersHandler}>Submit User</button>
-            <button onClick={setPostHandler}>Submit Post</button>
+            {/* <button onClick={setUsersHandler}>Submit User</button> */}
         </React.Fragment>
     )
 }
