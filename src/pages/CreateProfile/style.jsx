@@ -1,6 +1,7 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 import { IoMdClose } from 'react-icons/io'
 import { useState } from 'react'
+import { FaTimes } from 'react-icons/fa'
 
 export const Container = styled.main`
     background-color: #170627;
@@ -33,6 +34,25 @@ export const FormBox = styled.div`
     align-items: center;
 `
 
+export const SearchBox = styled.ul`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 0 10px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    flex-direction: column;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    margin: 12px 0;
+    width: 100%;
+`
+
 export const MainText = styled.h1`
     font-family: Poppins;
     font-style: normal;
@@ -45,14 +65,63 @@ export const MainText = styled.h1`
     letter-spacing: -0.05em;
 
     /* Background */
-    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
+    -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
     grid-column: 1/4;
 `
+
+export const MembershipBox = styled.div`
+    display: flex;
+    margin-top: 10px;
+    flex-wrap: wrap;
+`
+
+export const MembershipIcon = styled.div`
+    position: relative;
+    margin-right: 16px;
+    margin-top: 10px;
+`
+
+export const MembershipImg = styled.img`
+    position: relative;
+    width: 54px;
+    border-radius: 100%;
+`
+
+export const MembershipRemove = styled(FaTimes)`
+    position: absolute;
+    color: #7E3BDC;
+    background: #E5E5E5;
+    border-radius: 100%;
+    padding: 2px;
+    cursor: pointer;
+    right: 1px;
+    top: -2px;
+`
+
+export const Divider = styled.hr`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
+    margin: 0;
+`
+
+export const SearchItem = styled.li`
+    padding: 15px 0;
+    ${props => props.divider && "border-top: 1px solid rgba(255, 255, 255, 0.2);"}
+    cursor: pointer;
+`
+
+/* Form components */
 
 export const Wrapper = styled.div`
     position: fixed;
@@ -79,9 +148,9 @@ export const ChildrenWrapper = styled.div`
         background: transparent;
     }
     &::-webkit-scrollbar-track:hover {
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
-  }
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1);
+    }
     &::-webkit-scrollbar-thumb {
         border-radius: 10px;
         background: rgba(255, 255, 255, 0.2);
@@ -200,27 +269,28 @@ export const Fieldset = styled.fieldset`
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin: ${props => props.marginY || "10px"} 0;
-    ${props => props.marginBottom ? "margin-bottom: " + props.marginBottom : ""}
+    margin: ${(props) => props.marginY || '10px'} 0;
+    ${(props) =>
+        props.marginBottom ? 'margin-bottom: ' + props.marginBottom : ''}
 `
 
 export const Input = styled.input`
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-sizing: border-box;
-  border-radius: 5px;
-  padding: 10px;
-  font-family: Be Vietnam;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 18px;
-  display: flex;
-  align-items: center;
-  letter-spacing: 0.05em;
-  background: #170627;
-  color: #e5e5e5;
-  margin: 12px 0;
-  width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    margin: 12px 0;
+    width: 100%;
 `
 
 const CheckboxContainer = styled.div`
@@ -237,7 +307,10 @@ const CheckboxContainer = styled.div`
     border-radius: 5px;
     padding: 10px 0;
 
-    ${props => props.checked ? `background: #220A38;border: 1px solid #7E3BDC;` : `background: #170627;border: 1px solid rgba(255, 255, 255, 0.2);`}
+    ${(props) =>
+        props.checked
+            ? `background: #220A38;border: 1px solid #7E3BDC;`
+            : `background: #170627;border: 1px solid rgba(255, 255, 255, 0.2);`}
 `
 
 const CheckboxInput = styled.input`
@@ -263,43 +336,61 @@ const CheckboxLabel = styled.label`
     color: rgba(255, 255, 255, 0.6);
 `
 
-export const Checkbox = props => {
-    const [checked, setChecked] = useState(props.checked);
+export const Checkbox = (props) => {
+    const [checked, setChecked] = useState(props.checked)
 
-    const toggleChecked = e => {
+    const toggleChecked = (e) => {
         setChecked(e.target.checked)
         props.onChange(e)
     }
 
     return (
         <CheckboxContainer checked={checked}>
-            <CheckboxInput checked={checked} type="checkbox" id={props.id} name={props.name} value={props.value} onChange={toggleChecked} />
+            <CheckboxInput
+                checked={checked}
+                type="checkbox"
+                id={props.id}
+                name={props.name}
+                value={props.value}
+                onChange={toggleChecked}
+            />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </CheckboxContainer>
     )
 }
 
-export const LockedCheckbox = props => {
+export const LockedCheckbox = (props) => {
     return (
         <CheckboxContainer checked={props.checked}>
-            <CheckboxInput type="checkbox" id={props.id} name={props.name} value={props.value} disabled />
+            <CheckboxInput
+                type="checkbox"
+                id={props.id}
+                name={props.name}
+                value={props.value}
+                disabled
+            />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </CheckboxContainer>
     )
 }
 
-export const Radio = props => {
+export const Radio = (props) => {
     return (
         <CheckboxContainer checked={props.checked}>
-            <CheckboxInput type="radio" id={props.id} name={props.name} value={props.value} />
+            <CheckboxInput
+                type="radio"
+                id={props.id}
+                name={props.name}
+                value={props.value}
+            />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </CheckboxContainer>
     )
 }
 
 export const InputWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
+    display: flex;
+    align-items: flex-start;
 `
 
 export const Select = styled.select`

@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Redirect, useHistory } from 'react-router'
+import Moralis from 'moralis'
 
 // Styling
 import * as Styled from './style'
-import { FaTrashAlt, FaPlus } from "react-icons/fa"
+import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 
 // Components
 import Header from '../../components/Header'
@@ -11,7 +12,17 @@ import { useAuth } from '../../contexts/UserContext'
 
 // Storage
 import { storage } from '../../api/firebase'
-import { ref, uploadBytes, getDownloadURL } from "@firebase/storage"
+import { ref, uploadBytes, getDownloadURL } from '@firebase/storage'
+
+// Database
+import { db } from '../../api/firebase'
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+} from '@firebase/firestore'
+import { daos } from '../../api/algolia'
 
 const CreateProfile = () => {
     const { loggedIn, userInfo, updateUserInfo } = useAuth()
@@ -23,6 +34,9 @@ const CreateProfile = () => {
     const [bio, setBio] = useState("")
     const [pfp, setPfp] = useState("")
     const [socials, setSocials] = useState({})
+    const [membership, setMembership] = useState([])
+    const [searchTerm, setSearchTerm] = useState("")
+    const [searchRes, setSearchRes] = useState([])
 
     // Handlers
     const changeSocial = (key, e) => {
@@ -54,9 +68,10 @@ const CreateProfile = () => {
             const pfpURL = await uploadPfp()
             await updateUserInfo({
                 name,
-                username,
+                username: username.toLowerCase(),
                 bio,
                 socials,
+                daos: membership.map(dao => dao.id),
                 pfp: pfpURL,
                 init: true
             }, () => history.push("/profile"))
@@ -65,6 +80,62 @@ const CreateProfile = () => {
             alert("An error occurred. Please try again later!")
         }
     }
+
+    const addDAO = dao => {
+        !membership.includes(dao) &&
+        setMembership([
+            ...membership,
+            dao
+        ])
+    }
+
+    const removeDAO = name => {
+        const new_membership = membership.filter(dao => dao.name !== name)
+        setMembership(new_membership)
+    }
+
+    // Listeners
+    useEffect(() => {
+        const getMemberships = async () => {
+            const address = userInfo.uid;
+            Moralis.start({ serverUrl: "https://tppdzaw584lv.usemoralis.com:2053/server", appId: "PHwU3Sg5svxT49hbICB9JEtIsdVXsx1wFkOxyfwJ" })
+
+            const balances = (await Moralis.Web3API.account.getTokenBalances({ address })).map(val => {
+                return { balance: val.balance, tokenAddress: val.token_address }
+            });
+
+            for (let balance in balances) {
+                const daoRef = collection(db, 'daos')
+                const q = query(daoRef, where('tokenAddress', '==', balance.tokenAddress))
+
+                const dao = (await getDocs(q)).docs[0]
+                console.log(dao)
+            }
+
+            console.log(balances)
+        }
+
+        userInfo && !!userInfo.uid && getMemberships();
+    }, [userInfo])
+
+    useEffect(() => {
+        const clear = setTimeout(() => {
+            !!searchTerm && daos.search(searchTerm).then(res => {
+                const query = res.hits
+                const results = query.slice(0, 5).map(dao => {
+                    return {
+                        name: dao.name,
+                        id: dao.objectID,
+                        logoURL: dao.logoURL
+                    }
+                })
+                setSearchRes(results)
+                console.log(results)
+            })
+        }, 2000);
+
+        return () => clearTimeout(clear)
+    }, [searchTerm])
 
     return userInfo && userInfo.init ? <Redirect to="/profile" /> : (
         <Styled.Container>
@@ -114,6 +185,28 @@ const CreateProfile = () => {
                             )
                         })}
                         <Styled.IconButton onClick={() => setSocials({ ...socials, [`any-${Object.keys(socials).length}`]: "" })} style={{ width: "fit-content", alignSelf: "center" }}><FaPlus /></Styled.IconButton>
+                    </Styled.Fieldset>
+
+                    <Styled.Fieldset>
+                        <Styled.Label for="membership">Membership</Styled.Label>
+                        <Styled.MembershipBox>{membership.map(dao => {
+                            return (
+                                <Styled.MembershipIcon>
+                                    <Styled.MembershipImg src={dao.logoURL} alt={dao.name} />
+                                    <Styled.MembershipRemove size={12} onClick={() => removeDAO(dao.name)} />
+                                </Styled.MembershipIcon>
+                            )
+                        })}</Styled.MembershipBox>
+                    </Styled.Fieldset>
+
+                    <Styled.Fieldset>
+                        <Styled.Label for="dao-search">Your dao/community doesn’t have a token?</Styled.Label>
+                        <Styled.Input id="dao-search" name="dao-search" type="search" placeholder="Search" onChange={e => setSearchTerm(e.target.value)} />
+                        {searchRes.length && (
+                            <Styled.SearchBox>
+                                {searchRes.map((res, idx) => <Styled.SearchItem onClick={() => addDAO(res)} divider={idx !== 0}>{res.name}</Styled.SearchItem>)}
+                            </Styled.SearchBox>
+                        )}
                     </Styled.Fieldset>
 
                     <Styled.Button onClick={onSave}>

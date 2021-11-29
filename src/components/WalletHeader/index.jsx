@@ -1,6 +1,5 @@
-import React, { useContext } from "react"
+import React from "react"
 import { shortenAddress } from "../../utils/web3";
-import { useWeb3React } from "@web3-react/core";
 import { useAuth } from "../../contexts/UserContext"
 import * as Styled from "./style"
 

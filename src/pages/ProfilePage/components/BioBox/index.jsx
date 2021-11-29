@@ -79,6 +79,9 @@ const BioBox = (props) => {
             </Styled.BioText>
             <Styled.Socials>{socials.map((social) => social)}</Styled.Socials>
             <Styled.SmallHeading>MEMBERSHIP</Styled.SmallHeading>
+            <Styled.MembershipBox>
+                {props.daos.map(dao => <Styled.MembershipImg src={dao.logoURL} />)}
+            </Styled.MembershipBox>
         </Styled.Container>
     )
 }

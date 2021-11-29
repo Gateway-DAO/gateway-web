@@ -30,9 +30,18 @@ const ProfilePage = () => {
         name: '',
         username: '',
         socials: {},
+        daos: []
     })
 
     useEffect(() => {
+        const getDAOs = async daos => {
+            const daoRef = collection(db, "daos")
+            const q = query(daoRef, where("__name__", "in", daos))
+
+            const docs = await getDocs(q)
+            return docs.docs.map(doc => doc.data())
+        }
+
         const getUser = async () => {
             // Get user
             if (searchTerm) {
@@ -40,16 +49,25 @@ const ProfilePage = () => {
                     const userRef = collection(db, 'users')
                     const q = query(userRef, where('username', '==', searchTerm))
 
-                    const user = (await getDocs(q)).docs[0]
-                    setUserInfo(user.data())
+                    const user = ((await getDocs(q)).docs[0]).data()
+
+                    const userDAOs = await getDAOs(user.daos)
+
+                    setUserInfo({
+                        ...user,
+                        daos: userDAOs
+                    })
                 }
                 catch (err) {
                     history.push("/404")
                 }
             } else {
                 if (loggedIn && !loading) {
-                    setUserInfo(authUser)
-                    console.log(userInfo)
+                    const userDAOs = await getDAOs(authUser.daos)
+                    setUserInfo({
+                        ...authUser,
+                        daos: userDAOs
+                    })
                 }
                 else if (!loggedIn && !loading) {
                     history.push('/sign-in')

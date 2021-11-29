@@ -79,3 +79,15 @@ export const SmallHeading = styled.h4`
 
     color: #FFFFFF;
 `
+
+export const MembershipBox = styled.div`
+    display: flex;
+    margin-top: 10px;
+    flex-wrap: wrap;
+`
+
+export const MembershipImg = styled.img`
+    width: 40px;
+    border-radius: 100%;
+    margin-right: 12px;
+`
