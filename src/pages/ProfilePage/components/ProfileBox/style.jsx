@@ -21,8 +21,12 @@ export const BG = styled.div`
     height: 100%;
 `
 
-export const Image = styled.img`
+export const Image = styled.div`
+    background-image: url("${props => props.src}");
+    background-size: cover;
+    background-position: center;
     width: 200px;
+    height: 200px;
     border-radius: 100%;
     margin: 10%;
     z-index: 5;

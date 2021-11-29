@@ -11,7 +11,7 @@ import { useAuth } from '../../contexts/UserContext'
 
 // Storage
 import { storage } from '../../api/firebase'
-import { ref, uploadBytes } from "@firebase/storage"
+import { ref, uploadBytes, getDownloadURL } from "@firebase/storage"
 
 const CreateProfile = () => {
     const { loggedIn, userInfo, updateUserInfo } = useAuth()
@@ -42,24 +42,28 @@ const CreateProfile = () => {
         setSocials(socialCopy);
     }
 
-    const uploadPfp = async e => {
-        alert("Yo")
-        const file = e.target.files[0]
-        setPfp(file)
-        const pfpRef = ref(storage, file.name)
-
-        const res = await uploadBytes(pfpRef, e.target.files[0])
-        res && alert("Deu lol")
+    const uploadPfp = async () => {
+        const file = pfp
+        const pfpRef = ref(storage, `/images/${userInfo.uid}/profile.${file.name.split('.').pop()}`)
+        await uploadBytes(pfpRef, file)
+        return await getDownloadURL(pfpRef)
     }
 
     const onSave = async () => {
-        updateUserInfo({
-            name,
-            username,
-            bio,
-            socials,
-            init: true
-        }, () => history.push("/profile"))
+        try {
+            const pfpURL = await uploadPfp()
+            await updateUserInfo({
+                name,
+                username,
+                bio,
+                socials,
+                pfp: pfpURL,
+                init: true
+            }, () => history.push("/profile"))
+        }
+        catch (err) {
+            alert("An error occurred. Please try again later!")
+        }
     }
 
     return userInfo && userInfo.init ? <Redirect to="/profile" /> : (
@@ -86,7 +90,7 @@ const CreateProfile = () => {
 
                     <Styled.Fieldset>
                         <Styled.Label for="pfp">Profile Picture</Styled.Label>
-                        <Styled.Input onChange={uploadPfp} type="file" id="pfp" name="pfp" />
+                        <Styled.Input onChange={e => setPfp(e.target.files[0])} type="file" id="pfp" name="pfp" accept="image/png, image/jpeg" />
                     </Styled.Fieldset>
 
                     <Styled.Fieldset>

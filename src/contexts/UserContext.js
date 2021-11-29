@@ -101,7 +101,13 @@ export const UserProvider = ({ children }) => {
     const updateUserInfo = async (info, callback) => {
         const user = doc(db, "users", userInfo.uid);
 
-        const unsub = onSnapshot(user, callback);
+        const unsub = onSnapshot(user, () => {
+            setUserInfo({
+                ...userInfo,
+                ...info
+            })
+            callback()
+        });
 
         await updateDoc(user, info)
 

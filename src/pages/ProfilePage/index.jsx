@@ -64,7 +64,7 @@ const ProfilePage = () => {
             <Header />
             <Styled.MainBox>
                 <Styled.LeftSidebar>
-                    <ProfileBox />
+                    <ProfileBox username={userInfo.username} pfpURL={userInfo.pfp} />
                 </Styled.LeftSidebar>
                 <Styled.Feed>
                     {React.createElement(BioBox, { ...userInfo })}
