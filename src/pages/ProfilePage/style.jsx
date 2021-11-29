@@ -14,6 +14,7 @@ export const MainBox = styled.section`
     display: grid;
     grid-template-columns: 1fr 2fr 6fr 2fr 1fr;
     grid-column-gap: 20px;
+    margin-top: 40px;
 `
 
 export const LeftSidebar = styled.aside`

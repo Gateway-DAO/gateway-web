@@ -96,6 +96,7 @@ export const MembershipImg = styled.img`
     position: relative;
     width: 54px;
     border-radius: 100%;
+    background-color: white;
 `
 
 export const MembershipRemove = styled(FaTimes)`
@@ -216,6 +217,17 @@ export const Label = styled.label`
     text-transform: uppercase;
 
     color: #ffffff;
+`
+
+export const SubLabel = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+
+    color: rgba(255, 255, 255, 0.6);
 `
 
 export const Textarea = styled.textarea`

@@ -39,7 +39,9 @@ const ProfilePage = () => {
             const q = query(daoRef, where("__name__", "in", daos))
 
             const docs = await getDocs(q)
-            return docs.docs.map(doc => doc.data())
+            return docs.docs.map(doc => { 
+                return { id: doc.id, ...doc.data() }
+            })
         }
 
         const getUser = async () => {

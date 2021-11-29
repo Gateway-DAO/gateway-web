@@ -13,6 +13,7 @@ import {
 } from 'react-icons/fa'
 import { BsChatTextFill } from 'react-icons/bs'
 import { FiGlobe } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 
 const BioBox = (props) => {
     const socials = props.socials ? Object.keys(props.socials).map((key) => {
@@ -80,7 +81,7 @@ const BioBox = (props) => {
             <Styled.Socials>{socials.map((social) => social)}</Styled.Socials>
             <Styled.SmallHeading>MEMBERSHIP</Styled.SmallHeading>
             <Styled.MembershipBox>
-                {props.daos.map(dao => <Styled.MembershipImg src={dao.logoURL} />)}
+                {props.daos.map(dao => <Link to={`/dao/${dao.id}`}><Styled.MembershipImg src={dao.logoURL} /></Link>)}
             </Styled.MembershipBox>
         </Styled.Container>
     )

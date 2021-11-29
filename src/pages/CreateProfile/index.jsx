@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Redirect, useHistory } from 'react-router'
 import Moralis from 'moralis'
+import { ethers } from 'ethers'
 
 // Styling
 import * as Styled from './style'
@@ -87,11 +88,13 @@ const CreateProfile = () => {
             ...membership,
             dao
         ])
+        setSearchRes(searchRes.filter(res => res.name !== dao.name))
     }
 
     const removeDAO = name => {
         const new_membership = membership.filter(dao => dao.name !== name)
         setMembership(new_membership)
+        searchRes.length != 5 && !searchRes.includes(searchRes.filter(dao => dao.name === name)) && setSearchRes([ ...searchRes, membership.filter(dao => dao.name === name)[0] ])
     }
 
     // Listeners
@@ -104,19 +107,19 @@ const CreateProfile = () => {
                 return { balance: val.balance, tokenAddress: val.token_address }
             });
 
-            for (let balance in balances) {
-                const daoRef = collection(db, 'daos')
-                const q = query(daoRef, where('tokenAddress', '==', balance.tokenAddress))
-
-                const dao = (await getDocs(q)).docs[0]
-                console.log(dao)
-            }
-
             console.log(balances)
+
+            balances.forEach(async balance => {
+                const daoRef = collection(db, 'daos')
+                const q = query(daoRef, where('tokenAddress', 'in', [ethers.utils.getAddress(balance.tokenAddress), balance.tokenAddress]))
+                const dao = (await getDocs(q)).docs[0]
+                const info = dao ? { name: dao.data().name, id: dao.id, logoURL: dao.data().logoURL } : {}
+                dao && !membership.includes(info) && setMembership([ ...membership, info ])
+            })
         }
 
-        userInfo && !!userInfo.uid && getMemberships();
-    }, [userInfo])
+        loggedIn && !!userInfo.uid && getMemberships();
+    }, [loggedIn])
 
     useEffect(() => {
         const clear = setTimeout(() => {
@@ -189,6 +192,7 @@ const CreateProfile = () => {
 
                     <Styled.Fieldset>
                         <Styled.Label for="membership">Membership</Styled.Label>
+                        <Styled.SubLabel>Membership based on token holdings.</Styled.SubLabel>
                         <Styled.MembershipBox>{membership.map(dao => {
                             return (
                                 <Styled.MembershipIcon>

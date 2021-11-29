@@ -90,4 +90,5 @@ export const MembershipImg = styled.img`
     width: 40px;
     border-radius: 100%;
     margin-right: 12px;
+    background-color: white;
 `
