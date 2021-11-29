@@ -219,6 +219,11 @@ export const SocialLink = styled.a`
     margin-left: 5px;
 `
 
+export const YoutubeVideoContainer = styled.div`
+    margin: 10px;
+    padding: 5 px;
+`
+
 export const ColumnTwo = styled.div`
     grid-column: 6 / span 3;
     padding-left: 20px;

@@ -74,6 +74,11 @@ const Profile = (props) => {
     const [showMVModal, setShowMVModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
 
+    let youtubeID = null
+    if (props.youtubeURL) {
+        youtubeID = props.youtubeURL.split('v=')[1].substring(0, 11)
+    }
+
     const socials = Object.keys(props.socials).map((key) => {
         switch (key) {
             case 'discord':
@@ -305,6 +310,19 @@ const Profile = (props) => {
                         {/* social media for the DAO */}
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <Styled.DivContainer>
+                            <Styled.YoutubeVideoContainer>
+                                {props.youtubeURL && (
+                                    <iframe
+                                        width="560"
+                                        height="315"
+                                        src={`https://www.youtube-nocookie.com/embed/${youtubeID}`}
+                                        title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                    ></iframe>
+                                )}
+                            </Styled.YoutubeVideoContainer>
                             <Collapsible title="What Do We Do?">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (

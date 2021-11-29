@@ -65,7 +65,7 @@ const NewCard = (props) => {
                         <Styled.Title>
                             {props?.name}
                             <h1 style={{ margin: '5px' }}>
-                                {true && (
+                                {isAdmin && (
                                     <FaPencilAlt onClick={toggleEditModal} />
                                 )}{' '}
                             </h1>
