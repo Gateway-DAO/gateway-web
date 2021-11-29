@@ -56,6 +56,7 @@ const Home = (props) => {
                     <Styled.CTAButtonText>Join Today</Styled.CTAButtonText>
                 </Styled.CTAButton>
             </Styled.CTABox>
+            
             <Footer />
         </Styled.HomeContainer>
     )
