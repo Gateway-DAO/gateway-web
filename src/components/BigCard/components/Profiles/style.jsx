@@ -220,8 +220,9 @@ export const SocialLink = styled.a`
 `
 
 export const YoutubeVideoContainer = styled.div`
-    margin: 10px;
-    padding: 5 px;
+    margin: 10px 0;
+    padding: 5px;
+    width: 100%;
 `
 
 export const ColumnTwo = styled.div`
