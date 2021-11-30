@@ -65,7 +65,7 @@ const NewCard = (props) => {
                         <Styled.Title>
                             {props?.name}
                             <Styled.ProfileEditorContainer>
-                                {true && (
+                                {isAdmin && (
                                     <FaPencilAlt onClick={toggleEditModal} />
                                 )}
                             </Styled.ProfileEditorContainer>
