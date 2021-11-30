@@ -8,12 +8,13 @@ export const Container = styled.div`
     border-radius: 6px;
     margin: 10px 0;
     padding: 25px;
-
+    max-width:500px;
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
     line-height: 190%;
+    
     /* or 233% */
 
     letter-spacing: 0.05em;

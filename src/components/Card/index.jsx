@@ -1,6 +1,6 @@
 import { useHistory } from "react-router";
 
-import * as Styled from "./style";
+import * as Styled from "./style"
 
 const CardInfo = (props) => (
   <div>

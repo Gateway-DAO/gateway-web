@@ -1,53 +1,124 @@
-import styled from "styled-components"
-import { FiSearch } from "react-icons/fi";
+import styled from 'styled-components'
+import { FiSearch } from 'react-icons/fi'
 
-export const Box = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 10fr 1fr;
-  margin-top: 60px;
 
-  @media only screen and (max-width: 768px) {
-    grid-template-columns: 20px 1fr 20px;
-  }
-
-`
-
-export const SearchInputBox = styled.div`
-    grid-column: 2 / 3;
-    background: #FFFFFF;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+export const SearchMainDiv = styled.div`
     display: flex;
-    flex-direction: row;
-    position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
+    width: 100vw;
+    height: 120px;
+    justify-content: center;
+    margin-top: 40px;
+    @media only screen and (max-width: 768px) {
+        height: 120px;
+    }
 
-    @media only screen and (min-width: 768px) {
-        grid-column: 2 / 3;
-        border-radius: 100px;
-    } 
+    @media only screen and (max-width: 470px) {
+        height: 80px;
+    }
+
+    @media only screen and (max-width: 380px) {
+        height: 60px;
+    }
+
+    @media only screen and (max-width: 310px) {
+        height: 40px;
+    }
+
+    @media only screen and (max-width: 300px) {
+        height: 35px;
+    }
+`
+export const SearchSecondary = styled.div`
+    position: relative;
+    width: 75%;
+    @media only screen and (max-width: 768px) {
+        height: 120px;
+    }
+
+    @media only screen and (max-width: 470px) {
+        height: 80px;
+    }
+
+    @media only screen and (max-width: 380px) {
+        height: 60px;
+    }
+
+    @media only screen and (max-width: 310px) {
+        height: 40px;
+    }
+
+    @media only screen and (max-width: 300px) {
+        height: 35px;
+    }
 `
 
-export const SearchInput = styled.input`
+export const TypewriterDiv = styled.div`
+    position: absolute;
+    top: 0%;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px 0 0 100px;
+    background-color: white;
+`
+export const TypewriterText = styled.div`
+    font-family: 'Poppins', sans-serif !important;
+    display: flex;
+    top: 0%;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 100px 0 0 100px;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    letter-spacing: -0.05em;
+    color: #e5e5e5;
+    @media only screen and (max-width: 768px) {
+        border-radius: 100px;
+        line-height: 80px;
+        font-size: 38px;
+    }
+
+    @media only screen and (max-width: 470px) {
+        font-size: 30px;
+    }
+
+    @media only screen and (max-width: 380px) {
+        font-size: 25px;
+    }
+
+    @media only screen and (max-width: 310px) {
+        font-size: 20px;
+    }
+
+    @media only screen and (max-width: 300px) {
+        font-size: 15px;
+    }
+`
+
+export const InputBox = styled.input`
+    position: absolute;
+    background-color: transparent;
+    top: 0%;
+    right: 0;
+    width: 100%;
+    height: 100%;
     border: none;
     outline: none;
-    flex: 1;
-    padding: 20px 0;
     border-radius: 50px;
     text-align: center;
-    font-family: "Poppins" sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 44px;
     letter-spacing: -0.05em;
     color: #170627;
     width: 100%;
     font-style: normal;
     font-weight: normal;
+    border-radius: 100px 0 0 100px;
 
     @media only screen and (min-width: 768px) {
-        padding: 25px;
-        border-radius: 100px;
         font-size: 54px;
         line-height: 80px;
     }
@@ -55,51 +126,52 @@ export const SearchInput = styled.input`
     @media only screen and (max-width: 470px) {
         font-size: 30px;
         line-height: 45px;
-        padding: 15px;
     }
 
     @media only screen and (max-width: 380px) {
         font-size: 25px;
-        padding: 10px;
     }
 
     @media only screen and (max-width: 310px) {
         font-size: 20px;
-        padding: 7.5px;
     }
 
     @media only screen and (max-width: 300px) {
         font-size: 20px;
-        padding: 5px;
-    }
-
-    &::placeholder {
-      color: #e5e5e5;
     }
 `
 
+export const SearchIconDiv = styled.div`
+    display: flex;
+    width: 10%;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 0px 100px 100px 0px;
+`
+
 export const WrappedFiSearch = styled(FiSearch)`
-  padding-right: 35px;
-  font-size: 90px;
+    padding-right: 35px;
+    font-size: 90px;
 
-  @media only screen and (max-width: 767px) {
-    font-size: 75px;
-  }
+    @media only screen and (max-width: 767px) {
+        font-size: 75px;
+        padding-right: 10px;
+    }
 
-  @media only screen and (max-width: 470px) {
-    font-size: 50px;
-  }
+    @media only screen and (max-width: 470px) {
+        font-size: 50px;
+    }
 
-  @media only screen and (max-width: 380px) {
-    font-size: 40px;
-    padding-right: 10px;
-  }
+    @media only screen and (max-width: 380px) {
+        font-size: 40px;
+    }
 
-  @media only screen and (max-width: 310px) {
-    font-size: 35px;
-  }
+    @media only screen and (max-width: 310px) {
+        font-size: 35px;
+    }
 
-  @media only screen and (max-width: 300px) {
-    font-size: 20px;
-  }
+    @media only screen and (max-width: 300px) {
+        font-size: 20px;
+    }
 `

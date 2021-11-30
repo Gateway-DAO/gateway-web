@@ -5,6 +5,7 @@ import { db } from "../../../api/firebase";
 import { doc, getDoc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
+import RichEditor from "../../RichTextEditor";
 
 const EditCardModal = props => {
     const [name, setName] = useState(props.name)
@@ -88,7 +89,7 @@ const EditCardModal = props => {
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="description">Description</ModalStyled.Label>
-                    <ModalStyled.Textarea height="100px" id="description" onChange={e => setDescription(e.target.value)}>{description}</ModalStyled.Textarea>
+                    <RichEditor set={setDescription} value={description} />
                 </ModalStyled.Fieldset>
 
                 <ModalStyled.Fieldset marginBottom="30px">
