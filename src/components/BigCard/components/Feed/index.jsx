@@ -21,12 +21,11 @@ const Feed = (props) => {
     const [postRefreshToggler, setPostRefreshToggler] = useState(false)
        const fetchPosts = async () => {
            const allPosts = await fetchPostsByCard(props.cardName)
-        //    const sortedArrayByTime = sortByTime(allPosts)
            setFeeds(allPosts)
        }
        useEffect(() => {
            fetchPosts()
-       }, [postRefreshToggler]) 
+       }, [postRefreshToggler,]) 
 
        useEffect(() => {
           const filterPosts = filterPostByChannel(feeds, selected)

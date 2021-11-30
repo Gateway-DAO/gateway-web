@@ -1,12 +1,13 @@
 import * as Styled from './style'
-import {useEffect,useState} from "react"
+import { useParams } from 'react-router'
+import { useEffect } from 'react'
 import UserPostCard from '../UserPostCard'
 import PostCard from '../PostCard'
 import CommentPostCard from '../CommentPostCard'
 import { fetchPostsByCard } from '../BigCard/components/Feed/Handlers/Handlers'
 
 const FeedPostWrapper = (props) => {
-
+   
     return (
         <Styled.FeedPostContainer>
             <UserPostCard

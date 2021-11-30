@@ -1,6 +1,6 @@
 import * as Styled from './style'
 import CTA_BG from '../../assets/Gateway.svg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     getUserById,
     upVoteDecrease,
@@ -19,6 +19,19 @@ const PostCard = (props) => {
     const [downvoteColor, setDownvoteColor] = useState(null)
     const date = props.createdAt.toDate()
     const { postID } = props
+
+    useEffect(()=>{
+         if (upvote.includes(loggedInUser)) {
+             setUpvoteColor('#45e850')
+         }else{
+             setUpvoteColor(null)
+         }
+         if (downvote.includes(loggedInUser)) {
+             setUpvoteColor('#e84576')
+         } else {
+             setUpvoteColor(null)
+         }
+    },[])
 
     let options = {
         year: 'numeric',
