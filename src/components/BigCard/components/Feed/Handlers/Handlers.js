@@ -59,7 +59,6 @@ export const setPostIdInChannelHandler = async (
     console.log('Set id success')
 }
 
-
 export const sendPostData = async (data, uniqueID) => {
     await setDoc(doc(db, 'posts', uniqueID), data)
     console.log('post success')
@@ -69,14 +68,14 @@ export const getUserById = async (userId) => {
     const userRef = doc(db, 'users', userId)
     const getDocument = await getDoc(userRef)
     const data = await getDocument.data()
-    return data;
+    return data
 }
 
 export const fetchPostsByCard = async (daoName) => {
-    const citiesRef = collection(db, 'posts')
+    const postsRef = collection(db, 'posts')
     const queries = query(
-        citiesRef,
-        orderBy('createdAt',"desc"),
+        postsRef,
+        orderBy('createdAt', 'desc'),
         where('DAO', '==', daoName)
     )
     const querySnapshot = await getDocs(queries)
@@ -84,7 +83,19 @@ export const fetchPostsByCard = async (daoName) => {
     querySnapshot.forEach((doc) => {
         posts.push({ id: doc.id, ...doc.data() })
     })
-    return posts
+    let postsWithUsers = []
+    for (const post of posts) {
+        const userRef = doc(db, 'users', post.userID)
+        const getDocument = await getDoc(userRef)
+        const data = await getDocument.data()
+        postsWithUsers.push({
+            name: data.name,
+            username: data.username,
+            ...post,
+        })
+    }
+    console.log(postsWithUsers)
+    return postsWithUsers
 }
 
 export const filterPostByChannel = (array, channelName) => {
@@ -92,13 +103,12 @@ export const filterPostByChannel = (array, channelName) => {
     return filteredArray
 }
 
-export const upVote =async (postId,userId)=>{
+export const upVote = async (postId, userId) => {
     const userRef = doc(db, 'posts', postId)
     const getDocument = await getDoc(userRef)
     const data = await getDocument.data()
     console.log(data.upvote)
 }
-
 
 export const imageUploadHandler = async (id, file, size) => {
     const options = {

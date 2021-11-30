@@ -24,6 +24,8 @@ const FeedPostWrapper = (props) => {
                         upvote={feed.upvote}
                         downvote={feed.downvote}
                         userID={feed.userID}
+                        name={feed.name}
+                        username={feed.username}
                     />
                 ))}
             {/* <PostCard

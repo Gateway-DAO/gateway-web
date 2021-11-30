@@ -5,16 +5,8 @@ import { getUserById } from '../BigCard/components/Feed/Handlers/Handlers'
 import UP_VOTES from '../../assets/icons/UpVotes.svg'
 import DOWN_VOTES from '../../assets/icons/DownVotes.svg'
 const PostCard = (props) => {
-    const [user, setUser] = useState({ name: '...', userName: '...' })
-    const getUser = async () => {
-        const user = await getUserById(props.userID)
-        const userDetails = { name: user.name, username: user.username }
-        setUser(userDetails)
-    }
-    getUser()
-
-    const upVoteHandler =()=>{}
-    const downVoteHandler =()=>{}
+    const upVoteHandler = () => {}
+    const downVoteHandler = () => {}
 
     const time = '29 Nov 2021'
     return (
@@ -25,9 +17,9 @@ const PostCard = (props) => {
                     <Styled.PostByInfo>
                         {' '}
                         posted by
-                        <Styled.PostByName>{user.name}</Styled.PostByName>
+                        <Styled.PostByName>{props.name}</Styled.PostByName>
                         <Styled.PostByUsername>
-                            @{user.username}
+                            @{props.username}
                         </Styled.PostByUsername>
                     </Styled.PostByInfo>
                 </Styled.ProfileBioContainer>
