@@ -82,7 +82,8 @@ export const DAOProfileContainer = styled.div`
     display: flex;
     height: 18vh;
     margin-left: 5%;
-    margin-top: -8%;
+    align-items: center;
+    margin-top: -10%;
 `
 
 export const Logo = styled.img`
@@ -120,19 +121,26 @@ export const Title = styled.h1`
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
-    line-height: 26px;
-    display: flex;
+    /* line-height: 26px; */
     align-items: center;
-
     color: #ffffff;
+    text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black,
+        1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
 
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     margin-left: 15px;
-    text-shadow: 1px 1px black;
+    /* text-shadow: 1px 1px black; */
 
     @media only screen and (max-width: 300px) {
         font-size: 14px;
     }
+`
+
+export const ProfileEditorContainer = styled.span`
+    background-color: black;
+    margin: 15px;
+    padding: 5px;
+    border-radius: 20px;
 `
 
 export const BalanceText = styled.span`

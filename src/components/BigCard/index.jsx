@@ -64,11 +64,11 @@ const NewCard = (props) => {
                         <Styled.Logo src={props?.logoURL} />
                         <Styled.Title>
                             {props?.name}
-                            <h1 style={{ margin: '5px' }}>
-                                {isAdmin && (
+                            <Styled.ProfileEditorContainer>
+                                {true && (
                                     <FaPencilAlt onClick={toggleEditModal} />
-                                )}{' '}
-                            </h1>
+                                )}
+                            </Styled.ProfileEditorContainer>
                         </Styled.Title>
                     </Styled.DAOProfileContainer>
                     <Styled.ProfileAndFeedContainer>
