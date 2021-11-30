@@ -18,11 +18,12 @@ const FeedPostWrapper = (props) => {
             {props.currentFeeds.lenght !== 0 &&
                 props.currentFeeds.map((feed) => (
                     <PostCard
+                        postID={feed.id}
                         content={feed.content.data}
                         image={feed.content.image1}
                         createdAt={feed.createdAt}
-                        upvote={feed.upvote}
-                        downvote={feed.downvote}
+                        upvotes={feed.upvotes}
+                        downvotes={feed.downvotes}
                         userID={feed.userID}
                         name={feed.name}
                         username={feed.username}

@@ -61,6 +61,7 @@ export const PostTime = styled.span`
     line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
+    align-self: center;
 `
 
 export const MessageContainer = styled.p`
@@ -153,11 +154,17 @@ export const ImageContainer = styled.div`
     margin: 20px 10px 0px 10px;
 `
 export const ActivityFirstContainer = styled(ActivityTextContainer)`
+    background-color: ${(props) => props.inputColor || 'white'};
+    border-radius: 100%;
     margin-right: 10px;
 `
 export const ActivitySecondContainer = styled(ActivityTextContainer)`
+    background-color: ${(props) => props.inputColor || 'white'};
+    border-radius: 100%;
     margin-left: 10px;
 `
 export const VoteContainer = styled(ActivityTextContainer)`
+    font-family: Be Vietnam;
+    font-weight: 400;
     margin-right: 0;
 `

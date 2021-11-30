@@ -8,6 +8,8 @@ import {
     where,
     getDocs,
     orderBy,
+    arrayUnion,
+    arrayRemove,
 } from 'firebase/firestore'
 import imageCompression from 'browser-image-compression'
 import { db, uploadImage } from '../../../../../api/firebase'
@@ -94,7 +96,6 @@ export const fetchPostsByCard = async (daoName) => {
             ...post,
         })
     }
-    console.log(postsWithUsers)
     return postsWithUsers
 }
 
@@ -103,11 +104,33 @@ export const filterPostByChannel = (array, channelName) => {
     return filteredArray
 }
 
-export const upVote = async (postId, userId) => {
-    const userRef = doc(db, 'posts', postId)
-    const getDocument = await getDoc(userRef)
-    const data = await getDocument.data()
-    console.log(data.upvote)
+export const upVoteIncrease = async (postId, userID) => {
+    const postsRef = doc(db, 'posts', postId)
+    console.log('dont have id, upvote added')
+    await updateDoc(postsRef, {
+        upvotes: arrayUnion(userID),
+    })
+}
+export const upVoteDecrease = async (postId, userID) => {
+    const postsRef = doc(db, 'posts', postId)
+    console.log('have id, upvote removed')
+    await updateDoc(postsRef, {
+        upvotes: arrayRemove(userID),
+    })
+}
+export const downVoteIncrease = async (postId, userID) => {
+    const postsRef = doc(db, 'posts', postId)
+    console.log(' dont have id, downvote increase' )
+    await updateDoc(postsRef, {
+        downvotes: arrayUnion(userID),
+    })
+}
+export const downVoteDecrease = async (postId, userID) => {
+    const postsRef = doc(db, 'posts', postId)
+    console.log('has id, downvote decrease')
+    await updateDoc(postsRef, {
+        downvotes: arrayRemove(userID),
+    })
 }
 
 export const imageUploadHandler = async (id, file, size) => {
