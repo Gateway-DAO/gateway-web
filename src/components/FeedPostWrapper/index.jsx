@@ -1,43 +1,49 @@
 import * as Styled from './style'
 import { useParams } from 'react-router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import UserPostCard from '../UserPostCard'
 import PostCard from '../PostCard'
 import CommentPostCard from '../CommentPostCard'
-import { fetchPostsByCard } from '../BigCard/components/Feed/Handlers/Handlers'
+import {
+    fetchPostByCardAndChannel,
+    fetchPostsByCard,
+    fetchAllPostsById,
+} from '../BigCard/components/Feed/Handlers/Handlers'
+import { db } from '../../api/firebase'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 const FeedPostWrapper = (props) => {
-   
+    const [ids, setIds] = useState([])
+    const channel = props.channel
+    const cardName = props.cardName
+    useEffect(() => {
+        const daoSnapshot = onSnapshot(
+            doc(db, 'daos', cardName),
+            (doc) => {
+                const DaoData = doc.data()
+                const fieldName = `channel-${channel}`
+                const currentPostsIds = DaoData[fieldName]
+                let sortedArray = []
+                if (currentPostsIds) {
+                    sortedArray = currentPostsIds.reverse()
+                }
+                setIds(sortedArray)
+            }
+        )
+        return daoSnapshot
+    }, [channel, cardName])
+
     return (
         <Styled.FeedPostContainer>
+            {console.log('feedPostWrapper')}
             <UserPostCard
                 cardName={props.cardName}
                 channel={props.channel}
                 posted={props.posted}
             />
-
-            {props.currentFeeds.lenght !== 0 &&
-                props.currentFeeds.map((feed) => (
-                    <PostCard
-                        postID={feed.id}
-                        content={feed.content.data}
-                        image={feed.content.image1}
-                        createdAt={feed.createdAt}
-                        upvotes={feed.upvotes}
-                        downvotes={feed.downvotes}
-                        userID={feed.userID}
-                        name={feed.name}
-                        username={feed.username}
-                    />
-                ))}
-            {/* <PostCard
-                content="This is a Sample Card"
-                image="https://res.cloudinary.com/grohealth/image/upload/$wpsize_!_cld_full!,w_800,h_400,c_scale/v1620316360/greenspace.jpg"
-                createdAt="29 Nov 2021"
-                upvote=""
-                downvote=""
-            /> */}
-            <CommentPostCard />
+            {ids !== 0 && ids.map((id) => <PostCard key={id} id={id} />)}
+            {ids.length === 0 && <p>Empty</p>}
+            {/* <CommentPostCard /> */}
         </Styled.FeedPostContainer>
     )
 }

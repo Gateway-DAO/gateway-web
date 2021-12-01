@@ -45,6 +45,7 @@ import BountyCard from '../../../BountyCard'
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
 import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { shortenAddress } from '../../../../utils/web3'
+import FeedLogic from '../Feed/FeedLogic'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
@@ -616,6 +617,7 @@ const Profile = (props) => {
                         </Styled.ColumnTwo>
                     )}
                 </Styled.DivideContainer>
+                <FeedLogic/>
             </Styled.DAOContainer>
         </Styled.Container>
     )

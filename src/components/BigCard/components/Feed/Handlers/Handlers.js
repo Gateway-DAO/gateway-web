@@ -10,59 +10,19 @@ import {
     orderBy,
     arrayUnion,
     arrayRemove,
+    onSnapshot,
 } from 'firebase/firestore'
 import imageCompression from 'browser-image-compression'
 import { db, uploadImage } from '../../../../../api/firebase'
-export const setPostIdInChannelHandler = async (
-    daoName,
-    channelName,
-    newPostID
-) => {
-    const daoDoc = doc(db, 'daos', daoName)
-    const daoFetch = await getDoc(daoDoc)
-    const data = daoFetch.data()
-    let allChannels = null
-    let channelToUpdateArray = null
-    if (data.hasOwnProperty('channels')) {
-        allChannels = data.channels
-        if (data.channels.hasOwnProperty(channelName)) {
-            channelToUpdateArray = data.channels[channelName]
-        }
-    }
-    let updatedArray
-    if (channelToUpdateArray) {
-        updatedArray = [newPostID, ...channelToUpdateArray]
-    } else {
-        updatedArray = [newPostID]
-    }
-    let channels
-    switch (channelName) {
-        case 'General':
-            channels = { ...allChannels, General: [updatedArray] }
-            break
-        case 'Events':
-            channels = { ...allChannels, Events: [updatedArray] }
-            break
-        case 'NFTs':
-            channels = { ...allChannels, NFTs: [updatedArray] }
-            break
-        case 'Web3':
-            channels = { ...allChannels, Web3: [updatedArray] }
-            break
-        case 'DeFi':
-            channels = { ...allChannels, DeFi: [updatedArray] }
-            break
-        default:
-            break
-    }
-    await updateDoc(daoDoc, {
-        channels: channels,
-    })
-    console.log('Set id success')
-}
 
-export const sendPostData = async (data, uniqueID) => {
+//Set post in posts Collection and add the post ID in respective [Dao]-[ChannelName]
+export const sendPostDataAndSetId = async (data, uniqueID,daoName,channelName) => {
+    const daoRef = doc(db, 'daos', daoName)
     await setDoc(doc(db, 'posts', uniqueID), data)
+    const fieldName= `channel-${channelName}`
+    await updateDoc(daoRef, {
+        [fieldName]: arrayUnion(uniqueID),
+    })
     console.log('post success')
 }
 
@@ -71,6 +31,25 @@ export const getUserById = async (userId) => {
     const getDocument = await getDoc(userRef)
     const data = await getDocument.data()
     return data
+}
+
+//Fetch single post by ID
+export const fetchPostById = async(id)=>{
+     const postsRef = doc(db, 'posts', id)
+     const getDocument = await getDoc(postsRef)
+     const data = await getDocument.data()
+     console.log("fetchPostByid-",data)
+}
+//Fetch all posts by ID
+export const fetchAllPostsById = async(array)=>{
+     let allPosts = []
+     for (const id of array) {
+         const postsRef = doc(db, 'posts', id)
+         const getDocument = await getDoc(postsRef)
+         const data = await getDocument.data()
+         allPosts.push(data)
+     }
+     return allPosts;
 }
 
 export const fetchPostsByCard = async (daoName) => {

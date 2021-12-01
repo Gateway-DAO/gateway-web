@@ -110,7 +110,7 @@ const FeedLogic = () => {
 
     return (
         <React.Fragment>
-            {/* <button onClick={setUsersHandler}>Submit User</button> */}
+            <button onClick={setUsersHandler}>Submit User</button>
         </React.Fragment>
     )
 }

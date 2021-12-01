@@ -7,7 +7,7 @@ import Picker from 'emoji-picker-react'
 import { useState, useRef } from 'react'
 import { Form, Formik } from 'formik'
 import {
-    setPostIdInChannelHandler,
+    sendPostDataAndSetId,
     sendPostData,
     getUserById,
     imageUploadHandler,
@@ -16,7 +16,7 @@ import * as Yup from 'yup'
 import { v4 as uuidv4 } from 'uuid'
 
 const UserPostCard = (props) => {
-    const loggedInUserID = 'testUser-2'
+    const loggedInUserID = 'testUser-1'
     // for comment images
     const filePickerRef = useRef()
     const [picture, setPicture] = useState(null)
@@ -39,8 +39,7 @@ const UserPostCard = (props) => {
 
         const data = {
             userID: loggedInUserID,
-            DAO: props.cardName,
-            channel: props.channel,
+            origin: `${props.cardName}-${props.channel}`,
             title: 'Title here',
             content: {
                 data: commentMessage,
@@ -53,8 +52,7 @@ const UserPostCard = (props) => {
         }
 
         try {
-            sendPostData(data, newID)
-            // setPostIdInChannelHandler(props.cardName, props.channel, newID)
+            sendPostDataAndSetId(data, newID, props.cardName, props.channel)
         } catch {
             console.log('posting failed')
         }
