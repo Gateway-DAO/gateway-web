@@ -2,7 +2,7 @@ import * as Styled from "./style";
 import {
     Category,
     CategoryList,
-} from '../BigCard/DummyStylingForReference/style'
+} from '../BigCard/components/Profiles/style'
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { db } from "../../api/firebase";
 
