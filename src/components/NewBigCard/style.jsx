@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 
 export const DaoWrapper = styled.div`
     width: 95vw;
-    height: 90vh;
     margin: 20px auto;
     background-color: #180b27;
     color: white;
@@ -11,9 +10,10 @@ export const DaoWrapper = styled.div`
 
 export const ProfileInfoWrapper = styled.div`
     height: 30vh;
-    //background-color: black;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `
 
 // Dao Bio Information
@@ -87,6 +87,7 @@ export const Title = styled.h1`
 export const SocialContainer = styled.div`
     display: flex;
     flex-direction: row;
+    margin-top: 10px;
 `
 
 export const Button = styled.a`
@@ -138,40 +139,6 @@ export const BackHomeButtonText = styled.a`
     }
 `
 
-// new styling
-
-// export const Social = styled.li`
-//     display: flex;
-//     flex-direction: row;
-//     flex-wrap: wrap;
-//     align-items: center;
-//     padding: 0 10px;
-
-//     @media only screen and (max-width: 1190px) {
-//         flex-direction: column;
-//     }
-//     @media only screen and (max-width: 980px) {
-//         flex-direction: column;
-//     }
-// `
-
-// export const SocialLink = styled.a`
-//     font-family: Be Vietnam;
-//     font-style: normal;
-//     font-weight: normal;
-//     font-size: 12px;
-//     line-height: 18px;
-//     display: flex;
-//     align-items: center;
-//     letter-spacing: 0.05em;
-
-//     color: #170627;
-
-//     text-decoration: none;
-
-//     margin-left: 5px;
-// `
-
 export const Social = styled(BackHomeButton)`
     margin-right: 10px;
 `
@@ -179,4 +146,35 @@ export const Social = styled(BackHomeButton)`
 export const SocialLink = styled(BackHomeButtonText)`
     color: #ffffff;
     font-size: 20px;
+`
+
+// sub Dao container
+
+export const SubDaoContainer = styled.div`
+    margin-right: 275px;
+    display: flex;
+    flex-direction: column;
+`
+
+export const Text = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 14px;
+    /* or 87% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+
+    color: #e5e5e5;
+`
+
+export const SubDAOImg = styled.img`
+    width: 32.96px;
+    height: 32.96px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
 `

@@ -1,11 +1,11 @@
 import * as Styled from './style'
-
+import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import useAdmin from '../../hooks/useAdmin'
 import React, { useState, useEffect } from 'react'
+import RelatedDAOSection from './components/RelatedDAO'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from '@ethersproject/bignumber'
-import RelatedDAOSection from './components/RelatedDAO'
 import EditCardModal from '../Modal/EditCardModal'
 import {
     FaDiscord,
@@ -149,6 +149,7 @@ const NewCard = (props) => {
     return (
         <>
             <Styled.DaoWrapper>
+                <Modals />
                 <Styled.ProfileInfoWrapper>
                     <Styled.ProfileInfoContainer>
                         <Styled.ProfileImageContainer src={props?.logoURL} />
@@ -170,7 +171,26 @@ const NewCard = (props) => {
                             </Styled.SocialContainer>
                         </Styled.DaoBioInfo>
                     </Styled.ProfileInfoContainer>
+                    {props['related-daos'] && (
+                        <Styled.SubDaoContainer>
+                            <Styled.Text>Sub DAOs</Styled.Text>
+                            {props['related-daos'].map((dao, idx) => {
+                                return (
+                                    <Link to={`/dao/${dao}`}>
+                                        <Styled.SubDAOImg
+                                            src={props.related[idx]}
+                                            title={dao}
+                                        />
+                                    </Link>
+                                )
+                            })}
+                        </Styled.SubDaoContainer>
+                    )}
                 </Styled.ProfileInfoWrapper>
+                <RelatedDAOSection
+                    categories={props.categories}
+                    name={props.name}
+                />
             </Styled.DaoWrapper>
         </>
     )
