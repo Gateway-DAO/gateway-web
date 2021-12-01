@@ -321,8 +321,8 @@ const Profile = (props) => {
                         {/* social media for the DAO */}
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <Styled.DivContainer>
-                            <Styled.YoutubeVideoContainer>
-                                {props.youtubeURL && (
+                            {props.youtubeURL && (
+                                <Styled.YoutubeVideoContainer>
                                     <iframe
                                         width="100%"
                                         height="315"
@@ -332,8 +332,8 @@ const Profile = (props) => {
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen
                                     ></iframe>
-                                )}
-                            </Styled.YoutubeVideoContainer>
+                                </Styled.YoutubeVideoContainer>
+                            )}
                             <Collapsible title="What Do We Do?">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (

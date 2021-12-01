@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { FaPencilAlt } from 'react-icons/fa'
 
 export const Container = styled.div`
     display: flex;
@@ -17,7 +18,7 @@ export const CardContainer = styled.div`
 
 export const CardBanner = styled.div`
     height: 40vh;
-    background-image: url(${(props) => props.src});
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 93.45%), url(${(props) => props.src});
     background-size: cover;
     background-position: center;
     border-top-right-radius: 20px;
@@ -124,7 +125,7 @@ export const Title = styled.h1`
     /* line-height: 26px; */
     align-items: center;
     color: #ffffff;
-    text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black,
+    // text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black,
         1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
 
     /* margin-bottom: 15px; */
@@ -134,13 +135,19 @@ export const Title = styled.h1`
     @media only screen and (max-width: 300px) {
         font-size: 14px;
     }
+
+    display: flex;
+    flex-direction: row;
 `
 
-export const ProfileEditorContainer = styled.span`
-    background-color: black;
+export const ProfileEditorIcon = styled(FaPencilAlt)`
+    background-color: white;
+    color: black;
     margin: 15px;
     padding: 5px;
-    border-radius: 20px;
+    border-radius: 100%;
+    cursor: pointer;
+    border: 1px solid #A5A5A5;
 `
 
 export const BalanceText = styled.span`
