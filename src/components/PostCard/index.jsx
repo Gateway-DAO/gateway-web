@@ -14,18 +14,26 @@ import UP_VOTES from '../../assets/icons/UpVotes.svg'
 import DOWN_VOTES from '../../assets/icons/DownVotes.svg'
 
 const PostCard = (props) => {
-    const loggedInUser = 'testUser-1'
+    const loggedInUser = 'testUser-2'
     const [post, setPosts] = useState(null)
+    const [user, setUser] = useState(null)
     const id = props.id
     useEffect(() => {
         const postSnapshot = onSnapshot(doc(db, 'posts', id), (doc) => {
             const postData = doc.data()
             if (postData) {
+                const getUser = async () => {
+                    const user = await getUserById(postData.userID)
+                    setUser({ name: user.name, username: user.username })
+                }
+                getUser()
                 setPosts(postData)
             }
         })
         return postSnapshot
     }, [id])
+
+    useEffect(() => {}, [])
 
     // const [upvote, setUpvote] = useState(props.upvotes)
     // const [downvote, setDownvote] = useState(props.downvotes)
@@ -80,18 +88,19 @@ const PostCard = (props) => {
 
     return (
         <Styled.PostContainer>
-            {post && (
+            {post && user && (
                 <div>
-                    {console.log(post)}
                     <Styled.PostHeaderInfo>
                         <Styled.ProfileBioContainer>
                             <Styled.PostImageContainer src={CTA_BG} />
                             <Styled.PostByInfo>
                                 {' '}
                                 posted by
-                                <Styled.PostByName>Arun</Styled.PostByName>
+                                <Styled.PostByName>
+                                    {user.name}
+                                </Styled.PostByName>
                                 <Styled.PostByUsername>
-                                    @arun
+                                    @{user.username}
                                 </Styled.PostByUsername>
                             </Styled.PostByInfo>
                         </Styled.ProfileBioContainer>

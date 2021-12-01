@@ -16,7 +16,7 @@ import * as Yup from 'yup'
 import { v4 as uuidv4 } from 'uuid'
 
 const UserPostCard = (props) => {
-    const loggedInUserID = 'testUser-1'
+    const loggedInUserID = 'testUser-2'
     // for comment images
     const filePickerRef = useRef()
     const [picture, setPicture] = useState(null)
