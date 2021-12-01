@@ -1,4 +1,5 @@
 import * as Styled from './style'
+import { useEffect } from 'react'
 import CTA_BG from '../../assets/Gateway.svg'
 import HappyEmoji from '../../assets/icons/HappyEmoji.svg'
 import PictureIcon from '../../assets/icons/PictureIcon.svg'
@@ -27,11 +28,13 @@ const UserPostCard = (props) => {
     const [commentMessage, setCommentMessage] = useState('')
     const [showEmojiBox, setEmojiBox] = useState(false)
 
-    const getUser = async () => {
-        const user = await getUserById(loggedInUserID)
-        setUser({ name: user.name, username: user.username })
-    }
-    getUser()
+    useEffect(() => {
+        const getUser = async () => {
+            const user = await getUserById(loggedInUserID)
+            setUser({ name: user.name, username: user.username })
+        }
+        getUser()
+    }, [loggedInUserID])
 
     const dataSubmitHandler = async (values, { setSubmitting, resetForm }) => {
         const { v4: uuidv4 } = require('uuid')
@@ -43,9 +46,11 @@ const UserPostCard = (props) => {
             title: 'Title here',
             content: {
                 data: commentMessage,
-                image1:values.image ? await imageUploadHandler(newID,values.image,0.1):'https://res.cloudinary.com/grohealth/image/upload/$wpsize_!_cld_full!,w_800,h_400,c_scale/v1620316360/greenspace.jpg',
+                image1: values.image
+                    ? await imageUploadHandler(newID, values.image, 0.1)
+                    : 'https://res.cloudinary.com/grohealth/image/upload/$wpsize_!_cld_full!,w_800,h_400,c_scale/v1620316360/greenspace.jpg',
             },
-            comments: {},
+            comments: [],
             upvotes: [],
             downvotes: [],
             createdAt: new Date(),

@@ -1,69 +1,69 @@
 {
-  "name": "gateway",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@metamask/eth-sig-util": "^4.0.0",
-    "@reduxjs/toolkit": "^1.6.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@web3-react/core": "^6.1.9",
-    "@web3-react/injected-connector": "^6.0.7",
-    "algoliasearch": "^4.10.5",
-    "browser-image-compression": "^1.0.17",
-    "cross-env": "^7.0.3",
-    "emoji-picker-react": "^3.4.8",
-    "ethers": "^5.4.7",
-    "firebase": "^9.1.1",
-    "formik": "^2.2.9",
-    "react": "^17.0.2",
-    "react-collapsible": "^2.8.4",
-    "react-dom": "^17.0.2",
-    "react-icons": "^4.2.0",
-    "react-markdown": "^7.1.0",
-    "react-particles-js": "^3.5.3",
-    "react-redux": "^7.2.5",
-    "react-responsive": "^9.0.0-beta.4",
-    "react-router-dom": "^5.3.0",
-    "react-scripts": "4.0.3",
-    "react-share": "^4.4.0",
-    "react-waypoint": "^10.1.0",
-    "redux": "^4.1.1",
-    "remark-gfm": "^3.0.0",
-    "styled-components": "^5.3.1",
-    "typewriter-effect": "^2.18.2",
-    "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1",
-    "yarn": "^1.22.15",
-    "yup": "^0.32.11"
-  },
-  "scripts": {
-    "start": "cross-env CI= react-scripts start",
-    "build": "cross-env CI= react-scripts build",
-    "test": "cross-env CI= react-scripts test",
-    "deploy": "cross-env CI= yarn build && firebase deploy",
-    "deploy-dev": "cross-env CI= yarn build && firebase deploy --only hosting:dev",
-    "dev": "cross-env REACT_APP_NODE_ENV=dev yarn start",
-    "firebase-dev": "cross-env REACT_APP_NODE_ENV=dev firebase emulators:start --import ./functions/database",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "gateway",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@metamask/eth-sig-util": "^4.0.0",
+        "@reduxjs/toolkit": "^1.6.1",
+        "@testing-library/jest-dom": "^5.11.4",
+        "@testing-library/react": "^11.1.0",
+        "@testing-library/user-event": "^12.1.10",
+        "@web3-react/core": "^6.1.9",
+        "@web3-react/injected-connector": "^6.0.7",
+        "algoliasearch": "^4.10.5",
+        "browser-image-compression": "^1.0.17",
+        "cross-env": "^7.0.3",
+        "emoji-picker-react": "^3.4.8",
+        "ethers": "^5.4.7",
+        "firebase": "^9.1.1",
+        "formik": "^2.2.9",
+        "react": "^17.0.2",
+        "react-collapsible": "^2.8.4",
+        "react-dom": "^17.0.2",
+        "react-icons": "^4.2.0",
+        "react-markdown": "^7.1.0",
+        "react-particles-js": "^3.5.3",
+        "react-redux": "^7.2.5",
+        "react-responsive": "^9.0.0-beta.4",
+        "react-router-dom": "^5.3.0",
+        "react-scripts": "4.0.3",
+        "react-share": "^4.4.0",
+        "react-waypoint": "^10.1.0",
+        "redux": "^4.1.1",
+        "remark-gfm": "^3.0.0",
+        "styled-components": "^5.3.1",
+        "typewriter-effect": "^2.18.2",
+        "uuid": "^8.3.2",
+        "web-vitals": "^1.0.1",
+        "yarn": "^1.22.15",
+        "yup": "^0.32.11"
+    },
+    "scripts": {
+        "start": "cross-env CI= react-scripts start",
+        "build": "cross-env CI= react-scripts build",
+        "test": "cross-env CI= react-scripts test",
+        "deploy": "cross-env CI= yarn build && firebase deploy",
+        "deploy-dev": "cross-env CI= yarn build && firebase deploy --only hosting:dev",
+        "dev": "cross-env REACT_APP_NODE_ENV=dev yarn start",
+        "firebase-dev": "cross-env REACT_APP_NODE_ENV=dev firebase emulators:start --import ./functions/database --export-on-exit",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

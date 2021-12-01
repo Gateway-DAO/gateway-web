@@ -112,6 +112,17 @@ export const downVoteDecrease = async (postId, userID) => {
     })
 }
 
+export const commentPost = async(postData,postID)=>{
+    const postsRef = doc(db, 'posts', postID);
+    await updateDoc(postsRef, {
+        comments: arrayUnion(postData),
+    })
+    console.log("comment done")
+}
+
+
+
+// ----------Image uploading 
 export const imageUploadHandler = async (id, file, size) => {
     const options = {
         maxSizeMB: size,

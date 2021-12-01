@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const PostContainer = styled.div`
-    background-color: #ededed;
+    background-color: #f4f4f4;
     display: flex;
     flex-direction: column;
     border: 1px solid #e5e5e5;
@@ -62,6 +62,7 @@ export const PostTime = styled.span`
     line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
+    align-self: center;
 `
 
 export const MessageContainer = styled.p`
@@ -76,19 +77,30 @@ export const MessageContainer = styled.p`
     text-align: left;
 `
 
+export const CommentImageContainer = styled.div`
+    display: flex;
+    margin: 4px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+`
+
+export const CommentImage = styled.img`
+    height: 240px;
+    width: 240px;
+    border-radius: 10px;
+`
+
 export const InputComment = styled.textarea`
-    background-color: #ededed;
     flex: 1;
     margin-left: 20px;
     font-size: 15px;
     border: none;
+
     :focus {
         outline: none;
     }
 `
-
-
-
 
 export const ActivityContainer = styled.div`
     margin: 0px 40px;
@@ -126,4 +138,34 @@ export const ActivityTextContainer = styled.span`
     line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
+`
+
+export const ActivityEmojiContainer = styled(ActivityTextContainer)`
+    display: flex;
+    position: relative;
+`
+
+export const EmojiContainer = styled.div`
+    display: flex;
+    position: absolute;
+    top: 20px;
+`
+
+export const ImageContainer = styled.div`
+    margin: 20px 10px 0px 10px;
+`
+export const ActivityFirstContainer = styled(ActivityTextContainer)`
+    background-color: ${(props) => props.inputColor || 'white'};
+    border-radius: 100%;
+    margin-right: 10px;
+`
+export const ActivitySecondContainer = styled(ActivityTextContainer)`
+    background-color: ${(props) => props.inputColor || 'white'};
+    border-radius: 100%;
+    margin-left: 10px;
+`
+export const VoteContainer = styled(ActivityTextContainer)`
+    font-family: Be Vietnam;
+    font-weight: 400;
+    margin-right: 0;
 `

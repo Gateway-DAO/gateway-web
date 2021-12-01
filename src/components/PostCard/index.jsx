@@ -14,6 +14,8 @@ import {
 import CommentPostCard from '../CommentPostCard'
 import UP_VOTES from '../../assets/icons/UpVotes.svg'
 import DOWN_VOTES from '../../assets/icons/DownVotes.svg'
+import CommentCard from '../CommentCard'
+
 const PostCard = (props) => {
     const loggedInUser = props.loggedInUserID
     const [post, setPosts] = useState(null)
@@ -74,6 +76,10 @@ const PostCard = (props) => {
 
     const showCommentBoxHandler = () => {
         setShowCommentBox((prev) => !prev)
+    }
+
+    const commentDoneHandler = () => {
+        setShowCommentBox(false)
     }
     return (
         <React.Fragment>
@@ -144,10 +150,22 @@ const PostCard = (props) => {
                                 Save
                             </Styled.ActivityTextContainer>
                         </Styled.ActivityContainer>
+
+                        {showCommentBox && (
+                            <CommentPostCard
+                                commentDone={commentDoneHandler}
+                                postID={id}
+                                loggedInUserID={loggedInUser}
+                            />
+                        )}
+                        {post.comments &&
+                            post.comments.lenght !== 0 &&
+                            post.comments.map((comment) => (
+                                <CommentCard comment={comment} />
+                            ))}
                     </div>
                 )}
             </Styled.PostContainer>
-            {showCommentBox && <CommentPostCard />}
         </React.Fragment>
     )
 }

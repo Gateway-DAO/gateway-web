@@ -9,7 +9,6 @@ import { doc, onSnapshot } from 'firebase/firestore'
 
 const FeedPostWrapper = (props) => {
     const loggedInUser = 'testUser-1'
-
     const [ids, setIds] = useState([])
     const channel = props.channel
     const cardName = props.cardName
