@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import Collapsible from 'react-collapsible'
 import { FiArrowUpRight } from 'react-icons/fi'
 
 export const Container = styled.main`

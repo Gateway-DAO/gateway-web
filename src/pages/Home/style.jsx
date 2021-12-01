@@ -116,6 +116,9 @@ export const MainBox = styled.section`
 export const SpaceBox = styled.canvas`
     position: absolute;
     top: 90px;
+    left:0;
+    right:0;
+    right:0;
     z-index: -1;
 `
 

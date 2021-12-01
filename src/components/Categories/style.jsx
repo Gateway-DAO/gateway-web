@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const Box = styled.div`
     display: grid;
@@ -15,7 +16,6 @@ export const Box = styled.div`
 
 export const CategoriesContainer = styled.ul`
     text-color: white;
-    margin-bottom: 55px;
     display: flex;
     flex-wrap: wrap;
 `
@@ -26,7 +26,7 @@ export const Category = styled.li`
         props.activeGradient ? 'Montserrat' : 'Be Vietnam'};
     font-style: normal;
     font-weight: ${(props) => (props.active ? '700' : '400')};
-    font-size: 14px;
+    font-size: 20px;
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
@@ -135,61 +135,124 @@ export const CategoryEmoji = styled.p`
     -webkit-text-fill-color: white;
     -moz-text-fill-color: white;
 `
+export const AllButton = styled(Link)`
+    text-decoration:none;
+    display: inline;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    padding: 5px;
+    color:  rgba(255, 255, 255, 0.6);
+    margin-right: 25px;
 
-/*
-export const CardBox = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
-`
-*/
-
-export const CardBox = styled.div`
-    display: grid;
-    grid-gap: 20px;
-    grid-template-columns: 10px;
-    grid-template-rows: minmax(150px, 1fr);
-    grid-auto-flow: column;
-    grid-auto-columns: calc(25% - 20px * 2);
-
-    overflow-x: scroll;
-    overflow-y: hidden;
-
-    &::-webkit-scrollbar {
-        display: none; /* Safari and Chrome */
-    }
-
-    & > *:last-child {
-        margin-right: 20px;
-    }
-
-    &:before {
-        content: '';
-        width: 10px;
-    }
-
-    @media only screen and (max-width: 1450px) {
-        grid-auto-columns: calc(30% - 20px * 2);
+    &:hover {
+        cursor: pointer;
     }
 
     @media only screen and (max-width: 1170px) {
-        grid-auto-columns: calc(37.5% - 20px * 2);
+        font-size: 13px;
+        line-height: 19px;
+        margin-right: 20px;
     }
 
     @media only screen and (max-width: 768px) {
-        grid-auto-columns: calc(50% - 20px * 2);
+        line-height: 18px;
+        margin-right: 18px;
     }
 
-    @media only screen and (max-width: 550px) {
-        grid-auto-columns: calc(60% - 20px * 2);
+`
+
+// export const CardBox = styled.div`
+//     display: flex;
+//     // align-items:center;
+//     justify-content: space-around;
+//     padding:20px;
+// `
+
+
+// export const CardBox = styled.div`
+//     display: grid;
+//     overflow-x:hidden;
+//     grid-gap: 20px;
+//     grid-template-columns: 10px;
+//     grid-template-rows: minmax(150px, 1fr);
+//     grid-auto-flow: column;
+//     grid-auto-columns: calc(25% - 20px * 2);
+
+//     overflow-x: scroll;
+//     overflow-y: hidden;
+
+//     &::-webkit-scrollbar {
+//         display: none; /* Safari and Chrome */
+//     }
+
+//     & > *:last-child {
+//         margin-right: 20px;
+//     }
+
+//     &:before {
+//         content: '';
+//         width: 10px;
+//     }
+
+//     @media only screen and (max-width: 1450px) {
+//         grid-auto-columns: calc(30% - 20px * 2);
+//     }
+
+//     @media only screen and (max-width: 1170px) {
+//         grid-auto-columns: calc(37.5% - 20px * 2);
+//     }
+
+//     @media only screen and (max-width: 768px) {
+//         grid-auto-columns: calc(50% - 20px * 2);
+//     }
+
+//     @media only screen and (max-width: 550px) {
+//         grid-auto-columns: calc(60% - 20px * 2);
+//     }
+
+//     @media only screen and (max-width: 480px) {
+//         grid-auto-columns: calc(90% - 20px * 2);
+//     }
+
+//     @media only screen and (max-width: 300px) {
+//         grid-auto-columns: calc(100% - 20px * 2);
+//     }
+// `
+
+
+export const CardBox = styled.section`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 20px;
+    // grid-row-gap: 20px;
+    // grid-template-rows: repeat(1, 1fr);
+    // grid-auto-rows: 0; 
+    // overflow-y: hidden;
+    // grid-auto-flow: column;
+    margin: 60px 40px;
+    //margin-top: 60px;
+
+    /*
+    @media only screen and (max-width: 1700px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    */
+
+    @media only screen and (max-width: 1170px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media only screen and (max-width: 735px) {
+        grid-template-columns: repeat(1, 100%);
     }
 
     @media only screen and (max-width: 480px) {
-        grid-auto-columns: calc(90% - 20px * 2);
+        margin-top: 60px;
     }
 
-    @media only screen and (max-width: 300px) {
-        grid-auto-columns: calc(100% - 20px * 2);
-    }
 `

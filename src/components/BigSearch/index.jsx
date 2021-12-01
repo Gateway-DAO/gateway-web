@@ -11,6 +11,13 @@ import React from 'react'
 const BigSearch = (props) => {
     const [showTyping, setShowTyping] = useState(true)
     const history = useHistory()
+    // const [placeholder, setPlaceholder] = useState("Search for ");
+    let placeHolder="Search for ";
+    let txt="";
+    let i=0;
+    let j=0;
+    const arr = ["Trending ","DeFi ","Investment ","Media ", "Social "];
+    let speed = 300;
 
     const showTypingHandler = (e) => {
         if (e.target.value === '') {
@@ -49,6 +56,7 @@ const BigSearch = (props) => {
         />
     )
 
+    
     return (
         <React.Fragment>
             <Styled.SearchMainDiv>
