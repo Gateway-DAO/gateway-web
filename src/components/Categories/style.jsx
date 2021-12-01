@@ -16,7 +16,6 @@ export const Box = styled.div`
 
 export const CategoriesContainer = styled.ul`
     text-color: white;
-    margin-bottom: 55px;
     display: flex;
     flex-wrap: wrap;
 `
@@ -235,9 +234,8 @@ export const CardBox = styled.section`
     // grid-auto-rows: 0; 
     // overflow-y: hidden;
     // grid-auto-flow: column;
-    margin: 0 40px;
-    margin-top: 60px;
-    wi
+    margin: 60px 40px;
+    //margin-top: 60px;
 
     /*
     @media only screen and (max-width: 1700px) {
