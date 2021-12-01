@@ -13,7 +13,7 @@ import { FiGlobe } from 'react-icons/fi'
 import { BsChatTextFill } from 'react-icons/bs'
 import { useState } from 'react'
 import React from 'react'
-import parser from "html-react-parser";
+import parser from 'html-react-parser'
 
 import useAdmin from '../../../../hooks/useAdmin'
 
@@ -44,6 +44,7 @@ import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
 import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { shortenAddress } from '../../../../utils/web3'
 import { parseTransaction } from 'ethers/lib/utils'
+import { useEffect } from 'react'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
@@ -56,6 +57,17 @@ const Profile = (props) => {
     const [MV, setMV] = useState(props.missionAndVision || '')
     const [ACC, setACC] = useState(props.accomplishments || '')
     const [FAQ, setFAQ] = useState(props.FAQ || [])
+
+    useEffect(() => {
+        setBounties(props.bounties || [])
+        setBenefits(props.tokenBenefits || [])
+        setHTJ(props.howToJoin || '')
+        setWDWD(props.whatDoWeDo || '')
+        setUH(props.upcomingHangouts || '')
+        setMV(props.missionAndVision || '')
+        setACC(props.accomplishments || '')
+        setFAQ(props.FAQ || [])
+    }, [props])
 
     // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
@@ -309,8 +321,8 @@ const Profile = (props) => {
                         {/* social media for the DAO */}
                         <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <Styled.DivContainer>
-                            <Styled.YoutubeVideoContainer>
-                                {props.youtubeURL && (
+                            {props.youtubeURL && (
+                                <Styled.YoutubeVideoContainer>
                                     <iframe
                                         width="100%"
                                         height="315"
@@ -320,8 +332,8 @@ const Profile = (props) => {
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                         allowfullscreen
                                     ></iframe>
-                                )}
-                            </Styled.YoutubeVideoContainer>
+                                </Styled.YoutubeVideoContainer>
+                            )}
                             <Collapsible title="What Do We Do?">
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
