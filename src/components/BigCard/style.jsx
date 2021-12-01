@@ -218,7 +218,7 @@ export const Text = styled.p`
 `
 
 export const TokenHoldings = styled.div`
-    border: 1px solid #7e3bdc;
+    border: 1px solid #A5A5A5;
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;
