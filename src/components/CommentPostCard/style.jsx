@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const PostContainer = styled.div`
+    background-color: #ededed;
     display: flex;
     flex-direction: column;
     border: 1px solid #e5e5e5;
@@ -76,11 +77,11 @@ export const MessageContainer = styled.p`
 `
 
 export const InputComment = styled.textarea`
+    background-color: #ededed;
     flex: 1;
     margin-left: 20px;
     font-size: 15px;
     border: none;
-
     :focus {
         outline: none;
     }
