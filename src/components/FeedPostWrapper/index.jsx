@@ -3,13 +3,17 @@ import { useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import UserPostCard from '../UserPostCard'
 import PostCard from '../PostCard'
-import { getUserById } from '../BigCard/components/Feed/Handlers/Handlers'
+import {
+    getUserById,
+    fetchPostByIdAndSortByVote,
+} from '../BigCard/components/Feed/Handlers/Handlers'
 import { db } from '../../api/firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 
 const FeedPostWrapper = (props) => {
     const loggedInUser = 'testUser-1'
     const [ids, setIds] = useState([])
+    const [idsByVote, setIdsByVote] = useState([])
     const channel = props.channel
     const cardName = props.cardName
     useEffect(() => {
@@ -18,6 +22,7 @@ const FeedPostWrapper = (props) => {
             const fieldName = `channel-${channel}`
             const currentPostsIds = DaoData[fieldName]
             let sortedArray = []
+            // ---sort by time
             if (currentPostsIds) {
                 sortedArray = currentPostsIds.reverse()
             }
@@ -26,15 +31,26 @@ const FeedPostWrapper = (props) => {
         return daoSnapshot
     }, [channel, cardName])
 
+    useEffect(() => {
+        if (ids.lenght !== 0) {
+            const newSortedIdByVotes = async () => {
+                const newIds =await fetchPostByIdAndSortByVote(ids)
+                setIdsByVote(newIds)
+            }
+            newSortedIdByVotes()
+        }
+    }, [ids])
+
     return (
         <Styled.FeedPostContainer>
+            {console.log('feedPostWrapper', idsByVote)}
             <UserPostCard
                 loggedInUserID={loggedInUser}
                 cardName={props.cardName}
                 channel={props.channel}
             />
-            {ids !== 0 &&
-                ids.map((id) => (
+            {idsByVote !== 0 &&
+                idsByVote.map((id) => (
                     <PostCard loggedInUserID={loggedInUser} key={id} id={id} />
                 ))}
             {ids.length === 0 && <p>Empty</p>}

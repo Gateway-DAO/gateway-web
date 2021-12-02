@@ -16,10 +16,15 @@ import imageCompression from 'browser-image-compression'
 import { db, uploadImage } from '../../../../../api/firebase'
 
 //Set post in posts Collection and add the post ID in respective [Dao]-[ChannelName]
-export const sendPostDataAndSetId = async (data, uniqueID,daoName,channelName) => {
+export const sendPostDataAndSetId = async (
+    data,
+    uniqueID,
+    daoName,
+    channelName
+) => {
     const daoRef = doc(db, 'daos', daoName)
     await setDoc(doc(db, 'posts', uniqueID), data)
-    const fieldName= `channel-${channelName}`
+    const fieldName = `channel-${channelName}`
     await updateDoc(daoRef, {
         [fieldName]: arrayUnion(uniqueID),
     })
@@ -34,24 +39,42 @@ export const getUserById = async (userId) => {
 }
 
 //Fetch single post by ID
-export const fetchPostById = async(id)=>{
-     const postsRef = doc(db, 'posts', id)
-     const getDocument = await getDoc(postsRef)
-     const data = await getDocument.data()
-     console.log("fetchPostByid-",data)
+export const fetchPostById = async (id) => {
+    const postsRef = doc(db, 'posts', id)
+    const getDocument = await getDoc(postsRef)
+    const data = await getDocument.data()
+    console.log('fetchPostByid-', data)
 }
 //Fetch all posts by ID
-export const fetchAllPostsById = async(array)=>{
-     let allPosts = []
-     for (const id of array) {
-         const postsRef = doc(db, 'posts', id)
-         const getDocument = await getDoc(postsRef)
-         const data = await getDocument.data()
-         allPosts.push(data)
-     }
-     return allPosts;
+export const fetchAllPostsById = async (array) => {
+    let allPosts = []
+    for (const id of array) {
+        const postsRef = doc(db, 'posts', id)
+        const getDocument = await getDoc(postsRef)
+        const data = await getDocument.data()
+        allPosts.push(data)
+    }
+    return allPosts
+}
+// Fetch all posts and sort by Votes
+export const fetchPostByIdAndSortByVote = async (array) => {
+    let allPosts = []
+    let newSortedArray = []
+    for (const id of array) {
+        const postsRef = doc(db, 'posts', id)
+        const getDocument = await getDoc(postsRef)
+        const data = await getDocument.data()
+        allPosts.push({
+            id: id,
+            votes: data.upvotes.length - data.downvotes.length,
+        })
+        allPosts.sort((a, b) => b.votes - a.votes)
+        newSortedArray = allPosts.map((ele) => ele.id)
+    }
+    return newSortedArray
 }
 
+//Fetch all posts by their dao card
 export const fetchPostsByCard = async (daoName) => {
     const postsRef = collection(db, 'posts')
     const queries = query(
@@ -78,11 +101,13 @@ export const fetchPostsByCard = async (daoName) => {
     return postsWithUsers
 }
 
+// fetch by channel name
 export const filterPostByChannel = (array, channelName) => {
     const filteredArray = array.filter((doc) => doc.channel === channelName)
     return filteredArray
 }
 
+// add user id to upvote array
 export const upVoteIncrease = async (postId, userID) => {
     const postsRef = doc(db, 'posts', postId)
     console.log('dont have id, upvote added')
@@ -90,6 +115,8 @@ export const upVoteIncrease = async (postId, userID) => {
         upvotes: arrayUnion(userID),
     })
 }
+
+// remove user id from upvote array
 export const upVoteDecrease = async (postId, userID) => {
     const postsRef = doc(db, 'posts', postId)
     console.log('have id, upvote removed')
@@ -97,13 +124,17 @@ export const upVoteDecrease = async (postId, userID) => {
         upvotes: arrayRemove(userID),
     })
 }
+
+// add user id to downvote array
 export const downVoteIncrease = async (postId, userID) => {
     const postsRef = doc(db, 'posts', postId)
-    console.log(' dont have id, downvote increase' )
+    console.log(' dont have id, downvote increase')
     await updateDoc(postsRef, {
         downvotes: arrayUnion(userID),
     })
 }
+
+//remove user id from downvote array
 export const downVoteDecrease = async (postId, userID) => {
     const postsRef = doc(db, 'posts', postId)
     console.log('has id, downvote decrease')
@@ -112,17 +143,15 @@ export const downVoteDecrease = async (postId, userID) => {
     })
 }
 
-export const commentPost = async(postData,postID)=>{
-    const postsRef = doc(db, 'posts', postID);
+export const commentPost = async (postData, postID) => {
+    const postsRef = doc(db, 'posts', postID)
     await updateDoc(postsRef, {
         comments: arrayUnion(postData),
     })
-    console.log("comment done")
+    console.log('comment done')
 }
 
-
-
-// ----------Image uploading 
+// ----------Image uploading
 export const imageUploadHandler = async (id, file, size) => {
     const options = {
         maxSizeMB: size,
