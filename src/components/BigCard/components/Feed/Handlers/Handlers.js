@@ -114,6 +114,9 @@ export const upVoteIncrease = async (postId, userID) => {
     await updateDoc(postsRef, {
         upvotes: arrayUnion(userID),
     })
+    await updateDoc(postsRef, {
+        downvotes: arrayRemove(userID),
+    })
 }
 
 // remove user id from upvote array
@@ -132,6 +135,9 @@ export const downVoteIncrease = async (postId, userID) => {
     await updateDoc(postsRef, {
         downvotes: arrayUnion(userID),
     })
+    await updateDoc(postsRef, {
+        upvotes: arrayRemove(userID),
+    })
 }
 
 //remove user id from downvote array
@@ -148,7 +154,6 @@ export const commentPost = async (postData, postID) => {
     await updateDoc(postsRef, {
         comments: arrayUnion(postData),
     })
-    console.log('comment done')
 }
 
 // ----------Image uploading

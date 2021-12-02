@@ -40,10 +40,18 @@ const PostCard = (props) => {
                 setUpvote(postData.upvotes)
                 setDownvote(postData.downvotes)
                 setPosts(postData)
+                if (postData.upvotes.includes(loggedInUser)) {
+                    setUpvoteColor('#45e850')
+                    setDownvoteColor(null)
+                }
+                if (postData.downvotes.includes(loggedInUser)) {
+                    setDownvoteColor('#e84576')
+                    setUpvoteColor(null)
+                }
             }
         })
         return postSnapshot
-    }, [id])
+    }, [id, loggedInUser])
 
     useEffect(() => {}, [])
 
@@ -59,18 +67,22 @@ const PostCard = (props) => {
         if (upvote.includes(loggedInUser)) {
             upVoteDecrease(props.id, loggedInUser)
             setUpvoteColor(null)
+            setDownvoteColor(null)
         } else {
             upVoteIncrease(props.id, loggedInUser)
             setUpvoteColor('#45e850')
+            setDownvoteColor(null)
         }
     }
     const downVoteHandler = () => {
         if (downvote.includes(loggedInUser)) {
             downVoteDecrease(props.id, loggedInUser)
             setDownvoteColor(null)
+            setUpvoteColor(null)
         } else {
             downVoteIncrease(props.id, loggedInUser)
             setDownvoteColor('#e84576')
+            setUpvoteColor(null)
         }
     }
 

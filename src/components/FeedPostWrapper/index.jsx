@@ -1,10 +1,8 @@
 import * as Styled from './style'
-import { useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import UserPostCard from '../UserPostCard'
 import PostCard from '../PostCard'
 import {
-    getUserById,
     fetchPostByIdAndSortByVote,
 } from '../BigCard/components/Feed/Handlers/Handlers'
 import { db } from '../../api/firebase'
@@ -32,6 +30,7 @@ const FeedPostWrapper = (props) => {
     }, [channel, cardName])
 
     useEffect(() => {
+        // Sort by votes
         if (ids.lenght !== 0) {
             const newSortedIdByVotes = async () => {
                 const newIds =await fetchPostByIdAndSortByVote(ids)
