@@ -1,7 +1,7 @@
 import * as Styled from './style'
 import React,{useState,useEffect} from 'react'
-import CTA_BG from '../../assets/Gateway.svg'
-import { getUserById } from '../BigCard/components/Feed/Handlers/Handlers'
+import CTA_BG from '../../../../../../assets/Gateway.svg'
+import { getUserById } from '../../Handlers/Handlers'
 
 const CommentCard = (props) => {
     const [user, setUser] = useState({ name: '...', username: '...' })

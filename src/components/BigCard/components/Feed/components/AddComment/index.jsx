@@ -1,21 +1,18 @@
 import * as Styled from './style'
-import CTA_BG from '../../assets/Gateway.svg'
-import HappyEmoji from '../../assets/icons/HappyEmoji.svg'
-import PictureIcon from '../../assets/icons/PictureIcon.svg'
-import AttachIcon from '../../assets/icons/AttachIcon.svg'
+import CTA_BG from '../../../../../../assets/Gateway.svg'
+import HappyEmoji from '../../../../../../assets/icons/HappyEmoji.svg'
+import PictureIcon from '../../../../../../assets/icons/PictureIcon.svg'
+import AttachIcon from '../../../../../../assets/icons/AttachIcon.svg'
 import Picker from 'emoji-picker-react'
 import { useState,useEffect, useRef } from 'react'
 import {
     getUserById,
-    downVoteIncrease,
     commentPost,
-} from '../BigCard/components/Feed/Handlers/Handlers'
+} from '../../Handlers/Handlers'
 import { v4 as uuidv4 } from 'uuid'
 
-const CommentPostCard = (props) => {
+const AddComment = (props) => {
     const [commentMessage, setCommentMessage] = useState('')
-    const [commentImage, setCommentImage] = useState('')
-    const [chosenEmoji, setChosenEmoji] = useState(null)
     const [showEmojiBox, setEmojiBox] = useState(false)
     const [user,setUser]=useState({name:"...",username:"..."})
     const loggedInUserID = props.loggedInUserID
@@ -96,4 +93,4 @@ const CommentPostCard = (props) => {
     )
 }
 
-export default CommentPostCard
+export default AddComment

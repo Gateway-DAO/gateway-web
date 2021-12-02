@@ -1,14 +1,14 @@
 import * as Styled from './style'
 import { useEffect, useState } from 'react'
-import UserPostCard from '../UserPostCard'
+import AddPost from '../AddPost'
 import PostCard from '../PostCard'
 import {
     fetchPostByIdAndSortByVote,
-} from '../BigCard/components/Feed/Handlers/Handlers'
-import { db } from '../../api/firebase'
+} from '../../Handlers/Handlers'
+import { db } from '../../../../../../api/firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 
-const FeedPostWrapper = (props) => {
+const FeedWrapper = (props) => {
     const loggedInUser = 'testUser-1'
     const [ids, setIds] = useState([])
     const [idsByVote, setIdsByVote] = useState([])
@@ -43,7 +43,7 @@ const FeedPostWrapper = (props) => {
     return (
         <Styled.FeedPostContainer>
             {console.log('feedPostWrapper', idsByVote)}
-            <UserPostCard
+            <AddPost
                 loggedInUserID={loggedInUser}
                 cardName={props.cardName}
                 channel={props.channel}
@@ -57,4 +57,4 @@ const FeedPostWrapper = (props) => {
     )
 }
 
-export default FeedPostWrapper
+export default FeedWrapper

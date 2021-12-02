@@ -1,6 +1,6 @@
 import * as Styled from './style'
 import { useState } from 'react'
-import FeedPostWrapper from '../../../FeedPostWrapper'
+import FeedWrapper from "./components/FeedWrapper"
 const Feed = (props) => {
     const Channels = [
         { name: 'General 🌐', id: 'General' },
@@ -25,7 +25,7 @@ const Feed = (props) => {
                 ))}
             </Styled.ChannelContainer>
             <Styled.FeedMessageContainer>
-                <FeedPostWrapper
+                <FeedWrapper
                     cardName={props.cardName}
                     channel={selected}
                 />

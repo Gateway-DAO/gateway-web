@@ -1,8 +1,8 @@
 import * as Styled from './style'
 import React from 'react'
 import { doc, onSnapshot } from 'firebase/firestore'
-import { db } from '../../api/firebase'
-import CTA_BG from '../../assets/Gateway.svg'
+import { db } from '../../../../../../api/firebase'
+import CTA_BG from '../../../../../../assets/Gateway.svg'
 import { useEffect, useState } from 'react'
 import {
     getUserById,
@@ -10,10 +10,10 @@ import {
     upVoteIncrease,
     downVoteDecrease,
     downVoteIncrease,
-} from '../BigCard/components/Feed/Handlers/Handlers'
-import CommentPostCard from '../CommentPostCard'
-import UP_VOTES from '../../assets/icons/UpVotes.svg'
-import DOWN_VOTES from '../../assets/icons/DownVotes.svg'
+} from '../../Handlers/Handlers'
+import AddComment from '../AddComment'
+import UP_VOTES from '../../../../../../assets/icons/UpVotes.svg'
+import DOWN_VOTES from '../../../../../../assets/icons/DownVotes.svg'
 import CommentCard from '../CommentCard'
 
 const PostCard = (props) => {
@@ -164,7 +164,7 @@ const PostCard = (props) => {
                         </Styled.ActivityContainer>
 
                         {showCommentBox && (
-                            <CommentPostCard
+                            <AddComment
                                 commentDone={commentDoneHandler}
                                 postID={id}
                                 loggedInUserID={loggedInUser}

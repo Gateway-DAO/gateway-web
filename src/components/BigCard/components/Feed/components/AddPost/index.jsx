@@ -1,22 +1,21 @@
 import * as Styled from './style'
 import { useEffect } from 'react'
-import CTA_BG from '../../assets/Gateway.svg'
-import HappyEmoji from '../../assets/icons/HappyEmoji.svg'
-import PictureIcon from '../../assets/icons/PictureIcon.svg'
-import AttachIcon from '../../assets/icons/AttachIcon.svg'
+import CTA_BG from '../../../../../../assets/Gateway.svg'
+import HappyEmoji from '../../../../../../assets/icons/HappyEmoji.svg'
+import PictureIcon from '../../../../../../assets/icons/PictureIcon.svg'
+import AttachIcon from '../../../../../../assets/icons/AttachIcon.svg'
 import Picker from 'emoji-picker-react'
 import { useState, useRef } from 'react'
 import { Form, Formik } from 'formik'
 import {
     sendPostDataAndSetId,
-    sendPostData,
     getUserById,
     imageUploadHandler,
-} from '../BigCard/components/Feed/Handlers/Handlers'
+} from '../../Handlers/Handlers'
 import * as Yup from 'yup'
 import { v4 as uuidv4 } from 'uuid'
 
-const UserPostCard = (props) => {
+const AddPost = (props) => {
     const loggedInUserID = props.loggedInUserID
     // for comment images
     const filePickerRef = useRef()
@@ -197,4 +196,4 @@ const UserPostCard = (props) => {
     )
 }
 
-export default UserPostCard
+export default AddPost
