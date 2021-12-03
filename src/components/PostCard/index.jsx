@@ -1,15 +1,16 @@
 import * as Styled from './style'
-import CTA_BG from '../../assets/Gateway.svg';
+import CTA_BG from '../../assets/Gateway.svg'
 
 const PostCard = () => {
     return (
         <Styled.PostContainer>
             <Styled.PostHeaderInfo>
                 <Styled.ProfileBioContainer>
-                    <Styled.PostImageContainer src= {CTA_BG}/>
+                    <Styled.PostImageContainer src={CTA_BG} />
                     <Styled.PostByInfo>
                         {' '}
-                        posted by<Styled.PostByName>Jess Fly</Styled.PostByName><Styled.PostByUsername>@Kzux0x</Styled.PostByUsername>
+                        posted by<Styled.PostByName>Jess Fly</Styled.PostByName>
+                        <Styled.PostByUsername>@Kzux0x</Styled.PostByUsername>
                     </Styled.PostByInfo>
                 </Styled.ProfileBioContainer>
                 <Styled.PostTime>12 min ago</Styled.PostTime>

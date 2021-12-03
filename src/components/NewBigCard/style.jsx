@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 export const DaoWrapper = styled.div`
     width: 95vw;
     margin: 20px auto;
-    background-color: #180b27;
     color: white;
 `
 
@@ -13,7 +12,6 @@ export const ProfileInfoWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `
 
 // Dao Bio Information
@@ -33,6 +31,11 @@ export const DaoBioInfo = styled.div`
     display: flex;
     flex-direction: column;
     margin-left: 25px;
+`
+
+export const EditContainer = styled.div`
+    margin: 10px;
+    font-size: 20px;
 `
 
 export const DaoTagContainer = styled.div`
@@ -156,7 +159,7 @@ export const SubDaoContainer = styled.div`
     flex-direction: column;
 `
 
-export const Text = styled.p`
+export const TextName = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
@@ -177,4 +180,83 @@ export const SubDAOImg = styled.img`
     margin-top: 15px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 100px;
+`
+
+// selection styling
+
+export const BalanceText = styled.span`
+    font-weight: bold;
+    color: #7e3bdc;
+`
+
+export const ProfileAndFeedContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+`
+
+export const ProfileDiv = styled.div`
+    display: flex;
+`
+
+const SelectionTabStyling = `
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
+    
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+    font-weight: bold;
+    font-size: 20px;
+
+    border-bottom: 4px solid ;
+    border-image: linear-gradient(95.57deg, #EE787B 8.89%, #E153F2 34.15%, #495BE0 67.09%, #6A39F3 95.52%);
+    border-image-slice: 1;  
+`
+
+export const SelectedTab = styled.h2`
+    font-size: 18px;
+    ${(props) => (props.showActive ? SelectionTabStyling : '')}
+
+    margin-right: 25px;
+    font-family: Poppins;
+    font-style: normal;
+    line-height: 40px;
+    cursor: pointer;
+    letter-spacing: -0.015em;
+`
+
+export const Text = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 28px;
+    /* or 233% */
+
+    letter-spacing: 0.05em;
+
+    color: ${(props) => props.color || '#170627'};
+
+    @media only screen and (max-width: 1190px) {
+        font-size: 11px;
+    }
+
+    @media only screen and (max-width: 300px) {
+        font-size: 10px;
+    }
+`
+
+export const TokenHoldings = styled.div`
+    border: 1px solid #7e3bdc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    margin-right: 5%;
 `

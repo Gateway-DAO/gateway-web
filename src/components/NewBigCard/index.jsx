@@ -165,7 +165,16 @@ const NewCard = (props) => {
                                     </Styled.Category>
                                 ))}
                             </Styled.DaoTagContainer>
-                            <Styled.Title>{props?.name}</Styled.Title>
+                            <Styled.Title>
+                                {props?.name}{' '}
+                                <Styled.EditContainer>
+                                    {true && (
+                                        <FaPencilAlt
+                                            onClick={toggleEditModal}
+                                        />
+                                    )}{' '}
+                                </Styled.EditContainer>
+                            </Styled.Title>
                             <Styled.SocialContainer>
                                 {socials}
                             </Styled.SocialContainer>
@@ -173,7 +182,7 @@ const NewCard = (props) => {
                     </Styled.ProfileInfoContainer>
                     {props['related-daos'] && (
                         <Styled.SubDaoContainer>
-                            <Styled.Text>Sub DAOs</Styled.Text>
+                            <Styled.TextName>Sub DAOs</Styled.TextName>
                             {props['related-daos'].map((dao, idx) => {
                                 return (
                                     <Link to={`/dao/${dao}`}>
@@ -187,6 +196,23 @@ const NewCard = (props) => {
                         </Styled.SubDaoContainer>
                     )}
                 </Styled.ProfileInfoWrapper>
+                <Styled.ProfileAndFeedContainer>
+                    <Styled.ProfileDiv>
+                        <Styled.SelectedTab
+                            showActive={profileAndFeed}
+                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                        >
+                            Profile
+                        </Styled.SelectedTab>
+                        <Styled.SelectedTab
+                            showActive={!profileAndFeed}
+                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                        >
+                            Feed
+                        </Styled.SelectedTab>
+                    </Styled.ProfileDiv>
+                </Styled.ProfileAndFeedContainer>
+                {profileAndFeed ? <Profile {...props} /> : <Feed />}
                 <RelatedDAOSection
                     categories={props.categories}
                     name={props.name}

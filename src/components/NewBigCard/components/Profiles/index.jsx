@@ -13,7 +13,7 @@ import { FiGlobe } from 'react-icons/fi'
 import { BsChatTextFill } from 'react-icons/bs'
 import { useState } from 'react'
 import React from 'react'
-import parser from "html-react-parser";
+import parser from 'html-react-parser'
 
 import useAdmin from '../../../../hooks/useAdmin'
 
@@ -268,52 +268,12 @@ const Profile = (props) => {
                         <Styled.Description>
                             {parser(props.description)}
                         </Styled.Description>
-                        {/* <Styled.MemberContainer>
-                            <Styled.SubText>Members :</Styled.SubText>
-                            <Styled.PastWeekContainer>
-                                <Styled.PercentageText
-                                    color={
-                                        props.tokenFeed.change7d > 0
-                                            ? '#72B841'
-                                            : '#EE787B'
-                                    }
-                                >
-                                    {props.tokenFeed.change7d > 0 ? (
-                                        <RiArrowUpSFill />
-                                    ) : (
-                                        <RiArrowDownSFill />
-                                    )}
-                                    {props.tokenFeed.change7d.toLocaleString(
-                                        'en-US',
-                                        {
-                                            maximumFractionDigits: 1,
-                                        }
-                                    )}
-                                    %
-                                </Styled.PercentageText>
-                                <Styled.Text color="#A5A5A5">
-                                    Past Week
-                                </Styled.Text>
-                            </Styled.PastWeekContainer>{' '}
-                        </Styled.MemberContainer> */}
-                        {/* categories like : social Defi */}
-                        <Styled.CategoryList>
-                            {props.categories.map((e) => (
-                                <Styled.Category>
-                                    <Styled.CategoryLink to={`/search/${e}`}>
-                                        {e}
-                                    </Styled.CategoryLink>
-                                </Styled.Category>
-                            ))}
-                        </Styled.CategoryList>
-                        {/* social media for the DAO */}
-                        <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <Styled.DivContainer>
                             <Styled.YoutubeVideoContainer>
                                 {props.youtubeURL && (
                                     <iframe
-                                        width="100%"
-                                        height="315"
+                                        width="90%"
+                                        height="520"
                                         src={`https://www.youtube-nocookie.com/embed/${youtubeID}`}
                                         title="YouTube video player"
                                         frameborder="0"
@@ -324,7 +284,7 @@ const Profile = (props) => {
                             </Styled.YoutubeVideoContainer>
                             <Collapsible title="What Do We Do?">
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {true && (
                                         <Styled.Button
                                             onClick={toggleWDWDModal}
                                         >
@@ -337,7 +297,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Mission and Vision">
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {true && (
                                         <Styled.Button onClick={toggleMVModal}>
                                             Change Information
                                         </Styled.Button>
@@ -348,7 +308,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Accomplishments">
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {true && (
                                         <Styled.Button
                                             onClick={toggleAccomplishmentModal}
                                         >
@@ -361,7 +321,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Frequently Asked Questions">
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {true && (
                                         <Styled.Button onClick={toggleFAQModal}>
                                             Add Questions
                                         </Styled.Button>
@@ -400,7 +360,7 @@ const Profile = (props) => {
                             )}
                             <Collapsible title="Upcoming Hangouts">
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {true && (
                                         <Styled.Button onClick={toggleUHModal}>
                                             Change Information
                                         </Styled.Button>
@@ -411,7 +371,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="How To Contribute?">
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {true && (
                                         <Styled.Button onClick={toggleHTJModal}>
                                             Add Steps
                                         </Styled.Button>
@@ -423,7 +383,7 @@ const Profile = (props) => {
 
                             <Collapsible title="Bounties">
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {true && (
                                         <Styled.Button
                                             onClick={toggleBountyModal}
                                         >
@@ -459,11 +419,7 @@ const Profile = (props) => {
                     </Styled.ColumnOne>
                     {props.tokenAddress && (
                         <Styled.ColumnTwo>
-                            <Styled.TokenFeed
-                                showBorderBottom={
-                                    props['related-daos'] ? true : false
-                                }
-                            >
+                            <Styled.TokenFeed>
                                 <Styled.TokenName>
                                     ${props.symbol.toUpperCase()}
                                 </Styled.TokenName>
@@ -588,48 +544,6 @@ const Profile = (props) => {
                                     TRADE
                                 </Styled.TradeButton>
                             </Styled.TokenFeed>
-                            {props['related-daos'] && (
-                                <Styled.SubDAOContainer>
-                                    <Styled.Title>Sub DAOs</Styled.Title>
-                                    {props['related-daos'].map((dao, idx) => {
-                                        return (
-                                            <Link to={`/dao/${dao}`}>
-                                                <Styled.SubDAOImg
-                                                    src={props.related[idx]}
-                                                    title={dao}
-                                                />
-                                            </Link>
-                                        )
-                                    })}
-                                </Styled.SubDAOContainer>
-                            )}
-                            <Styled.ShareColumn>
-                                <Styled.LinkTo
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(
-                                            `https://etherscan.io/token/${props.tokenAddress}`
-                                        )
-                                    }}
-                                >
-                                    🔗 Copy Link
-                                </Styled.LinkTo>
-                                <Styled.LinkTo>
-                                    <TwitterShareButton
-                                        title={'Share Twitter'}
-                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
-                                    >
-                                        🦆 Share Twitter
-                                    </TwitterShareButton>
-                                </Styled.LinkTo>
-                                <Styled.LinkTo>
-                                    <TelegramShareButton
-                                        title={'Share Twitter'}
-                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
-                                    >
-                                        📋 Share Telegram
-                                    </TelegramShareButton>
-                                </Styled.LinkTo>
-                            </Styled.ShareColumn>
                         </Styled.ColumnTwo>
                     )}
                 </Styled.DivideContainer>

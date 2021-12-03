@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const PostContainer = styled.div`
     display: flex;
     flex-direction: column;
-    border: 1px solid #e5e5e5;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     margin-right: 40px;
     border-radius: 20px;
     margin-bottom: 20px;
@@ -26,8 +26,8 @@ export const ProfileBioContainer = styled.div`
 `
 
 export const PostImageContainer = styled.img`
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     border-radius: 999px;
     border-width: 1px;
     padding: 2px;
@@ -35,19 +35,28 @@ export const PostImageContainer = styled.img`
 
 export const PostByInfo = styled.span`
     margin-left: 4px;
+
     font-family: Be Vietnam;
-    font-size: 11px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #8b8393;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+
+    color: rgba(229, 229, 229, 0.5);
 `
 
 export const PostByName = styled(PostByInfo)`
-    font-weight: bold;
-    color: #180b27;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    color: #ffffff;
 `
 export const PostByUsername = styled(PostByInfo)`
     color: #df78fe;
@@ -55,24 +64,25 @@ export const PostByUsername = styled(PostByInfo)`
 
 export const PostTime = styled.span`
     font-family: Be Vietnam;
-    font-size: 11px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
+    color: rgba(229, 229, 229, 0.5);
 `
 
 export const MessageContainer = styled.p`
     margin: 2px 40px;
     display: flex;
     font-family: Be Vietnam;
-    font-size: 14px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
     letter-spacing: 0.05em;
-    text-align: left;
+    color: #e5e5e5;
 `
 
 export const ActivityContainer = styled.div`
@@ -85,10 +95,9 @@ export const ActivityContainer = styled.div`
 export const ActivityTextContainer = styled.span`
     margin-right: 40px;
     font-family: Be Vietnam;
-    font-size: 11px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
+    color: #e5e5e5;
 `
