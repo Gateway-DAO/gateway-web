@@ -1,8 +1,7 @@
 import * as Styled from './style'
 import CTA_BG from '../../assets/Gateway.svg'
-import HappyEmoji from '../../assets/icons/HappyEmoji.svg'
-import PictureIcon from '../../assets/icons/PictureIcon.svg'
-import AttachIcon from '../../assets/icons/AttachIcon.svg'
+import { BsEmojiSmile } from 'react-icons/bs'
+import { FiImage } from 'react-icons/fi'
 import Picker from 'emoji-picker-react'
 import { useState, useRef } from 'react'
 
@@ -47,9 +46,7 @@ const CommentPostCard = () => {
             <Styled.ActivityBox>
                 <Styled.ActivityContainer>
                     <Styled.ActivityTextContainer>
-                        <img
-                            src={HappyEmoji}
-                            alt="Happy Emoji"
+                        <BsEmojiSmile
                             onClick={(event) => setEmojiBox(!showEmojiBox)}
                         />
                         {showEmojiBox ? (
@@ -57,10 +54,7 @@ const CommentPostCard = () => {
                         ) : null}
                     </Styled.ActivityTextContainer>
                     <Styled.ActivityTextContainer>
-                        <img src={PictureIcon} alt="Upload picture" />
-                    </Styled.ActivityTextContainer>
-                    <Styled.ActivityTextContainer>
-                        <img src={AttachIcon} alt="Attach document" />
+                        <FiImage />
                     </Styled.ActivityTextContainer>
                 </Styled.ActivityContainer>
                 <Styled.PostButton>POST</Styled.PostButton>

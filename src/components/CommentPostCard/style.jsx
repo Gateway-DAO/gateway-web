@@ -128,7 +128,7 @@ export const PostButton = styled.button`
 export const ActivityTextContainer = styled.span`
     margin-right: 20px;
     font-family: Be Vietnam;
-    font-size: 11px;
+    font-size: 25px;
     font-style: normal;
     font-weight: 400;
     line-height: 16px;

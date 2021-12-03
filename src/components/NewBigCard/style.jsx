@@ -146,6 +146,24 @@ export const Social = styled(BackHomeButton)`
     margin-right: 10px;
 `
 
+export const TokenHolding = styled.div`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
+`
+
+export const TokenText = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    margin: 2px 15px;
+    color: #ffffff;
+`
+
 export const SocialLink = styled(BackHomeButtonText)`
     color: #ffffff;
     font-size: 20px;
@@ -183,11 +201,6 @@ export const SubDAOImg = styled.img`
 `
 
 // selection styling
-
-export const BalanceText = styled.span`
-    font-weight: bold;
-    color: #7e3bdc;
-`
 
 export const ProfileAndFeedContainer = styled.div`
     display: flex;
@@ -251,12 +264,4 @@ export const Text = styled.p`
     @media only screen and (max-width: 300px) {
         font-size: 10px;
     }
-`
-
-export const TokenHoldings = styled.div`
-    border: 1px solid #7e3bdc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
-    margin-right: 5%;
 `

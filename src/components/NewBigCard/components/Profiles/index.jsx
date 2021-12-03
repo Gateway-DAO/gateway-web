@@ -284,7 +284,7 @@ const Profile = (props) => {
                             </Styled.YoutubeVideoContainer>
                             <Collapsible title="What Do We Do?">
                                 <Styled.CollapsibleChildren>
-                                    {true && (
+                                    {isAdmin && (
                                         <Styled.Button
                                             onClick={toggleWDWDModal}
                                         >
@@ -297,7 +297,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Mission and Vision">
                                 <Styled.CollapsibleChildren>
-                                    {true && (
+                                    {isAdmin && (
                                         <Styled.Button onClick={toggleMVModal}>
                                             Change Information
                                         </Styled.Button>
@@ -308,7 +308,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Accomplishments">
                                 <Styled.CollapsibleChildren>
-                                    {true && (
+                                    {isAdmin && (
                                         <Styled.Button
                                             onClick={toggleAccomplishmentModal}
                                         >
@@ -321,7 +321,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Frequently Asked Questions">
                                 <Styled.CollapsibleChildren>
-                                    {true && (
+                                    {isAdmin && (
                                         <Styled.Button onClick={toggleFAQModal}>
                                             Add Questions
                                         </Styled.Button>
@@ -360,7 +360,7 @@ const Profile = (props) => {
                             )}
                             <Collapsible title="Upcoming Hangouts">
                                 <Styled.CollapsibleChildren>
-                                    {true && (
+                                    {isAdmin && (
                                         <Styled.Button onClick={toggleUHModal}>
                                             Change Information
                                         </Styled.Button>
@@ -371,7 +371,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="How To Contribute?">
                                 <Styled.CollapsibleChildren>
-                                    {true && (
+                                    {isAdmin && (
                                         <Styled.Button onClick={toggleHTJModal}>
                                             Add Steps
                                         </Styled.Button>
@@ -383,7 +383,7 @@ const Profile = (props) => {
 
                             <Collapsible title="Bounties">
                                 <Styled.CollapsibleChildren>
-                                    {true && (
+                                    {isAdmin && (
                                         <Styled.Button
                                             onClick={toggleBountyModal}
                                         >

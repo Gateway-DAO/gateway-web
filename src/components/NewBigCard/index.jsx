@@ -18,7 +18,7 @@ import {
 } from 'react-icons/fa'
 import { FiGlobe } from 'react-icons/fi'
 import { BsChatTextFill } from 'react-icons/bs'
-
+import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
 // Profile tab options
 import Profile from './components/Profiles'
 import Feed from './components/Feed'
@@ -168,7 +168,7 @@ const NewCard = (props) => {
                             <Styled.Title>
                                 {props?.name}{' '}
                                 <Styled.EditContainer>
-                                    {true && (
+                                    {isAdmin && (
                                         <FaPencilAlt
                                             onClick={toggleEditModal}
                                         />
@@ -177,6 +177,17 @@ const NewCard = (props) => {
                             </Styled.Title>
                             <Styled.SocialContainer>
                                 {socials}
+                                {web3.active && (
+                                    <Styled.TokenHolding>
+                                        <Styled.TokenText>
+                                            {balance.toNumber()} $
+                                            {props.symbol.toUpperCase()}
+                                            <span style={{marginLeft : '37px'}}>
+                                                <img src={METAMASK_FOX} alt="meta mask icon" />
+                                            </span>
+                                        </Styled.TokenText>
+                                    </Styled.TokenHolding>
+                                )}
                             </Styled.SocialContainer>
                         </Styled.DaoBioInfo>
                     </Styled.ProfileInfoContainer>

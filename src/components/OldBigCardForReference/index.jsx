@@ -13,6 +13,7 @@ import EditCardModal from '../Modal/EditCardModal'
 import Profile from './components/Profiles'
 import Feed from './components/Feed'
 
+
 const NewCard = (props) => {
     const web3 = useWeb3React()
     useEffect(() => {
