@@ -1,5 +1,5 @@
 import * as Styled from './style'
-import { Category, CategoryList } from '../OldBigCardForReference/components/Profiles/style'
+import { Category, CategoryList } from '../BigCard/components/Profiles/style'
 import { doc, updateDoc, onSnapshot } from '@firebase/firestore'
 import { db } from '../../api/firebase'
 import parser from 'html-react-parser'
