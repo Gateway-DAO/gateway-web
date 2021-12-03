@@ -61,6 +61,7 @@ const Search = props => {
                 <Styled.SearchTerm>{query}</Styled.SearchTerm>
                 <Styled.SearchInputBox>
                     <Styled.SearchInput type="search" value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyPress={handleEnter} />
+
                     <Styled.WrappedFiSearch />
                 </Styled.SearchInputBox>
             </Styled.SearchTermContainer>

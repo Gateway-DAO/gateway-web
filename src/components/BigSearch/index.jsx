@@ -1,82 +1,79 @@
-import { useRef, useState, useEffect } from "react"
-import { useHistory } from "react-router";
-import styled from "styled-components"
-import * as Styled from "./style"
-import Typist from "react-typist";
-import Typewriter from 'typewriter-effect/dist/core';
+import { useState, useRef } from 'react'
+import { useHistory } from 'react-router'
+import styled from 'styled-components'
+import * as Styled from './style'
 
-import { daos } from "../../api/algolia";
-// const Placeholder = ()=>{
-//   // const [count, setCount] = useState(1);
-  
-// }
-const BigSearch = props => {
-    const inputRef = useRef();
-    const input = inputRef.current;
+import Typewriter from 'typewriter-effect'
+
+import { daos } from '../../api/algolia'
+import React from 'react'
+
+const BigSearch = (props) => {
+    const [showTyping, setShowTyping] = useState(true)
     const history = useHistory()
     // const [placeholder, setPlaceholder] = useState("Search for ");
-    let placeHolder="Search for ";
-    let txt="";
-    let i=0;
-    let j=0;
-    const arr = ["Trending ","DeFi ","Investment ","Media ", "Social "];
-    let speed = 300;
-
-    const handleInput = async e => {
-      if (e.key === "Enter") {
-        history.push(`search/${e.target.value}`);
-      }
+   
+    const showTypingHandler = (e) => {
+        if (e.target.value === '') {
+            setShowTyping(true)
+        } else {
+            setShowTyping(false)
+        }
+    }
+    const handleInput = async (e) => {
+        if (e.key === 'Enter') {
+            history.push(`search/${e.target.value}`)
+        }
     }
 
-    const TypingEffect = ()=>{
-      if(j<4){
-        txt = arr[j];
-        Type();
-      }else{
-        j=0;
-        setTimeout(TypingEffect,speed);
-      }
-    }
-    const Type = ()=>{
-      placeHolder += txt.charAt(i);
-      document.getElementById("searchID").setAttribute("placeholder",placeHolder);
-      i++;
-      // console.log(a);
-      if(txt.length>i){
-        setTimeout(Type,speed);
-      }else{
-        // setTimeout(BackSpace(),speed+200);
-        BackSpace();
-      }
-      // setTimeout(Type,speed);
-    }
-    const BackSpace = ()=>{
-      placeHolder = placeHolder.substring(0, placeHolder.length - 1);
-      document.getElementById("searchID").setAttribute("placeholder",placeHolder);
-      i--;
-      // console.log(a);
-      
-      if(i>0){
-        setTimeout(BackSpace,speed);
-      }else{
-        j++;
-        // setTimeout(TypingEffect(),speed+100);
-        TypingEffect()
-      }
-    }
-    useEffect(()=>{
-      TypingEffect();
-      // Type();
-    },[])
+    const TypewriterText = (
+        <Typewriter
+            options={{
+                loop: true,
+            }}
+            onInit={(typewriter) => {
+                typewriter
+                    .typeString('name')
+                    .pauseFor(2500)
+                    .deleteAll(100)
+                    .typeString('category')
+                    .pauseFor(2500)
+                    .deleteAll(100)
+                    .typeString('interest')
+                    .pauseFor(2500)
+                    .deleteAll(100)
+                    .typeString('keyword')
+                    .pauseFor(2500)
+                    .deleteAll(100)
+                    .start()
+            }}
+        />
+    )
 
-
+    
     return (
-      <Styled.Box>
-        <Styled.SearchInputBox>
-          <Styled.SearchInput type="search" onKeyPress={handleInput} id="searchID"/>
-          <Styled.WrappedFiSearch size={60} />
-        </Styled.SearchInputBox>
-      </Styled.Box>
+        <React.Fragment>
+            <Styled.SearchMainDiv>
+                <Styled.SearchSecondary>
+                    <Styled.TypewriterDiv>
+                        <Styled.TypewriterText>
+                            {showTyping && 'Search by'}&nbsp;
+                            <span style={{ color: '#2B2333' }}>
+                                {showTyping && TypewriterText}
+                            </span>
+                        </Styled.TypewriterText>
+                    </Styled.TypewriterDiv>
+                    <Styled.InputBox
+                        onChange={showTypingHandler}
+                        type="search"
+                        onKeyPress={handleInput}
+                    />
+                </Styled.SearchSecondary>
+                <Styled.SearchIconDiv>
+                    <Styled.WrappedFiSearch size={60} />
+                </Styled.SearchIconDiv>
+            </Styled.SearchMainDiv>
+        </React.Fragment>
     )
 }
 
@@ -85,4 +82,4 @@ const WrappedBigSearch = styled(BigSearch)`
     padding: 20px;
 `
 
-export default WrappedBigSearch;
+export default WrappedBigSearch

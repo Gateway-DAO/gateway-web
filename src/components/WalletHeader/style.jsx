@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { AiOutlineLoading } from "react-icons/ai";
 
 export const ConnectToWallet = styled.a`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
@@ -30,6 +31,10 @@ export const ConnectText = styled.p`
 
     margin: 10px 20px;
 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
     @media only screen and (max-width: 1170px) {
         margin: 8px 16px;
         font-size: 11px;
@@ -39,4 +44,19 @@ export const ConnectText = styled.p`
         margin: 6px 12px;
         font-size: 9px;
     }
+`
+
+export const SpinningLoader = styled(AiOutlineLoading)`
+    animation: spin 1s linear infinite;
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    margin-right: 5px;
 `

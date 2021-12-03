@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import CTA_BG from '../../assets/Landing CTA Background.png';
+import styled from 'styled-components'
+import CTA_BG from '../../assets/Landing CTA Background.png'
+import { Link } from 'react-router-dom'
 
 export const HomeContainer = styled.main`
     background-color: transparent;
@@ -7,7 +8,7 @@ export const HomeContainer = styled.main`
     position: relative;
 
     overflow-x: hidden;
-    
+
     &:before {
         position: absolute;
         content: '';
@@ -24,16 +25,22 @@ export const BigText = styled.h1`
     font-weight: bold;
     font-size: 96px;
     z-index: 100;
-    // word-spacing: 100vw; 
+    // word-spacing: 100vw;
     line-height: 90px;
 
     text-align: center;
     letter-spacing: -0.015em;
 
     /* Background */
-    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
+    -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
@@ -58,13 +65,18 @@ export const BigText = styled.h1`
     @media only screen and (max-width: 310px) {
         font-size: 40px;
     }
-
 `
 
 export const MediumText = styled.h2`
-    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; 
+    -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
@@ -117,7 +129,7 @@ export const CTABox = styled.section`
     background-size: cover;
     height: 100vh;
     justify-content: center;
-    
+
     @media only screen and (max-width: 1550px) {
         margin: 100px 0 50px 0;
     }
@@ -128,7 +140,12 @@ export const CTABox = styled.section`
 `
 
 export const CTAButton = styled.a`
-    background: linear-gradient(88.53deg, #EE787B 2.77%, #E153F2 51.87%, #495BE0 98.96%);
+    background: linear-gradient(
+        88.53deg,
+        #ee787b 2.77%,
+        #e153f2 51.87%,
+        #495be0 98.96%
+    );
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
     padding: 10px 50px;
@@ -151,5 +168,61 @@ export const CTAButtonText = styled.p`
     letter-spacing: 0.05em;
     text-transform: uppercase;
 
-    color: #E5E5E5;
+    color: #e5e5e5;
+`
+
+// englighten me section styling
+
+export const EMSBox = styled.section`
+    margin: 125px 0 50px 0;
+    display: flex;
+    align-items: center;
+    background-position: center;
+    background-size: cover;
+    height: 60vh;
+    justify-content: center;
+
+    @media only screen and (max-width: 1550px) {
+        margin: 100px 0 50px 0;
+    }
+
+    @media only screen and (max-width: 768px) {
+        margin: 100px 0 50px 0;
+    }
+`
+
+export const EMSImageContainer = styled.div`
+    display: flex;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+`
+
+export const EMSContentContainer = styled.div`
+    display: flex;
+    width: 40%;
+    align-items: flex-start;
+    flex-direction: column;
+`
+
+export const EMSMediumText = styled(MediumText)`
+    text-align: left;
+`
+
+export const EMSButton = styled(Link)`
+    background: linear-gradient(
+        88.53deg,
+        #ee787b 2.77%,
+        #e153f2 51.87%,
+        #495be0 98.96%
+    );
+    box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
+    border-radius: 20px;
+    padding: 10px 50px;
+    margin-top: 70px;
+    text-decoration: none;
+
+    &:hover {
+        cursor: pointer;
+    }
 `

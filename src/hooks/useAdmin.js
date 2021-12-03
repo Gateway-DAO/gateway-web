@@ -1,7 +1,7 @@
-import { useActiveWeb3 } from "./web3"
+import { useWeb3React } from "@web3-react/core"
 
 const useAdmin = (addressOrList) => {
-    const { account, active } = useActiveWeb3();
+    const { account, active } = useWeb3React();
     let isAdmin = false;
 
     if (active && addressOrList instanceof Array) {

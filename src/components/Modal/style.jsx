@@ -5,6 +5,7 @@ import { useState } from 'react'
 export const Wrapper = styled.div`
     position: fixed;
     top: 0;
+    left: 0;
     z-index: 10;
     display: flex;
     align-items: center;

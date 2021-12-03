@@ -2,26 +2,25 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const CardBox = styled.div`
-  background-color: white;
-  border-radius: 20px;
-  display: grid;
-  // With the card bottom => grid-template-rows: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  cursor: pointer;
-  // With the card bottom => height: 30em;
-  height: 25em;
-  
-  @media only screen and (max-width: 1170px) {
-    height: 27em;
-    min-width: 15em;
-  }
+    background-color: white;
+    border-radius: 20px;
+    display: grid;
+    // With the card bottom => grid-template-rows: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    cursor: pointer;
+    // With the card bottom => height: 30em;
+    height: 25em;
 
-  @media only screen and (max-width: 320px) {
-    min-width: 200px;
-    min-height:480px;
-  }
+    @media only screen and (max-width: 1170px) {
+        height: 27em;
+        min-width: 15em;
+    }
 
-`;
+    @media only screen and (max-width: 300px) {
+        min-width: 200px;
+        max-width: 200px;
+    }
+`
 
 export const CardBanner = styled.div`
   position: relative;
@@ -106,7 +105,7 @@ export const CategoryLink = styled(Link)`
   color: #170627;
 `;
 
-export const CardDesc = styled.p`
+export const CardDesc = styled.div`
   font-family: "Be Vietnam", sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -117,6 +116,10 @@ export const CardDesc = styled.p`
   letter-spacing: 0.05em;
 
   color: #170627;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const CardInfoBox = styled.div`

@@ -177,6 +177,7 @@ const Categories = (props) => {
                             logoURL={card.logoURL}
                             bannerURL={card.backgroundURL}
                             isScrolling={isScrolling}
+                            categories={card.categories}
                         />
                     )
                 })}

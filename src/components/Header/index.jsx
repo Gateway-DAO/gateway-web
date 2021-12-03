@@ -16,7 +16,13 @@ const Header = (props) => {
                 </Styled.Logo>
                 {/* {!xs || <a href="https://readymag.com/u13829565/499896/" target="_blank" style={{textDecoration:"none"}} rel="noreferrer"><Styled.Text color="#FF00B8">What are DAOs?</Styled.Text></a>}
                 {!xs || <a href="https://forms.gle/xxTYYVqok8oT3Ku47" target="_blank" style={{textDecoration:"none"}} rel="noreferrer"><Styled.Text color="#FF00B8">Add Your Community</Styled.Text></a>} */}
-
+                {!xs || (
+                    <Styled.OptionLink to="/about-us">
+                        <Styled.Text color="#FF00B8">
+                            About Us
+                        </Styled.Text>
+                    </Styled.OptionLink>
+                )}
                 {!xs || (
                     <Styled.OptionLink to="/what-are-DAOs">
                         <Styled.Text color="#FF00B8">
@@ -24,6 +30,21 @@ const Header = (props) => {
                         </Styled.Text>
                     </Styled.OptionLink>
                 )}
+                {!xs || (
+                    <Styled.OptionLink to="/add-community">
+                        <Styled.Text color="#FF00B8">
+                           Add your Community
+                        </Styled.Text>
+                    </Styled.OptionLink>
+                )}
+                {!xs || (
+                    <Styled.OptionLink to="/dao-gate">
+                        <Styled.Text color="#FF00B8">
+                           DAO Gate
+                        </Styled.Text>
+                    </Styled.OptionLink>
+                )}
+                
             </Styled.LogoBox>
             <Styled.WalletBox>
                 <Wallet />

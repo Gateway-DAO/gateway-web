@@ -4,6 +4,7 @@ import * as Styled from "./style";
 import * as ModalStyled from "../style";
 import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
+import RichEditor from "../../RichTextEditor"
 
 const MVModal = props => {
     const [MV, setMV] = useState(props.data);
@@ -30,7 +31,7 @@ const MVModal = props => {
 
                 <Styled.Fieldset>
                     <ModalStyled.Label for="information">Information</ModalStyled.Label>
-                    <ModalStyled.Textarea id="information" placeholder="Our mission is to provide the best quality information to people learning about DAOs" onChange={e => setMV(e.target.value)}>{MV}</ModalStyled.Textarea>
+                    <RichEditor set={setMV} value={MV} />
                 </Styled.Fieldset>
 
                 <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
