@@ -182,8 +182,13 @@ const NewCard = (props) => {
                                         <Styled.TokenText>
                                             {balance.toNumber()} $
                                             {props.symbol.toUpperCase()}
-                                            <span style={{marginLeft : '37px'}}>
-                                                <img src={METAMASK_FOX} alt="meta mask icon" />
+                                            <span
+                                                style={{ marginLeft: '37px' }}
+                                            >
+                                                <img
+                                                    src={METAMASK_FOX}
+                                                    alt="meta mask icon"
+                                                />
                                             </span>
                                         </Styled.TokenText>
                                     </Styled.TokenHolding>
@@ -223,7 +228,11 @@ const NewCard = (props) => {
                         </Styled.SelectedTab>
                     </Styled.ProfileDiv>
                 </Styled.ProfileAndFeedContainer>
-                {profileAndFeed ? <Profile {...props} /> : <Feed />}
+                {profileAndFeed ? (
+                    <Profile {...props} />
+                ) : (
+                    <Feed cardName={props.id} />
+                )}
                 <RelatedDAOSection
                     categories={props.categories}
                     name={props.name}

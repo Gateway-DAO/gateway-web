@@ -44,6 +44,8 @@ export const H5Text = styled.h5`
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
+    cursor: pointer;
 
     color: #e5e5e5;
+    ${(props) => (props.active ? `font-weight : bold; color :#ffffff` : '')}
 `
