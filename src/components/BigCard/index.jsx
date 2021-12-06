@@ -13,20 +13,26 @@ import EditCardModal from '../Modal/EditCardModal'
 import Profile from './components/Profiles'
 import Feed from './components/Feed'
 
+// Web3
+import { ethers } from 'ethers'
+import ERC20_ABI from '../../utils/abis/ERC20.json'
+
 const NewCard = (props) => {
     const web3 = useWeb3React()
     useEffect(() => {
         if (props.tokenAddress) {
-            const getBalance = async (tokenAddress) =>
-                web3.active &&
-                web3.library &&
-                setBalance(await web3.library.getBalance(tokenAddress))
+            const getBalance = async (tokenAddress) => {
+                const contract = new ethers.Contract(tokenAddress, ERC20_ABI, web3.library);
+                const balance = await contract.balanceOf(web3.account) / 10**(await contract.decimals());
+                console.log(balance);
+                setBalance(parseFloat(balance))
+            }
 
-            getBalance(props.tokenAddress)
+            web3.active && web3.library && getBalance(props.tokenAddress)
         }
-    }, [web3.active])
+    }, [web3.active, props.id])
 
-    const [balance, setBalance] = useState(BigNumber.from(0))
+    const [balance, setBalance] = useState(0)
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
     const [showEditModal, setShowEditModal] = useState(false)
 
@@ -93,7 +99,7 @@ const NewCard = (props) => {
                                 <Styled.Text>
                                     Your token holdings is{' '}
                                     <Styled.BalanceText>
-                                        {balance.toNumber()} $
+                                        {balance} $
                                         {props?.symbol?.toUpperCase()}
                                     </Styled.BalanceText>
                                 </Styled.Text>
