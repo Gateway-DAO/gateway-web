@@ -106,7 +106,7 @@ const NewCard = (props) => {
                             </Styled.TokenHoldings>
                         )}
                     </Styled.ProfileAndFeedContainer>
-                    {profileAndFeed ? <Profile {...props} /> : <Feed />}
+                    {profileAndFeed ? <Profile {...props} /> : <Feed cardName={props.id} />}
                 </Styled.CardContainer>
             </Styled.Container>
             <RelatedDAOSection

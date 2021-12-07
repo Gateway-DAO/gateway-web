@@ -12,7 +12,7 @@ import {
 import { FiGlobe } from 'react-icons/fi'
 import { BsChatTextFill } from 'react-icons/bs'
 import { useState } from 'react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import parser from 'html-react-parser'
 
 import useAdmin from '../../../../hooks/useAdmin'
@@ -44,7 +44,7 @@ import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
 import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { shortenAddress } from '../../../../utils/web3'
 import { parseTransaction } from 'ethers/lib/utils'
-import { useEffect } from 'react'
+import FeedLogic from '../Feed/FeedLogic'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
@@ -645,6 +645,7 @@ const Profile = (props) => {
                         </Styled.ColumnTwo>
                     )}
                 </Styled.DivideContainer>
+                <FeedLogic/>
             </Styled.DAOContainer>
         </Styled.Container>
     )

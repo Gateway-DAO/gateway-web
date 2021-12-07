@@ -16,7 +16,7 @@ export const ChannelContainer = styled.div`
 export const FeedMessageContainer = styled.div`
     display: grid;
     grid-column: 3 / 5;
-    grid-row: 1fr auto;
+    // grid-row: 1fr auto;
 `
 
 export const H4Text = styled.h4`
@@ -34,4 +34,6 @@ export const H5Text = styled.h5`
     font-size: 14px;
     color: #918d8d;
     line-height: 30px;
+    cursor: pointer;
+    ${(props) => (props.active ? `font-weight : bold; color :#222222` : '')}
 `

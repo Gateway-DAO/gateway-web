@@ -1,1 +1,1 @@
-{"kind":"identitytoolkit#DownloadAccountResponse","users":[{"localId":"0x47640C1Cca02c8209E989E02625E303e0A52406A","createdAt":"1638209659497","lastLoginAt":"1638209664566","emailVerified":false,"customAuth":true,"lastRefreshAt":"2021-11-29T18:14:24.566Z"}]}
+{"kind":"identitytoolkit#DownloadAccountResponse","users":[{"localId":"0x47640C1Cca02c8209E989E02625E303e0A52406A","createdAt":"1638209659497","lastLoginAt":"1638209664566","validSince":"1638887681","emailVerified":false,"disabled":false}]}

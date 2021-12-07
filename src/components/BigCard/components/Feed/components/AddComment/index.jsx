@@ -1,17 +1,41 @@
 import * as Styled from './style'
-import CTA_BG from '../../assets/Gateway.svg'
-import HappyEmoji from '../../assets/icons/HappyEmoji.svg'
-import PictureIcon from '../../assets/icons/PictureIcon.svg'
-import AttachIcon from '../../assets/icons/AttachIcon.svg'
+import CTA_BG from '../../../../../../assets/Gateway.svg'
+import HappyEmoji from '../../../../../../assets/icons/HappyEmoji.svg'
+import PictureIcon from '../../../../../../assets/icons/PictureIcon.svg'
+import AttachIcon from '../../../../../../assets/icons/AttachIcon.svg'
 import Picker from 'emoji-picker-react'
-import { useState, useRef } from 'react'
+import { useState,useEffect, useRef } from 'react'
+import {
+    getUserById,
+    commentPost,
+} from '../../Handlers/Handlers'
+import { v4 as uuidv4 } from 'uuid'
 
-const CommentPostCard = () => {
+const AddComment = (props) => {
     const [commentMessage, setCommentMessage] = useState('')
-    const [commentImage, setCommentImage] = useState('')
-
-    const [chosenEmoji, setChosenEmoji] = useState(null)
     const [showEmojiBox, setEmojiBox] = useState(false)
+    const [user,setUser]=useState({name:"...",username:"..."})
+    const loggedInUserID = props.loggedInUserID
+    useEffect(() => {
+        const getUser = async () => {
+            const user = await getUserById(loggedInUserID)
+            setUser({ name: user.name, username: user.username })
+        }
+        getUser()
+    }, [loggedInUserID])
+    const commentPostHandler=async ()=>{
+        props.commentDone()
+        const { v4: uuidv4 } = require('uuid')
+        const newID = uuidv4()
+        const commentContent = {
+            uniqueId:newID,
+            text: commentMessage,
+            userID: loggedInUserID,
+            createdAt:new Date()
+        }
+        await commentPost(commentContent, props.postID)
+        
+    }
 
     const ref = useRef(null)
     const onEmojiClick = (event, emojiObject) => {
@@ -30,8 +54,8 @@ const CommentPostCard = () => {
                     <Styled.PostByInfo>
                         {' '}
                         Comment as
-                        <Styled.PostByName>Jess Fly</Styled.PostByName>
-                        <Styled.PostByUsername>@Kzux0x</Styled.PostByUsername>
+                        <Styled.PostByName>{user.name}</Styled.PostByName>
+                        <Styled.PostByUsername>@{user.username}</Styled.PostByUsername>
                     </Styled.PostByInfo>
                 </Styled.ProfileBioContainer>
             </Styled.PostHeaderInfo>
@@ -63,10 +87,10 @@ const CommentPostCard = () => {
                         <img src={AttachIcon} alt="Attach document" />
                     </Styled.ActivityTextContainer>
                 </Styled.ActivityContainer>
-                <Styled.PostButton>POST</Styled.PostButton>
+                <Styled.PostButton  onClick ={commentPostHandler} >POST</Styled.PostButton>
             </Styled.ActivityBox>
         </Styled.PostContainer>
     )
 }
 
-export default CommentPostCard
+export default AddComment
