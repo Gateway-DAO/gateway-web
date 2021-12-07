@@ -1,1 +1,1 @@
-{"kind":"identitytoolkit#DownloadAccountResponse","users":[{"localId":"0x47640C1Cca02c8209E989E02625E303e0A52406A","createdAt":"1638209659497","lastLoginAt":"1638209664566","validSince":"1638887681","emailVerified":false,"disabled":false}]}
+{"kind":"identitytoolkit#DownloadAccountResponse","users":[]}
