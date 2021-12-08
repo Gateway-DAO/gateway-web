@@ -1,24 +1,27 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const Container = styled.div`
-    background: #FFFFFF;
-    border: 1px solid #E5E5E5;
+    background: #180b27;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
-    border-radius: 6px;
+    border-radius: 20px;
     margin: 10px 0;
     padding: 25px;
     // max-width:500px;
     font-family: Be Vietnam;
     font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 190%;
-    
-    /* or 233% */
+    font-size: 16px;
+    line-height: 34px;
+    /* or 212% */
 
-    letter-spacing: 0.05em;
+    color: #e5e5e5;
 
-    & h1, h2, h3, h4, h5, h6 {
+    & h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         font-weight: bold;
         margin: 10px 0;
     }
@@ -50,4 +53,6 @@ export const Container = styled.div`
     }
 `
 
-export const BoldText = styled(Text)`font-weight: bold;`
+export const BoldText = styled(Text)`
+    font-weight: bold;
+`

@@ -1,7 +1,8 @@
 import * as Styled from './style'
 import { useState } from 'react'
-import FeedWrapper from "./components/FeedWrapper"
+import ChannelWrapper from './FeedComponents/ChannelWrapper'
 const Feed = (props) => {
+    const [selected, setSelected] = useState('General')
     const Channels = [
         { name: 'General 🌐', id: 'General' },
         { name: 'Events 🎈', id: 'Events' },
@@ -9,27 +10,21 @@ const Feed = (props) => {
         { name: 'Web3 🚀', id: 'Web3' },
         { name: 'DeFi 💰', id: 'DeFi' },
     ]
-    const [selected, setSelected] = useState('General')
     return (
         <Styled.FeedContainer>
             <Styled.ChannelContainer>
                 <Styled.H4Text>CHANNELS</Styled.H4Text>
-                {Channels.map((name) => (
+                {Channels.map((item) => (
                     <Styled.H5Text
-                        key={name.id}
-                        onClick={(e) => setSelected(name.id)}
-                        active={selected === name.id}
+                        key={item.id}
+                        onClick={(e) => setSelected(item.id)}
+                        active={selected === item.id}
                     >
-                        #{name.name}
+                        #{item.name}
                     </Styled.H5Text>
                 ))}
             </Styled.ChannelContainer>
-            <Styled.FeedMessageContainer>
-                <FeedWrapper
-                    cardName={props.cardName}
-                    channel={selected}
-                />
-            </Styled.FeedMessageContainer>
+            <ChannelWrapper cardName={props.cardName} channel={selected} />
         </Styled.FeedContainer>
     )
 }

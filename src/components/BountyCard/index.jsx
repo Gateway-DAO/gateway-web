@@ -1,25 +1,25 @@
-import * as Styled from "./style";
-import {
-    Category,
-    CategoryList,
-} from '../BigCard/DummyStylingForReference/style'
-import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
-import { db } from "../../api/firebase";
+import * as Styled from './style'
+import { Category, CategoryList } from '../BigCard/components/Profiles/style'
+import { doc, updateDoc, onSnapshot } from '@firebase/firestore'
+import { db } from '../../api/firebase'
+import parser from 'html-react-parser'
 
-const BountyCard = props => {
+const BountyCard = (props) => {
     const bounty = props.bounties[props.idx]
 
-    const deleteBounty = async e => {
-        e.stopPropagation();
-        const dao = doc(db, "daos", props.id)
-        const newBounties = props.bounties.filter((bounty, idx) => idx !== props.idx)
+    const deleteBounty = async (e) => {
+        e.stopPropagation()
+        const dao = doc(db, 'daos', props.id)
+        const newBounties = props.bounties.filter(
+            (bounty, idx) => idx !== props.idx
+        )
 
         const unsub = onSnapshot(dao, (doc) => {
             props.set(newBounties)
-        });
+        })
 
         await updateDoc(dao, {
-            bounties: newBounties
+            bounties: newBounties,
         })
 
         unsub()
@@ -28,9 +28,11 @@ const BountyCard = props => {
     return (
         <Styled.Container onClick={() => props.showInfo(props.idx)}>
             <CategoryList>
-                {bounty.categories.map((e) => <Category>{e}</Category>)}
+                {bounty.categories.map((e) => (
+                    <Category>{e}</Category>
+                ))}
             </CategoryList>
-            <Styled.Text>{bounty.description}</Styled.Text>
+            <Styled.Text>{parser(bounty.description)}</Styled.Text>
             <Styled.BountyInfoBox>
                 <Styled.BountyInfo>
                     <Styled.Text>Level</Styled.Text>
@@ -50,9 +52,11 @@ const BountyCard = props => {
                 </Styled.BountyInfo>
             </Styled.BountyInfoBox>
 
-            {props.admin && <Styled.TrashBtn onClick={deleteBounty} size={14} />}
+            {props.admin && (
+                <Styled.TrashBtn onClick={deleteBounty} size={14} />
+            )}
         </Styled.Container>
     )
 }
 
-export default BountyCard;
+export default BountyCard

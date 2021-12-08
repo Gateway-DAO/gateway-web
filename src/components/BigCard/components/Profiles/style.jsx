@@ -4,8 +4,9 @@ import Collapsible from 'react-collapsible'
 import { FiArrowUpRight } from 'react-icons/fi'
 
 export const Container = styled.main`
+    margin-top: 40px;
     display: grid;
-    grid-template-columns: 0.4fr 8fr 0.4fr;
+    grid-template-columns: 0fr 8fr 0.08fr;
 
     @media only screen and (max-width: 945px) {
         padding-top: 60px;
@@ -39,13 +40,13 @@ export const Description = styled.div`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
+    font-size: 18px;
+    line-height: 34px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
 
-    color: #170627;
+    color: #e5e5e5;
 
     margin-top: 15px;
 
@@ -79,13 +80,13 @@ export const Text = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
-    line-height: 28px;
+    font-size: 16px;
+    line-height: 30px;
     /* or 233% */
 
     letter-spacing: 0.05em;
 
-    color: ${(props) => props.color || '#170627'};
+    color: ${(props) => props.color || '#7E7586'};
 
     @media only screen and (max-width: 1190px) {
         font-size: 11px;
@@ -225,13 +226,13 @@ export const SocialLink = styled.a`
 `
 
 export const YoutubeVideoContainer = styled.div`
-    margin: 10px 0;
+    margin: auto;
     padding: 5px;
-    width: 100%;
+    width: 90%;
 `
 
 export const ColumnTwo = styled.div`
-    grid-column: 6 / span 3;
+    grid-column: 7 / span 2;
     padding-left: 20px;
     margin-right: -10px;
     position: relative;
@@ -262,8 +263,8 @@ export const DivContainer = styled.div`
 `
 
 export const Button = styled.a`
-    background: #ffffff;
-    border: 1px solid #a5a5a5;
+    background: #180b27;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 20px;
 
@@ -278,7 +279,7 @@ export const Button = styled.a`
     letter-spacing: 0.05em;
     text-transform: uppercase;
 
-    color: #170627;
+    color: #ffffff;
 
     text-decoration: none;
     padding: 10px;
@@ -357,6 +358,7 @@ export const StyledExplorerLink = styled(ExplorerLink)`
 
 export const StyledExplorerLinkRight = styled(StyledExplorerLink)`
     text-align: right;
+    color: #e5e5e5;
 `
 
 export const SubDAOContainer = styled.div`
@@ -373,6 +375,7 @@ export const SubDAOImg = styled.img`
 
 export const TextRight = styled(Text)`
     text-align: right;
+    color: #e5e5e5;
 `
 
 export const Title = styled.h1`
@@ -394,16 +397,13 @@ export const Title = styled.h1`
 `
 
 export const TokenFeed = styled.div`
-    ${(props) =>
-        props.showBorderBottom
-            ? 'border-bottom: 1px solid rgba(229, 229, 229, 0.5);'
-            : ''}
     padding-bottom: 20px;
     display: flex;
     flex-direction: column;
 `
 
 export const TokenFeedData = styled.div`
+    margin-top: 35px;
     display: grid;
     grid-template-columns: 1fr 1fr;
 `
@@ -412,31 +412,40 @@ export const TokenName = styled.h2`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 24px;
     line-height: 28px;
-    /* or 156% */
+    /* or 117% */
 
     letter-spacing: 0.05em;
 
-    color: #170627;
+    color: #e5e5e5;
 `
 
 export const TokenPrice = styled.h3`
     font-family: Be Vietnam;
     font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
+    //font-weight: bold;
+    font-size: 24px;
     line-height: 28px;
-    /* or 156% */
+    /* or 117% */
 
     letter-spacing: 0.05em;
 
-    color: #170627;
+    color: #e5e5e5;
 `
 
 export const TradeButton = styled(Button)`
-    margin-top: 20px;
-    width: 100%;
+    margin-top: 48px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #e5e5e5;
 `
 
 // export const AboutDAOInfo = styled

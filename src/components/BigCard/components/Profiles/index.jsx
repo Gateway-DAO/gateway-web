@@ -44,7 +44,6 @@ import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
 import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { shortenAddress } from '../../../../utils/web3'
 import { parseTransaction } from 'ethers/lib/utils'
-import FeedLogic from '../Feed/FeedLogic'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
@@ -280,52 +279,12 @@ const Profile = (props) => {
                         <Styled.Description>
                             {parser(props.description)}
                         </Styled.Description>
-                        {/* <Styled.MemberContainer>
-                            <Styled.SubText>Members :</Styled.SubText>
-                            <Styled.PastWeekContainer>
-                                <Styled.PercentageText
-                                    color={
-                                        props.tokenFeed.change7d > 0
-                                            ? '#72B841'
-                                            : '#EE787B'
-                                    }
-                                >
-                                    {props.tokenFeed.change7d > 0 ? (
-                                        <RiArrowUpSFill />
-                                    ) : (
-                                        <RiArrowDownSFill />
-                                    )}
-                                    {props.tokenFeed.change7d.toLocaleString(
-                                        'en-US',
-                                        {
-                                            maximumFractionDigits: 1,
-                                        }
-                                    )}
-                                    %
-                                </Styled.PercentageText>
-                                <Styled.Text color="#A5A5A5">
-                                    Past Week
-                                </Styled.Text>
-                            </Styled.PastWeekContainer>{' '}
-                        </Styled.MemberContainer> */}
-                        {/* categories like : social Defi */}
-                        <Styled.CategoryList>
-                            {props.categories.map((e) => (
-                                <Styled.Category>
-                                    <Styled.CategoryLink to={`/search/${e}`}>
-                                        {e}
-                                    </Styled.CategoryLink>
-                                </Styled.Category>
-                            ))}
-                        </Styled.CategoryList>
-                        {/* social media for the DAO */}
-                        <Styled.SocialsList>{socials}</Styled.SocialsList>
                         <Styled.DivContainer>
                             {props.youtubeURL && (
                                 <Styled.YoutubeVideoContainer>
                                     <iframe
-                                        width="100%"
-                                        height="315"
+                                        width="90%"
+                                        height="520"
                                         src={`https://www.youtube-nocookie.com/embed/${youtubeID}`}
                                         title="YouTube video player"
                                         frameborder="0"
@@ -471,11 +430,7 @@ const Profile = (props) => {
                     </Styled.ColumnOne>
                     {props.tokenAddress && (
                         <Styled.ColumnTwo>
-                            <Styled.TokenFeed
-                                showBorderBottom={
-                                    props['related-daos'] ? true : false
-                                }
-                            >
+                            <Styled.TokenFeed>
                                 <Styled.TokenName>
                                     ${props.symbol.toUpperCase()}
                                 </Styled.TokenName>
@@ -600,52 +555,9 @@ const Profile = (props) => {
                                     TRADE
                                 </Styled.TradeButton>
                             </Styled.TokenFeed>
-                            {props['related-daos'] && (
-                                <Styled.SubDAOContainer>
-                                    <Styled.Title>Sub DAOs</Styled.Title>
-                                    {props['related-daos'].map((dao, idx) => {
-                                        return (
-                                            <Link to={`/dao/${dao}`}>
-                                                <Styled.SubDAOImg
-                                                    src={props.related[idx]}
-                                                    title={dao}
-                                                />
-                                            </Link>
-                                        )
-                                    })}
-                                </Styled.SubDAOContainer>
-                            )}
-                            <Styled.ShareColumn>
-                                <Styled.LinkTo
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(
-                                            `https://etherscan.io/token/${props.tokenAddress}`
-                                        )
-                                    }}
-                                >
-                                    🔗 Copy Link
-                                </Styled.LinkTo>
-                                <Styled.LinkTo>
-                                    <TwitterShareButton
-                                        title={'Share Twitter'}
-                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
-                                    >
-                                        🦆 Share Twitter
-                                    </TwitterShareButton>
-                                </Styled.LinkTo>
-                                <Styled.LinkTo>
-                                    <TelegramShareButton
-                                        title={'Share Twitter'}
-                                        url={`https://etherscan.io/token/${props.tokenAddress}`}
-                                    >
-                                        📋 Share Telegram
-                                    </TelegramShareButton>
-                                </Styled.LinkTo>
-                            </Styled.ShareColumn>
                         </Styled.ColumnTwo>
                     )}
                 </Styled.DivideContainer>
-                <FeedLogic/>
             </Styled.DAOContainer>
         </Styled.Container>
     )
