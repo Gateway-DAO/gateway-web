@@ -14,7 +14,7 @@ export const RelatedContainer = styled.section`
 
 export const BoxContainer = styled.div`
     display: flex;
-    width: 60%;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     align-content: center;
@@ -54,7 +54,6 @@ export const MediumText = styled.h4`
     }
 `
 export const CardContainer = styled.div`
-    margin-left: 20%;
     margin-bottom: 25px;
     @media only screen and (max-width: 768px) {
         width: 100%;
@@ -83,4 +82,4 @@ export const NoRelatedDao = styled.div`
     color: white;
     font-size: 20px;
     font-family: Be Vietnam;
-` 
+`

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const PostContainer = styled.div`
     display: flex;
     flex-direction: column;
-    border: 1px solid #e5e5e5;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     margin-right: 40px;
     border-radius: 20px;
     margin-bottom: 20px;
@@ -25,80 +25,70 @@ export const ProfileBioContainer = styled.div`
     align-items: center;
 `
 
-export const PostImageContainer = styled.img`
-    width: 25px;
-    height: 25px;
+export const PostImageContainer = styled.div`
+    width: 35px;
+    height: 35px;
     border-radius: 999px;
     border-width: 1px;
-    padding: 2px;
+    background-image: url("${props => props.src}");
+    background-size: cover;
+    background-position: center;
+    margin-right: 6px;
 `
 
 export const PostByInfo = styled.span`
     margin-left: 4px;
+
     font-family: Be Vietnam;
-    font-size: 11px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
-    color: #8b8393;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+
+    color: rgba(229, 229, 229, 0.5);
 `
 
 export const PostByName = styled(PostByInfo)`
-    font-weight: bold;
-    color: #180b27;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    color: #ffffff;
 `
 export const PostByUsername = styled(PostByInfo)`
     color: #df78fe;
 `
 
 export const PostTime = styled.span`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: Be Vietnam;
-    font-size: 11px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
-    align-self: center;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
+    color: rgba(229, 229, 229, 0.5);
 `
 
 export const MessageContainer = styled.p`
     margin: 2px 40px;
     display: flex;
     font-family: Be Vietnam;
-    font-size: 14px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: 0.05em;
-    text-align: left;
-`
-
-export const CommentImageContainer = styled.div`
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
     display: flex;
-    margin: 4px;
     align-items: center;
-    justify-content: center;
-    position: relative;
-`
-
-export const CommentImage = styled.img`
-    height: 240px;
-    width: 240px;
-    border-radius: 10px;
-`
-
-export const InputComment = styled.textarea`
-    flex: 1;
-    margin-left: 20px;
-    font-size: 15px;
-    border: none;
-
-    :focus {
-        outline: none;
-    }
+    letter-spacing: 0.05em;
+    color: #e5e5e5;
 `
 
 export const ActivityContainer = styled.div`
@@ -108,53 +98,19 @@ export const ActivityContainer = styled.div`
     margin-bottom: 20px;
 `
 
-export const ActivityBox = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
-
-export const PostButton = styled.button`
-    font-family: Poppins;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 700;
-    height: 40px;
-    width: 121px;
-    text-align: center;
-    color: #170627;
-    background-color: #ffffff;
-    border: 1px solid #170627;
-    border-radius: 20px;
-    margin-right: 20px;
-`
-
 export const ActivityTextContainer = styled.span`
-    margin-right: 20px;
+    margin-right: 40px;
     font-family: Be Vietnam;
-    font-size: 11px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0em;
-    text-align: left;
-`
-
-export const ActivityEmojiContainer = styled(ActivityTextContainer)`
-    display: flex;
-    position: relative;
-`
-
-export const EmojiContainer = styled.div`
-    display: flex;
-    position: absolute;
-    top: 20px;
-`
-
-export const ImageContainer = styled.div`
-    margin: 20px 10px 0px 10px;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 23px;
+    color: #e5e5e5;
 `
 export const ActivityFirstContainer = styled(ActivityTextContainer)`
     background-color: ${(props) => props.inputColor || 'white'};
+    width: 20px;
+    height: 20px;
     border-radius: 100%;
     margin-right: 10px;
 `
@@ -162,6 +118,8 @@ export const ActivitySecondContainer = styled(ActivityTextContainer)`
     background-color: ${(props) => props.inputColor || 'white'};
     border-radius: 100%;
     margin-left: 10px;
+    width: 20px;
+    height: 20px;
 `
 export const VoteContainer = styled(ActivityTextContainer)`
     font-family: Be Vietnam;

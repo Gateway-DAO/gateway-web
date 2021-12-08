@@ -1,35 +1,60 @@
 import * as Styled from './style'
 import { useState } from 'react'
-import FeedWrapper from "./components/FeedWrapper"
+import ChannelWrapper from './FeedComponents/ChannelWrapper'
+import { FiEdit } from 'react-icons/fi'
+import EditChannelModal from '../../../Modal/EditChannelsModal'
+
 const Feed = (props) => {
-    const Channels = [
-        { name: 'General 🌐', id: 'General' },
-        { name: 'Events 🎈', id: 'Events' },
-        { name: 'NFTs 🖼️', id: 'NFTs' },
-        { name: 'Web3 🚀', id: 'Web3' },
-        { name: 'DeFi 💰', id: 'DeFi' },
-    ]
+    const Channels = ['General🌐', "Questions❓"]
+    // const Channels = [
+    //     { name: 'General 🌐', id: 'General' },
+    //     { name: 'Events 🎈', id: 'Events' },
+    //     { name: 'NFTs 🖼️', id: 'NFTs' },
+    //     { name: 'Web3 🚀', id: 'Web3' },
+    //     { name: 'DeFi 💰', id: 'DeFi' },
+    // ]
+    const [currentChannels, setCurrentChannels] = useState(Channels)
     const [selected, setSelected] = useState('General')
+    const [showEditChannelModal, setShowEditChannelModal] = useState(false)
+    const toggleEditChannelModel = () =>
+        setShowEditChannelModal(!showEditChannelModal)
+    const newChannelsSubmitHandler = (data) => {
+        setCurrentChannels(data)
+        toggleEditChannelModel()
+    }
+    const Modals = () => (
+        <>
+            <EditChannelModal
+                newChannelsSubmit={newChannelsSubmitHandler}
+                channels={Channels}
+                id={props.id}
+                show={showEditChannelModal}
+                toggle={toggleEditChannelModel}
+            />
+        </>
+    )
     return (
         <Styled.FeedContainer>
+            <Modals />
             <Styled.ChannelContainer>
-                <Styled.H4Text>CHANNELS</Styled.H4Text>
-                {Channels.map((name) => (
+                <Styled.H4Text>
+                    CHANNELS{' '}
+                    {/* <FiEdit
+                        onClick={toggleEditChannelModel}
+                        style={{ cursor: 'pointer' }}
+                    /> */}
+                </Styled.H4Text>
+                {currentChannels.map((item) => (
                     <Styled.H5Text
-                        key={name.id}
-                        onClick={(e) => setSelected(name.id)}
-                        active={selected === name.id}
+                        key={item}
+                        onClick={(e) => setSelected(item)}
+                        active={selected === item}
                     >
-                        #{name.name}
+                        #{item}
                     </Styled.H5Text>
                 ))}
             </Styled.ChannelContainer>
-            <Styled.FeedMessageContainer>
-                <FeedWrapper
-                    cardName={props.cardName}
-                    channel={selected}
-                />
-            </Styled.FeedMessageContainer>
+            <ChannelWrapper cardName={props.cardName} channel={selected} />
         </Styled.FeedContainer>
     )
 }

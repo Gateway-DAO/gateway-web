@@ -18,6 +18,7 @@ const AddCommunity = ()=>{
     const [description, setDescription] = useState("Its a rich editor")
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
+    const [chains, setChains] = useState([])
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
@@ -53,6 +54,27 @@ const AddCommunity = ()=>{
         })[oldKey]
         setSocials(socialCopy)
     }
+
+    const changeChain = (key, e) => {
+        e.preventDefault()
+        setChains({ ...chains, [key]: e.target.value })
+    }
+
+    const deleteChain = (key) => {
+        const chainCopy = Object.assign({}, chains)
+        delete chainCopy[key]
+        setChains(chainCopy)
+    }
+
+    const changeChainName = (oldKey, newKey) => {
+        const chainCopy = {}
+        delete Object.assign(chainCopy, chains, {
+            [newKey]: chains[oldKey],
+        })[oldKey]
+        setSocials(chainCopy)
+    
+    }
+
     const history = useHistory();
     const submitToDB = async () => {
         // const Community  = doc(db, 'daos', name)
@@ -332,6 +354,115 @@ const AddCommunity = ()=>{
                         <FaPlus />
                     </Styled.IconButton>
                 </Styled.Fieldset>
+                {/* <Styled.Fieldset>
+                    <Styled.Label for="chain">Chains</Styled.Label>
+                    {Object.keys(chains).map((key, idx) => {
+                        return (
+                            <Styled.InputWrapper>
+                                <Styled.Select
+                                    style={{ marginRight: '10px' }}
+                                    onChange={(e) =>
+                                        changeChainName(key, e.target.value)
+                                    }
+                                >
+                                    <option
+                                        value="ethereum"
+                                        selected={key === 'ethereum'}
+                                        disabled={Object.keys(chains).includes(
+                                            'ethereum'
+                                        )}
+                                    >
+                                        Ethereum
+                                    </option>
+                                    <option
+                                        value="solana"
+                                        selected={key === 'solana'}
+                                        disabled={Object.keys(chains).includes(
+                                            'solana'
+                                        )}
+                                    >
+                                        Solana
+                                    </option>
+                                    <option
+                                        value="polygon"
+                                        selected={key === 'polygon'}
+                                        disabled={Object.keys(chains).includes(
+                                            'polygon'
+                                        )}
+                                    >
+                                        Polygon
+                                    </option>
+                                    <option
+                                        value="nere"
+                                        selected={key === 'nere'}
+                                        disabled={Object.keys(chains).includes(
+                                            'nere'
+                                        )}
+                                    >
+                                        NEAR
+                                    </option>
+                                    <option
+                                        value="avalanche "
+                                        selected={key === 'avalanche'}
+                                        disabled={Object.keys(chains).includes(
+                                            'avalanche '
+                                        )}
+                                    >
+                                        Avalanche 
+                                    </option>
+                                    <option
+                                        value="binance"
+                                        selected={key === 'binance'}
+                                        disabled={Object.keys(chains).includes(
+                                            'binance'
+                                        )}
+                                    >
+                                        Binance 
+                                    </option>
+                                    <option
+                                        value="bitcoin"
+                                        selected={key === 'bitcoin'}
+                                        disabled={Object.keys(chains).includes(
+                                            'bitcoin'
+                                        )}
+                                    >
+                                        Bitcoin
+                                    </option>
+                                    <option
+                                        value="other"
+                                        selected={key.startsWith('any')}
+                                    >
+                                        Other
+                                    </option>
+                                </Styled.Select>
+                                <Styled.Input
+                                    id={`chain-${key}`}
+                                    type="text"
+                                    onChange={(e) => changeChain(key, e)}
+                                    value={chains[key]}
+                                />
+                                <Styled.IconButton
+                                    onClick={() => deleteChain(key)}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    <FaTrashAlt />
+                                </Styled.IconButton>
+                            </Styled.InputWrapper>
+                        )
+                    })}
+                    <Styled.IconButton
+                        onClick={() =>
+                            setChains({
+                                ...chains,
+                                [`any-${Object.keys(chains).length}`]: '',
+                            })
+                        }
+                        style={{ width: 'fit-content', alignSelf: 'center' }}
+                    >
+                        <FaPlus />
+                    </Styled.IconButton>
+                </Styled.Fieldset> */}
+
                 <Styled.Fieldset>
                     <Styled.Label for="tokenAddress">
                     Your Metamask Wallet Address

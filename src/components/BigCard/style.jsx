@@ -1,40 +1,107 @@
 import styled from 'styled-components'
-import { FaPencilAlt } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
-export const Container = styled.div`
+export const DaoWrapper = styled.div`
+    width: 95vw;
+    margin: 20px auto;
+    color: white;
+`
+
+export const ProfileInfoWrapper = styled.div`
+    height: 30vh;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 `
 
-export const CardContainer = styled.div`
-    position: relative;
-    width: 60vw;
-    border-radius: 20px;
-    margin: 60px 0;
-    background-color: #ffffff;
-    /* height: 80vh; */
+// Dao Bio Information
+export const ProfileInfoContainer = styled.div`
+    display: flex;
+    flex-direction: row;
 `
 
-export const CardBanner = styled.div`
-    height: 40vh;
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 93.45%), url(${(props) => props.src});
-    background-size: cover;
-    background-position: center;
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
+export const ProfileImageContainer = styled.img`
+    border-radius: 100%;
+    width: 148px;
+    height: 148px;
+    background-color: #ffffff;
+`
+
+export const DaoBioInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+`
+
+export const EditContainer = styled.div`
+    margin: 10px;
+    font-size: 20px;
+`
+
+export const DaoTagContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
+export const Category = styled.li`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 20px;
+    display: inline-block;
+
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    padding: 2px 6px;
+    margin-right: 10px;
+
+    @media only screen and (max-width: 380px) {
+        margin: 5px;
+    }
+`
+
+export const CategoryLink = styled(Link)`
+    text-decoration: none;
+    color: #ffffff;
+`
+
+// name and basic information related styling
+
+export const Title = styled.h1`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 53px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+
+    color: #ffffff;
+`
+//  dao related social sharing
+
+export const SocialContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
 `
 
 export const Button = styled.a`
-    background: #ffffff;
-    border: 1px solid #a5a5a5;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 20px;
 
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 19px;
     /* identical to box height */
 
@@ -42,7 +109,7 @@ export const Button = styled.a`
     letter-spacing: 0.05em;
     text-transform: uppercase;
 
-    color: #170627;
+    color: #ffffff;
 
     text-decoration: none;
     padding: 10px;
@@ -54,24 +121,23 @@ export const Button = styled.a`
 `
 
 export const BackHomeButton = styled(Button)`
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    position: relative;
     @media only screen and (max-width: 350px) {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
     }
 `
 
 export const BackHomeButtonText = styled.a`
+    font-size: 30px;
     position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 20px;
-
+    top: 6px;
+    left: 6px;
     @media only screen and (max-width: 350px) {
         top: 4px;
         left: 7.5px;
@@ -79,92 +145,74 @@ export const BackHomeButtonText = styled.a`
     }
 `
 
-export const DAOProfileContainer = styled.div`
-    display: flex;
-    height: 18vh;
-    margin-left: 5%;
-    align-items: center;
-    margin-top: -10%;
+export const Social = styled(BackHomeButton)`
+    margin-right: 10px;
 `
 
-export const Logo = styled.img`
-    border: 1px solid #e5e5e5;
-    border-radius: 100%;
-    margin-bottom: 20px;
-    width: 115px;
-    height: 120px;
-    background-color: white;
-
-    @media only screen and (max-width: 1190px) {
-        border-radius: 100%;
-        margin-top: -20px;
-    }
-
-    @media only screen and (max-width: 650px) {
-        margin-top: 30px;
-        width: 80px;
-    }
-
-    @media only screen and (max-width: 435px) {
-        margin-top: 45px;
-        width: 70px;
-    }
-
-    @media only screen and (max-width: 350px) {
-        margin-top: 45px;
-        margin-left: -10px;
-        width: 60px;
-    }
+export const TokenHolding = styled.div`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
 `
 
-export const Title = styled.h1`
+export const TokenText = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: bold;
-    font-size: 18px;
-    /* line-height: 26px; */
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
     align-items: center;
+    letter-spacing: 0.05em;
+    margin: 2px 15px;
     color: #ffffff;
-    // text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black,
-        1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
+`
 
-    /* margin-bottom: 15px; */
-    margin-left: 15px;
-    /* text-shadow: 1px 1px black; */
+export const SocialLink = styled(BackHomeButtonText)`
+    color: #ffffff;
+    font-size: 20px;
+`
 
-    @media only screen and (max-width: 300px) {
-        font-size: 14px;
-    }
+// sub Dao container
+
+export const SubDaoContainer = styled.div`
+    // margin-right: 275px;
+    display: flex;
+    flex-direction: column;
+`
+
+export const TextName = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 14px;
+    /* or 87% */
 
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    letter-spacing: 0.05em;
+
+    color: #e5e5e5;
 `
 
-export const ProfileEditorIcon = styled(FaPencilAlt)`
-    background-color: white;
-    color: black;
-    margin: 15px;
-    padding: 5px;
-    border-radius: 100%;
-    cursor: pointer;
-    border: 1px solid #A5A5A5;
+export const SubDAOImg = styled.img`
+    width: 32.96px;
+    height: 32.96px;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px;
 `
 
-export const BalanceText = styled.span`
-    font-weight: bold;
-    color: #7e3bdc;
-`
+// selection styling
 
 export const ProfileAndFeedContainer = styled.div`
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid whitesmoke;
-    margin-left: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `
 
 export const ProfileDiv = styled.div`
     display: flex;
-    margin-left: 25px;
 `
 
 const SelectionTabStyling = `
@@ -182,7 +230,10 @@ const SelectionTabStyling = `
     -moz-text-fill-color: transparent;
     font-weight: bold;
     font-size: 20px;
-    border-bottom: 3px solid pink;
+
+    border-bottom: 4px solid ;
+    border-image: linear-gradient(95.57deg, #EE787B 8.89%, #E153F2 34.15%, #495BE0 67.09%, #6A39F3 95.52%);
+    border-image-slice: 1;  
 `
 
 export const SelectedTab = styled.h2`
@@ -194,6 +245,7 @@ export const SelectedTab = styled.h2`
     font-style: normal;
     line-height: 40px;
     cursor: pointer;
+    letter-spacing: -0.015em;
 `
 
 export const Text = styled.p`
@@ -215,12 +267,4 @@ export const Text = styled.p`
     @media only screen and (max-width: 300px) {
         font-size: 10px;
     }
-`
-
-export const TokenHoldings = styled.div`
-    border: 1px solid #A5A5A5;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    padding: 10px;
-    margin-right: 5%;
 `

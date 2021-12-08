@@ -1,14 +1,24 @@
 import * as Styled from './style'
-
+import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import useAdmin from '../../hooks/useAdmin'
 import React, { useState, useEffect } from 'react'
+import RelatedDAOSection from './components/RelatedDAO'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from '@ethersproject/bignumber'
-import { FaPencilAlt } from 'react-icons/fa'
-import RelatedDAOSection from './components/RelatedDAO'
 import EditCardModal from '../Modal/EditCardModal'
-
+import {
+    FaDiscord,
+    FaTwitter,
+    FaMedium,
+    FaGithub,
+    FaTelegram,
+    FaLink,
+    FaPencilAlt,
+} from 'react-icons/fa'
+import { FiGlobe } from 'react-icons/fi'
+import { BsChatTextFill } from 'react-icons/bs'
+import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
 // Profile tab options
 import Profile from './components/Profiles'
 import Feed from './components/Feed'
@@ -55,65 +65,186 @@ const NewCard = (props) => {
         </>
     )
 
+    const socials = Object.keys(props.socials).map((key) => {
+        switch (key) {
+            case 'discord':
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink
+                            href={props.socials[key]}
+                            target="_blank"
+                        >
+                            <FaDiscord />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+            case 'twitter':
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink
+                            href={props.socials[key]}
+                            target="_blank"
+                        >
+                            <FaTwitter />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+            case 'website':
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink
+                            href={props.socials[key]}
+                            target="_blank"
+                        >
+                            <FiGlobe />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+            case 'medium':
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink
+                            href={props.socials[key]}
+                            target="_blank"
+                        >
+                            <FaMedium />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+            case 'github':
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink
+                            href={props.socials[key]}
+                            target="_blank"
+                        >
+                            <FaGithub />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+            case 'telegram':
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink
+                            href={props.socials[key]}
+                            target="_blank"
+                        >
+                            <FaTelegram />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+            case 'chat':
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink href={props.socials[key]}>
+                            <BsChatTextFill />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+            default:
+                return (
+                    <Styled.Social>
+                        <Styled.SocialLink href={props.socials[key]}>
+                            <FaLink />
+                        </Styled.SocialLink>
+                    </Styled.Social>
+                )
+        }
+    })
+
     return (
-        <React.Fragment>
-            <Styled.Container>
+        <>
+            <Styled.DaoWrapper>
                 <Modals />
-                <Styled.CardContainer>
-                    <Styled.CardBanner src={props?.backgroundURL} />
-                    <Styled.BackHomeButton onClick={(e) => navigate()}>
-                        <Styled.BackHomeButtonText>
-                            &#8592;
-                        </Styled.BackHomeButtonText>
-                    </Styled.BackHomeButton>
-                    <Styled.DAOProfileContainer>
-                        <Styled.Logo src={props?.logoURL} />
-                        <Styled.Title>
-                            {props?.name}
-                            {isAdmin && (
-                                <Styled.ProfileEditorIcon onClick={toggleEditModal} size={12} />
-                            )}
-                        </Styled.Title>
-                    </Styled.DAOProfileContainer>
-                    <Styled.ProfileAndFeedContainer>
-                        <Styled.ProfileDiv>
-                            <Styled.SelectedTab
-                                showActive={profileAndFeed}
-                                onClick={() =>
-                                    setProfileAndFeed(!profileAndFeed)
-                                }
-                            >
-                                Profile
-                            </Styled.SelectedTab>
-                            <Styled.SelectedTab
-                                showActive={!profileAndFeed}
-                                onClick={() =>
-                                    setProfileAndFeed(!profileAndFeed)
-                                }
-                            >
-                                Feed
-                            </Styled.SelectedTab>
-                        </Styled.ProfileDiv>
-                        {web3.active && (
-                            <Styled.TokenHoldings>
-                                <Styled.Text>
-                                    Your token holdings is{' '}
-                                    <Styled.BalanceText>
-                                        {balance} $
-                                        {props?.symbol?.toUpperCase()}
-                                    </Styled.BalanceText>
-                                </Styled.Text>
-                            </Styled.TokenHoldings>
-                        )}
-                    </Styled.ProfileAndFeedContainer>
-                    {profileAndFeed ? <Profile {...props} /> : <Feed cardName={props.id} />}
-                </Styled.CardContainer>
-            </Styled.Container>
-            <RelatedDAOSection
-                categories={props.categories}
-                name={props.name}
-            />
-        </React.Fragment>
+                <Styled.ProfileInfoWrapper>
+                    <Styled.ProfileInfoContainer>
+                        <Styled.ProfileImageContainer src={props?.logoURL} />
+                        <Styled.DaoBioInfo>
+                            <Styled.DaoTagContainer>
+                                {props.categories.map((e) => (
+                                    <Styled.Category>
+                                        <Styled.CategoryLink
+                                            to={`/search/${e}`}
+                                        >
+                                            {e}
+                                        </Styled.CategoryLink>
+                                    </Styled.Category>
+                                ))}
+                            </Styled.DaoTagContainer>
+                            <Styled.Title>
+                                {props?.name}{' '}
+                                <Styled.EditContainer>
+                                    {isAdmin && (
+                                        <FaPencilAlt
+                                            onClick={toggleEditModal}
+                                        />
+                                    )}{' '}
+                                </Styled.EditContainer>
+                            </Styled.Title>
+                            <Styled.SocialContainer>
+                                {socials}
+                                {web3.active && (
+                                    <Styled.TokenHolding>
+                                        <Styled.TokenText>
+                                            {balance} $
+                                            {props.symbol.toUpperCase()}
+                                            <span
+                                                style={{ marginLeft: '37px' }}
+                                            >
+                                                <img
+                                                    src={METAMASK_FOX}
+                                                    alt="meta mask icon"
+                                                />
+                                            </span>
+                                        </Styled.TokenText>
+                                    </Styled.TokenHolding>
+                                )}
+                            </Styled.SocialContainer>
+                        </Styled.DaoBioInfo>
+                    </Styled.ProfileInfoContainer>
+                    {props['related-daos'] && (
+                        <Styled.SubDaoContainer>
+                            <Styled.TextName>Sub DAOs</Styled.TextName>
+                            {props['related-daos'].map((dao, idx) => {
+                                return (
+                                    <Link to={`/dao/${dao}`}>
+                                        <Styled.SubDAOImg
+                                            src={props.related[idx]}
+                                            title={dao}
+                                        />
+                                    </Link>
+                                )
+                            })}
+                        </Styled.SubDaoContainer>
+                    )}
+                </Styled.ProfileInfoWrapper>
+                <Styled.ProfileAndFeedContainer>
+                    <Styled.ProfileDiv>
+                        <Styled.SelectedTab
+                            showActive={profileAndFeed}
+                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                        >
+                            Profile
+                        </Styled.SelectedTab>
+                        <Styled.SelectedTab
+                            showActive={!profileAndFeed}
+                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                        >
+                            Feed
+                        </Styled.SelectedTab>
+                    </Styled.ProfileDiv>
+                </Styled.ProfileAndFeedContainer>
+                {profileAndFeed ? (
+                    <Profile {...props} />
+                ) : (
+                    <Feed cardName={props.id} />
+                )}
+                <RelatedDAOSection
+                    categories={props.categories}
+                    name={props.name}
+                />
+            </Styled.DaoWrapper>
+        </>
     )
 }
 

@@ -1,9 +1,8 @@
-import styled from "styled-components"
-import { Text as BGText } from "../BigCard/style";
+import styled from 'styled-components'
 
 export const Container = styled.div`
-    background: #FFFFFF;
-    border: 1px solid #E5E5E5;
+    background: #180b27;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 6px;
     margin: 10px 0;
@@ -21,9 +20,15 @@ export const FAQInfo = styled.div`
     flex-direction: column;
 `
 
-export const Text = styled(BGText)`
-    line-height: 18px;
-    letter-spacing: 0.05em;
+export const Text = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 34px;
+    /* or 212% */
+    color: #e5e5e5;
 `
 
-export const BoldText = styled(Text)`font-weight: bold;`
+export const BoldText = styled(Text)`
+    font-weight: bold;
+`

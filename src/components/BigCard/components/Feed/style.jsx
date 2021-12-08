@@ -8,7 +8,7 @@ export const FeedContainer = styled.div`
 `
 
 export const ChannelContainer = styled.div`
-    grid-column: 2 / 3;
+    grid-column: 1 / 3;
     display: flex;
     flex-direction: column;
 `
@@ -22,18 +22,30 @@ export const FeedMessageContainer = styled.div`
 export const H4Text = styled.h4`
     font-family: Poppins;
     font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    color: #222222;
-    line-height: 40px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #e5e5e5;
+    margin-bottom: 26px;
 `
 
 export const H5Text = styled.h5`
-    font-family: Poppins;
+    font-family: Be Vietnam;
     font-style: normal;
-    font-size: 14px;
-    color: #918d8d;
-    line-height: 30px;
+    font-size: 21px;
+    line-height: 42px;
+    /* or 200% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
     cursor: pointer;
-    ${(props) => (props.active ? `font-weight : bold; color :#222222` : '')}
+
+    color: #e5e5e5;
+    ${(props) => (props.active ? `font-weight : bold; color :#ffffff` : '')}
 `
