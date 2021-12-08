@@ -27,9 +27,7 @@ const EditChannelModal = (props) => {
         setChannelsArray((prev) => [...prev, ''])
     }
     const ChannelRemoveHandler = (key) => {
-        console.log('channels-key', key)
         setChannelsArray((prev) => prev.filter((e, i) => i !== Number(key)))
-        console.log('channels-update', channelsArray)
     }
 
     return (
