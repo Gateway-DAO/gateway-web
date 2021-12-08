@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './Home'
 import FallbackPage from './FallbackPage';
 import Page404 from './404';
+import DaoGate from '../components/BigCard/components/Onboarding/DaoGate';
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
@@ -26,6 +27,9 @@ const App = (props) => {
                     </Route>
                     <Route path="/what-are-daos">
                         <AboutDAOs />
+                    </Route>
+                    <Route path="/dao/forefront/gate">
+                        <DaoGate/>
                     </Route>
                     <Route path="/dao/:id">
                         <DAO />
