@@ -66,6 +66,9 @@ export const PostByUsername = styled(PostByInfo)`
 `
 
 export const PostTime = styled.span`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;

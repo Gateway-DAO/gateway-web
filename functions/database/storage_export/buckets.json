@@ -2,6 +2,9 @@
   "buckets": [
     {
       "id": "default-bucket"
+    },
+    {
+      "id": "gateway-dao.appspot.com"
     }
   ]
 }
