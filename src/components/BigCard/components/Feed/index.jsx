@@ -5,7 +5,7 @@ import { FiEdit } from 'react-icons/fi'
 import EditChannelModal from '../../../Modal/EditChannelsModal'
 
 const Feed = (props) => {
-    const Channels = ['General🌐', 'Events🎈', 'NFTs🖼️', 'Web3🚀', 'DeFi💰']
+    const Channels = ['General🌐', "Questions❓"]
     // const Channels = [
     //     { name: 'General 🌐', id: 'General' },
     //     { name: 'Events 🎈', id: 'Events' },
@@ -39,10 +39,10 @@ const Feed = (props) => {
             <Styled.ChannelContainer>
                 <Styled.H4Text>
                     CHANNELS{' '}
-                    <FiEdit
+                    {/* <FiEdit
                         onClick={toggleEditChannelModel}
                         style={{ cursor: 'pointer' }}
-                    />
+                    /> */}
                 </Styled.H4Text>
                 {currentChannels.map((item) => (
                     <Styled.H5Text
