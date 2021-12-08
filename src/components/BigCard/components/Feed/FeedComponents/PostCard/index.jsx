@@ -148,7 +148,8 @@ const PostCard = (props) => {
                                 style={{ cursor: 'pointer' }}
                             >
                                 {' '}
-                                {post.comments.length} Comment{!!post.comments.length || "s"}
+                                {post.comments.length} Comment
+                                {!!post.comments.length || 's'}
                             </span>
                         </Styled.ActivityTextContainer>
                         {/*
