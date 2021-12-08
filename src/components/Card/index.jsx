@@ -12,11 +12,12 @@ const CardInfo = (props) => (
 
 const Card = (props) => {
     const history = useHistory()
-
+    
     const navigate = e => {
-      if(!props.isScrolling) {
-        history.push(`/dao/${props.id}`)
-      }
+      // if(!props.isScrolling) {
+      //   history.push(`/dao/${props.id}`)
+      // }
+      history.push(`/dao/${props.id}`)
     }
 
   return (

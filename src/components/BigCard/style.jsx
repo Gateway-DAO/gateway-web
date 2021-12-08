@@ -175,7 +175,7 @@ export const SocialLink = styled(BackHomeButtonText)`
 // sub Dao container
 
 export const SubDaoContainer = styled.div`
-    margin-right: 275px;
+    // margin-right: 275px;
     display: flex;
     flex-direction: column;
 `

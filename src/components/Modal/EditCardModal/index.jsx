@@ -52,7 +52,7 @@ const EditCardModal = (props) => {
             setCategories([...categories, value])
         }
     }
-
+    
     const changeSocial = (key, e) => {
         e.preventDefault()
         setSocials({ ...socials, [key]: e.target.value })
@@ -72,7 +72,7 @@ const EditCardModal = (props) => {
         setSocials(socialCopy)
     }
 
-    return (
+    return ( 
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
                 <ModalStyled.Header>Edit Information</ModalStyled.Header>
