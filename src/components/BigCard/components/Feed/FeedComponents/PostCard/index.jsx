@@ -10,12 +10,10 @@ import {
     downVoteDecrease,
     downVoteIncrease,
 } from '../Handlers'
-// import MakeComment from '../MakeComment'
-import UP_VOTES from '../../../../../../assets/icons/UpVotes.svg'
-import DOWN_VOTES from '../../../../../../assets/icons/DownVotes.svg'
 import MakeComment from '../MakeComment'
 import CommentCard from '../CommentCard'
 import { BsArrowDownCircle, BsArrowUpCircle } from 'react-icons/bs'
+import { MdDelete } from 'react-icons/md'
 
 import { useAuth } from '../../../../../../contexts/UserContext'
 
@@ -54,13 +52,15 @@ const PostCard = (props) => {
                 setUpvote(postData.upvotes)
                 setDownvote(postData.downvotes)
                 setPosts(postData)
-                if (postData.upvotes.includes(userInfo.uid)) {
-                    setUpvoteColor('#45e850')
-                    setDownvoteColor(null)
-                }
-                if (postData.downvotes.includes(userInfo.uid)) {
-                    setDownvoteColor('#e84576')
-                    setUpvoteColor(null)
+                if (loggedIn) {
+                    if (postData.upvotes.includes(userInfo.uid)) {
+                        setUpvoteColor('#45e850')
+                        setDownvoteColor(null)
+                    }
+                    if (postData.downvotes.includes(userInfo.uid)) {
+                        setDownvoteColor('#e84576')
+                        setUpvoteColor(null)
+                    }
                 }
             }
         })
@@ -121,6 +121,16 @@ const PostCard = (props) => {
                             {post.createdAt
                                 .toDate()
                                 .toLocaleTimeString('en-us', options)}
+                            {loggedIn && userInfo.uid === post.userID && (
+                                <MdDelete
+                                    color="#db3b45"
+                                    size={20}
+                                    style={{
+                                        paddingLeft: '10px',
+                                        cursor: 'pointer',
+                                    }}
+                                />
+                            )}
                         </Styled.PostTime>
                     </Styled.PostHeaderInfo>
                     <Styled.MessageContainer>
@@ -148,7 +158,8 @@ const PostCard = (props) => {
                                 style={{ cursor: 'pointer' }}
                             >
                                 {' '}
-                                {post.comments.length} Comment{!!post.comments.length || "s"}
+                                {post.comments.length} Comment
+                                {!!post.comments.length || 's'}
                             </span>
                         </Styled.ActivityTextContainer>
                         {/*
@@ -162,11 +173,14 @@ const PostCard = (props) => {
                     </Styled.ActivityContainer>
                     {showCommentBox && (
                         <>
-                            <MakeComment
-                                commentDone={commentDoneHandler}
-                                postID={id}
-                                loggedInUserID={userInfo.uid}
-                            />
+                            {loggedIn && (
+                                <MakeComment
+                                    commentDone={commentDoneHandler}
+                                    postID={id}
+                                    loggedInUserID={userInfo.uid}
+                                />
+                            )}
+
                             {post.comments &&
                                 post.comments.lenght !== 0 &&
                                 post.comments.map((comment) => (
