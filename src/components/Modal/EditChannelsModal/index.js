@@ -39,7 +39,7 @@ const EditChannelModal = (props) => {
                     return (
                         <ModalStyled.Fieldset>
                             <Styled.ChannelNumber>
-                                Channel {key}
+                                Channel {Number(key)+1}
                                 <MdDelete
                                     onClick={() => ChannelRemoveHandler(key)}
                                     color="#db3b45"
