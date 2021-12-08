@@ -15,7 +15,7 @@ const Feed = (props) => {
     // ]
     const [currentChannels, setCurrentChannels] = useState(Channels)
     const [selected, setSelected] = useState('General')
-    const [showEditChannelModal, setShowEditChannelModal] = useState(true)
+    const [showEditChannelModal, setShowEditChannelModal] = useState(false)
     const toggleEditChannelModel = () =>
         setShowEditChannelModal(!showEditChannelModal)
     const newChannelsSubmitHandler = (data) => {
