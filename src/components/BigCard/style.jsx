@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { FaPencilAlt } from 'react-icons/fa'
 
 export const Container = styled.div`
     display: flex;
@@ -17,7 +18,7 @@ export const CardContainer = styled.div`
 
 export const CardBanner = styled.div`
     height: 40vh;
-    background-image: url(${(props) => props.src});
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 93.45%), url(${(props) => props.src});
     background-size: cover;
     background-position: center;
     border-top-right-radius: 20px;
@@ -82,7 +83,8 @@ export const DAOProfileContainer = styled.div`
     display: flex;
     height: 18vh;
     margin-left: 5%;
-    margin-top: -8%;
+    align-items: center;
+    margin-top: -10%;
 `
 
 export const Logo = styled.img`
@@ -120,19 +122,32 @@ export const Title = styled.h1`
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
-    line-height: 26px;
-    display: flex;
+    /* line-height: 26px; */
     align-items: center;
-
     color: #ffffff;
+    // text-shadow: 2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black,
+        1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black;
 
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     margin-left: 15px;
-    text-shadow: 1px 1px black;
+    /* text-shadow: 1px 1px black; */
 
     @media only screen and (max-width: 300px) {
         font-size: 14px;
     }
+
+    display: flex;
+    flex-direction: row;
+`
+
+export const ProfileEditorIcon = styled(FaPencilAlt)`
+    background-color: white;
+    color: black;
+    margin: 15px;
+    padding: 5px;
+    border-radius: 100%;
+    cursor: pointer;
+    border: 1px solid #A5A5A5;
 `
 
 export const BalanceText = styled.span`
@@ -203,7 +218,7 @@ export const Text = styled.p`
 `
 
 export const TokenHoldings = styled.div`
-    border: 1px solid #7e3bdc;
+    border: 1px solid #A5A5A5;
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 10px;

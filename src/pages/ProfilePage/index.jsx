@@ -53,7 +53,7 @@ const ProfilePage = () => {
 
                     const user = ((await getDocs(q)).docs[0]).data()
 
-                    const userDAOs = await getDAOs(user.daos)
+                    const userDAOs = user.daos ? await getDAOs(user.daos) : []
 
                     setUserInfo({
                         ...user,
@@ -65,7 +65,7 @@ const ProfilePage = () => {
                 }
             } else {
                 if (loggedIn && !loading) {
-                    const userDAOs = await getDAOs(authUser.daos)
+                    const userDAOs = authUser.daos ? await getDAOs(authUser.daos) : []
                     setUserInfo({
                         ...authUser,
                         daos: userDAOs

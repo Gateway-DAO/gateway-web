@@ -10,16 +10,23 @@ export const CardBox = styled.div`
     cursor: pointer;
     // With the card bottom => height: 30em;
     height: 25em;
-
+    // max-width: calc(100%/3.5);
     @media only screen and (max-width: 1170px) {
         height: 27em;
         min-width: 15em;
     }
-
+    // @media only screen and (max-width: 1000px) {
+    //   min-width: calc(100%/3);
+    //   max-width: calc(100%/2.5);
+    // }
+    // @media only screen and (max-width: 550px) {
+    //     width: 100%;
+    //     max-width: 400px;
+    // }
     @media only screen and (max-width: 300px) {
-        min-width: 200px;
-        max-width: 200px;
-    }
+      min-width: 200px;
+      max-width: 200px;
+  }
 `
 
 export const CardBanner = styled.div`

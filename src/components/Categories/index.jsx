@@ -14,11 +14,11 @@ const DUMMY_CATEGORIES = [
     'Investment',
     'Media',
     'Social',
-    'All',
 ]
-const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '', '']
+const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '']
 
 const Categories = (props) => {
+    const [numberOfCards, setNumberOfCards] = useState(3);
     const [categories, setCategories] = useState(DUMMY_CATEGORIES)
     const [categoriesEmoji, setCategoriesEmoji] = useState(
         DUMMY_CATEGORIES_EMOJI
@@ -121,12 +121,25 @@ const Categories = (props) => {
         cardRef.current.addEventListener('mouseleave', stopDragging, false)
     }, [])
 
+    useEffect(()=>{
+        let size = window.innerWidth;
+        if(size<735){
+            setNumberOfCards(1);
+        }else if(size<900){
+            setNumberOfCards(3);
+        }else if(size<2000){
+            setNumberOfCards(4);
+        }else{
+            setNumberOfCards(4);
+        }
+    },[])
+
     //Activate gradient on active category if y page offset is bigger than 0.2 height of page
     const [activeGradient, setActiveGradient] = useState(0)
 
     const activateGradient = () => {
         const entireDocumentHeight = window.document.body.offsetHeight
-        if (window.pageYOffset > 0.2 * entireDocumentHeight) {
+        if (window.pageYOffset > 0.01 * entireDocumentHeight) {
             setActiveGradient(1)
         } else {
             setActiveGradient(0)
@@ -155,10 +168,12 @@ const Categories = (props) => {
                         {cat}
                     </Styled.Category>
                 ))}
+                <Styled.AllButton to="/search/all">All</Styled.AllButton>
             </Styled.CategoriesContainer>
 
             <Styled.CardBox className="full" ref={cardRef}>
-                {cards.map((card) => {
+                {cards.filter((item, idx) => idx < numberOfCards).map((card) => {
+                    // filter((item, idx) => idx < numberOfCards).
                     return (
                         <Card
                             id={card.id}

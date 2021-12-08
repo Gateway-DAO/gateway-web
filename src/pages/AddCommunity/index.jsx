@@ -6,8 +6,9 @@ import * as Styled from "./style";
 import space from '../../utils/canvas'
 import RichEditor  from "../../components/RichTextEditor";
 import {FaTrashAlt,FaPlus} from 'react-icons/fa'
+// import {DAORef} from '../../api/db'
 import { db } from '../../api/firebase'
-import { doc, getDoc, updateDoc, onSnapshot } from '@firebase/firestore'
+import { doc, getDoc, updateDoc, onSnapshot,setDoc } from '@firebase/firestore'
 const AddCommunity = ()=>{
     const [name,setName] = useState("")
     const [backgroundURL, setBackgroundURL] = useState("")
@@ -54,7 +55,7 @@ const AddCommunity = ()=>{
     }
     const history = useHistory();
     const submitToDB = async () => {
-        // const Community  = doc(db, 'Community s', name)
+        // const Community  = doc(db, 'daos', name)
 
         const newInfo = {
             name,
@@ -72,9 +73,16 @@ const AddCommunity = ()=>{
         //     props.toggle()
         // })
 
-        // await updateDoc(Community , newInfo);
+        
 
         // unsub()
+        // DAORef.add({
+        //     name:name
+        // })
+        // const dao  = doc(db, 'daos', name)
+        // await updateDoc(dao, newInfo)
+        const daoRef = doc(db, 'daos', name)
+        await setDoc(daoRef, newInfo)
         history.push(`/new-community/${name}`);
     }
 
