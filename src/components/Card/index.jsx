@@ -20,6 +20,11 @@ const Card = (props) => {
       history.push(`/dao/${props.id}`)
     }
 
+    let desc = parser(props.description);
+    if(desc.length>300){
+      desc = desc.slice(0,297);
+      desc = desc.concat("...");
+    }
   return (
     <Styled.CardBox>
       <Styled.CardBanner src={props.bannerURL} onClick={navigate}>
@@ -27,7 +32,7 @@ const Card = (props) => {
       </Styled.CardBanner>
       <Styled.CardBody onClick={navigate}>
         <Styled.CardTitle>{props.title}</Styled.CardTitle>
-        <Styled.CardDesc>{parser(props.description)}</Styled.CardDesc>
+        <Styled.CardDesc>{desc}</Styled.CardDesc>
       </Styled.CardBody>
       <Styled.CategoryList>
         {props.categories.map((e) => (

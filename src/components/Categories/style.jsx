@@ -138,16 +138,26 @@ export const CategoryEmoji = styled.p`
 export const AllButton = styled(Link)`
     text-decoration:none;
     display: inline;
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 15px;
-    line-height: 20px;
-    letter-spacing: 0.05em;
-    text-transform: capitalize;
-    padding: 5px;
-    color:  rgba(255, 255, 255, 0.6);
-    margin-right: 25px;
+    // font-family: Be Vietnam;
+    // font-style: normal;
+    // font-weight: 300;
+    // font-size: 15px;
+    // line-height: 20px;
+    // letter-spacing: 0.05em;
+    // text-transform: capitalize;
+    padding: 3px ;
+    // color:  rgba(255, 255, 255, 0.6);
+    // margin-right: 25px;
+    
+font-family: Be Vietnam;
+font-style: normal;
+font-weight: normal;
+font-size: 15px;
+line-height: 20px;
+letter-spacing: 0.05em;
+text-transform: capitalize;
+
+color: #FFFFFF;
 
     &:hover {
         cursor: pointer;
