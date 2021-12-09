@@ -103,3 +103,8 @@ export const MessageBox = styled(Link)`
     letter-spacing: 0.05em;
     text-transform: uppercase;
 `
+
+export const EditContainer = styled.div`
+    margin: 10px;
+    font-size: 20px;
+`

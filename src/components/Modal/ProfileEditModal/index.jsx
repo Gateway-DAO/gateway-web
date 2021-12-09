@@ -1,58 +1,17 @@
-import Modal from '../index'
 import * as Styled from './style'
+import { useEffect, useState } from 'react'
+import Modal from '../index'
 import * as ModalStyled from '../style'
-import { db } from '../../../api/firebase'
-import { doc, getDoc, updateDoc, onSnapshot } from '@firebase/firestore'
-import { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
-import RichEditor from '../../RichTextEditor'
-import parser from "html-react-parser";
 
-const EditCardModal = (props) => {
+const ProfileEditModal = (props) => {
     const [name, setName] = useState(props.name)
-    const [backgroundURL, setBackgroundURL] = useState(props.backgroundURL)
-    const [youtubeURL, setyoutubeURL] = useState(props.youtubeURL || "")
-    const [logoURL, setLogoURL] = useState(props.logoURL)
-    const [tokenAddress, setTokenAddress] = useState(props.tokenAddress)
-    const [description, setDescription] = useState(props.description)
-    const [categories, setCategories] = useState(props.categories)
+    const [bio, setBio] = useState(props.bio)
     const [socials, setSocials] = useState(props.socials)
+    const [membership, setMembers] = useState(props.membership)
+    const [pfp, setPfp] = useState(props.pfpURL)
 
-    const submitToDB = async () => {
-        const dao = doc(db, 'daos', props.id)
-
-        const newInfo = {
-            name,
-            backgroundURL,
-            youtubeURL,
-            logoURL,
-            tokenAddress,
-            description,
-            categories,
-            socials,
-        }
-
-        const unsub = onSnapshot(dao, (doc) => {
-            props.changeDAOData(newInfo)
-            props.toggle()
-        })
-
-        await updateDoc(dao, newInfo)
-
-        unsub()
-    }
-
-    const toggleCheckbox = (e) => {
-        const value = e.target.value
-        console.log(categories)
-
-        if (categories.includes(value) && !e.target.checked) {
-            setCategories(categories.filter((cat) => cat !== value))
-        } else if (e.target.checked) {
-            setCategories([...categories, value])
-        }
-    }
-
+    // Handlers
     const changeSocial = (key, e) => {
         e.preventDefault()
         setSocials({ ...socials, [key]: e.target.value })
@@ -75,138 +34,41 @@ const EditCardModal = (props) => {
     return (
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
-                <ModalStyled.Header>Edit Information</ModalStyled.Header>
+                <ModalStyled.Header>Edit Profile</ModalStyled.Header>
                 <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="name">Name</ModalStyled.Label>
+                    <ModalStyled.Label for="name">
+                        Display Name
+                    </ModalStyled.Label>
                     <ModalStyled.Input
                         onChange={(e) => setName(e.target.value)}
                         type="text"
                         id="name"
                         name="name"
-                        placeholder="Your DAO name"
+                        placeholder="change your name"
                         value={name}
                     />
                 </ModalStyled.Fieldset>
-
                 <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="logoURL">
-                        Logo URL
+                    <ModalStyled.Label for="pfp">
+                        Profile Picture
                     </ModalStyled.Label>
                     <ModalStyled.Input
-                        onChange={(e) => setLogoURL(e.target.value)}
-                        type="text"
-                        id="logoURL"
-                        name="logoURL"
-                        placeholder="Your DAO logo URL"
-                        value={logoURL}
+                        onChange={(e) => setPfp(e.target.files[0])}
+                        type="file"
+                        id="pfp"
+                        name="pfp"
+                        accept="image/png, image/jpeg"
                     />
                 </ModalStyled.Fieldset>
-
                 <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="backgroundURL">
-                        Background URL
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
-                        onChange={(e) => setBackgroundURL(e.target.value)}
-                        type="text"
-                        id="backgroundURL"
-                        name="backgroundURL"
-                        placeholder="Your DAO background URL"
-                        value={backgroundURL}
-                    />
+                    <ModalStyled.Label for="bio">Bio</ModalStyled.Label>
+                    <ModalStyled.Textarea
+                        height="100px"
+                        id="Bio"
+                        onChange={(e) => setBio(e.target.value)}
+                        value={bio}
+                    ></ModalStyled.Textarea>
                 </ModalStyled.Fieldset>
-
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="backgroundURL">
-                        Youtube URL
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
-                        onChange={(e) => setyoutubeURL(e.target.value)}
-                        type="text"
-                        id="backgroundURL"
-                        name="youtubeURL"
-                        placeholder="Your Youtube Video URL"
-                        value={youtubeURL}
-                    />
-                </ModalStyled.Fieldset>
-
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="description">
-                        Description
-                    </ModalStyled.Label>
-                    <RichEditor set={setDescription} value={description} />
-                </ModalStyled.Fieldset>
-
-                <ModalStyled.Fieldset marginBottom="30px">
-                    <ModalStyled.Label>Categories</ModalStyled.Label>
-                    <Styled.GridBox>
-                        <ModalStyled.Checkbox
-                            id="category-1"
-                            name="category"
-                            value="Protocol"
-                            label="Protocol"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('Protocol')}
-                        />
-                        <ModalStyled.Checkbox
-                            id="category-2"
-                            name="category"
-                            value="DeFi"
-                            label="DeFi"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('DeFi')}
-                        />
-                        <ModalStyled.Checkbox
-                            id="category-3"
-                            name="category"
-                            value="Social"
-                            label="Social"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('Social')}
-                        />
-                        <ModalStyled.Checkbox
-                            id="category-4"
-                            name="category"
-                            value="Grant"
-                            label="Grant"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('Grant')}
-                        />
-                        <ModalStyled.Checkbox
-                            id="category-5"
-                            name="category"
-                            value="Investment"
-                            label="Investment"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('Investment')}
-                        />
-                        <ModalStyled.Checkbox
-                            id="category-6"
-                            name="category"
-                            value="Collector"
-                            label="Collector"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('Collector')}
-                        />
-                        <ModalStyled.Checkbox
-                            id="category-7"
-                            name="category"
-                            value="Framework"
-                            label="Framework"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('Framework')}
-                        />
-                        <ModalStyled.Checkbox
-                            id="category-8"
-                            name="category"
-                            value="Gaming"
-                            label="Gaming"
-                            onChange={toggleCheckbox}
-                            checked={categories.includes('Gaming')}
-                        />
-                    </Styled.GridBox>
-                </ModalStyled.Fieldset>
-
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="socials">Socials</ModalStyled.Label>
                     {Object.keys(socials).map((key, idx) => {
@@ -315,13 +177,10 @@ const EditCardModal = (props) => {
                         <FaPlus />
                     </ModalStyled.IconButton>
                 </ModalStyled.Fieldset>
-
-        
-
                 <ModalStyled.Button
                     id="submit_msg"
                     type="button"
-                    onClick={submitToDB}
+                    //onClick={submitToDB}
                 >
                     Save Changes
                 </ModalStyled.Button>
@@ -330,4 +189,4 @@ const EditCardModal = (props) => {
     )
 }
 
-export default EditCardModal
+export default ProfileEditModal

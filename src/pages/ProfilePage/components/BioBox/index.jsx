@@ -14,8 +14,17 @@ import {
 import { BsChatTextFill } from 'react-icons/bs'
 import { FiGlobe } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+// Modals
+import ProfileEditModal from '../../../../components/Modal/ProfileEditModal'
+// hooks
+import { useState } from 'react'
+import React from 'react'
 
 const BioBox = (props) => {
+    const [showEditModal, setShowEditModal] = useState(false)
+
+    const toggleEditModal = () => setShowEditModal(!showEditModal)
+
     const socials = props.socials
         ? Object.keys(props.socials).map((key) => {
               switch (key) {
@@ -95,28 +104,52 @@ const BioBox = (props) => {
           })
         : []
 
+    const Modals = (props) => (
+        <>
+            <ProfileEditModal
+                show={showEditModal}
+                toggle={toggleEditModal}
+                name={props.name}
+                bio={props.bio}
+                socials={socials}
+                membership={props.daos}
+                pfpURL={props.pfpURL}
+            />
+        </>
+    )
+
     return (
-        <Styled.Container>
-            <Styled.NameBox>
-                <Styled.Name>{props.name}</Styled.Name>
-                <Styled.Username>@{props.username}</Styled.Username>
-            </Styled.NameBox>
-            <Styled.BioText>{props.bio}</Styled.BioText>
-            <Styled.Socials>{socials.map((social) => social)}</Styled.Socials>
-            {props.daos.length === 0 ? (
-                <Styled.MessageBox to="/what-are-DAOs">
-                    Know about DAOs
-                </Styled.MessageBox>
-            ) : (
-                <Styled.MembershipBox>
-                    {props.daos.map((dao) => (
-                        <Link to={`/dao/${dao.id}`}>
-                            <Styled.MembershipImg src={dao.logoURL} />
-                        </Link>
-                    ))}
-                </Styled.MembershipBox>
-            )}
-        </Styled.Container>
+        <>
+            <Modals {...props}/>
+            <Styled.Container>
+                <Styled.NameBox>
+                    <Styled.Name>
+                        {props.name}
+                        <Styled.EditContainer>
+                            <FaPencilAlt onClick={toggleEditModal} />
+                        </Styled.EditContainer>
+                    </Styled.Name>
+                    <Styled.Username>@{props.username}</Styled.Username>
+                </Styled.NameBox>
+                <Styled.BioText>{props.bio}</Styled.BioText>
+                <Styled.Socials>
+                    {socials.map((social) => social)}
+                </Styled.Socials>
+                {props.daos.length === 0 ? (
+                    <Styled.MessageBox to="/what-are-DAOs">
+                        Know about DAOs
+                    </Styled.MessageBox>
+                ) : (
+                    <Styled.MembershipBox>
+                        {props.daos.map((dao) => (
+                            <Link to={`/dao/${dao.id}`}>
+                                <Styled.MembershipImg src={dao.logoURL} />
+                            </Link>
+                        ))}
+                    </Styled.MembershipBox>
+                )}
+            </Styled.Container>
+        </>
     )
 }
 
