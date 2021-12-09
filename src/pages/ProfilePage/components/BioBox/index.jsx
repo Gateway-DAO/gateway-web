@@ -125,9 +125,9 @@ const BioBox = (props) => {
                 <Styled.NameBox>
                     <Styled.Name>
                         {props.name}
-                        <Styled.EditContainer>
+                        {/* <Styled.EditContainer>
                             <FaPencilAlt onClick={toggleEditModal} />
-                        </Styled.EditContainer>
+                        </Styled.EditContainer> */}
                     </Styled.Name>
                     <Styled.Username>@{props.username}</Styled.Username>
                 </Styled.NameBox>
