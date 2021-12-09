@@ -85,7 +85,7 @@ export const UserProvider = ({ children }) => {
 
                 setUserInfo({
                     ...user,
-                    ...userDB
+                    ...userDB,
                 })
                 setLoggedIn(true)
                 setLoggingIn(false)
@@ -99,19 +99,27 @@ export const UserProvider = ({ children }) => {
     }
 
     const updateUserInfo = async (info, callback) => {
-        const user = doc(db, "users", userInfo.uid);
+        const user = doc(db, 'users', userInfo.uid)
 
         const unsub = onSnapshot(user, () => {
             setUserInfo({
                 ...userInfo,
-                ...info
+                ...info,
             })
             callback()
-        });
+        })
 
         await updateDoc(user, info)
 
         unsub()
+    }
+
+    const userSignOut = () => {
+        auth.signOut().then(() => {
+            setLoggedIn(false)
+            setUserInfo(null)
+            setLoading(false)
+        })
     }
 
     // On account change
@@ -121,10 +129,10 @@ export const UserProvider = ({ children }) => {
                 setLoggedIn(true)
             } else {
                 auth.signOut().then(() => {
-                    setLoggedIn(false);
-                    setUserInfo(null);
-                    setLoading(false);
-                });
+                    setLoggedIn(false)
+                    setUserInfo(null)
+                    setLoading(false)
+                })
             }
         }
     }, [web3.account])
@@ -132,39 +140,36 @@ export const UserProvider = ({ children }) => {
     // On load
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            !!user && setLoading(true);
+            !!user && setLoading(true)
             if (web3) {
                 if (user && web3.active) {
                     if (user.uid === web3.account) {
                         // Get other user info from db
                         const userDoc = doc(db, 'users', user.uid)
                         const userDB = (await getDoc(userDoc)).data()
-    
-                        setUserInfo({ ...user, ...userDB });
-                        setLoggedIn(true);
-                        setLoading(false);
-                    }
-                    else {
+
+                        setUserInfo({ ...user, ...userDB })
+                        setLoggedIn(true)
+                        setLoading(false)
+                    } else {
                         auth.signOut().then(() => {
-                            setLoggedIn(false);
-                            setUserInfo(null);
-                            setLoading(false);
-                        });
+                            setLoggedIn(false)
+                            setUserInfo(null)
+                            setLoading(false)
+                        })
                     }
-                }
-                else if (!web3.active) {
+                } else if (!web3.active) {
                     await activateWeb3()
-                    if (web3.account && (web3.account === user.uid)) {
-                        setUserInfo(user);
-                        setLoggedIn(true);
-                        setLoading(false);
-                    }
-                    else if (web3.account && (web3.account !== user.uid)) {
+                    if (web3.account && web3.account === user.uid) {
+                        setUserInfo(user)
+                        setLoggedIn(true)
+                        setLoading(false)
+                    } else if (web3.account && web3.account !== user.uid) {
                         auth.signOut().then(() => {
-                            setLoggedIn(false);
-                            setUserInfo(null);
-                            setLoading(false);
-                        });
+                            setLoggedIn(false)
+                            setUserInfo(null)
+                            setLoading(false)
+                        })
                     }
                 }
             }
@@ -174,7 +179,17 @@ export const UserProvider = ({ children }) => {
     }, [web3, auth])
 
     return (
-        <Provider value={{ signIn, loggedIn, userInfo, loggingIn, updateUserInfo, loading }}>
+        <Provider
+            value={{
+                signIn,
+                loggedIn,
+                userInfo,
+                loggingIn,
+                updateUserInfo,
+                loading,
+                userSignOut,
+            }}
+        >
             {children}
         </Provider>
     )

@@ -7,6 +7,7 @@ export const PostContainer = styled.div`
     margin-right: 40px;
     border-radius: 20px;
     margin-bottom: 20px;
+    z-index: 100;
 `
 
 export const PostHeaderContainer = styled.div`
@@ -30,7 +31,7 @@ export const PostImageContainer = styled.div`
     height: 35px;
     border-radius: 999px;
     border-width: 1px;
-    background-image: url("${props => props.src}");
+    background-image: url('${(props) => props.src}');
     background-size: cover;
     background-position: center;
     margin-right: 6px;

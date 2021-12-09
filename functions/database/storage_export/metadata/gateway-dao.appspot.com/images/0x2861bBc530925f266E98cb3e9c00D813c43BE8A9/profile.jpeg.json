@@ -1,0 +1,19 @@
+{
+  "name": "images/0x2861bBc530925f266E98cb3e9c00D813c43BE8A9/profile.jpeg",
+  "bucket": "gateway-dao.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1638943238506,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d14b1e68-23ad-4ea4-953d-72077853bb5c"
+  ],
+  "timeCreated": "2021-12-08T06:00:38.505Z",
+  "updated": "2021-12-08T06:00:38.505Z",
+  "size": 14515,
+  "md5Hash": "xkpi/1qf3F8AAsKBQIlWjQ==",
+  "crc32c": "2202900260"
+}

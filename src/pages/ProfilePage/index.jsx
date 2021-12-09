@@ -14,12 +14,7 @@ import BadgeBox from './components/BadgeBox'
 
 // Database
 import { db } from '../../api/firebase'
-import {
-    collection,
-    query,
-    where,
-    getDocs,
-} from '@firebase/firestore'
+import { collection, query, where, getDocs } from '@firebase/firestore'
 
 const ProfilePage = () => {
     const { searchTerm } = useParams()
@@ -30,16 +25,16 @@ const ProfilePage = () => {
         name: '',
         username: '',
         socials: {},
-        daos: []
+        daos: [],
     })
 
     useEffect(() => {
-        const getDAOs = async daos => {
-            const daoRef = collection(db, "daos")
-            const q = query(daoRef, where("__name__", "in", daos))
+        const getDAOs = async (daos) => {
+            const daoRef = collection(db, 'daos')
+            const q = query(daoRef, where('__name__', 'in', daos))
 
             const docs = await getDocs(q)
-            return docs.docs.map(doc => { 
+            return docs.docs.map((doc) => {
                 return { id: doc.id, ...doc.data() }
             })
         }
@@ -49,29 +44,33 @@ const ProfilePage = () => {
             if (searchTerm) {
                 try {
                     const userRef = collection(db, 'users')
-                    const q = query(userRef, where('username', '==', searchTerm))
+                    const q = query(
+                        userRef,
+                        where('username', '==', searchTerm)
+                    )
 
-                    const user = ((await getDocs(q)).docs[0]).data()
+                    const user = (await getDocs(q)).docs[0].data()
 
                     const userDAOs = user.daos ? await getDAOs(user.daos) : []
 
                     setUserInfo({
                         ...user,
-                        daos: userDAOs
+                        daos: userDAOs,
                     })
-                }
-                catch (err) {
-                    history.push("/404")
+                } catch (err) {
+                    history.push('/404')
                 }
             } else {
                 if (loggedIn && !loading) {
-                    const userDAOs = authUser.daos ? await getDAOs(authUser.daos) : []
+                    const userDAOs =
+                        authUser.daos.length === 0
+                            ? []
+                            : await getDAOs(authUser.daos)
                     setUserInfo({
                         ...authUser,
-                        daos: userDAOs
+                        daos: userDAOs,
                     })
-                }
-                else if (!loggedIn && !loading) {
+                } else if (!loggedIn && !loading) {
                     history.push('/sign-in')
                 }
             }
@@ -79,12 +78,17 @@ const ProfilePage = () => {
         getUser()
     }, [searchTerm, authUser, loading])
 
-    return (!searchTerm && authUser && !authUser.init) ? <Redirect to="/create-profile" /> : (
+    return !searchTerm && authUser && !authUser.init ? (
+        <Redirect to="/create-profile" />
+    ) : (
         <Styled.Container>
             <Header />
             <Styled.MainBox>
                 <Styled.LeftSidebar>
-                    <ProfileBox username={userInfo.username} pfpURL={userInfo.pfp} />
+                    <ProfileBox
+                        username={userInfo.username}
+                        pfpURL={userInfo.pfp}
+                    />
                 </Styled.LeftSidebar>
                 <Styled.Feed>
                     {React.createElement(BioBox, { ...userInfo })}

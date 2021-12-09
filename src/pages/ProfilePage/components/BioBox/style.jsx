@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const Container = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -25,7 +26,7 @@ export const Name = styled.h2`
     align-items: center;
     margin-right: 5px;
 
-    color: #FFFFFF;
+    color: #ffffff;
 `
 
 export const Username = styled.p`
@@ -37,7 +38,7 @@ export const Username = styled.p`
     letter-spacing: 0.05em;
     text-transform: lowercase;
 
-    color: #E400FF;
+    color: #e400ff;
 `
 
 export const BioText = styled.p`
@@ -77,7 +78,7 @@ export const SmallHeading = styled.h4`
     letter-spacing: 0.05em;
     text-transform: uppercase;
 
-    color: #FFFFFF;
+    color: #ffffff;
 `
 
 export const MembershipBox = styled.div`
@@ -91,4 +92,14 @@ export const MembershipImg = styled.img`
     border-radius: 100%;
     margin-right: 12px;
     background-color: white;
+`
+
+export const MessageBox = styled(Link)`
+    font-family: Poppins;
+    font-weight: normal;
+    color: #c41698;
+    cursor: pointer;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 `
