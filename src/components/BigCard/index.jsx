@@ -184,7 +184,8 @@ const NewCard = (props) => {
 
                             <Styled.SocialContainer>
                                 {socials}
-                                {web3.active &&(
+                                {web3.active && (
+                                    props.tokenAddress && (
                                     <Styled.TokenHolding>
                                         <Styled.TokenText>
                                             {balance} $
@@ -198,7 +199,7 @@ const NewCard = (props) => {
                                                 />
                                             </span>
                                         </Styled.TokenText>
-                                    </Styled.TokenHolding>
+                                    </Styled.TokenHolding> ) 
                                 )}
                             </Styled.SocialContainer>
                         </Styled.DaoBioInfo>

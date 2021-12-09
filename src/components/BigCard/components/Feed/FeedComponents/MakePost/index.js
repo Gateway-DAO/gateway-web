@@ -61,7 +61,7 @@ const MakePost = (props) => {
         console.log('makePost', data)
     }
 
-    return loggedIn && user.init ? (
+    return loggedIn && user?.init ? (
         <Styled.PostContainer>
             <Styled.PostHeaderInfo>
                 <Styled.ProfileBioContainer>

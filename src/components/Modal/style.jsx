@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
+    z-index : 5;
 `
 
 export const Container = styled.div`
