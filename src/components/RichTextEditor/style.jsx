@@ -13,7 +13,7 @@ export const RichEditor = styled.div`
     letter-spacing: 0.05em;
     border-radius: 10px;
     padding: 15px 0;
-
+    color: #e5e5e5;
     & .ql-editor {
       min-height:200px;
     }

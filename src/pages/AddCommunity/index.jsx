@@ -15,6 +15,7 @@ const AddCommunity = ()=>{
     const [youtubeURL, setyoutubeURL] = useState("")
     const [logoURL, setLogoURL] = useState("")
     const [tokenAddress, setTokenAddress] = useState("")
+    const [whitelistedAddress, setwhitelistedAddress] = useState("")
     const [description, setDescription] = useState("Its a rich editor")
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
@@ -88,21 +89,9 @@ const AddCommunity = ()=>{
             description,
             categories,
             socials,
+            whitelistedAddress
         }
-        console.log(newInfo);
-        // const unsub = onSnapshot(Community , (doc) => {
-        //     props.changeCommunity =Data(newInfo)
-        //     props.toggle()
-        // })
-
         
-
-        // unsub()
-        // DAORef.add({
-        //     name:name
-        // })
-        // const dao  = doc(db, 'daos', name)
-        // await updateDoc(dao, newInfo)
         const daoRef = doc(db, 'daos', name)
         await setDoc(daoRef, newInfo)
         history.push(`/new-community/${name}`);
@@ -464,8 +453,19 @@ const AddCommunity = ()=>{
                 </Styled.Fieldset> */}
 
                 <Styled.Fieldset>
-                    <Styled.Label for="tokenAddress">
+                    <Styled.Label for="whitelistedAddress">
                     Your Metamask Wallet Address
+                    </Styled.Label>
+                    <Styled.Input
+                        id="whitelistedAddress"
+                        type="text"
+                        onChange={(e) => setwhitelistedAddress(e.target.value)}
+                        value={whitelistedAddress}
+                    />
+                </Styled.Fieldset>
+                <Styled.Fieldset>
+                    <Styled.Label for="tokenAddress">
+                    Tocken Address
                     </Styled.Label>
                     <Styled.Input
                         id="tokenAddress"

@@ -181,6 +181,7 @@ const NewCard = (props) => {
                                     )}{' '}
                                 </Styled.EditContainer>
                             </Styled.Title>
+
                             <Styled.SocialContainer>
                                 {socials}
                                 {web3.active && (

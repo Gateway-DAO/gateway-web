@@ -60,12 +60,13 @@ const DAO = (props) => {
             const cgData = daoData.tokenAddress
                 ? await getCGData(daoData.tokenAddress)
                 : {}
-
-            const tokenData = daoData.tokenAddress
+            console.log(cgData.market_data);
+            const tokenData = daoData.tokenAddress 
                 ? {
                       symbol: cgData.symbol,
                       ranking: cgData.market_cap_rank,
                       tokenFeed: {
+
                           price: cgData.market_data.current_price.usd,
                           ath: cgData.market_data.ath.usd,
                           atl: cgData.market_data.atl.usd,
@@ -109,7 +110,7 @@ const DAO = (props) => {
 
             related = await Promise.all(related)
 
-            const tokenData = dbData.tokenAddress
+            const tokenData = dbData.tokenAddress 
                 ? {
                       symbol: cgData.symbol,
                       ranking: cgData.market_cap_rank,
