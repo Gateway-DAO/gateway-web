@@ -7,7 +7,7 @@ export const PostContainer = styled.div`
     border-radius: 20px;
     margin: 0 40px;
     margin-bottom: 20px;
-    z-index: 100;
+    z-index: 2;
 `
 
 export const PostHeaderContainer = styled.div`

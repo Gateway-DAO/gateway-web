@@ -3,16 +3,16 @@
   "bucket": "gateway-dao.appspot.com",
   "contentType": "image/jpeg",
   "metageneration": 1,
-  "generation": 1638943238506,
+  "generation": 1639048330339,
   "storageClass": "STANDARD",
   "etag": "someETag",
   "contentDisposition": "inline",
   "contentEncoding": "identity",
   "downloadTokens": [
-    "d14b1e68-23ad-4ea4-953d-72077853bb5c"
+    "5c7dc04b-7751-4686-99cd-9d13244b627d"
   ],
-  "timeCreated": "2021-12-08T06:00:38.505Z",
-  "updated": "2021-12-08T06:00:38.505Z",
+  "timeCreated": "2021-12-09T11:12:10.338Z",
+  "updated": "2021-12-09T11:12:10.344Z",
   "size": 14515,
   "md5Hash": "xkpi/1qf3F8AAsKBQIlWjQ==",
   "crc32c": "2202900260"
