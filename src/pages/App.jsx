@@ -6,6 +6,7 @@ import Home from './Home'
 import FallbackPage from './FallbackPage';
 import Page404 from './404';
 import DaoGate from '../components/BigCard/components/Onboarding/DaoGate';
+import DaoGateWithKeys from '../components/BigCard/components/Onboarding/DaoGateWithKeys';
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
@@ -29,7 +30,10 @@ const App = (props) => {
                         <AboutDAOs />
                     </Route>
                     <Route path="/dao/forefront/gate">
-                        <DaoGate/>
+                        <DaoGate />
+                    </Route>
+                    <Route path="/dao/forefront/gatewithkeys">
+                        <DaoGateWithKeys />
                     </Route>
                     <Route path="/dao/:id">
                         <DAO />
