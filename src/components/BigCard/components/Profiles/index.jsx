@@ -428,7 +428,7 @@ const Profile = (props) => {
                             </Collapsible>
                         </Styled.DivContainer>
                     </Styled.ColumnOne>
-                    {props.tokenAddress && (
+                    {props.tokenAddress && props.showTokenFeed &&(
                         <Styled.ColumnTwo>
                             <Styled.TokenFeed>
                                 <Styled.TokenName>

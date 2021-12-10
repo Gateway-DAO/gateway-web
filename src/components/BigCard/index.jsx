@@ -30,7 +30,7 @@ import ERC20_ABI from '../../utils/abis/ERC20.json'
 const NewCard = (props) => {
     const web3 = useWeb3React()
     useEffect(() => {
-        if (props.tokenAddress) {
+        if (props.tokenAddress && props.showTokenFeed) {
             const getBalance = async (tokenAddress) => {
                 const contract = new ethers.Contract(tokenAddress, ERC20_ABI, web3.library);
                 const balance = await contract.balanceOf(web3.account) / 10**(await contract.decimals());
@@ -151,7 +151,7 @@ const NewCard = (props) => {
                 )
         }
     })
-
+    console.log(props);
     return (
         <>
             <Styled.DaoWrapper>
@@ -185,7 +185,7 @@ const NewCard = (props) => {
                             <Styled.SocialContainer>
                                 {socials}
                                 {web3.active && (
-                                    props.tokenAddress && (
+                                    props.tokenAddress && props.showTokenFeed &&(
                                     <Styled.TokenHolding>
                                         <Styled.TokenText>
                                             {balance} $

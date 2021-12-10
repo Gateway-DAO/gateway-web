@@ -1,4 +1,5 @@
 import { useParams, useHistory } from 'react-router'
+import { ethers } from 'ethers'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 
@@ -37,6 +38,7 @@ const DAO = (props) => {
         tokenBenefits: [],
         whitelistedAddresses: [],
     })
+    const [isTokenAddres,setIsTokenAddress] = useState(true);
     const [loaded, setLoaded] = useState(false)
     const [inputVal, setInputVal] = useState(query || '')
     const history = useHistory()
@@ -44,8 +46,9 @@ const DAO = (props) => {
         history.goBack()
     }
 
+    
     // Get CoinGecko data
-    const getCGData = async (address) => await getTokenFromAddress(address)
+    const getCGData = async (address) => await getTokenFromAddress(address);  
 
     // Get the document with the name that matches the given ID
     const getDBData = async () => {
@@ -60,13 +63,12 @@ const DAO = (props) => {
             const cgData = daoData.tokenAddress
                 ? await getCGData(daoData.tokenAddress)
                 : {}
-            console.log(cgData.market_data);
-            const tokenData = daoData.tokenAddress 
+            
+            const tokenData = daoData.tokenAddress && cgData.market_data
                 ? {
                       symbol: cgData.symbol,
                       ranking: cgData.market_cap_rank,
                       tokenFeed: {
-
                           price: cgData.market_data.current_price.usd,
                           ath: cgData.market_data.ath.usd,
                           atl: cgData.market_data.atl.usd,
@@ -79,8 +81,11 @@ const DAO = (props) => {
                           circulatingSupply:
                               cgData.market_data.circulating_supply,
                       },
+                      showTokenFeed:true
                   }
-                : {}
+                : {
+                    showTokenFeed:false
+                }
 
             setDaoData({ ...daoData, ...tokenData })
         }
@@ -98,9 +103,11 @@ const DAO = (props) => {
 
         const handleData = async () => {
             const dbData = await getDBData()
+
             const cgData = dbData.tokenAddress
-                ? await getCGData(dbData.tokenAddress)
+                ? await getCGData(dbData.tokenAddress).catch((e)=>{console.log(e)})
                 : {}
+            
             let related = []
 
             // If a DAO has a "related-daos" field, fetch the related DAOs
@@ -110,7 +117,7 @@ const DAO = (props) => {
 
             related = await Promise.all(related)
 
-            const tokenData = dbData.tokenAddress 
+            const tokenData = dbData.tokenAddress && cgData.symbol
                 ? {
                       symbol: cgData.symbol,
                       ranking: cgData.market_cap_rank,
@@ -127,8 +134,11 @@ const DAO = (props) => {
                           circulatingSupply:
                               cgData.market_data.circulating_supply,
                       },
+                      showTokenFeed:true
                   }
-                : {}
+                : {
+                   showTokenFeed:false
+                }
 
             // Organize presentable data
             const data = {

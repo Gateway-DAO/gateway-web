@@ -465,7 +465,7 @@ const AddCommunity = ()=>{
                 </Styled.Fieldset>
                 <Styled.Fieldset>
                     <Styled.Label for="tokenAddress">
-                    Tocken Address
+                    Token Address
                     </Styled.Label>
                     <Styled.Input
                         id="tokenAddress"
