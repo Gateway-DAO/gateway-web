@@ -6,15 +6,8 @@ import EditChannelModal from '../../../Modal/EditChannelsModal'
 
 const Feed = (props) => {
     const Channels = ['General🌐', "Questions❓"]
-    // const Channels = [
-    //     { name: 'General 🌐', id: 'General' },
-    //     { name: 'Events 🎈', id: 'Events' },
-    //     { name: 'NFTs 🖼️', id: 'NFTs' },
-    //     { name: 'Web3 🚀', id: 'Web3' },
-    //     { name: 'DeFi 💰', id: 'DeFi' },
-    // ]
     const [currentChannels, setCurrentChannels] = useState(Channels)
-    const [selected, setSelected] = useState('General')
+    const [selected, setSelected] = useState('General🌐')
     const [showEditChannelModal, setShowEditChannelModal] = useState(false)
     const toggleEditChannelModel = () =>
         setShowEditChannelModal(!showEditChannelModal)
