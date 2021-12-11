@@ -8,12 +8,21 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+              "apiKeyExpirationDays": 365,
+              "apiKeyExpirationDate": "2022-12-11T23:43:37.974Z",
+              "description": ""
             }
           },
           "additionalAuthenticationProviders": []
         }
       }
+    }
+  },
+  "function": {
+    "getUserDAOs": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   }
 }

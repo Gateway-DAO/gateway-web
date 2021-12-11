@@ -1,20 +1,53 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY {
-    globalAuthRule: AuthRule = { allow: public }
-} # FOR TESTING ONLY!
 
-type DAO @model {
-    id: String! @index(name: "byID", queryField: "DAOByID")
-    name: String! @index(name: "byName", queryField: "DAOByName")
+type DAO
+    @model
+    @key(name: "DAOById", fields: ["dao"], queryField: "getDAOById")
+    @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName") {
+    id: ID!
+    dao: String!
+    name: String!
     faq: [FAQ]
     accomplishments: String
-    backgroundURL: String
+    backgroundURL: AWSURL!
+    logoURL: AWSURL!
     bounties: [Bounty]
     categories: [String]!
+    tags: [String]
     description: String!
     howToJoin: [String]
     missionAndVision: String
+    whatDoWeDo: [String]
+    tokenBenefits: [TokenBenefit]
+    upcomingHangouts: String
+    tokenAddress: String
+    socials: [Social]
+}
+
+type User
+    @model
+    @key(
+        name: "UserByAddress"
+        fields: ["wallet"]
+        queryField: "getUserByAddress"
+    )
+    @key(
+        name: "UserByUsername"
+        fields: ["username"]
+        queryField: "getUserByUsername"
+    ) {
+    id: ID!
+    wallet: String!
+    username: String!
+    name: String!
+    bio: String
+    daos_ids: [String]
+    daos: [DAO] @function(name: "getUserDAOs")
+    init: Boolean
+    nonce: Int!
+    pfp: String
+    socials: [Social]
 }
 
 type FAQ {
@@ -32,4 +65,16 @@ type Bounty {
     links: [String]!
     endDate: AWSDateTime!
     postDate: AWSDateTime!
+}
+
+type TokenBenefit {
+    amount: Int!
+    description: String!
+    title: String!
+    token: String!
+}
+
+type Social {
+    network: String!
+    url: String!
 }

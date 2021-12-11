@@ -3,10 +3,14 @@
   "serviceConfiguration": {
     "apiName": "gateway",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/mnt/c/Users/nuno-/Desktop/Programming/gateway/amplify/backend/api/gateway/schema.graphql",
+    "gqlSchemaPath": "/mnt/c/Users/nuno-/Desktop/Trabalho/gateway-web/amplify/backend/api/gateway/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "expirationTime": 365,
+      "apiKeyExpirationDate": "2022-12-11T23:43:37.974Z",
+      "keyDescription": ""
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": []
   }
 }

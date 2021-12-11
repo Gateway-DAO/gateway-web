@@ -10,6 +10,14 @@
       "StackName": "amplify-gateway-dev-184152",
       "StackId": "arn:aws:cloudformation:us-east-1:628607619154:stack/amplify-gateway-dev-184152/af6a99e0-591f-11ec-8bf7-12f6914b066f",
       "AmplifyAppId": "d1eyfltl5g67m"
+    },
+    "categories": {
+      "function": {
+        "getUserDAOs": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/getUserDAOs-33354f57433731584d69-build.zip"
+        }
+      }
     }
   }
 }
