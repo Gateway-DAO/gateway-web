@@ -17,6 +17,8 @@ const EditCardModal = (props) => {
     const [description, setDescription] = useState(props.description)
     const [categories, setCategories] = useState(props.categories)
     const [socials, setSocials] = useState(props.socials)
+    const [chains, setChains] = useState(props.chains)
+    const [whitelistedAddress, setwhitelistedAddress] = useState(props.whitelistedAddress)
 
     const submitToDB = async () => {
         const dao = doc(db, 'daos', props.id)
@@ -30,6 +32,8 @@ const EditCardModal = (props) => {
             description,
             categories,
             socials,
+            chains,
+            whitelistedAddress
         }
 
         const unsub = onSnapshot(dao, (doc) => {
@@ -52,7 +56,14 @@ const EditCardModal = (props) => {
             setCategories([...categories, value])
         }
     }
-    
+    const toggleCheckboxChain = (e)=>{
+        const value = e.target.value;
+        if(chains.includes(value)&& !e.target.checked){
+            setChains(chains.filter((cat) => cat !== value))
+        } else if (e.target.checked) {
+            setChains([...chains, value])
+        }
+    }
     const changeSocial = (key, e) => {
         e.preventDefault()
         setSocials({ ...socials, [key]: e.target.value })
@@ -315,6 +326,75 @@ const EditCardModal = (props) => {
                         <FaPlus />
                     </ModalStyled.IconButton>
                 </ModalStyled.Fieldset>
+                <ModalStyled.Fieldset marginBottom="30px">
+                    <ModalStyled.Label>Chain</ModalStyled.Label>
+                    <Styled.GridBox>
+                        <ModalStyled.Checkbox
+                            id="chain-1"
+                            name="chain"
+                            value="ethereum"
+                            label="Ethereum"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Ethereum')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-2"
+                            name="chain"
+                            value="solana"
+                            label="Solana"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Solana')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-3"
+                            name="chain"
+                            value="Polygon"
+                            label="Polygon"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Polygon')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-4"
+                            name="chain"
+                            value="NEAR"
+                            label="NEAR"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('NEAR')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-5"
+                            name="chain"
+                            value="Avalanche"
+                            label="Avalanche"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Avalanche')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-6"
+                            name="chain"
+                            value="Binance"
+                            label="Binance"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Binance')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-7"
+                            name="chain"
+                            value="Bitcoin"
+                            label="Bitcoin"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Bitcoin')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-8"
+                            name="chain"
+                            value="Other"
+                            label="Other"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Other')}
+                        />
+                    </Styled.GridBox>
+                </ModalStyled.Fieldset>
 
                 {/*
                 <ModalStyled.Fieldset marginBottom="30px">
@@ -328,7 +408,17 @@ const EditCardModal = (props) => {
                     </Styled.GridBox>
                 </ModalStyled.Fieldset>
                 */}
-
+                <ModalStyled.Fieldset>
+                    <ModalStyled.Label for="whitelistedAddress">
+                    Your Metamask Wallet Address
+                    </ModalStyled.Label>
+                    <ModalStyled.Input
+                        id="whitelistedAddress"
+                        type="text"
+                        onChange={(e) => setwhitelistedAddress(e.target.value)}
+                        value={whitelistedAddress}
+                    />
+                </ModalStyled.Fieldset>
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="tokenAddress">
                         Token Address

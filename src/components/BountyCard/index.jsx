@@ -3,10 +3,17 @@ import { Category, CategoryList } from '../BigCard/components/Profiles/style'
 import { doc, updateDoc, onSnapshot } from '@firebase/firestore'
 import { db } from '../../api/firebase'
 import parser from 'html-react-parser'
+import { useState } from 'react'
 
 const BountyCard = (props) => {
     const bounty = props.bounties[props.idx]
-
+    // const [description, setDescription] = useState("");
+    let description = "";
+    console.log(bounty.description);
+    if(bounty.description){
+        // setDescription(parser(bounty.description));
+        description = parser(bounty.description);
+    }
     const deleteBounty = async (e) => {
         e.stopPropagation()
         const dao = doc(db, 'daos', props.id)
@@ -32,7 +39,7 @@ const BountyCard = (props) => {
                     <Category>{e}</Category>
                 ))}
             </CategoryList>
-            <Styled.Text>{parser(bounty.description)}</Styled.Text>
+            <Styled.Text>{description}</Styled.Text>
             <Styled.BountyInfoBox>
                 <Styled.BountyInfo>
                     <Styled.Text>Level</Styled.Text>
