@@ -10,6 +10,7 @@ import { getTokenFromAddress } from "../../api/coingecko"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Card from "../../components/Card"
+import { ConnectToWallet } from "../../components/WalletHeader/style"
 
 const Search = props => {
     const { query } = useParams();
@@ -43,6 +44,7 @@ const Search = props => {
 
             setHits(resolved);
         }else{
+            
             const { hits: res } = await daos.search(query);
             const parsedInfo = res.map(async hit => {
                 return hit

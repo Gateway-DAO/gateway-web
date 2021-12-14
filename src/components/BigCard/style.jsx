@@ -268,3 +268,25 @@ export const Text = styled.p`
         font-size: 10px;
     }
 `
+
+// Chains
+export const Chain = styled.div`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 100%;
+    display: inline-block;
+    width:36px;
+    height:36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left:10px;
+    &:hover{
+        border: 1px solid rgba(255, 255, 255, .4);
+    }
+`
+export const ChainLink = styled(Link)`
+    text-decoration: none;
+    width:22px;
+    height:22px;
+`

@@ -36,6 +36,15 @@ const AddCommunity = ()=>{
             setCategories([...categories, value])
         }
     }
+
+    const toggleCheckboxChain = (e)=>{
+        const value = e.target.value;
+        if(chains.includes(value)&& !e.target.checked){
+            setChains(chains.filter((cat) => cat !== value))
+        } else if (e.target.checked) {
+            setChains([...chains, value])
+        }
+    }
     
     const changeSocial = (key, e) => {
         e.preventDefault()
@@ -56,26 +65,6 @@ const AddCommunity = ()=>{
         setSocials(socialCopy)
     }
 
-    const changeChain = (key, e) => {
-        e.preventDefault()
-        setChains({ ...chains, [key]: e.target.value })
-    }
-
-    const deleteChain = (key) => {
-        const chainCopy = Object.assign({}, chains)
-        delete chainCopy[key]
-        setChains(chainCopy)
-    }
-
-    const changeChainName = (oldKey, newKey) => {
-        const chainCopy = {}
-        delete Object.assign(chainCopy, chains, {
-            [newKey]: chains[oldKey],
-        })[oldKey]
-        setSocials(chainCopy)
-    
-    }
-
     const history = useHistory();
     const submitToDB = async () => {
         // const Community  = doc(db, 'daos', name)
@@ -88,6 +77,7 @@ const AddCommunity = ()=>{
             tokenAddress,
             description,
             categories,
+            chains,
             socials,
             whitelistedAddress
         }
@@ -343,114 +333,75 @@ const AddCommunity = ()=>{
                         <FaPlus />
                     </Styled.IconButton>
                 </Styled.Fieldset>
-                {/* <Styled.Fieldset>
-                    <Styled.Label for="chain">Chains</Styled.Label>
-                    {Object.keys(chains).map((key, idx) => {
-                        return (
-                            <Styled.InputWrapper>
-                                <Styled.Select
-                                    style={{ marginRight: '10px' }}
-                                    onChange={(e) =>
-                                        changeChainName(key, e.target.value)
-                                    }
-                                >
-                                    <option
-                                        value="ethereum"
-                                        selected={key === 'ethereum'}
-                                        disabled={Object.keys(chains).includes(
-                                            'ethereum'
-                                        )}
-                                    >
-                                        Ethereum
-                                    </option>
-                                    <option
-                                        value="solana"
-                                        selected={key === 'solana'}
-                                        disabled={Object.keys(chains).includes(
-                                            'solana'
-                                        )}
-                                    >
-                                        Solana
-                                    </option>
-                                    <option
-                                        value="polygon"
-                                        selected={key === 'polygon'}
-                                        disabled={Object.keys(chains).includes(
-                                            'polygon'
-                                        )}
-                                    >
-                                        Polygon
-                                    </option>
-                                    <option
-                                        value="nere"
-                                        selected={key === 'nere'}
-                                        disabled={Object.keys(chains).includes(
-                                            'nere'
-                                        )}
-                                    >
-                                        NEAR
-                                    </option>
-                                    <option
-                                        value="avalanche "
-                                        selected={key === 'avalanche'}
-                                        disabled={Object.keys(chains).includes(
-                                            'avalanche '
-                                        )}
-                                    >
-                                        Avalanche 
-                                    </option>
-                                    <option
-                                        value="binance"
-                                        selected={key === 'binance'}
-                                        disabled={Object.keys(chains).includes(
-                                            'binance'
-                                        )}
-                                    >
-                                        Binance 
-                                    </option>
-                                    <option
-                                        value="bitcoin"
-                                        selected={key === 'bitcoin'}
-                                        disabled={Object.keys(chains).includes(
-                                            'bitcoin'
-                                        )}
-                                    >
-                                        Bitcoin
-                                    </option>
-                                    <option
-                                        value="other"
-                                        selected={key.startsWith('any')}
-                                    >
-                                        Other
-                                    </option>
-                                </Styled.Select>
-                                <Styled.Input
-                                    id={`chain-${key}`}
-                                    type="text"
-                                    onChange={(e) => changeChain(key, e)}
-                                    value={chains[key]}
-                                />
-                                <Styled.IconButton
-                                    onClick={() => deleteChain(key)}
-                                    style={{ marginLeft: '10px' }}
-                                >
-                                    <FaTrashAlt />
-                                </Styled.IconButton>
-                            </Styled.InputWrapper>
-                        )
-                    })}
-                    <Styled.IconButton
-                        onClick={() =>
-                            setChains({
-                                ...chains,
-                                [`any-${Object.keys(chains).length}`]: '',
-                            })
-                        }
-                        style={{ width: 'fit-content', alignSelf: 'center' }}
-                    >
-                        <FaPlus />
-                    </Styled.IconButton>
-                </Styled.Fieldset> */}
+                <Styled.Fieldset marginBottom="30px">
+                    <Styled.Label>Chain</Styled.Label>
+                    <Styled.GridBox>
+                        <Styled.Checkbox
+                            id="chain-1"
+                            name="chain"
+                            value="ethereum"
+                            label="Ethereum"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Ethereum')}
+                        />
+                        <Styled.Checkbox
+                            id="chain-2"
+                            name="chain"
+                            value="solana"
+                            label="Solana"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Solana')}
+                        />
+                        <Styled.Checkbox
+                            id="chain-3"
+                            name="chain"
+                            value="Polygon"
+                            label="Polygon"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Polygon')}
+                        />
+                        <Styled.Checkbox
+                            id="chain-4"
+                            name="chain"
+                            value="NEAR"
+                            label="NEAR"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('NEAR')}
+                        />
+                        <Styled.Checkbox
+                            id="chain-5"
+                            name="chain"
+                            value="Avalanche"
+                            label="Avalanche"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Avalanche')}
+                        />
+                        <Styled.Checkbox
+                            id="chain-6"
+                            name="chain"
+                            value="Binance"
+                            label="Binance"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Binance')}
+                        />
+                        <Styled.Checkbox
+                            id="chain-7"
+                            name="chain"
+                            value="Bitcoin"
+                            label="Bitcoin"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Bitcoin')}
+                        />
+                        <Styled.Checkbox
+                            id="chain-8"
+                            name="chain"
+                            value="Other"
+                            label="Other"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('Other')}
+                        />
+                    </Styled.GridBox>
+                </Styled.Fieldset>
 
                 <Styled.Fieldset>
                     <Styled.Label for="whitelistedAddress">
