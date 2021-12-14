@@ -63,7 +63,7 @@ const ProfilePage = () => {
             } else {
                 if (loggedIn && !loading) {
                     const userDAOs =
-                        authUser.daos.length === 0
+                        authUser?.daos?.length === 0
                             ? []
                             : await getDAOs(authUser.daos)
                     setUserInfo({
