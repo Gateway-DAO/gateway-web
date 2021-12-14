@@ -10,6 +10,11 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
 import { UserProvider } from './contexts/UserContext'
 
+// MIGRATION - run once
+import { runDAOMigration } from './utils/aws-migration'
+
+window.runDAOMigration = () => runDAOMigration();
+
 function getLibrary(provider, connector) {
     return new Web3Provider(provider) // this will vary according to whether you use e.g. ethers or web3.js
 }

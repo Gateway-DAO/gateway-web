@@ -1,147 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateDao = /* GraphQL */ `
-  subscription OnCreateDao {
-    onCreateDAO {
-      id
-      dao
-      name
-      faq {
-        question
-        answer
-      }
-      accomplishments
-      backgroundURL
-      logoURL
-      bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
-      }
-      categories
-      tags
-      description
-      howToJoin
-      missionAndVision
-      whatDoWeDo
-      tokenBenefits {
-        amount
-        description
-        title
-        token
-      }
-      upcomingHangouts
-      tokenAddress
-      socials {
-        network
-        url
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateDao = /* GraphQL */ `
-  subscription OnUpdateDao {
-    onUpdateDAO {
-      id
-      dao
-      name
-      faq {
-        question
-        answer
-      }
-      accomplishments
-      backgroundURL
-      logoURL
-      bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
-      }
-      categories
-      tags
-      description
-      howToJoin
-      missionAndVision
-      whatDoWeDo
-      tokenBenefits {
-        amount
-        description
-        title
-        token
-      }
-      upcomingHangouts
-      tokenAddress
-      socials {
-        network
-        url
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteDao = /* GraphQL */ `
-  subscription OnDeleteDao {
-    onDeleteDAO {
-      id
-      dao
-      name
-      faq {
-        question
-        answer
-      }
-      accomplishments
-      backgroundURL
-      logoURL
-      bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
-      }
-      categories
-      tags
-      description
-      howToJoin
-      missionAndVision
-      whatDoWeDo
-      tokenBenefits {
-        amount
-        description
-        title
-        token
-      }
-      upcomingHangouts
-      tokenAddress
-      socials {
-        network
-        url
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
@@ -325,6 +184,147 @@ export const onDeleteUser = /* GraphQL */ `
       init
       nonce
       pfp
+      socials {
+        network
+        url
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateDao = /* GraphQL */ `
+  subscription OnCreateDao {
+    onCreateDAO {
+      id
+      dao
+      name
+      faq {
+        question
+        answer
+      }
+      accomplishments
+      backgroundURL
+      logoURL
+      bounties {
+        headline
+        description
+        level
+        categories
+        reward
+        directions
+        links
+        endDate
+        postDate
+      }
+      categories
+      tags
+      description
+      howToJoin
+      missionAndVision
+      whatDoWeDo
+      tokenBenefits {
+        amount
+        description
+        title
+        token
+      }
+      upcomingHangouts
+      tokenAddress
+      socials {
+        network
+        url
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateDao = /* GraphQL */ `
+  subscription OnUpdateDao {
+    onUpdateDAO {
+      id
+      dao
+      name
+      faq {
+        question
+        answer
+      }
+      accomplishments
+      backgroundURL
+      logoURL
+      bounties {
+        headline
+        description
+        level
+        categories
+        reward
+        directions
+        links
+        endDate
+        postDate
+      }
+      categories
+      tags
+      description
+      howToJoin
+      missionAndVision
+      whatDoWeDo
+      tokenBenefits {
+        amount
+        description
+        title
+        token
+      }
+      upcomingHangouts
+      tokenAddress
+      socials {
+        network
+        url
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteDao = /* GraphQL */ `
+  subscription OnDeleteDao {
+    onDeleteDAO {
+      id
+      dao
+      name
+      faq {
+        question
+        answer
+      }
+      accomplishments
+      backgroundURL
+      logoURL
+      bounties {
+        headline
+        description
+        level
+        categories
+        reward
+        directions
+        links
+        endDate
+        postDate
+      }
+      categories
+      tags
+      description
+      howToJoin
+      missionAndVision
+      whatDoWeDo
+      tokenBenefits {
+        amount
+        description
+        title
+        token
+      }
+      upcomingHangouts
+      tokenAddress
       socials {
         network
         url

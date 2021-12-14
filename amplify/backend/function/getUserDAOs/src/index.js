@@ -5,11 +5,56 @@ const gql = require('graphql-tag')
 const graphql = require('graphql')
 const { print } = graphql
 
-const listDAOs = (filter) => gql`
-    query listDAOs {
-        listDAOs(filter: { or: ${filter} })
-    }
-`
+const listDAOs = (filter) => {
+    return gql`
+        query listDAOs {
+            listDAOs(filter: {or: ${filter || JSON.stringify({})}}) {
+                items {
+                    id
+                    accomplishments
+                    backgroundURL
+                    bounties {
+                    categories
+                    description
+                    directions
+                    endDate
+                    headline
+                    level
+                    links
+                    postDate
+                    reward
+                    }
+                    categories
+                    createdAt
+                    dao
+                    description
+                    faq {
+                    answer
+                    question
+                    }
+                    howToJoin
+                    logoURL
+                    missionAndVision
+                    name
+                    socials {
+                    network
+                    url
+                    }
+                    tags
+                    tokenAddress
+                    tokenBenefits {
+                    amount
+                    description
+                    title
+                    token
+                    }
+                    upcomingHangouts
+                    whatDoWeDo
+                }
+            }
+        }
+    `
+}
 
 const resolvers = {
     User: {
@@ -17,11 +62,11 @@ const resolvers = {
             const daos_ids = ctx.source.daos_ids || []
 
             const daos = daos_ids.map((id) => {
-                return { id: id }
+                return `{ dao: { eq: "${id}" } }`
             })
 
             const req = await axios.post(
-                ctx.request.headers.host,
+                `http://${ctx.request.headers.host}/graphql`,
                 {
                     query: print(listDAOs(daos)),
                 },
@@ -32,7 +77,7 @@ const resolvers = {
                 }
             )
 
-            console.log(req.data)
+            return req.data.data.listDAOs || []
         },
     },
 }

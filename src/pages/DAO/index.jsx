@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { db } from '../../api/firebase'
 import { collection, doc, getDoc, query } from '@firebase/firestore'
 
+import { getDAOByID } from '../../api/database/getDAO'
+
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 
@@ -52,9 +54,14 @@ const DAO = (props) => {
 
     // Get the document with the name that matches the given ID
     const getDBData = async () => {
+        /*
         const daoDoc = doc(db, 'daos', id)
         const dao = await getDoc(daoDoc)
         return dao.data()
+        */
+
+        const data = await getDAOByID(id)
+        return data
     }
 
     // In case the DAO's token address gets changed

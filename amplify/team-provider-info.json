@@ -15,7 +15,7 @@
       "function": {
         "getUserDAOs": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getUserDAOs-33354f57433731584d69-build.zip"
+          "s3Key": "amplify-builds/getUserDAOs-6a76713064454449422f-build.zip"
         }
       }
     }

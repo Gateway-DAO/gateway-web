@@ -1,30 +1,5 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-
-type DAO
-    @model
-    @key(name: "DAOById", fields: ["dao"], queryField: "getDAOById")
-    @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName") {
-    id: ID!
-    dao: String!
-    name: String!
-    faq: [FAQ]
-    accomplishments: String
-    backgroundURL: AWSURL!
-    logoURL: AWSURL!
-    bounties: [Bounty]
-    categories: [String]!
-    tags: [String]
-    description: String!
-    howToJoin: [String]
-    missionAndVision: String
-    whatDoWeDo: [String]
-    tokenBenefits: [TokenBenefit]
-    upcomingHangouts: String
-    tokenAddress: String
-    socials: [Social]
-}
-
 type User
     @model
     @key(
@@ -48,6 +23,33 @@ type User
     nonce: Int!
     pfp: String
     socials: [Social]
+    createdAt: AWSDateTime
+}
+
+type DAO
+    @model
+    @key(name: "DAOById", fields: ["dao"], queryField: "getDAOById")
+    @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName") {
+    id: ID!
+    dao: String!
+    name: String!
+    faq: [FAQ]
+    accomplishments: String
+    backgroundURL: AWSURL!
+    logoURL: AWSURL!
+    bounties: [Bounty]
+    categories: [String]!
+    tags: [String]
+    description: String!
+    howToJoin: [String]
+    missionAndVision: String
+    whatDoWeDo: [String]
+    tokenBenefits: [TokenBenefit]
+    upcomingHangouts: String
+    tokenAddress: String
+    socials: [Social]
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
 }
 
 type FAQ {
@@ -57,21 +59,21 @@ type FAQ {
 
 type Bounty {
     headline: String!
-    description: String!
+    description: String
     level: String!
     categories: [String]!
     reward: String!
-    directions: String!
+    directions: String
     links: [String]!
-    endDate: AWSDateTime!
+    endDate: AWSDateTime
     postDate: AWSDateTime!
 }
 
 type TokenBenefit {
-    amount: Int!
+    amount: String
     description: String!
     title: String!
-    token: String!
+    token: String
 }
 
 type Social {
