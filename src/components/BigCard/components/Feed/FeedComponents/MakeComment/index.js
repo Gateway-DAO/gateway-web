@@ -77,9 +77,9 @@ const MakeComment = (props) => {
                             </Styled.EmojiContainer>
                         ) : null}
                     </Styled.ActivityEmojiContainer>
-                    <Styled.ActivityTextContainer>
+                    {/* <Styled.ActivityTextContainer>
                         <FiImage />
-                    </Styled.ActivityTextContainer>
+                    </Styled.ActivityTextContainer> */}
                 </Styled.ActivityContainer>
                 <Styled.PostButton onClick={commentPostHandler}>
                     POST
