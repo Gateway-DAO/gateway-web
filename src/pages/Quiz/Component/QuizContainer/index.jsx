@@ -5,7 +5,6 @@ const QuizContainer = () => {
     return (
         <>
             <CreateQuestion />
-            
         </>
     )
 }
