@@ -19,6 +19,7 @@
     "emoji-picker-react": "^3.4.8",
     "ethers": "^5.4.7",
     "firebase": "^9.1.1",
+    "firebase-admin": "^10.0.0",
     "formik": "^2.2.9",
     "html-react-parser": "^1.4.0",
     "moralis": "^0.0.138",

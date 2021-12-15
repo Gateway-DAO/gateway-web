@@ -30,6 +30,20 @@ const Header = (props) => {
                         </Styled.Text>
                     </Styled.OptionLink>
                 )}
+                {!xs || (
+                    <Styled.OptionLink to="/add-community">
+                        <Styled.Text color="#FF00B8">
+                           Add your Community
+                        </Styled.Text>
+                    </Styled.OptionLink>
+                )}
+                {/* {!xs || (
+                    <Styled.OptionLink to="/dao-gate">
+                        <Styled.Text color="#FF00B8">
+                           DAO Gate
+                        </Styled.Text>
+                    </Styled.OptionLink>
+                )} */}
                 
             </Styled.LogoBox>
             <Styled.WalletBox>

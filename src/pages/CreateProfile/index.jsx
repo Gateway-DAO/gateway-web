@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { Redirect, useHistory } from 'react-router'
 import Moralis from 'moralis'
+// import Moralis from "react-moralis"
 import { ethers } from 'ethers'
 
 // Styling
@@ -146,7 +147,7 @@ const CreateProfile = () => {
             <Styled.MainBox>
                 <Styled.MainText>Create Profile</Styled.MainText>
                 
-                <Styled.FormBox>
+                <Styled.FormBox> 
                     <Styled.Fieldset>
                         <Styled.Label for="name">Display name</Styled.Label>
                         <Styled.Input onChange={e => setName(e.target.value)} type="text" id="name" name="name" />

@@ -7,6 +7,7 @@ export const PostContainer = styled.div`
     border-radius: 20px;
     margin: 0 40px;
     margin-bottom: 20px;
+    z-index: 2;
 `
 
 export const PostHeaderContainer = styled.div`
@@ -30,7 +31,7 @@ export const PostImageContainer = styled.div`
     height: 35px;
     border-radius: 999px;
     border-width: 1px;
-    background-image: url("${props => props.src}");
+    background-image: url('${(props) => props.src}');
     background-size: cover;
     background-position: center;
     margin-right: 6px;
@@ -160,4 +161,6 @@ export const EmojiContainer = styled.div`
     display: flex;
     position: absolute;
     top: 20px;
+    z-index: 100;
+    
 `

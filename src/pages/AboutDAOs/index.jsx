@@ -28,7 +28,7 @@ const AboutDAOS = (props) => {
     }, [])
 
     const typeOfDao = (type) => {
-        const socialDao = cards.filter((card) => card.categories.includes(type))
+        const socialDao = cards.filter((item, idx) => idx < 4).filter((card) => card.categories.includes(type))
         return socialDao
     }
 

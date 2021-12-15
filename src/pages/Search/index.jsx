@@ -4,11 +4,13 @@ import { useEffect, useState } from "react"
 import * as Styled from "./style"
 
 import { daos } from "../../api/algolia"
+import { allDocs } from '../../api/db'
 import { getTokenFromAddress } from "../../api/coingecko"
 
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Card from "../../components/Card"
+import { ConnectToWallet } from "../../components/WalletHeader/style"
 
 const Search = props => {
     const { query } = useParams();
@@ -16,7 +18,9 @@ const Search = props => {
 
     useEffect(() => {
         const searchAsync = async () => {
-            const { hits: res } = await daos.search(query);
+            if(query==='all'){
+                const { hits: res } = await daos.search('');
+            // const { hits: res } = await daos.search(query);
             const parsedInfo = res.map(async hit => {
                 // Once we have data, start fetching content from CoinGecko (if the DAO has a token)
 
@@ -36,10 +40,21 @@ const Search = props => {
 
                 return hit
             })
-
             const resolved = await Promise.all(parsedInfo)
 
             setHits(resolved);
+        }else{
+            
+            const { hits: res } = await daos.search(query);
+            const parsedInfo = res.map(async hit => {
+                return hit
+            })
+            const resolved = await Promise.all(parsedInfo)
+
+            setHits(resolved);
+
+        }
+           
         }
 
         searchAsync();

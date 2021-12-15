@@ -9,7 +9,7 @@ import RichEditor from "../../RichTextEditor";
 
 const BountyModal = props => {
     const [headline, setHeadline] = useState(null);
-    const [description, setDescription] = useState(null);
+    const [description, setDescription] = useState("Enter the description");
     const [categories, setCategories] = useState([]);
     const [level, setLevel] = useState(null);
     const [reward, setReward] = useState(null);

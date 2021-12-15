@@ -1,0 +1,35 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+    globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+
+type DAO @model {
+    id: String! @index(name: "byID", queryField: "DAOByID")
+    name: String! @index(name: "byName", queryField: "DAOByName")
+    faq: [FAQ]
+    accomplishments: String
+    backgroundURL: String
+    bounties: [Bounty]
+    categories: [String]!
+    description: String!
+    howToJoin: [String]
+    missionAndVision: String
+}
+
+type FAQ {
+    question: String!
+    answer: String!
+}
+
+type Bounty {
+    headline: String!
+    description: String!
+    level: String!
+    categories: [String]!
+    reward: String!
+    directions: String!
+    links: [String]!
+    endDate: AWSDateTime!
+    postDate: AWSDateTime!
+}

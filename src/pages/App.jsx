@@ -7,6 +7,7 @@ import FallbackPage from './FallbackPage';
 import Page404 from './404';
 import DaoGate from '../components/BigCard/components/Onboarding/DaoGate';
 import DaoGateWithKeys from '../components/BigCard/components/Onboarding/DaoGateWithKeys';
+
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
@@ -14,6 +15,9 @@ const SignIn = React.lazy(() => import('./SignIn'))
 const CreateProfile = React.lazy(() => import('./CreateProfile'))
 const AboutDAOs = React.lazy(() => import('./AboutDAOs'))
 const About = React.lazy(() => import('./About'))
+const AddCommunity = React.lazy(() => import('./AddCommunity'))
+const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
+const KeyQuiz = React.lazy(() => import('./Quiz'))
 
 const App = (props) => {
     return (
@@ -49,6 +53,18 @@ const App = (props) => {
                     </Route>
                     <Route path="/create-profile">
                         <CreateProfile />
+                    </Route>
+                    <Route path="/add-community">
+                        <AddCommunity />
+                    </Route>
+                    <Route path="/new-community/:name">
+                        <SubmitPage />
+                    </Route>
+                    <Route path="/dao-gate">
+                        <DAOsGate />
+                    </Route>
+                    <Route path="/key-quiz">
+                        <KeyQuiz />
                     </Route>
                     <Route path="*">
                         <Page404 />

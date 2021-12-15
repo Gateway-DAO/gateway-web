@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { AiOutlineLoading } from "react-icons/ai";
+import styled from 'styled-components'
+import { AiOutlineLoading } from 'react-icons/ai'
 
 export const ConnectToWallet = styled.a`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
-
+    position: relative;
     border: double 1px transparent;
-    background-image:   linear-gradient(#170627, #170627), 
-                        linear-gradient(90deg, #FF00B8 0%, #7E3BDC 50.52%, #0075FF 100%);
+    background-image: linear-gradient(#170627, #170627),
+        linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
     background-origin: border-box;
     background-clip: content-box, border-box;
 
@@ -27,7 +27,7 @@ export const ConnectText = styled.p`
     letter-spacing: 0.05em;
     text-transform: uppercase;
 
-    color: #E5E5E5;
+    color: #e5e5e5;
 
     margin: 10px 20px;
 

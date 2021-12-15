@@ -17,8 +17,11 @@ const EditCardModal = (props) => {
     const [description, setDescription] = useState(props.description)
     const [categories, setCategories] = useState(props.categories)
     const [socials, setSocials] = useState(props.socials)
+    const [chains, setChains] = useState(props.chains)
+    const [whitelistedAddresses, setWhitelistedAddresses] = useState(props.whitelistedAddresses)
 
     const submitToDB = async () => {
+        console.log(props.id)
         const dao = doc(db, 'daos', props.id)
 
         const newInfo = {
@@ -30,6 +33,8 @@ const EditCardModal = (props) => {
             description,
             categories,
             socials,
+            chains,
+            whitelistedAddresses
         }
 
         const unsub = onSnapshot(dao, (doc) => {
@@ -52,7 +57,14 @@ const EditCardModal = (props) => {
             setCategories([...categories, value])
         }
     }
-
+    const toggleCheckboxChain = (e)=>{
+        const value = e.target.value;
+        if(chains.includes(value)&& !e.target.checked){
+            setChains(chains.filter((cat) => cat !== value))
+        } else if (e.target.checked) {
+            setChains([...chains, value])
+        }
+    }
     const changeSocial = (key, e) => {
         e.preventDefault()
         setSocials({ ...socials, [key]: e.target.value })
@@ -72,7 +84,14 @@ const EditCardModal = (props) => {
         setSocials(socialCopy)
     }
 
-    return (
+    const changeWhitelistedAddress = (e, idx) => {
+        e.preventDefault()
+        let newList = [...whitelistedAddresses]
+        newList[idx] = e.target.value
+        setWhitelistedAddresses(newList)
+    }
+
+    return ( 
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
                 <ModalStyled.Header>Edit Information</ModalStyled.Header>
@@ -315,6 +334,75 @@ const EditCardModal = (props) => {
                         <FaPlus />
                     </ModalStyled.IconButton>
                 </ModalStyled.Fieldset>
+                <ModalStyled.Fieldset marginBottom="30px">
+                    <ModalStyled.Label>Chain</ModalStyled.Label>
+                    <Styled.GridBox>
+                        <ModalStyled.Checkbox
+                            id="chain-1"
+                            name="chain"
+                            value="ethereum"
+                            label="Ethereum"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('ethereum')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-2"
+                            name="chain"
+                            value="solana"
+                            label="Solana"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('solana')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-3"
+                            name="chain"
+                            value="Polygon"
+                            label="Polygon"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('polygon')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-4"
+                            name="chain"
+                            value="NEAR"
+                            label="NEAR"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('near')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-5"
+                            name="chain"
+                            value="Avalanche"
+                            label="Avalanche"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('avalanche')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-6"
+                            name="chain"
+                            value="Binance"
+                            label="Binance"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('binance')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-7"
+                            name="chain"
+                            value="Bitcoin"
+                            label="Bitcoin"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('bitcoin')}
+                        />
+                        <ModalStyled.Checkbox
+                            id="chain-8"
+                            name="chain"
+                            value="Other"
+                            label="Other"
+                            onChange={toggleCheckboxChain}
+                            checked={chains.includes('other')}
+                        />
+                    </Styled.GridBox>
+                </ModalStyled.Fieldset>
 
                 {/*
                 <ModalStyled.Fieldset marginBottom="30px">
@@ -328,7 +416,37 @@ const EditCardModal = (props) => {
                     </Styled.GridBox>
                 </ModalStyled.Fieldset>
                 */}
-
+                <ModalStyled.Fieldset>
+                    <ModalStyled.Label for="whitelistedAddress">
+                    Whitelisted Addresses
+                    </ModalStyled.Label>
+                    {whitelistedAddresses.map((address, idx) => {
+                        return (
+                            <ModalStyled.InputWrapper>
+                                <ModalStyled.Input
+                                    id={`social-${idx}`}
+                                    type="text"
+                                    onChange={(e) => changeWhitelistedAddress(e, idx)}
+                                    value={whitelistedAddresses[idx]}
+                                />
+                                <ModalStyled.IconButton
+                                    onClick={() => setWhitelistedAddresses(whitelistedAddresses.filter((addr, index) => idx !== index))}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    <FaTrashAlt />
+                                </ModalStyled.IconButton>
+                            </ModalStyled.InputWrapper>
+                        )
+                    })}
+                    <ModalStyled.IconButton
+                        onClick={() =>
+                            setWhitelistedAddresses([...whitelistedAddresses, ''])
+                        }
+                        style={{ width: 'fit-content', alignSelf: 'center' }}
+                    >
+                        <FaPlus />
+                    </ModalStyled.IconButton>
+                </ModalStyled.Fieldset>
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="tokenAddress">
                         Token Address

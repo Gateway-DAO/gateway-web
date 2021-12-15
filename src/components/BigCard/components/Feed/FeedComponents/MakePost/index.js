@@ -14,7 +14,6 @@ import { useAuth } from '../../../../../../contexts/UserContext'
 
 const MakePost = (props) => {
     const { loggedIn, userInfo } = useAuth();
-
     const [commentMessage, setCommentMessage] = useState('')
     const [commentImage, setCommentImage] = useState('')
     const [user, setUser] = useState({ name: '', username: '' })
@@ -42,7 +41,6 @@ const MakePost = (props) => {
         const data = {
             userID: userInfo.uid,
             origin: `${props.cardName}-${props.channel}`,
-            title: 'Title here',
             content: {
                 data: commentMessage,
                 //      image1: commentImage
@@ -63,7 +61,7 @@ const MakePost = (props) => {
         console.log('makePost', data)
     }
 
-    return loggedIn && user.init ? (
+    return loggedIn && user?.init ? (
         <Styled.PostContainer>
             <Styled.PostHeaderInfo>
                 <Styled.ProfileBioContainer>
@@ -98,9 +96,9 @@ const MakePost = (props) => {
                             </Styled.EmojiContainer>
                         ) : null}
                     </Styled.ActivityEmojiContainer>
-                    <Styled.ActivityTextContainer>
+                    {/* <Styled.ActivityTextContainer>
                         <FiImage />
-                    </Styled.ActivityTextContainer>
+                    </Styled.ActivityTextContainer> */}
                 </Styled.ActivityContainer>
                 <Styled.PostButton onClick={MakePostHandler}>
                     POST
