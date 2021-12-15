@@ -1,6 +1,14 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getAuthenticationNonce = /* GraphQL */ `
+  mutation GetAuthenticationNonce($wallet: String!, $username: String) {
+    getAuthenticationNonce(wallet: $wallet, username: $username) {
+      userId
+      nonce
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!

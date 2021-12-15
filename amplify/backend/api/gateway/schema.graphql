@@ -80,3 +80,13 @@ type Social {
     network: String!
     url: String!
 }
+
+type Authentication {
+    userId: String
+    nonce: String
+}
+
+type Mutation {
+    getAuthenticationNonce(wallet: String!, username: String): Authentication
+        @function(name: "getAuthenticationNonce-${env}")
+}

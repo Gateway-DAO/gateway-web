@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
+import { useHistory } from 'react-router-dom'
 
 // Firebase
 import {
@@ -16,6 +17,13 @@ import { app, functions, db } from '../api/firebase'
 // Web3
 import { CONNECTORS } from '../utils/web3'
 import { useWeb3React } from '@web3-react/core'
+
+// AWS
+import Amplify, { API, graphqlOperation, Auth } from "aws-amplify";
+import awsconfig from "../aws-exports";
+import { getNonce } from "../api/database/getNonce";
+
+Amplify.configure(awsconfig);
 
 const getNonceToSign = httpsCallable(functions, 'getNonceToSign')
 const verifySignedMessage = httpsCallable(functions, 'verifySignedMessage')
@@ -37,12 +45,47 @@ export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(false)
 
     const web3 = useWeb3React()
+    const history = useHistory()
 
     const activateWeb3 = async () => {
         await web3.activate(CONNECTORS.Injected)
     }
 
-    const signIn = async () => {
+    const signInCognito = async () => {
+        try {
+            setLoggingIn(true)
+
+            const data = await getNonce(web3.account);
+            console.log(data)
+            const signature = await web3.library.eth.personal.sign(
+                web3.library.utils.utf8ToHex(data?.getAuthenticationNonce?.nonce),
+                web3.account,
+                undefined
+            );
+            const user = await Auth.signIn(data?.getAuthenticationNonce?.userId);
+            const res = await Auth.sendCustomChallengeAnswer(
+                user,
+                JSON.stringify({ signature, publicAddress: web3.account, nonce: data?.getAuthenticationNonce?.nonce })
+            );
+
+            console.log(res);
+
+            /*
+            setUserInfo({
+                ...user,
+                ...userDB,
+            })
+            */
+
+            setLoggedIn(true)
+            setLoggingIn(false)
+        } catch (err) {
+            console.error(err)
+            setLoggingIn(false)
+        }
+    }    
+
+    const signInFirebase = async () => {
         try {
             await setPersistence(auth, browserLocalPersistence)
 
@@ -89,14 +132,14 @@ export const UserProvider = ({ children }) => {
                 })
                 setLoggedIn(true)
                 setLoggingIn(false)
-
-                console.log(user)
             }
         } catch (err) {
             console.error(err)
             setLoggingIn(false)
         }
     }
+
+    const signIn = signInFirebase;
 
     const updateUserInfo = async (info, callback) => {
         const user = doc(db, 'users', userInfo.uid)
