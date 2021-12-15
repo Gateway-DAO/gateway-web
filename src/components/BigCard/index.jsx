@@ -27,6 +27,7 @@ import Feed from './components/Feed'
 // Web3
 import { ethers } from 'ethers'
 import ERC20_ABI from '../../utils/abis/ERC20.json'
+import Onboarding from './components/Onboarding'
 
 // chain Image
 import avalanche from "../../assets/avalanche-avax-logo.png"
@@ -61,7 +62,7 @@ const NewCard = (props) => {
         history.goBack()
     }
     // useState Hook to change betweenn Profile Dom And Fedd Dom
-    const [profileAndFeed, setProfileAndFeed] = useState(true)
+    const [activeTab, setActiveTab] = useState("profile")
 
     const Modals = () => (
         <>
@@ -317,24 +318,30 @@ const NewCard = (props) => {
                 <Styled.ProfileAndFeedContainer>
                     <Styled.ProfileDiv>
                         <Styled.SelectedTab
-                            showActive={profileAndFeed}
-                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                            showActive={activeTab === 'profile'}
+                            onClick={() => setActiveTab('profile')}
                         >
                             Profile
                         </Styled.SelectedTab>
                         <Styled.SelectedTab
-                            showActive={!profileAndFeed}
-                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                            showActive={activeTab === 'feed'}
+                            onClick={() => setActiveTab('feed')}
                         >
                             Feed
                         </Styled.SelectedTab>
+                        <Styled.SelectedTab
+                            showActive={activeTab === 'onboarding'}
+                            onClick={() => setActiveTab('onboarding')}
+                        >
+                            Onboarding
+                        </Styled.SelectedTab>
                     </Styled.ProfileDiv>
                 </Styled.ProfileAndFeedContainer>
-                {profileAndFeed ? (
+                {activeTab === 'profile' ? (
                     <Profile {...props} />
-                ) : (
+                ) : activeTab === 'feed' ? (
                     <Feed cardName={props.id} />
-                )}
+                ) : <Onboarding/>}
                 <RelatedDAOSection
                     categories={props.categories}
                     name={props.name}
