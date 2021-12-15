@@ -166,9 +166,8 @@ const NewCard = (props) => {
                 )
         }
     })
-    const chains = Object.keys(props.chains).map(key=>{
+    const chains = props.chains && Object.keys(props.chains).map(key=>{
         switch(props.chains[key]){
-            
             case "ethereum":
                 return(
                     <Styled.Chain ref={iconHover} id="Ethereum" onMouseEnter={onHover} onMouseLeave={removeHover}>
