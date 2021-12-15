@@ -18,7 +18,7 @@ const EditCardModal = (props) => {
     const [categories, setCategories] = useState(props.categories)
     const [socials, setSocials] = useState(props.socials)
     const [chains, setChains] = useState(props.chains)
-    const [whitelistedAddresses, setWhitelistedAddresses] = useState(props.whitelistedAddresses)
+    const [whitelistedAddresses, setWhitelistedAddresses] = useState(props.whitelistedAddresses || [""])
 
     const submitToDB = async () => {
         console.log(props.id)
@@ -343,7 +343,7 @@ const EditCardModal = (props) => {
                             value="ethereum"
                             label="Ethereum"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('ethereum')}
+                            checked={chains && chains.includes('ethereum')}
                         />
                         <ModalStyled.Checkbox
                             id="chain-2"
@@ -351,7 +351,7 @@ const EditCardModal = (props) => {
                             value="solana"
                             label="Solana"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('solana')}
+                            checked={chains && chains.includes('solana')}
                         />
                         <ModalStyled.Checkbox
                             id="chain-3"
@@ -359,7 +359,7 @@ const EditCardModal = (props) => {
                             value="Polygon"
                             label="Polygon"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('polygon')}
+                            checked={chains && chains.includes('Polygon')}
                         />
                         <ModalStyled.Checkbox
                             id="chain-4"
@@ -367,7 +367,7 @@ const EditCardModal = (props) => {
                             value="NEAR"
                             label="NEAR"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('near')}
+                            checked={chains && chains.includes('NEAR')}
                         />
                         <ModalStyled.Checkbox
                             id="chain-5"
@@ -375,7 +375,7 @@ const EditCardModal = (props) => {
                             value="Avalanche"
                             label="Avalanche"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('avalanche')}
+                            checked={chains && chains.includes('Avalanche')}
                         />
                         <ModalStyled.Checkbox
                             id="chain-6"
@@ -383,7 +383,7 @@ const EditCardModal = (props) => {
                             value="Binance"
                             label="Binance"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('binance')}
+                            checked={chains && chains.includes('Binance')}
                         />
                         <ModalStyled.Checkbox
                             id="chain-7"
@@ -391,7 +391,7 @@ const EditCardModal = (props) => {
                             value="Bitcoin"
                             label="Bitcoin"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('bitcoin')}
+                            checked={chains && chains.includes('Bitcoin')}
                         />
                         <ModalStyled.Checkbox
                             id="chain-8"
@@ -399,7 +399,7 @@ const EditCardModal = (props) => {
                             value="Other"
                             label="Other"
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('other')}
+                            checked={chains && chains.includes('Other')}
                         />
                     </Styled.GridBox>
                 </ModalStyled.Fieldset>
