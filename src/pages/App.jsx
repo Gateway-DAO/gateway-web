@@ -7,7 +7,7 @@ import FallbackPage from './FallbackPage';
 import Page404 from './404';
 import DaoGate from '../components/BigCard/components/Onboarding/DaoGate';
 import DaoGateWithKeys from '../components/BigCard/components/Onboarding/DaoGateWithKeys';
-
+import DAOsGate from './DAOsGate';
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))

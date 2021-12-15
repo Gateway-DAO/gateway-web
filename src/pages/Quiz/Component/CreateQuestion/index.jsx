@@ -36,6 +36,7 @@ const CreateQuestion = () => {
             return prev
         })
     }
+    // for sending this to database
     const submitHandler = () => {
         console.log(questions)
     }
