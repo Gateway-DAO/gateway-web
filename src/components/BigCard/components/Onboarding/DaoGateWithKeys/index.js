@@ -5,10 +5,10 @@ import NftBadge from './NftBadge'
 import SmallLogo from '../../../../../assets/yearnFinance.png'
 import * as Styled from './style'
 import KeyBox from './KeyBox'
+import KeyBox2 from './KeyBox2'
 import { useState } from 'react'
 import PfpBox from './PfpBox'
 const DaoGateWithKeys = (props) => {
-  
     return (
         <Styled.Wrapper>
             <Header />
@@ -47,6 +47,7 @@ const DaoGateWithKeys = (props) => {
                         </Styled.AnotherDiv>
                     </Styled.SecondDiv>
                     <KeyBox />
+                    <KeyBox2 />
                 </Styled.MainContent>
             </Styled.ContentWrapper>
             <Footer />
