@@ -1,6 +1,6 @@
 import * as Styled from './style'
 import { useState } from 'react'
-import QuestionAndAns from './component/QuestionAndAns'
+import AnswerWrapper from './component/AnswerWrapper'
 
 const QuizKey = (props) => {
     const [showVideoContainer, setVideoContainer] = useState(true)
@@ -27,8 +27,8 @@ const QuizKey = (props) => {
             {showVideoContainer ? (
                 <Styled.videoContainer>
                     <iframe
-                        width="726"
-                        height="328"
+                        width="926"
+                        height="528"
                         src="https://www.youtube-nocookie.com/embed/qUYBsCJY140"
                         title="YouTube video player"
                         frameborder="0"
@@ -37,7 +37,7 @@ const QuizKey = (props) => {
                     ></iframe>
                 </Styled.videoContainer>
             ) : (
-                <QuestionAndAns />
+                <AnswerWrapper />
             )}
             <Styled.ActivityContainer>
                 <Styled.StartQuizButton onClick={(e) => onNext()}>

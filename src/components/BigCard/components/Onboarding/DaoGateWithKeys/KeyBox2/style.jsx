@@ -6,8 +6,8 @@ export const KeyContainer = styled.div`
     box-sizing: border-box;
     border-radius: 20px;
     padding: 34px;
-    width: 808px;
-    height: 659px;
+    width: 100%;
+    margin-top: 20px;
 `
 
 export const KeyTitle = styled.h2`
