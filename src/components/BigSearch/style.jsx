@@ -7,7 +7,7 @@ export const SearchMainDiv = styled.div`
     width: 100vw;
     height: 120px;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 30px;
     @media only screen and (max-width: 768px) {
         height: 120px;
     }
@@ -30,7 +30,7 @@ export const SearchMainDiv = styled.div`
 `
 export const SearchSecondary = styled.div`
     position: relative;
-    width: 75%;
+    width: 60%;
     @media only screen and (max-width: 768px) {
         height: 120px;
     }
