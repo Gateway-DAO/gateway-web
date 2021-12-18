@@ -26,7 +26,7 @@ import Feed from './components/Feed'
 // Web3
 import { ethers } from 'ethers'
 import ERC20_ABI from '../../utils/abis/ERC20.json'
-import Onboarding from './components/Onboarding'
+import Gates from './components/Gates'
 import Plugins from './components/Plugins'
 
 // chain Image
@@ -298,8 +298,8 @@ const NewCard = (props) => {
                 return <Profile {...props} />
             case 'feed':
                 return <Feed cardName={props.id} />
-            case 'onboarding':
-                return <Onboarding />
+            case 'gates':
+                return <Gates />
             case 'Plugins':
                 return <Plugins />
             default:
@@ -394,10 +394,10 @@ const NewCard = (props) => {
                             Discussion
                         </Styled.SelectedTab>
                         <Styled.SelectedTab
-                            showActive={activeTab === 'onboarding'}
-                            onClick={() => setActiveTab('onboarding')}
+                            showActive={activeTab === 'gates'}
+                            onClick={() => setActiveTab('gates')}
                         >
-                            Onboarding
+                            Gates
                         </Styled.SelectedTab>
 
                         <Styled.SelectedTab

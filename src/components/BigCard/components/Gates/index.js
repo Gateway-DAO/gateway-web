@@ -1,6 +1,6 @@
 import * as Styled from './style'
 import Subcategories from './Subcategories';
-const Onboarding = (props)=>{
+const Gates = (props)=>{
     return(
     <Styled.Wrapper>
         <Subcategories/>
@@ -8,4 +8,4 @@ const Onboarding = (props)=>{
 );
 };
 
-export default Onboarding ;
+export default Gates ;
