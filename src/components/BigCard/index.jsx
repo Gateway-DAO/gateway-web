@@ -80,13 +80,13 @@ const NewCard = (props) => {
     const removeHover = ()=>{
 
     }
-    const socials = Object.keys(props.socials).map((key) => {
-        switch (key) {
+    const socials = props.socials.map((social) => {
+        switch (social.network) {
             case 'discord':
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaDiscord />
@@ -97,7 +97,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaTwitter />
@@ -108,7 +108,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FiGlobe />
@@ -119,7 +119,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaMedium />
@@ -130,7 +130,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaGithub />
@@ -141,7 +141,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaTelegram />
@@ -151,7 +151,7 @@ const NewCard = (props) => {
             case 'chat':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={props.socials[key]}>
+                        <Styled.SocialLink href={social.url}>
                             <BsChatTextFill />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -159,7 +159,7 @@ const NewCard = (props) => {
             default:
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={props.socials[key]}>
+                        <Styled.SocialLink href={social.url}>
                             <FaLink />
                         </Styled.SocialLink>
                     </Styled.Social>

@@ -6,11 +6,12 @@ import * as Styled from "./style";
 import space from '../../utils/canvas'
 import RichEditor  from "../../components/RichTextEditor";
 import {FaTrashAlt,FaPlus} from 'react-icons/fa'
-// import {DAORef} from '../../api/db'
-import { db } from '../../api/firebase'
-import { doc, getDoc, updateDoc, onSnapshot,setDoc } from '@firebase/firestore'
+import { Redirect } from "react-router-dom";
+import useCreateDAO from '../../api/database/useCreateDAO'
+import { v4 as uuidv4 } from 'uuid'
+
 const AddCommunity = ()=>{
-    const [name,setName] = useState("")
+    const [name, setName] = useState("")
     const [backgroundURL, setBackgroundURL] = useState("")
     const [youtubeURL, setyoutubeURL] = useState("")
     const [logoURL, setLogoURL] = useState("")
@@ -20,6 +21,8 @@ const AddCommunity = ()=>{
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
+
+    const { createDAO, data, error, loading } = useCreateDAO()
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
@@ -70,6 +73,8 @@ const AddCommunity = ()=>{
         // const Community  = doc(db, 'daos', name)
 
         const newInfo = {
+            id: uuidv4(),
+            dao: name.toLowerCase().replace(/\s/g, ''),
             name,
             backgroundURL,
             youtubeURL,
@@ -79,12 +84,21 @@ const AddCommunity = ()=>{
             categories,
             chains,
             socials,
-            whitelistedAddress
+            whitelistedAddress,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         }
-        
-        const daoRef = doc(db, 'daos', name)
-        await setDoc(daoRef, newInfo)
-        history.push(`/new-community/${name}`);
+
+        await createDAO(newInfo);
+
+        if (data) {
+            history.push(`/new-community/${name}`);
+        }
+    }
+
+    if (error) {
+        console.log(error)
+        return <Redirect to="/404" />
     }
 
     return(

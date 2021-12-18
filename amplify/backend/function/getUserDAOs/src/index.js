@@ -1,3 +1,15 @@
+/* Amplify Params - DO NOT EDIT
+	API_GATEWAY_DAOTABLE_ARN
+	API_GATEWAY_DAOTABLE_NAME
+	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
+	API_GATEWAY_GRAPHQLAPIIDOUTPUT
+	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
+	API_GATEWAY_USERTABLE_ARN
+	API_GATEWAY_USERTABLE_NAME
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT */
+
 const AWS = require('aws-sdk')
 
 const axios = require('axios').default
@@ -8,7 +20,7 @@ const { print } = graphql
 const listDAOs = (filter) => {
     return gql`
         query listDAOs {
-            listDAOs(filter: {or: ${filter || JSON.stringify({})}}) {
+            listDAOs(filter: {or: ${filter || JSON.stringify({ })}}) {
                 items {
                     id
                     accomplishments
@@ -61,6 +73,10 @@ const resolvers = {
         daos: async (ctx) => {
             const daos_ids = ctx.source.daos_ids || []
 
+            if (daos_ids.length === 0) {
+                return []
+            }
+
             const daos = daos_ids.map((id) => {
                 return `{ dao: { eq: "${id}" } }`
             })
@@ -77,7 +93,7 @@ const resolvers = {
                 }
             )
 
-            return req.data.data.listDAOs || []
+            return req.data.data.listDAOs.items || []
         },
     },
 }

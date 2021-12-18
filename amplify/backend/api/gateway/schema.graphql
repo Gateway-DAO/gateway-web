@@ -14,11 +14,11 @@ type User
     ) {
     id: ID!
     wallet: String!
-    username: String!
-    name: String!
+    username: String
+    name: String
     bio: String
     daos_ids: [String]
-    daos: [DAO] @function(name: "getUserDAOs")
+    daos: [DAO] @function(name: "getUserDAOs-${env}")
     init: Boolean
     nonce: Int!
     pfp: String
@@ -87,6 +87,6 @@ type Authentication {
 }
 
 type Mutation {
-    getAuthenticationNonce(wallet: String!, username: String): Authentication
+    getAuthenticationNonce(wallet: String!): Authentication
         @function(name: "getAuthenticationNonce-${env}")
 }

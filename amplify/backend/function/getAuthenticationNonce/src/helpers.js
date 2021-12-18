@@ -7,16 +7,15 @@ AWS.config.update({
     region: 'us-east-1',
 })
 
-const API_GATEWAY_GRAPHQL = "23do7wyxrredvnvvkzddkh5imu"
-const AUTH_GATEWAY_USERPOOLID = "us-east-1_vLFvhaiCg"
+const AUTH_GATEWAY_POOLID = process.env.AUTH_GATEWAY7887C977_USERPOOLID
 
 const docClient = new AWS.DynamoDB.DocumentClient()
 
-const createUser = async (publicAddress, nonce, username, tableName) => {
+const createUser = async (publicAddress, nonce, tableName) => {
     const userId = uuidv4()
     await cognito
         .adminCreateUser({
-            UserPoolId: AUTH_GATEWAY_USERPOOLID,
+            UserPoolId: AUTH_GATEWAY_POOLID,
             Username: userId,
             MessageAction: 'SUPPRESS',
         })
@@ -25,7 +24,7 @@ const createUser = async (publicAddress, nonce, username, tableName) => {
     await cognito
         .adminSetUserPassword({
             Password: 'password',
-            UserPoolId: AUTH_GATEWAY_USERPOOLID,
+            UserPoolId: AUTH_GATEWAY_POOLID,
             Username: userId,
             Permanent: true,
         })
@@ -38,9 +37,9 @@ const createUser = async (publicAddress, nonce, username, tableName) => {
                 id: userId,
                 wallet: publicAddress,
                 nonce,
-                username,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
+                init: false
             },
         })
         .promise()

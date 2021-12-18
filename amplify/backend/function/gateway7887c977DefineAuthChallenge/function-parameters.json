@@ -7,7 +7,7 @@
   "functionName": "gateway7887c977DefineAuthChallenge",
   "resourceName": "gateway7887c977DefineAuthChallenge",
   "parentStack": "auth",
-  "triggerEnvs": [],
+  "triggerEnvs": "[]",
   "triggerDir": "/home/nmcarv/.nvm/versions/node/v16.8.0/lib/node_modules/@aws-amplify/cli/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/DefineAuthChallenge",
   "triggerTemplate": "DefineAuthChallenge.json.ejs",
   "triggerEventPath": "DefineAuthChallenge.event.json",

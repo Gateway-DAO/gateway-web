@@ -54,7 +54,6 @@ export const getUser = /* GraphQL */ `
         updatedAt
       }
       init
-      nonce
       pfp
       socials {
         network

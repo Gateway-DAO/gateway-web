@@ -1,4 +1,4 @@
-import { useParams, useHistory } from 'react-router'
+import { useParams, useHistory, Redirect } from 'react-router'
 import { ethers } from 'ethers'
 import { useEffect } from 'react'
 import styled from 'styled-components'
@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { db } from '../../api/firebase'
 import { collection, doc, getDoc, query } from '@firebase/firestore'
 
-import { getDAOByID } from '../../api/database/getDAO'
+import { useGetDAOByID } from '../../api/database/useGetDAO'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -40,6 +40,7 @@ const DAO = (props) => {
         tokenBenefits: [],
         whitelistedAddresses: [],
     })
+    const { data: dbData, loading, error } = useGetDAOByID(id);
     const [isTokenAddres,setIsTokenAddress] = useState(true);
     const [loaded, setLoaded] = useState(false)
     const [inputVal, setInputVal] = useState(query || '')
@@ -47,22 +48,9 @@ const DAO = (props) => {
     const navigate = (e) => {
         history.goBack()
     }
-
     
     // Get CoinGecko data
     const getCGData = async (address) => await getTokenFromAddress(address);  
-
-    // Get the document with the name that matches the given ID
-    const getDBData = async () => {
-        /*
-        const daoDoc = doc(db, 'daos', id)
-        const dao = await getDoc(daoDoc)
-        return dao.data()
-        */
-
-        const data = await getDAOByID(id)
-        return data
-    }
 
     // In case the DAO's token address gets changed
     useEffect(() => {
@@ -109,63 +97,68 @@ const DAO = (props) => {
         }
 
         const handleData = async () => {
-            const dbData = await getDBData()
+            if (daoData && !loading && !error) {
+                const cgData = dbData.tokenAddress
+                    ? await getCGData(dbData.tokenAddress).catch((e)=>{console.log(e)})
+                    : {}
+                
+                let related = []
 
-            const cgData = dbData.tokenAddress
-                ? await getCGData(dbData.tokenAddress).catch((e)=>{console.log(e)})
-                : {}
-            
-            let related = []
-
-            // If a DAO has a "related-daos" field, fetch the related DAOs
-            if ('related-daos' in dbData) {
-                related = dbData['related-daos'].map(getRelatedDAOLogo)
-            }
-
-            related = await Promise.all(related)
-
-            const tokenData = dbData.tokenAddress && cgData.symbol
-                ? {
-                      symbol: cgData.symbol,
-                      ranking: cgData.market_cap_rank,
-                      tokenFeed: {
-                          price: cgData.market_data.current_price.usd,
-                          ath: cgData.market_data.ath.usd,
-                          atl: cgData.market_data.atl.usd,
-                          marketCap: cgData.market_data.market_cap.usd,
-                          change24h:
-                              cgData.market_data.price_change_percentage_24h,
-                          change7d:
-                              cgData.market_data.price_change_percentage_7d,
-                          totalSupply: cgData.market_data.total_supply,
-                          circulatingSupply:
-                              cgData.market_data.circulating_supply,
-                      },
-                      showTokenFeed:true
-                  }
-                : {
-                   showTokenFeed:false
+                // If a DAO has a "related-daos" field, fetch the related DAOs
+                if ('related-daos' in dbData) {
+                    related = dbData['related-daos'].map(getRelatedDAOLogo)
                 }
 
-            // Organize presentable data
-            const data = {
-                ...dbData,
-                related,
-                id,
-                ...tokenData,
-            }
+                related = await Promise.all(related)
 
-            setDaoData(data)
-            setLoaded(true)
+                const tokenData = dbData.tokenAddress && cgData.symbol
+                    ? {
+                        symbol: cgData.symbol,
+                        ranking: cgData.market_cap_rank,
+                        tokenFeed: {
+                            price: cgData.market_data.current_price.usd,
+                            ath: cgData.market_data.ath.usd,
+                            atl: cgData.market_data.atl.usd,
+                            marketCap: cgData.market_data.market_cap.usd,
+                            change24h:
+                                cgData.market_data.price_change_percentage_24h,
+                            change7d:
+                                cgData.market_data.price_change_percentage_7d,
+                            totalSupply: cgData.market_data.total_supply,
+                            circulatingSupply:
+                                cgData.market_data.circulating_supply,
+                        },
+                        showTokenFeed:true
+                    }
+                    : {
+                    showTokenFeed:false
+                    }
+
+                // Organize presentable data
+                const data = {
+                    ...dbData,
+                    related,
+                    id,
+                    ...tokenData,
+                }
+
+                setDaoData(data)
+                setLoaded(true)
+            }
         }
 
         handleData()
-    }, [id])
+    }, [id, loading])
 
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             history.push(`/search/${e.target.value}`)
         }
+    }
+
+    if (error) {
+        console.error(error);
+        return <Redirect to="/404" />
     }
 
     return (
