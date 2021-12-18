@@ -32,7 +32,7 @@ export const Text = styled.p`
     align-items: center;
     letter-spacing: 0.05em;
     color: #e5e5e5;
-    margin-right: 5px;
+    margin-right: 10px;
 `
 
 export const BoldText2 = styled(Text)`
@@ -68,5 +68,5 @@ export const ButtonText = styled.p`
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #e5e5e5;
-    padding: 10px 12px 11px 13px;
+    padding: 10px 15px;
 `
