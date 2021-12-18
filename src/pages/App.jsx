@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Home from './Home'
 import FallbackPage from './FallbackPage';
 import Page404 from './404';
-import DaoGate from '../components/BigCard/components/Onboarding/DaoGate';
-import DaoGateWithKeys from '../components/BigCard/components/Onboarding/DaoGateWithKeys';
+import DaoGate from '../components/BigCard/components/Gates/DaoGate';
+import DaoGateWithKeys from '../components/BigCard/components/Gates/DaoGateWithKeys';
 import DAOsGate from './DAOsGate';
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))

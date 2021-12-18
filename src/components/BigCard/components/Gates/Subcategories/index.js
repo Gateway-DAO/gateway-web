@@ -1,7 +1,8 @@
 import * as Styled from './style'
-import {useState} from 'react'
+import { useState } from 'react'
+import { BoldText } from '../../../../../pages/About/style'
 
-const Subcategories = (props)=>{
+const Subcategories = (props) => {
     const categories = [
         'All',
         'Governance',
@@ -9,9 +10,9 @@ const Subcategories = (props)=>{
         'Development',
         'Educational',
     ]
-    const [activeCategory,setActiveCategory]=useState("All")
-    const activeCategoryHandler =(event)=>{
-        const name = event.target.name;
+    const [activeCategory, setActiveCategory] = useState('All')
+    const activeCategoryHandler = (event) => {
+        const name = event.target.name
         console.log(name)
         setActiveCategory(name)
     }
@@ -29,7 +30,9 @@ const Subcategories = (props)=>{
             </Styled.Categories>
             <Styled.WhitelistButtonDiv>
                 <Styled.Text>
-                    As <strong>whitelisted address </strong> you can add gates
+                    As
+                    <Styled.BoldText2>whitelisted address</Styled.BoldText2> you
+                    can add gates
                 </Styled.Text>
                 <Styled.WhitelistButton>
                     <Styled.ButtonText>ADD GATES</Styled.ButtonText>
@@ -37,6 +40,6 @@ const Subcategories = (props)=>{
             </Styled.WhitelistButtonDiv>
         </Styled.Wrapper>
     )
-};
+}
 
-export default Subcategories ;
+export default Subcategories

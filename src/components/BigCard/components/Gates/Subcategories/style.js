@@ -22,13 +22,22 @@ export const Category = styled.div`
     margin-right: 20px;
 `
 
-export const Text = styled.div`
-    font-size: 14px;
+export const Text = styled.p`
+    font-family: Be Vietnam;
     font-style: normal;
-    line-height: 20px;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
     letter-spacing: 0.05em;
-    text-align: left;
+    color: #e5e5e5;
     margin-right: 10px;
+`
+
+export const BoldText2 = styled(Text)`
+    margin-left: 5px;
+    font-weight: bold;
 `
 
 export const WhitelistButtonDiv = styled.div`
@@ -50,6 +59,14 @@ export const WhitelistButton = styled.div`
     }
 `
 export const ButtonText = styled.p`
-    padding: 8px 10px 10px 10px;
-    font-size: 14px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #e5e5e5;
+    padding: 10px 15px;
 `

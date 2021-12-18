@@ -17,7 +17,7 @@ const AddCommunity = ()=>{
     const [logoURL, setLogoURL] = useState("")
     const [tokenAddress, setTokenAddress] = useState("")
     const [whitelistedAddress, setwhitelistedAddress] = useState("")
-    const [description, setDescription] = useState("Its a rich editor")
+    const [description, setDescription] = useState("")
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
