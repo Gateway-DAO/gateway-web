@@ -329,12 +329,12 @@ const NewCard = (props) => {
                         >
                             Feed
                         </Styled.SelectedTab>
-                        <Styled.SelectedTab
+                        {/* <Styled.SelectedTab
                             showActive={activeTab === 'onboarding'}
                             onClick={() => setActiveTab('onboarding')}
                         >
                             Onboarding
-                        </Styled.SelectedTab>
+                        </Styled.SelectedTab> */}
                     </Styled.ProfileDiv>
                 </Styled.ProfileAndFeedContainer>
                 {activeTab === 'profile' ? (
