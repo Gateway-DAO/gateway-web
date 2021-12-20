@@ -10,16 +10,21 @@ import { getTokenFromAddress } from "../../api/coingecko"
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
 import Card from "../../components/Card"
+import Pagination from '../../components/Pagination'
 import { ConnectToWallet } from "../../components/WalletHeader/style"
 
 const Search = props => {
     const { query } = useParams();
     const [hits, setHits] = useState([]);
+    const [currentPageNumber,setCurrentPageNumber] = useState(0);
+    const [totalPage, setTotalPage] = useState(0);
 
     useEffect(() => {
         const searchAsync = async () => {
             if(query==='all'){
-                const { hits: res } = await daos.search('');
+                const { hits: res } = await daos.search('',{page:currentPageNumber});
+                const searchReasult = await daos.search('')
+                setTotalPage(searchReasult.nbPages);
             // const { hits: res } = await daos.search(query);
             const parsedInfo = res.map(async hit => {
                 // Once we have data, start fetching content from CoinGecko (if the DAO has a token)
@@ -45,7 +50,9 @@ const Search = props => {
             setHits(resolved);
         }else{
             
-            const { hits: res } = await daos.search(query);
+            const { hits: res } = await daos.search(query,{page:currentPageNumber});
+            const searchReasult = await daos.search(query)
+            setTotalPage(searchReasult.nbPages);
             const parsedInfo = res.map(async hit => {
                 return hit
             })
@@ -58,15 +65,22 @@ const Search = props => {
         }
 
         searchAsync();
-    }, [query]);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }, [query,currentPageNumber]);
 
     const [inputVal, setInputVal] = useState(query || "")
     const history = useHistory();
 
     const handleEnter = e => {
         if (e.key === "Enter") {
+            setCurrentPageNumber(0);
             history.push(`/search/${e.target.value}`);
         }
+    }
+
+    const paginate = (pageNumber) =>{
+        
+        setCurrentPageNumber(pageNumber);
     }
 
     return (
@@ -98,8 +112,12 @@ const Search = props => {
                             />
                         );
                     })}
+                    
                 </Styled.CardBox>
             }
+            <Styled.PaginationBar>
+            {   totalPage>1 && <Pagination totalPage={totalPage} paginate={paginate}/>}
+            </Styled.PaginationBar>
             <Footer />
         </Styled.Container>
     )

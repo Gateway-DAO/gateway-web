@@ -7,6 +7,7 @@ import * as Styled from "./style"
 import { query, getDocs, where } from 'firebase/firestore'
 import { DAORef, allDocs } from '../../api/db'
 import { getTokenFromAddress } from '../../api/coingecko'
+import { useHistory } from 'react-router-dom'
 
 const DUMMY_CATEGORIES = [
     'Trending',
@@ -27,7 +28,7 @@ const Categories = (props) => {
     const [cards, setCards] = useState([])
     const cardRef = useRef(null)
     const [isScrolling, setIsScrolling] = useState(false);
-
+    const [totalCards, setTotalCards] = useState(0);
     const fetchCards = async () => {
         // If Trending or All, implement a different behavior
         let q
@@ -52,7 +53,7 @@ const Categories = (props) => {
         }
 
         let { docs } = q
-
+        console.log(docs);
         let newCards = docs.map(async (doc) => {
             const data = doc.data()
             const id = doc.id
@@ -82,10 +83,14 @@ const Categories = (props) => {
 
         const resolved = await Promise.all(newCards)
         setCards(resolved)
+        
     }
 
     // Fetch cards from DB
-    useEffect(() => fetchCards(), [activeCategory])
+    useEffect(() => {
+        fetchCards()
+        setTotalCards(cards.length);   
+    }, [activeCategory])
 
     let mouseDown = false
     let startX, scrollLeft
@@ -126,11 +131,11 @@ const Categories = (props) => {
         if(size<735){
             setNumberOfCards(1);
         }else if(size<900){
-            setNumberOfCards(3);
+            setNumberOfCards(1);
         }else if(size<2000){
-            setNumberOfCards(4);
+            setNumberOfCards(3);
         }else{
-            setNumberOfCards(4);
+            setNumberOfCards(3);
         }
     },[])
 
@@ -149,6 +154,11 @@ const Categories = (props) => {
     useEffect(() => {
         window.addEventListener('scroll', activateGradient, { passive: true })
     }, [])
+    // navigation to search page
+    const history = useHistory()
+    const navigate = e => {
+        history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
+    }
 
     return (
         <Styled.Box>
@@ -189,7 +199,14 @@ const Categories = (props) => {
                         />
                     )
                 })}
+                {totalCards-numberOfCards>0&&
+                    <Styled.MoreCard onClick={navigate}>
+                        <Styled.More><Styled.MoreSymbol>+</Styled.MoreSymbol></Styled.More>
+                        <Styled.MoreText>+{totalCards-numberOfCards} more</Styled.MoreText>
+                    </Styled.MoreCard>
+                }
             </Styled.CardBox>
+
         </Styled.Box>
     )
 }

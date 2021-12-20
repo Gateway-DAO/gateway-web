@@ -142,3 +142,10 @@ export const WrappedFiSearch = styled(FiSearch)`
     font-size: 20px;
     padding-right: 20px;
 `
+
+export const PaginationBar = styled.div`
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:50px;
+`

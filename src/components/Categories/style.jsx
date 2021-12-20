@@ -13,7 +13,7 @@ export const Box = styled.div`
         grid-column: 1 / -1;
     }
 `
-
+ 
 export const CategoriesContainer = styled.ul`
     text-color: white;
     display: flex;
@@ -265,4 +265,65 @@ export const CardBox = styled.section`
         margin-top: 60px;
     }
 
+`
+
+export const MoreCard = styled.div`
+    background-color: transparent;
+    border-radius: 20px;
+    display: grid;
+    border: 1px solid rgba(229, 229, 229, 0.5);
+    grid-template-rows: repeat(5, 1fr);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    height: 25em;
+    position:relative;
+    @media only screen and (max-width: 1170px) {
+        height: 27em;
+        min-width: 15em;
+    }
+    @media only screen and (max-width: 300px) {
+      min-width: 200px;
+      max-width: 200px;
+`
+export const More=styled.div`
+    position: absolute;
+    width: 54px;
+    height: 54px;
+    left: 15px;
+    top: 12px;
+    border-radius:100%;
+    border: 1px solid rgba(229, 229, 229, 0.5);
+    box-sizing: border-box;
+    text-align:center;
+    
+
+`
+export const MoreSymbol = styled.div`
+    position: absolute;
+    width: 22px;
+    height: 53px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -56%);
+    color: #E5E5E5;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 53px;
+    // display: flex;
+    // align-items: center;
+    // justify-content:center;
+`
+export const MoreText = styled.div`
+    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 21px;
+    line-height: 80px;
 `
