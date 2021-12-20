@@ -121,6 +121,7 @@ export const CardDesc = styled.div`
   display: flex;
   align-items: center;
   letter-spacing: 0.05em;
+  margin-top : 10px;
 
   color: #170627;
 
