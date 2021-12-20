@@ -53,7 +53,8 @@ const Categories = (props) => {
         }
 
         let { docs } = q
-        console.log(docs);
+        console.log(docs.length);
+        setTotalCards(docs.length);
         let newCards = docs.map(async (doc) => {
             const data = doc.data()
             const id = doc.id
@@ -88,8 +89,8 @@ const Categories = (props) => {
 
     // Fetch cards from DB
     useEffect(() => {
-        fetchCards()
-        setTotalCards(cards.length);   
+        fetchCards()   
+        // console.log(totalCards);
     }, [activeCategory])
 
     let mouseDown = false
@@ -157,7 +158,10 @@ const Categories = (props) => {
     // navigation to search page
     const history = useHistory()
     const navigate = e => {
-        history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
+        if(activeCategory==0){
+            history.push(`/search/all`)    
+        }else
+            history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
     }
 
     return (
@@ -199,9 +203,9 @@ const Categories = (props) => {
                         />
                     )
                 })}
-                {totalCards-numberOfCards>0&&
+                {totalCards>3&&
                     <Styled.MoreCard onClick={navigate}>
-                        <Styled.More><Styled.MoreSymbol>+</Styled.MoreSymbol></Styled.More>
+                        {/* <Styled.More><Styled.MoreSymbol>+</Styled.MoreSymbol></Styled.More> */}
                         <Styled.MoreText>+{totalCards-numberOfCards} more</Styled.MoreText>
                     </Styled.MoreCard>
                 }
