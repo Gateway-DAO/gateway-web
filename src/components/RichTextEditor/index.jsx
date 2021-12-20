@@ -1,4 +1,4 @@
-import * as Styled from "./Style"
+import * as Styled from './Style'
 import React from 'react'
 import ReactQuill, { Quill } from 'react-quill'
 import * as Emoji from 'quill-emoji'
@@ -17,7 +17,7 @@ const TOOLBAR_OPTIONS = [
     [{ align: [] }],
     ['image', 'emoji'],
 ]
-const RichEditor = ({value, set}) => {
+const RichEditor = ({ value, set }) => {
     return (
         <Styled.RichEditor>
             <ReactQuill
