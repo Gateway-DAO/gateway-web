@@ -171,7 +171,7 @@ export const getDao = /* GraphQL */ `
     }
   }
 `;
-export const listDaOs = /* GraphQL */ `
+export const listDaos = /* GraphQL */ `
   query ListDaOs(
     $filter: ModelDAOFilterInput
     $limit: Int

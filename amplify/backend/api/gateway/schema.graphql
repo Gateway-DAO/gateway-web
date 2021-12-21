@@ -49,6 +49,7 @@ type DAO
     tokenBenefits: [TokenBenefit]
     upcomingHangouts: String
     tokenAddress: String
+    whitelistedAddresses: [String!]
     socials: [Social]
     channels: [Channel] @connection(keyName: "channelByDAO", fields: ["id"])
     createdAt: AWSDateTime

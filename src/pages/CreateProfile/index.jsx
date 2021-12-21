@@ -19,7 +19,6 @@ import { ref, uploadBytes, getDownloadURL } from '@firebase/storage'
 // Database
 import { db } from '../../api/firebase'
 import { collection, query, where, getDocs } from '@firebase/firestore'
-import { daos } from '../../api/algolia'
 
 // AWS
 import { useLazySearchDAO } from "../../api/database/useSearchDAO"
