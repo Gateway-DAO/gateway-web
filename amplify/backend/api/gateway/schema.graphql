@@ -11,7 +11,8 @@ type User
         name: "UserByUsername"
         fields: ["username"]
         queryField: "getUserByUsername"
-    ) {
+    )
+    @searchable {
     id: ID!
     wallet: String!
     username: String
@@ -30,11 +31,7 @@ type DAO
     @model
     @key(name: "DAOById", fields: ["dao"], queryField: "getDAOById")
     @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName") 
-    @algolia(fields: {include: ["dao", "name", "description", "categories", "chains"]}, settings: {
-        settings: {
-            searchableAttributes: ["dao", "name", "description", "categories", "chains"]
-        }
-    }) {
+    @searchable {
     id: ID!
     dao: String!
     name: String!
@@ -53,6 +50,7 @@ type DAO
     upcomingHangouts: String
     tokenAddress: String
     socials: [Social]
+    channels: [Channel] @connection(keyName: "channelByDAO", fields: ["id"])
     createdAt: AWSDateTime
     updatedAt: AWSDateTime
 }
@@ -86,14 +84,25 @@ type Social {
     url: String!
 }
 
-type Post @model {
+type Channel @model @key(name: "channelByDAO", fields: ["daoID"]) {
+    id: ID!
+    name: String!
+    daoID: ID!
+    dao: DAO! @connection(fields: ["daoID"])
+    posts: [Post] @connection(keyName: "postByChannelID", fields: ["id"])
+}
+
+type Post @model @key(name: "postByChannelID", fields: ["channelID"]) @searchable {
     id: ID!
     daoID: ID!
     dao: DAO @connection(fields: ["daoID"])
+    channelID: ID
+    channel: Channel @connection(fields: ["channelID"])
     userID: ID!
     user: User @connection(fields: ["userID"])
     content: String!
     comments: [Comment] @connection(keyName: "commentByPostID", fields: ["id"])
+    upvotes: [ID!] # User IDs
 }
 
 type Comment @model @key(name: "commentByPostID", fields: ["postID"]) {
@@ -102,6 +111,7 @@ type Comment @model @key(name: "commentByPostID", fields: ["postID"]) {
     userID: ID!
     user: User @connection(fields: ["userID"])
     content: String!
+    upvotes: [ID!] # User IDs
 }
 
 type Authentication {

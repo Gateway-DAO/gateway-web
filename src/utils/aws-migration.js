@@ -1,7 +1,7 @@
 // AWS/Amplify
 import Amplify, { API, graphqlOperation, Storage, Auth } from "aws-amplify";
 import awsconfig from "../aws-exports";
-import { createDao, createUser } from "../graphql/mutations";
+import { createDao, createUser, createComment, createPost, createChannel, updateDao } from "../graphql/mutations";
 
 // Firebase
 import { db, storage } from '../api/firebase'
@@ -31,15 +31,29 @@ const importDAO = async (DAO) => {
     return await API.graphql(graphqlOperation(createDao, { input: DAO }))
 }
 
+const importChannel = async (channel) => {
+    return await API.graphql(graphqlOperation(createChannel, { input: channel }))
+}
+
+const importPost = async (post) => {
+    return await API.graphql(graphqlOperation(createPost, { input: post }))
+}
+
+const importComment = async (comment) => {
+    return await API.graphql(graphqlOperation(createComment, { input: comment }))
+}
+
 export const runDAOMigration = async () => {
     try {
         // 1. get DAOs
         const daos = await getDocs(collection(db, "daos"))
+
         daos.forEach(async dao => {
             const data = dao.data()
             const socials = data.socials ? Object.keys(data.socials).map(social => {
                 return { network: social, url: data.socials[social] };
             }) : null;
+
             const mutation = {
                 id: uuidv4(),
                 dao: dao.id,
@@ -66,7 +80,23 @@ export const runDAOMigration = async () => {
             const moveDAO = importDAO(mutation)
             console.log(`Doing: ${dao.id}...`)
             moveDAO
-                .then(() => console.log(`"${dao.id}" migrated!`))
+                .then(() => {
+                    // Create channels for DAO
+                    ["general", "events", "nfts", "web3", "defi"].forEach(channel => {
+                        importChannel({
+                            id: uuidv4(),
+                            name: channel,
+                            daoID: mutation.id
+                        })
+                            .then(res => {
+                                console.log(`Created channel ${channel} for DAO ${mutation.dao}`)
+                            })
+                            .catch(err => {
+                                console.log(`There was an error migrating channel ${channel} on DAO ${mutation.dao}`)
+                                console.log(err)
+                            })
+                    })
+                })
                 .catch(err => {
                     console.error(`There was an error migrating ${dao.id}`)
                     console.error(err)

@@ -61,6 +61,9 @@ export const createUser = /* GraphQL */ `
           network
           url
         }
+        channels {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -127,6 +130,9 @@ export const updateUser = /* GraphQL */ `
         socials {
           network
           url
+        }
+        channels {
+          nextToken
         }
         createdAt
         updatedAt
@@ -195,6 +201,9 @@ export const deleteUser = /* GraphQL */ `
           network
           url
         }
+        channels {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -255,6 +264,16 @@ export const createDao = /* GraphQL */ `
         network
         url
       }
+      channels {
+        items {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -305,6 +324,16 @@ export const updateDao = /* GraphQL */ `
         network
         url
       }
+      channels {
+        items {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -354,6 +383,235 @@ export const deleteDao = /* GraphQL */ `
       socials {
         network
         url
+      }
+      channels {
+        items {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createChannel = /* GraphQL */ `
+  mutation CreateChannel(
+    $input: CreateChannelInput!
+    $condition: ModelChannelConditionInput
+  ) {
+    createChannel(input: $input, condition: $condition) {
+      id
+      name
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        socials {
+          network
+          url
+        }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      posts {
+        items {
+          id
+          daoID
+          channelID
+          userID
+          content
+          upvotes
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateChannel = /* GraphQL */ `
+  mutation UpdateChannel(
+    $input: UpdateChannelInput!
+    $condition: ModelChannelConditionInput
+  ) {
+    updateChannel(input: $input, condition: $condition) {
+      id
+      name
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        socials {
+          network
+          url
+        }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      posts {
+        items {
+          id
+          daoID
+          channelID
+          userID
+          content
+          upvotes
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteChannel = /* GraphQL */ `
+  mutation DeleteChannel(
+    $input: DeleteChannelInput!
+    $condition: ModelChannelConditionInput
+  ) {
+    deleteChannel(input: $input, condition: $condition) {
+      id
+      name
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        socials {
+          network
+          url
+        }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      posts {
+        items {
+          id
+          daoID
+          channelID
+          userID
+          content
+          upvotes
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -408,6 +666,38 @@ export const createPost = /* GraphQL */ `
           network
           url
         }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      channelID
+      channel {
+        id
+        name
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          createdAt
+          updatedAt
+        }
+        posts {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -454,11 +744,13 @@ export const createPost = /* GraphQL */ `
           postID
           userID
           content
+          upvotes
           createdAt
           updatedAt
         }
         nextToken
       }
+      upvotes
       createdAt
       updatedAt
     }
@@ -512,6 +804,38 @@ export const updatePost = /* GraphQL */ `
           network
           url
         }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      channelID
+      channel {
+        id
+        name
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          createdAt
+          updatedAt
+        }
+        posts {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -558,11 +882,13 @@ export const updatePost = /* GraphQL */ `
           postID
           userID
           content
+          upvotes
           createdAt
           updatedAt
         }
         nextToken
       }
+      upvotes
       createdAt
       updatedAt
     }
@@ -616,6 +942,38 @@ export const deletePost = /* GraphQL */ `
           network
           url
         }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      channelID
+      channel {
+        id
+        name
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          createdAt
+          updatedAt
+        }
+        posts {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -662,11 +1020,13 @@ export const deletePost = /* GraphQL */ `
           postID
           userID
           content
+          upvotes
           createdAt
           updatedAt
         }
         nextToken
       }
+      upvotes
       createdAt
       updatedAt
     }
@@ -717,6 +1077,7 @@ export const createComment = /* GraphQL */ `
         updatedAt
       }
       content
+      upvotes
       createdAt
       updatedAt
     }
@@ -767,6 +1128,7 @@ export const updateComment = /* GraphQL */ `
         updatedAt
       }
       content
+      upvotes
       createdAt
       updatedAt
     }
@@ -817,6 +1179,7 @@ export const deleteComment = /* GraphQL */ `
         updatedAt
       }
       content
+      upvotes
       createdAt
       updatedAt
     }
