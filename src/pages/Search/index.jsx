@@ -88,6 +88,7 @@ const Search = props => {
                                 title={card.name}
                                 description={card.description}
                                 categories={card.categories}
+                                SpaceId={card.SpaceId}
                                 // ranking={card.ranking}
                                 // token={card.token}
                                 // price={card.price}

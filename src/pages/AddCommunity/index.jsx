@@ -20,7 +20,7 @@ const AddCommunity = ()=>{
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
-
+    const [SpaceId, setSpaceId] = useState("");
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
@@ -89,7 +89,8 @@ const AddCommunity = ()=>{
             description,
             categories,
             socials,
-            whitelistedAddress
+            whitelistedAddress,
+            SpaceId
         }
         
         const daoRef = doc(db, 'daos', name)
@@ -474,7 +475,17 @@ const AddCommunity = ()=>{
                         value={tokenAddress}
                     />
                 </Styled.Fieldset>
-
+                <Styled.Fieldset>
+                    <Styled.Label for="SpaceId">
+                   Snapshot Space Id
+                    </Styled.Label>
+                    <Styled.Input
+                        id="SpaceId"
+                        type="text"
+                        onChange={(e) => setSpaceId(e.target.value)}
+                        value={SpaceId}
+                    />
+                </Styled.Fieldset>
                 <Styled.Button
                     id="submit_msg"
                     type="button"
