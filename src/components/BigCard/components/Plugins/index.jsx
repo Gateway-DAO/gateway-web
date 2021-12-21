@@ -16,7 +16,7 @@ const Plugins = (props) => {
     return (
         <Styled.Container>
             <BoxContainer name="Snapshot" img={SNAPSHOT_IMG} />
-            <BoxContainer name="Coordinape" img={DISCORD_IMG} />
+            <BoxContainer name="Discord" img={DISCORD_IMG} />
         </Styled.Container>
     )
 }
