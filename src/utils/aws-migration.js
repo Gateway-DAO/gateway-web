@@ -95,7 +95,9 @@ export const runUserMigration = async () => {
                 try {
                     const pfp = await (await fetch(data.pfp)).blob()
 
-                    const { key } = await Storage.put(`users/${user.id}/profile.txt`, pfp)
+                    const ext = {"image/jpeg": ".jpg", "image/png": ".png"}[pfp.type]
+
+                    const { key } = await Storage.put(`users/${user.id}/profile${ext}`, pfp)
 
                     pfpKey = key
                     console.log(`key: ${pfpKey}`)
@@ -140,16 +142,5 @@ export const runUserMigration = async () => {
     }
     catch (err) {
         console.error(`Something happened here! - ${err}`)
-    }
-}
-
-export const testStorage = async () => {
-    try {
-        const { key } = await Storage.put("teste.txt", "Oláá!")
-
-        console.log(`key: ${key}`)
-    }
-    catch (err) {
-        console.log(err)
     }
 }

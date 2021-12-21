@@ -29,7 +29,12 @@ type User
 type DAO
     @model
     @key(name: "DAOById", fields: ["dao"], queryField: "getDAOById")
-    @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName") {
+    @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName") 
+    @algolia(fields: {include: ["dao", "name", "description", "categories", "chains"]}, settings: {
+        settings: {
+            searchableAttributes: ["dao", "name", "description", "categories", "chains"]
+        }
+    }) {
     id: ID!
     dao: String!
     name: String!
