@@ -93,9 +93,9 @@ export const runUserMigration = async () => {
 
             if (data.pfp) {
                 try {
-                    const pfp = await (await fetch("https://s2.glbimg.com/DVfIiTGl-KnJU41UcD9Yoj33MZM=/e.glbimg.com/og/ed/f/original/2021/06/16/doge.jpg")).blob()
+                    const pfp = await (await fetch(data.pfp)).blob()
 
-                    const { key } = await Storage.put(`users/${user.id}/profile.txt`, "merdaa")
+                    const { key } = await Storage.put(`users/${user.id}/profile.txt`, pfp)
 
                     pfpKey = key
                     console.log(`key: ${pfpKey}`)
@@ -145,7 +145,7 @@ export const runUserMigration = async () => {
 
 export const testStorage = async () => {
     try {
-        const { key } = await Storage.put("teste", "merdaa")
+        const { key } = await Storage.put("teste.txt", "Oláá!")
 
         console.log(`key: ${key}`)
     }
