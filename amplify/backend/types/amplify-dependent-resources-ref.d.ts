@@ -35,6 +35,12 @@ export type AmplifyDependentResourcesAttributes = {
             "Arn": "string",
             "LambdaExecutionRole": "string",
             "Region": "string"
+        },
+        "gateway7887c977PreSignup": {
+            "Name": "string",
+            "Arn": "string",
+            "LambdaExecutionRole": "string",
+            "Region": "string"
         }
     },
     "auth": {

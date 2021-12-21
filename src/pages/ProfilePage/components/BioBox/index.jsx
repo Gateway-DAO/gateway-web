@@ -26,12 +26,12 @@ const BioBox = (props) => {
     const toggleEditModal = () => setShowEditModal(!showEditModal)
 
     const socials = props.socials
-        ? Object.keys(props.socials).map((key) => {
-              switch (key) {
+        ? props.socials.map((social) => {
+              switch (social.network) {
                   case 'discord':
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <FaDiscord size={25} />
@@ -40,7 +40,7 @@ const BioBox = (props) => {
                   case 'twitter':
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <FaTwitter size={25} />
@@ -49,7 +49,7 @@ const BioBox = (props) => {
                   case 'website':
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <FiGlobe size={25} />
@@ -58,7 +58,7 @@ const BioBox = (props) => {
                   case 'medium':
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <FaMedium size={25} />
@@ -67,7 +67,7 @@ const BioBox = (props) => {
                   case 'github':
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <FaGithub size={25} />
@@ -76,7 +76,7 @@ const BioBox = (props) => {
                   case 'telegram':
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <FaTelegram size={25} />
@@ -85,7 +85,7 @@ const BioBox = (props) => {
                   case 'chat':
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <BsChatTextFill size={25} />
@@ -94,7 +94,7 @@ const BioBox = (props) => {
                   default:
                       return (
                           <Styled.SocialLink
-                              href={props.socials[key]}
+                              href={social.url}
                               target="_blank"
                           >
                               <FaLink size={25} />
@@ -142,7 +142,7 @@ const BioBox = (props) => {
                 ) : (
                     <Styled.MembershipBox>
                         {props.daos.map((dao) => (
-                            <Link to={`/dao/${dao.id}`}>
+                            <Link to={`/dao/${dao.dao}`}>
                                 <Styled.MembershipImg src={dao.logoURL} />
                             </Link>
                         ))}

@@ -8,6 +8,16 @@
 	API_GATEWAY_USERTABLE_NAME
 	ENV
 	REGION
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+	API_GATEWAY_DAOTABLE_ARN
+	API_GATEWAY_DAOTABLE_NAME
+	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
+	API_GATEWAY_GRAPHQLAPIIDOUTPUT
+	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
+	API_GATEWAY_USERTABLE_ARN
+	API_GATEWAY_USERTABLE_NAME
+	ENV
+	REGION
 Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
@@ -26,39 +36,39 @@ const listDAOs = (filter) => {
                     accomplishments
                     backgroundURL
                     bounties {
-                    categories
-                    description
-                    directions
-                    endDate
-                    headline
-                    level
-                    links
-                    postDate
-                    reward
+                        categories
+                        description
+                        directions
+                        endDate
+                        headline
+                        level
+                        links
+                        postDate
+                        reward
                     }
                     categories
                     createdAt
                     dao
                     description
                     faq {
-                    answer
-                    question
+                        answer
+                        question
                     }
                     howToJoin
                     logoURL
                     missionAndVision
                     name
                     socials {
-                    network
-                    url
+                        network
+                        url
                     }
                     tags
                     tokenAddress
                     tokenBenefits {
-                    amount
-                    description
-                    title
-                    token
+                        amount
+                        description
+                        title
+                        token
                     }
                     upcomingHangouts
                     whatDoWeDo
@@ -82,13 +92,13 @@ const resolvers = {
             })
 
             const req = await axios.post(
-                `http://${ctx.request.headers.host}/graphql`,
+                process.env.API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT,
                 {
                     query: print(listDAOs(daos)),
                 },
                 {
                     headers: {
-                        'x-api-key': ctx.request.headers['x-api-key'],
+                        'x-api-key': process.env.API_GATEWAY_GRAPHQLAPIKEYOUTPUT,
                     },
                 }
             )

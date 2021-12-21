@@ -144,6 +144,7 @@ export const UserProvider = ({ children }) => {
         const callback = async () => {
             try {
                 const { username, signInUserSession } = await Auth.currentAuthenticatedUser();
+                console.log(username)
                 if (username) {
                     const userDB = await getUser({
                         variables: {

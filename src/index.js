@@ -11,10 +11,12 @@ import { Web3Provider } from '@ethersproject/providers'
 import { UserProvider } from './contexts/UserContext'
 
 // MIGRATION - run once
-import { runDAOMigration } from './utils/aws-migration'
+import { runDAOMigration, runUserMigration, testStorage } from './utils/aws-migration'
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider'
 
 window.runDAOMigration = () => runDAOMigration()
+window.runUserMigration = () => runUserMigration()
+window.testStorage = () => testStorage()
 
 function getLibrary(provider, connector) {
     return new Web3Provider(provider) // this will vary according to whether you use e.g. ethers or web3.js

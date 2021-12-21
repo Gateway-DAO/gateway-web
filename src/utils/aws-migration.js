@@ -1,16 +1,27 @@
 // AWS/Amplify
-import Amplify, { API, graphqlOperation } from "aws-amplify";
-
+import Amplify, { API, graphqlOperation, Storage, Auth } from "aws-amplify";
 import awsconfig from "../aws-exports";
 import { createDao, createUser } from "../graphql/mutations";
 
 // Firebase
-import { db } from '../api/firebase'
+import { db, storage } from '../api/firebase'
 import { collection, doc, getDocs, query } from '@firebase/firestore'
+import { getDownloadURL, ref } from "firebase/storage";
 
 import { v4 as uuidv4 } from 'uuid'
 
-Amplify.configure(awsconfig);
+Amplify.configure({
+    Auth: {
+        identityPoolId: awsconfig.aws_cognito_identity_pool_id, //REQUIRED - Amazon Cognito Identity Pool ID
+        region: awsconfig.aws_cognito_region, // REQUIRED - Amazon Cognito Region
+        userPoolId: awsconfig.aws_user_pools_id, //OPTIONAL - Amazon Cognito User Pool ID
+        userPoolWebClientId: awsconfig.aws_user_pools_web_client_id, //OPTIONAL - Amazon Cognito Web Client ID
+    },
+    Storage: {
+        bucket: awsconfig.aws_user_files_s3_bucket, //REQUIRED -  Amazon S3 bucket
+        region: awsconfig.aws_user_files_s3_bucket_region, //OPTIONAL -  Amazon service region
+    }
+});
 
 const importUser = async (user) => {
     return await API.graphql(graphqlOperation(createUser, { input: user }))
@@ -64,5 +75,81 @@ export const runDAOMigration = async () => {
     }
     catch (err) {
         console.error(`Something happened here! - ${err}`)
+    }
+}
+
+export const runUserMigration = async () => {
+    try {
+        // 1. get users
+        const users = await getDocs(collection(db, "users"))
+        console.log(users.docs.length)
+        users.forEach(async user => {
+            const data = user.data()
+            const socials = data.socials ? Object.keys(data.socials).map(social => {
+                return { network: social, url: data.socials[social] };
+            }) : null;
+
+            let pfpKey = ""
+
+            if (data.pfp) {
+                try {
+                    const pfp = await (await fetch("https://s2.glbimg.com/DVfIiTGl-KnJU41UcD9Yoj33MZM=/e.glbimg.com/og/ed/f/original/2021/06/16/doge.jpg")).blob()
+
+                    const { key } = await Storage.put(`users/${user.id}/profile.txt`, "merdaa")
+
+                    pfpKey = key
+                    console.log(`key: ${pfpKey}`)
+                }
+                catch (err) {
+                    console.log(`[STORAGE]: ${err}`)
+                    console.log(user)
+                }
+            }
+
+            const mutation = {
+                id: uuidv4(),
+                name: data.name,
+                init: data.init,
+                bio: data.bio,
+                daos_ids: data.daos,
+                nonce: data.nonce,
+                username: data.username,
+                wallet: user.id,
+                pfp: pfpKey ? `https://${awsconfig.aws_user_files_s3_bucket}.s3.${awsconfig.aws_user_files_s3_bucket_region}.amazonaws.com/${pfpKey}` : "",
+                ...(data.socials ? { socials } : {})
+            }
+
+            await Auth
+                .signUp({
+                    username: mutation.id,
+                    password: 'password',
+                    attributes: {
+                        email: 'no-reply@mygateway.xyz'
+                    }
+                })
+
+            const moveUser = importUser(mutation)
+            console.log(`Doing: ${user.id}...`)
+            moveUser
+                .then(() => console.log(`"${user.id}" migrated!`))
+                .catch(err => {
+                    console.error(`There was an error migrating ${user.id}`)
+                    console.error(err)
+                })
+        })
+    }
+    catch (err) {
+        console.error(`Something happened here! - ${err}`)
+    }
+}
+
+export const testStorage = async () => {
+    try {
+        const { key } = await Storage.put("teste", "merdaa")
+
+        console.log(`key: ${key}`)
+    }
+    catch (err) {
+        console.log(err)
     }
 }

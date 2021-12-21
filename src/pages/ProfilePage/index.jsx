@@ -13,8 +13,8 @@ import ProfileBox from './components/ProfileBox'
 import BadgeBox from './components/BadgeBox'
 
 // Database
-import { db } from '../../api/firebase'
-import { collection, query, where, getDocs } from '@firebase/firestore'
+import { useLazyQuery, gql } from '@apollo/client'
+import { getUserByUsername as USER_QUERY } from '../../graphql/queries'
 
 const ProfilePage = () => {
     const { searchTerm } = useParams()
@@ -24,10 +24,12 @@ const ProfilePage = () => {
         bio: '',
         name: '',
         username: '',
-        socials: {},
+        socials: [],
         daos: [],
     })
+    const [getUserByUsername, { data, loading: userLoading, error }] = useLazyQuery(gql(USER_QUERY))
 
+    /*
     useEffect(() => {
         const getDAOs = async (daos) => {
             const daoRef = collection(db, 'daos')
@@ -70,6 +72,30 @@ const ProfilePage = () => {
                         ...authUser,
                         daos: userDAOs,
                     })
+                } else if (!loggedIn && !loading) {
+                    history.push('/sign-in')
+                }
+            }
+        }
+        getUser()
+    }, [searchTerm, authUser, loading])
+    */
+
+    useEffect(() => {
+        const getUser = async () => {
+            if (searchTerm) {
+                try {
+                    const user = await getUserByUsername({ variables: {
+                        username: searchTerm
+                    }});
+                    console.log(user.data.getUserByUsername.items[0])
+                    setUserInfo(user.data.getUserByUsername.items[0])
+                } catch (err) {
+                    history.push('/404')
+                }
+            } else {
+                if (loggedIn && !loading) {
+                    setUserInfo(authUser)
                 } else if (!loggedIn && !loading) {
                     history.push('/sign-in')
                 }

@@ -15,11 +15,11 @@
       "function": {
         "getUserDAOs": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getUserDAOs-6c44514e515467463271-build.zip"
+          "s3Key": "amplify-builds/getUserDAOs-61726a62627947433573-build.zip"
         },
         "getAuthenticationNonce": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getAuthenticationNonce-39565164384849416f74-build.zip"
+          "s3Key": "amplify-builds/getAuthenticationNonce-304c6232557131487377-build.zip"
         },
         "gateway7887c977DefineAuthChallenge": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -32,10 +32,15 @@
         "gateway7887c977VerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
           "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-4676754f4e6c756e4f64-build.zip"
+        },
+        "gateway7887c977PreSignup": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977PreSignup-6348566f625650774d72-build.zip"
         }
       },
       "auth": {
-        "gateway7887c977": {}
+        "gateway7887c977": {},
+        "true": {}
       }
     }
   }

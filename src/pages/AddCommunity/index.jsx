@@ -9,6 +9,7 @@ import {FaTrashAlt,FaPlus} from 'react-icons/fa'
 import { Redirect } from "react-router-dom";
 import useCreateDAO from '../../api/database/useCreateDAO'
 import { v4 as uuidv4 } from 'uuid'
+import { useWeb3React } from "@web3-react/core";
 
 const AddCommunity = ()=>{
     const [name, setName] = useState("")
@@ -21,6 +22,8 @@ const AddCommunity = ()=>{
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
+
+    const web3 = useWeb3React();
 
     const { createDAO, data, error, loading } = useCreateDAO()
 
@@ -425,7 +428,7 @@ const AddCommunity = ()=>{
                         id="whitelistedAddress"
                         type="text"
                         onChange={(e) => setwhitelistedAddress(e.target.value)}
-                        value={whitelistedAddress}
+                        value={web3.account}
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>

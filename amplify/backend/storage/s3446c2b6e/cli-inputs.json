@@ -2,10 +2,16 @@
   "resourceName": "s3446c2b6e",
   "policyUUID": "446c2b6e",
   "bucketName": "gateway621ad6930b2448898e8aff0a0926177e",
-  "storageAccess": "auth",
-  "guestAccess": [],
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
   "authAccess": [
-    "CREATE_AND_UPDATE"
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
   ],
   "groupAccess": {}
 }

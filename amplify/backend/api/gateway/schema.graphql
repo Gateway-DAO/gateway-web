@@ -81,6 +81,24 @@ type Social {
     url: String!
 }
 
+type Post @model {
+    id: ID!
+    daoID: ID!
+    dao: DAO @connection(fields: ["daoID"])
+    userID: ID!
+    user: User @connection(fields: ["userID"])
+    content: String!
+    comments: [Comment] @connection(keyName: "commentByPostID", fields: ["id"])
+}
+
+type Comment @model @key(name: "commentByPostID", fields: ["postID"]) {
+    id: ID!
+    postID: ID!
+    userID: ID!
+    user: User @connection(fields: ["userID"])
+    content: String!
+}
+
 type Authentication {
     userId: String
     nonce: String

@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "gateway7887c977_identitypool_7887c977",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "gatewa7887c977",
     "userPoolName": "gateway7887c977_userpool_7887c977",
     "autoVerifiedAttributes": [
@@ -44,6 +44,9 @@
       "DefineAuthChallenge": [
         "boilerplate-define-challenge"
       ],
+      "PreSignup": [
+        "custom"
+      ],
       "VerifyAuthChallengeResponse": [
         "boilerplate-verify"
       ]
@@ -67,6 +70,15 @@
     "dependsOn": [
       {
         "category": "function",
+        "resourceName": "gateway7887c977CreateAuthChallenge",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
         "resourceName": "gateway7887c977DefineAuthChallenge",
         "triggerProvider": "Cognito",
         "attributes": [
@@ -76,7 +88,7 @@
       },
       {
         "category": "function",
-        "resourceName": "gateway7887c977CreateAuthChallenge",
+        "resourceName": "gateway7887c977PreSignup",
         "triggerProvider": "Cognito",
         "attributes": [
           "Arn",
@@ -95,8 +107,9 @@
     ],
     "permissions": [],
     "authTriggerConnections": [
-      "{\"triggerType\":\"DefineAuthChallenge\",\"lambdaFunctionName\":\"gateway7887c977DefineAuthChallenge\"}",
       "{\"triggerType\":\"CreateAuthChallenge\",\"lambdaFunctionName\":\"gateway7887c977CreateAuthChallenge\"}",
+      "{\"triggerType\":\"DefineAuthChallenge\",\"lambdaFunctionName\":\"gateway7887c977DefineAuthChallenge\"}",
+      "{\"triggerType\":\"PreSignUp\",\"lambdaFunctionName\":\"gateway7887c977PreSignup\"}",
       "{\"triggerType\":\"VerifyAuthChallengeResponse\",\"lambdaFunctionName\":\"gateway7887c977VerifyAuthChallengeResponse\"}"
     ],
     "thirdPartyAuth": false,

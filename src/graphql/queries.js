@@ -54,6 +54,7 @@ export const getUser = /* GraphQL */ `
         updatedAt
       }
       init
+      nonce
       pfp
       socials {
         network
@@ -204,6 +205,239 @@ export const listDaOs = /* GraphQL */ `
           network
           url
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      comments {
+        items {
+          id
+          postID
+          userID
+          content
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPosts = /* GraphQL */ `
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          createdAt
+          updatedAt
+        }
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          init
+          nonce
+          pfp
+          createdAt
+          updatedAt
+        }
+        content
+        comments {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      postID
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        postID
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          init
+          nonce
+          pfp
+          createdAt
+          updatedAt
+        }
+        content
         createdAt
         updatedAt
       }

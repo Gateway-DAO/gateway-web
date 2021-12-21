@@ -81,6 +81,11 @@
           ]
         }
       ]
+    },
+    "gateway7887c977PreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "auth": {
@@ -88,15 +93,6 @@
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "gateway7887c977DefineAuthChallenge",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        },
         {
           "category": "function",
           "resourceName": "gateway7887c977CreateAuthChallenge",
@@ -108,7 +104,25 @@
         },
         {
           "category": "function",
+          "resourceName": "gateway7887c977DefineAuthChallenge",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
           "resourceName": "gateway7887c977VerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "gateway7887c977PreSignup",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
