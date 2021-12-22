@@ -7,10 +7,8 @@ import space from '../../utils/canvas'
 import RichEditor  from "../../components/RichTextEditor";
 import {FaTrashAlt,FaPlus} from 'react-icons/fa'
 import { Redirect } from "react-router-dom";
-import { useCreateDAO } from '../../api/database/useCreateDAO'
+import useCreateDAO from '../../api/database/useCreateDAO'
 import { v4 as uuidv4 } from 'uuid'
-import { useWeb3React } from "@web3-react/core";
-import { useAuth } from "../../contexts/UserContext";
 
 const AddCommunity = ()=>{
     const [name, setName] = useState("")
@@ -24,9 +22,6 @@ const AddCommunity = ()=>{
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
 
-    const web3 = useWeb3React();
-    const user = useAuth()
-
     const { createDAO, data, error, loading } = useCreateDAO()
 
     useEffect(
@@ -36,6 +31,7 @@ const AddCommunity = ()=>{
 
     const toggleCheckbox = (e) => {
         const value = e.target.value
+        console.log(categories)
 
         if (categories.includes(value) && !e.target.checked) {
             setCategories(categories.filter((cat) => cat !== value))
@@ -74,39 +70,29 @@ const AddCommunity = ()=>{
 
     const history = useHistory();
     const submitToDB = async () => {
-        try {
-            // const Community  = doc(db, 'daos', name)
-            console.log("Olá")
+        // const Community  = doc(db, 'daos', name)
 
-            const newInfo = {
-                id: uuidv4(),
-                dao: name.toLowerCase().replace(/\s/g, ''),
-                name,
-                backgroundURL,
-                youtubeURL,
-                logoURL,
-                tokenAddress,
-                description,
-                categories,
-                chains,
-                socials,
-                whitelistedAddresses: [whitelistedAddress],
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-            }
-
-            const res = await createDAO({ variables: {
-                input: newInfo
-            } });
-
-            console.log(res)
-
-            if (res) {
-                history.push(`/new-community/${name}`);
-            }
+        const newInfo = {
+            id: uuidv4(),
+            dao: name.toLowerCase().replace(/\s/g, ''),
+            name,
+            backgroundURL,
+            youtubeURL,
+            logoURL,
+            tokenAddress,
+            description,
+            categories,
+            chains,
+            socials,
+            whitelistedAddress,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         }
-        catch (err) {
-            console.log(err)
+
+        await createDAO(newInfo);
+
+        if (data) {
+            history.push(`/new-community/${name}`);
         }
     }
 
@@ -439,7 +425,7 @@ const AddCommunity = ()=>{
                         id="whitelistedAddress"
                         type="text"
                         onChange={(e) => setwhitelistedAddress(e.target.value)}
-                        value={web3.account || user.wallet}
+                        value={whitelistedAddress}
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>

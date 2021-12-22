@@ -1,4 +1,4 @@
-import * as Styled from './Style'
+import * as Styled from './style'
 import React from 'react'
 import ReactQuill, { Quill } from 'react-quill'
 import * as Emoji from 'quill-emoji'
