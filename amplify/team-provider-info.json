@@ -36,6 +36,10 @@
         "gateway7887c977PreSignup": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
           "s3Key": "amplify-builds/gateway7887c977PreSignup-6348566f625650774d72-build.zip"
+        },
+        "vote": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/vote-687a656f652b574c5145-build.zip"
         }
       },
       "auth": {

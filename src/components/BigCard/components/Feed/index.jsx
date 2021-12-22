@@ -1,25 +1,27 @@
 import * as Styled from './style'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ChannelWrapper from './FeedComponents/ChannelWrapper'
 import { FiEdit } from 'react-icons/fi'
 import EditChannelModal from '../../../Modal/EditChannelsModal'
 
 const Feed = (props) => {
-    const Channels = ['General🌐', "Questions❓"]
-    const [currentChannels, setCurrentChannels] = useState(Channels)
-    const [selected, setSelected] = useState('General🌐')
+    const [currentChannels, setCurrentChannels] = useState(props.channels.items)
+    const [selected, setSelected] = useState(currentChannels[0])
     const [showEditChannelModal, setShowEditChannelModal] = useState(false)
+
     const toggleEditChannelModel = () =>
         setShowEditChannelModal(!showEditChannelModal)
+
     const newChannelsSubmitHandler = (data) => {
         setCurrentChannels(data)
         toggleEditChannelModel()
     }
+
     const Modals = () => (
         <>
             <EditChannelModal
                 newChannelsSubmit={newChannelsSubmitHandler}
-                channels={Channels}
+                channels={currentChannels}
                 id={props.id}
                 show={showEditChannelModal}
                 toggle={toggleEditChannelModel}
@@ -39,15 +41,15 @@ const Feed = (props) => {
                 </Styled.H4Text>
                 {currentChannels.map((item) => (
                     <Styled.H5Text
-                        key={item}
+                        key={item.id}
                         onClick={(e) => setSelected(item)}
                         active={selected === item}
                     >
-                        #{item}
+                        #{item.name}
                     </Styled.H5Text>
                 ))}
             </Styled.ChannelContainer>
-            <ChannelWrapper cardName={props.cardName} channel={selected} />
+            <ChannelWrapper daoID={props.id} channel={selected} />
         </Styled.FeedContainer>
     )
 }

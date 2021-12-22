@@ -39,7 +39,7 @@ export const useLazyListDAOs = () => {
     return useMemo(
         () => ({
             listDAOs,
-            data: data?.listDAOs.items[0],
+            data: data?.listDAOs.items,
             loading: loading || (!called && loading === false),
             refetch,
             error,
@@ -66,7 +66,7 @@ export const useGetDAOByName = (name) => {
 
 export const useGetDAOByID = (dao) => {
     const { loading, called, refetch, data, error } = useQuery(gql(getDaoById), {
-        variables: { dao },
+        variables: { dao: dao },
     });
 
     console.log(data)

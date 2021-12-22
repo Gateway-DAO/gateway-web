@@ -38,6 +38,7 @@ type DAO
     faq: [FAQ]
     accomplishments: String
     backgroundURL: AWSURL!
+    youtubeURL: AWSURL
     logoURL: AWSURL!
     bounties: [Bounty]
     categories: [String]!
@@ -51,6 +52,7 @@ type DAO
     tokenAddress: String
     whitelistedAddresses: [String!]
     socials: [Social]
+    chains: [String]
     channels: [Channel] @connection(keyName: "channelByDAO", fields: ["id"])
     createdAt: AWSDateTime
     updatedAt: AWSDateTime
@@ -85,7 +87,7 @@ type Social {
     url: String!
 }
 
-type Channel @model @key(name: "channelByDAO", fields: ["daoID"]) {
+type Channel @model @key(name: "channelByDAO", fields: ["daoID"], queryField: "getChannelByDAOID") {
     id: ID!
     name: String!
     daoID: ID!
@@ -93,7 +95,7 @@ type Channel @model @key(name: "channelByDAO", fields: ["daoID"]) {
     posts: [Post] @connection(keyName: "postByChannelID", fields: ["id"])
 }
 
-type Post @model @key(name: "postByChannelID", fields: ["channelID"]) @searchable {
+type Post @model @key(name: "postByChannelID", fields: ["channelID"], queryField: "getPostsByChannelID") @searchable {
     id: ID!
     daoID: ID!
     dao: DAO @connection(fields: ["daoID"])
@@ -104,15 +106,19 @@ type Post @model @key(name: "postByChannelID", fields: ["channelID"]) @searchabl
     content: String!
     comments: [Comment] @connection(keyName: "commentByPostID", fields: ["id"])
     upvotes: [ID!] # User IDs
+    downvotes: [ID!]
+    createdAt: AWSDateTime
 }
 
-type Comment @model @key(name: "commentByPostID", fields: ["postID"]) {
+type Comment @model @key(name: "commentByPostID", fields: ["postID"], queryField: "getCommentsByPostID") {
     id: ID!
     postID: ID!
     userID: ID!
     user: User @connection(fields: ["userID"])
     content: String!
     upvotes: [ID!] # User IDs
+    downvotes: [ID!]
+    createdAt: AWSDateTime
 }
 
 type Authentication {
@@ -120,7 +126,16 @@ type Authentication {
     nonce: String
 }
 
+enum VoteType {
+    UPVOTE
+    DOWNVOTE
+}
+
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
         @function(name: "getAuthenticationNonce-${env}")
+
+    votePost(postID: ID!, userID: ID!, type: VoteType!): Post @function(name: "vote-${env}")
+
+    unvotePost(postID: ID!, userIndex: Int!, type: VoteType!): Post @function(name: "vote-${env}")
 }

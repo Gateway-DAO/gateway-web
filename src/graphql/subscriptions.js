@@ -46,6 +46,7 @@ export const onCreateUser = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -113,6 +114,7 @@ export const onUpdateUser = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -180,6 +182,7 @@ export const onDeleteUser = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -240,6 +243,7 @@ export const onCreateDao = /* GraphQL */ `
       }
       upcomingHangouts
       tokenAddress
+      whitelistedAddresses
       socials {
         network
         url
@@ -297,6 +301,7 @@ export const onUpdateDao = /* GraphQL */ `
       }
       upcomingHangouts
       tokenAddress
+      whitelistedAddresses
       socials {
         network
         url
@@ -354,6 +359,7 @@ export const onDeleteDao = /* GraphQL */ `
       }
       upcomingHangouts
       tokenAddress
+      whitelistedAddresses
       socials {
         network
         url
@@ -415,6 +421,7 @@ export const onCreateChannel = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -433,6 +440,7 @@ export const onCreateChannel = /* GraphQL */ `
           userID
           content
           upvotes
+          downvotes
           createdAt
           updatedAt
         }
@@ -485,6 +493,7 @@ export const onUpdateChannel = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -503,6 +512,7 @@ export const onUpdateChannel = /* GraphQL */ `
           userID
           content
           upvotes
+          downvotes
           createdAt
           updatedAt
         }
@@ -555,6 +565,7 @@ export const onDeleteChannel = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -573,6 +584,7 @@ export const onDeleteChannel = /* GraphQL */ `
           userID
           content
           upvotes
+          downvotes
           createdAt
           updatedAt
         }
@@ -624,6 +636,7 @@ export const onCreatePost = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -654,6 +667,7 @@ export const onCreatePost = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -686,6 +700,7 @@ export const onCreatePost = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -707,12 +722,14 @@ export const onCreatePost = /* GraphQL */ `
           userID
           content
           upvotes
+          downvotes
           createdAt
           updatedAt
         }
         nextToken
       }
       upvotes
+      downvotes
       createdAt
       updatedAt
     }
@@ -759,6 +776,7 @@ export const onUpdatePost = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -789,6 +807,7 @@ export const onUpdatePost = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -821,6 +840,7 @@ export const onUpdatePost = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -842,12 +862,14 @@ export const onUpdatePost = /* GraphQL */ `
           userID
           content
           upvotes
+          downvotes
           createdAt
           updatedAt
         }
         nextToken
       }
       upvotes
+      downvotes
       createdAt
       updatedAt
     }
@@ -894,6 +916,7 @@ export const onDeletePost = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
@@ -924,6 +947,7 @@ export const onDeletePost = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -956,6 +980,7 @@ export const onDeletePost = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -977,12 +1002,14 @@ export const onDeletePost = /* GraphQL */ `
           userID
           content
           upvotes
+          downvotes
           createdAt
           updatedAt
         }
         nextToken
       }
       upvotes
+      downvotes
       createdAt
       updatedAt
     }
@@ -1016,6 +1043,7 @@ export const onCreateComment = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -1031,6 +1059,7 @@ export const onCreateComment = /* GraphQL */ `
       }
       content
       upvotes
+      downvotes
       createdAt
       updatedAt
     }
@@ -1064,6 +1093,7 @@ export const onUpdateComment = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -1079,6 +1109,7 @@ export const onUpdateComment = /* GraphQL */ `
       }
       content
       upvotes
+      downvotes
       createdAt
       updatedAt
     }
@@ -1112,6 +1143,7 @@ export const onDeleteComment = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -1127,6 +1159,7 @@ export const onDeleteComment = /* GraphQL */ `
       }
       content
       upvotes
+      downvotes
       createdAt
       updatedAt
     }

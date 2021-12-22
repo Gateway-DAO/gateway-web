@@ -37,6 +37,7 @@ import ethereum from '../../assets/Ethereum-icon-purple.png'
 import near from '../../assets/near-protocol-near-logo.png'
 import polygon from '../../assets/polygon-matic-logo.png'
 import solana from '../../assets/solana-sol-logo.png'
+
 const NewCard = (props) => {
     const web3 = useWeb3React()
     useEffect(() => {
@@ -299,7 +300,7 @@ const NewCard = (props) => {
             case 'profile':
                 return <Profile {...props} />
             case 'feed':
-                return <Feed cardName={props.id} />
+                return <Feed {...props} />
             case 'gates':
                 return <Gates />
             case 'Plugins':

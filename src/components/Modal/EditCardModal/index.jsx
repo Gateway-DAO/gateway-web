@@ -1,12 +1,11 @@
 import Modal from '../index'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
-import { db } from '../../../api/firebase'
-import { doc, getDoc, updateDoc, onSnapshot } from '@firebase/firestore'
 import { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import RichEditor from '../../RichTextEditor'
-import parser from "html-react-parser";
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
+import { Redirect } from "react-router-dom";
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name)
@@ -17,13 +16,30 @@ const EditCardModal = (props) => {
     const [description, setDescription] = useState(props.description)
     const [categories, setCategories] = useState(props.categories)
     const [socials, setSocials] = useState(props.socials)
-    const [chains, setChains] = useState(props.chains)
+    const [chains, setChains] = useState(props.chains || [])
     const [whitelistedAddresses, setWhitelistedAddresses] = useState(props.whitelistedAddresses || [""])
 
+    const { updateDAO, data, error, loading } = useUpdateDAO()
+
+    /*
     const submitToDB = async () => {
         console.log(props.id)
         const dao = doc(db, 'daos', props.id)
 
+        
+
+        const unsub = onSnapshot(dao, (doc) => {
+            props.changeDAOData(newInfo)
+            props.toggle()
+        })
+
+        await updateDoc(dao, newInfo)
+
+        unsub()
+    }
+    */
+
+    const submitToDB = async () => {
         const newInfo = {
             name,
             backgroundURL,
@@ -37,15 +53,18 @@ const EditCardModal = (props) => {
             whitelistedAddresses
         }
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.changeDAOData(newInfo)
-            props.toggle()
-        })
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                ...newInfo
+            }
+        } })
 
-        await updateDoc(dao, newInfo)
-
-        unsub()
+        props.changeDAOData(newInfo)
+        props.toggle()
     }
+
+    if (error) { return <Redirect to="/404" /> }
 
     const toggleCheckbox = (e) => {
         const value = e.target.value
@@ -65,23 +84,30 @@ const EditCardModal = (props) => {
             setChains([...chains, value])
         }
     }
-    const changeSocial = (key, e) => {
+    const changeSocial = (idx, e) => {
         e.preventDefault()
-        setSocials({ ...socials, [key]: e.target.value })
+        let copy = [...socials]
+        copy[idx].url = e.target.value
+        setSocials(copy)
     }
 
-    const deleteSocial = (key) => {
-        const socialCopy = Object.assign({}, socials)
-        delete socialCopy[key]
-        setSocials(socialCopy)
-    }
+    const deleteSocial = (idx) => setSocials(socials.filter((social, i) => i !== idx))
 
-    const changeSocialName = (oldKey, newKey) => {
-        const socialCopy = {}
-        delete Object.assign(socialCopy, socials, {
-            [newKey]: socials[oldKey],
-        })[oldKey]
-        setSocials(socialCopy)
+    const changeSocialName = (idx, newName) => {
+        let copy = socials.map((social, i) => {
+            if (i === idx) {
+                return {
+                    ...social,
+                    network: newName
+                }
+            }
+
+            return social
+        })
+
+        console.log(copy)
+        
+        setSocials(copy)
     }
 
     const changeWhitelistedAddress = (e, idx) => {
@@ -228,19 +254,19 @@ const EditCardModal = (props) => {
 
                 <ModalStyled.Fieldset>
                     <ModalStyled.Label for="socials">Socials</ModalStyled.Label>
-                    {Object.keys(socials).map((key, idx) => {
+                    {socials.map((social, idx) => {
                         return (
                             <ModalStyled.InputWrapper>
                                 <ModalStyled.Select
                                     style={{ marginRight: '10px' }}
                                     onChange={(e) =>
-                                        changeSocialName(key, e.target.value)
+                                        changeSocialName(idx, e.target.value)
                                     }
                                 >
                                     <option
                                         value="twitter"
-                                        selected={key === 'twitter'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'twitter'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'twitter'
                                         )}
                                     >
@@ -248,8 +274,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="telegram"
-                                        selected={key === 'telegram'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'telegram'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'telegram'
                                         )}
                                     >
@@ -257,8 +283,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="medium"
-                                        selected={key === 'medium'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'medium'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'medium'
                                         )}
                                     >
@@ -266,8 +292,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="github"
-                                        selected={key === 'github'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'github'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'github'
                                         )}
                                     >
@@ -275,8 +301,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="discord"
-                                        selected={key === 'discord'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'discord'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'discord'
                                         )}
                                     >
@@ -284,8 +310,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="website"
-                                        selected={key === 'website'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'website'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'website'
                                         )}
                                     >
@@ -293,8 +319,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="chat"
-                                        selected={key === 'chat'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'chat'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'chat'
                                         )}
                                     >
@@ -302,19 +328,19 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="other"
-                                        selected={key.startsWith('any')}
+                                        selected={social.network.startsWith('any')}
                                     >
                                         Other
                                     </option>
                                 </ModalStyled.Select>
                                 <ModalStyled.Input
-                                    id={`social-${key}`}
+                                    id={`social-${social.network}`}
                                     type="text"
-                                    onChange={(e) => changeSocial(key, e)}
-                                    value={socials[key]}
+                                    onChange={(e) => changeSocial(idx, e)}
+                                    value={social.url}
                                 />
                                 <ModalStyled.IconButton
-                                    onClick={() => deleteSocial(key)}
+                                    onClick={() => deleteSocial(idx)}
                                     style={{ marginLeft: '10px' }}
                                 >
                                     <FaTrashAlt />
@@ -324,10 +350,13 @@ const EditCardModal = (props) => {
                     })}
                     <ModalStyled.IconButton
                         onClick={() =>
-                            setSocials({
+                            setSocials([
                                 ...socials,
-                                [`any-${Object.keys(socials).length}`]: '',
-                            })
+                                {
+                                    network: `any-${socials.length}`,
+                                    url: ""
+                                }
+                            ])
                         }
                         style={{ width: 'fit-content', alignSelf: 'center' }}
                     >

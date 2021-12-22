@@ -1,58 +1,37 @@
 import PostCard from '../PostCard'
 import MakePost from '../MakePost'
 import * as Styled from './style'
-import MakeDummyUser from '../MakeDummyUser'
 import { useState, useEffect } from 'react'
-import { fetchPostByIdAndSortByVote } from '../Handlers'
-import { db } from '../../../../../../api/firebase'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { sortPostsByVote } from '../Handlers'
 
 const ChannelWrapper = (props) => {
-    // set id login here.. replace testUser-2 with user login id
-    const loggedInUser = 'testUser-2'
-    const [idsByVote, setIdsByVote] = useState([])
-    const [ids, setIds] = useState([])
-    const channel = props.channel
-    const cardName = props.cardName
-    useEffect(() => {
-        const daoSnapshot = onSnapshot(doc(db, 'daos', cardName), (doc) => {
-            const DaoData = doc.data()
-            const fieldName = `channel-${channel}`
-            const currentPostsIds = DaoData[fieldName]
-            let sortedArray = []
-            // ---sort by time
-            if (currentPostsIds) {
-                sortedArray = currentPostsIds.reverse()
-            }
-            setIds(sortedArray)
-        })
-        return daoSnapshot
-    }, [channel, cardName])
+    const [posts, setPosts] = useState(props.channel.posts.items)
 
     //Sort by votes
     useEffect(() => {
+        console.log("New channel")
+
         // Sort by votes
-        if (ids.lenght !== 0) {
+        if (props.channel.posts.length !== 0) {
             const newSortedIdByVotes = async () => {
-                const newIds = await fetchPostByIdAndSortByVote(ids)
-                setIdsByVote(newIds)
+                const newPosts = await sortPostsByVote(props.channel.posts.items)
+                setPosts(newPosts)
             }
             newSortedIdByVotes()
         }
-    }, [ids])
+    }, [props.channel])
+
     return (
         <Styled.FeedMessageContainer>
-            <MakeDummyUser />
             <MakePost
-                loggedInUserID={loggedInUser}
-                cardName={props.cardName}
+                daoID={props.daoID}
                 channel={props.channel}
             />
-            {idsByVote !== 0 &&
-                idsByVote.map((id) => (
-                    <PostCard loggedInUserID={loggedInUser} key={id} id={id} />
+            {posts !== 0 &&
+                posts.map(post => (
+                    <PostCard post={post} />
                 ))}
-            {ids.length === 0 && <p>Empty</p>}
+            {/* ids.length === 0 && <p>Empty</p> */}
         </Styled.FeedMessageContainer>
     )
 }

@@ -1,27 +1,25 @@
 import Modal from "../index";
-import { db } from "../../../api/firebase";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
-import { doc, onSnapshot, updateDoc } from "@firebase/firestore";
 import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
+import { Redirect } from "react-router-dom";
 
 const FAQModal = props => {
     const [FAQ, setFAQ] = useState(props.data);
+    const { updateDAO, data, error, loading } = useUpdateDAO();
 
     const submitToDB = async () => {
-        const dao = doc(db, "daos", props.id);
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                FAQ
+            }
+        } })
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(FAQ)
-            props.toggle()
-        });
-
-        await updateDoc(dao, {
-            FAQ: FAQ
-        })
-
-        unsub()
+        props.set(FAQ)
+        props.toggle()
     }
 
     const deletePair = idx => {
@@ -48,11 +46,13 @@ const FAQModal = props => {
         }))
     }
 
+    if (error) { return <Redirect to="/404" /> }
+
     return (
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
 
-                <ModalStyled.Header> FAQ </ModalStyled.Header>
+                <ModalStyled.Header>FAQ</ModalStyled.Header>
 
                 {FAQ.map((pair, idx) => (
                     <Styled.Fieldset>

@@ -3,9 +3,6 @@ import { ethers } from 'ethers'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 
-import { db } from '../../api/firebase'
-import { collection, doc, getDoc, query } from '@firebase/firestore'
-
 import { useGetDAOByID } from '../../api/database/useGetDAO'
 
 import Header from '../../components/Header'
@@ -41,9 +38,8 @@ const DAO = (props) => {
         whitelistedAddresses: [],
     })
     const { data: dbData, loading, error } = useGetDAOByID(id);
-    const [isTokenAddres,setIsTokenAddress] = useState(true);
     const [loaded, setLoaded] = useState(false)
-    const [inputVal, setInputVal] = useState(query || '')
+    const [inputVal, setInputVal] = useState('')
     const history = useHistory()
     const navigate = (e) => {
         history.goBack()
@@ -90,11 +86,15 @@ const DAO = (props) => {
 
     // Fetch data regarding these
     useEffect(() => {
+        /*
         const getRelatedDAOLogo = async (dao) => {
             const daoDoc = doc(db, 'daos', dao)
             const relatedDao = await getDoc(daoDoc)
             return relatedDao.data().logoURL
         }
+        */
+
+        console.log(id)
 
         const handleData = async () => {
             if (daoData && !loading && !error) {
@@ -102,6 +102,7 @@ const DAO = (props) => {
                     ? await getCGData(dbData.tokenAddress).catch((e)=>{console.log(e)})
                     : {}
                 
+                /*
                 let related = []
 
                 // If a DAO has a "related-daos" field, fetch the related DAOs
@@ -110,6 +111,7 @@ const DAO = (props) => {
                 }
 
                 related = await Promise.all(related)
+                */
 
                 const tokenData = dbData.tokenAddress && cgData.symbol
                     ? {
@@ -134,11 +136,12 @@ const DAO = (props) => {
                     showTokenFeed:false
                     }
 
+                    console.log(dbData)
+
                 // Organize presentable data
                 const data = {
                     ...dbData,
-                    related,
-                    id,
+                    // related,
                     ...tokenData,
                 }
 
