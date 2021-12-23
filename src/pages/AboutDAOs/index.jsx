@@ -39,8 +39,11 @@ const AboutDAOS = (props) => {
             <Styled.MainWrapper>
                 <Styled.CenterWrapper>
                     <Styled.ParagraphContainer>
+                        This page below is using Cooper Turley's article. Click <a href="https://coopahtroopa.mirror.xyz/_EDyn4cs9tDoOxNGZLfKL7JjLo5rGkkEfRa_a-6VEWw" target="_blank">here</a> for the original article
+                    </Styled.ParagraphContainer>
+                    <Styled.ParagraphContainer>
                         {texts.definition[0]}
-                        <Styled.BoldText>{texts.definition[1]}</Styled.BoldText>
+                        <Styled.BoldText> {texts.definition[1]}</Styled.BoldText>
                         <br/>
                     </Styled.ParagraphContainer>
                     <Styled.MediumText>

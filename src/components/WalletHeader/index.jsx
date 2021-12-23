@@ -15,7 +15,7 @@ const Wallet = (props) => {
         <>
             <Styled.ConnectToWallet onClick={(e) => setHidden(!hidden)}>
                 <Styled.ConnectText>
-                    {shortenAddress(userInfo.uid, 4, 12)}
+                    {shortenAddress(userInfo.wallet, 4, 12)}
                 </Styled.ConnectText>
             </Styled.ConnectToWallet>
             {hidden ? <DropDown /> : null}

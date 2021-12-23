@@ -4,7 +4,7 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import * as Styled from './style'
 import space from '../../utils/canvas'
-import QuizContainer from './Component/QuizContainer'
+import CreateQuestion from './Component/CreateQuestion'
 
 const CreateQuiz = () => {
     const [title, setTitle] = useState()
@@ -59,7 +59,7 @@ const CreateQuiz = () => {
                         </Styled.Button>
                     </>
                 ) : (
-                    <QuizContainer />
+                    <CreateQuestion />
                 )}
             </Styled.Container>
             <Footer />

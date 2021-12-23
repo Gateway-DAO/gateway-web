@@ -17,7 +17,7 @@ const TOOLBAR_OPTIONS = [
     [{ align: [] }],
     ['image', 'emoji'],
 ]
-const RichEditor = ({value, set}) => {
+const RichEditor = ({ value, set }) => {
     return (
         <Styled.RichEditor>
             <ReactQuill

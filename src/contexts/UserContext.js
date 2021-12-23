@@ -1,24 +1,21 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { ethers } from 'ethers'
-
-// Firebase
-import {
-    signInWithCustomToken,
-    getAuth,
-    onAuthStateChanged,
-    browserLocalPersistence,
-    setPersistence,
-} from 'firebase/auth'
-import { httpsCallable } from 'firebase/functions'
-import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore'
-import { app, functions, db } from '../api/firebase'
+import { useHistory } from 'react-router-dom'
+import  { Redirect } from 'react-router-dom'
 
 // Web3
 import { CONNECTORS } from '../utils/web3'
 import { useWeb3React } from '@web3-react/core'
 
-const getNonceToSign = httpsCallable(functions, 'getNonceToSign')
-const verifySignedMessage = httpsCallable(functions, 'verifySignedMessage')
+// AWS/GraphQL
+import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from '../aws-exports'
+import { getNonce } from '../api/database/getNonce'
+import { getUser as getUserQuery } from '../graphql/queries'
+import { useLazyQuery, gql } from '@apollo/client'
+import { Hub } from '@aws-amplify/core'
+import useUpdateUser from '../api/database/useUpdateUser'
+
+Amplify.configure(awsconfig)
 
 export const userContext = createContext({})
 const { Provider } = userContext
@@ -28,165 +25,164 @@ export const useAuth = () => {
 }
 
 export const UserProvider = ({ children }) => {
-    const auth = getAuth(app)
-
     /* State */
     const [loggedIn, setLoggedIn] = useState(false)
-    const [userInfo, setUserInfo] = useState(null)
     const [loggingIn, setLoggingIn] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [userInfo, setUserInfo] = useState(null)
+
+    const [getUser, { data: userData, loading: userLoading, called }] =
+        useLazyQuery(gql(getUserQuery))
+    const {
+        updateUser,
+        data: userUpdateData,
+        error: userUpdateError,
+        loading: userUpdateLoading,
+    } = useUpdateUser()
 
     const web3 = useWeb3React()
+    const history = useHistory()
 
     const activateWeb3 = async () => {
         await web3.activate(CONNECTORS.Injected)
     }
 
+    // AWS
     const signIn = async () => {
         try {
-            await setPersistence(auth, browserLocalPersistence)
-
-            if (userInfo) {
-                await auth.signOut()
-            }
-
+            !web3.active && (await activateWeb3())
             setLoggingIn(true)
 
-            // Connect to Web3 wallet
-            !web3.active && activateWeb3()
+            const { data } = await getNonce(web3.account)
+            console.log(data)
 
-            // Get nonce from backend
-            const {
-                data: { nonce },
-            } = await getNonceToSign({ address: web3.account })
-
-            // Sign message as auth method
             const signer = web3.library.getSigner()
-            const hash = await ethers.utils.keccak256(web3.account)
-            const sig = await signer.signMessage(ethers.utils.arrayify(hash))
 
-            // Verify is the signature is valid; authenticate user
-            const {
-                data: { token },
-            } = await verifySignedMessage({
-                address: web3.account,
-                signature: sig,
-            })
+            const signature = await signer.signMessage(
+                data.getAuthenticationNonce.nonce
+            )
 
-            if (token) {
-                const { user } = await signInWithCustomToken(auth, token)
-
-                // Get other user info from db
-                const userDoc = doc(db, 'users', user.uid)
-                const userDB = (await getDoc(userDoc)).data()
-
-                // localStorage.setItem("@App:token", await user.getIdToken());
-                // localStorage.setItem("@App:user", JSON.stringify(user));
-
-                setUserInfo({
-                    ...user,
-                    ...userDB,
+            const user = await Auth.signIn(data.getAuthenticationNonce.userId)
+            const res = await Auth.sendCustomChallengeAnswer(
+                user,
+                JSON.stringify({
+                    signature,
+                    publicAddress: web3.account,
+                    nonce: data.getAuthenticationNonce.nonce,
                 })
-                setLoggedIn(true)
-                setLoggingIn(false)
+            )
 
-                console.log(user)
+            console.log(res)
+
+            if (res.username) {
+                const userDB = await getUser({
+                    variables: {
+                        id: res.username,
+                    },
+                })
+                setUserInfo(userDB.data.getUser)
+                setLoggedIn(true)
             }
+
+            setLoggingIn(false)
         } catch (err) {
             console.error(err)
             setLoggingIn(false)
         }
     }
 
-    const updateUserInfo = async (info, callback) => {
-        const user = doc(db, 'users', userInfo.uid)
-
-        const unsub = onSnapshot(user, () => {
-            setUserInfo({
-                ...userInfo,
-                ...info,
-            })
-            callback()
-        })
-
-        await updateDoc(user, info)
-
-        unsub()
+    // AWS
+    const userSignOut = async () => {
+        await Auth.signOut()
+        setLoggedIn(false)
+        setLoggingIn(false)
+        setUserInfo(null)
+        
     }
 
-    const userSignOut = () => {
-        auth.signOut().then(() => {
-            setLoggedIn(false)
-            setUserInfo(null)
-            setLoading(false)
+    const updateUserInfo = async (id, info) => {
+        const user = await updateUser({
+            variables: {
+                input: info,
+                condition: {
+                    id: { eq: id },
+                },
+            },
         })
+
+        setUserInfo(user.data.updateUser)
     }
 
-    // On account change
+    // On account change - AWS
     useEffect(() => {
-        if (userInfo) {
-            if (userInfo.uid === web3.account) {
+        if (userData) {
+            if (userData.getUser.wallet === web3.account) {
                 setLoggedIn(true)
             } else {
-                auth.signOut().then(() => {
+                Auth.signOut().then(() => {
                     setLoggedIn(false)
                     setUserInfo(null)
-                    setLoading(false)
+                    setLoggingIn(false)
                 })
             }
         }
     }, [web3.account])
 
-    // On load
+    const listener = async ({ payload: { event, data } }) => {
+        console.log('event', event)
+        switch (event) {
+            case 'signIn':
+                const userDB = await getUser({
+                    variables: {
+                        id: data.username,
+                    },
+                })
+                setUserInfo(userDB.data.getUser)
+                setLoggedIn(true)
+                break
+            case 'signOut':
+                setLoggedIn(false)
+                setLoggingIn(false)
+                setUserInfo(null)
+                break
+            default:
+        }
+    }
+
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            !!user && setLoading(true)
-            if (web3) {
-                if (user && web3.active) {
-                    if (user.uid === web3.account) {
-                        // Get other user info from db
-                        const userDoc = doc(db, 'users', user.uid)
-                        const userDB = (await getDoc(userDoc)).data()
+        Hub.listen('auth', listener)
+        return () => Hub.remove('auth', listener)
+    })
 
-                        setUserInfo({ ...user, ...userDB })
-                        setLoggedIn(true)
-                        setLoading(false)
-                    } else {
-                        auth.signOut().then(() => {
-                            setLoggedIn(false)
-                            setUserInfo(null)
-                            setLoading(false)
-                        })
-                    }
-                } else if (!web3.active) {
-                    await activateWeb3()
-                    if (web3.account && web3.account === user.uid) {
-                        setUserInfo(user)
-                        setLoggedIn(true)
-                        setLoading(false)
-                    } else if (web3.account && web3.account !== user.uid) {
-                        auth.signOut().then(() => {
-                            setLoggedIn(false)
-                            setUserInfo(null)
-                            setLoading(false)
-                        })
-                    }
+    useEffect(() => {
+        const callback = async () => {
+            try {
+                const { username, signInUserSession } =
+                    await Auth.currentAuthenticatedUser()
+                if (username) {
+                    const userDB = await getUser({
+                        variables: {
+                            id: username,
+                        },
+                    })
+                    setUserInfo(userDB.data.getUser)
+                    setLoggedIn(true)
                 }
+            } catch (e) {
+                console.log(e)
             }
-        })
-
-        return unsubscribe
-    }, [web3, auth])
+        }
+        callback()
+    }, [])
 
     return (
         <Provider
             value={{
                 signIn,
                 loggedIn,
-                userInfo,
+                ...(loggedIn ? { userInfo } : {}),
                 loggingIn,
                 updateUserInfo,
-                loading,
                 userSignOut,
             }}
         >

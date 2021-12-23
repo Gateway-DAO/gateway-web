@@ -2,7 +2,7 @@ import * as Styled from './style'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import useAdmin from '../../hooks/useAdmin'
-import React, { useState, useEffect,useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import RelatedDAOSection from './components/RelatedDAO'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -27,23 +27,31 @@ import Feed from './components/Feed'
 // Web3
 import { ethers } from 'ethers'
 import ERC20_ABI from '../../utils/abis/ERC20.json'
+import Gates from './components/Gates'
+import Plugins from './components/Plugins'
 
 // chain Image
-import avalanche from "../../assets/avalanche-avax-logo.png"
-import binance from "../../assets/binance-coin-bnb-logo.png"
-import btc from "../../assets/BTC_Logo.png"
-import ethereum from "../../assets/Ethereum-icon-purple.png"
-import near from "../../assets/near-protocol-near-logo.png"
-import polygon from "../../assets/polygon-matic-logo.png"
-import solana from "../../assets/solana-sol-logo.png"
+import avalanche from '../../assets/avalanche-avax-logo.png'
+import binance from '../../assets/binance-coin-bnb-logo.png'
+import btc from '../../assets/BTC_Logo.png'
+import ethereum from '../../assets/Ethereum-icon-purple.png'
+import near from '../../assets/near-protocol-near-logo.png'
+import polygon from '../../assets/polygon-matic-logo.png'
+import solana from '../../assets/solana-sol-logo.png'
 const NewCard = (props) => {
     const web3 = useWeb3React()
     useEffect(() => {
         if (props.tokenAddress && props.showTokenFeed) {
             const getBalance = async (tokenAddress) => {
-                const contract = new ethers.Contract(tokenAddress, ERC20_ABI, web3.library);
-                const balance = await contract.balanceOf(web3.account) / 10**(await contract.decimals());
-                console.log(balance);
+                const contract = new ethers.Contract(
+                    tokenAddress,
+                    ERC20_ABI,
+                    web3.library
+                )
+                const balance =
+                    (await contract.balanceOf(web3.account)) /
+                    10 ** (await contract.decimals())
+                console.log(balance)
                 setBalance(parseFloat(balance))
             }
 
@@ -54,14 +62,14 @@ const NewCard = (props) => {
     const [balance, setBalance] = useState(0)
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
     const [showEditModal, setShowEditModal] = useState(false)
-    const iconHover = useRef(null);
+    const iconHover = useRef(null)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
     const history = useHistory()
     const navigate = (e) => {
         history.goBack()
     }
     // useState Hook to change betweenn Profile Dom And Fedd Dom
-    const [profileAndFeed, setProfileAndFeed] = useState(true)
+    const [activeTab, setActiveTab] = useState('profile')
 
     const Modals = () => (
         <>
@@ -73,19 +81,19 @@ const NewCard = (props) => {
             })}
         </>
     )
-    const onHover = ()=>{
-        console.log(iconHover.current.id);
+    const onHover = () => {
+        console.log(iconHover.current.id)
     }
-    const removeHover = ()=>{
 
-    }
-    const socials = Object.keys(props.socials).map((key) => {
-        switch (key) {
+    const removeHover = () => {}
+
+    const socials = props.socials.map((social) => {
+        switch (social.network) {
             case 'discord':
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaDiscord />
@@ -96,7 +104,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaTwitter />
@@ -107,7 +115,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FiGlobe />
@@ -118,7 +126,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaMedium />
@@ -129,7 +137,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaGithub />
@@ -140,7 +148,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink
-                            href={props.socials[key]}
+                            href={social.url}
                             target="_blank"
                         >
                             <FaTelegram />
@@ -150,7 +158,7 @@ const NewCard = (props) => {
             case 'chat':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={props.socials[key]}>
+                        <Styled.SocialLink href={social.url}>
                             <BsChatTextFill />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -158,93 +166,149 @@ const NewCard = (props) => {
             default:
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={props.socials[key]}>
+                        <Styled.SocialLink href={social.url}>
                             <FaLink />
                         </Styled.SocialLink>
                     </Styled.Social>
                 )
         }
     })
-    const chains = Object.keys(props.chains).map(key=>{
-        switch(props.chains[key]){
-            
-            case "ethereum":
-                return(
-                    <Styled.Chain ref={iconHover} id="Ethereum" onMouseEnter={onHover} onMouseLeave={removeHover}>
-                        <Styled.ChainLink
-                            to={`/search/${props.chains[key]}`}
+    const chains =
+        props.chains &&
+        Object.keys(props.chains).map((key) => {
+            switch (props.chains[key]) {
+                case 'ethereum':
+                    return (
+                        <Styled.Chain
+                            ref={iconHover}
+                            id="Ethereum"
+                            onMouseEnter={onHover}
+                            onMouseLeave={removeHover}
                         >
-                            <img src={ethereum} width="22px" height="22px"/>
-                        </Styled.ChainLink>
-                    </Styled.Chain>
-                )
-            case "solana":
-                return(
-                    <Styled.Chain ref={iconHover} id="Solana" onMouseEnter={onHover}>
-                        <Styled.ChainLink
-                            to={`/search/${props.chains[key]}`}
+                            <Styled.ChainLink
+                                to={`/search/${props.chains[key]}`}
+                            >
+                                <img
+                                    src={ethereum}
+                                    width="22px"
+                                    height="22px"
+                                />
+                            </Styled.ChainLink>
+                        </Styled.Chain>
+                    )
+                case 'solana':
+                    return (
+                        <Styled.Chain
+                            ref={iconHover}
+                            id="Solana"
+                            onMouseEnter={onHover}
                         >
-                            <img src={solana} width="22px" height="22px"/>
-                        </Styled.ChainLink>
-                    </Styled.Chain>
-                )
-            case "Polygon":
-                return(
-                    <Styled.Chain ref={iconHover} id="Polygon" onMouseEnter={onHover}>
-                        <Styled.ChainLink
-                            to={`/search/${props.chains[key]}`}
+                            <Styled.ChainLink
+                                to={`/search/${props.chains[key]}`}
+                            >
+                                <img src={solana} width="22px" height="22px" />
+                            </Styled.ChainLink>
+                        </Styled.Chain>
+                    )
+                case 'Polygon':
+                    return (
+                        <Styled.Chain
+                            ref={iconHover}
+                            id="Polygon"
+                            onMouseEnter={onHover}
                         >
-                            <img src={polygon} width="22px" height="22px"/>
-                        </Styled.ChainLink>
-                    </Styled.Chain>
-                )
-            case "NEAR":
-                return(
-                    <Styled.Chain ref={iconHover} id="NEAR" onMouseEnter={onHover}>
-                        <Styled.ChainLink
-                            to={`/search/${props.chains[key]}`}
+                            <Styled.ChainLink
+                                to={`/search/${props.chains[key]}`}
+                            >
+                                <img src={polygon} width="22px" height="22px" />
+                            </Styled.ChainLink>
+                        </Styled.Chain>
+                    )
+                case 'NEAR':
+                    return (
+                        <Styled.Chain
+                            ref={iconHover}
+                            id="NEAR"
+                            onMouseEnter={onHover}
                         >
-                            <img src={near} width="22px" height="22px"/>
-                        </Styled.ChainLink>
+                            <Styled.ChainLink
+                                to={`/search/${props.chains[key]}`}
+                            >
+                                <img src={near} width="22px" height="22px" />
+                            </Styled.ChainLink>
+                        </Styled.Chain>
+                    )
+                case 'Avalanche':
+                    return (
+                        <Styled.Chain
+                            ref={iconHover}
+                            id="Avalanche"
+                            onMouseEnter={onHover}
+                        >
+                            <Styled.ChainLink
+                                to={`/search/${props.chains[key]}`}
+                            >
+                                <img
+                                    src={avalanche}
+                                    width="22px"
+                                    height="22px"
+                                />
+                            </Styled.ChainLink>
+                        </Styled.Chain>
+                    )
+                case 'Binance':
+                    return (
+                        <Styled.Chain>
+                            <Styled.ChainLink
+                                to={`/search/${props.chains[key]}`}
+                            >
+                                <img
+                                    src={binance}
+                                    width="22px"
+                                    height="22px"
+                                    ref={iconHover}
+                                    id="Binance"
+                                    onMouseEnter={onHover}
+                                />
+                            </Styled.ChainLink>
+                        </Styled.Chain>
+                    )
+                case 'Bitcoin':
+                    return (
+                        <Styled.Chain ref={iconHover}>
+                            <Styled.ChainLink
+                                to={`/search/${props.chains[key]}`}
+                            >
+                                <img
+                                    src={btc}
+                                    width="22px"
+                                    height="22px"
+                                    ref={iconHover}
+                                    id="Bitcoin"
+                                    onMouseEnter={onHover}
+                                />
+                            </Styled.ChainLink>
+                        </Styled.Chain>
+                    )
+                default:
+                    return ''
+            }
+        })
 
-                    </Styled.Chain>
-                )
-            case "Avalanche":
-                return(
-                    <Styled.Chain ref={iconHover} id="Avalanche" onMouseEnter={onHover}>
-                        <Styled.ChainLink
-                            to={`/search/${props.chains[key]}`}
-                        >
-                            <img src={avalanche} width="22px" height="22px"/>
-                        </Styled.ChainLink>
-                    </Styled.Chain>
-                )
-            case "Binance":
-                return(
-                    <Styled.Chain >
-                        <Styled.ChainLink
-                            to={`/search/${props.chains[key]}`}
-                        >
-                            <img src={binance} width="22px" height="22px" ref={iconHover} id="Binance" onMouseEnter={onHover}/>
-                        </Styled.ChainLink>
-                    </Styled.Chain>
-                )
-            case "Bitcoin":
-                return(
-                    <Styled.Chain ref={iconHover}>
-                        <Styled.ChainLink
-                            to={`/search/${props.chains[key]}`}
-                        >
-                            <img src={btc} width="22px" height="22px" ref={iconHover} id="Bitcoin" onMouseEnter={onHover}/>
-                        </Styled.ChainLink>
-                    </Styled.Chain>
-                )
+    const ActiveTab = () => {
+        switch (activeTab) {
+            case 'profile':
+                return <Profile {...props} />
+            case 'feed':
+                return <Feed cardName={props.id} />
+            case 'gates':
+                return <Gates />
+            case 'Plugins':
+                return <Plugins />
             default:
-                return(
-                    ""
-                )
+                return <Profile {...props} />
         }
-    })
+    }
     // console.log(props);
     return (
         <>
@@ -278,23 +342,26 @@ const NewCard = (props) => {
 
                             <Styled.SocialContainer>
                                 {socials}
-                                {web3.active && (
-                                    props.tokenAddress && props.showTokenFeed &&(
-                                    <Styled.TokenHolding>
-                                        <Styled.TokenText>
-                                            {balance} $
-                                            {props.symbol.toUpperCase()}
-                                            <span
-                                                style={{ marginLeft: '37px' }}
-                                            >
-                                                <img
-                                                    src={METAMASK_FOX}
-                                                    alt="meta mask icon"
-                                                />
-                                            </span>
-                                        </Styled.TokenText>
-                                    </Styled.TokenHolding> ) 
-                                )}
+                                {web3.active &&
+                                    props.tokenAddress &&
+                                    props.showTokenFeed && (
+                                        <Styled.TokenHolding>
+                                            <Styled.TokenText>
+                                                {balance} $
+                                                {props.symbol.toUpperCase()}
+                                                <span
+                                                    style={{
+                                                        marginLeft: '37px',
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={METAMASK_FOX}
+                                                        alt="meta mask icon"
+                                                    />
+                                                </span>
+                                            </Styled.TokenText>
+                                        </Styled.TokenHolding>
+                                    )}
                                 {chains}
                             </Styled.SocialContainer>
                         </Styled.DaoBioInfo>
@@ -318,24 +385,38 @@ const NewCard = (props) => {
                 <Styled.ProfileAndFeedContainer>
                     <Styled.ProfileDiv>
                         <Styled.SelectedTab
-                            showActive={profileAndFeed}
-                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                            showActive={activeTab === 'profile'}
+                            onClick={() => setActiveTab('profile')}
                         >
                             Profile
                         </Styled.SelectedTab>
                         <Styled.SelectedTab
-                            showActive={!profileAndFeed}
-                            onClick={() => setProfileAndFeed(!profileAndFeed)}
+                            showActive={activeTab === 'feed'}
+                            onClick={() => setActiveTab('feed')}
                         >
-                            Feed
+                            Discussion
+                        </Styled.SelectedTab>
+                        <Styled.SelectedTab
+                            showActive={activeTab === 'gates'}
+                            onClick={() => setActiveTab('gates')}
+                        >
+                            Gates
+                        </Styled.SelectedTab>
+
+                        <Styled.SelectedTab
+                            showActive={activeTab === 'Plugins'}
+                            onClick={() => setActiveTab('Plugins')}
+                        >
+                            Plugins
                         </Styled.SelectedTab>
                     </Styled.ProfileDiv>
                 </Styled.ProfileAndFeedContainer>
-                {profileAndFeed ? (
+                {/* {activeTab === 'profile' ? (
                     <Profile {...props} />
-                ) : (
+                ) : activeTab === 'feed' ? (
                     <Feed cardName={props.id} />
-                )}
+                ) : <Onboarding/>} */}
+                <ActiveTab />
                 <RelatedDAOSection
                     categories={props.categories}
                     name={props.name}

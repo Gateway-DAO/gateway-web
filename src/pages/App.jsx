@@ -3,9 +3,11 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Home from './Home'
-import FallbackPage from './FallbackPage'
-import Page404 from './404'
-import DAOsGate from './DAOsGate'
+import FallbackPage from './FallbackPage';
+import Page404 from './404';
+import DaoGate from '../components/BigCard/components/Gates/DaoGate';
+import DaoGateWithKeys from '../components/BigCard/components/Gates/DaoGateWithKeys';
+import DAOsGate from './DAOsGate';
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
@@ -30,6 +32,12 @@ const App = (props) => {
                     </Route>
                     <Route path="/what-are-daos">
                         <AboutDAOs />
+                    </Route>
+                    <Route path="/dao/forefront/gate">
+                        <DaoGate />
+                    </Route>
+                    <Route path="/dao/forefront/gatewithkeys">
+                        <DaoGateWithKeys />
                     </Route>
                     <Route path="/dao/:id">
                         <DAO />

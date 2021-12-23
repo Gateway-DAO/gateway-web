@@ -1,13 +1,223 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createDAO = /* GraphQL */ `
-  mutation CreateDAO(
+export const getAuthenticationNonce = /* GraphQL */ `
+  mutation GetAuthenticationNonce($wallet: String!) {
+    getAuthenticationNonce(wallet: $wallet) {
+      userId
+      nonce
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      wallet
+      username
+      name
+      bio
+      daos_ids
+      daos {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      init
+      nonce
+      pfp
+      socials {
+        network
+        url
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      id
+      wallet
+      username
+      name
+      bio
+      daos_ids
+      daos {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      init
+      nonce
+      pfp
+      socials {
+        network
+        url
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      id
+      wallet
+      username
+      name
+      bio
+      daos_ids
+      daos {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      init
+      nonce
+      pfp
+      socials {
+        network
+        url
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createDao = /* GraphQL */ `
+  mutation CreateDao(
     $input: CreateDAOInput!
     $condition: ModelDAOConditionInput
   ) {
     createDAO(input: $input, condition: $condition) {
       id
+      dao
       name
       faq {
         question
@@ -15,6 +225,7 @@ export const createDAO = /* GraphQL */ `
       }
       accomplishments
       backgroundURL
+      logoURL
       bounties {
         headline
         description
@@ -27,21 +238,36 @@ export const createDAO = /* GraphQL */ `
         postDate
       }
       categories
+      tags
       description
       howToJoin
       missionAndVision
+      whatDoWeDo
+      tokenBenefits {
+        amount
+        description
+        title
+        token
+      }
+      upcomingHangouts
+      tokenAddress
+      socials {
+        network
+        url
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const updateDAO = /* GraphQL */ `
-  mutation UpdateDAO(
+export const updateDao = /* GraphQL */ `
+  mutation UpdateDao(
     $input: UpdateDAOInput!
     $condition: ModelDAOConditionInput
   ) {
     updateDAO(input: $input, condition: $condition) {
       id
+      dao
       name
       faq {
         question
@@ -49,6 +275,7 @@ export const updateDAO = /* GraphQL */ `
       }
       accomplishments
       backgroundURL
+      logoURL
       bounties {
         headline
         description
@@ -61,21 +288,36 @@ export const updateDAO = /* GraphQL */ `
         postDate
       }
       categories
+      tags
       description
       howToJoin
       missionAndVision
+      whatDoWeDo
+      tokenBenefits {
+        amount
+        description
+        title
+        token
+      }
+      upcomingHangouts
+      tokenAddress
+      socials {
+        network
+        url
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteDAO = /* GraphQL */ `
-  mutation DeleteDAO(
+export const deleteDao = /* GraphQL */ `
+  mutation DeleteDao(
     $input: DeleteDAOInput!
     $condition: ModelDAOConditionInput
   ) {
     deleteDAO(input: $input, condition: $condition) {
       id
+      dao
       name
       faq {
         question
@@ -83,6 +325,7 @@ export const deleteDAO = /* GraphQL */ `
       }
       accomplishments
       backgroundURL
+      logoURL
       bounties {
         headline
         description
@@ -95,9 +338,23 @@ export const deleteDAO = /* GraphQL */ `
         postDate
       }
       categories
+      tags
       description
       howToJoin
       missionAndVision
+      whatDoWeDo
+      tokenBenefits {
+        amount
+        description
+        title
+        token
+      }
+      upcomingHangouts
+      tokenAddress
+      socials {
+        network
+        url
+      }
       createdAt
       updatedAt
     }
