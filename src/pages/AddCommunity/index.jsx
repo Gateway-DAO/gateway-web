@@ -89,7 +89,9 @@ const AddCommunity = ()=>{
             updatedAt: new Date().toISOString(),
         }
 
-        await createDAO(newInfo);
+        await createDAO({ variables: {
+            input: newInfo
+        }});
 
         if (data) {
             history.push(`/new-community/${name}`);
