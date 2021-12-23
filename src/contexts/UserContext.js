@@ -100,12 +100,12 @@ export const UserProvider = ({ children }) => {
         
     }
 
-    const updateUserInfo = async (id, info) => {
+    const updateUserInfo = async (info) => {
         const user = await updateUser({
             variables: {
                 input: info,
                 condition: {
-                    id: { eq: id },
+                    id: { eq: userInfo.id },
                 },
             },
         })

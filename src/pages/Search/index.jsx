@@ -29,6 +29,8 @@ const Search = props => {
                             { dao: { matchPhrase: query } },
                             { name: { matchPhrase: query } },
                             { description: { matchPhrase: query } },
+                            { categories: { matchPhrase: query } },
+                            { tags: { matchPhrase: query } },
                         ]
                     }
                 } })
