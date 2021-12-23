@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
 import { useParams, useHistory, Redirect } from 'react-router'
 import { useAuth } from '../../contexts/UserContext'
+import AddExperience from './components/AddExperience'
 
 // Components
 import Header from '../../components/Header'
@@ -27,8 +28,10 @@ const ProfilePage = () => {
         socials: [],
         daos: [],
     })
-    const [getUserByUsername, { data, loading: userLoading, error }] = useLazyQuery(gql(USER_QUERY))
+    const [getUserByUsername, { data, loading: userLoading, error }] =
+        useLazyQuery(gql(USER_QUERY))
 
+    const [activeTab, setActiveTab] = useState('experience')
     /*
     useEffect(() => {
         const getDAOs = async (daos) => {
@@ -85,9 +88,11 @@ const ProfilePage = () => {
         const getUser = async () => {
             if (searchTerm) {
                 try {
-                    const user = await getUserByUsername({ variables: {
-                        username: searchTerm
-                    }});
+                    const user = await getUserByUsername({
+                        variables: {
+                            username: searchTerm,
+                        },
+                    })
                     console.log(user.data.getUserByUsername.items[0])
                     setUserInfo(user.data.getUserByUsername.items[0])
                 } catch (err) {
@@ -116,15 +121,35 @@ const ProfilePage = () => {
                         pfpURL={userInfo.pfp}
                     />
                 </Styled.LeftSidebar>
-                <Styled.Feed>
+                <Styled.UserInfo>
                     {React.createElement(BioBox, { ...userInfo })}
-                </Styled.Feed>
+                </Styled.UserInfo>
                 {/*
                 <Styled.RightSidebar>
                     <BadgeBox />
                 </Styled.RightSidebar>
                 */}
             </Styled.MainBox>
+
+            <Styled.FeedContainer>
+                <Styled.ProfileDiv>
+                    <Styled.SelectedTab
+                        showActive={activeTab === 'experience'}
+                        onClick={() => setActiveTab('experience')}
+                    >
+                        Experience
+                    </Styled.SelectedTab>
+                    <Styled.SelectedTab
+                        showActive={activeTab === 'activity'}
+                        onClick={() => setActiveTab('activity')}
+                    >
+                        Activity
+                    </Styled.SelectedTab>
+                </Styled.ProfileDiv>
+                {
+                    (activeTab === 'experience') ? <AddExperience /> : null
+                }
+            </Styled.FeedContainer>
             <Footer />
         </Styled.Container>
     )

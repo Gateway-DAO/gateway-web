@@ -7,6 +7,11 @@ import FallbackPage from './FallbackPage';
 import Page404 from './404';
 import DaoGate from '../components/BigCard/components/Gates/DaoGate';
 import DaoGateWithKeys from '../components/BigCard/components/Gates/DaoGateWithKeys';
+import AddExperience from '../pages/AddExperience'
+import AddGovernanceSnapshopt from '../pages/AddNewKey/AddGovernanceSnapshot'
+import AddHoldToken from '../pages/AddNewKey/AddHoldToken'
+import AddKeySuccess from '../pages/AddNewKey/AddKeySuccess'
+import AddNewKey from '../pages/AddNewKey'
 import DAOsGate from './DAOsGate';
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
@@ -39,6 +44,23 @@ const App = (props) => {
                     <Route path="/dao/forefront/gatewithkeys">
                         <DaoGateWithKeys />
                     </Route>
+                    {/* Add New Key Routes start */}
+                    <Route path="/add-experience">
+                        <AddExperience />
+                    </Route>
+                    <Route path="/dao/daoname/newkey/governance">
+                        <AddGovernanceSnapshopt />
+                    </Route>
+                    <Route path="/dao/daoname/newkey/token">
+                        <AddHoldToken />
+                    </Route>
+                    <Route path="/dao/daoname/newkey/success">
+                        <AddKeySuccess />
+                    </Route>
+                    <Route path="/dao/daoname/newkey">
+                        <AddNewKey />
+                    </Route>
+                    {/* Add New Key Routes ends */}
                     <Route path="/dao/:id">
                         <DAO />
                     </Route>
