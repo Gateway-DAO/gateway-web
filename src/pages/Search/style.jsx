@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import { FiSearch } from "react-icons/fi"
+import styled from 'styled-components'
+import { FiSearch } from 'react-icons/fi'
 
 export const Container = styled.main`
     background-color: #170627;
@@ -33,7 +33,6 @@ export const CardBox = styled.section`
     @media only screen and (max-width: 480px) {
         margin-top: 60px;
     }
-
 `
 
 export const CardContainer = styled.div`
@@ -51,7 +50,7 @@ export const CardContainer = styled.div`
 
 // export const SearchTerm = styled.p`
 //     display: inline;
-    
+
 //     font-family: 'Montserrat';
 //     font-style: normal;
 //     font-weight:  '800';
@@ -95,9 +94,15 @@ export const SearchTerm = styled.p`
     text-transform: capitalize;
     color: rgba(255, 255, 255, 0.6);
     /* Background */
-    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
     -webkit-background-clip: text;
-    -webkit-text-fill-color:  transparent; 
+    -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
@@ -105,14 +110,42 @@ export const SearchTerm = styled.p`
         padding: 30px 0;
         margin-left: 0px;
     }
-`;
+`
 
+export const DAOAndUserSelectionContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-left : 25px;
+`
+
+export const SelectContainer = styled.div`
+    width: 90px;
+    height: 40px;
+    border: 1px solid rgba(229, 229, 229, 0.5);
+    box-sizing: border-box;
+    border-radius: 20px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+`
+
+export const SelectContainerText = styled.div`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+`
 
 export const SearchInputBox = styled.div`
     margin-right: 40px;
     padding-left: 30px;
-    background: #FFFFFF;
-    width: 30%;
+    background: #ffffff;
+    width: 15%;
     justify-content: space-between;
     align-items: center;
     display: flex;

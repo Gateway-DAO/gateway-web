@@ -1,72 +1,100 @@
-import { useParams, useHistory } from "react-router"
-import { useEffect, useState } from "react"
+import { useParams, useHistory } from 'react-router'
+import { useEffect, useState } from 'react'
 
-import * as Styled from "./style"
+import * as Styled from './style'
 
-import { useLazySearchDAO } from "../../api/database/useSearchDAO"
-import { useLazyListDAOs } from "../../api/database/useGetDAO"
+import { useLazySearchDAO } from '../../api/database/useSearchDAO'
+import { useLazyListDAOs } from '../../api/database/useGetDAO'
 
-import Header from "../../components/Header"
-import Footer from "../../components/Footer"
-import Card from "../../components/Card"
-import { ConnectToWallet } from "../../components/WalletHeader/style"
+import Header from '../../components/Header'
+import Footer from '../../components/Footer'
+import Card from '../../components/Card'
+import { ConnectToWallet } from '../../components/WalletHeader/style'
 
-const Search = props => {
-    const { query } = useParams();
-    const [hits, setHits] = useState([]);
-    const { listDAOs, data: listData, loading: listLoading, error: listError } = useLazyListDAOs()
-    const { searchDAO, data: searchData, loading: searchLoading, error: searchError } = useLazySearchDAO()
+const Search = (props) => {
+    const { query } = useParams()
+    const [hits, setHits] = useState([])
+    const {
+        listDAOs,
+        data: listData,
+        loading: listLoading,
+        error: listError,
+    } = useLazyListDAOs()
+    const {
+        searchDAO,
+        data: searchData,
+        loading: searchLoading,
+        error: searchError,
+    } = useLazySearchDAO()
 
     useEffect(() => {
         const searchAsync = async () => {
-            if (query === 'all'){
+            if (query === 'all') {
                 const res = await listDAOs()
-                setHits(res.data.listDAOs.items);
+                setHits(res.data.listDAOs.items)
             } else {
-                const res = await searchDAO({ variables: {
-                    filter: {
-                        or: [
-                            { dao: { matchPhrase: query } },
-                            { name: { matchPhrase: query } },
-                            { description: { matchPhrase: query } },
-                            { categories: { matchPhrase: query } },
-                            { tags: { matchPhrase: query } },
-                        ]
-                    }
-                } })
+                const res = await searchDAO({
+                    variables: {
+                        filter: {
+                            or: [
+                                { dao: { matchPhrase: query } },
+                                { name: { matchPhrase: query } },
+                                { description: { matchPhrase: query } },
+                                { categories: { matchPhrase: query } },
+                                { tags: { matchPhrase: query } },
+                            ],
+                        },
+                    },
+                })
 
-                setHits(res.data.searchDAOs.items);
+                setHits(res.data.searchDAOs.items)
             }
         }
 
-        searchAsync();
-    }, [query]);
+        searchAsync()
+    }, [query])
 
-    const [inputVal, setInputVal] = useState(query || "")
-    const history = useHistory();
+    const [inputVal, setInputVal] = useState(query || '')
+    const history = useHistory()
 
-    const handleEnter = e => {
-        if (e.key === "Enter") {
-            history.push(`/search/${e.target.value}`);
+    const handleEnter = (e) => {
+        if (e.key === 'Enter') {
+            history.push(`/search/${e.target.value}`)
         }
     }
 
     return (
         <Styled.Container>
-            <Header/>
+            <Header />
             <Styled.SearchTermContainer>
                 <Styled.SearchTerm>{query}</Styled.SearchTerm>
+                <Styled.DAOAndUserSelectionContainer>
+                    <Styled.SelectContainer>
+                        <Styled.SelectContainerText>
+                            DAOs
+                        </Styled.SelectContainerText>
+                    </Styled.SelectContainer>
+                    <Styled.SelectContainer>
+                        <Styled.SelectContainerText>
+                            Users
+                        </Styled.SelectContainerText>
+                    </Styled.SelectContainer>
+                </Styled.DAOAndUserSelectionContainer>
                 <Styled.SearchInputBox>
-                    <Styled.SearchInput type="search" value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyPress={handleEnter} />
-
+                    <Styled.SearchInput
+                        type="search"
+                        value={inputVal}
+                        onChange={(e) => setInputVal(e.target.value)}
+                        onKeyPress={handleEnter}
+                    />
                     <Styled.WrappedFiSearch />
                 </Styled.SearchInputBox>
             </Styled.SearchTermContainer>
-            {hits && 
+            {hits && (
                 <Styled.CardBox>
                     {hits.map((card, idx) => {
                         return (
-                            <Card 
+                            <Card
                                 key={idx}
                                 id={card.dao}
                                 title={card.name}
@@ -78,10 +106,10 @@ const Search = props => {
                                 logoURL={card.logoURL}
                                 bannerURL={card.backgroundURL}
                             />
-                        );
+                        )
                     })}
                 </Styled.CardBox>
-            }
+            )}
             <Footer />
         </Styled.Container>
     )
