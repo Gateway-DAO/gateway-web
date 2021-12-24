@@ -1,28 +1,28 @@
 import Modal from "../index";
-import { db } from "../../../api/firebase";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
-import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
-import RichEditor from "../../RichTextEditor"
+import RichEditor from "../../RichTextEditor";
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
+import { Redirect } from "react-router-dom";
 
 const MVModal = props => {
     const [MV, setMV] = useState(props.data);
+    const { updateDAO, data, error, loading } = useUpdateDAO();
 
     const submitToDB = async () => {
-        const dao = doc(db, "daos", props.id);
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                missionAndVision: MV
+            }
+        } })
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(MV)
-            props.toggle()
-        });
-
-        await updateDoc(dao, {
-            missionAndVision: MV
-        })
-
-        unsub()
+        props.set(MV)
+        props.toggle()
     }
+
+    if (error) { return <Redirect to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>

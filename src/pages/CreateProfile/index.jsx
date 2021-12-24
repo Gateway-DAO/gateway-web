@@ -19,7 +19,9 @@ import { ref, uploadBytes, getDownloadURL } from '@firebase/storage'
 // Database
 import { db } from '../../api/firebase'
 import { collection, query, where, getDocs } from '@firebase/firestore'
-import { daos } from '../../api/algolia'
+
+// AWS
+import { useLazySearchDAO } from "../../api/database/useSearchDAO"
 
 const CreateProfile = () => {
     const { loggedIn, userInfo, updateUserInfo } = useAuth()
@@ -35,6 +37,9 @@ const CreateProfile = () => {
     const [membership, setMembership] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
     const [searchRes, setSearchRes] = useState([])
+
+    // Search DAO
+    const { searchDAO, data, error, loading } = useLazySearchDAO()
 
     const onChangePicture = (e) => {
         if (e.target.files[0]) {
@@ -160,12 +165,20 @@ const CreateProfile = () => {
     useEffect(() => {
         const clear = setTimeout(() => {
             !!searchTerm &&
-                daos.search(searchTerm).then((res) => {
-                    const query = res.hits
+                searchDAO({ variables: {
+                    filter: {
+                        or: [
+                            { dao: { matchPhrase: searchTerm } },
+                            { name: { matchPhrase: searchTerm } },
+                            { description: { matchPhrase: searchTerm } },
+                        ]
+                    }
+                } }).then((res) => {
+                    const query = res.data.searchDAOs.items
                     const results = query.slice(0, 5).map((dao) => {
                         return {
                             name: dao.name,
-                            id: dao.objectID,
+                            id: dao.dao,
                             logoURL: dao.logoURL,
                         }
                     })

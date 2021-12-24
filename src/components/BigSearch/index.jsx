@@ -5,7 +5,6 @@ import * as Styled from './style'
 
 import Typewriter from 'typewriter-effect'
 
-import { daos } from '../../api/algolia'
 import React from 'react'
 
 const BigSearch = (props) => {

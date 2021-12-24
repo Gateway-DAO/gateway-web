@@ -1,10 +1,6 @@
 import * as Styled from './style'
-import CTA_BG from '../../../../../../assets/Gateway.svg'
-import { doc, onSnapshot } from 'firebase/firestore'
-import { db } from '../../../../../../api/firebase'
 import { useEffect, useState } from 'react'
 import {
-    getUserById,
     upVoteDecrease,
     upVoteIncrease,
     downVoteDecrease,
@@ -26,17 +22,22 @@ const PostCard = (props) => {
         minute: '2-digit',
     }
     const { loggedIn, userInfo } = useAuth()
-    const [post, setPosts] = useState(null)
-    const [user, setUser] = useState(null)
+    
+    const [post, setPosts] = useState(props.post)
+    const [user, setUser] = useState(props.post.user)
+
     const [showCommentBox, setShowCommentBox] = useState(false)
-    const id = props.id
-    const [upvote, setUpvote] = useState(props.upvotes ? [] : [])
-    const [downvote, setDownvote] = useState(props.downvotes ? [] : [])
-    //colours
+    const id = props.post.id
+
+    const [upvote, setUpvote] = useState(props.upvotes || [])
+    const [downvote, setDownvote] = useState(props.downvotes || [])
+
+    // Colors
     const [upvoteColor, setUpvoteColor] = useState(null)
     const [downvoteColor, setDownvoteColor] = useState(null)
 
     useEffect(() => {
+        /*
         const postSnapshot = onSnapshot(doc(db, 'posts', id), (doc) => {
             const postData = doc.data()
             if (postData) {
@@ -65,27 +66,47 @@ const PostCard = (props) => {
             }
         })
         return postSnapshot
+        */
+       
+        setUpvote(post.upvotes)
+        setDownvote(post.downvotes)
+
+        if (loggedIn) {
+            if (post.upvotes.includes(userInfo.id)) {
+                setUpvoteColor('#45e850')
+                setDownvoteColor(null)
+            }
+            if (post.downvotes.includes(userInfo.id)) {
+                setDownvoteColor('#e84576')
+                setUpvoteColor(null)
+            }
+        }
     }, [id, loggedIn])
 
-    const upVoteHandler = () => {
-        if (upvote.includes(userInfo.uid)) {
-            upVoteDecrease(props.id, userInfo.uid)
+    const upVoteHandler = async () => {
+        if (upvote.includes(userInfo.id)) {
+            const { upvotes } = await upVoteDecrease(post.id, userInfo.id)
+            console.log(upvotes)
+            setUpvote(upvotes)
             setUpvoteColor(null)
             setDownvoteColor(null)
         } else {
-            upVoteIncrease(props.id, userInfo.uid)
+            const { upvotes } = await upVoteIncrease(post.id, userInfo.id)
+            setUpvote(upvotes)
             setUpvoteColor('#45e850')
             setDownvoteColor(null)
         }
     }
 
-    const downVoteHandler = () => {
-        if (downvote.includes(userInfo.uid)) {
-            downVoteDecrease(props.id, userInfo.uid)
+    const downVoteHandler = async () => {
+        if (downvote.includes(userInfo.id)) {
+            const { downvotes } = await downVoteDecrease(post.id, userInfo.id)
+            setDownvote(downvotes)
             setDownvoteColor(null)
             setUpvoteColor(null)
         } else {
-            downVoteIncrease(props.id, userInfo.uid)
+            const { downvotes } = await downVoteIncrease(post.id, userInfo.id)
+            setDownvote(downvotes)
             setDownvoteColor('#e84576')
             setUpvoteColor(null)
         }
@@ -118,9 +139,7 @@ const PostCard = (props) => {
                             </Styled.PostByInfo>
                         </Styled.ProfileBioContainer>
                         <Styled.PostTime>
-                            {post.createdAt
-                                .toDate()
-                                .toLocaleTimeString('en-us', options)}
+                            {new Date(post.createdAt).toLocaleTimeString('en-us', options)}
                             {loggedIn && userInfo.uid === post.userID && (
                                 <MdDelete
                                     color="#db3b45"
@@ -134,7 +153,7 @@ const PostCard = (props) => {
                         </Styled.PostTime>
                     </Styled.PostHeaderInfo>
                     <Styled.MessageContainer>
-                        {post.content.data}
+                        {post.content}
                     </Styled.MessageContainer>
                     <Styled.ActivityContainer>
                         <BsArrowUpCircle
@@ -158,7 +177,7 @@ const PostCard = (props) => {
                                 style={{ cursor: 'pointer' }}
                             >
                                 {' '}
-                                {post.comments.length} Comment
+                                {post.comments.items.length} Comment
                                 {!!post.comments.length || 's'}
                             </span>
                         </Styled.ActivityTextContainer>
@@ -177,13 +196,14 @@ const PostCard = (props) => {
                                 <MakeComment
                                     commentDone={commentDoneHandler}
                                     postID={id}
+                                    daoID={post.daoID}
                                     loggedInUserID={userInfo.uid}
                                 />
                             )}
 
                             {post.comments &&
-                                post.comments.lenght !== 0 &&
-                                post.comments.map((comment) => (
+                                post.comments.items.lenght !== 0 &&
+                                post.comments.items.map((comment) => (
                                     <CommentCard comment={comment} />
                                 ))}
                         </>

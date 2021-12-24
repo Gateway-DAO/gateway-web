@@ -3,11 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import Card from '../Card'
 
 import * as Styled from "./style"
-
-import { query, getDocs, where } from 'firebase/firestore'
-import { DAORef, allDocs } from '../../api/db'
-import { getTokenFromAddress } from '../../api/coingecko'
-import { useHistory } from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
+import { useLazyListDAOs } from '../../api/database/useGetDAO'
+import { useLazySearchDAO } from '../../api/database/useSearchDAO'
 
 const DUMMY_CATEGORIES = [
     'Trending',
@@ -24,11 +22,15 @@ const Categories = (props) => {
     const [categoriesEmoji, setCategoriesEmoji] = useState(
         DUMMY_CATEGORIES_EMOJI
     )
+    const [totalCards,setTotalCards]=useState(0);
     const [activeCategory, setActiveCategory] = useState(0)
     const [cards, setCards] = useState([])
     const cardRef = useRef(null)
     const [isScrolling, setIsScrolling] = useState(false);
-    const [totalCards, setTotalCards] = useState(0);
+
+    const { listDAOs, data: DAOData, loading: DAOLoading, error: DAOError } = useLazyListDAOs()
+    const { searchDAO, data: searchData, loading: searchLoading, error: searchError } = useLazySearchDAO()
+
     const fetchCards = async () => {
         // If Trending or All, implement a different behavior
         let q
@@ -37,54 +39,24 @@ const Categories = (props) => {
             case 0: // TODO: Need to come up with something for Trending
             case 5:
                 // All
-                q = await allDocs
+                const res = await listDAOs()
+                setTotalCards(res.data.listDAOs.items.length);
+                q = res.data.listDAOs.items
                 break
             default:
-                q = await getDocs(
-                    query(
-                        DAORef,
-                        where(
-                            'categories',
-                            'array-contains',
-                            DUMMY_CATEGORIES[activeCategory]
-                        )
-                    )
-                )
+                const res2 = await searchDAO({ variables: {
+                    filter: {
+                        categories: {
+                            match: DUMMY_CATEGORIES[activeCategory]
+                        }
+                    }
+                } })
+
+                q = res2.data.searchDAOs.items
+                setTotalCards(res2.data.searchDAOs.items.length);
         }
 
-        let { docs } = q
-        console.log(docs.length);
-        setTotalCards(docs.length);
-        let newCards = docs.map(async (doc) => {
-            const data = doc.data()
-            const id = doc.id
-
-            /**
-             * Once we have data, start fetching content from CoinGecko
-             * UPDATE: for now, let's remove this
-             
-            const json = data.tokenAddress
-                ? await getTokenFromAddress(data.tokenAddress)
-                : {}
-
-            const tokenInfo = data.tokenAddress
-                ? {
-                      ranking: json.market_cap_rank,
-                      price: json.market_data.current_price.usd || 'Nope',
-                      token: json.symbol.toUpperCase(),
-                  }
-                : {}
-
-            return { id, ...data, ...tokenInfo }
-            
-            **/
-
-            return { id, ...data }
-        })
-
-        const resolved = await Promise.all(newCards)
-        setCards(resolved)
-        
+        setCards(q)
     }
 
     // Fetch cards from DB
@@ -190,7 +162,7 @@ const Categories = (props) => {
                     // filter((item, idx) => idx < numberOfCards).
                     return (
                         <Card
-                            id={card.id}
+                            id={card.dao}
                             title={card.name}
                             description={card.description}
                             categories={card.categories}
@@ -205,7 +177,6 @@ const Categories = (props) => {
                 })}
                 {totalCards>3&&
                     <Styled.MoreCard onClick={navigate}>
-                        {/* <Styled.More><Styled.MoreSymbol>+</Styled.MoreSymbol></Styled.More> */}
                         <Styled.MoreText>+{totalCards-numberOfCards} more</Styled.MoreText>
                     </Styled.MoreCard>
                 }

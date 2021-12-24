@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
 import { useParams, useHistory, Redirect } from 'react-router'
 import { useAuth } from '../../contexts/UserContext'
+import AddExperience from './components/AddExperience'
 
 // Components
 import Header from '../../components/Header'
@@ -13,8 +14,8 @@ import ProfileBox from './components/ProfileBox'
 import BadgeBox from './components/BadgeBox'
 
 // Database
-import { db } from '../../api/firebase'
-import { collection, query, where, getDocs } from '@firebase/firestore'
+import { useLazyQuery, gql } from '@apollo/client'
+import { getUserByUsername as USER_QUERY } from '../../graphql/queries'
 
 const ProfilePage = () => {
     const { searchTerm } = useParams()
@@ -24,10 +25,14 @@ const ProfilePage = () => {
         bio: '',
         name: '',
         username: '',
-        socials: {},
+        socials: [],
         daos: [],
     })
+    const [getUserByUsername, { data, loading: userLoading, error }] =
+        useLazyQuery(gql(USER_QUERY))
 
+    const [activeTab, setActiveTab] = useState('experience')
+    /*
     useEffect(() => {
         const getDAOs = async (daos) => {
             const daoRef = collection(db, 'daos')
@@ -77,6 +82,32 @@ const ProfilePage = () => {
         }
         getUser()
     }, [searchTerm, authUser, loading])
+    */
+
+    useEffect(() => {
+        const getUser = async () => {
+            if (searchTerm) {
+                try {
+                    const user = await getUserByUsername({
+                        variables: {
+                            username: searchTerm,
+                        },
+                    })
+                    console.log(user.data.getUserByUsername.items[0])
+                    setUserInfo(user.data.getUserByUsername.items[0])
+                } catch (err) {
+                    history.push('/404')
+                }
+            } else {
+                if (loggedIn && !loading) {
+                    setUserInfo(authUser)
+                } else if (!loggedIn && !loading) {
+                    history.push('/sign-in')
+                }
+            }
+        }
+        getUser()
+    }, [searchTerm, authUser, loading])
 
     return !searchTerm && authUser && !authUser.init ? (
         <Redirect to="/create-profile" />
@@ -90,15 +121,35 @@ const ProfilePage = () => {
                         pfpURL={userInfo.pfp}
                     />
                 </Styled.LeftSidebar>
-                <Styled.Feed>
+                <Styled.UserInfo>
                     {React.createElement(BioBox, { ...userInfo })}
-                </Styled.Feed>
+                </Styled.UserInfo>
                 {/*
                 <Styled.RightSidebar>
                     <BadgeBox />
                 </Styled.RightSidebar>
                 */}
             </Styled.MainBox>
+
+            <Styled.FeedContainer>
+                <Styled.ProfileDiv>
+                    <Styled.SelectedTab
+                        showActive={activeTab === 'experience'}
+                        onClick={() => setActiveTab('experience')}
+                    >
+                        Experience
+                    </Styled.SelectedTab>
+                    <Styled.SelectedTab
+                        showActive={activeTab === 'activity'}
+                        onClick={() => setActiveTab('activity')}
+                    >
+                        Activity
+                    </Styled.SelectedTab>
+                </Styled.ProfileDiv>
+                {
+                    (activeTab === 'experience') ? <AddExperience /> : null
+                }
+            </Styled.FeedContainer>
             <Footer />
         </Styled.Container>
     )

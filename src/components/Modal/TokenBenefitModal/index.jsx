@@ -1,10 +1,10 @@
 import Modal from '../index'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
-import { db } from '../../../api/firebase'
-import { doc, getDoc, onSnapshot, updateDoc } from '@firebase/firestore'
 import { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
+import { Redirect } from "react-router-dom";
 
 const TokenBenefitModal = (props) => {
     const [title, setTitle] = useState(null)
@@ -12,11 +12,11 @@ const TokenBenefitModal = (props) => {
     const [token, setToken] = useState(null)
     const [amount, setAmount] = useState(null)
 
+    const { updateDAO, data, error, loading } = useUpdateDAO();
+
     const submitToDB = async () => {
-        const dao = doc(db, 'daos', props.id)
-        const TBs = (await getDoc(dao)).data().tokenBenefits
         const newTB = [
-            ...(TBs || []),
+            ...(props.data || []),
             {
                 title,
                 description,
@@ -25,17 +25,18 @@ const TokenBenefitModal = (props) => {
             },
         ]
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(newTB)
-            props.toggle()
-        });
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                tokenBenefits: newTB
+            }
+        } })
 
-        await updateDoc(dao, {
-            tokenBenefits: newTB
-        })
-
-        unsub()
+        props.set(newTB)
+        props.toggle()
     }
+
+    if (error) { return <Redirect to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>

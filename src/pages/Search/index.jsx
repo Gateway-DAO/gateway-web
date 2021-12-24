@@ -3,9 +3,8 @@ import { useEffect, useState } from "react"
 
 import * as Styled from "./style"
 
-import { daos } from "../../api/algolia"
-import { allDocs } from '../../api/db'
-import { getTokenFromAddress } from "../../api/coingecko"
+import { useLazySearchDAO } from "../../api/database/useSearchDAO"
+import { useLazyListDAOs } from "../../api/database/useGetDAO"
 
 import Header from "../../components/Header"
 import Footer from "../../components/Footer"
@@ -16,72 +15,49 @@ import { ConnectToWallet } from "../../components/WalletHeader/style"
 const Search = props => {
     const { query } = useParams();
     const [hits, setHits] = useState([]);
-    const [currentPageNumber,setCurrentPageNumber] = useState(0);
-    const [totalPage, setTotalPage] = useState(0);
+    const { listDAOs, data: listData, loading: listLoading, error: listError } = useLazyListDAOs()
+    const { searchDAO, data: searchData, loading: searchLoading, error: searchError } = useLazySearchDAO()
 
     useEffect(() => {
         const searchAsync = async () => {
-            if(query==='all'){
-                const { hits: res } = await daos.search('',{page:currentPageNumber});
-                const searchReasult = await daos.search('')
-                setTotalPage(searchReasult.nbPages);
-            // const { hits: res } = await daos.search(query);
-            const parsedInfo = res.map(async hit => {
-                // Once we have data, start fetching content from CoinGecko (if the DAO has a token)
-
-                /*
-                if (hit.tokenAddress) {
-                    const json = await getTokenFromAddress(hit.tokenAddress);
-
-                    const tokenInfo = {
-                        ranking: json.market_cap_rank,
-                        price: json.market_data.current_price.usd || "Nope",
-                        token: json.symbol.toUpperCase()
+            if (query === 'all'){
+                const res = await listDAOs()
+                setHits(res.data.listDAOs.items);
+            } else {
+                const res = await searchDAO({ variables: {
+                    filter: {
+                        or: [
+                            { dao: { matchPhrase: query } },
+                            { name: { matchPhrase: query } },
+                            { description: { matchPhrase: query } },
+                            {categories: { match: query }},
+                            {chains: { match: query }},
+                        ]
                     }
+                } })
 
-                    return { ...hit, ...tokenInfo }
-                }
-                */
-
-                return hit
-            })
-            const resolved = await Promise.all(parsedInfo)
-
-            setHits(resolved);
-        }else{
-            
-            const { hits: res } = await daos.search(query,{page:currentPageNumber});
-            const searchReasult = await daos.search(query)
-            setTotalPage(searchReasult.nbPages);
-            const parsedInfo = res.map(async hit => {
-                return hit
-            })
-            const resolved = await Promise.all(parsedInfo)
-
-            setHits(resolved);
-
-        }
-           
+                setHits(res.data.searchDAOs.items);
+            }
         }
 
         searchAsync();
         window.scrollTo({top: 0, behavior: 'smooth'});
-    }, [query,currentPageNumber]);
+    }, [query]);
 
     const [inputVal, setInputVal] = useState(query || "")
     const history = useHistory();
 
     const handleEnter = e => {
         if (e.key === "Enter") {
-            setCurrentPageNumber(0);
+            // setCurrentPageNumber(0);
             history.push(`/search/${e.target.value}`);
         }
     }
 
-    const paginate = (pageNumber) =>{
+    // const paginate = (pageNumber) =>{
         
-        setCurrentPageNumber(pageNumber);
-    }
+    //     setCurrentPageNumber(pageNumber);
+    // }
 
     return (
         <Styled.Container>
@@ -100,7 +76,7 @@ const Search = props => {
                         return (
                             <Card 
                                 key={idx}
-                                id={card.objectID}
+                                id={card.dao}
                                 title={card.name}
                                 description={card.description}
                                 categories={card.categories}
@@ -115,9 +91,9 @@ const Search = props => {
                     
                 </Styled.CardBox>
             }
-            <Styled.PaginationBar>
+            {/* <Styled.PaginationBar>
             {   totalPage>1 && <Pagination totalPage={totalPage} paginate={paginate}/>}
-            </Styled.PaginationBar>
+            </Styled.PaginationBar> */}
             <Footer />
         </Styled.Container>
     )

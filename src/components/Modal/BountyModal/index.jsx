@@ -1,11 +1,11 @@
 import Modal from "../index";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
-import { db } from "../../../api/firebase";
-import { doc, getDoc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import RichEditor from "../../RichTextEditor";
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
+import { Redirect } from "react-router-dom";
 
 const BountyModal = props => {
     const [headline, setHeadline] = useState(null);
@@ -17,16 +17,16 @@ const BountyModal = props => {
     const [links, setLinks] = useState([""]);
     const [endDate, setEndDate] = useState(null);
 
+    const { updateDAO, data, error, loading } = useUpdateDAO();
+
     const submitToDB = async () => {
-        const dao = doc(db, "daos", props.id);
-        const bounties = (await getDoc(dao)).data().bounties;
         let parsedCategories = [];
         let currentDate = new Date().toISOString().slice(0, 10)
 
         categories.forEach(cat => parsedCategories.push(cat))
 
         const newBounties = [
-            ...(bounties || []),
+            ...(props.data || []),
             {
                 headline,
                 description,
@@ -40,16 +40,15 @@ const BountyModal = props => {
             }
         ]
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(newBounties)
-            props.toggle()
-        });
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                bounties: newBounties
+            }
+        } })
 
-        await updateDoc(dao, {
-            bounties: newBounties
-        })
-
-        unsub()
+        props.set(newBounties)
+        props.toggle()
     }
 
     const toggleCheckbox = e => {
@@ -78,6 +77,8 @@ const BountyModal = props => {
             return i
         }))
     }
+
+    if (error) { return <Redirect to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>

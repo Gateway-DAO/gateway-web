@@ -5,9 +5,12 @@ import React, { useEffect, useState } from 'react'
 import { query, getDocs, where } from 'firebase/firestore'
 import { DAORef, allDocs } from '../../../../api/db'
 
-const RelatedDAOSection = (props) => {
+import { useLazySearchDAO } from '../../../../api/database/useSearchDAO'
+
+const RelatedDAOSection = ({ name, categories }) => {
     const [limitedCards, setLimitedCards] = useState([])
-    const {name,categories}= props;
+
+    const { searchDAO, data: searchData, loading: searchLoading, error: searchError } = useLazySearchDAO()
 
     const filterCurrent = (oldArray,checkName) =>{
         return oldArray.filter((card) => card.name !== checkName)
@@ -19,23 +22,29 @@ const RelatedDAOSection = (props) => {
             q = await getDocs(
                 query(DAORef, where('categories', 'array-contains', category))
             )
-            let { docs } = q
-            let newCards = docs.map(async (doc) => {
-                const data = doc.data()
-                const id = doc.id
-                return { id, ...data }
-            })
-            const resolved = await Promise.all(newCards)
+            
+            const res = await searchDAO({ variables: {
+                filter: {
+                    categories: {
+                        match: category
+                    }
+                }
+            } })
+
+            const data = res.data.searchDAOs.items;
+
+            console.log(data)
+
             setLimitedCards((prev) => {
                 if (prev.length !== 0) {
-                    const newLimitedCards = [...prev, ...resolved]
+                    const newLimitedCards = [...prev, ...data]
                     const filteredArray = newLimitedCards.filter(
                         (v, i, a) => a.findIndex((t) => t.id === v.id) === i
                     )
                     const finalArray = filterCurrent(filteredArray,name)
                     return finalArray
                 } else {
-                    const finalArray = filterCurrent(resolved, name)
+                    const finalArray = filterCurrent(data, name)
                     return finalArray
                 }
             })
@@ -52,7 +61,7 @@ const RelatedDAOSection = (props) => {
                 <Styled.BoxContainer>
                     <Styled.MediumText>Related</Styled.MediumText>
                     <Styled.StyledShowAllButton
-                        to={`/search/${props.categories[0]}`}
+                        to={`/search/${categories[0]}`}
                     >
                         View all
                     </Styled.StyledShowAllButton>

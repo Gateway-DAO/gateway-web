@@ -1,0 +1,51 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gateway-dev-184152-authRole",
+      "UnauthRoleArn": "arn:aws:iam::628607619154:role/amplify-gateway-dev-184152-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::628607619154:role/amplify-gateway-dev-184152-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-gateway-dev-184152-deployment",
+      "UnauthRoleName": "amplify-gateway-dev-184152-unauthRole",
+      "StackName": "amplify-gateway-dev-184152",
+      "StackId": "arn:aws:cloudformation:us-east-1:628607619154:stack/amplify-gateway-dev-184152/af6a99e0-591f-11ec-8bf7-12f6914b066f",
+      "AmplifyAppId": "d1eyfltl5g67m"
+    },
+    "categories": {
+      "function": {
+        "getUserDAOs": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/getUserDAOs-61726a62627947433573-build.zip"
+        },
+        "getAuthenticationNonce": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/getAuthenticationNonce-304c6232557131487377-build.zip"
+        },
+        "gateway7887c977DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977DefineAuthChallenge-4b38734a4a39674b5459-build.zip"
+        },
+        "gateway7887c977CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977CreateAuthChallenge-6e3430584a70626f2b6f-build.zip"
+        },
+        "gateway7887c977VerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-4676754f4e6c756e4f64-build.zip"
+        },
+        "gateway7887c977PreSignup": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977PreSignup-6348566f625650774d72-build.zip"
+        },
+        "vote": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/vote-687a656f652b574c5145-build.zip"
+        }
+      },
+      "auth": {
+        "gateway7887c977": {},
+        "true": {}
+      }
+    }
+  }
+}

@@ -13,6 +13,8 @@ export const getUser = /* GraphQL */ `
       daos {
         id
         dao
+        youtubeURL
+        chains
         name
         faq {
           question
@@ -46,14 +48,19 @@ export const getUser = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
+        }
+        channels {
+          nextToken
         }
         createdAt
         updatedAt
       }
       init
+      nonce
       pfp
       socials {
         network
@@ -81,6 +88,8 @@ export const listUsers = /* GraphQL */ `
         daos {
           id
           dao
+          youtubeURL
+          chains
           name
           accomplishments
           backgroundURL
@@ -93,6 +102,7 @@ export const listUsers = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -148,17 +158,30 @@ export const getDao = /* GraphQL */ `
       }
       upcomingHangouts
       tokenAddress
+      whitelistedAddresses
       socials {
         network
         url
       }
+      channels {
+        items {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
+      youtubeURL
+      chains
     }
   }
 `;
-export const listDaOs = /* GraphQL */ `
-  query ListDaOs(
+export const listDaos = /* GraphQL */ `
+  query ListDAOs(
     $filter: ModelDAOFilterInput
     $limit: Int
     $nextToken: String
@@ -167,6 +190,67 @@ export const listDaOs = /* GraphQL */ `
       items {
         id
         dao
+        name
+        youtubeURL
+        chains
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getChannel = /* GraphQL */ `
+  query GetChannel($id: ID!) {
+    getChannel(id: $id) {
+      id
+      name
+      daoID
+      dao {
+        id
+        dao
+        youtubeURL
+        chains
         name
         faq {
           question
@@ -200,10 +284,391 @@ export const listDaOs = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
         }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      posts {
+        items {
+          id
+          daoID
+          channelID
+          userID
+          content
+          upvotes
+          downvotes
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listChannels = /* GraphQL */ `
+  query ListChannels(
+    $filter: ModelChannelFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listChannels(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          backgroundURL
+          youtubeURL
+          chains
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        youtubeURL
+        chains
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      channelID
+      channel {
+        id
+        name
+        daoID
+        dao {
+          id
+          dao
+          name
+          youtubeURL
+          chains
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          youtubeURL
+          chains
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      comments {
+        items {
+          id
+          postID
+          userID
+          content
+          upvotes
+          downvotes
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      upvotes
+      downvotes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPosts = /* GraphQL */ `
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          youtubeURL
+          chains
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        channelID
+        channel {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          init
+          nonce
+          pfp
+          createdAt
+          updatedAt
+        }
+        content
+        comments {
+          items {
+            id
+            postID
+            userID
+            user {
+              id
+              wallet
+              username
+              name
+              bio
+              daos_ids
+              init
+              nonce
+              pfp
+              createdAt
+              updatedAt
+            }
+            content
+            upvotes
+            downvotes
+            createdAt
+            updatedAt
+          }
+        }
+        upvotes
+        downvotes
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getComment = /* GraphQL */ `
+  query GetComment($id: ID!) {
+    getComment(id: $id) {
+      id
+      postID
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          youtubeURL
+          chains
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        createdAt
+        updatedAt
+      }
+      content
+      upvotes
+      downvotes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        postID
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          init
+          nonce
+          pfp
+          createdAt
+          updatedAt
+        }
+        content
+        upvotes
+        downvotes
         createdAt
         updatedAt
       }
@@ -236,6 +701,8 @@ export const getUserByAddress = /* GraphQL */ `
         daos {
           id
           dao
+          youtubeURL
+          chains
           name
           accomplishments
           backgroundURL
@@ -248,6 +715,7 @@ export const getUserByAddress = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -290,6 +758,8 @@ export const getUserByUsername = /* GraphQL */ `
         daos {
           id
           dao
+          youtubeURL
+          chains
           name
           accomplishments
           backgroundURL
@@ -302,6 +772,7 @@ export const getUserByUsername = /* GraphQL */ `
           whatDoWeDo
           upcomingHangouts
           tokenAddress
+          whitelistedAddresses
           createdAt
           updatedAt
         }
@@ -338,6 +809,8 @@ export const getDaoById = /* GraphQL */ `
         id
         dao
         name
+        youtubeURL
+        chains
         faq {
           question
           answer
@@ -370,9 +843,121 @@ export const getDaoById = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
+        }
+        channels {
+          nextToken
+          items {
+            id
+            name
+            daoID
+            dao {
+              id
+              dao
+              youtubeURL
+              chains
+              name
+              accomplishments
+              backgroundURL
+              logoURL
+              categories
+              tags
+              description
+              howToJoin
+              missionAndVision
+              whatDoWeDo
+              upcomingHangouts
+              tokenAddress
+              whitelistedAddresses
+              createdAt
+              updatedAt
+            }
+            posts {
+              items {
+                id
+                daoID
+                dao {
+                  id
+                  dao
+                  youtubeURL
+                  chains
+                  name
+                  accomplishments
+                  backgroundURL
+                  logoURL
+                  categories
+                  tags
+                  description
+                  howToJoin
+                  missionAndVision
+                  whatDoWeDo
+                  upcomingHangouts
+                  tokenAddress
+                  whitelistedAddresses
+                  createdAt
+                  updatedAt
+                }
+                channelID
+                channel {
+                  id
+                  name
+                  daoID
+                  createdAt
+                  updatedAt
+                }
+                userID
+                user {
+                  id
+                  wallet
+                  username
+                  name
+                  bio
+                  daos_ids
+                  init
+                  nonce
+                  pfp
+                  createdAt
+                  updatedAt
+                }
+                content
+                comments {
+                  items {
+                    id
+                    postID
+                    userID
+                    user {
+                      id
+                      wallet
+                      username
+                      name
+                      bio
+                      daos_ids
+                      init
+                      nonce
+                      pfp
+                      createdAt
+                      updatedAt
+                    }
+                    content
+                    upvotes
+                    downvotes
+                    createdAt
+                    updatedAt
+                  }
+                }
+                upvotes
+                downvotes
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
         }
         createdAt
         updatedAt
@@ -399,6 +984,8 @@ export const getDaoByName = /* GraphQL */ `
       items {
         id
         dao
+        youtubeURL
+        chains
         name
         faq {
           question
@@ -432,6 +1019,341 @@ export const getDaoByName = /* GraphQL */ `
         }
         upcomingHangouts
         tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        channels {
+          nextToken
+          items {
+            id
+            name
+            daoID
+            dao {
+              id
+              dao
+              youtubeURL
+              chains
+              name
+              accomplishments
+              backgroundURL
+              logoURL
+              categories
+              tags
+              description
+              howToJoin
+              missionAndVision
+              whatDoWeDo
+              upcomingHangouts
+              tokenAddress
+              whitelistedAddresses
+              createdAt
+              updatedAt
+            }
+            posts {
+              items {
+                id
+                daoID
+                dao {
+                  id
+                  dao
+                  youtubeURL
+                  chains
+                  name
+                  accomplishments
+                  backgroundURL
+                  logoURL
+                  categories
+                  tags
+                  description
+                  howToJoin
+                  missionAndVision
+                  whatDoWeDo
+                  upcomingHangouts
+                  tokenAddress
+                  whitelistedAddresses
+                  createdAt
+                  updatedAt
+                }
+                channelID
+                channel {
+                  id
+                  name
+                  daoID
+                  createdAt
+                  updatedAt
+                }
+                userID
+                user {
+                  id
+                  wallet
+                  username
+                  name
+                  bio
+                  daos_ids
+                  init
+                  nonce
+                  pfp
+                  createdAt
+                  updatedAt
+                }
+                content
+                comments {
+                  items {
+                    id
+                    postID
+                    userID
+                    user {
+                      id
+                      wallet
+                      username
+                      name
+                      bio
+                      daos_ids
+                      init
+                      nonce
+                      pfp
+                      createdAt
+                      updatedAt
+                    }
+                    content
+                    upvotes
+                    downvotes
+                    createdAt
+                    updatedAt
+                  }
+                }
+                upvotes
+                downvotes
+                createdAt
+                updatedAt
+              }
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getChannelByDaoid = /* GraphQL */ `
+  query GetChannelByDaoid(
+    $daoID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelChannelFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getChannelByDAOID(
+      daoID: $daoID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        daoID
+        dao {
+          id
+          dao
+          youtubeURL
+          chains
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        posts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPostsByChannelId = /* GraphQL */ `
+  query GetPostsByChannelId(
+    $channelID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getPostsByChannelID(
+      channelID: $channelID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        daoID
+        dao {
+          id
+          dao
+          youtubeURL
+          chains
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        channelID
+        channel {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          init
+          nonce
+          pfp
+          createdAt
+          updatedAt
+        }
+        content
+        comments {
+          nextToken
+        }
+        upvotes
+        downvotes
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getCommentsByPostId = /* GraphQL */ `
+  query GetCommentsByPostId(
+    $postID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getCommentsByPostID(
+      postID: $postID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        postID
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          init
+          nonce
+          pfp
+          createdAt
+          updatedAt
+        }
+        content
+        upvotes
+        downvotes
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const searchUsers = /* GraphQL */ `
+  query SearchUsers(
+    $filter: SearchableUserFilterInput
+    $sort: SearchableUserSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchUsers(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          youtubeURL
+          chains
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
         socials {
           network
           url
@@ -440,6 +1362,151 @@ export const getDaoByName = /* GraphQL */ `
         updatedAt
       }
       nextToken
+      total
+    }
+  }
+`;
+export const searchDaos = /* GraphQL */ `
+  query SearchDAOs(
+    $filter: SearchableDAOFilterInput
+    $sort: SearchableDAOSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchDAOs(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        dao
+        youtubeURL
+        chains
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        backgroundURL
+        logoURL
+        bounties {
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        channels {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const searchPosts = /* GraphQL */ `
+  query SearchPosts(
+    $filter: SearchablePostFilterInput
+    $sort: SearchablePostSortInput
+    $limit: Int
+    $nextToken: String
+    $from: Int
+  ) {
+    searchPosts(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+    ) {
+      items {
+        id
+        daoID
+        dao {
+          id
+          dao
+          youtubeURL
+          chains
+          name
+          accomplishments
+          backgroundURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          createdAt
+          updatedAt
+        }
+        channelID
+        channel {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          init
+          nonce
+          pfp
+          createdAt
+          updatedAt
+        }
+        content
+        comments {
+          nextToken
+        }
+        upvotes
+        downvotes
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
     }
   }
 `;
