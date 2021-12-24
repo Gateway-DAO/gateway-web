@@ -250,3 +250,103 @@ export const Text = styled.p`
     font-style: normal;
 
 `
+export const drag_area= styled.div`
+width: 100%;
+height: 200px;
+display: flex;
+justify-content: center;
+align-items:center;
+background: #170627;
+border:${props=>props.hover?"1px solid rgba(255, 255, 255, 0.2)" : "1px dashed rgba(255, 255, 255, 0.2)"} ;
+box-sizing: border-box;
+border-radius: 5px;
+`
+export const header = styled.div`
+
+width: 100%;
+height: 32px;
+font-family: Be Vietnam;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 26px;
+/* or 162% */
+
+text-align: center;
+color:${props=>props.hover?" rgba(255, 255, 255, 1)" : " rgba(255, 255, 255, 0.2)"} ;
+`
+export const span= styled.span`
+color: #FE02B9;
+`
+export const Background=styled.div`
+position: relative;
+width: 337px;
+height: 256px;
+margin-top:10px;
+background-color: blue;
+background-image: url(${props=>props.image});
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+border: 1px solid #7E3BDC;
+box-sizing: border-box;
+border-radius: 4px;
+`
+export const Cross=styled.div`
+cursor: pointer;
+position: absolute;
+// align:center
+left: 96%;
+display: flex;
+justify-content: center;
+align-items:center;
+// right: -45.71%;
+top: -4%;
+// bottom: 7.32%;
+width: 18px;
+height: 18px;
+border-radius: 100%;
+background: #7E3BDC;
+border: 1px solid #FFFFFF;
+transform: rotate(45deg);
+z-index: 10;
+font-weight:500;
+// position: absolute;
+// transform: rotate(45deg);
+// // left: 70.7%;
+// right: -1px;
+// top: -1px;
+// // bottom: 7.32%;
+// width:18px;
+// height:18px;
+// display:flex;
+// justify-content: center;
+// align:center;
+// size:15px;
+// border-radius:100%;
+// background: #7E3BDC;
+// border: 1px solid #FFFFFF;
+ color:#FFFFFF
+// z-index:50;
+`
+export const Image = styled.img`
+position: absolute;
+width: 100%;
+height: 100%;
+border: 1px solid #7E3BDC;
+box-sizing: border-box;
+border-radius: 4px;
+left:0;
+right: 0;
+z-index: -1;
+// max-width: 100%;
+// max-height:100%;
+// border: 1px solid #7E3BDC;
+// box-sizing: border-box;
+// border-radius: 4px;
+// position: absolute;
+// border: 1px solid #7E3BDC;
+// box-sizing: border-box;
+// border-radius: 4px;
+// z-index: -1
+`
