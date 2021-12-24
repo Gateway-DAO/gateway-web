@@ -23,6 +23,7 @@ import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
 import Profile from './components/Profiles'
 import Feed from './components/Feed'
 
+
 // Web3
 import { ethers } from 'ethers'
 import ERC20_ABI from '../../utils/abis/ERC20.json'

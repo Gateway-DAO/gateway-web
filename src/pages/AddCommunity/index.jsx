@@ -16,7 +16,7 @@ const AddCommunity = ()=>{
     const [youtubeURL, setyoutubeURL] = useState("")
     const [logoURL, setLogoURL] = useState("")
     const [tokenAddress, setTokenAddress] = useState("")
-    const [whitelistedAddress, setwhitelistedAddress] = useState("")
+    const [whitelistedAddresses, setWhitelistedAddresses] = useState("") 
     const [description, setDescription] = useState("")
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
@@ -84,7 +84,7 @@ const AddCommunity = ()=>{
             categories,
             chains,
             socials,
-            whitelistedAddress,
+            whitelistedAddresses,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         }
@@ -420,14 +420,14 @@ const AddCommunity = ()=>{
                 </Styled.Fieldset>
 
                 <Styled.Fieldset>
-                    <Styled.Label for="whitelistedAddress">
+                    <Styled.Label for="whitelistedAddresses">
                     Your Metamask Wallet Address
                     </Styled.Label>
                     <Styled.Input
-                        id="whitelistedAddress"
+                        id="whitelistedAddresses"
                         type="text"
-                        onChange={(e) => setwhitelistedAddress(e.target.value)}
-                        value={whitelistedAddress}
+                        onChange={(e) => setWhitelistedAddresses(e.target.value)}
+                        value={whitelistedAddresses}
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>

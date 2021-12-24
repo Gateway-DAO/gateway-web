@@ -181,7 +181,7 @@ export const getDao = /* GraphQL */ `
   }
 `;
 export const listDaos = /* GraphQL */ `
-  query ListDaos(
+  query ListDAOs(
     $filter: ModelDAOFilterInput
     $limit: Int
     $nextToken: String
@@ -1367,7 +1367,7 @@ export const searchUsers = /* GraphQL */ `
   }
 `;
 export const searchDaos = /* GraphQL */ `
-  query SearchDaos(
+  query SearchDAOs(
     $filter: SearchableDAOFilterInput
     $sort: SearchableDAOSortInput
     $limit: Int

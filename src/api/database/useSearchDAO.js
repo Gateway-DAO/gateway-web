@@ -9,7 +9,7 @@ export const useSearchDAO = (id) => {
 
     return useMemo(
         () => ({
-            data: data?.searchDAOs.items[0],
+            data: data?.searchDAOs.items[0], 
             loading: loading || (!called && loading === false),
             refetch,
             error,

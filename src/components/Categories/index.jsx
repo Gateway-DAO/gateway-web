@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import Card from '../Card'
 
 import * as Styled from "./style"
-
+import {useHistory} from 'react-router-dom'
 import { useLazyListDAOs } from '../../api/database/useGetDAO'
 import { useLazySearchDAO } from '../../api/database/useSearchDAO'
 
@@ -22,6 +22,7 @@ const Categories = (props) => {
     const [categoriesEmoji, setCategoriesEmoji] = useState(
         DUMMY_CATEGORIES_EMOJI
     )
+    const [totalCards,setTotalCards]=useState(0);
     const [activeCategory, setActiveCategory] = useState(0)
     const [cards, setCards] = useState([])
     const cardRef = useRef(null)
@@ -39,6 +40,7 @@ const Categories = (props) => {
             case 5:
                 // All
                 const res = await listDAOs()
+                setTotalCards(res.data.listDAOs.items.length);
                 q = res.data.listDAOs.items
                 break
             default:
@@ -51,13 +53,17 @@ const Categories = (props) => {
                 } })
 
                 q = res2.data.searchDAOs.items
+                setTotalCards(res2.data.searchDAOs.items.length);
         }
 
         setCards(q)
     }
 
     // Fetch cards from DB
-    useEffect(() => fetchCards(), [activeCategory])
+    useEffect(() => {
+        fetchCards()   
+        // console.log(totalCards);
+    }, [activeCategory])
 
     let mouseDown = false
     let startX, scrollLeft
@@ -98,11 +104,11 @@ const Categories = (props) => {
         if(size<735){
             setNumberOfCards(1);
         }else if(size<900){
-            setNumberOfCards(3);
+            setNumberOfCards(1);
         }else if(size<2000){
-            setNumberOfCards(4);
+            setNumberOfCards(3);
         }else{
-            setNumberOfCards(4);
+            setNumberOfCards(3);
         }
     },[])
 
@@ -121,6 +127,14 @@ const Categories = (props) => {
     useEffect(() => {
         window.addEventListener('scroll', activateGradient, { passive: true })
     }, [])
+    // navigation to search page
+    const history = useHistory()
+    const navigate = e => {
+        if(activeCategory==0){
+            history.push(`/search/all`)    
+        }else
+            history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
+    }
 
     return (
         <Styled.Box>
@@ -161,7 +175,13 @@ const Categories = (props) => {
                         />
                     )
                 })}
+                {totalCards>3&&
+                    <Styled.MoreCard onClick={navigate}>
+                        <Styled.MoreText>+{totalCards-numberOfCards} more</Styled.MoreText>
+                    </Styled.MoreCard>
+                }
             </Styled.CardBox>
+
         </Styled.Box>
     )
 }
