@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import  { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 // Web3
 import { CONNECTORS } from '../utils/web3'
@@ -97,16 +97,12 @@ export const UserProvider = ({ children }) => {
         setLoggedIn(false)
         setLoggingIn(false)
         setUserInfo(null)
-        
     }
 
     const updateUserInfo = async (info) => {
         const user = await updateUser({
             variables: {
-                input: info,
-                condition: {
-                    id: { eq: userInfo.id },
-                },
+                input: { ...info, id: userInfo.id },
             },
         })
 

@@ -30,73 +30,49 @@ const BioBox = (props) => {
               switch (social.network) {
                   case 'discord':
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <FaDiscord size={25} />
                           </Styled.SocialLink>
                       )
                   case 'twitter':
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <FaTwitter size={25} />
                           </Styled.SocialLink>
                       )
                   case 'website':
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <FiGlobe size={25} />
                           </Styled.SocialLink>
                       )
                   case 'medium':
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <FaMedium size={25} />
                           </Styled.SocialLink>
                       )
                   case 'github':
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <FaGithub size={25} />
                           </Styled.SocialLink>
                       )
                   case 'telegram':
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <FaTelegram size={25} />
                           </Styled.SocialLink>
                       )
                   case 'chat':
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <BsChatTextFill size={25} />
                           </Styled.SocialLink>
                       )
                   default:
                       return (
-                          <Styled.SocialLink
-                              href={social.url}
-                              target="_blank"
-                          >
+                          <Styled.SocialLink href={social.url} target="_blank">
                               <FaLink size={25} />
                           </Styled.SocialLink>
                       )
@@ -120,17 +96,17 @@ const BioBox = (props) => {
 
     return (
         <>
-            <Modals {...props}/>
+            <Modals {...props} />
             <Styled.Container>
-                <Styled.NameBox>
-                    <Styled.Name>
-                        {props.name}
-                        {/* <Styled.EditContainer>
-                            <FaPencilAlt onClick={toggleEditModal} />
-                        </Styled.EditContainer> */}
-                    </Styled.Name>
-                    <Styled.Username>@{props.username}</Styled.Username>
-                </Styled.NameBox>
+                <Styled.NameContainer>
+                    <Styled.NameBox>
+                        <Styled.Name>{props.name}</Styled.Name>
+                        <Styled.Username>@{props.username}</Styled.Username>
+                    </Styled.NameBox>
+                    <Styled.EditContainer>
+                        <FaPencilAlt onClick={toggleEditModal} />
+                    </Styled.EditContainer>
+                </Styled.NameContainer>
                 <Styled.BioText>{props.bio}</Styled.BioText>
                 <Styled.Socials>
                     {socials.map((social) => social)}
