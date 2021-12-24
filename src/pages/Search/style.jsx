@@ -115,7 +115,7 @@ export const SearchTerm = styled.p`
 export const DAOAndUserSelectionContainer = styled.div`
     display: flex;
     flex-direction: row;
-    margin-left : 25px;
+    margin-left: 25px;
 `
 
 export const SelectContainer = styled.div`
@@ -129,6 +129,7 @@ export const SelectContainer = styled.div`
     align-items: center;
     justify-content: center;
     margin: 0 2px;
+    cursor: pointer;
 `
 
 export const SelectContainerText = styled.div`
