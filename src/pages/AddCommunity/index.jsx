@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import { useHistory } from "react-router";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -21,7 +21,13 @@ const AddCommunity = ()=>{
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
-
+    const [backGroundImage,setbackGroundImage]= useState("")
+    const [files,setFile]= useState("")
+    const [over,setover] = useState(false)
+    const [bghover,setbghover] =useState(false)
+    const $input =useRef(null)
+    const $bgImage =useRef(null)
+    const [SpaceId,setSpaceId] = useState("")
     const { createDAO, data, error, loading } = useCreateDAO()
 
     useEffect(
@@ -102,7 +108,13 @@ const AddCommunity = ()=>{
         console.log(error)
         return <Redirect to="/404" />
     }
-
+   
+    const removeBackgroundImage=()=>{
+        setbackGroundImage("");
+    }
+    const removeFiles=()=>{
+        setFile("");
+    }
     return(
         <Styled.Page>
             <Header />
@@ -123,33 +135,117 @@ const AddCommunity = ()=>{
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
-                    <Styled.Label for="logoURL">
-                        Logo URL
+                    <Styled.Label for="logo">
+                        Logo 
                     </Styled.Label>
-                    <Styled.Input
+                    {/* <Styled.Input
                         onChange={(e) => setLogoURL(e.target.value)}
                         type="text"
                         id="logoURL"
                         name="logoURL"
                         placeholder="Your Community  logo URL"
                         value={logoURL}
-                    />
+                    /> */}
+                    
+                    {!files?<Styled.drag_area hover={over} for = "uploadFile"
+                          onClick={()=> {$input.current.click()}}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            e.persist();
+                            setFile(URL.createObjectURL(e.dataTransfer.files[0]));
+                            setover(false);
+                          }}
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            setover(true);
+                          }}
+                          onDragLeave={(e) => {
+                            e.preventDefault();
+                            setover(false);
+                          }}
+                                         >
+                        
+                            
+                            <Styled.header hover={over} className="header">
+                            <Styled.span> Upload </Styled.span>or Drag your image here
+                            </Styled.header>
+                            
+                            {/* <Styled.button className="button">
+                                Browse File 
+                            </Styled.button> */}
+                            <input type="file"  hidden ref={$input} onChange={e=> {setFile(URL.createObjectURL(e.target.files[0]))}}>
+                            </input>
+
+                         </Styled.drag_area> : 
+                         
+                          <Styled.Background image={files}> 
+                             <Styled.Cross onClick={removeFiles}>
+                          {/* <ImCross /> */}
+                          +
+                      </Styled.Cross>
+
+                          {/* <Styled.Image src={files} >
+                         
+                          </Styled.Image>   */}
+                           
+                          </Styled.Background>}
+
                 </Styled.Fieldset>
 
                 <Styled.Fieldset>
                     <Styled.Label for="backgroundURL">
-                        Background URL
+                        Background 
                     </Styled.Label>
-                    <Styled.Input
+                    {/* <Styled.Input
                         onChange={(e) => setBackgroundURL(e.target.value)}
                         type="text"
                         id="backgroundURL"
                         name="backgroundURL"
                         placeholder="Your Community  background URL"
                         value={backgroundURL}
-                    />
-                </Styled.Fieldset>
+                    /> */}
+                  { !backGroundImage?  <Styled.drag_area hover={bghover} for = "backGroundImageUpload"
+                          onClick={()=> {$bgImage.current.click()}}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            e.persist();
+                            setbackGroundImage(URL.createObjectURL(e.dataTransfer.files[0]));
+                            setbghover(false);
+                          }}
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            setbghover(true);
+                          }}
+                          onDragLeave={(e) => {
+                            e.preventDefault();
+                            setbghover(false);
+                          }}
+                                         >
+                            <Styled.header hover={bghover} className="header">
+                            <Styled.span> Upload </Styled.span>or Drag your image here
+                            </Styled.header>
+                            
+                            {/* <Styled.button className="button">
+                                Browse File 
+                            </Styled.button> */}
+                            <input type="file"  hidden ref={$bgImage} onChange={e=> {setbackGroundImage(URL.createObjectURL(e.target.files[0]))}}>
+                            </input>
 
+                         </Styled.drag_area> : 
+                         <Styled.Background image={backGroundImage}> 
+                             <Styled.Cross onClick={removeBackgroundImage}>
+                          {/* <ImCross /> */}
+                          + 
+                          </Styled.Cross>
+                          {/* <Styled.Image  src={backGroundImage} >
+                         
+                         </Styled.Image>   */}
+                             
+                             
+                             
+                             </Styled.Background>}
+                </Styled.Fieldset>
+                        
                 <Styled.Fieldset>
                     <Styled.Label for="backgroundURL">
                         Youtube URL
@@ -441,7 +537,17 @@ const AddCommunity = ()=>{
                         value={tokenAddress}
                     />
                 </Styled.Fieldset>
-
+                <Styled.Fieldset>
+                    <Styled.Label for="SpaceId">
+                   Snapshot Space Id
+                    </Styled.Label>
+                    <Styled.Input
+                        id="SpaceId"
+                        type="text"
+                        onChange={(e) => setSpaceId(e.target.value)}
+                        value={SpaceId}
+                    />
+                </Styled.Fieldset>
                 <Styled.Button
                     id="submit_msg"
                     type="button"

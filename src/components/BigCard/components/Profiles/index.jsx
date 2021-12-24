@@ -28,7 +28,7 @@ import AccomplishmentModal from '../../../Modal/AccomplishmentModal'
 import MVModal from '../../../Modal/MVModal'
 import EditCardModal from '../../../Modal/EditCardModal'
 import ShowBountyModal from '../../../Modal/ShowBountyModal'
-
+import SnapshotModal from '../../../Modal/SnapshotModal'
 //  styling
 import Collapsible from '../../../Collapsible'
 
@@ -330,7 +330,8 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Governance Proposals">
                                 <Styled.Description>
-                                    ⚡️Snapshot integration coming soon.
+                                    {/* ⚡️Snapshot integration coming soon. */}
+                                        <SnapshotModal props={props.SpaceId} />
                                 </Styled.Description>
                             </Collapsible>
                         </Styled.DivContainer>
