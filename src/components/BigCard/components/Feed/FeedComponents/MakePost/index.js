@@ -1,25 +1,21 @@
 import * as Styled from './style'
-import CTA_BG from '../../../../../../assets/Gateway.svg'
 import { BsEmojiSmile } from 'react-icons/bs'
 import { FiImage } from 'react-icons/fi'
 import Picker from 'emoji-picker-react'
 import { useState, useEffect, useRef } from 'react'
-import {
-    sendPostDataAndSetId,
-    getUserById,
-    imageUploadHandler,
-} from '../Handlers'
 import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from '../../../../../../contexts/UserContext'
+import useCreatePost from '../../../../../../api/database/useCreatePost'
+
 
 const MakePost = (props) => {
     const { loggedIn, userInfo } = useAuth();
     const [commentMessage, setCommentMessage] = useState('')
     const [commentImage, setCommentImage] = useState('')
     const [user, setUser] = useState({ name: '', username: '' })
-
-    const [chosenEmoji, setChosenEmoji] = useState(null)
     const [showEmojiBox, setEmojiBox] = useState(false)
+    const { createPost, data, error, loading } = useCreatePost()
+    
     useEffect(() => {
         setUser(loggedIn ? userInfo : null);
     }, [loggedIn])
@@ -34,31 +30,28 @@ const MakePost = (props) => {
         setCommentMessage(text)
     }
 
-    const MakePostHandler = async () => {
-        const { v4: uuidv4 } = require('uuid')
-        const newID = uuidv4()
-
+    const submitPost = async () => {
         const data = {
-            userID: userInfo.uid,
-            origin: `${props.cardName}-${props.channel}`,
-            content: {
-                data: commentMessage,
-                //      image1: commentImage
-                //          ? await imageUploadHandler(newID, commentImage, 0.1)
-                //          : 'https://res.cloudinary.com/grohealth/image/upload/$wpsize_!_cld_full!,w_800,h_400,c_scale/v1620316360/greenspace.jpg',
-            },
-            comments: [],
+            id: uuidv4(),
+            userID: userInfo.id,
+            daoID: props.daoID,
+            channelID: props.channel.id,
+            content: commentMessage,
             upvotes: [],
             downvotes: [],
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
         }
         try {
-            sendPostDataAndSetId(data, newID, props.cardName, props.channel)
+            await createPost({ variables: {
+                input: data
+            }})
+
+            console.log("Deu")
+
             setCommentMessage('')
-        } catch {
-            console.log('posting failed')
+        } catch (err) {
+            console.log(`Post failed: ${err}`)
         }
-        console.log('makePost', data)
     }
 
     return loggedIn && user?.init ? (
@@ -100,7 +93,7 @@ const MakePost = (props) => {
                         <FiImage />
                     </Styled.ActivityTextContainer> */}
                 </Styled.ActivityContainer>
-                <Styled.PostButton onClick={MakePostHandler}>
+                <Styled.PostButton onClick={submitPost}>
                     POST
                 </Styled.PostButton>
             </Styled.ActivityBox>

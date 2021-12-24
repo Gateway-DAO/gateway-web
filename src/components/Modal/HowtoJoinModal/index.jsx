@@ -1,32 +1,31 @@
 import Modal from "../index";
-import { db } from "../../../api/firebase";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
-import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { useState } from "react";
-import { FaTrashAlt, FaPlus } from "react-icons/fa"
+import { FaTrashAlt, FaPlus } from "react-icons/fa";
+import { Redirect } from "react-router-dom";
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
 
 const HowtoJoinModal = props => {
-    const [inputs, setInputs] = useState(props.data)
+    const [inputs, setInputs] = useState(props.data);
+    const { updateDAO, data, error, loading } = useUpdateDAO();
 
     const submitToDB = async () => {
-        const dao = doc(db, "daos", props.id)
         const newHTJ = inputs.filter(step => !!step.description).map(step => {
             return {
                 description: step.description
             }
         })
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(newHTJ)
-            props.toggle()
-        });
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                howToJoin: newHTJ
+            }
+        } })
 
-        await updateDoc(dao, {
-            howToJoin: newHTJ
-        })
-
-        unsub()
+        props.set(newHTJ)
+        props.toggle()
     }
 
     const deleteInput = idx => {
@@ -43,6 +42,8 @@ const HowtoJoinModal = props => {
             return i
         }))
     }
+
+    if (error) { return <Redirect to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>

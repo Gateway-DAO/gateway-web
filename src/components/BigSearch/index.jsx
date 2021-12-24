@@ -5,20 +5,15 @@ import * as Styled from './style'
 
 import Typewriter from 'typewriter-effect'
 
-import { daos } from '../../api/algolia'
 import React from 'react'
 
 const BigSearch = (props) => {
     const [showTyping, setShowTyping] = useState(true)
     const history = useHistory()
     // const [placeholder, setPlaceholder] = useState("Search for ");
-   
+
     const showTypingHandler = (e) => {
-        if (e.target.value === '') {
-            setShowTyping(true)
-        } else {
-            setShowTyping(false)
-        }
+        setShowTyping(false)
     }
     const handleInput = async (e) => {
         if (e.key === 'Enter') {
@@ -50,7 +45,6 @@ const BigSearch = (props) => {
         />
     )
 
-    
     return (
         <React.Fragment>
             <Styled.SearchMainDiv>
@@ -64,7 +58,7 @@ const BigSearch = (props) => {
                         </Styled.TypewriterText>
                     </Styled.TypewriterDiv>
                     <Styled.InputBox
-                        onChange={showTypingHandler}
+                        onClick={showTypingHandler}
                         type="search"
                         onKeyPress={handleInput}
                     />

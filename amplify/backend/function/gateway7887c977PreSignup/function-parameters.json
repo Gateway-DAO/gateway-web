@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "gateway7887c977",
+  "functionName": "gateway7887c977PreSignup",
+  "resourceName": "gateway7887c977PreSignup",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/home/nmcarv/.nvm/versions/node/v16.8.0/lib/node_modules/@aws-amplify/cli/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/PreSignup",
+  "triggerTemplate": "PreSignup.json.ejs",
+  "triggerEventPath": "PreSignup.event.json",
+  "roleName": "gateway7887c977PreSignup",
+  "skipEdit": true,
+  "enableCors": false
+}

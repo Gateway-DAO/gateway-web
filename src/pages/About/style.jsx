@@ -1,19 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const AboutContainer = styled.div`
-    // position: relative;
     width: 100vw;
-    // height: 2546px;
-    // left: 0px;
-    // top: 0px;
-
-    // background: #170627;
-    overflow-x: hidden;
-    // position: absolute;
-    // width: 1440px;
-    // height: 2600px;
-    left: 0px;
-    top: 0px;
 
     background: #170627;
 `
@@ -30,25 +18,28 @@ export const Container = styled.div`
 `
 
 export const AboutImage = styled.div`
-    // position: absolute;
-    // width: 473px;
-    // height: 397px;
-    // left: 145px;
-    // top: 155px;
     margin-right: 10%;
-    
 `
 export const TextContent = styled.div`
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    align-items: center;
+    align-content: center;
 `
 export const Heading = styled.h2`
-    // position: absolute;
-    // width: 413px;
-    // height: 64px;
-    // left: 730px;
-    // top: 251px;
+    align-self: start;
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
     margin-bottom: 12px;
     font-family: Poppins;
     font-style: normal;
@@ -56,51 +47,44 @@ export const Heading = styled.h2`
     font-size: 36px;
     line-height: 64px;
     /* identical to box height, or 178% */
-    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+
     letter-spacing: -0.015em;
 `
 export const Description = styled.p`
-    // position: absolute;
-    // width: 551px;
-    // height: 210px;
-    // left: 730px;
-    // top: 283px;
-
     font-family: Be Vietnam;
     font-style: normal;
-    font-weight: bold;
     font-size: 21px;
     line-height: 31px;
-    // display: flex;
     align-items: center;
 
-    color: #E5E5E5;
+    color: #e5e5e5;
 `
-export const AboutImg = styled.img`
-width: 35vw;
-height: 30vw;
+export const BoldText = styled.span`
+    font-weight: bold;
+`
 
-// border: 1px solid blue;
+export const AboutImg = styled.img`
+    width: 35vw;
+    height: 30vw;
+
+    // border: 1px solid blue;
 `
 export const MissionImg = styled.img`
-width: 35vw;
-height: 34vw;
+    width: 35vw;
+    height: 34vw;
 
-
-// border: 1px solid blue;
+    // border: 1px solid blue;
 `
 export const WWDImg = styled.img`
-width: 48vw;
-height: 28vw;
-margin: -50px;
-// border: 1px solid blue;
+    width: 48vw;
+    height: 28vw;
+    margin: -50px;
+    // border: 1px solid blue;
 `
 
 export const ReadMore = styled.a`
-    text-decoration:none;
-    color: purple;
+    text-decoration: none;
+    color: #e265b8;
 `
 export const MissionImage = styled.div`
     // position: absolute;
@@ -109,7 +93,7 @@ export const MissionImage = styled.div`
     // left: 833.39px;
     // top: 733px;
     // overflow-x: hidden;
-    margin-left:7%;
+    margin-left: 7%;
 `
 export const Box = styled.div`
     height: 280px;
@@ -125,21 +109,20 @@ export const Box = styled.div`
     display: flex;
     align-items: center;
     text-align: center;
-    color: #0075FF;
+    color: #0075ff;
 `
 
-export const WWDFrame= styled.div`
+export const WWDFrame = styled.div`
     position: absolute;
     width: 1440px;
     height: 2546px;
     left: 0px;
     top: 0px;
-
 `
 export const WWDImage = styled.div`
-    padding:0;
-    margin:0;
-    flex:0;
+    padding: 0;
+    margin: 0;
+    flex: 0;
 `
 export const FooterContainer = styled.div`
     position: absolute;

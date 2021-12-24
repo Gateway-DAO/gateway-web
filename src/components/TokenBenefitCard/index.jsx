@@ -3,6 +3,7 @@ import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
 import { db } from "../../api/firebase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import parser from "html-react-parser"
 
 const TokenBenefitCard = props => {
     const benefit = props.tbs[props.idx]
@@ -25,7 +26,7 @@ const TokenBenefitCard = props => {
     return (
         <Styled.Container>
             <Styled.BoldText>{benefit.title}</Styled.BoldText>
-            <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{benefit.description}</ReactMarkdown></Styled.Text>
+            <Styled.Text>{parser(benefit.description)}</Styled.Text>
             <Styled.TBInfoBox>
                 <Styled.TBInfo>
                     <Styled.Text>Token</Styled.Text>

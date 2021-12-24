@@ -4,10 +4,10 @@ import { BsEmojiSmile } from 'react-icons/bs'
 import { FiImage } from 'react-icons/fi'
 import Picker from 'emoji-picker-react'
 import { useState, useRef } from 'react'
-import { commentPost } from '../Handlers'
 import { v4 as uuidv4 } from 'uuid'
 import { useAuth } from '../../../../../../contexts/UserContext'
 import { useEffect } from 'react'
+import { useCreateComment } from '../../../../../../api/database/useCreateComment'
 
 const MakeComment = (props) => {
     const { loggedIn, userInfo } = useAuth()
@@ -17,7 +17,7 @@ const MakeComment = (props) => {
     const [chosenEmoji, setChosenEmoji] = useState(null)
     const [showEmojiBox, setEmojiBox] = useState(false)
 
-    const [user, setUser] = useState(null);
+    const { createComment, data, error, loading } = useCreateComment()
 
     const ref = useRef(null)
     const onEmojiClick = (event, emojiObject) => {
@@ -29,17 +29,30 @@ const MakeComment = (props) => {
         setCommentMessage(text)
     }
 
-    const commentPostHandler = async () => {
+    const submitComment = async () => {
         props.commentDone()
-        const { v4: uuidv4 } = require('uuid')
-        const newID = uuidv4()
-        const commentContent = {
-            uniqueId: newID,
-            text: commentMessage,
-            userID: userInfo.uid,
-            createdAt: new Date(),
+
+        const data = {
+            id: uuidv4(),
+            postID: props.postID,
+            userID: userInfo.id,
+            content: commentMessage,
+            upvotes: [],
+            downvotes: [],
+            createdAt: new Date().toISOString(),
         }
-        await commentPost(commentContent, props.postID)
+
+        try {
+            await createComment({ variables: {
+                input: data
+            }})
+
+            console.log("Deu")
+
+            setCommentMessage('')
+        } catch (err) {
+            console.log(`Post failed: ${err}`)
+        }
     }
 
     return loggedIn ? (
@@ -81,7 +94,7 @@ const MakeComment = (props) => {
                         <FiImage />
                     </Styled.ActivityTextContainer> */}
                 </Styled.ActivityContainer>
-                <Styled.PostButton onClick={commentPostHandler}>
+                <Styled.PostButton onClick={submitComment}>
                     POST
                 </Styled.PostButton>
             </Styled.ActivityBox>
