@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import Modal from '../index'
 import * as ModalStyled from '../style'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import { useAuth } from '../../../contexts/UserContext'
+import { Redirect, useHistory } from 'react-router'
 
 const ProfileEditModal = (props) => {
     const [name, setName] = useState(props.name)
@@ -10,6 +12,25 @@ const ProfileEditModal = (props) => {
     const [socials, setSocials] = useState(props.socials)
     const [membership, setMembers] = useState(props.membership)
     const [pfp, setPfp] = useState(props.pfpURL)
+    const history = useHistory()
+    const show = props.show
+    //update
+    const { loggedIn, userInfo, updateUserInfo } = useAuth()
+
+    const onSave = async (props) => {
+        try {
+            //const pfpURL = await uploadPfp()
+            await updateUserInfo({
+                name,
+                bio,
+                socials,
+            })
+        } catch (err) {
+            alert('An error occurred. Please try again later!')
+            console.log(err)
+        }
+        props.toggle(!props.show)
+    }
 
     // Handlers
     const changeSocial = (key, e) => {
@@ -30,6 +51,7 @@ const ProfileEditModal = (props) => {
         })[oldKey]
         setSocials(socialCopy)
     }
+    // new update data
 
     return (
         <Modal show={props.show} toggle={props.toggle}>
@@ -180,7 +202,7 @@ const ProfileEditModal = (props) => {
                 <ModalStyled.Button
                     id="submit_msg"
                     type="button"
-                    //onClick={submitToDB}
+                    onClick={(e) => onSave(props)}
                 >
                     Save Changes
                 </ModalStyled.Button>

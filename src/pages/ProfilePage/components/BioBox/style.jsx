@@ -9,6 +9,12 @@ export const Container = styled.div`
     padding: 20px 30px;
 `
 
+export const NameContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
 export const NameBox = styled.div`
     display: flex;
     flex-direction: row;

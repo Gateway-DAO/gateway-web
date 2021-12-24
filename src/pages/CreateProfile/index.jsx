@@ -12,16 +12,16 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import Header from '../../components/Header'
 import { useAuth } from '../../contexts/UserContext'
 
-// Storage
-import { storage } from '../../api/firebase'
-import { ref, uploadBytes, getDownloadURL } from '@firebase/storage'
-
 // Database
 import { db } from '../../api/firebase'
 import { collection, query, where, getDocs } from '@firebase/firestore'
 
 // AWS
 import { useLazySearchDAO } from "../../api/database/useSearchDAO"
+import Amplify, { Storage } from "aws-amplify"
+import awsconfig from "../../aws-exports"
+
+Amplify.configure(awsconfig)
 
 const CreateProfile = () => {
     const { loggedIn, userInfo, updateUserInfo } = useAuth()
@@ -33,7 +33,7 @@ const CreateProfile = () => {
     const [bio, setBio] = useState('')
     const [picture, setPicture] = useState(null)
     const [imgData, setImgData] = useState(null)
-    const [socials, setSocials] = useState({})
+    const [socials, setSocials] = useState([])
     const [membership, setMembership] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
     const [searchRes, setSearchRes] = useState([])
@@ -43,7 +43,6 @@ const CreateProfile = () => {
 
     const onChangePicture = (e) => {
         if (e.target.files[0]) {
-            console.log('picture: ', e.target.files)
             setPicture(e.target.files[0])
             const reader = new FileReader()
             reader.addEventListener('load', () => {
@@ -54,33 +53,33 @@ const CreateProfile = () => {
     }
 
     // Handlers
-    const changeSocial = (key, e) => {
+    const changeSocial = (idx, e) => {
         e.preventDefault()
-        setSocials({ ...socials, [key]: e.target.value })
+        let copy = [...socials]
+        copy[idx].url = e.target.value
+        setSocials(copy)
     }
 
-    const deleteSocial = (key) => {
-        const socialCopy = Object.assign({}, socials)
-        delete socialCopy[key]
-        setSocials(socialCopy)
-    }
+    const deleteSocial = (idx) => setSocials(socials.filter((social, i) => i !== idx))
 
-    const changeSocialName = (oldKey, newKey) => {
-        const socialCopy = {}
-        delete Object.assign(socialCopy, socials, {
-            [newKey]: socials[oldKey],
-        })[oldKey]
-        setSocials(socialCopy)
+    const changeSocialName = (idx, newName) => {
+        let copy = socials.map((social, i) => {
+            if (i === idx) {
+                return {
+                    ...social,
+                    network: newName
+                }
+            }
+
+            return social
+        })
+        setSocials(copy)
     }
 
     const uploadPfp = async () => {
         const file = picture
-        const pfpRef = ref(
-            storage,
-            `/images/${userInfo.uid}/profile.${file.name.split('.').pop()}`
-        )
-        await uploadBytes(pfpRef, file)
-        return await getDownloadURL(pfpRef)
+        const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
+        return await Storage.get(key)
     }
 
     const onSave = async () => {
@@ -95,8 +94,7 @@ const CreateProfile = () => {
                     daos: membership.map((dao) => dao.id),
                     pfp: pfpURL,
                     init: true,
-                },
-                () => history.push('/profile')
+                }
             )
         } catch (err) {
             alert('An error occurred. Please try again later!')
@@ -185,6 +183,7 @@ const CreateProfile = () => {
                     setSearchRes(results)
                     console.log(results)
                 })
+                .catch(console.log)
         }, 2000)
 
         return () => clearTimeout(clear)
@@ -242,96 +241,82 @@ const CreateProfile = () => {
 
                     <Styled.Fieldset>
                         <Styled.Label for="socials">Socials</Styled.Label>
-                        {Object.keys(socials).map((key, idx) => {
+                        {socials.map((social, idx) => {
                             return (
                                 <Styled.InputWrapper>
                                     <Styled.Select
                                         style={{ marginRight: '10px' }}
                                         onChange={(e) =>
                                             changeSocialName(
-                                                key,
+                                                idx,
                                                 e.target.value
                                             )
                                         }
                                     >
                                         <option
                                             value="twitter"
-                                            selected={key === 'twitter'}
-                                            disabled={Object.keys(
-                                                socials
-                                            ).includes('twitter')}
+                                            selected={social.network === 'twitter'}
+                                            disabled={socials.map(social => social.network).includes('twitter')}
                                         >
                                             Twitter
                                         </option>
                                         <option
                                             value="telegram"
-                                            selected={key === 'telegram'}
-                                            disabled={Object.keys(
-                                                socials
-                                            ).includes('telegram')}
+                                            selected={social.network === 'telegram'}
+                                            disabled={socials.map(social => social.network).includes('telegram')}
                                         >
                                             Telegram
                                         </option>
                                         <option
                                             value="medium"
-                                            selected={key === 'medium'}
-                                            disabled={Object.keys(
-                                                socials
-                                            ).includes('medium')}
+                                            selected={social.network === 'medium'}
+                                            disabled={socials.map(social => social.network).includes('medium')}
                                         >
                                             Medium
                                         </option>
                                         <option
                                             value="github"
-                                            selected={key === 'github'}
-                                            disabled={Object.keys(
-                                                socials
-                                            ).includes('github')}
+                                            selected={social.network === 'github'}
+                                            disabled={socials.map(social => social.network).includes('github')}
                                         >
                                             Github
                                         </option>
                                         <option
                                             value="discord"
-                                            selected={key === 'discord'}
-                                            disabled={Object.keys(
-                                                socials
-                                            ).includes('discord')}
+                                            selected={social.network === 'discord'}
+                                            disabled={socials.map(social => social.network).includes('discord')}
                                         >
                                             Discord
                                         </option>
                                         <option
                                             value="website"
-                                            selected={key === 'website'}
-                                            disabled={Object.keys(
-                                                socials
-                                            ).includes('website')}
+                                            selected={social.network === 'website'}
+                                            disabled={socials.map(social => social.network).includes('website')}
                                         >
                                             Website
                                         </option>
                                         <option
                                             value="chat"
-                                            selected={key === 'chat'}
-                                            disabled={Object.keys(
-                                                socials
-                                            ).includes('chat')}
+                                            selected={social.network === 'chat'}
+                                            disabled={socials.map(social => social.network).includes('chat')}
                                         >
                                             Chat
                                         </option>
                                         <option
                                             value="other"
-                                            selected={key.startsWith('any')}
+                                            selected={social.network.startsWith('any')}
                                         >
                                             Other
                                         </option>
                                     </Styled.Select>
                                     <Styled.Input
-                                        id={`social-${key}`}
+                                        id={`social-${social.network}`}
                                         type="text"
-                                        onChange={(e) => changeSocial(key, e)}
-                                        value={socials[key]}
+                                        onChange={(e) => changeSocial(idx, e)}
+                                        value={social.url}
                                     />
                                     <Styled.IconButton
-                                        onClick={() => deleteSocial(key)}
+                                        onClick={() => deleteSocial(idx)}
                                         style={{ marginLeft: '10px' }}
                                     >
                                         <FaTrashAlt />

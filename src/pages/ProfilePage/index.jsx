@@ -17,6 +17,10 @@ import BadgeBox from './components/BadgeBox'
 import { useLazyQuery, gql } from '@apollo/client'
 import { getUserByUsername as USER_QUERY } from '../../graphql/queries'
 
+//update
+
+
+
 const ProfilePage = () => {
     const { searchTerm } = useParams()
     const history = useHistory()
