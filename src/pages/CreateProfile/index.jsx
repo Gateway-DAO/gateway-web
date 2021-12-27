@@ -78,7 +78,8 @@ const CreateProfile = () => {
 
     const uploadPfp = async () => {
         const file = picture
-        const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
+        // const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
+        const { key } = await Storage.put(`profile.${file.name.split('.').pop()}`, file, { level: "protected" })
         return await Storage.get(key)
     }
 
@@ -326,10 +327,13 @@ const CreateProfile = () => {
                         })}
                         <Styled.IconButton
                             onClick={() =>
-                                setSocials({
+                                setSocials([
                                     ...socials,
-                                    [`any-${Object.keys(socials).length}`]: '',
-                                })
+                                    {
+                                        network: `any-${socials.length}`,
+                                        url: ""
+                                    },
+                                ])
                             }
                             style={{
                                 width: 'fit-content',

@@ -52,7 +52,7 @@ const CardScrollWrapper = (props) => {
             {props.cards.map((card) => {
                 return (
                     <Card
-                        id={card.id}
+                        id={card.dao}
                         title={card.name}
                         description={card.description}
                         logoURL={card.logoURL}

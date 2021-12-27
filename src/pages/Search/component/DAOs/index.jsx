@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 const DAOTab = () => {
     const { query } = useParams()
     const [hits, setHits] = useState([])
+
     const {
         listDAOs,
         data: listData,

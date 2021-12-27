@@ -4,30 +4,24 @@ import TitleSection from '../../components/AboutDaoComponents/TitleSection'
 import Footer from '../../components/Footer'
 import CardScrollWrapper from '../../components/AboutDaoComponents/CardScrollWrapper'
 import texts from '../../components/AboutDaoComponents/texts'
-import { allDocs } from '../../api/db'
 import whiteboard from '../../assets/about-dao-whiteboard.png'
 import * as Styled from './style'
+import { useLazyListDAOs } from '../../api/database/useGetDAO'
 
 const AboutDAOS = (props) => {
     const [cards, setCards] = useState([])
+    const { listDAOs, data, error, loading } = useLazyListDAOs()
 
     const fetchAllCards = async () => {
-        let allCards = await allDocs
-        let { docs } = allCards
-        let newCards = docs.map(async (doc) => {
-            const data = doc.data()
-            const id = doc.id
-            return { id, ...data }
-        })
-
-        const resolved = await Promise.all(newCards)
-        setCards(resolved)
+        const daos = await listDAOs()
+        setCards(daos.data.listDAOs.items)
     }
     useEffect(() => {
         fetchAllCards()
     }, [])
 
     const typeOfDao = (type) => {
+        console.log(`Type: ${type}`)
         const socialDao = cards.filter((item, idx) => idx < 4).filter((card) => card.categories.includes(type))
         return socialDao
     }
