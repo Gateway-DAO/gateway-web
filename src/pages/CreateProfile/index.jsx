@@ -20,6 +20,7 @@ import { collection, query, where, getDocs } from '@firebase/firestore'
 import { useLazySearchDAO } from "../../api/database/useSearchDAO"
 import Amplify, { Storage } from "aws-amplify"
 import awsconfig from "../../aws-exports"
+import { useFileUpload } from "../../api/database/useFileUpload"
 
 Amplify.configure(awsconfig)
 
@@ -40,6 +41,9 @@ const CreateProfile = () => {
 
     // Search DAO
     const { searchDAO, data, error, loading } = useLazySearchDAO()
+
+    // Upload file hook
+    const { uploadFile, imgLoading } = useFileUpload()
 
     const onChangePicture = (e) => {
         if (e.target.files[0]) {
@@ -79,8 +83,7 @@ const CreateProfile = () => {
     const uploadPfp = async () => {
         const file = picture
         // const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
-        const { key } = await Storage.put(`profile.${file.name.split('.').pop()}`, file, { level: "protected" })
-        return await Storage.get(key)
+        return await uploadFile(`users/${userInfo.id}/profile.${file.name.split('.').pop()}`, file)
     }
 
     const onSave = async () => {

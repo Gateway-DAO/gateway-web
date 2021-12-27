@@ -11,15 +11,10 @@ import Footer from '../../components/Footer'
 // Sub-components
 import BioBox from './components/BioBox'
 import ProfileBox from './components/ProfileBox'
-import BadgeBox from './components/BadgeBox'
 
 // Database
 import { useLazyQuery, gql } from '@apollo/client'
 import { getUserByUsername as USER_QUERY } from '../../graphql/queries'
-
-//update
-
-
 
 const ProfilePage = () => {
     const { searchTerm } = useParams()
@@ -32,6 +27,7 @@ const ProfilePage = () => {
         socials: [],
         daos: [],
     })
+
     const [getUserByUsername, { data, loading: userLoading, error }] =
         useLazyQuery(gql(USER_QUERY))
 
@@ -110,6 +106,7 @@ const ProfilePage = () => {
                 }
             }
         }
+
         getUser()
     }, [searchTerm, authUser, loading])
 

@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { Storage } from 'aws-amplify'
+import Amplify, { Storage } from 'aws-amplify'
+import awsconfig from '../../aws-exports'
+
+Amplify.configure(awsconfig)
 
 export const useFileUpload = () => {
     const [imgLoading, setImgLoading] = useState(false)
@@ -8,7 +11,7 @@ export const useFileUpload = () => {
         setImgLoading(true)
         await Storage.put(fileName, file, config)
         const url = await Storage.get(fileName, {
-            level: config.level,
+            level: config.level || "public",
         })
         setImgLoading(false)
         console.log(url)
