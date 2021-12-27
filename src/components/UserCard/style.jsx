@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const UserCardBox = styled.div`
-    width: 20vw;
+    width: 22vw;
     height: 400px;
     //border: 1px solid white;
     border-radius: 20px;
