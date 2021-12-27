@@ -25,7 +25,7 @@ const Search = (props) => {
             case 'DAOs':
                 return <DAOTab />
             case 'Users':
-                return <UserTab />
+                return <UserTab query={query} />
             default:
                 return <DAOTab />
         }
