@@ -38,6 +38,7 @@ const Search = (props) => {
                 <Styled.SearchTerm>{query}</Styled.SearchTerm>
                 <Styled.DAOAndUserSelectionContainer>
                     <Styled.SelectContainer
+                        active={'DAOs' === selectionTab}
                         onClick={(e) => setSelectionTab('DAOs')}
                     >
                         <Styled.SelectContainerText>
@@ -45,6 +46,7 @@ const Search = (props) => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                     <Styled.SelectContainer
+                        active={'Users' === selectionTab}
                         onClick={(e) => setSelectionTab('Users')}
                     >
                         <Styled.SelectContainerText>
