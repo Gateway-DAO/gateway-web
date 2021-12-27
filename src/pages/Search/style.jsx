@@ -121,7 +121,8 @@ export const DAOAndUserSelectionContainer = styled.div`
 export const SelectContainer = styled.div`
     width: 90px;
     height: 40px;
-    border: 1px solid rgba(229, 229, 229, 0.5);
+    border: ${(props) =>
+        props.active ? `none` : `1px solid rgba(229, 229, 229, 0.5)`};
     box-sizing: border-box;
     border-radius: 20px;
     color: #ffffff;
@@ -130,6 +131,8 @@ export const SelectContainer = styled.div`
     justify-content: center;
     margin: 0 2px;
     cursor: pointer;
+    background: ${(props) =>
+        props.active ? 'rgba(229, 229, 229, 0.2)' : 'inherit'}; ;
 `
 
 export const SelectContainerText = styled.div`

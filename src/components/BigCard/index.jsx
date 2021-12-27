@@ -22,13 +22,14 @@ import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
 // Profile tab options
 import Profile from './components/Profiles'
 import Feed from './components/Feed'
-
+//components
+import Plugins from './components/Plugins'
+import Members from './components/Members'
 
 // Web3
 import { ethers } from 'ethers'
 import ERC20_ABI from '../../utils/abis/ERC20.json'
 import Gates from './components/Gates'
-import Plugins from './components/Plugins'
 
 // chain Image
 import avalanche from '../../assets/avalanche-avax-logo.png'
@@ -93,10 +94,7 @@ const NewCard = (props) => {
             case 'discord':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink
-                            href={social.url}
-                            target="_blank"
-                        >
+                        <Styled.SocialLink href={social.url} target="_blank">
                             <FaDiscord />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -104,10 +102,7 @@ const NewCard = (props) => {
             case 'twitter':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink
-                            href={social.url}
-                            target="_blank"
-                        >
+                        <Styled.SocialLink href={social.url} target="_blank">
                             <FaTwitter />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -115,10 +110,7 @@ const NewCard = (props) => {
             case 'website':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink
-                            href={social.url}
-                            target="_blank"
-                        >
+                        <Styled.SocialLink href={social.url} target="_blank">
                             <FiGlobe />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -126,10 +118,7 @@ const NewCard = (props) => {
             case 'medium':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink
-                            href={social.url}
-                            target="_blank"
-                        >
+                        <Styled.SocialLink href={social.url} target="_blank">
                             <FaMedium />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -137,10 +126,7 @@ const NewCard = (props) => {
             case 'github':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink
-                            href={social.url}
-                            target="_blank"
-                        >
+                        <Styled.SocialLink href={social.url} target="_blank">
                             <FaGithub />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -148,10 +134,7 @@ const NewCard = (props) => {
             case 'telegram':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink
-                            href={social.url}
-                            target="_blank"
-                        >
+                        <Styled.SocialLink href={social.url} target="_blank">
                             <FaTelegram />
                         </Styled.SocialLink>
                     </Styled.Social>
@@ -302,6 +285,8 @@ const NewCard = (props) => {
                 return <Profile {...props} />
             case 'feed':
                 return <Feed {...props} />
+            case 'members':
+                return <Members />
             case 'gates':
                 return <Gates />
             case 'Plugins':
@@ -402,6 +387,13 @@ const NewCard = (props) => {
                             onClick={() => setActiveTab('gates')}
                         >
                             Gates
+                        </Styled.SelectedTab>
+
+                        <Styled.SelectedTab
+                            showActive={activeTab === 'members'}
+                            onClick={() => setActiveTab('members')}
+                        >
+                            Members
                         </Styled.SelectedTab>
 
                         <Styled.SelectedTab
