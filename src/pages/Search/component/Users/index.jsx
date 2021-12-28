@@ -35,6 +35,7 @@ const UserTab = (props) => {
                     name={item.name}
                     username={item.username}
                     pfp={item.pfp}
+                    daos={item.daos}
                 />
             ))}
         </Styled.UserCardBox>

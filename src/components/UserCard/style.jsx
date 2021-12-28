@@ -8,7 +8,7 @@ export const UserCardBox = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: end;
-    background-image: url(${props => props.url});
+    background-image: url(${(props) => props.url});
     z-index: 5;
 `
 
@@ -16,8 +16,6 @@ export const UserInfo = styled.div`
     display: flex;
     flex-direction: column;
     margin-left: 36px;
-
-    margin-bottom: 30px;
 `
 
 export const Name = styled.div`
@@ -40,6 +38,13 @@ export const UserName = styled.p`
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: lowercase;
-
     color: #e400ff;
+`
+
+export const DaosProfileContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-left: 36px;
+    margin-top: 17px;
+    margin-bottom: 24px;
 `
