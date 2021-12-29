@@ -37,6 +37,7 @@ type DAO
     name: String!
     faq: [FAQ]
     accomplishments: String
+    snapshotID: String
     backgroundURL: AWSURL!
     youtubeURL: AWSURL
     logoURL: AWSURL!

@@ -211,9 +211,11 @@ export const runUserPFPMigration = async () => {
                 }
             }
 
+            let pfp = pfpKey ? (await Storage.get(pfpKey)).split('?')[0].toString() : ""
+
             const mutation = {
                 id: AWSUser.id,
-                pfp: pfpKey ? await Storage.get(pfpKey) : "",
+                pfp,
             }
 
             const moveUser = updateUser(mutation)

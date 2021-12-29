@@ -12,7 +12,7 @@ const texts = {
         {
             title: 'Organization',
             subtext:
-                'Constituents can join a DAO and choose to contribute in the manner they find most compelling. There may be guidelines, but by and large, stakeholders choose their own labor and self-organize. DAO “workers” join in where and when they believe they canadd value and wish to do so.',
+                'Constituents can join a DAO and choose to contribute in the manner they find most compelling. There may be guidelines, but by and large, stakeholders choose their own labor and self-organize. DAO “workers” join in where and when they believe they can add value and wish to do so.',
         },
         {
             title: 'DAO Landscape',

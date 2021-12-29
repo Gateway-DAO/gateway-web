@@ -1,33 +1,35 @@
-import React,{useState,useEffect,useRef} from "react";
-import { useHistory } from "react-router";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import * as Styled from "./style";
+import React, { useState, useEffect, useRef } from 'react'
+import { useHistory } from 'react-router'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
+import * as Styled from './style'
 import space from '../../utils/canvas'
-import RichEditor  from "../../components/RichTextEditor";
-import {FaTrashAlt,FaPlus} from 'react-icons/fa'
-import { Redirect } from "react-router-dom";
+import RichEditor from '../../components/RichTextEditor'
+import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import { Redirect } from 'react-router-dom'
 import useCreateDAO from '../../api/database/useCreateDAO'
+import useFileUpload from '../../api/database/useFileUpload'
 import { v4 as uuidv4 } from 'uuid'
+import { useAuth } from '../../contexts/UserContext'
 
-const AddCommunity = ()=>{
-    const [name, setName] = useState("")
-    const [backgroundURL, setBackgroundURL] = useState("")
-    const [youtubeURL, setyoutubeURL] = useState("")
-    const [logoURL, setLogoURL] = useState("")
-    const [tokenAddress, setTokenAddress] = useState("")
-    const [whitelistedAddresses, setWhitelistedAddresses] = useState("") 
-    const [description, setDescription] = useState("")
+const AddCommunity = () => {
+    const { userInfo, loggedIn } = useAuth()
+    const { uploadFile } = useFileUpload()
+
+    const [name, setName] = useState('')
+    const [tokenAddress, setTokenAddress] = useState('')
+    const [whitelistedAddresses, setWhitelistedAddresses] = useState([loggedIn ? userInfo.wallet : ''])
+    const [description, setDescription] = useState('')
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
-    const [backGroundImage,setbackGroundImage]= useState("")
-    const [files,setFile]= useState("")
-    const [over,setover] = useState(false)
-    const [bghover,setbghover] =useState(false)
-    const $input =useRef(null)
-    const $bgImage =useRef(null)
-    const [SpaceId,setSpaceId] = useState("")
+    const [bgFile, setBGFile] = useState()
+    const [logoFile, setLogoFile] = useState()
+    const [over, setover] = useState(false)
+    const [bghover, setbghover] = useState(false)
+    const $input = useRef(null)
+    const $bgImage = useRef(null)
+    const [spaceId, setSpaceId] = useState('')
     const { createDAO, data, error, loading } = useCreateDAO()
 
     useEffect(
@@ -46,44 +48,53 @@ const AddCommunity = ()=>{
         }
     }
 
-    const toggleCheckboxChain = (e)=>{
-        const value = e.target.value;
-        if(chains.includes(value)&& !e.target.checked){
+    const toggleCheckboxChain = (e) => {
+        const value = e.target.value
+        if (chains.includes(value) && !e.target.checked) {
             setChains(chains.filter((cat) => cat !== value))
         } else if (e.target.checked) {
             setChains([...chains, value])
         }
     }
-    
-    const changeSocial = (key, e) => {
+
+    // Handlers
+    const changeSocial = (idx, e) => {
         e.preventDefault()
-        setSocials({ ...socials, [key]: e.target.value })
+        let copy = [...socials]
+        copy[idx].url = e.target.value
+        setSocials(copy)
     }
 
-    const deleteSocial = (key) => {
-        const socialCopy = Object.assign({}, socials)
-        delete socialCopy[key]
-        setSocials(socialCopy)
+    const deleteSocial = (idx) => setSocials(socials.filter((social, i) => i !== idx))
+
+    const changeSocialName = (idx, newName) => {
+        let copy = socials.map((social, i) => {
+            if (i === idx) {
+                return {
+                    ...social,
+                    network: newName
+                }
+            }
+
+            return social
+        })
+        setSocials(copy)
     }
 
-    const changeSocialName = (oldKey, newKey) => {
-        const socialCopy = {}
-        delete Object.assign(socialCopy, socials, {
-            [newKey]: socials[oldKey],
-        })[oldKey]
-        setSocials(socialCopy)
-    }
-
-    const history = useHistory();
+    const history = useHistory()
     const submitToDB = async () => {
-        // const Community  = doc(db, 'daos', name)
+        // DAO ID
+        const id = uuidv4()
+
+        // Upload files to S3
+        const logoURL = await uploadFile(`daos/${id}/logo.${logoFile.name.split('.').pop()}`, logoFile)
+        const backgroundURL = await uploadFile(`daos/${id}/logo.${bgFile.name.split('.').pop()}`, bgFile)
 
         const newInfo = {
-            id: uuidv4(),
+            id,
             dao: name.toLowerCase().replace(/\s/g, ''),
             name,
             backgroundURL,
-            youtubeURL,
             logoURL,
             tokenAddress,
             description,
@@ -91,16 +102,19 @@ const AddCommunity = ()=>{
             chains,
             socials,
             whitelistedAddresses,
+            snapshotID: spaceId,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         }
 
-        await createDAO({ variables: {
-            input: newInfo
-        }});
+        await createDAO({
+            variables: {
+                input: newInfo,
+            },
+        })
 
         if (data) {
-            history.push(`/new-community/${name}`);
+            history.push(`/new-community/${name}`)
         }
     }
 
@@ -108,23 +122,26 @@ const AddCommunity = ()=>{
         console.log(error)
         return <Redirect to="/404" />
     }
-   
-    const removeBackgroundImage=()=>{
-        setbackGroundImage("");
+
+    const removeBackgroundImage = () => setBGFile(null)
+
+    const removeLogoFile = () => setLogoFile('')
+
+    const changeWhitelistedAddress = (e, idx) => {
+        e.preventDefault()
+        let newList = [...whitelistedAddresses]
+        newList[idx] = e.target.value
+        setWhitelistedAddresses(newList)
     }
-    const removeFiles=()=>{
-        setFile("");
-    }
-    return(
+
+    return (
         <Styled.Page>
             <Header />
             <Styled.Container>
                 <Styled.SpaceBox id="space-canvas" />
-                <Styled.Heading>
-                    Add your Community
-                </Styled.Heading>
+                <Styled.Heading>Add your Community</Styled.Heading>
                 <Styled.Fieldset>
-                <Styled.Label for="name">Name</Styled.Label>
+                    <Styled.Label for="name">Name</Styled.Label>
                     <Styled.Input
                         onChange={(e) => setName(e.target.value)}
                         type="text"
@@ -135,9 +152,7 @@ const AddCommunity = ()=>{
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
-                    <Styled.Label for="logo">
-                        Logo 
-                    </Styled.Label>
+                    <Styled.Label for="logo">Logo</Styled.Label>
                     {/* <Styled.Input
                         onChange={(e) => setLogoURL(e.target.value)}
                         type="text"
@@ -146,56 +161,59 @@ const AddCommunity = ()=>{
                         placeholder="Your Community  logo URL"
                         value={logoURL}
                     /> */}
-                    
-                    {!files?<Styled.drag_area hover={over} for = "uploadFile"
-                          onClick={()=> {$input.current.click()}}
-                          onDrop={(e) => {
-                            e.preventDefault();
-                            e.persist();
-                            setFile(URL.createObjectURL(e.dataTransfer.files[0]));
-                            setover(false);
-                          }}
-                          onDragOver={(e) => {
-                            e.preventDefault();
-                            setover(true);
-                          }}
-                          onDragLeave={(e) => {
-                            e.preventDefault();
-                            setover(false);
-                          }}
-                                         >
-                        
-                            
+
+                    {!logoFile ? (
+                        <Styled.DragArea
+                            hover={over}
+                            for="uploadFile"
+                            onClick={() => {
+                                $input.current.click()
+                            }}
+                            onDrop={(e) => {
+                                e.preventDefault()
+                                e.persist()
+                                setLogoFile(e.dataTransfer.files[0])
+                                setover(false)
+                            }}
+                            onDragOver={(e) => {
+                                e.preventDefault()
+                                setover(true)
+                            }}
+                            onDragLeave={(e) => {
+                                e.preventDefault()
+                                setover(false)
+                            }}
+                        >
                             <Styled.header hover={over} className="header">
-                            <Styled.span> Upload </Styled.span>or Drag your image here
+                                <Styled.span> Upload </Styled.span>or Drag your
+                                image here
                             </Styled.header>
-                            
+
                             {/* <Styled.button className="button">
                                 Browse File 
                             </Styled.button> */}
-                            <input type="file"  hidden ref={$input} onChange={e=> {setFile(URL.createObjectURL(e.target.files[0]))}}>
-                            </input>
+                            <input
+                                type="file"
+                                hidden
+                                ref={$input}
+                                onChange={(e) => setLogoFile(e.target.files[0])}
+                            ></input>
+                        </Styled.DragArea>
+                    ) : (
+                        <Styled.Background image={URL.createObjectURL(logoFile)}>
+                            <Styled.Cross onClick={removeLogoFile}>
+                                {/* <ImCross /> */}+
+                            </Styled.Cross>
 
-                         </Styled.drag_area> : 
-                         
-                          <Styled.Background image={files}> 
-                             <Styled.Cross onClick={removeFiles}>
-                          {/* <ImCross /> */}
-                          +
-                      </Styled.Cross>
-
-                          {/* <Styled.Image src={files} >
+                            {/* <Styled.Image src={files} >
                          
                           </Styled.Image>   */}
-                           
-                          </Styled.Background>}
-
+                        </Styled.Background>
+                    )}
                 </Styled.Fieldset>
 
                 <Styled.Fieldset>
-                    <Styled.Label for="backgroundURL">
-                        Background 
-                    </Styled.Label>
+                    <Styled.Label for="backgroundURL">Background</Styled.Label>
                     {/* <Styled.Input
                         onChange={(e) => setBackgroundURL(e.target.value)}
                         type="text"
@@ -204,66 +222,57 @@ const AddCommunity = ()=>{
                         placeholder="Your Community  background URL"
                         value={backgroundURL}
                     /> */}
-                  { !backGroundImage?  <Styled.drag_area hover={bghover} for = "backGroundImageUpload"
-                          onClick={()=> {$bgImage.current.click()}}
-                          onDrop={(e) => {
-                            e.preventDefault();
-                            e.persist();
-                            setbackGroundImage(URL.createObjectURL(e.dataTransfer.files[0]));
-                            setbghover(false);
-                          }}
-                          onDragOver={(e) => {
-                            e.preventDefault();
-                            setbghover(true);
-                          }}
-                          onDragLeave={(e) => {
-                            e.preventDefault();
-                            setbghover(false);
-                          }}
-                                         >
+                    {!bgFile ? (
+                        <Styled.DragArea
+                            hover={bghover}
+                            for="backGroundImageUpload"
+                            onClick={() => {
+                                $bgImage.current.click()
+                            }}
+                            onDrop={(e) => {
+                                e.preventDefault()
+                                e.persist()
+                                setBGFile(e.dataTransfer.files[0])
+                                setbghover(false)
+                            }}
+                            onDragOver={(e) => {
+                                e.preventDefault()
+                                setbghover(true)
+                            }}
+                            onDragLeave={(e) => {
+                                e.preventDefault()
+                                setbghover(false)
+                            }}
+                        >
                             <Styled.header hover={bghover} className="header">
-                            <Styled.span> Upload </Styled.span>or Drag your image here
+                                <Styled.span> Upload </Styled.span>or Drag your
+                                image here
                             </Styled.header>
-                            
+
                             {/* <Styled.button className="button">
                                 Browse File 
                             </Styled.button> */}
-                            <input type="file"  hidden ref={$bgImage} onChange={e=> {setbackGroundImage(URL.createObjectURL(e.target.files[0]))}}>
-                            </input>
-
-                         </Styled.drag_area> : 
-                         <Styled.Background image={backGroundImage}> 
-                             <Styled.Cross onClick={removeBackgroundImage}>
-                          {/* <ImCross /> */}
-                          + 
-                          </Styled.Cross>
-                          {/* <Styled.Image  src={backGroundImage} >
+                            <input
+                                type="file"
+                                hidden
+                                ref={$bgImage}
+                                onChange={(e) => setBGFile(e.target.files[0])}
+                            ></input>
+                        </Styled.DragArea>
+                    ) : (
+                        <Styled.Background image={URL.createObjectURL(bgFile)}>
+                            <Styled.Cross onClick={removeBackgroundImage}>
+                                {/* <ImCross /> */}+
+                            </Styled.Cross>
+                            {/* <Styled.Image  src={backGroundImage} >
                          
                          </Styled.Image>   */}
-                             
-                             
-                             
-                             </Styled.Background>}
-                </Styled.Fieldset>
-                        
-                <Styled.Fieldset>
-                    <Styled.Label for="backgroundURL">
-                        Youtube URL
-                    </Styled.Label>
-                    <Styled.Input
-                        onChange={(e) => setyoutubeURL(e.target.value)}
-                        type="text"
-                        id="backgroundURL"
-                        name="youtubeURL"
-                        placeholder="Your Youtube Video URL"
-                        value={youtubeURL}
-                    />
+                        </Styled.Background>
+                    )}
                 </Styled.Fieldset>
 
                 <Styled.Fieldset>
-                    <Styled.Label for="description">
-                        Description
-                    </Styled.Label>
+                    <Styled.Label for="description">Description</Styled.Label>
                     <RichEditor set={setDescription} value={description} />
                 </Styled.Fieldset>
 
@@ -338,113 +347,109 @@ const AddCommunity = ()=>{
                 </Styled.Fieldset>
 
                 <Styled.Fieldset>
-                    <Styled.Label for="socials">Socials</Styled.Label>
-                    {Object.keys(socials).map((key, idx) => {
-                        return (
-                            <Styled.InputWrapper>
-                                <Styled.Select
-                                    style={{ marginRight: '10px' }}
-                                    onChange={(e) =>
-                                        changeSocialName(key, e.target.value)
-                                    }
-                                >
-                                    <option
-                                        value="twitter"
-                                        selected={key === 'twitter'}
-                                        disabled={Object.keys(socials).includes(
-                                            'twitter'
-                                        )}
+                        <Styled.Label for="socials">Socials</Styled.Label>
+                        {socials.map((social, idx) => {
+                            return (
+                                <Styled.InputWrapper>
+                                    <Styled.Select
+                                        style={{ marginRight: '10px' }}
+                                        onChange={(e) =>
+                                            changeSocialName(
+                                                idx,
+                                                e.target.value
+                                            )
+                                        }
                                     >
-                                        Twitter
-                                    </option>
-                                    <option
-                                        value="telegram"
-                                        selected={key === 'telegram'}
-                                        disabled={Object.keys(socials).includes(
-                                            'telegram'
-                                        )}
+                                        <option
+                                            value="twitter"
+                                            selected={social.network === 'twitter'}
+                                            disabled={socials.map(social => social.network).includes('twitter')}
+                                        >
+                                            Twitter
+                                        </option>
+                                        <option
+                                            value="telegram"
+                                            selected={social.network === 'telegram'}
+                                            disabled={socials.map(social => social.network).includes('telegram')}
+                                        >
+                                            Telegram
+                                        </option>
+                                        <option
+                                            value="medium"
+                                            selected={social.network === 'medium'}
+                                            disabled={socials.map(social => social.network).includes('medium')}
+                                        >
+                                            Medium
+                                        </option>
+                                        <option
+                                            value="github"
+                                            selected={social.network === 'github'}
+                                            disabled={socials.map(social => social.network).includes('github')}
+                                        >
+                                            Github
+                                        </option>
+                                        <option
+                                            value="discord"
+                                            selected={social.network === 'discord'}
+                                            disabled={socials.map(social => social.network).includes('discord')}
+                                        >
+                                            Discord
+                                        </option>
+                                        <option
+                                            value="website"
+                                            selected={social.network === 'website'}
+                                            disabled={socials.map(social => social.network).includes('website')}
+                                        >
+                                            Website
+                                        </option>
+                                        <option
+                                            value="chat"
+                                            selected={social.network === 'chat'}
+                                            disabled={socials.map(social => social.network).includes('chat')}
+                                        >
+                                            Chat
+                                        </option>
+                                        <option
+                                            value="other"
+                                            selected={social.network.startsWith('any')}
+                                        >
+                                            Other
+                                        </option>
+                                    </Styled.Select>
+                                    <Styled.Input
+                                        id={`social-${social.network}`}
+                                        type="text"
+                                        onChange={(e) => changeSocial(idx, e)}
+                                        value={social.url}
+                                    />
+                                    <Styled.IconButton
+                                        onClick={() => deleteSocial(idx)}
+                                        style={{ marginLeft: '10px' }}
                                     >
-                                        Telegram
-                                    </option>
-                                    <option
-                                        value="medium"
-                                        selected={key === 'medium'}
-                                        disabled={Object.keys(socials).includes(
-                                            'medium'
-                                        )}
-                                    >
-                                        Medium
-                                    </option>
-                                    <option
-                                        value="github"
-                                        selected={key === 'github'}
-                                        disabled={Object.keys(socials).includes(
-                                            'github'
-                                        )}
-                                    >
-                                        Github
-                                    </option>
-                                    <option
-                                        value="discord"
-                                        selected={key === 'discord'}
-                                        disabled={Object.keys(socials).includes(
-                                            'discord'
-                                        )}
-                                    >
-                                        Discord
-                                    </option>
-                                    <option
-                                        value="website"
-                                        selected={key === 'website'}
-                                        disabled={Object.keys(socials).includes(
-                                            'website'
-                                        )}
-                                    >
-                                        Website
-                                    </option>
-                                    <option
-                                        value="chat"
-                                        selected={key === 'chat'}
-                                        disabled={Object.keys(socials).includes(
-                                            'chat'
-                                        )}
-                                    >
-                                        Chat
-                                    </option>
-                                    <option
-                                        value="other"
-                                        selected={key.startsWith('any')}
-                                    >
-                                        Other
-                                    </option>
-                                </Styled.Select>
-                                <Styled.Input
-                                    id={`social-${key}`}
-                                    type="text"
-                                    onChange={(e) => changeSocial(key, e)}
-                                    value={socials[key]}
-                                />
-                                <Styled.IconButton
-                                    onClick={() => deleteSocial(key)}
-                                    style={{ marginLeft: '10px' }}
-                                >
-                                    <FaTrashAlt />
-                                </Styled.IconButton>
-                            </Styled.InputWrapper>
-                        )
-                    })}
-                    <Styled.IconButton
-                        onClick={() =>
-                            setSocials({
-                                ...socials,
-                                [`any-${Object.keys(socials).length}`]: '',
-                            })
-                        }
-                        style={{ width: 'fit-content', alignSelf: 'center' }}
-                    >
-                        <FaPlus />
-                    </Styled.IconButton>
-                </Styled.Fieldset>
+                                        <FaTrashAlt />
+                                    </Styled.IconButton>
+                                </Styled.InputWrapper>
+                            )
+                        })}
+                        <Styled.IconButton
+                            onClick={() =>
+                                setSocials([
+                                    ...socials,
+                                    {
+                                        network: `any-${socials.length}`,
+                                        url: ""
+                                    },
+                                ])
+                            }
+                            style={{
+                                width: 'fit-content',
+                                alignSelf: 'center',
+                            }}
+                        >
+                            <FaPlus />
+                        </Styled.IconButton>
+                    </Styled.Fieldset>
+
                 <Styled.Fieldset marginBottom="30px">
                     <Styled.Label>Chain</Styled.Label>
                     <Styled.GridBox>
@@ -516,19 +521,40 @@ const AddCommunity = ()=>{
                 </Styled.Fieldset>
 
                 <Styled.Fieldset>
-                    <Styled.Label for="whitelistedAddresses">
-                    Your Metamask Wallet Address
+                    <Styled.Label for="whitelistedAddress">
+                    Whitelisted Addresses
                     </Styled.Label>
-                    <Styled.Input
-                        id="whitelistedAddresses"
-                        type="text"
-                        onChange={(e) => setWhitelistedAddresses(e.target.value)}
-                        value={whitelistedAddresses}
-                    />
+                    {whitelistedAddresses.map((address, idx) => {
+                        return (
+                            <Styled.InputWrapper>
+                                <Styled.Input
+                                    id={`social-${idx}`}
+                                    type="text"
+                                    onChange={(e) => changeWhitelistedAddress(e, idx)}
+                                    value={whitelistedAddresses[idx]}
+                                />
+                                <Styled.IconButton
+                                    onClick={() => setWhitelistedAddresses(whitelistedAddresses.filter((addr, index) => idx !== index))}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    <FaTrashAlt />
+                                </Styled.IconButton>
+                            </Styled.InputWrapper>
+                        )
+                    })}
+                    <Styled.IconButton
+                        onClick={() =>
+                            setWhitelistedAddresses([...whitelistedAddresses, ''])
+                        }
+                        style={{ width: 'fit-content', alignSelf: 'center' }}
+                    >
+                        <FaPlus />
+                    </Styled.IconButton>
                 </Styled.Fieldset>
+
                 <Styled.Fieldset>
                     <Styled.Label for="tokenAddress">
-                    Token Address
+                        Token Address
                     </Styled.Label>
                     <Styled.Input
                         id="tokenAddress"
@@ -538,14 +564,12 @@ const AddCommunity = ()=>{
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
-                    <Styled.Label for="SpaceId">
-                   Snapshot Space Id
-                    </Styled.Label>
+                    <Styled.Label for="SpaceId">Snapshot Space Id</Styled.Label>
                     <Styled.Input
                         id="SpaceId"
                         type="text"
                         onChange={(e) => setSpaceId(e.target.value)}
-                        value={SpaceId}
+                        value={spaceId}
                     />
                 </Styled.Fieldset>
                 <Styled.Button
@@ -557,8 +581,8 @@ const AddCommunity = ()=>{
                 </Styled.Button>
             </Styled.Container>
             <Footer />
-        </Styled.Page> 
-    );
+        </Styled.Page>
+    )
 }
 
 export default AddCommunity
