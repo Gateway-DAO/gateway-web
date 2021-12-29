@@ -87,7 +87,7 @@ const BioBox = (props) => {
                 toggle={toggleEditModal}
                 name={props.name}
                 bio={props.bio}
-                socials={socials}
+                socials={props.socials}
                 membership={props.daos}
                 pfpURL={props.pfpURL}
             />

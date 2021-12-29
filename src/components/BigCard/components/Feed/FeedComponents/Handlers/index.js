@@ -5,7 +5,7 @@ import { votePost, unvotePost } from "../../../../../../graphql/mutations";
 Amplify.configure(awsconfig);
 
 // Fetch all posts and sort by Votes
-export const sortPostsByVote = async (posts) => {
+export const sortPostsByVote = posts => {
     let allPosts = []
 
     posts.forEach(post => {

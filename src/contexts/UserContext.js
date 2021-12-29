@@ -7,15 +7,16 @@ import { CONNECTORS } from '../utils/web3'
 import { useWeb3React } from '@web3-react/core'
 
 // AWS/GraphQL
-import Amplify, { Auth } from 'aws-amplify'
 import awsconfig from '../aws-exports'
 import { getNonce } from '../api/database/getNonce'
 import { getUser as getUserQuery } from '../graphql/queries'
 import { useLazyQuery, gql } from '@apollo/client'
-import { Hub } from '@aws-amplify/core'
+import { Hub, Amplify } from '@aws-amplify/core'
+import { Auth } from '@aws-amplify/auth'
 import useUpdateUser from '../api/database/useUpdateUser'
 
 Amplify.configure(awsconfig)
+Auth.configure(awsconfig)
 
 export const userContext = createContext({})
 const { Provider } = userContext

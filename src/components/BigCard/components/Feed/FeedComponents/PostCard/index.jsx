@@ -12,6 +12,7 @@ import { BsArrowDownCircle, BsArrowUpCircle } from 'react-icons/bs'
 import { MdDelete } from 'react-icons/md'
 
 import { useAuth } from '../../../../../../contexts/UserContext'
+import { useDeletePost } from '../../../../../../api/database/useDeletePost'
 
 const PostCard = (props) => {
     let options = {
@@ -23,18 +24,21 @@ const PostCard = (props) => {
     }
     const { loggedIn, userInfo } = useAuth()
     
-    const [post, setPosts] = useState(props.post)
-    const [user, setUser] = useState(props.post.user)
+    const post = props.post
+    const user = props.post.user
 
     const [showCommentBox, setShowCommentBox] = useState(false)
     const id = props.post.id
 
-    const [upvote, setUpvote] = useState(props.upvotes || [])
-    const [downvote, setDownvote] = useState(props.downvotes || [])
+    const [upvote, setUpvote] = useState(props.post.upvotes || [])
+    const [downvote, setDownvote] = useState(props.post.downvotes || [])
 
     // Colors
     const [upvoteColor, setUpvoteColor] = useState(null)
     const [downvoteColor, setDownvoteColor] = useState(null)
+
+    // Hooks
+    const { deletePost, data, loading } = useDeletePost()
 
     useEffect(() => {
         /*
@@ -72,11 +76,11 @@ const PostCard = (props) => {
         setDownvote(post.downvotes)
 
         if (loggedIn) {
-            if (post.upvotes.includes(userInfo.id)) {
+            if (upvote.includes(userInfo.id)) {
                 setUpvoteColor('#45e850')
                 setDownvoteColor(null)
             }
-            if (post.downvotes.includes(userInfo.id)) {
+            if (downvote.includes(userInfo.id)) {
                 setDownvoteColor('#e84576')
                 setUpvoteColor(null)
             }
@@ -85,8 +89,9 @@ const PostCard = (props) => {
 
     const upVoteHandler = async () => {
         if (upvote.includes(userInfo.id)) {
-            const { upvotes } = await upVoteDecrease(post.id, userInfo.id)
-            console.log(upvotes)
+            const { upvotes } = await upVoteDecrease(post.id, upvote.indexOf(userInfo.id))
+            console.log(upvote)
+            console.log(upvote.indexOf(userInfo.id))
             setUpvote(upvotes)
             setUpvoteColor(null)
             setDownvoteColor(null)
@@ -100,7 +105,9 @@ const PostCard = (props) => {
 
     const downVoteHandler = async () => {
         if (downvote.includes(userInfo.id)) {
-            const { downvotes } = await downVoteDecrease(post.id, userInfo.id)
+            const { downvotes } = await downVoteDecrease(post.id, downvote.indexOf(userInfo.id))
+            console.log(downvote)
+            console.log(downvote.indexOf(userInfo.id))
             setDownvote(downvotes)
             setDownvoteColor(null)
             setUpvoteColor(null)
@@ -118,6 +125,16 @@ const PostCard = (props) => {
 
     const showCommentBoxHandler = () => {
         setShowCommentBox((prev) => !prev)
+    }
+
+    const deleteThisPost = async () => {
+        const { data } = await deletePost({
+            variables: {
+                input: {
+                    id
+                }
+            }
+        })
     }
 
     return (
@@ -140,7 +157,7 @@ const PostCard = (props) => {
                         </Styled.ProfileBioContainer>
                         <Styled.PostTime>
                             {new Date(post.createdAt).toLocaleTimeString('en-us', options)}
-                            {loggedIn && userInfo.uid === post.userID && (
+                            {loggedIn && userInfo.id === post.userID && (
                                 <MdDelete
                                     color="#db3b45"
                                     size={20}
@@ -148,6 +165,7 @@ const PostCard = (props) => {
                                         paddingLeft: '10px',
                                         cursor: 'pointer',
                                     }}
+                                    onClick={deleteThisPost}
                                 />
                             )}
                         </Styled.PostTime>

@@ -16,7 +16,7 @@ export const ChannelContainer = styled.div`
 export const FeedMessageContainer = styled.div`
     display: grid;
     grid-column: 3 / 5;
-    // grid-row: 1fr auto;
+    grid-row: 1fr auto;
 `
 
 export const H4Text = styled.h4`

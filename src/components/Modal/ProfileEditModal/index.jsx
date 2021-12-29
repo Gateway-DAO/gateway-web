@@ -7,33 +7,35 @@ import { useAuth } from '../../../contexts/UserContext'
 import { Redirect, useHistory } from 'react-router'
 import Amplify, { Storage } from 'aws-amplify'
 import awsconfig from '../../../aws-exports'
+import { useFileUpload } from '../../../api/database/useFileUpload'
 
 Amplify.configure(awsconfig)
 
 const ProfileEditModal = (props) => {
-    const [name, setName] = useState(props.name)
-    const [bio, setBio] = useState(props.bio)
-    const [socials, setSocials] = useState(props.socials)
-    const [membership, setMembers] = useState(props.membership)
-    const [pfp, setPfp] = useState(props.pfpURL)
+    const [name, setName] = useState(props.name || "")
+    const [bio, setBio] = useState(props.bio || "")
+    const [socials, setSocials] = useState(props.socials || [{network: "any-0", url: ""}])
+    const [membership, setMembers] = useState(props.membership || "")
+    const [pfp, setPfp] = useState()
+
     const history = useHistory()
     const show = props.show
     const { loggedIn, userInfo, updateUserInfo } = useAuth()
+    const { uploadFile } = useFileUpload()
 
     const uploadPfp = async () => {
         const file = pfp
         // const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
-        const { key } = await Storage.put(
-            `profile.${file.name.split('.').pop()}`,
-            file,
-            { level: 'protected' }
+        return await uploadFile(
+            `users/${userInfo.id}/profile.${file.name.split('.').pop()}`,
+            file
         )
-        return await Storage.get(key)
+        // return await Storage.get(key)
     }
 
     const onSave = async (props) => {
         try {
-            const pfpURL = await uploadPfp()
+            const pfpURL = pfp && await uploadPfp()
             await updateUserInfo({
                 name,
                 bio,
@@ -185,9 +187,7 @@ const ProfileEditModal = (props) => {
                                     </option>
                                     <option
                                         value="other"
-                                        selected={social.network.startsWith(
-                                            'any'
-                                        )}
+                                        selected={social.network.startsWith("any")}
                                     >
                                         Other
                                     </option>

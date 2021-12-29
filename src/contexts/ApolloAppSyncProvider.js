@@ -26,6 +26,16 @@ const client = new ApolloClient({
         createHttpLink({ uri: AppSyncConfig.aws_appsync_graphqlEndpoint }),
     ]),
     cache: new InMemoryCache(),
+    defaultOptions: {
+        watchQuery: {
+            fetchPolicy: 'no-cache',
+            errorPolicy: 'ignore',
+        },
+        query: {
+            fetchPolicy: 'no-cache',
+            errorPolicy: 'all',
+        },
+    },
 })
 
 const ApolloAppSyncProvider = ({ children }) => (
