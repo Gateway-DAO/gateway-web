@@ -1,21 +1,27 @@
 import styled from 'styled-components'
 
-export const UserCardBox = styled.div`
+export const BoxContainer = styled.div`
+    display: flex;
+`
+
+export const UserCardBox = styled.img`
     width: 22vw;
     height: 400px;
-    //border: 1px solid white;
     border-radius: 20px;
-    display: flex;
-    flex-direction: column;
+    position: relative;
     justify-content: end;
-    background-image: url(${(props) => props.url});
-    z-index: 5;
+    object-fit: cover;
+    overflow: hidden;
+    //box-shadow: rgba(0, 0, 0, 0.95) 0px -120px 36px -28px inset;
 `
 
 export const UserInfo = styled.div`
     display: flex;
     flex-direction: column;
     margin-left: 36px;
+    position: absolute;
+    bottom: 5px;
+    width: 15vw;
 `
 
 export const Name = styled.div`
@@ -44,7 +50,5 @@ export const UserName = styled.p`
 export const DaosProfileContainer = styled.div`
     display: flex;
     flex-direction: row;
-    margin-left: 36px;
     margin-top: 17px;
-    margin-bottom: 24px;
 `
