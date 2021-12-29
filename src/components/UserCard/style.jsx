@@ -2,17 +2,18 @@ import styled from 'styled-components'
 
 export const BoxContainer = styled.div`
     display: flex;
+    position: relative;
 `
 
 export const UserCardBox = styled.img`
     width: 22vw;
     height: 400px;
     border-radius: 20px;
-    position: relative;
     justify-content: end;
     object-fit: cover;
     overflow: hidden;
     //box-shadow: rgba(0, 0, 0, 0.95) 0px -120px 36px -28px inset;
+    cursor: pointer;
 `
 
 export const UserInfo = styled.div`
@@ -45,6 +46,7 @@ export const UserName = styled.p`
     letter-spacing: 0.05em;
     text-transform: lowercase;
     color: #e400ff;
+    cursor: pointer;
 `
 
 export const DaosProfileContainer = styled.div`

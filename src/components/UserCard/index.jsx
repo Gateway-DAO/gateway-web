@@ -1,23 +1,34 @@
 import * as Styled from './style'
-import BG_IMG from './img/LOGO.png'
 import DaosProfile from './component/DaosProfile'
-import { DaoWrapper } from '../BigCard/style'
+import { useHistory } from 'react-router-dom'
 
 const UserCard = (props) => {
+    const history = useHistory()
+
+    const navigate = (e) => {
+        history.push(`/profile/${props.username}`)
+    }
+
     let daos = props.daos
     return (
-        <div>
-            <Styled.UserCardBox src={props.pfp} />
+        <Styled.BoxContainer>
+            <Styled.UserCardBox src={props.pfp} onClick={navigate} />
             <Styled.UserInfo>
                 <Styled.Name>{props.name}</Styled.Name>
-                <Styled.UserName>{props.username}</Styled.UserName>
+                <Styled.UserName onClick={navigate}>
+                    {props.username}
+                </Styled.UserName>
                 <Styled.DaosProfileContainer>
                     {daos?.map((dao) => (
-                        <DaosProfile imgURL={dao.logoURL} />
+                        <DaosProfile
+                            key={dao.id}
+                            imgURL={dao.logoURL}
+                            dao={dao.dao}
+                        />
                     ))}
                 </Styled.DaosProfileContainer>
             </Styled.UserInfo>
-        </div>
+        </Styled.BoxContainer>
     )
 }
 

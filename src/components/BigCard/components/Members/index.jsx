@@ -29,7 +29,6 @@ const Members = (props) => {
 
     return (
         <Styled.UserCardBox>
-            {console.log(props?.daoName)}
             {hits?.map((item) => (
                 <UserCard
                     key={item.nonce}
