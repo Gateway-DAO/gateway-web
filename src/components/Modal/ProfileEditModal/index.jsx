@@ -39,7 +39,9 @@ const ProfileEditModal = (props) => {
             await updateUserInfo({
                 name,
                 bio,
-                socials,
+                socials: socials.map(social => {
+                    return {network: social.network, url: social.url}
+                }),
                 pfp: pfpURL,
             })
         } catch (err) {
