@@ -1,6 +1,23 @@
 import styled from 'styled-components'
 import { FiSearch } from 'react-icons/fi'
 
+export const Container = styled.main`
+    background-color: #170627;
+    min-height: 100vh;
+    overflow-x: hidden;
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+`
+
+export const LoaderBox = styled.div`
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
 export const SearchTermContainer = styled.div`
     margin-top: 25px;
     color: white;

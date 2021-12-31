@@ -5,7 +5,6 @@ export const BoxContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 670px;
     height: 200px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
@@ -46,7 +45,7 @@ export const ButtonText = styled.p`
     text-align: center;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    padding : 3px 7px;
+    padding : 10px 15px;
 
     color: #e5e5e5;
 `

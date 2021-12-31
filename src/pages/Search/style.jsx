@@ -3,9 +3,49 @@ import { FiSearch } from 'react-icons/fi'
 
 export const Container = styled.main`
     background-color: #170627;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
     margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+`
+
+export const LoaderBox = styled.div`
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+export const TextBox = styled(LoaderBox)`
+    flex-flow: column;
+`
+
+export const MainText = styled.h2`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 21px;
+    line-height: 80px;
+    /* identical to box height, or 381% */
+
+    letter-spacing: -0.015em;
+
+    color: #E5E5E5;
+`
+
+export const SmallText = styled.p`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    /* or 133% */
+
+    text-align: center;
+    letter-spacing: -0.015em;
+
+    color: #E5E5E5;
 `
 
 export const CardBox = styled.section`

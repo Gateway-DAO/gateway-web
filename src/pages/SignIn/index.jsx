@@ -7,12 +7,13 @@ import Header from '../../components/Header'
 
 import { useAuth } from '../../contexts/UserContext'
 import { Redirect } from 'react-router'
+import Wallet from '../../components/WalletHeader'
 
 const SignIn = () => {
-    const { signIn, loggedIn, userInfo, loggingIn } = useAuth()
+    const { loggedIn } = useAuth()
 
     useEffect(
-        () => space(window.innerHeight, window.innerWidth),
+        () => space(window.innerHeight || 0, window.innerWidth || 0),
         [window.innerHeight, window.innerWidth]
     )
 
@@ -24,12 +25,7 @@ const SignIn = () => {
             <Styled.MainBox>
                 <Styled.SpaceBox id="space-canvas" />
                 <Styled.MainText>Please, Sign In To Continue</Styled.MainText>
-                <Styled.Button>
-                    { loggingIn && <Styled.SpinningLoader /> }
-                    <Styled.ButtonText onClick={signIn}>
-                        Connect Wallet
-                    </Styled.ButtonText>
-                </Styled.Button>
+                <Wallet />
             </Styled.MainBox>
         </Styled.Container>
     )

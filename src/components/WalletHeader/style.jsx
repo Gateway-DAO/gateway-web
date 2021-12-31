@@ -2,14 +2,19 @@ import styled from 'styled-components'
 import { AiOutlineLoading } from 'react-icons/ai'
 
 export const ConnectToWallet = styled.a`
-    box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
     position: relative;
     border: double 1px transparent;
-    background-image: linear-gradient(#170627, #170627),
-        linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+
+    ${(props) =>
+        props.wrong
+            ?   `background-color: #FF003D;
+                border: 1px solid #EE787B;`
+            : `background-image: linear-gradient(#170627, #170627),
+                linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
+                background-origin: border-box;
+                background-clip: content-box, border-box;
+                box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);`}
 
     &:hover {
         cursor: pointer;

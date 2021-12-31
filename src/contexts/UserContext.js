@@ -29,7 +29,7 @@ export const UserProvider = ({ children }) => {
     /* State */
     const [loggedIn, setLoggedIn] = useState(false)
     const [loggingIn, setLoggingIn] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [loadingWallet, setLoadingWallet] = useState(false)
     const [userInfo, setUserInfo] = useState(null)
 
     const [getUser, { data: userData, loading: userLoading, called }] =
@@ -45,7 +45,14 @@ export const UserProvider = ({ children }) => {
     const history = useHistory()
 
     const activateWeb3 = async () => {
-        await web3.activate(CONNECTORS.Injected)
+        try {
+            setLoadingWallet(true)
+            await web3.activate(CONNECTORS.Injected)
+            setLoadingWallet(false)
+        }
+        catch (err) {
+            console.log(`Error connecting to wallet: ${err}`)
+        }
     }
 
     // AWS
@@ -181,6 +188,9 @@ export const UserProvider = ({ children }) => {
                 loggingIn,
                 updateUserInfo,
                 userSignOut,
+                walletConnected: web3.active,
+                activateWeb3,
+                loadingWallet
             }}
         >
             {children}

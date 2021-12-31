@@ -1,3 +1,7 @@
+// Libraries/components
+import React from 'react'
+import { Link } from 'react-router-dom'
+
 // Styling
 import * as Styled from './style'
 
@@ -13,14 +17,16 @@ import {
 } from 'react-icons/fa'
 import { BsChatTextFill } from 'react-icons/bs'
 import { FiGlobe } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
-// Modals
+
+// Components
 import ProfileEditModal from '../../../../components/Modal/ProfileEditModal'
-// hooks
+
+// Hooks
 import { useState } from 'react'
-import React from 'react'
+import { useAuth } from '../../../../contexts/UserContext'
 
 const BioBox = (props) => {
+    const { loggedIn, userInfo } = useAuth()
     const [showEditModal, setShowEditModal] = useState(false)
 
     const toggleEditModal = () => setShowEditModal(!showEditModal)
@@ -103,9 +109,11 @@ const BioBox = (props) => {
                         <Styled.Name>{props.name}</Styled.Name>
                         <Styled.Username>@{props.username}</Styled.Username>
                     </Styled.NameBox>
-                    <Styled.EditContainer>
-                        <FaPencilAlt onClick={toggleEditModal} />
-                    </Styled.EditContainer>
+                    {loggedIn && props.id === userInfo.id && (
+                        <Styled.EditContainer>
+                            <FaPencilAlt onClick={toggleEditModal} />
+                        </Styled.EditContainer>
+                    )}
                 </Styled.NameContainer>
                 <Styled.BioText>{props.bio}</Styled.BioText>
                 <Styled.Socials>

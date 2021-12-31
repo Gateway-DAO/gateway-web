@@ -1,16 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router'
-import Footer from '../../components/Footer'
-import Header from '../../components/Header'
-import * as Styled from './style'
-import space from '../../utils/canvas'
-import RichEditor from '../../components/RichTextEditor'
+// Libraries/components
+import React from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import { Redirect } from 'react-router-dom'
+
+// Styling
+import * as Styled from './style'
+
+// Components
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
+import RichEditor from '../../components/RichTextEditor'
+
+// Hooks
+import { useState, useEffect, useRef } from 'react'
+import { useHistory } from 'react-router'
+import { useAuth } from '../../contexts/UserContext'
 import useCreateDAO from '../../api/database/useCreateDAO'
 import useFileUpload from '../../api/database/useFileUpload'
+
+// Utils
+import space from '../../utils/canvas'
 import { v4 as uuidv4 } from 'uuid'
-import { useAuth } from '../../contexts/UserContext'
 
 const AddCommunity = () => {
     const { userInfo, loggedIn } = useAuth()
@@ -33,7 +43,11 @@ const AddCommunity = () => {
     const { createDAO, data, error, loading } = useCreateDAO()
 
     useEffect(
-        () => space(window.innerHeight, window.innerWidth),
+        () => {
+            if (loggedIn) {
+                space(window.innerHeight, window.innerWidth)
+            }
+        },
         [window.innerHeight, window.innerWidth]
     )
 
@@ -132,6 +146,10 @@ const AddCommunity = () => {
         let newList = [...whitelistedAddresses]
         newList[idx] = e.target.value
         setWhitelistedAddresses(newList)
+    }
+
+    if (!loggedIn) {
+        return <Redirect to="/sign-in" />
     }
 
     return (

@@ -4,6 +4,7 @@ import {
     getUser,
     getUserByAddress,
     getUserByUsername,
+    listUsers as LIST_USERS
 } from '../../graphql/queries'
 
 export const useGetUser = (id) => {
@@ -62,21 +63,21 @@ export const useGetUserByUsername = (dao) => {
     )
 }
 
-// export const useLazyListUsers = () => {
-//     const [listUsers, { loading, called, refetch, data, error }] = useLazyQuery(
-//         gql(listUsers)
-//     )
+export const useLazyListUsers = () => {
+    const [listUsers, { loading, called, refetch, data, error }] = useLazyQuery(
+        gql(LIST_USERS)
+    )
 
-//     return useMemo(
-//         () => ({
-//             listUsers,
-//             data: data?.listUsers.items,
-//             loading: loading || (!called && loading === false),
-//             refetch,
-//             error,
-//         }),
-//         [called, listUsers, loading, refetch]
-//     )
-// }
+    return useMemo(
+        () => ({
+            listUsers,
+            data,
+            loading: loading || (!called && loading === false),
+            refetch,
+            error,
+        }),
+        [called, LIST_USERS, loading, refetch]
+    )
+}
 
 export default useGetUser
