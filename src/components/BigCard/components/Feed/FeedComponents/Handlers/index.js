@@ -1,4 +1,4 @@
-import Amplify, { API, graphqlOperation, Storage, Auth } from "aws-amplify";
+import Amplify, { API, graphqlOperation } from "aws-amplify";
 import awsconfig from "../../../../../../aws-exports";
 import { votePost, unvotePost } from "../../../../../../graphql/mutations";
 
@@ -40,9 +40,9 @@ export const upVoteIncrease = async (postID, userID) => {
 }
 
 // remove user id from upvote array
-export const upVoteDecrease = async (postID, userIndex) => {
+export const upVoteDecrease = async (postID, userID) => {
     try {
-        const res = await API.graphql(graphqlOperation(unvotePost, { postID, userIndex, type: "UPVOTE" }))
+        const res = await API.graphql(graphqlOperation(unvotePost, { postID, userID, type: "UPVOTE" }))
         return res.data.unvotePost
     }
     catch (err) {
@@ -69,9 +69,9 @@ export const downVoteIncrease = async (postID, userID) => {
 }
 
 //remove user id from downvote array
-export const downVoteDecrease = async (postID, userIndex) => {
+export const downVoteDecrease = async (postID, userID) => {
     try {
-        const res = await API.graphql(graphqlOperation(unvotePost, { postID, userIndex, type: "DOWNVOTE" }))
+        const res = await API.graphql(graphqlOperation(unvotePost, { postID, userID, type: "DOWNVOTE" }))
         return res.data.unvotePost
     }
     catch (err) {

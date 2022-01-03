@@ -58,10 +58,26 @@ const votePost = async (event) => {
 }
 
 const unvotePost = async (event) => {
-    const { postID, userIndex, type } = event.arguments
+    const { postID, userID, type } = event.arguments
     const voteType = type === "UPVOTE" ? "upvotes" : "downvotes"
     const docClient = new AWS.DynamoDB.DocumentClient()
     const PostTableName = `Post-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`
+
+    const { Items: [oldPost] = [] } = await docClient
+        .query({
+            TableName: PostTableName,
+            KeyConditionExpression: 'id = :id',
+            ExpressionAttributeValues: {
+                ':id': postID,
+            },
+        })
+        .promise()
+
+    const oldPostVotes = AWS.DynamoDB.Converter.output(oldPost)[voteType]
+
+    console.log(oldPostVotes)
+
+    const userIndex = oldPostVotes.index(userID)
 
     await docClient
         .update({
@@ -70,7 +86,8 @@ const unvotePost = async (event) => {
                 "#Y": voteType
             },
             ExpressionAttributeValues: {
-                ":index": userIndex
+                ":index": userIndex,
+                ":user": userID
             },
             Key: {
                 id: postID

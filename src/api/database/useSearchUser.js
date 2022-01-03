@@ -2,19 +2,17 @@ import { useMemo } from 'react';
 import { useQuery, useLazyQuery, gql } from '@apollo/client';
 import { searchUsers as SEARCH_USERS } from '../../graphql/queries';
 
-export const useSearchUsers = (id) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(SEARCH_USERS), {
-        variables: { id },
-    });
+export const useSearchUsers = (config = {}) => {
+    const { loading, called, refetch, data, error } = useQuery(gql(SEARCH_USERS), config);
 
     return useMemo(
         () => ({
-            data: data?.searchUsers.items[0], 
+            data, 
             loading: loading || (!called && loading === false),
             refetch,
             error,
         }),
-        [called, SEARCH_USERS, loading, refetch, id]
+        [called, SEARCH_USERS, loading, refetch, config]
     );
 };
 

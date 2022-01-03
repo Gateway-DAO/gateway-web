@@ -17,15 +17,15 @@ export const votePost = /* GraphQL */ `
       dao {
         id
         dao
-        youtubeURL
-        chains
         name
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -57,6 +57,7 @@ export const votePost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -73,19 +74,20 @@ export const votePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
           description
           howToJoin
           missionAndVision
-          youtubeURL
-          chains
           whatDoWeDo
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -108,19 +110,20 @@ export const votePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
           description
           howToJoin
           missionAndVision
-          youtubeURL
-          chains
           whatDoWeDo
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -156,22 +159,22 @@ export const votePost = /* GraphQL */ `
   }
 `;
 export const unvotePost = /* GraphQL */ `
-  mutation UnvotePost($postID: ID!, $userIndex: Int!, $type: VoteType!) {
-    unvotePost(postID: $postID, userIndex: $userIndex, type: $type) {
+  mutation UnvotePost($postID: ID!, $userID: ID!, $type: VoteType!) {
+    unvotePost(postID: $postID, userID: $userID, type: $type) {
       id
       daoID
       dao {
         id
         dao
         name
-        youtubeURL
-        chains
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -203,6 +206,7 @@ export const unvotePost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -219,19 +223,20 @@ export const unvotePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
           description
           howToJoin
-          youtubeURL
-          chains
           missionAndVision
           whatDoWeDo
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -254,7 +259,9 @@ export const unvotePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -265,9 +272,8 @@ export const unvotePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
-          createdAt
-          youtubeURL
           chains
+          createdAt
           updatedAt
         }
         init
@@ -322,7 +328,9 @@ export const createUser = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -354,13 +362,12 @@ export const createUser = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
         createdAt
         updatedAt
-        youtubeURL
-        chains
       }
       init
       nonce
@@ -390,14 +397,14 @@ export const updateUser = /* GraphQL */ `
         id
         dao
         name
-        youtubeURL
-        chains
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -429,6 +436,7 @@ export const updateUser = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -463,14 +471,14 @@ export const deleteUser = /* GraphQL */ `
         id
         dao
         name
-        youtubeURL
-        chains
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -502,6 +510,7 @@ export const deleteUser = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -528,15 +537,15 @@ export const createDao = /* GraphQL */ `
     createDAO(input: $input, condition: $condition) {
       id
       dao
-      youtubeURL
-      chains
       name
       faq {
         question
         answer
       }
       accomplishments
+      snapshotID
       backgroundURL
+      youtubeURL
       logoURL
       bounties {
         headline
@@ -568,6 +577,7 @@ export const createDao = /* GraphQL */ `
         network
         url
       }
+      chains
       channels {
         items {
           id
@@ -597,7 +607,9 @@ export const updateDao = /* GraphQL */ `
         answer
       }
       accomplishments
+      snapshotID
       backgroundURL
+      youtubeURL
       logoURL
       bounties {
         headline
@@ -629,6 +641,7 @@ export const updateDao = /* GraphQL */ `
         network
         url
       }
+      chains
       channels {
         items {
           id
@@ -641,8 +654,6 @@ export const updateDao = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      youtubeURL
-      chains
     }
   }
 `;
@@ -660,7 +671,9 @@ export const deleteDao = /* GraphQL */ `
         answer
       }
       accomplishments
+      snapshotID
       backgroundURL
+      youtubeURL
       logoURL
       bounties {
         headline
@@ -692,6 +705,7 @@ export const deleteDao = /* GraphQL */ `
         network
         url
       }
+      chains
       channels {
         items {
           id
@@ -704,8 +718,6 @@ export const deleteDao = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      youtubeURL
-      chains
     }
   }
 `;
@@ -721,15 +733,15 @@ export const createChannel = /* GraphQL */ `
       dao {
         id
         dao
-        youtubeURL
-        chains
         name
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -761,6 +773,7 @@ export const createChannel = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -798,15 +811,15 @@ export const updateChannel = /* GraphQL */ `
       dao {
         id
         dao
-        youtubeURL
-        chains
         name
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -838,6 +851,7 @@ export const updateChannel = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -875,15 +889,15 @@ export const deleteChannel = /* GraphQL */ `
       dao {
         id
         dao
-        youtubeURL
-        chains
         name
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -915,6 +929,7 @@ export const deleteChannel = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -951,15 +966,15 @@ export const createPost = /* GraphQL */ `
       dao {
         id
         dao
-        youtubeURL
-        chains
         name
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -991,6 +1006,7 @@ export const createPost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -1005,11 +1021,11 @@ export const createPost = /* GraphQL */ `
         dao {
           id
           dao
-          youtubeURL
-          chains
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1020,6 +1036,7 @@ export const createPost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1040,11 +1057,11 @@ export const createPost = /* GraphQL */ `
         daos {
           id
           dao
-          youtubeURL
-          chains
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1055,6 +1072,7 @@ export const createPost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1100,15 +1118,15 @@ export const updatePost = /* GraphQL */ `
       dao {
         id
         dao
-        youtubeURL
-        chains
         name
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -1140,6 +1158,7 @@ export const updatePost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -1154,11 +1173,11 @@ export const updatePost = /* GraphQL */ `
         dao {
           id
           dao
-          youtubeURL
-          chains
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1169,6 +1188,7 @@ export const updatePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1189,11 +1209,11 @@ export const updatePost = /* GraphQL */ `
         daos {
           id
           dao
-          youtubeURL
-          chains
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1204,6 +1224,7 @@ export const updatePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1249,15 +1270,15 @@ export const deletePost = /* GraphQL */ `
       dao {
         id
         dao
-        youtubeURL
-        chains
         name
         faq {
           question
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -1289,6 +1310,7 @@ export const deletePost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -1304,10 +1326,10 @@ export const deletePost = /* GraphQL */ `
           id
           dao
           name
-          youtubeURL
-          chains
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1318,6 +1340,7 @@ export const deletePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1339,10 +1362,10 @@ export const deletePost = /* GraphQL */ `
           id
           dao
           name
-          youtubeURL
-          chains
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1353,6 +1376,7 @@ export const deletePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1406,11 +1430,11 @@ export const createComment = /* GraphQL */ `
         daos {
           id
           dao
-          youtubeURL
-          chains
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1421,6 +1445,7 @@ export const createComment = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1462,10 +1487,10 @@ export const updateComment = /* GraphQL */ `
           id
           dao
           name
-          youtubeURL
-          chains
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1476,6 +1501,7 @@ export const updateComment = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1516,11 +1542,11 @@ export const deleteComment = /* GraphQL */ `
         daos {
           id
           dao
-          youtubeURL
-          chains
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1531,6 +1557,7 @@ export const deleteComment = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }

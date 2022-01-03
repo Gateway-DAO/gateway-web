@@ -14,58 +14,58 @@ import BioBox from './components/BioBox'
 import ProfileBox from './components/ProfileBox'
 
 // Database
-import { useLazyQuery, gql } from '@apollo/client'
+import { useQuery, gql } from '@apollo/client'
 import { getUserByUsername as USER_QUERY } from '../../graphql/queries'
+
+const RAW_USER = {
+    bio: '',
+    name: '',
+    username: '',
+    socials: [],
+    daos: [],
+}
 
 const ProfilePage = () => {
     const { searchTerm } = useParams()
     const history = useHistory()
     const { userInfo: authUser, loggedIn, loading } = useAuth()
-    const [userInfo, setUserInfo] = useState({
-        bio: '',
-        name: '',
-        username: '',
-        socials: [],
-        daos: [],
-    })
+    const [userInfo, setUserInfo] = useState(RAW_USER)
 
-    const [getUserByUsername, { data, loading: userLoading, error }] =
-        useLazyQuery(gql(USER_QUERY))
+    const {
+        data,
+        loading: userLoading,
+        error,
+    } = useQuery(gql(USER_QUERY), {
+        variables: {
+            username: searchTerm,
+        },
+    })
 
     const [activeTab, setActiveTab] = useState('experience')
 
     useEffect(() => {
-        const getUser = async () => {
-            if (searchTerm) {
-                try {
-                    const user = await getUserByUsername({
-                        variables: {
-                            username: searchTerm,
-                        },
-                    })
-                    console.log(user.data.getUserByUsername.items[0])
-                    setUserInfo(user.data.getUserByUsername.items[0])
-                } catch (err) {
-                    history.push('/404')
-                }
-            } else {
-                if (loggedIn && !loading) {
-                    setUserInfo(authUser)
-                } else if (!loggedIn && !loading) {
-                    history.push('/sign-in')
-                }
+        if (searchTerm) {
+            try {
+                setUserInfo(!userLoading ? data.getUserByUsername.items[0] : RAW_USER)
+            } catch (err) {
+                history.push('/404')
+            }
+        } else {
+            if (loggedIn && !loading) {
+                setUserInfo(authUser)
+            } else if (!loggedIn && !loading) {
+                history.push('/sign-in')
             }
         }
 
-        getUser()
-    }, [searchTerm, authUser, loading])
+    }, [searchTerm, authUser, userLoading, loading])
 
     return !searchTerm && authUser && !authUser.init ? (
         <Redirect to="/create-profile" />
     ) : (
         <Styled.Container>
             <Header />
-            {(loading || userLoading) ? (
+            {loading || userLoading ? (
                 <Styled.LoaderBox>
                     <Loader color="white" size={30} />
                 </Styled.LoaderBox>

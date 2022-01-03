@@ -9,63 +9,50 @@ import Loader from '../../../../components/Loader'
 // Hooks
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
-import { useLazySearchUsers } from '../../../../api/database/useSearchUser'
-import { useLazyListUsers } from '../../../../api/database/useGetUser'
+import { useSearchUsers } from '../../../../api/database/useSearchUser'
+import { useListUsers } from '../../../../api/database/useGetUser'
 
 const UserTab = ({ query }) => {
     const [hits, setHits] = useState([])
     const [loading, setLoading] = useState(true)
 
     const {
-        listUsers,
         data: listData,
         loading: listLoading,
         error: listError,
-    } = useLazyListUsers()
+    } = useListUsers({
+        variables: {
+            filter: { init: { eq: true } },
+        },
+    })
+
     const {
-        searchUsers,
-        data,
+        data: searchData,
         loading: searchLoading,
-        error,
-    } = useLazySearchUsers()
+        error: searchError,
+    } = useSearchUsers({
+        variables: {
+            filter: {
+                or: [
+                    { daos_ids: { wildcard: `*${query}*` } },
+                    { username: { wildcard: `*${query}*` } },
+                    { bio: { wildcard: `*${query}*` } },
+                    { id: { wildcard: `*${query}*` } },
+                    { name: { wildcard: `*${query}*` } },
+                ],
+            },
+        },
+    })
 
     useEffect(() => {
-        const handler = async () => {
-            setLoading(true)
-            if (query.toLowerCase() === 'all') {
-                const users = await listUsers({
-                    variables: {
-                        filter: { init: { eq: true } },
-                    },
-                })
-
-                setHits(users.data.listUsers.items)
-                setLoading(false)
-            } else {
-                const users = await searchUsers({
-                    variables: {
-                        filter: {
-                            or: [
-                                { daos_ids: { wildcard: `*${query}*` } },
-                                { username: { wildcard: `*${query}*` } },
-                                { bio: { wildcard: `*${query}*` } },
-                                { id: { wildcard: `*${query}*` } },
-                                { name: { wildcard: `*${query}*` } },
-                            ],
-                        },
-                    },
-                })
-
-                setHits(users.data.searchUsers.items)
-                setLoading(false)
-            }
+        if (query.toLowerCase() === 'all') {
+            setHits(!listLoading ? listData.listUsers.items : [])
+        } else {
+            setHits(!searchLoading ? searchData.searchUsers.items : [])
         }
-        // }
+    }, [query, searchLoading, listLoading])
 
-        handler()
-    }, [])
-
-    if (loading) {
+    if (!!query ? searchLoading : listLoading) {
         return (
             <SearchStyled.LoaderBox>
                 <Loader color="white" size={35} />
@@ -73,7 +60,7 @@ const UserTab = ({ query }) => {
         )
     }
 
-    if (!hits.length && !loading) {
+    if (!hits.length && !searchLoading) {
         return (
             <SearchStyled.TextBox>
                 <SearchStyled.MainText>

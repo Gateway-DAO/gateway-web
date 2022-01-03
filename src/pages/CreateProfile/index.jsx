@@ -17,10 +17,11 @@ import { db } from '../../api/firebase'
 import { collection, query, where, getDocs } from '@firebase/firestore'
 
 // AWS
-import { useLazySearchDAO } from "../../api/database/useSearchDAO"
-import Amplify, { Storage } from "aws-amplify"
-import awsconfig from "../../aws-exports"
-import { useFileUpload } from "../../api/database/useFileUpload"
+import { useSearchDAO } from '../../api/database/useSearchDAO'
+import { useListDAOs } from '../../api/database/useGetDAO'
+import Amplify from 'aws-amplify'
+import awsconfig from '../../aws-exports'
+import { useFileUpload } from '../../api/database/useFileUpload'
 
 Amplify.configure(awsconfig)
 
@@ -37,10 +38,31 @@ const CreateProfile = () => {
     const [socials, setSocials] = useState([])
     const [membership, setMembership] = useState([])
     const [searchTerm, setSearchTerm] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
     const [searchRes, setSearchRes] = useState([])
 
+    const {
+        loading: listLoading,
+        data: listData,
+        error: listError,
+    } = useListDAOs()
+
     // Search DAO
-    const { searchDAO, data, error, loading } = useLazySearchDAO()
+    const {
+        loading: searchLoading,
+        data: searchData,
+        error: searchError,
+    } = useSearchDAO({
+        variables: {
+            filter: {
+                or: [
+                    { dao: { wildcard: `*${searchTerm}*` } },
+                    { name: { wildcard: `*${searchTerm}*` } },
+                    { description: { wildcard: `*${searchTerm}*` } },
+                ],
+            },
+        },
+    })
 
     // Upload file hook
     const { uploadFile, imgLoading } = useFileUpload()
@@ -64,14 +86,15 @@ const CreateProfile = () => {
         setSocials(copy)
     }
 
-    const deleteSocial = (idx) => setSocials(socials.filter((social, i) => i !== idx))
+    const deleteSocial = (idx) =>
+        setSocials(socials.filter((social, i) => i !== idx))
 
     const changeSocialName = (idx, newName) => {
         let copy = socials.map((social, i) => {
             if (i === idx) {
                 return {
                     ...social,
-                    network: newName
+                    network: newName,
                 }
             }
 
@@ -83,23 +106,24 @@ const CreateProfile = () => {
     const uploadPfp = async () => {
         const file = picture
         // const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
-        return await uploadFile(`users/${userInfo.id}/profile.${file.name.split('.').pop()}`, file)
+        return await uploadFile(
+            `users/${userInfo.id}/profile.${file.name.split('.').pop()}`,
+            file
+        )
     }
 
     const onSave = async () => {
         try {
             const pfpURL = await uploadPfp()
-            await updateUserInfo(
-                {
-                    name,
-                    username: username.toLowerCase(),
-                    bio,
-                    socials,
-                    daos: membership.map((dao) => dao.id),
-                    pfp: pfpURL,
-                    init: true,
-                }
-            )
+            await updateUserInfo({
+                name,
+                username: username.toLowerCase(),
+                bio,
+                socials,
+                daos: membership.map((dao) => dao.id),
+                pfp: pfpURL,
+                init: true,
+            })
         } catch (err) {
             alert('An error occurred. Please try again later!')
         }
@@ -136,62 +160,48 @@ const CreateProfile = () => {
                 return { balance: val.balance, tokenAddress: val.token_address }
             })
 
-            console.log(balances)
+            const tokens = balances.map((balance) => balance.tokenAddress)
+            const daos = listData.listDAOs.items.filter((dao) =>
+                tokens.includes(dao.tokenAddress)
+            )
 
-            balances.forEach(async (balance) => {
-                const daoRef = collection(db, 'daos')
-                const q = query(
-                    daoRef,
-                    where('tokenAddress', 'in', [
-                        ethers.utils.getAddress(balance.tokenAddress),
-                        balance.tokenAddress,
-                    ])
-                )
-                const dao = (await getDocs(q)).docs[0]
-                const info = dao
-                    ? {
-                          name: dao.data().name,
-                          id: dao.id,
-                          logoURL: dao.data().logoURL,
-                      }
-                    : {}
-                dao &&
-                    !membership.includes(info) &&
-                    setMembership([...membership, info])
-            })
+            if (!!daos.length) {
+                const memberOf = daos.map(dao => {
+                    return {
+                        name: dao.data().name,
+                        id: dao.id,
+                        logoURL: dao.data().logoURL,
+                    }
+                })
+
+                setMembership([...membership, memberOf.filter(dao => !membership.includes(dao))])
+            }
         }
 
-        loggedIn && !!userInfo.uid && getMemberships()
-    }, [loggedIn])
+        loggedIn && !!userInfo.wallet && getMemberships()
+    }, [loggedIn, listData])
 
     useEffect(() => {
         const clear = setTimeout(() => {
             !!searchTerm &&
-                searchDAO({ variables: {
-                    filter: {
-                        or: [
-                            { dao: { matchPhrase: searchTerm } },
-                            { name: { matchPhrase: searchTerm } },
-                            { description: { matchPhrase: searchTerm } },
-                        ]
+                searchTerm !== searchQuery &&
+                setSearchQuery(searchTerm)
+
+            if (!!searchData && !searchLoading) {
+                const query = searchData.searchDAOs.items
+                const results = query.slice(0, 5).map((dao) => {
+                    return {
+                        name: dao.name,
+                        id: dao.dao,
+                        logoURL: dao.logoURL,
                     }
-                } }).then((res) => {
-                    const query = res.data.searchDAOs.items
-                    const results = query.slice(0, 5).map((dao) => {
-                        return {
-                            name: dao.name,
-                            id: dao.dao,
-                            logoURL: dao.logoURL,
-                        }
-                    })
-                    setSearchRes(results)
-                    console.log(results)
                 })
-                .catch(console.log)
+                setSearchRes(results)
+            }
         }, 2000)
 
         return () => clearTimeout(clear)
-    }, [searchTerm])
+    }, [searchTerm, searchLoading, searchData])
 
     return userInfo && userInfo.init ? (
         <Redirect to="/profile" />
@@ -259,56 +269,84 @@ const CreateProfile = () => {
                                     >
                                         <option
                                             value="twitter"
-                                            selected={social.network === 'twitter'}
-                                            disabled={socials.map(social => social.network).includes('twitter')}
+                                            selected={
+                                                social.network === 'twitter'
+                                            }
+                                            disabled={socials
+                                                .map((social) => social.network)
+                                                .includes('twitter')}
                                         >
                                             Twitter
                                         </option>
                                         <option
                                             value="telegram"
-                                            selected={social.network === 'telegram'}
-                                            disabled={socials.map(social => social.network).includes('telegram')}
+                                            selected={
+                                                social.network === 'telegram'
+                                            }
+                                            disabled={socials
+                                                .map((social) => social.network)
+                                                .includes('telegram')}
                                         >
                                             Telegram
                                         </option>
                                         <option
                                             value="medium"
-                                            selected={social.network === 'medium'}
-                                            disabled={socials.map(social => social.network).includes('medium')}
+                                            selected={
+                                                social.network === 'medium'
+                                            }
+                                            disabled={socials
+                                                .map((social) => social.network)
+                                                .includes('medium')}
                                         >
                                             Medium
                                         </option>
                                         <option
                                             value="github"
-                                            selected={social.network === 'github'}
-                                            disabled={socials.map(social => social.network).includes('github')}
+                                            selected={
+                                                social.network === 'github'
+                                            }
+                                            disabled={socials
+                                                .map((social) => social.network)
+                                                .includes('github')}
                                         >
                                             Github
                                         </option>
                                         <option
                                             value="discord"
-                                            selected={social.network === 'discord'}
-                                            disabled={socials.map(social => social.network).includes('discord')}
+                                            selected={
+                                                social.network === 'discord'
+                                            }
+                                            disabled={socials
+                                                .map((social) => social.network)
+                                                .includes('discord')}
                                         >
                                             Discord
                                         </option>
                                         <option
                                             value="website"
-                                            selected={social.network === 'website'}
-                                            disabled={socials.map(social => social.network).includes('website')}
+                                            selected={
+                                                social.network === 'website'
+                                            }
+                                            disabled={socials
+                                                .map((social) => social.network)
+                                                .includes('website')}
                                         >
                                             Website
                                         </option>
                                         <option
                                             value="chat"
                                             selected={social.network === 'chat'}
-                                            disabled={socials.map(social => social.network).includes('chat')}
+                                            disabled={socials
+                                                .map((social) => social.network)
+                                                .includes('chat')}
                                         >
                                             Chat
                                         </option>
                                         <option
                                             value="other"
-                                            selected={social.network.startsWith('any')}
+                                            selected={social.network.startsWith(
+                                                'any'
+                                            )}
                                         >
                                             Other
                                         </option>
@@ -334,7 +372,7 @@ const CreateProfile = () => {
                                     ...socials,
                                     {
                                         network: `any-${socials.length}`,
-                                        url: ""
+                                        url: '',
                                     },
                                 ])
                             }

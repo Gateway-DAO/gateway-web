@@ -119,19 +119,13 @@ const BioBox = (props) => {
                 <Styled.Socials>
                     {socials.map((social) => social)}
                 </Styled.Socials>
-                {props.daos.length === 0 ? (
-                    <Styled.MessageBox to="/what-are-DAOs">
-                        Know about DAOs
-                    </Styled.MessageBox>
-                ) : (
-                    <Styled.MembershipBox>
-                        {props.daos.map((dao) => (
-                            <Link to={`/dao/${dao.dao}`}>
-                                <Styled.MembershipImg src={dao.logoURL} />
-                            </Link>
-                        ))}
-                    </Styled.MembershipBox>
-                )}
+                <Styled.MembershipBox>
+                    {props.daos.map((dao) => (
+                        <Link to={`/dao/${dao.dao}`}>
+                            <Styled.MembershipImg src={dao.logoURL} />
+                        </Link>
+                    ))}
+                </Styled.MembershipBox>
             </Styled.Container>
         </>
     )

@@ -33,6 +33,20 @@ export const useLazyGetDAOs = () => {
     );
 };
 
+export const useListDAOs = (config = {}) => {
+    const { loading, called, refetch, data, error } = useQuery(gql(listDaos), config);
+
+    return useMemo(
+        () => ({
+            data,
+            loading: loading || (!called && loading === false),
+            refetch,
+            error,
+        }),
+        [called, getDao, loading, refetch, config]
+    );
+}
+
 export const useLazyListDAOs = () => {
     const [listDAOs, { loading, called, refetch, data, error }] = useLazyQuery(gql(listDaos));
 

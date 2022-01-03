@@ -19,7 +19,9 @@ export const onCreateUser = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -51,6 +53,7 @@ export const onCreateUser = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -87,7 +90,9 @@ export const onUpdateUser = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -119,6 +124,7 @@ export const onUpdateUser = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -155,7 +161,9 @@ export const onDeleteUser = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -187,6 +195,7 @@ export const onDeleteUser = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -216,7 +225,9 @@ export const onCreateDao = /* GraphQL */ `
         answer
       }
       accomplishments
+      snapshotID
       backgroundURL
+      youtubeURL
       logoURL
       bounties {
         headline
@@ -248,6 +259,7 @@ export const onCreateDao = /* GraphQL */ `
         network
         url
       }
+      chains
       channels {
         items {
           id
@@ -274,7 +286,9 @@ export const onUpdateDao = /* GraphQL */ `
         answer
       }
       accomplishments
+      snapshotID
       backgroundURL
+      youtubeURL
       logoURL
       bounties {
         headline
@@ -306,6 +320,7 @@ export const onUpdateDao = /* GraphQL */ `
         network
         url
       }
+      chains
       channels {
         items {
           id
@@ -332,7 +347,9 @@ export const onDeleteDao = /* GraphQL */ `
         answer
       }
       accomplishments
+      snapshotID
       backgroundURL
+      youtubeURL
       logoURL
       bounties {
         headline
@@ -364,6 +381,7 @@ export const onDeleteDao = /* GraphQL */ `
         network
         url
       }
+      chains
       channels {
         items {
           id
@@ -394,7 +412,9 @@ export const onCreateChannel = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -426,6 +446,7 @@ export const onCreateChannel = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -466,7 +487,9 @@ export const onUpdateChannel = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -498,6 +521,7 @@ export const onUpdateChannel = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -538,7 +562,9 @@ export const onDeleteChannel = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -570,6 +596,7 @@ export const onDeleteChannel = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -609,7 +636,9 @@ export const onCreatePost = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -641,6 +670,7 @@ export const onCreatePost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -657,7 +687,9 @@ export const onCreatePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -668,6 +700,7 @@ export const onCreatePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -690,7 +723,9 @@ export const onCreatePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -701,6 +736,7 @@ export const onCreatePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -749,7 +785,9 @@ export const onUpdatePost = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -781,6 +819,7 @@ export const onUpdatePost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -797,7 +836,9 @@ export const onUpdatePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -808,6 +849,7 @@ export const onUpdatePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -830,7 +872,9 @@ export const onUpdatePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -841,6 +885,7 @@ export const onUpdatePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -889,7 +934,9 @@ export const onDeletePost = /* GraphQL */ `
           answer
         }
         accomplishments
+        snapshotID
         backgroundURL
+        youtubeURL
         logoURL
         bounties {
           headline
@@ -921,6 +968,7 @@ export const onDeletePost = /* GraphQL */ `
           network
           url
         }
+        chains
         channels {
           nextToken
         }
@@ -937,7 +985,9 @@ export const onDeletePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -948,6 +998,7 @@ export const onDeletePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -970,7 +1021,9 @@ export const onDeletePost = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -981,6 +1034,7 @@ export const onDeletePost = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1033,7 +1087,9 @@ export const onCreateComment = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1044,6 +1100,7 @@ export const onCreateComment = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1083,7 +1140,9 @@ export const onUpdateComment = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1094,6 +1153,7 @@ export const onUpdateComment = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }
@@ -1133,7 +1193,9 @@ export const onDeleteComment = /* GraphQL */ `
           dao
           name
           accomplishments
+          snapshotID
           backgroundURL
+          youtubeURL
           logoURL
           categories
           tags
@@ -1144,6 +1206,7 @@ export const onDeleteComment = /* GraphQL */ `
           upcomingHangouts
           tokenAddress
           whitelistedAddresses
+          chains
           createdAt
           updatedAt
         }

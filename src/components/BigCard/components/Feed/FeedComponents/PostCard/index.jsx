@@ -89,9 +89,7 @@ const PostCard = (props) => {
 
     const upVoteHandler = async () => {
         if (upvote.includes(userInfo.id)) {
-            const { upvotes } = await upVoteDecrease(post.id, upvote.indexOf(userInfo.id))
-            console.log(upvote)
-            console.log(upvote.indexOf(userInfo.id))
+            const { upvotes } = await upVoteDecrease(post.id, userInfo.id)
             setUpvote(upvotes)
             setUpvoteColor(null)
             setDownvoteColor(null)
@@ -105,9 +103,7 @@ const PostCard = (props) => {
 
     const downVoteHandler = async () => {
         if (downvote.includes(userInfo.id)) {
-            const { downvotes } = await downVoteDecrease(post.id, downvote.indexOf(userInfo.id))
-            console.log(downvote)
-            console.log(downvote.indexOf(userInfo.id))
+            const { downvotes } = await downVoteDecrease(post.id, userInfo.id)
             setDownvote(downvotes)
             setDownvoteColor(null)
             setUpvoteColor(null)
@@ -146,7 +142,7 @@ const PostCard = (props) => {
                             <Styled.PostImageContainer src={user.pfp} />
                             <Styled.PostByInfo>
                                 {' '}
-                                posted by
+                                Posted by
                                 <Styled.PostByName>
                                     {user.name}
                                 </Styled.PostByName>
@@ -196,7 +192,7 @@ const PostCard = (props) => {
                             >
                                 {' '}
                                 {post.comments.items.length} Comment
-                                {!!post.comments.length || 's'}
+                                {post.comments.length === 1 ? '' : 's'}
                             </span>
                         </Styled.ActivityTextContainer>
                         {/*

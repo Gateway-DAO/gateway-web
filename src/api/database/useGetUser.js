@@ -63,6 +63,24 @@ export const useGetUserByUsername = (dao) => {
     )
 }
 
+export const useListUsers = (config = {}) => {
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(LIST_USERS), config
+    )
+
+    console.log(data)
+
+    return useMemo(
+        () => ({
+            data,
+            loading: loading || (!called && loading === false),
+            refetch,
+            error,
+        }),
+        [called, LIST_USERS, loading, refetch, config]
+    )
+}
+
 export const useLazyListUsers = () => {
     const [listUsers, { loading, called, refetch, data, error }] = useLazyQuery(
         gql(LIST_USERS)

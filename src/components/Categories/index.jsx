@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
-
+// Components
 import Card from '../Card'
+import Loader from '../Loader'
 
+// Styling
 import * as Styled from './style'
-import { useHistory } from 'react-router-dom'
-import { useLazyListDAOs } from '../../api/database/useGetDAO'
-import { useLazySearchDAO } from '../../api/database/useSearchDAO'
+
+// Hooks
+import { useEffect, useRef, useState } from 'react'
+import { Redirect, useHistory } from 'react-router-dom'
+import { useListDAOs } from '../../api/database/useGetDAO'
+import { useSearchDAO } from '../../api/database/useSearchDAO'
 
 const DUMMY_CATEGORIES = ['Trending', 'DeFi', 'Investment', 'Media', 'Social']
 const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '']
@@ -23,51 +27,41 @@ const Categories = (props) => {
     const [isScrolling, setIsScrolling] = useState(false)
 
     const {
-        listDAOs,
         data: DAOData,
         loading: DAOLoading,
         error: DAOError,
-    } = useLazyListDAOs()
+    } = useListDAOs()
     const {
-        searchDAO,
         data: searchData,
         loading: searchLoading,
+        called: searchCalled,
         error: searchError,
-    } = useLazySearchDAO()
-
-    const fetchCards = async () => {
-        // If Trending or All, implement a different behavior
-        switch (activeCategory) {
-            case 0: // TODO: Need to come up with something for Trending
-            case 5:
-                // All
-                const res = await listDAOs()
-                setTotalCards(res.data.listDAOs.items.length)
-                setCards(res.data.listDAOs.items)
-                break
-            default:
-                const res2 = await searchDAO({
-                    variables: {
-                        filter: {
-                            categories: {
-                                match: DUMMY_CATEGORIES[activeCategory],
-                            },
-                        },
-                    },
-                })
-
-                console.log(res2)
-                setTotalCards(res2.data.searchDAOs.items.length)
-                setCards(res2.data.searchDAOs.items)
-        }
-    }
+    } = useSearchDAO({
+        variables: {
+            filter: {
+                categories: {
+                    match: DUMMY_CATEGORIES[activeCategory],
+                },
+            },
+        },
+    })
 
     // Fetch cards from DB
     useEffect(() => {
-        fetchCards()
-        // console.log(totalCards);
-    }, [activeCategory])
+        // alert(`Category: ${DUMMY_CATEGORIES[activeCategory]}\nDAOLoading: ${DAOLoading}\nsearchLoading: ${searchLoading}\nDAOData: ${!!DAOData}\nsearchData: ${!!searchData}`)
 
+        if (activeCategory === 0) {
+            console.log(!DAOLoading && DAOData)
+            setTotalCards(!DAOLoading ? DAOData.listDAOs.items.length : 0)
+            setCards(!DAOLoading ? DAOData.listDAOs.items : [])
+        } else {
+            console.log(!searchLoading && searchData)
+            setTotalCards(!searchLoading ? searchData.searchDAOs.total : 0)
+            setCards(!searchLoading ? searchData.searchDAOs.items : [])
+        }
+    }, [activeCategory, DAOLoading, searchLoading, searchData])
+
+    /*
     let mouseDown = false
     let startX, scrollLeft
 
@@ -107,6 +101,7 @@ const Categories = (props) => {
         cardRef.current.addEventListener('mouseup', stopDragging, false)
         cardRef.current.addEventListener('mouseleave', stopDragging, false)
     }, [])
+    */
 
     useEffect(() => {
         let size = window.innerWidth
@@ -122,26 +117,31 @@ const Categories = (props) => {
     }, [])
 
     //Activate gradient on active category if y page offset is bigger than 0.2 height of page
-    const [activeGradient, setActiveGradient] = useState(0)
+    const [activeGradient, setActiveGradient] = useState(false)
 
     const activateGradient = () => {
         const entireDocumentHeight = window.document.body.offsetHeight
         if (window.pageYOffset > 0.01 * entireDocumentHeight) {
-            setActiveGradient(1)
+            setActiveGradient(true)
         } else {
-            setActiveGradient(0)
+            setActiveGradient(false)
         }
     }
 
     useEffect(() => {
         window.addEventListener('scroll', activateGradient, { passive: true })
     }, [])
+
     // navigation to search page
     const history = useHistory()
     const navigate = (e) => {
         if (activeCategory === 0) {
             history.push(`/search/all`)
         } else history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
+    }
+
+    if (searchError || DAOError) {
+        return <Redirect to="/404" />
     }
 
     return (
@@ -165,35 +165,41 @@ const Categories = (props) => {
                 <Styled.AllButton to="/search/all">All</Styled.AllButton>
             </Styled.CategoriesContainer>
 
-            <Styled.CardBox className="full" ref={cardRef}>
-                {cards
-                    .filter((item, idx) => idx < numberOfCards)
-                    .map((card) => {
-                        // filter((item, idx) => idx < numberOfCards).
-                        return (
-                            <Card
-                                id={card.dao}
-                                title={card.name}
-                                description={card.description}
-                                categories={card.categories}
-                                SpaceId={card.SpaceId}
-                                // ranking={card.ranking}
-                                // token={card.token}
-                                // price={card.price}
-                                logoURL={card.logoURL}
-                                bannerURL={card.backgroundURL}
-                                isScrolling={isScrolling}
-                            />
-                        )
-                    })}
-                {totalCards > 3 && (
-                    <Styled.MoreCard onClick={navigate}>
-                        <Styled.MoreText>
-                            +{totalCards - numberOfCards} more
-                        </Styled.MoreText>
-                    </Styled.MoreCard>
-                )}
-            </Styled.CardBox>
+            {searchLoading || DAOLoading ? (
+                <Styled.LoaderBox>
+                    <Loader color="white" size={35} />
+                </Styled.LoaderBox>
+            ) : (
+                <Styled.CardBox className="full" ref={cardRef}>
+                    {cards
+                        .filter((item, idx) => idx < numberOfCards)
+                        .map((card) => {
+                            // filter((item, idx) => idx < numberOfCards).
+                            return (
+                                <Card
+                                    id={card.dao}
+                                    title={card.name}
+                                    description={card.description}
+                                    categories={card.categories}
+                                    SpaceId={card.SpaceId}
+                                    // ranking={card.ranking}
+                                    // token={card.token}
+                                    // price={card.price}
+                                    logoURL={card.logoURL}
+                                    bannerURL={card.backgroundURL}
+                                    isScrolling={isScrolling}
+                                />
+                            )
+                        })}
+                    {totalCards > 3 && (
+                        <Styled.MoreCard onClick={navigate}>
+                            <Styled.MoreText>
+                                +{totalCards - numberOfCards} more
+                            </Styled.MoreText>
+                        </Styled.MoreCard>
+                    )}
+                </Styled.CardBox>
+            )}
         </Styled.Box>
     )
 }

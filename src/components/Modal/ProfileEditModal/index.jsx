@@ -1,40 +1,39 @@
+// Styling
 import * as Styled from './style'
-import { useEffect, useState } from 'react'
-import Modal from '../index'
 import * as ModalStyled from '../style'
-import { FaTrashAlt, FaPlus } from 'react-icons/fa'
-import { useAuth } from '../../../contexts/UserContext'
-import { Redirect, useHistory } from 'react-router'
-import Amplify, { Storage } from 'aws-amplify'
-import awsconfig from '../../../aws-exports'
-import { useFileUpload } from '../../../api/database/useFileUpload'
 
-Amplify.configure(awsconfig)
+// Components
+import Modal from '../index'
+import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import Loader from '../../Loader'
+
+// Hooks
+import { useAuth } from '../../../contexts/UserContext'
+import { useEffect, useState } from 'react'
+import { useFileUpload } from '../../../api/database/useFileUpload'
 
 const ProfileEditModal = (props) => {
     const [name, setName] = useState(props.name || "")
     const [bio, setBio] = useState(props.bio || "")
     const [socials, setSocials] = useState(props.socials || [{network: "any-0", url: ""}])
-    const [membership, setMembers] = useState(props.membership || "")
     const [pfp, setPfp] = useState()
+    const [updateLoading, setUpdateLoading] = useState(false)
 
-    const history = useHistory()
     const show = props.show
     const { loggedIn, userInfo, updateUserInfo } = useAuth()
     const { uploadFile } = useFileUpload()
 
     const uploadPfp = async () => {
         const file = pfp
-        // const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
         return await uploadFile(
             `users/${userInfo.id}/profile.${file.name.split('.').pop()}`,
             file
         )
-        // return await Storage.get(key)
     }
 
-    const onSave = async (props) => {
+    const onSave = async () => {
         try {
+            setUpdateLoading(true)
             const pfpURL = pfp && await uploadPfp()
             await updateUserInfo({
                 name,
@@ -48,6 +47,8 @@ const ProfileEditModal = (props) => {
             alert('An error occurred. Please try again later!')
             console.log(err)
         }
+
+        setUpdateLoading(false)
         props.toggle(!props.show)
     }
 
@@ -230,8 +231,9 @@ const ProfileEditModal = (props) => {
                 <ModalStyled.Button
                     id="submit_msg"
                     type="button"
-                    onClick={(e) => onSave(props)}
+                    onClick={onSave}
                 >
+                    {updateLoading && <Loader color="white" />}
                     Save Changes
                 </ModalStyled.Button>
             </Styled.Container>

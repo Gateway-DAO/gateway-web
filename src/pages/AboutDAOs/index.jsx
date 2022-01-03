@@ -1,30 +1,35 @@
-import React, { useEffect, useState } from 'react'
+// Components
 import Header from '../../components/Header'
 import TitleSection from '../../components/AboutDaoComponents/TitleSection'
 import Footer from '../../components/Footer'
 import CardScrollWrapper from '../../components/AboutDaoComponents/CardScrollWrapper'
+import Loader from '../../components/Loader'
+
+// Assets
 import texts from '../../components/AboutDaoComponents/texts'
 import whiteboard from '../../assets/about-dao-whiteboard.png'
+
+// Styling
 import * as Styled from './style'
-import { useLazyListDAOs } from '../../api/database/useGetDAO'
+
+// Hooks
+import { useListDAOs } from '../../api/database/useGetDAO'
+import React, { useState, useEffect } from 'react'
 
 const AboutDAOS = (props) => {
+    const { data, error, loading } = useListDAOs()
     const [cards, setCards] = useState([])
-    const { listDAOs, data, error, loading } = useLazyListDAOs()
-
-    const fetchAllCards = async () => {
-        const daos = await listDAOs()
-        setCards(daos.data.listDAOs.items)
-    }
-    useEffect(() => {
-        fetchAllCards()
-    }, [])
 
     const typeOfDao = (type) => {
         console.log(`Type: ${type}`)
-        const socialDao = cards.filter((item, idx) => idx < 4).filter((card) => card.categories.includes(type))
+        const socialDao = cards.filter((card) => card.categories.includes(type)).filter((item, idx) => idx < 4)
+        console.log(socialDao)
         return socialDao
     }
+
+    useEffect(() => {
+        setCards(loading ? [] : data.listDAOs.items)
+    }, [data])
 
     return (
         <Styled.PageContainer>
@@ -77,7 +82,7 @@ const AboutDAOS = (props) => {
                         </Styled.CenterWrapper>
                     </Styled.MainWrapper>
                     <Styled.CardContainer>
-                        <CardScrollWrapper cards={typeOfDao(text.type)} />
+                        {!!cards ? <CardScrollWrapper cards={typeOfDao(text.type)} /> : <Loader color="white" size={35} />}
                     </Styled.CardContainer>
                 </React.Fragment>
             ))}

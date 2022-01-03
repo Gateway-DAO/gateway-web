@@ -2,19 +2,18 @@ import { useMemo } from 'react';
 import { useQuery, useLazyQuery, gql } from '@apollo/client';
 import { searchDaos } from '../../graphql/queries';
 
-export const useSearchDAO = (id) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(searchDaos), {
-        variables: { id },
-    });
+export const useSearchDAO = (config = {}) => {
+    const { loading, called, refetch, data, error } = useQuery(gql(searchDaos), config);
 
     return useMemo(
         () => ({
-            data: data?.searchDAOs.items[0], 
+            data, 
             loading: loading || (!called && loading === false),
             refetch,
             error,
+            called
         }),
-        [called, searchDaos, loading, refetch, id]
+        [called, searchDaos, loading, refetch, config]
     );
 };
 
@@ -24,12 +23,12 @@ export const useLazySearchDAO = () => {
     return useMemo(
         () => ({
             searchDAO,
-            data: data,
+            data,
             loading: loading || (!called && loading === false),
             refetch,
             error,
         }),
-        [called, searchDaos, loading, refetch]
+        [called, searchDaos, data, loading, refetch]
     );
 };
 

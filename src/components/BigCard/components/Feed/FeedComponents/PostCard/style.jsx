@@ -46,7 +46,6 @@ export const PostByInfo = styled.span`
     line-height: 23px;
     display: flex;
     align-items: center;
-    text-transform: capitalize;
 
     color: rgba(229, 229, 229, 0.5);
 `

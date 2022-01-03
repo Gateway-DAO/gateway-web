@@ -28,11 +28,11 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
     defaultOptions: {
         watchQuery: {
-            fetchPolicy: 'no-cache',
+            fetchPolicy: 'network-only',
             errorPolicy: 'ignore',
         },
         query: {
-            fetchPolicy: 'no-cache',
+            fetchPolicy: 'network-only',
             errorPolicy: 'all',
         },
     },
