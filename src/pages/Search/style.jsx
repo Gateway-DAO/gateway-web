@@ -73,7 +73,7 @@ export const SearchTermContainer = styled.div`
     display: flex;
     justify-content: space-between;
     text-transform: capitalize;
-
+    
     @media only screen and (max-width: 945px) {
         margin-top: 25px;
         margin-bottom: -25px;
@@ -119,6 +119,7 @@ export const DAOAndUserSelectionContainer = styled.div`
 `
 
 export const SelectContainer = styled.div`
+    position: relative;
     width: 90px;
     height: 40px;
     border: 1px solid rgba(229, 229, 229, 0.5);
@@ -146,7 +147,7 @@ export const SearchInputBox = styled.div`
     margin-right: 40px;
     padding-left: 30px;
     background: #ffffff;
-    width: 15%;
+    width: 20%;
     justify-content: space-between;
     align-items: center;
     display: flex;
@@ -175,4 +176,53 @@ export const SearchInput = styled.input`
 export const WrappedFiSearch = styled(FiSearch)`
     font-size: 20px;
     padding-right: 20px;
+`
+
+export const SearchSuggestionBox = styled.ul`
+    position:absolute;
+    z-index:50;
+    left:0;
+    top:50px;
+    right:0;
+    max-height:270px;
+    min-height:40px;
+    // width: 20%;
+    // height: 268px;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    // padding-top:10px;
+    // padding-bottom:10px;
+    @media only screen and (max-width: 945px) {
+        margin: 0;
+    }
+    @media only screen and (max-width: 700px) {
+        width: 45%;
+    }
+    @media only screen and (max-width: 480px) {
+        width: 60%;
+    }
+`
+export const SearchMoreButton = styled.div`
+font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    color:black;
+    height: 70px;
+    width:87%;
+    display: flex;
+    align-items: center;
+    // justify-content: center;
+    text-align: center;
+    padding-left:40px;
+    cursor:pointer;
+    border-top: ${props => props.inputVal ? "1px solid #E5E5E5;" : "none"}
 `

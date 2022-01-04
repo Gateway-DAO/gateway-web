@@ -21,11 +21,11 @@ const AddCommunity = ()=>{
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
     const [chains, setChains] = useState([])
-    const [backGroundImage,setbackGroundImage]= useState("")
-    const [files,setFile]= useState("")
-    const [over,setover] = useState(false)
+    // const [backgroundURL,setBackgroundURL]= useState("")
+    // const [logo,setLogo]= useState("")
+    const [logoHover,setLogoHover] = useState(false)
     const [bghover,setbghover] =useState(false)
-    const $input =useRef(null)
+    const $logoImage =useRef(null)
     const $bgImage =useRef(null)
     const [SpaceId,setSpaceId] = useState("")
     const { createDAO, data, error, loading } = useCreateDAO()
@@ -109,11 +109,11 @@ const AddCommunity = ()=>{
         return <Redirect to="/404" />
     }
    
-    const removeBackgroundImage=()=>{
-        setbackGroundImage("");
+    const removebackgroundURL=()=>{
+        setBackgroundURL("");
     }
-    const removeFiles=()=>{
-        setFile("");
+    const removeLogo=()=>{
+        setLogoURL("");
     }
     return(
         <Styled.Page>
@@ -147,48 +147,41 @@ const AddCommunity = ()=>{
                         value={logoURL}
                     /> */}
                     
-                    {!files?<Styled.drag_area hover={over} for = "uploadFile"
-                          onClick={()=> {$input.current.click()}}
+                    {!logoURL?<Styled.drag_area hover={logoHover} for = "uploadFile"
+                          onClick={()=> {$logoImage.current.click()}}
                           onDrop={(e) => {
                             e.preventDefault();
                             e.persist();
-                            setFile(URL.createObjectURL(e.dataTransfer.files[0]));
-                            setover(false);
+                            setLogoURL(URL.createObjectURL(e.dataTransfer.files[0]));
+                            setLogoHover(false);
                           }}
                           onDragOver={(e) => {
                             e.preventDefault();
-                            setover(true);
+                            setLogoHover(true);
                           }}
                           onDragLeave={(e) => {
                             e.preventDefault();
-                            setover(false);
+                            setLogoHover(false);
                           }}
                                          >
                         
                             
-                            <Styled.header hover={over} className="header">
+                            <Styled.header hover={logoHover} className="header">
                             <Styled.span> Upload </Styled.span>or Drag your image here
                             </Styled.header>
                             
                             {/* <Styled.button className="button">
                                 Browse File 
                             </Styled.button> */}
-                            <input type="file"  hidden ref={$input} onChange={e=> {setFile(URL.createObjectURL(e.target.files[0]))}}>
+                            <input type="file"  hidden ref={$logoImage} onChange={e=> {setLogoURL(URL.createObjectURL(e.target.files[0]))}}>
                             </input>
 
-                         </Styled.drag_area> : 
-                         
-                          <Styled.Background image={files}> 
-                             <Styled.Cross onClick={removeFiles}>
-                          {/* <ImCross /> */}
-                          +
-                      </Styled.Cross>
-
-                          {/* <Styled.Image src={files} >
-                         
-                          </Styled.Image>   */}
-                           
-                          </Styled.Background>}
+                         </Styled.drag_area> 
+                         :  
+                            <Styled.Background image={logoURL}> 
+                                <Styled.Cross onClick={removeLogo}>+</Styled.Cross>
+                            </Styled.Background>
+                        }
 
                 </Styled.Fieldset>
 
@@ -204,12 +197,12 @@ const AddCommunity = ()=>{
                         placeholder="Your Community  background URL"
                         value={backgroundURL}
                     /> */}
-                  { !backGroundImage?  <Styled.drag_area hover={bghover} for = "backGroundImageUpload"
+                  { !backgroundURL?  <Styled.drag_area hover={bghover} for = "backgroundURLUpload"
                           onClick={()=> {$bgImage.current.click()}}
                           onDrop={(e) => {
                             e.preventDefault();
                             e.persist();
-                            setbackGroundImage(URL.createObjectURL(e.dataTransfer.files[0]));
+                            setBackgroundURL(URL.createObjectURL(e.dataTransfer.files[0]));
                             setbghover(false);
                           }}
                           onDragOver={(e) => {
@@ -228,22 +221,13 @@ const AddCommunity = ()=>{
                             {/* <Styled.button className="button">
                                 Browse File 
                             </Styled.button> */}
-                            <input type="file"  hidden ref={$bgImage} onChange={e=> {setbackGroundImage(URL.createObjectURL(e.target.files[0]))}}>
+                            <input type="file"  hidden ref={$bgImage} onChange={e=> {setBackgroundURL(URL.createObjectURL(e.target.files[0]))}}>
                             </input>
 
                          </Styled.drag_area> : 
-                         <Styled.Background image={backGroundImage}> 
-                             <Styled.Cross onClick={removeBackgroundImage}>
-                          {/* <ImCross /> */}
-                          + 
-                          </Styled.Cross>
-                          {/* <Styled.Image  src={backGroundImage} >
-                         
-                         </Styled.Image>   */}
-                             
-                             
-                             
-                             </Styled.Background>}
+                         <Styled.Background image={backgroundURL}> 
+                            <Styled.Cross onClick={removebackgroundURL}>+ </Styled.Cross>   
+                        </Styled.Background>}
                 </Styled.Fieldset>
                         
                 <Styled.Fieldset>
@@ -253,7 +237,7 @@ const AddCommunity = ()=>{
                     <Styled.Input
                         onChange={(e) => setyoutubeURL(e.target.value)}
                         type="text"
-                        id="backgroundURL"
+                        id="youtubeURL"
                         name="youtubeURL"
                         placeholder="Your Youtube Video URL"
                         value={youtubeURL}
