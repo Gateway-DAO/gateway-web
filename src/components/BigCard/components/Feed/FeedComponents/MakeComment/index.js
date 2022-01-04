@@ -17,7 +17,7 @@ const MakeComment = (props) => {
     const [chosenEmoji, setChosenEmoji] = useState(null)
     const [showEmojiBox, setEmojiBox] = useState(false)
 
-    const { createComment, data, error, loading } = useCreateComment()
+    const { createComment, data: commentData, error, loading } = useCreateComment()
 
     const ref = useRef(null)
     const onEmojiClick = (event, emojiObject) => {
@@ -30,8 +30,6 @@ const MakeComment = (props) => {
     }
 
     const submitComment = async () => {
-        props.commentDone()
-
         const data = {
             id: uuidv4(),
             postID: props.postID,
@@ -43,11 +41,11 @@ const MakeComment = (props) => {
         }
 
         try {
-            await createComment({ variables: {
+            const { data: resData } = await createComment({ variables: {
                 input: data
             }})
 
-            console.log("Deu")
+            props.commentDone(resData.createComment)
 
             setCommentMessage('')
         } catch (err) {

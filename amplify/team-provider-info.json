@@ -39,7 +39,7 @@
         },
         "vote": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/vote-5848784c6f754b347563-build.zip"
+          "s3Key": "amplify-builds/vote-6b54512f517079505579-build.zip"
         }
       },
       "auth": {

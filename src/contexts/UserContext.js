@@ -34,6 +34,7 @@ export const UserProvider = ({ children }) => {
 
     const [getUser, { data: userData, loading: userLoading, called }] =
         useLazyQuery(gql(getUserQuery))
+
     const {
         updateUser,
         data: userUpdateData,
@@ -62,7 +63,6 @@ export const UserProvider = ({ children }) => {
             setLoggingIn(true)
 
             const { data } = await getNonce(web3.account)
-            console.log(data)
 
             const signer = web3.library.getSigner()
 
@@ -79,8 +79,6 @@ export const UserProvider = ({ children }) => {
                     nonce: data.getAuthenticationNonce.nonce,
                 })
             )
-
-            console.log(res)
 
             if (res.username) {
                 const userDB = await getUser({
@@ -132,6 +130,29 @@ export const UserProvider = ({ children }) => {
         }
     }, [web3.account])
 
+    useEffect(() => {
+        const callback = async () => {
+            try {
+                const { username, signInUserSession } =
+                    await Auth.currentAuthenticatedUser()
+                    
+                if (username) {
+                    const userDB = await getUser({
+                        variables: {
+                            id: username,
+                        },
+                    })
+                    setUserInfo(userDB.data.getUser)
+                    setLoggedIn(true)
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        callback()
+    }, [])
+
     const listener = async ({ payload: { event, data } }) => {
         console.log('event', event)
         switch (event) {
@@ -157,27 +178,6 @@ export const UserProvider = ({ children }) => {
         Hub.listen('auth', listener)
         return () => Hub.remove('auth', listener)
     })
-
-    useEffect(() => {
-        const callback = async () => {
-            try {
-                const { username, signInUserSession } =
-                    await Auth.currentAuthenticatedUser()
-                if (username) {
-                    const userDB = await getUser({
-                        variables: {
-                            id: username,
-                        },
-                    })
-                    setUserInfo(userDB.data.getUser)
-                    setLoggedIn(true)
-                }
-            } catch (e) {
-                console.log(e)
-            }
-        }
-        callback()
-    }, [])
 
     return (
         <Provider
