@@ -13,9 +13,6 @@ const BigSearch = (props) => {
     const history = useHistory()
     // const [placeholder, setPlaceholder] = useState("Search for ");
 
-    const showTypingHandler = (e) => {
-        setShowTyping(false)
-    }
     const handleInput = async (e) => {
         if (e.key === 'Enter') {
             history.push(`search/${e.target.value}`)
@@ -28,7 +25,6 @@ const BigSearch = (props) => {
 
     const updateSearchValue = (e) => {
         setSearchValue(e.target.value)
-        console.log(searchValue)
     }
 
     const TypewriterText = (
@@ -68,7 +64,8 @@ const BigSearch = (props) => {
                         </Styled.TypewriterText>
                     </Styled.TypewriterDiv>
                     <Styled.InputBox
-                        onClick={showTypingHandler}
+                        onBlur={() => setShowTyping(true)}
+                        onClick={()=>setShowTyping(false)}
                         onChange={updateSearchValue}
                         //value={searchValue}
                         type="search"
