@@ -73,11 +73,9 @@ const unvotePost = async (event) => {
         })
         .promise()
 
-    const oldPostVotes = AWS.DynamoDB.Converter.output(oldPost)[voteType]
+    const oldPostVotes = oldPost[voteType]
 
-    console.log(oldPostVotes)
-
-    const userIndex = oldPostVotes.index(userID)
+    const userIndex = oldPostVotes.findIndex(i => i === userID)
 
     await docClient
         .update({
@@ -86,14 +84,13 @@ const unvotePost = async (event) => {
                 "#Y": voteType
             },
             ExpressionAttributeValues: {
-                ":index": userIndex,
                 ":user": userID
             },
             Key: {
                 id: postID
             },
             ConditionExpression: `contains(#Y, :user)`,
-            UpdateExpression: "REMOVE #Y[:index]",
+            UpdateExpression: `REMOVE #Y[${userIndex}]`,
             ReturnValues: 'UPDATED_NEW'
         })
         .promise()
