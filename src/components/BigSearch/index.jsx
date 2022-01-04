@@ -9,18 +9,30 @@ import React from 'react'
 
 const BigSearch = (props) => {
     const [showTyping, setShowTyping] = useState(true)
-    const [searchValue, setSearchValue] = useState('all')
+    const [searchValue, setSearchValue] = useState('')
     const history = useHistory()
     // const [placeholder, setPlaceholder] = useState("Search for ");
-
+    const onBlurHandler = () => {
+        if (searchValue.length === 0) {
+            setShowTyping(true)
+        }
+    }
     const handleInput = async (e) => {
         if (e.key === 'Enter') {
-            history.push(`search/${e.target.value}`)
+            if (searchValue.length === 0) {
+                history.push(`search/all`)
+            } else {
+                history.push(`search/${e.target.value}`)
+            }
         }
     }
 
     const showClickResult = async (e) => {
-        history.push(`search/${searchValue}`)
+        if (searchValue.length === 0) {
+            history.push(`search/all`)
+        } else {
+            history.push(`search/${searchValue}`)
+        }
     }
 
     const updateSearchValue = (e) => {
@@ -53,6 +65,7 @@ const BigSearch = (props) => {
 
     return (
         <React.Fragment>
+            {console.log('value', searchValue.length)}
             <Styled.SearchMainDiv>
                 <Styled.SearchSecondary>
                     <Styled.TypewriterDiv>
@@ -64,8 +77,8 @@ const BigSearch = (props) => {
                         </Styled.TypewriterText>
                     </Styled.TypewriterDiv>
                     <Styled.InputBox
-                        onBlur={() => setShowTyping(true)}
-                        onClick={()=>setShowTyping(false)}
+                        onBlur={onBlurHandler}
+                        onClick={() => setShowTyping(false)}
                         onChange={updateSearchValue}
                         //value={searchValue}
                         type="search"
