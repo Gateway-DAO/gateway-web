@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const BoxContainer = styled.div`
@@ -23,7 +24,7 @@ export const BoxText = styled.h3`
     color: #ffffff;
 `
 
-export const ButtonBox = styled.div`
+export const ButtonBox = styled(Link)`
     margin-top: 33px;
     background: #170627;
     border-radius: 20px;
@@ -34,6 +35,7 @@ export const ButtonBox = styled.div`
     background-origin: border-box;
     background-clip: content-box, border-box;
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
+    text-decoration:none;
 `
 
 export const ButtonText = styled.p`

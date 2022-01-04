@@ -138,6 +138,7 @@ export const PostButton = styled.button`
     background-color: #170627;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
+    cursor: pointer;
 `
 
 export const ActivityTextContainer = styled.span`

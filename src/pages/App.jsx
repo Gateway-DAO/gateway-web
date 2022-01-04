@@ -45,7 +45,7 @@ const App = (props) => {
                         <DaoGateWithKeys />
                     </Route>
                     {/* Add New Key Routes start */}
-                    <Route path="/add-experience">
+                    <Route path="/profile/add-experience">
                         <AddExperience />
                     </Route>
                     <Route path="/dao/daoname/newkey/governance">
