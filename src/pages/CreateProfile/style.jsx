@@ -27,7 +27,7 @@ export const MainBox = styled.section`
     margin: 50px 0;
 `
 
-export const FormBox = styled.div`
+export const FormBox = styled.form`
     grid-column: 2/3;
     display: flex;
     flex-direction: column;
