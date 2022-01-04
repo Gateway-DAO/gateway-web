@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "api": {
+      "gateway": [
+        "create",
+        "read",
+        "update"
+      ]
+    },
+    "storage": {
+      "DAO:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ],
+      "Channel:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

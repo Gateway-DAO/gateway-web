@@ -30,7 +30,7 @@ type User
 type DAO
     @model
     @key(name: "DAOById", fields: ["dao"], queryField: "getDAOById")
-    @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName") 
+    @key(name: "DAOByName", fields: ["name"], queryField: "getDAOByName")
     @searchable {
     id: ID!
     dao: String!
@@ -88,15 +88,28 @@ type Social {
     url: String!
 }
 
-type Channel @model @key(name: "channelByDAO", fields: ["daoID"], queryField: "getChannelByDAOID") {
+type Channel
+    @model
+    @key(
+        name: "channelByDAO"
+        fields: ["daoID"]
+        queryField: "getChannelByDAOID"
+    ) {
     id: ID!
     name: String!
     daoID: ID!
-    dao: DAO! @connection(fields: ["daoID"])
+    dao: DAO @connection(fields: ["daoID"])
     posts: [Post] @connection(keyName: "postByChannelID", fields: ["id"])
 }
 
-type Post @model @key(name: "postByChannelID", fields: ["channelID"], queryField: "getPostsByChannelID") @searchable {
+type Post
+    @model
+    @key(
+        name: "postByChannelID"
+        fields: ["channelID"]
+        queryField: "getPostsByChannelID"
+    )
+    @searchable {
     id: ID!
     daoID: ID!
     dao: DAO @connection(fields: ["daoID"])
@@ -111,7 +124,13 @@ type Post @model @key(name: "postByChannelID", fields: ["channelID"], queryField
     createdAt: AWSDateTime
 }
 
-type Comment @model @key(name: "commentByPostID", fields: ["postID"], queryField: "getCommentsByPostID") {
+type Comment
+    @model
+    @key(
+        name: "commentByPostID"
+        fields: ["postID"]
+        queryField: "getCommentsByPostID"
+    ) {
     id: ID!
     postID: ID!
     userID: ID!
@@ -132,11 +151,40 @@ enum VoteType {
     DOWNVOTE
 }
 
+input CreateNewDAO {
+	id: ID
+	dao: String!
+	name: String!
+	snapshotID: String
+	backgroundURL: AWSURL!
+	youtubeURL: AWSURL
+	logoURL: AWSURL!
+	categories: [String]!
+	tags: [String]
+	description: String!
+	tokenAddress: String
+	whitelistedAddresses: [String!]
+	socials: [SocialInput]
+	chains: [String]
+	createdAt: AWSDateTime
+	updatedAt: AWSDateTime
+}
+
+input SocialInput {
+	network: String!
+	url: String!
+}
+
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
         @function(name: "getAuthenticationNonce-${env}")
 
-    votePost(postID: ID!, userID: ID!, type: VoteType!): Post @function(name: "vote-${env}")
+    createDAOWithChannels(input: CreateNewDAO!): DAO
+        @function(name: "addDAOAndChannels-${env}")
 
-    unvotePost(postID: ID!, userID: ID!, type: VoteType!): Post @function(name: "vote-${env}")
+    votePost(postID: ID!, userID: ID!, type: VoteType!): Post
+        @function(name: "vote-${env}")
+
+    unvotePost(postID: ID!, userID: ID!, type: VoteType!): Post
+        @function(name: "vote-${env}")
 }
