@@ -6,7 +6,7 @@ const AddExperience = () => {
             <Styled.BoxText>
                 Add your Experience and Contributions.{' '}
             </Styled.BoxText>
-            <Styled.ButtonBox>
+            <Styled.ButtonBox to="/profile/add-experience">
                 <Styled.ButtonText>ADD NOW</Styled.ButtonText>
             </Styled.ButtonBox>
         </Styled.BoxContainer>
