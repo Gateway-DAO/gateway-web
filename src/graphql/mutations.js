@@ -9,6 +9,67 @@ export const getAuthenticationNonce = /* GraphQL */ `
     }
   }
 `;
+export const createDaoWithChannels = /* GraphQL */ `
+  mutation CreateDaoWithChannels($input: CreateNewDAO!) {
+    createDAOWithChannels(input: $input) {
+      id
+      dao
+      name
+      faq {
+        question
+        answer
+      }
+      accomplishments
+      snapshotID
+      backgroundURL
+      youtubeURL
+      logoURL
+      bounties {
+        headline
+        description
+        level
+        categories
+        reward
+        directions
+        links
+        endDate
+        postDate
+      }
+      categories
+      tags
+      description
+      howToJoin
+      missionAndVision
+      whatDoWeDo
+      tokenBenefits {
+        amount
+        description
+        title
+        token
+      }
+      upcomingHangouts
+      tokenAddress
+      whitelistedAddresses
+      socials {
+        network
+        url
+      }
+      chains
+      channels {
+        items {
+          id
+          name
+          daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const votePost = /* GraphQL */ `
   mutation VotePost($postID: ID!, $userID: ID!, $type: VoteType!) {
     votePost(postID: $postID, userID: $userID, type: $type) {

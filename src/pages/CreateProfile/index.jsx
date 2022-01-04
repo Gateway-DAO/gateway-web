@@ -120,7 +120,7 @@ const CreateProfile = () => {
                 username: username.toLowerCase(),
                 bio,
                 socials,
-                daos: membership.map((dao) => dao.id),
+                daos_ids: membership.map((dao) => dao.id),
                 pfp: pfpURL,
                 init: true,
             })

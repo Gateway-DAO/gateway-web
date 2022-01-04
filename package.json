@@ -30,6 +30,7 @@
     "formik": "^2.2.9",
     "graphql-algolia-transformer": "^1.5.0",
     "html-react-parser": "^1.4.0",
+    "jwt-decode": "^3.1.2",
     "moralis": "^0.0.138",
     "quill-emoji": "^0.2.0",
     "quill-image-resize-module-react": "^3.0.0",

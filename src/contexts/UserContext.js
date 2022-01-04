@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
+import jwtDecode from 'jwt-decode'
 
 // Web3
 import { CONNECTORS } from '../utils/web3'
 import { useWeb3React } from '@web3-react/core'
+import useUpdateUser from '../api/database/useUpdateUser'
 
 // AWS/GraphQL
 import awsconfig from '../aws-exports'
@@ -13,7 +15,6 @@ import { getUser as getUserQuery } from '../graphql/queries'
 import { useLazyQuery, gql } from '@apollo/client'
 import { Hub, Amplify } from '@aws-amplify/core'
 import { Auth } from '@aws-amplify/auth'
-import useUpdateUser from '../api/database/useUpdateUser'
 
 Amplify.configure(awsconfig)
 Auth.configure(awsconfig)
@@ -50,51 +51,23 @@ export const UserProvider = ({ children }) => {
             setLoadingWallet(true)
             await web3.activate(CONNECTORS.Injected)
             setLoadingWallet(false)
-        }
-        catch (err) {
+        } catch (err) {
             console.log(`Error connecting to wallet: ${err}`)
         }
     }
 
-    // AWS
-    const signIn = async () => {
-        try {
-            !web3.active && (await activateWeb3())
-            setLoggingIn(true)
+    const getUserGroups = (signInUserSession) => {
+        const rval = {}
 
-            const { data } = await getNonce(web3.account)
-
-            const signer = web3.library.getSigner()
-
-            const signature = await signer.signMessage(
-                data.getAuthenticationNonce.nonce
-            )
-
-            const user = await Auth.signIn(data.getAuthenticationNonce.userId)
-            const res = await Auth.sendCustomChallengeAnswer(
-                user,
-                JSON.stringify({
-                    signature,
-                    publicAddress: web3.account,
-                    nonce: data.getAuthenticationNonce.nonce,
-                })
-            )
-
-            if (res.username) {
-                const userDB = await getUser({
-                    variables: {
-                        id: res.username,
-                    },
-                })
-                setUserInfo(userDB.data.getUser)
-                setLoggedIn(true)
-            }
-
-            setLoggingIn(false)
-        } catch (err) {
-            console.error(err)
-            setLoggingIn(false)
+        if (
+            (
+                signInUserSession.idToken.payload['cognito:groups'] || []
+            ).includes('Admin')
+        ) {
+            rval.isAdmin = true
         }
+
+        return rval
     }
 
     // AWS
@@ -135,14 +108,14 @@ export const UserProvider = ({ children }) => {
             try {
                 const { username, signInUserSession } =
                     await Auth.currentAuthenticatedUser()
-                    
+
                 if (username) {
                     const userDB = await getUser({
                         variables: {
                             id: username,
                         },
                     })
-                    setUserInfo(userDB.data.getUser)
+                    setUserInfo({ ...userDB.data.getUser, ...getUserGroups(signInUserSession) })
                     setLoggedIn(true)
                 }
             } catch (e) {
@@ -162,7 +135,7 @@ export const UserProvider = ({ children }) => {
                         id: data.username,
                     },
                 })
-                setUserInfo(userDB.data.getUser)
+                setUserInfo({ ...userDB.data.getUser, ...getUserGroups(data.signInUserSession) })
                 setLoggedIn(true)
                 break
             case 'signOut':
@@ -179,6 +152,48 @@ export const UserProvider = ({ children }) => {
         return () => Hub.remove('auth', listener)
     })
 
+    // AWS
+    const signIn = async () => {
+        try {
+            !web3.active && (await activateWeb3())
+            setLoggingIn(true)
+
+            const { data } = await getNonce(web3.account)
+
+            const signer = web3.library.getSigner()
+
+            const signature = await signer.signMessage(
+                data.getAuthenticationNonce.nonce
+            )
+
+            const user = await Auth.signIn(data.getAuthenticationNonce.userId)
+            const res = await Auth.sendCustomChallengeAnswer(
+                user,
+                JSON.stringify({
+                    signature,
+                    publicAddress: web3.account,
+                    nonce: data.getAuthenticationNonce.nonce,
+                })
+            )
+            
+            if (res.username) {
+                const userDB = await getUser({
+                    variables: {
+                        id: res.username,
+                    },
+                })
+
+                setUserInfo(userDB.data.getUser)
+                setLoggedIn(true)
+            }
+
+            setLoggingIn(false)
+        } catch (err) {
+            console.error(err)
+            setLoggingIn(false)
+        }
+    }
+
     return (
         <Provider
             value={{
@@ -190,7 +205,7 @@ export const UserProvider = ({ children }) => {
                 userSignOut,
                 walletConnected: web3.active,
                 activateWeb3,
-                loadingWallet
+                loadingWallet,
             }}
         >
             {children}
