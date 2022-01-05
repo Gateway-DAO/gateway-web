@@ -26,7 +26,7 @@ export const Page = styled.main`
     }
 `
 
-export const Container = styled.div`
+export const Container = styled.form`
     display: flex;
     flex: 1;
     flex-direction: column;

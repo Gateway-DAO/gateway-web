@@ -112,7 +112,11 @@ const AddCommunity = () => {
 
         const newInfo = {
             id,
-            dao: name.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,''),
+            dao: name
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[-]+/g, '-')
+                .replace(/[^\w-]+/g, ''),
             name,
             backgroundURL,
             logoURL,
@@ -161,7 +165,7 @@ const AddCommunity = () => {
     return (
         <Styled.Page>
             <Header />
-            <Styled.Container>
+            <Styled.Container onSubmit={submitToDB}>
                 <Styled.SpaceBox id="space-canvas" />
                 <Styled.Heading>Add your Community</Styled.Heading>
                 <Styled.Fieldset>
@@ -173,6 +177,7 @@ const AddCommunity = () => {
                         name="name"
                         placeholder="Your Community Name"
                         value={name}
+                        required
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
@@ -222,6 +227,7 @@ const AddCommunity = () => {
                                 hidden
                                 ref={$input}
                                 onChange={(e) => setLogoFile(e.target.files[0])}
+                                required
                             ></input>
                         </Styled.DragArea>
                     ) : (
@@ -285,6 +291,7 @@ const AddCommunity = () => {
                                 hidden
                                 ref={$bgImage}
                                 onChange={(e) => setBGFile(e.target.files[0])}
+                                required
                             ></input>
                         </Styled.DragArea>
                     ) : (
@@ -462,6 +469,7 @@ const AddCommunity = () => {
                                     type="text"
                                     onChange={(e) => changeSocial(idx, e)}
                                     value={social.url}
+                                    required
                                 />
                                 <Styled.IconButton
                                     onClick={() => deleteSocial(idx)}
@@ -575,6 +583,7 @@ const AddCommunity = () => {
                                         changeWhitelistedAddress(e, idx)
                                     }
                                     value={whitelistedAddresses[idx]}
+                                    required
                                 />
                                 <Styled.IconButton
                                     onClick={() =>
@@ -613,6 +622,7 @@ const AddCommunity = () => {
                         type="text"
                         onChange={(e) => setTokenAddress(e.target.value)}
                         value={tokenAddress}
+                        required
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
@@ -622,13 +632,10 @@ const AddCommunity = () => {
                         type="text"
                         onChange={(e) => setSpaceId(e.target.value)}
                         value={spaceId}
+                        required
                     />
                 </Styled.Fieldset>
-                <Styled.Button
-                    id="submit_msg"
-                    type="button"
-                    onClick={submitToDB}
-                >
+                <Styled.Button id="submit_msg" type="submit">
                     Save Changes
                 </Styled.Button>
             </Styled.Container>
