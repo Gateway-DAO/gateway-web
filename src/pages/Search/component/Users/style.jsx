@@ -5,7 +5,7 @@ export const UserCardBox = styled.section`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-column-gap: 20px;
-    grid-row-gap: 20px;
+    grid-row-gap: 40px;
     margin: 0 40px;
     margin-top: 60px;
 

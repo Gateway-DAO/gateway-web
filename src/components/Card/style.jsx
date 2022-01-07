@@ -11,6 +11,15 @@ export const CardBox = styled.div`
     // With the card bottom => height: 30em;
     height: 25em;
     // max-width: calc(100%/3.5);
+
+    transition: margin 0.5s ease-in-out;
+    transition: box-shadow 0.01s ease-in-out;
+
+    &:hover {
+        box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.5);
+        margin-top: -5px;
+    }
+
     @media only screen and (max-width: 1170px) {
         height: 27em;
         min-width: 15em;

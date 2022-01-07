@@ -107,11 +107,11 @@ export const CardContainer = styled.div`
 //     -moz-text-fill-color: 'transparent';
 // `
 
-export const SearchTermContainer = styled.div`
-    margin-top: 25px;
-    text-color: white;
+export const Nav = styled.div`
+    margin: 25px 40px 0px 40px;
+    color: white;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     text-transform: capitalize;
 
     @media only screen and (max-width: 945px) {
@@ -122,14 +122,31 @@ export const SearchTermContainer = styled.div`
     }
 `
 
+export const SearchTermContainer = styled.div`
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-right: auto;
+`
+
+export const SearchIcon = styled.span`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+`
+
 export const SearchTerm = styled.p`
-    padding: 0 30px;
-    margin-left: 20px;
+    margin-left: 10px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 800;
-    font-size: 28px;
-    line-height: 20px;
+    font-size: 26px;
+    // line-height: 20px;
+    align-self: center;
     letter-spacing: 0.05em;
     text-transform: capitalize;
     color: rgba(255, 255, 255, 0.6);
@@ -155,7 +172,6 @@ export const SearchTerm = styled.p`
 export const DAOAndUserSelectionContainer = styled.div`
     display: flex;
     flex-direction: row;
-    margin-left: 25px;
 `
 
 export const SelectContainer = styled.div`
@@ -185,17 +201,23 @@ export const SelectContainerText = styled.div`
     text-transform: capitalize;
 `
 
+export const LeftNav = styled.div`
+    display: flex;
+    flex: 1;
+    margin-left: auto;
+    justify-content: flex-end;
+`
+
 export const SearchInputBox = styled.div`
-    margin-right: 40px;
     padding-left: 30px;
     background: #ffffff;
-    width: 15%;
     justify-content: space-between;
     align-items: center;
     display: flex;
     flex-direction: row;
     position: relative;
     border-radius: 100px;
+
     @media only screen and (max-width: 945px) {
         margin: 0;
     }

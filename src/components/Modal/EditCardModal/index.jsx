@@ -21,34 +21,18 @@ const EditCardModal = (props) => {
 
     const { updateDAO, data, error, loading } = useUpdateDAO()
 
-    /*
-    const submitToDB = async () => {
-        console.log(props.id)
-        const dao = doc(db, 'daos', props.id)
-
-        
-
-        const unsub = onSnapshot(dao, (doc) => {
-            props.changeDAOData(newInfo)
-            props.toggle()
-        })
-
-        await updateDoc(dao, newInfo)
-
-        unsub()
-    }
-    */
-
     const submitToDB = async () => {
         const newInfo = {
             name,
             backgroundURL,
-            youtubeURL,
+            ...(youtubeURL || {}),
             logoURL,
             tokenAddress,
             description,
             categories,
-            socials,
+            socials: socials.map(social => {
+                return {network: social.network, url: social.url}
+            }),
             chains,
             whitelistedAddresses
         }

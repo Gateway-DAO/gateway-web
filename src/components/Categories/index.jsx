@@ -11,8 +11,8 @@ import { Redirect, useHistory } from 'react-router-dom'
 import { useListDAOs } from '../../api/database/useGetDAO'
 import { useSearchDAO } from '../../api/database/useSearchDAO'
 
-const DUMMY_CATEGORIES = ['Trending', 'DeFi', 'Investment', 'Media', 'Social']
-const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '']
+const DUMMY_CATEGORIES = ['Trending', 'DeFi', 'Investment', 'Media', 'Social', 'DeSci']
+const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '', '']
 
 const Categories = (props) => {
     const [numberOfCards, setNumberOfCards] = useState(3)
@@ -117,8 +117,9 @@ const Categories = (props) => {
     }, [])
 
     //Activate gradient on active category if y page offset is bigger than 0.2 height of page
-    const [activeGradient, setActiveGradient] = useState(false)
+    const [activeGradient, setActiveGradient] = useState(true)
 
+    /*
     const activateGradient = () => {
         const entireDocumentHeight = window.document.body.offsetHeight
         if (window.pageYOffset > 0.01 * entireDocumentHeight) {
@@ -131,6 +132,7 @@ const Categories = (props) => {
     useEffect(() => {
         window.addEventListener('scroll', activateGradient, { passive: true })
     }, [])
+    */
 
     // navigation to search page
     const history = useHistory()

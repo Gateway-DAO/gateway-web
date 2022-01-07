@@ -33,7 +33,13 @@ const AddCommunity = () => {
     ])
     const [description, setDescription] = useState('')
     const [categories, setCategories] = useState([])
-    const [socials, setSocials] = useState([])
+    const [socials, setSocials] = useState([{
+        network: "twitter",
+        url: ""
+    }, {
+        network: "discord",
+        url: ""
+    }])
     const [chains, setChains] = useState([])
     const [bgFile, setBGFile] = useState()
     const [logoFile, setLogoFile] = useState()
@@ -469,6 +475,7 @@ const AddCommunity = () => {
                                     type="text"
                                     onChange={(e) => changeSocial(idx, e)}
                                     value={social.url}
+                                    placeholder="Add your network URL"
                                     required
                                 />
                                 <Styled.IconButton

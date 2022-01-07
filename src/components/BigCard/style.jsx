@@ -147,6 +147,9 @@ export const BackHomeButtonText = styled.a`
 
 export const Social = styled(BackHomeButton)`
     margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 
 export const TokenHolding = styled.div`
@@ -240,7 +243,7 @@ export const SelectedTab = styled.h2`
     font-size: 18px;
     ${(props) => (props.showActive ? SelectionTabStyling : '')}
 
-    margin-right: 25px;
+    margin-right: 40px;
     font-family: Poppins;
     font-style: normal;
     line-height: 40px;

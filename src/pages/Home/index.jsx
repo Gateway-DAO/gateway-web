@@ -50,7 +50,7 @@ const Home = (props) => {
                     future of communities
                 </Styled.MediumText>
                 <Styled.CTAButton
-                    href="https://forms.gle/w6WqEuqznbaK8QeT9"
+                    href="https://discord.gg/PdjE2TfMZj"
                     target="_blank"
                 >
                     <Styled.CTAButtonText>Join Today</Styled.CTAButtonText>

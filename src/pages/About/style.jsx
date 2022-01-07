@@ -84,7 +84,7 @@ export const WWDImg = styled.img`
 
 export const ReadMore = styled.a`
     text-decoration: none;
-    color: #e265b8;
+    color: #ff00b8;
 `
 export const MissionImage = styled.div`
     // position: absolute;

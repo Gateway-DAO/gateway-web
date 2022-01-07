@@ -34,8 +34,11 @@ const Search = (props) => {
     return (
         <Styled.Container>
             <Header />
-            <Styled.SearchTermContainer>
-                <Styled.SearchTerm>{query}</Styled.SearchTerm>
+            <Styled.Nav>
+                <Styled.SearchTermContainer>
+                    <Styled.SearchIcon>🔍</Styled.SearchIcon>
+                    <Styled.SearchTerm>{query}</Styled.SearchTerm>
+                </Styled.SearchTermContainer>
                 <Styled.DAOAndUserSelectionContainer>
                     <Styled.SelectContainer
                         active={'DAOs' === selectionTab}
@@ -54,16 +57,18 @@ const Search = (props) => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
-                <Styled.SearchInputBox>
-                    <Styled.SearchInput
-                        type="search"
-                        value={inputVal}
-                        onChange={(e) => setInputVal(e.target.value)}
-                        onKeyPress={handleEnter}
-                    />
-                    <Styled.WrappedFiSearch />
-                </Styled.SearchInputBox>
-            </Styled.SearchTermContainer>
+                <Styled.LeftNav>
+                    <Styled.SearchInputBox>
+                        <Styled.SearchInput
+                            type="search"
+                            value={inputVal}
+                            onChange={(e) => setInputVal(e.target.value)}
+                            onKeyPress={handleEnter}
+                        />
+                        <Styled.WrappedFiSearch />
+                    </Styled.SearchInputBox>
+                </Styled.LeftNav>
+            </Styled.Nav>
             <ActiveTab />
             <Footer />
         </Styled.Container>
