@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const PostContainer = styled.div`
@@ -46,7 +47,6 @@ export const PostByInfo = styled.span`
     line-height: 23px;
     display: flex;
     align-items: center;
-    text-transform: capitalize;
 
     color: rgba(229, 229, 229, 0.5);
 `
@@ -62,6 +62,11 @@ export const PostByName = styled(PostByInfo)`
     color: #ffffff;
 `
 export const PostByUsername = styled(PostByInfo)`
+    color: #df78fe;
+`
+
+export const UserLink = styled(Link)`
+    text-decoration: none;
     color: #df78fe;
 `
 

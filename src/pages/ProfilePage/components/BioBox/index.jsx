@@ -120,7 +120,7 @@ const BioBox = (props) => {
                     {socials.map((social) => social)}
                 </Styled.Socials>
                 <Styled.MembershipBox>
-                    {props.daos.map((dao) => (
+                    {props.daos?.map((dao) => (
                         <Link to={`/dao/${dao.dao}`}>
                             <Styled.MembershipImg src={dao.logoURL} />
                         </Link>

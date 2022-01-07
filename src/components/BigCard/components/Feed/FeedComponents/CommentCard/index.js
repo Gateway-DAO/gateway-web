@@ -11,7 +11,7 @@ const CommentCard = (props) => {
         minute: '2-digit',
     }
 
-    const [user, setUser] = useState(props.comment.user)
+    const user = props.comment.user
     
     return (
         <Styled.PostContainer>
@@ -21,10 +21,10 @@ const CommentCard = (props) => {
                         <Styled.PostImageContainer src={user.pfp} />
                         <Styled.PostByInfo>
                             {' '}
-                            Posted by
+                            Commented by
                             <Styled.PostByName>{user.name}</Styled.PostByName>
                             <Styled.PostByUsername>
-                                @{user.username}
+                                <Styled.UserLink to={`/profile/${user.username}`}>@{user.username}</Styled.UserLink>
                             </Styled.PostByUsername>
                         </Styled.PostByInfo>
                     </Styled.ProfileBioContainer>

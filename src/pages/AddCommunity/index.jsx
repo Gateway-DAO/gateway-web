@@ -15,7 +15,7 @@ import RichEditor from '../../components/RichTextEditor'
 import { useState, useEffect, useRef } from 'react'
 import { useHistory } from 'react-router'
 import { useAuth } from '../../contexts/UserContext'
-import useCreateDAO from '../../api/database/useCreateDAO'
+import { useCreateDAOWithChannels } from '../../api/database/useCreateDAO'
 import useFileUpload from '../../api/database/useFileUpload'
 
 // Utils
@@ -28,7 +28,9 @@ const AddCommunity = () => {
 
     const [name, setName] = useState('')
     const [tokenAddress, setTokenAddress] = useState('')
-    const [whitelistedAddresses, setWhitelistedAddresses] = useState([loggedIn ? userInfo.wallet : ''])
+    const [whitelistedAddresses, setWhitelistedAddresses] = useState([
+        loggedIn ? userInfo.wallet : '',
+    ])
     const [description, setDescription] = useState('')
     const [categories, setCategories] = useState([])
     const [socials, setSocials] = useState([])
@@ -40,16 +42,13 @@ const AddCommunity = () => {
     const $input = useRef(null)
     const $bgImage = useRef(null)
     const [spaceId, setSpaceId] = useState('')
-    const { createDAO, data, error, loading } = useCreateDAO()
+    const { createDAO, data, error, loading } = useCreateDAOWithChannels()
 
-    useEffect(
-        () => {
-            if (loggedIn) {
-                space(window.innerHeight, window.innerWidth)
-            }
-        },
-        [window.innerHeight, window.innerWidth]
-    )
+    useEffect(() => {
+        if (loggedIn) {
+            space(window.innerHeight, window.innerWidth)
+        }
+    }, [window.innerHeight, window.innerWidth])
 
     const toggleCheckbox = (e) => {
         const value = e.target.value
@@ -79,14 +78,15 @@ const AddCommunity = () => {
         setSocials(copy)
     }
 
-    const deleteSocial = (idx) => setSocials(socials.filter((social, i) => i !== idx))
+    const deleteSocial = (idx) =>
+        setSocials(socials.filter((social, i) => i !== idx))
 
     const changeSocialName = (idx, newName) => {
         let copy = socials.map((social, i) => {
             if (i === idx) {
                 return {
                     ...social,
-                    network: newName
+                    network: newName,
                 }
             }
 
@@ -101,12 +101,22 @@ const AddCommunity = () => {
         const id = uuidv4()
 
         // Upload files to S3
-        const logoURL = await uploadFile(`daos/${id}/logo.${logoFile.name.split('.').pop()}`, logoFile)
-        const backgroundURL = await uploadFile(`daos/${id}/logo.${bgFile.name.split('.').pop()}`, bgFile)
+        const logoURL = await uploadFile(
+            `daos/${id}/logo.${logoFile.name.split('.').pop()}`,
+            logoFile
+        )
+        const backgroundURL = await uploadFile(
+            `daos/${id}/logo.${bgFile.name.split('.').pop()}`,
+            bgFile
+        )
 
         const newInfo = {
             id,
-            dao: name.toLowerCase().replace(/\s/g, ''),
+            dao: name
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[-]+/g, '-')
+                .replace(/[^\w-]+/g, ''),
             name,
             backgroundURL,
             logoURL,
@@ -155,7 +165,7 @@ const AddCommunity = () => {
     return (
         <Styled.Page>
             <Header />
-            <Styled.Container>
+            <Styled.Container onSubmit={submitToDB}>
                 <Styled.SpaceBox id="space-canvas" />
                 <Styled.Heading>Add your Community</Styled.Heading>
                 <Styled.Fieldset>
@@ -165,8 +175,9 @@ const AddCommunity = () => {
                         type="text"
                         id="name"
                         name="name"
-                        placeholder="Your Community  name"
+                        placeholder="Your Community Name"
                         value={name}
+                        required
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
@@ -202,23 +213,27 @@ const AddCommunity = () => {
                                 setover(false)
                             }}
                         >
-                            <Styled.header hover={over} className="header">
-                                <Styled.span> Upload </Styled.span>or Drag your
+                            <Styled.Header hover={over} className="header">
+                                <Styled.Span> Upload </Styled.Span>or Drag your
                                 image here
-                            </Styled.header>
+                            </Styled.Header>
 
                             {/* <Styled.button className="button">
                                 Browse File 
                             </Styled.button> */}
                             <input
                                 type="file"
+                                accept="image/*"
                                 hidden
                                 ref={$input}
                                 onChange={(e) => setLogoFile(e.target.files[0])}
+                                required
                             ></input>
                         </Styled.DragArea>
                     ) : (
-                        <Styled.Background image={URL.createObjectURL(logoFile)}>
+                        <Styled.Background
+                            image={URL.createObjectURL(logoFile)}
+                        >
                             <Styled.Cross onClick={removeLogoFile}>
                                 {/* <ImCross /> */}+
                             </Styled.Cross>
@@ -262,19 +277,21 @@ const AddCommunity = () => {
                                 setbghover(false)
                             }}
                         >
-                            <Styled.header hover={bghover} className="header">
-                                <Styled.span> Upload </Styled.span>or Drag your
+                            <Styled.Header hover={bghover} className="header">
+                                <Styled.Span> Upload </Styled.Span>or Drag your
                                 image here
-                            </Styled.header>
+                            </Styled.Header>
 
                             {/* <Styled.button className="button">
                                 Browse File 
                             </Styled.button> */}
                             <input
                                 type="file"
+                                accept="image/*"
                                 hidden
                                 ref={$bgImage}
                                 onChange={(e) => setBGFile(e.target.files[0])}
+                                required
                             ></input>
                         </Styled.DragArea>
                     ) : (
@@ -365,108 +382,122 @@ const AddCommunity = () => {
                 </Styled.Fieldset>
 
                 <Styled.Fieldset>
-                        <Styled.Label for="socials">Socials</Styled.Label>
-                        {socials.map((social, idx) => {
-                            return (
-                                <Styled.InputWrapper>
-                                    <Styled.Select
-                                        style={{ marginRight: '10px' }}
-                                        onChange={(e) =>
-                                            changeSocialName(
-                                                idx,
-                                                e.target.value
-                                            )
-                                        }
+                    <Styled.Label for="socials">Socials</Styled.Label>
+                    {socials.map((social, idx) => {
+                        return (
+                            <Styled.InputWrapper>
+                                <Styled.Select
+                                    style={{ marginRight: '10px' }}
+                                    onChange={(e) =>
+                                        changeSocialName(idx, e.target.value)
+                                    }
+                                >
+                                    <option
+                                        value="twitter"
+                                        selected={social.network === 'twitter'}
+                                        disabled={socials
+                                            .map((social) => social.network)
+                                            .includes('twitter')}
                                     >
-                                        <option
-                                            value="twitter"
-                                            selected={social.network === 'twitter'}
-                                            disabled={socials.map(social => social.network).includes('twitter')}
-                                        >
-                                            Twitter
-                                        </option>
-                                        <option
-                                            value="telegram"
-                                            selected={social.network === 'telegram'}
-                                            disabled={socials.map(social => social.network).includes('telegram')}
-                                        >
-                                            Telegram
-                                        </option>
-                                        <option
-                                            value="medium"
-                                            selected={social.network === 'medium'}
-                                            disabled={socials.map(social => social.network).includes('medium')}
-                                        >
-                                            Medium
-                                        </option>
-                                        <option
-                                            value="github"
-                                            selected={social.network === 'github'}
-                                            disabled={socials.map(social => social.network).includes('github')}
-                                        >
-                                            Github
-                                        </option>
-                                        <option
-                                            value="discord"
-                                            selected={social.network === 'discord'}
-                                            disabled={socials.map(social => social.network).includes('discord')}
-                                        >
-                                            Discord
-                                        </option>
-                                        <option
-                                            value="website"
-                                            selected={social.network === 'website'}
-                                            disabled={socials.map(social => social.network).includes('website')}
-                                        >
-                                            Website
-                                        </option>
-                                        <option
-                                            value="chat"
-                                            selected={social.network === 'chat'}
-                                            disabled={socials.map(social => social.network).includes('chat')}
-                                        >
-                                            Chat
-                                        </option>
-                                        <option
-                                            value="other"
-                                            selected={social.network.startsWith('any')}
-                                        >
-                                            Other
-                                        </option>
-                                    </Styled.Select>
-                                    <Styled.Input
-                                        id={`social-${social.network}`}
-                                        type="text"
-                                        onChange={(e) => changeSocial(idx, e)}
-                                        value={social.url}
-                                    />
-                                    <Styled.IconButton
-                                        onClick={() => deleteSocial(idx)}
-                                        style={{ marginLeft: '10px' }}
+                                        Twitter
+                                    </option>
+                                    <option
+                                        value="telegram"
+                                        selected={social.network === 'telegram'}
+                                        disabled={socials
+                                            .map((social) => social.network)
+                                            .includes('telegram')}
                                     >
-                                        <FaTrashAlt />
-                                    </Styled.IconButton>
-                                </Styled.InputWrapper>
-                            )
-                        })}
-                        <Styled.IconButton
-                            onClick={() =>
-                                setSocials([
-                                    ...socials,
-                                    {
-                                        network: `any-${socials.length}`,
-                                        url: ""
-                                    },
-                                ])
-                            }
-                            style={{
-                                width: 'fit-content',
-                                alignSelf: 'center',
-                            }}
-                        >
-                            <FaPlus />
-                        </Styled.IconButton>
-                    </Styled.Fieldset>
+                                        Telegram
+                                    </option>
+                                    <option
+                                        value="medium"
+                                        selected={social.network === 'medium'}
+                                        disabled={socials
+                                            .map((social) => social.network)
+                                            .includes('medium')}
+                                    >
+                                        Medium
+                                    </option>
+                                    <option
+                                        value="github"
+                                        selected={social.network === 'github'}
+                                        disabled={socials
+                                            .map((social) => social.network)
+                                            .includes('github')}
+                                    >
+                                        Github
+                                    </option>
+                                    <option
+                                        value="discord"
+                                        selected={social.network === 'discord'}
+                                        disabled={socials
+                                            .map((social) => social.network)
+                                            .includes('discord')}
+                                    >
+                                        Discord
+                                    </option>
+                                    <option
+                                        value="website"
+                                        selected={social.network === 'website'}
+                                        disabled={socials
+                                            .map((social) => social.network)
+                                            .includes('website')}
+                                    >
+                                        Website
+                                    </option>
+                                    <option
+                                        value="chat"
+                                        selected={social.network === 'chat'}
+                                        disabled={socials
+                                            .map((social) => social.network)
+                                            .includes('chat')}
+                                    >
+                                        Chat
+                                    </option>
+                                    <option
+                                        value="other"
+                                        selected={social.network.startsWith(
+                                            'any'
+                                        )}
+                                    >
+                                        Other
+                                    </option>
+                                </Styled.Select>
+                                <Styled.Input
+                                    id={`social-${social.network}`}
+                                    type="text"
+                                    onChange={(e) => changeSocial(idx, e)}
+                                    value={social.url}
+                                    required
+                                />
+                                <Styled.IconButton
+                                    onClick={() => deleteSocial(idx)}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    <FaTrashAlt />
+                                </Styled.IconButton>
+                            </Styled.InputWrapper>
+                        )
+                    })}
+                    <Styled.IconButton
+                        onClick={() =>
+                            setSocials([
+                                ...socials,
+                                {
+                                    network: `any-${socials.length}`,
+                                    url: '',
+                                },
+                            ])
+                        }
+                        style={{
+                            width: 'fit-content',
+                            alignSelf: 'center',
+                        }}
+                    >
+                        <FaPlus />
+                    </Styled.IconButton>
+                </Styled.Fieldset>
 
                 <Styled.Fieldset marginBottom="30px">
                     <Styled.Label>Chain</Styled.Label>
@@ -540,7 +571,7 @@ const AddCommunity = () => {
 
                 <Styled.Fieldset>
                     <Styled.Label for="whitelistedAddress">
-                    Whitelisted Addresses
+                        Whitelisted Addresses
                     </Styled.Label>
                     {whitelistedAddresses.map((address, idx) => {
                         return (
@@ -548,11 +579,20 @@ const AddCommunity = () => {
                                 <Styled.Input
                                     id={`social-${idx}`}
                                     type="text"
-                                    onChange={(e) => changeWhitelistedAddress(e, idx)}
+                                    onChange={(e) =>
+                                        changeWhitelistedAddress(e, idx)
+                                    }
                                     value={whitelistedAddresses[idx]}
+                                    required
                                 />
                                 <Styled.IconButton
-                                    onClick={() => setWhitelistedAddresses(whitelistedAddresses.filter((addr, index) => idx !== index))}
+                                    onClick={() =>
+                                        setWhitelistedAddresses(
+                                            whitelistedAddresses.filter(
+                                                (addr, index) => idx !== index
+                                            )
+                                        )
+                                    }
                                     style={{ marginLeft: '10px' }}
                                 >
                                     <FaTrashAlt />
@@ -562,7 +602,10 @@ const AddCommunity = () => {
                     })}
                     <Styled.IconButton
                         onClick={() =>
-                            setWhitelistedAddresses([...whitelistedAddresses, ''])
+                            setWhitelistedAddresses([
+                                ...whitelistedAddresses,
+                                '',
+                            ])
                         }
                         style={{ width: 'fit-content', alignSelf: 'center' }}
                     >
@@ -579,6 +622,7 @@ const AddCommunity = () => {
                         type="text"
                         onChange={(e) => setTokenAddress(e.target.value)}
                         value={tokenAddress}
+                        required
                     />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
@@ -588,13 +632,10 @@ const AddCommunity = () => {
                         type="text"
                         onChange={(e) => setSpaceId(e.target.value)}
                         value={spaceId}
+                        required
                     />
                 </Styled.Fieldset>
-                <Styled.Button
-                    id="submit_msg"
-                    type="button"
-                    onClick={submitToDB}
-                >
+                <Styled.Button id="submit_msg" type="submit">
                     Save Changes
                 </Styled.Button>
             </Styled.Container>

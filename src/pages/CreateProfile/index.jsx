@@ -30,9 +30,9 @@ const CreateProfile = () => {
     const history = useHistory()
 
     // Form state
-    const [name, setName] = useState('')
-    const [username, setUsername] = useState('')
-    const [bio, setBio] = useState('')
+    const [name, setName] = useState(null)
+    const [username, setUsername] = useState(null)
+    const [bio, setBio] = useState(null)
     const [picture, setPicture] = useState(null)
     const [imgData, setImgData] = useState(null)
     const [socials, setSocials] = useState([])
@@ -112,7 +112,8 @@ const CreateProfile = () => {
         )
     }
 
-    const onSave = async () => {
+    const onSave = async (e) => {
+        e.preventDefault()
         try {
             const pfpURL = await uploadPfp()
             await updateUserInfo({
@@ -120,7 +121,7 @@ const CreateProfile = () => {
                 username: username.toLowerCase(),
                 bio,
                 socials,
-                daos: membership.map((dao) => dao.id),
+                daos_ids: membership.map((dao) => dao.id),
                 pfp: pfpURL,
                 init: true,
             })
@@ -166,7 +167,7 @@ const CreateProfile = () => {
             )
 
             if (!!daos.length) {
-                const memberOf = daos.map(dao => {
+                const memberOf = daos.map((dao) => {
                     return {
                         name: dao.data().name,
                         id: dao.id,
@@ -174,7 +175,10 @@ const CreateProfile = () => {
                     }
                 })
 
-                setMembership([...membership, memberOf.filter(dao => !membership.includes(dao))])
+                setMembership([
+                    ...membership,
+                    memberOf.filter((dao) => !membership.includes(dao)),
+                ])
             }
         }
 
@@ -211,7 +215,7 @@ const CreateProfile = () => {
             <Styled.MainBox>
                 <Styled.MainText>Create Profile</Styled.MainText>
 
-                <Styled.FormBox>
+                <Styled.FormBox onSubmit={onSave}>
                     <Styled.Fieldset>
                         <Styled.Label for="name">Display name</Styled.Label>
                         <Styled.Input
@@ -219,6 +223,8 @@ const CreateProfile = () => {
                             type="text"
                             id="name"
                             name="name"
+                            placeholder="Enter your name"
+                            required
                         />
                     </Styled.Fieldset>
 
@@ -229,6 +235,8 @@ const CreateProfile = () => {
                             type="text"
                             id="username"
                             name="username"
+                            placeholder="Enter your username"
+                            required
                         />
                     </Styled.Fieldset>
 
@@ -238,6 +246,8 @@ const CreateProfile = () => {
                             height="100px"
                             id="Bio"
                             onChange={(e) => setBio(e.target.value)}
+                            placeholder="Tell about yourself"
+                            required
                         ></Styled.Textarea>
                     </Styled.Fieldset>
 
@@ -433,7 +443,7 @@ const CreateProfile = () => {
                         )}
                     </Styled.Fieldset>
 
-                    <Styled.Button onClick={onSave}>Save</Styled.Button>
+                    <Styled.Button type="submit">Save</Styled.Button>
                 </Styled.FormBox>
             </Styled.MainBox>
         </Styled.Container>

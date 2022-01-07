@@ -3,16 +3,17 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Home from './Home'
-import FallbackPage from './FallbackPage';
-import Page404 from './404';
-import DaoGate from '../components/BigCard/components/Gates/DaoGate';
-import DaoGateWithKeys from '../components/BigCard/components/Gates/DaoGateWithKeys';
+import FallbackPage from './FallbackPage'
+import Page404 from './404'
+import DaoGate from '../components/BigCard/components/Gates/DaoGate'
+import DaoGateWithKeys from '../components/BigCard/components/Gates/DaoGateWithKeys'
 import AddExperience from '../pages/AddExperience'
 import AddGovernanceSnapshopt from '../pages/AddNewKey/AddGovernanceSnapshot'
 import AddHoldToken from '../pages/AddNewKey/AddHoldToken'
 import AddKeySuccess from '../pages/AddNewKey/AddKeySuccess'
 import AddNewKey from '../pages/AddNewKey'
-import DAOsGate from './DAOsGate';
+import DAOsGate from './DAOsGate'
+import GateSuccessPage from './GateSuccessPage'
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
@@ -45,7 +46,7 @@ const App = (props) => {
                         <DaoGateWithKeys />
                     </Route>
                     {/* Add New Key Routes start */}
-                    <Route path="/add-experience">
+                    <Route path="/profile/add-experience">
                         <AddExperience />
                     </Route>
                     <Route path="/dao/daoname/newkey/governance">
@@ -87,6 +88,9 @@ const App = (props) => {
                     </Route>
                     <Route path="/key-quiz">
                         <KeyQuiz />
+                    </Route>
+                    <Route path="/testing">
+                        <GateSuccessPage />
                     </Route>
                     <Route path="*">
                         <Page404 />

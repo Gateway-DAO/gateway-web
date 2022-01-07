@@ -64,7 +64,7 @@ const MakePost = (props) => {
                         Post as
                         <Styled.PostByName>{user.name}</Styled.PostByName>
                         <Styled.PostByUsername>
-                            @{user.username}
+                            <Styled.UserLink to="/profile/">@{user.username}</Styled.UserLink>
                         </Styled.PostByUsername>
                     </Styled.PostByInfo>
                 </Styled.ProfileBioContainer>

@@ -148,6 +148,7 @@ export const SearchIconDiv = styled.div`
     justify-content: center;
     background-color: white;
     border-radius: 0px 100px 100px 0px;
+    cursor:pointer;
 `
 
 export const WrappedFiSearch = styled(FiSearch)`
