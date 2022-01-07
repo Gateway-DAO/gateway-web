@@ -37,7 +37,7 @@ const MakePost = (props) => {
             daoID: props.daoID,
             channelID: props.channel.id,
             content: commentMessage,
-            upvotes: [],
+            upvotes: [userInfo.id],
             downvotes: [],
             createdAt: new Date().toISOString(),
         }

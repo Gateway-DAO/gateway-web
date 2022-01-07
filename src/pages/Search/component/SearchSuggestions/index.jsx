@@ -11,6 +11,7 @@ const SearchSuggestions = (props)=>{
         <Styled.SearchSuggestionItem onClick={search}>
             <Styled.SearchLogo src={props.hits.logoURL} />
             {props.hits.name}
+            <Styled.SearchType>• DAO</Styled.SearchType>
         </Styled.SearchSuggestionItem>
     )
 }

@@ -8,6 +8,14 @@ export const Container = styled.main`
     justify-content: center;
     //justify-content: space-between;
     flex-direction: column;
+    min-height: 100vh;
+`
+
+export const LoaderBox = styled.section`
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 export const MainBox = styled.section`
@@ -75,7 +83,5 @@ export const RightSidebar = styled.aside``
 export const FeedContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-    width: 35vw;
-    height : 60vh;
+    margin-top: 30px;
 `

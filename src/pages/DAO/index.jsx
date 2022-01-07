@@ -1,28 +1,18 @@
 import { useParams, useHistory, Redirect } from 'react-router'
-import { ethers } from 'ethers'
-import { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { useGetDAOByID } from '../../api/database/useGetDAO'
 
+// Components
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
+import Loader from '../../components/Loader'
 
 import BigCard from '../../components/BigCard'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getTokenFromAddress } from '../../api/coingecko'
 import React from 'react'
 import * as Styled from './style'
-
-const Container = styled.main`
-    background-color: #170627;
-    min-height: 100vh;
-    overflow-x: hidden;
-    width: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-`
 
 const DAO = (props) => {
     const { id } = useParams()
@@ -86,33 +76,12 @@ const DAO = (props) => {
 
     // Fetch data regarding these
     useEffect(() => {
-        /*
-        const getRelatedDAOLogo = async (dao) => {
-            const daoDoc = doc(db, 'daos', dao)
-            const relatedDao = await getDoc(daoDoc)
-            return relatedDao.data().logoURL
-        }
-        */
-
-        console.log(id)
-
         const handleData = async () => {
             if (daoData && !loading && !error) {
                 const cgData = dbData.tokenAddress
                     ? await getCGData(dbData.tokenAddress).catch((e)=>{console.log(e)})
                     : {}
                 
-                /*
-                let related = []
-
-                // If a DAO has a "related-daos" field, fetch the related DAOs
-                if ('related-daos' in dbData) {
-                    related = dbData['related-daos'].map(getRelatedDAOLogo)
-                }
-
-                related = await Promise.all(related)
-                */
-
                 const tokenData = dbData.tokenAddress && cgData.symbol
                     ? {
                         symbol: cgData.symbol,
@@ -141,7 +110,6 @@ const DAO = (props) => {
                 // Organize presentable data
                 const data = {
                     ...dbData,
-                    // related,
                     ...tokenData,
                 }
 
@@ -165,7 +133,7 @@ const DAO = (props) => {
     }
 
     return (
-        <Container isLoaded={loaded}>
+        <Styled.Container isLoaded={loaded}>
             <Header search={{ visible: true }} />
             <Styled.SearchTermContainer>
                 <Styled.BackButtonContainer>
@@ -190,6 +158,13 @@ const DAO = (props) => {
                     <Styled.WrappedFiSearch />
                 </Styled.SearchInputBox>
             </Styled.SearchTermContainer>
+
+            {(loading && !loaded) && (
+                <Styled.LoaderBox>
+                    <Loader color="white" size={35} />
+                </Styled.LoaderBox>
+            )}
+
             {loaded &&
                 React.createElement(BigCard, {
                     ...daoData,
@@ -197,7 +172,7 @@ const DAO = (props) => {
                         setDaoData({ ...daoData, ...data }),
                 })}
             <Footer />
-        </Container>
+        </Styled.Container>
     )
 }
 

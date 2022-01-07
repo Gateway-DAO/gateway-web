@@ -4,9 +4,9 @@ export const PostContainer = styled.div`
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    margin-right: 40px;
     border-radius: 20px;
     margin-bottom: 20px;
+    margin-right: 40px;
     z-index: 2;
 `
 

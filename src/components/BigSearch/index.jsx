@@ -9,6 +9,7 @@ import React from 'react'
 
 const BigSearch = (props) => {
     const [showTyping, setShowTyping] = useState(true)
+    const [searchValue, setSearchValue] = useState('all')
     const history = useHistory()
     // const [placeholder, setPlaceholder] = useState("Search for ");
 
@@ -19,6 +20,15 @@ const BigSearch = (props) => {
         if (e.key === 'Enter') {
             history.push(`search/${e.target.value}`)
         }
+    }
+
+    const showClickResult = async (e) => {
+        history.push(`search/${searchValue}`)
+    }
+
+    const updateSearchValue = (e) => {
+        setSearchValue(e.target.value)
+        console.log(searchValue)
     }
 
     const TypewriterText = (
@@ -59,11 +69,13 @@ const BigSearch = (props) => {
                     </Styled.TypewriterDiv>
                     <Styled.InputBox
                         onClick={showTypingHandler}
+                        onChange={updateSearchValue}
+                        //value={searchValue}
                         type="search"
                         onKeyPress={handleInput}
                     />
                 </Styled.SearchSecondary>
-                <Styled.SearchIconDiv>
+                <Styled.SearchIconDiv onClick={showClickResult}>
                     <Styled.WrappedFiSearch size={60} />
                 </Styled.SearchIconDiv>
             </Styled.SearchMainDiv>

@@ -3,9 +3,49 @@ import { FiSearch } from 'react-icons/fi'
 
 export const Container = styled.main`
     background-color: #170627;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
     margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+`
+
+export const LoaderBox = styled.div`
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+export const TextBox = styled(LoaderBox)`
+    flex-flow: column;
+`
+
+export const MainText = styled.h2`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 21px;
+    line-height: 80px;
+    /* identical to box height, or 381% */
+
+    letter-spacing: -0.015em;
+
+    color: #E5E5E5;
+`
+
+export const SmallText = styled.p`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    /* or 133% */
+
+    text-align: center;
+    letter-spacing: -0.015em;
+
+    color: #E5E5E5;
 `
 
 export const CardBox = styled.section`
@@ -122,7 +162,8 @@ export const SelectContainer = styled.div`
     position: relative;
     width: 90px;
     height: 40px;
-    border: 1px solid rgba(229, 229, 229, 0.5);
+    border: ${(props) =>
+        props.active ? `none` : `1px solid rgba(229, 229, 229, 0.5)`};
     box-sizing: border-box;
     border-radius: 20px;
     color: #ffffff;
@@ -131,6 +172,8 @@ export const SelectContainer = styled.div`
     justify-content: center;
     margin: 0 2px;
     cursor: pointer;
+    background: ${(props) =>
+        props.active ? 'rgba(229, 229, 229, 0.2)' : 'inherit'}; ;
 `
 
 export const SelectContainerText = styled.div`
@@ -217,12 +260,12 @@ font-family: Be Vietnam;
     text-transform: capitalize;
     color:black;
     height: 70px;
-    width:87%;
+    width:100%;
     display: flex;
     align-items: center;
-    // justify-content: center;
+    justify-content: center;
     text-align: center;
-    padding-left:40px;
+    // padding-left:40px;
     cursor:pointer;
     border-top: ${props => props.inputVal ? "1px solid #E5E5E5;" : "none"}
 `

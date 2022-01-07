@@ -1,59 +1,79 @@
 import * as Styled from './style'
-import { useLazySearchDAO } from '../../../../api/database/useSearchDAO'
-import { useLazyListDAOs } from '../../../../api/database/useGetDAO'
+import * as SearchStyled from '../../style'
+
+// Components
 import Card from '../../../../components/Card'
-import { ConnectToWallet } from '../../../../components/WalletHeader/style'
+import Loader from '../../../../components/Loader'
+import { Redirect } from 'react-router-dom'
 
-
+// Hooks
+import { useSearchDAO } from '../../../../api/database/useSearchDAO'
+import { useListDAOs } from '../../../../api/database/useGetDAO'
 import { useParams, useHistory } from 'react-router'
 import { useEffect, useState } from 'react'
 
 const DAOTab = () => {
     const { query } = useParams()
+    const [loading, setLoading] = useState(true)
     const [hits, setHits] = useState([])
+
     const {
-        listDAOs,
         data: listData,
         loading: listLoading,
         error: listError,
-    } = useLazyListDAOs()
+    } = useListDAOs()
+
     const {
-        searchDAO,
         data: searchData,
         loading: searchLoading,
         error: searchError,
-    } = useLazySearchDAO()
+    } = useSearchDAO({
+        variables: {
+            filter: {
+                or: [
+                    { dao: { wildcard: `*${query}*` } },
+                    { name: { wildcard: `*${query}*` } },
+                    { description: { wildcard: `*${query}*` } },
+                    { categories: { match: `*${query}*` } },
+                    { tags: { wildcard: `*${query}*` } },
+                ],
+            },
+        },
+    })
 
     useEffect(() => {
-        const searchAsync = async () => {
-            if (query === 'all') {
-                const res = await listDAOs()
-                setHits(res.data.listDAOs.items)
-            } else {
-                const res = await searchDAO({
-                    variables: {
-                        filter: {
-                            or: [
-                                { dao: { matchPhrase: query } },
-                                { name: { matchPhrase: query } },
-                                { description: { matchPhrase: query } },
-                                { categories: { matchPhrase: query } },
-                                { tags: { matchPhrase: query } },
-                            ],
-                        },
-                    },
-                })
-
-                setHits(res.data.searchDAOs.items)
-            }
+        if (query.toLowerCase() === 'all') {
+            setHits(!listLoading ? listData.listDAOs.items : [])
+        } else {
+            setHits(!searchLoading ? searchData.searchDAOs.items : [])
         }
+    }, [query, searchLoading, listLoading])
 
-        searchAsync()
-    }, [query])
+    if (searchError || listError) {
+        return <Redirect to="/404" />
+    }
 
     return (
         <>
-            {hits && (
+            {(!!query ? searchLoading : listLoading) && (
+                <SearchStyled.LoaderBox>
+                    <Loader color="white" size={35} />
+                </SearchStyled.LoaderBox>
+            )}
+
+            {!hits.length && !(searchLoading) && (
+                <SearchStyled.TextBox>
+                    <SearchStyled.MainText>
+                        Oops! There's no "{query}" DAO on our records :/
+                    </SearchStyled.MainText>
+                    <SearchStyled.SmallText>
+                        We couldn't find what you're looking for. Try again
+                        later!
+                    </SearchStyled.SmallText>
+                </SearchStyled.TextBox>
+            )}
+
+            {!!hits.length && (
                 <Styled.CardBox>
                     {hits.map((card, idx) => {
                         return (
@@ -63,9 +83,6 @@ const DAOTab = () => {
                                 title={card.name}
                                 description={card.description}
                                 categories={card.categories}
-                                // ranking={card.ranking}
-                                // token={card.token}
-                                // price={card.price}
                                 logoURL={card.logoURL}
                                 bannerURL={card.backgroundURL}
                             />

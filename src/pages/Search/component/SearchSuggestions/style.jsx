@@ -28,3 +28,14 @@ export const SearchLogo = styled.img`
     background-color: white;
     margin-right: 10px;
 `
+export const SearchType = styled.div`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    margin-left:10px;
+    color: #A5A5A5;
+`

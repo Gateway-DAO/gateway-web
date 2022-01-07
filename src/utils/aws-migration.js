@@ -1,11 +1,12 @@
 // AWS/Amplify
 import Amplify, { API, graphqlOperation, Storage, Auth } from "aws-amplify";
 import awsconfig from "../aws-exports";
-import { createDao, createUser, createComment, createPost, createChannel, updateDao } from "../graphql/mutations";
+import { createDao, createUser, createComment, createPost, createChannel, updateUser as UPDATE_USER } from "../graphql/mutations";
+import { getUserByAddress } from "../graphql/queries";
 
 // Firebase
 import { db, storage } from '../api/firebase'
-import { collection, doc, getDocs, query } from '@firebase/firestore'
+import { collection, doc, getDocs, query, orderBy } from '@firebase/firestore'
 import { getDownloadURL, ref } from "firebase/storage";
 
 import { v4 as uuidv4 } from 'uuid'
@@ -25,6 +26,14 @@ Amplify.configure({
 
 const importUser = async (user) => {
     return await API.graphql(graphqlOperation(createUser, { input: user }))
+}
+
+const getUser = async (wallet) => {
+    return await API.graphql(graphqlOperation(getUserByAddress, { wallet }))
+}
+
+const updateUser = async (user) => {
+    return await API.graphql(graphqlOperation(UPDATE_USER, { input: user }))
 }
 
 const importDAO = async (DAO) => {
@@ -166,6 +175,55 @@ export const runUserMigration = async () => {
                 .then(() => console.log(`"${user.id}" migrated!`))
                 .catch(err => {
                     console.error(`There was an error migrating ${user.id}`)
+                    console.error(err)
+                })
+        })
+    }
+    catch (err) {
+        console.error(`Something happened here! - ${err}`)
+    }
+}
+
+export const runUserPFPMigration = async () => {
+    try {
+        // 1. get users
+        const users = await getDocs(query(collection(db, "users"), orderBy("pfp")))
+        users.forEach(async user => {
+            const data = user.data()
+            const AWSUser = (await getUser(user.id)).data.getUserByAddress.items[0]
+
+            let pfpKey = ""
+
+            if (data.pfp) {
+                try {
+                    const pfp = await (await fetch(data.pfp)).blob()
+
+                    const ext = {"image/jpeg": ".jpg", "image/png": ".png"}[pfp.type]
+
+                    const { key } = await Storage.put(`users/${AWSUser.id}/profile${ext}`, pfp)
+
+                    pfpKey = key
+                    console.log(`key: ${pfpKey}`)
+                }
+                catch (err) {
+                    console.log(`[STORAGE]: ${err}`)
+                    console.log(user)
+                }
+            }
+
+            let pfp = pfpKey ? (await Storage.get(pfpKey)).split('?')[0].toString() : ""
+
+            const mutation = {
+                id: AWSUser.id,
+                pfp,
+            }
+
+            const moveUser = updateUser(mutation)
+            console.log(`Updating: ${AWSUser.wallet}...`)
+            moveUser
+                .then(() => console.log(`"${AWSUser.wallet}" pfp updated!`))
+                .catch(err => {
+                    console.error(`There was an error migrating ${AWSUser.wallet}`)
                     console.error(err)
                 })
         })

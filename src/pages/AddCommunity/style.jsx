@@ -250,7 +250,7 @@ export const Text = styled.p`
     font-style: normal;
 
 `
-export const drag_area= styled.div`
+export const DragArea = styled.div`
 width: 100%;
 height: 200px;
 display: flex;

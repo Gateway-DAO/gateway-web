@@ -1,70 +1,67 @@
-import { useEffect, useRef, useState } from 'react'
-
+// Components
 import Card from '../Card'
+import Loader from '../Loader'
 
-import * as Styled from "./style"
-import {useHistory} from 'react-router-dom'
-import { useLazyListDAOs } from '../../api/database/useGetDAO'
-import { useLazySearchDAO } from '../../api/database/useSearchDAO'
+// Styling
+import * as Styled from './style'
 
-const DUMMY_CATEGORIES = [
-    'Trending',
-    'DeFi',
-    'Investment',
-    'Media',
-    'Social',
-]
+// Hooks
+import { useEffect, useRef, useState } from 'react'
+import { Redirect, useHistory } from 'react-router-dom'
+import { useListDAOs } from '../../api/database/useGetDAO'
+import { useSearchDAO } from '../../api/database/useSearchDAO'
+
+const DUMMY_CATEGORIES = ['Trending', 'DeFi', 'Investment', 'Media', 'Social']
 const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '']
 
 const Categories = (props) => {
-    const [numberOfCards, setNumberOfCards] = useState(3);
+    const [numberOfCards, setNumberOfCards] = useState(3)
     const [categories, setCategories] = useState(DUMMY_CATEGORIES)
     const [categoriesEmoji, setCategoriesEmoji] = useState(
         DUMMY_CATEGORIES_EMOJI
     )
-    const [totalCards,setTotalCards]=useState(0);
+    const [totalCards, setTotalCards] = useState(0)
     const [activeCategory, setActiveCategory] = useState(0)
     const [cards, setCards] = useState([])
     const cardRef = useRef(null)
-    const [isScrolling, setIsScrolling] = useState(false);
+    const [isScrolling, setIsScrolling] = useState(false)
 
-    const { listDAOs, data: DAOData, loading: DAOLoading, error: DAOError } = useLazyListDAOs()
-    const { searchDAO, data: searchData, loading: searchLoading, error: searchError } = useLazySearchDAO()
-
-    const fetchCards = async () => {
-        // If Trending or All, implement a different behavior
-        let q
-
-        switch (activeCategory) {
-            case 0: // TODO: Need to come up with something for Trending
-            case 5:
-                // All
-                const res = await listDAOs()
-                setTotalCards(res.data.listDAOs.items.length);
-                q = res.data.listDAOs.items
-                break
-            default:
-                const res2 = await searchDAO({ variables: {
-                    filter: {
-                        categories: {
-                            match: DUMMY_CATEGORIES[activeCategory]
-                        }
-                    }
-                } })
-
-                q = res2.data.searchDAOs.items
-                setTotalCards(res2.data.searchDAOs.items.length);
-        }
-
-        setCards(q)
-    }
+    const {
+        data: DAOData,
+        loading: DAOLoading,
+        error: DAOError,
+    } = useListDAOs()
+    const {
+        data: searchData,
+        loading: searchLoading,
+        called: searchCalled,
+        error: searchError,
+    } = useSearchDAO({
+        variables: {
+            filter: {
+                categories: {
+                    match: DUMMY_CATEGORIES[activeCategory],
+                },
+            },
+        },
+    })
 
     // Fetch cards from DB
     useEffect(() => {
-        fetchCards()   
-        // console.log(totalCards);
-    }, [activeCategory])
+        // alert(`Category: ${DUMMY_CATEGORIES[activeCategory]}\nDAOLoading: ${DAOLoading}\nsearchLoading: ${searchLoading}\nDAOData: ${!!DAOData}\nsearchData: ${!!searchData}`)
 
+        if (activeCategory === 0) {
+            console.log(!DAOLoading && DAOData)
+            setTotalCards(!DAOLoading ? DAOData.listDAOs.items.length : 0)
+            setCards(!DAOLoading ? DAOData.listDAOs.items : [])
+        } else {
+            console.log(!searchLoading && searchData)
+            setTotalCards(!searchLoading ? searchData.searchDAOs.total : 0)
+            setCards(!searchLoading ? searchData.searchDAOs.items : [])
+        }
+    }, [activeCategory, DAOLoading, searchLoading, searchData])
+
+    /*
     let mouseDown = false
     let startX, scrollLeft
 
@@ -89,51 +86,62 @@ const Categories = (props) => {
             cardRef.current.scrollLeft = scrollLeft - scroll
         })
 
-        cardRef.current.addEventListener('mousedown', () => setIsScrolling(false));
-        cardRef.current.addEventListener('mousemove', () => setIsScrolling(true));
-        cardRef.current.addEventListener('mouseup', () => console.log(isScrolling ? 'drag' : 'click'));
+        cardRef.current.addEventListener('mousedown', () =>
+            setIsScrolling(false)
+        )
+        cardRef.current.addEventListener('mousemove', () =>
+            setIsScrolling(true)
+        )
+        cardRef.current.addEventListener('mouseup', () =>
+            console.log(isScrolling ? 'drag' : 'click')
+        )
 
         // Add the event listeners
         cardRef.current.addEventListener('mousedown', startDragging, false)
         cardRef.current.addEventListener('mouseup', stopDragging, false)
         cardRef.current.addEventListener('mouseleave', stopDragging, false)
     }, [])
+    */
 
-    useEffect(()=>{
-        let size = window.innerWidth;
-        if(size<735){
-            setNumberOfCards(1);
-        }else if(size<900){
-            setNumberOfCards(1);
-        }else if(size<2000){
-            setNumberOfCards(3);
-        }else{
-            setNumberOfCards(3);
+    useEffect(() => {
+        let size = window.innerWidth
+        if (size < 735) {
+            setNumberOfCards(1)
+        } else if (size < 900) {
+            setNumberOfCards(1)
+        } else if (size < 2000) {
+            setNumberOfCards(3)
+        } else {
+            setNumberOfCards(3)
         }
-    },[])
+    }, [])
 
     //Activate gradient on active category if y page offset is bigger than 0.2 height of page
-    const [activeGradient, setActiveGradient] = useState(0)
+    const [activeGradient, setActiveGradient] = useState(false)
 
     const activateGradient = () => {
         const entireDocumentHeight = window.document.body.offsetHeight
         if (window.pageYOffset > 0.01 * entireDocumentHeight) {
-            setActiveGradient(1)
+            setActiveGradient(true)
         } else {
-            setActiveGradient(0)
+            setActiveGradient(false)
         }
     }
 
     useEffect(() => {
         window.addEventListener('scroll', activateGradient, { passive: true })
     }, [])
+
     // navigation to search page
     const history = useHistory()
-    const navigate = e => {
-        if(activeCategory==0){
-            history.push(`/search/all`)    
-        }else
-            history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
+    const navigate = (e) => {
+        if (activeCategory === 0) {
+            history.push(`/search/all`)
+        } else history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
+    }
+
+    if (searchError || DAOError) {
+        return <Redirect to="/404" />
     }
 
     return (
@@ -157,32 +165,41 @@ const Categories = (props) => {
                 <Styled.AllButton to="/search/all">All</Styled.AllButton>
             </Styled.CategoriesContainer>
 
-            <Styled.CardBox className="full" ref={cardRef}>
-                {cards.filter((item, idx) => idx < numberOfCards).map((card) => {
-                    // filter((item, idx) => idx < numberOfCards).
-                    return (
-                        <Card
-                            id={card.dao}
-                            title={card.name}
-                            description={card.description}
-                            categories={card.categories}
-                            SpaceId={card.SpaceId}
-                            // ranking={card.ranking}
-                            // token={card.token}
-                            // price={card.price}
-                            logoURL={card.logoURL}
-                            bannerURL={card.backgroundURL}
-                            isScrolling={isScrolling}
-                        />
-                    )
-                })}
-                {totalCards>3&&
-                    <Styled.MoreCard onClick={navigate}>
-                        <Styled.MoreText>+{totalCards-numberOfCards} more</Styled.MoreText>
-                    </Styled.MoreCard>
-                }
-            </Styled.CardBox>
-
+            {searchLoading || DAOLoading ? (
+                <Styled.LoaderBox>
+                    <Loader color="white" size={35} />
+                </Styled.LoaderBox>
+            ) : (
+                <Styled.CardBox className="full" ref={cardRef}>
+                    {cards
+                        .filter((item, idx) => idx < numberOfCards)
+                        .map((card) => {
+                            // filter((item, idx) => idx < numberOfCards).
+                            return (
+                                <Card
+                                    id={card.dao}
+                                    title={card.name}
+                                    description={card.description}
+                                    categories={card.categories}
+                                    SpaceId={card.SpaceId}
+                                    // ranking={card.ranking}
+                                    // token={card.token}
+                                    // price={card.price}
+                                    logoURL={card.logoURL}
+                                    bannerURL={card.backgroundURL}
+                                    isScrolling={isScrolling}
+                                />
+                            )
+                        })}
+                    {totalCards > 3 && (
+                        <Styled.MoreCard onClick={navigate}>
+                            <Styled.MoreText>
+                                +{totalCards - numberOfCards} more
+                            </Styled.MoreText>
+                        </Styled.MoreCard>
+                    )}
+                </Styled.CardBox>
+            )}
         </Styled.Box>
     )
 }

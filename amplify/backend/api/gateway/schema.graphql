@@ -37,6 +37,7 @@ type DAO
     name: String!
     faq: [FAQ]
     accomplishments: String
+    snapshotID: String
     backgroundURL: AWSURL!
     youtubeURL: AWSURL
     logoURL: AWSURL!
@@ -137,5 +138,5 @@ type Mutation {
 
     votePost(postID: ID!, userID: ID!, type: VoteType!): Post @function(name: "vote-${env}")
 
-    unvotePost(postID: ID!, userIndex: Int!, type: VoteType!): Post @function(name: "vote-${env}")
+    unvotePost(postID: ID!, userID: ID!, type: VoteType!): Post @function(name: "vote-${env}")
 }

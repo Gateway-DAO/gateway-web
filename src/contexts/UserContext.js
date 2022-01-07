@@ -7,15 +7,16 @@ import { CONNECTORS } from '../utils/web3'
 import { useWeb3React } from '@web3-react/core'
 
 // AWS/GraphQL
-import Amplify, { Auth } from 'aws-amplify'
 import awsconfig from '../aws-exports'
 import { getNonce } from '../api/database/getNonce'
 import { getUser as getUserQuery } from '../graphql/queries'
 import { useLazyQuery, gql } from '@apollo/client'
-import { Hub } from '@aws-amplify/core'
+import { Hub, Amplify } from '@aws-amplify/core'
+import { Auth } from '@aws-amplify/auth'
 import useUpdateUser from '../api/database/useUpdateUser'
 
 Amplify.configure(awsconfig)
+Auth.configure(awsconfig)
 
 export const userContext = createContext({})
 const { Provider } = userContext
@@ -28,11 +29,12 @@ export const UserProvider = ({ children }) => {
     /* State */
     const [loggedIn, setLoggedIn] = useState(false)
     const [loggingIn, setLoggingIn] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [loadingWallet, setLoadingWallet] = useState(false)
     const [userInfo, setUserInfo] = useState(null)
 
     const [getUser, { data: userData, loading: userLoading, called }] =
         useLazyQuery(gql(getUserQuery))
+
     const {
         updateUser,
         data: userUpdateData,
@@ -44,7 +46,14 @@ export const UserProvider = ({ children }) => {
     const history = useHistory()
 
     const activateWeb3 = async () => {
-        await web3.activate(CONNECTORS.Injected)
+        try {
+            setLoadingWallet(true)
+            await web3.activate(CONNECTORS.Injected)
+            setLoadingWallet(false)
+        }
+        catch (err) {
+            console.log(`Error connecting to wallet: ${err}`)
+        }
     }
 
     // AWS
@@ -54,7 +63,6 @@ export const UserProvider = ({ children }) => {
             setLoggingIn(true)
 
             const { data } = await getNonce(web3.account)
-            console.log(data)
 
             const signer = web3.library.getSigner()
 
@@ -71,8 +79,6 @@ export const UserProvider = ({ children }) => {
                     nonce: data.getAuthenticationNonce.nonce,
                 })
             )
-
-            console.log(res)
 
             if (res.username) {
                 const userDB = await getUser({
@@ -124,6 +130,29 @@ export const UserProvider = ({ children }) => {
         }
     }, [web3.account])
 
+    useEffect(() => {
+        const callback = async () => {
+            try {
+                const { username, signInUserSession } =
+                    await Auth.currentAuthenticatedUser()
+                    
+                if (username) {
+                    const userDB = await getUser({
+                        variables: {
+                            id: username,
+                        },
+                    })
+                    setUserInfo(userDB.data.getUser)
+                    setLoggedIn(true)
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        }
+
+        callback()
+    }, [])
+
     const listener = async ({ payload: { event, data } }) => {
         console.log('event', event)
         switch (event) {
@@ -150,27 +179,6 @@ export const UserProvider = ({ children }) => {
         return () => Hub.remove('auth', listener)
     })
 
-    useEffect(() => {
-        const callback = async () => {
-            try {
-                const { username, signInUserSession } =
-                    await Auth.currentAuthenticatedUser()
-                if (username) {
-                    const userDB = await getUser({
-                        variables: {
-                            id: username,
-                        },
-                    })
-                    setUserInfo(userDB.data.getUser)
-                    setLoggedIn(true)
-                }
-            } catch (e) {
-                console.log(e)
-            }
-        }
-        callback()
-    }, [])
-
     return (
         <Provider
             value={{
@@ -180,6 +188,9 @@ export const UserProvider = ({ children }) => {
                 loggingIn,
                 updateUserInfo,
                 userSignOut,
+                walletConnected: web3.active,
+                activateWeb3,
+                loadingWallet
             }}
         >
             {children}
