@@ -182,15 +182,6 @@ const AddCommunity = () => {
                 </Styled.Fieldset>
                 <Styled.Fieldset>
                     <Styled.Label for="logo">Logo</Styled.Label>
-                    {/* <Styled.Input
-                        onChange={(e) => setLogoURL(e.target.value)}
-                        type="text"
-                        id="logoURL"
-                        name="logoURL"
-                        placeholder="Your Community  logo URL"
-                        value={logoURL}
-                    /> */}
-
                     {!logoFile ? (
                         <Styled.DragArea
                             hover={over}
@@ -217,10 +208,6 @@ const AddCommunity = () => {
                                 <Styled.Span> Upload </Styled.Span>or Drag your
                                 image here
                             </Styled.Header>
-
-                            {/* <Styled.button className="button">
-                                Browse File 
-                            </Styled.button> */}
                             <input
                                 type="file"
                                 accept="image/*"
@@ -235,12 +222,8 @@ const AddCommunity = () => {
                             image={URL.createObjectURL(logoFile)}
                         >
                             <Styled.Cross onClick={removeLogoFile}>
-                                {/* <ImCross /> */}+
+                                +
                             </Styled.Cross>
-
-                            {/* <Styled.Image src={files} >
-                         
-                          </Styled.Image>   */}
                         </Styled.Background>
                     )}
                 </Styled.Fieldset>
