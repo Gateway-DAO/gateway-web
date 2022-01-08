@@ -55,6 +55,7 @@ type DAO
     socials: [Social]
     chains: [String]
     channels: [Channel] @connection(keyName: "channelByDAO", fields: ["id"])
+    gates: [Gate] @connection(keyName: "gateByDAOID ", fields: ["id"])
     createdAt: AWSDateTime
     updatedAt: AWSDateTime
 }
@@ -152,27 +153,27 @@ enum VoteType {
 }
 
 input CreateNewDAO {
-	id: ID
-	dao: String!
-	name: String!
-	snapshotID: String
-	backgroundURL: AWSURL!
-	youtubeURL: AWSURL
-	logoURL: AWSURL!
-	categories: [String]!
-	tags: [String]
-	description: String!
-	tokenAddress: String
-	whitelistedAddresses: [String!]
-	socials: [SocialInput]
-	chains: [String]
-	createdAt: AWSDateTime
-	updatedAt: AWSDateTime
+    id: ID
+    dao: String!
+    name: String!
+    snapshotID: String
+    backgroundURL: AWSURL!
+    youtubeURL: AWSURL
+    logoURL: AWSURL!
+    categories: [String]!
+    tags: [String]
+    description: String!
+    tokenAddress: String
+    whitelistedAddresses: [String!]
+    socials: [SocialInput]
+    chains: [String]
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
 }
 
 input SocialInput {
-	network: String!
-	url: String!
+    network: String!
+    url: String!
 }
 
 type Mutation {
@@ -187,4 +188,55 @@ type Mutation {
 
     unvotePost(postID: ID!, userID: ID!, type: VoteType!): Post
         @function(name: "vote-${env}")
+}
+
+type Prerequisites {
+    whitelistedUser: [User]
+    gatesCompletors: [Gate]
+}
+
+type Trigger {
+    type: OptionType
+    completed: Bool!
+    noOfPeople: Int!
+}
+
+type Gate
+    @model
+    @key(
+        name: "gateByDAOID"
+        fields: ["daoID"]
+        queryField: "getGatesByDAOID"
+    ) {
+    id: ID!
+    daoID: ID!
+    dao: DAO @connection(fields: ["daoID"])
+    name: String!
+    description: String!
+    categories: String!
+    admins: [User]!
+    keys: number
+    tasks: [Task] @connection(keyName: "TaskByGateID", fields: ["id"])
+    prerequisites: Prerequisites
+}
+
+type Task
+    @model
+    @key(
+        name: "TaskByGateID"
+        fields: ["gateID"]
+        queryField: "getTasksByGateID"
+    ) {
+    id: ID!
+    gateID: ID!
+    title: String!
+    description: String!
+    triggers: [Trigger]
+    completed: Bool!
+    gate: Gate @connection(fields: ["gateID"])
+}
+
+enum OptionType {
+    auto
+    manual
 }
