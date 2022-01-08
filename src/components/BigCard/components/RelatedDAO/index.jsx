@@ -2,8 +2,6 @@ import CardsScrollWrapper from '../../../Card/CardsScrollWrapper'
 
 import * as Styled from './style'
 import React, { useEffect, useState } from 'react'
-import { query, getDocs, where } from 'firebase/firestore'
-import { DAORef, allDocs } from '../../../../api/db'
 
 import { useLazySearchDAO } from '../../../../api/database/useSearchDAO'
 
@@ -18,11 +16,6 @@ const RelatedDAOSection = ({ name, categories }) => {
 
     const fetchLimitedCards = async () => {
         categories.forEach(async (category) => {
-            let q
-            q = await getDocs(
-                query(DAORef, where('categories', 'array-contains', category))
-            )
-            
             const res = await searchDAO({ variables: {
                 filter: {
                     categories: {
@@ -32,8 +25,6 @@ const RelatedDAOSection = ({ name, categories }) => {
             } })
 
             const data = res.data.searchDAOs.items;
-
-            console.log(data)
 
             setLimitedCards((prev) => {
                 if (prev.length !== 0) {
@@ -53,13 +44,13 @@ const RelatedDAOSection = ({ name, categories }) => {
 
     useEffect(() => {
         fetchLimitedCards()
-    }, [name])
+    }, [name, categories])
 
     return (
         <React.Fragment>
             <Styled.RelatedContainer>
                 <Styled.BoxContainer>
-                    <Styled.MediumText>Related</Styled.MediumText>
+                    <Styled.MediumText>Related DAOs</Styled.MediumText>
                     <Styled.StyledShowAllButton
                         to={`/search/${categories[0]}`}
                     >

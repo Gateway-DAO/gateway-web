@@ -8,7 +8,7 @@
 	API_GATEWAY_USERTABLE_NAME
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
 	API_GATEWAY_DAOTABLE_ARN
 	API_GATEWAY_DAOTABLE_NAME
 	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
@@ -29,41 +29,38 @@ const { print } = graphql
 
 const listDAOs = (filter) => {
     return gql`
-        query listDAOs {
-            listDAOs(filter: {or: ${filter || JSON.stringify({ })}}) {
+        query ListDAOs {
+            listDAOs(filter: {or: ${filter || JSON.stringify({})}}) {
                 items {
                     id
+                    dao
+                    name
+                    faq {
+                        question
+                        answer
+                    }
                     accomplishments
+                    snapshotID
                     backgroundURL
+                    youtubeURL
+                    logoURL
                     bounties {
-                        categories
-                        description
-                        directions
-                        endDate
                         headline
+                        description
                         level
-                        links
-                        postDate
+                        categories
                         reward
+                        directions
+                        links
+                        endDate
+                        postDate
                     }
                     categories
-                    createdAt
-                    dao
-                    description
-                    faq {
-                        answer
-                        question
-                    }
-                    howToJoin
-                    logoURL
-                    missionAndVision
-                    name
-                    socials {
-                        network
-                        url
-                    }
                     tags
-                    tokenAddress
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
                     tokenBenefits {
                         amount
                         description
@@ -71,8 +68,20 @@ const listDAOs = (filter) => {
                         token
                     }
                     upcomingHangouts
-                    whatDoWeDo
+                    tokenAddress
+                    whitelistedAddresses
+                    socials {
+                        network
+                        url
+                    }
+                    chains
+                    channels {
+                        nextToken
+                    }
+                    createdAt
+                    updatedAt
                 }
+                nextToken
             }
         }
     `
@@ -98,7 +107,8 @@ const resolvers = {
                 },
                 {
                     headers: {
-                        'x-api-key': process.env.API_GATEWAY_GRAPHQLAPIKEYOUTPUT,
+                        'x-api-key':
+                            process.env.API_GATEWAY_GRAPHQLAPIKEYOUTPUT,
                     },
                 }
             )

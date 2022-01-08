@@ -11,17 +11,40 @@ import Loader from '../../Loader'
 import { useAuth } from '../../../contexts/UserContext'
 import { useEffect, useState } from 'react'
 import { useFileUpload } from '../../../api/database/useFileUpload'
+import useSearchDAO from '../../../api/database/useSearchDAO'
 
 const ProfileEditModal = (props) => {
     const [name, setName] = useState(props.name || "")
     const [bio, setBio] = useState(props.bio || "")
     const [socials, setSocials] = useState(props.socials || [{network: "any-0", url: ""}])
+    const [membership, setMembership] = useState(props.membership || [])
     const [pfp, setPfp] = useState()
     const [updateLoading, setUpdateLoading] = useState(false)
+
+    const [searchTerm, setSearchTerm] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
+    const [searchRes, setSearchRes] = useState([])
 
     const show = props.show
     const { loggedIn, userInfo, updateUserInfo } = useAuth()
     const { uploadFile } = useFileUpload()
+
+    // Search DAO
+    const {
+        loading: searchLoading,
+        data: searchData,
+        error: searchError,
+    } = useSearchDAO({
+        variables: {
+            filter: {
+                or: [
+                    { dao: { wildcard: `*${searchTerm}*` } },
+                    { name: { wildcard: `*${searchTerm}*` } },
+                    { description: { wildcard: `*${searchTerm}*` } },
+                ],
+            },
+        },
+    })
 
     const uploadPfp = async () => {
         const file = pfp
@@ -41,6 +64,7 @@ const ProfileEditModal = (props) => {
                 socials: socials.map(social => {
                     return {network: social.network, url: social.url}
                 }),
+                daos_ids: membership.map(dao => dao.dao),
                 pfp: pfpURL,
             })
         } catch (err) {
@@ -51,6 +75,28 @@ const ProfileEditModal = (props) => {
         setUpdateLoading(false)
         props.toggle(!props.show)
     }
+
+    useEffect(() => {
+        const clear = setTimeout(() => {
+            !!searchTerm &&
+                searchTerm !== searchQuery &&
+                setSearchQuery(searchTerm)
+
+            if (!!searchData && !searchLoading) {
+                const query = searchData.searchDAOs.items
+                const results = query.slice(0, 5).map((dao) => {
+                    return {
+                        name: dao.name,
+                        dao: dao.dao,
+                        logoURL: dao.logoURL,
+                    }
+                })
+                setSearchRes(results)
+            }
+        }, 1000)
+
+        return () => clearTimeout(clear)
+    }, [searchTerm, searchLoading, searchData])
 
     // Handlers
     const changeSocial = (idx, e) => {
@@ -74,6 +120,22 @@ const ProfileEditModal = (props) => {
             return social
         })
         setSocials(copy)
+    }
+
+    const addDAO = (dao) => {
+        !membership.includes(dao) && setMembership([...membership, dao])
+        setSearchRes(searchRes.filter((res) => res.name !== dao.name))
+    }
+
+    const removeDAO = (name) => {
+        const new_membership = membership.filter((dao) => dao.name !== name)
+        setMembership(new_membership)
+        searchRes.length != 5 &&
+            !searchRes.includes(searchRes.filter((dao) => dao.name === name)) &&
+            setSearchRes([
+                ...searchRes,
+                membership.filter((dao) => dao.name === name)[0],
+            ])
     }
 
     return (
@@ -228,6 +290,49 @@ const ProfileEditModal = (props) => {
                         <FaPlus />
                     </ModalStyled.IconButton>
                 </ModalStyled.Fieldset>
+
+                <ModalStyled.Fieldset>
+                        <ModalStyled.Label for="membership">Membership</ModalStyled.Label>
+                        <Styled.MembershipBox>
+                            {!!membership.length && membership.map((dao) => {
+                                return (
+                                    <Styled.MembershipIcon>
+                                        <Styled.MembershipImg
+                                            src={dao.logoURL}
+                                            alt={dao.name}
+                                        />
+                                        <Styled.MembershipRemove
+                                            size={12}
+                                            onClick={() => removeDAO(dao.name)}
+                                        />
+                                    </Styled.MembershipIcon>
+                                )
+                            })}
+                        </Styled.MembershipBox>
+                    </ModalStyled.Fieldset>
+
+                    <ModalStyled.Fieldset>
+                        <ModalStyled.Input
+                            id="dao-search"
+                            name="dao-search"
+                            type="text"
+                            placeholder="Search by DAO name"
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        {!!searchRes.length && (
+                            <Styled.SearchBox>
+                                {searchRes.map((res, idx) => (
+                                    <Styled.SearchItem
+                                        onClick={() => addDAO(res)}
+                                        divider={idx !== 0}
+                                    >
+                                        {res.name}
+                                    </Styled.SearchItem>
+                                ))}
+                            </Styled.SearchBox>
+                        )}
+                    </ModalStyled.Fieldset>
+
                 <ModalStyled.Button
                     id="submit_msg"
                     type="button"

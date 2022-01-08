@@ -51,11 +51,11 @@ const BountyCard = (props) => {
                 </Styled.BountyInfo>
                 <Styled.BountyInfo>
                     <Styled.Text>Posted</Styled.Text>
-                    <Styled.BoldText>{bounty.postDate}</Styled.BoldText>
+                    <Styled.BoldText>{new Date(bounty.postDate).toLocaleDateString("en-US")}</Styled.BoldText>
                 </Styled.BountyInfo>
                 <Styled.BountyInfo>
                     <Styled.Text>Due</Styled.Text>
-                    <Styled.BoldText>{bounty.endDate}</Styled.BoldText>
+                    <Styled.BoldText>{new Date(bounty.endDate).toLocaleDateString("en-US")}</Styled.BoldText>
                 </Styled.BountyInfo>
             </Styled.BountyInfoBox>
 

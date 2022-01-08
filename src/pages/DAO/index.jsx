@@ -148,7 +148,7 @@ const DAO = (props) => {
                 </Styled.BackButtonContainer>
                 <Styled.SearchInputBox>
                     <Styled.SearchInput
-                        type="search"
+                        type="text"
                         placeholder="Search DAO"
                         value={inputVal}
                         onChange={(e) => setInputVal(e.target.value)}

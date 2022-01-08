@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { IoMdClose } from 'react-icons/io'
+import { FaTimes } from 'react-icons/fa'
 import { useState } from 'react'
 
 export const Wrapper = styled.div`

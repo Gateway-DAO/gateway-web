@@ -21,7 +21,7 @@ const BountyModal = props => {
 
     const submitToDB = async () => {
         let parsedCategories = [];
-        let currentDate = new Date().toISOString().slice(0, 10)
+        let currentDate = new Date().toISOString()
 
         categories.forEach(cat => parsedCategories.push(cat))
 
@@ -35,7 +35,7 @@ const BountyModal = props => {
                 reward,
                 directions,
                 links,
-                endDate,
+                endDate: new Date(endDate).toISOString(),
                 postDate: currentDate
             }
         ]

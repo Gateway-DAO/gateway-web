@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Redirect } from 'react-router-dom'
-import jwtDecode from 'jwt-decode'
 
 // Web3
 import { CONNECTORS } from '../utils/web3'
@@ -13,8 +11,7 @@ import awsconfig from '../aws-exports'
 import { getNonce } from '../api/database/getNonce'
 import { getUser as getUserQuery } from '../graphql/queries'
 import { useLazyQuery, gql } from '@apollo/client'
-import { Hub, Amplify } from '@aws-amplify/core'
-import { Auth } from '@aws-amplify/auth'
+import Amplify, { Hub, Auth } from 'aws-amplify'
 
 Amplify.configure(awsconfig)
 Auth.configure(awsconfig)
@@ -88,6 +85,44 @@ export const UserProvider = ({ children }) => {
         setUserInfo(user.data.updateUser)
     }
 
+    // AWS
+    const signIn = async () => {
+        try {
+            !web3.active && (await activateWeb3())
+            setLoggingIn(true)
+
+            const { data } = await getNonce(web3.account)
+
+            const signer = web3.library.getSigner()
+
+            const signature = await signer.signMessage(
+                data.getAuthenticationNonce.nonce
+            )
+
+            const user = await Auth.signIn(data.getAuthenticationNonce.userId)
+            const res = await Auth.sendCustomChallengeAnswer(
+                user,
+                JSON.stringify({
+                    signature,
+                    publicAddress: web3.account,
+                    nonce: data.getAuthenticationNonce.nonce,
+                })
+            )
+
+            if (!res.signInUserSession) {
+                setLoggingIn(false)
+                alert("An error occurred, try again later")
+            }
+
+            setLoggingIn(false)
+
+            return userInfo
+        } catch (err) {
+            console.error(err)
+            setLoggingIn(false)
+        }
+    }
+
     // On account change - AWS
     useEffect(() => {
         if (userData) {
@@ -115,7 +150,10 @@ export const UserProvider = ({ children }) => {
                             id: username,
                         },
                     })
-                    setUserInfo({ ...userDB.data.getUser, ...getUserGroups(signInUserSession) })
+                    setUserInfo({
+                        ...userDB.data.getUser,
+                        ...getUserGroups(signInUserSession),
+                    })
                     setLoggedIn(true)
                 }
             } catch (e) {
@@ -135,7 +173,10 @@ export const UserProvider = ({ children }) => {
                         id: data.username,
                     },
                 })
-                setUserInfo({ ...userDB.data.getUser, ...getUserGroups(data.signInUserSession) })
+                setUserInfo({
+                    ...userDB.data.getUser,
+                    ...getUserGroups(data.signInUserSession),
+                })
                 setLoggedIn(true)
                 break
             case 'signOut':
@@ -151,48 +192,6 @@ export const UserProvider = ({ children }) => {
         Hub.listen('auth', listener)
         return () => Hub.remove('auth', listener)
     })
-
-    // AWS
-    const signIn = async () => {
-        try {
-            !web3.active && (await activateWeb3())
-            setLoggingIn(true)
-
-            const { data } = await getNonce(web3.account)
-
-            const signer = web3.library.getSigner()
-
-            const signature = await signer.signMessage(
-                data.getAuthenticationNonce.nonce
-            )
-
-            const user = await Auth.signIn(data.getAuthenticationNonce.userId)
-            const res = await Auth.sendCustomChallengeAnswer(
-                user,
-                JSON.stringify({
-                    signature,
-                    publicAddress: web3.account,
-                    nonce: data.getAuthenticationNonce.nonce,
-                })
-            )
-            
-            if (res.username) {
-                const userDB = await getUser({
-                    variables: {
-                        id: res.username,
-                    },
-                })
-
-                setUserInfo(userDB.data.getUser)
-                setLoggedIn(true)
-            }
-
-            setLoggingIn(false)
-        } catch (err) {
-            console.error(err)
-            setLoggingIn(false)
-        }
-    }
 
     return (
         <Provider

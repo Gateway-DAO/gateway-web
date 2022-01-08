@@ -47,7 +47,7 @@ type DAO
     description: String!
     howToJoin: [String]
     missionAndVision: String
-    whatDoWeDo: [String]
+    whatDoWeDo: String
     tokenBenefits: [TokenBenefit]
     upcomingHangouts: String
     tokenAddress: String

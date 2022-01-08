@@ -28,7 +28,7 @@ const RAW_USER = {
 const ProfilePage = () => {
     const { searchTerm } = useParams()
     const history = useHistory()
-    const { userInfo: authUser, loggedIn, loading } = useAuth()
+    const { userInfo: authUser = { username: "" }, loggedIn, loading } = useAuth()
     const [userInfo, setUserInfo] = useState(RAW_USER)
 
     const {
@@ -59,6 +59,10 @@ const ProfilePage = () => {
         }
 
     }, [searchTerm, authUser, userLoading, loading])
+
+    if (error) {
+        return <Redirect to="/404" />
+    }
 
     return !searchTerm && authUser && !authUser.init ? (
         <Redirect to="/create-profile" />

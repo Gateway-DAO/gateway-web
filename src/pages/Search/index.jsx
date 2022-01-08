@@ -107,8 +107,11 @@ const Search = (props) => {
     return (
         <Styled.Container>
             <Header />
-            <Styled.SearchTermContainer>
-                <Styled.SearchTerm>{query}</Styled.SearchTerm>
+            <Styled.Nav>
+                <Styled.SearchTermContainer>
+                    <Styled.SearchIcon>🔍</Styled.SearchIcon>
+                    <Styled.SearchTerm>{query}</Styled.SearchTerm>
+                </Styled.SearchTermContainer>
                 <Styled.DAOAndUserSelectionContainer>
                     <Styled.SelectContainer
                         active={'DAOs' === selectionTab}
@@ -154,7 +157,8 @@ const Search = (props) => {
                 </Styled.SearchSuggestionBox>}
                 </Styled.SearchInputBox>
                 
-            </Styled.SearchTermContainer>
+            {/* </Styled.SearchTermContainer> */}
+            </Styled.Nav>
             <ActiveTab />
             <Footer />
         </Styled.Container>

@@ -10,6 +10,7 @@ import * as Styled from './style'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import RichEditor from '../../components/RichTextEditor'
+import SubmitPage from './submitPage'
 
 // Hooks
 import { useState, useEffect, useRef } from 'react'
@@ -33,7 +34,16 @@ const AddCommunity = () => {
     ])
     const [description, setDescription] = useState('')
     const [categories, setCategories] = useState([])
-    const [socials, setSocials] = useState([])
+    const [socials, setSocials] = useState([
+        {
+            network: 'twitter',
+            url: '',
+        },
+        {
+            network: 'discord',
+            url: '',
+        },
+    ])
     const [chains, setChains] = useState([])
     const [bgFile, setBGFile] = useState()
     const [logoFile, setLogoFile] = useState()
@@ -42,7 +52,11 @@ const AddCommunity = () => {
     const $input = useRef(null)
     const $bgImage = useRef(null)
     const [spaceId, setSpaceId] = useState('')
-    const { createDAO, data, error, loading } = useCreateDAOWithChannels()
+    const { createDAO, data, error, called, loading } =
+        useCreateDAOWithChannels()
+
+    const [logoImg, setLogoImg] = useState(null)
+    const [BGImg, setBGImg] = useState(null)
 
     useEffect(() => {
         if (loggedIn) {
@@ -136,10 +150,6 @@ const AddCommunity = () => {
                 input: newInfo,
             },
         })
-
-        if (data) {
-            history.push(`/new-community/${name}`)
-        }
     }
 
     if (error) {
@@ -162,12 +172,21 @@ const AddCommunity = () => {
         return <Redirect to="/sign-in" />
     }
 
-    return (
+    return (data && called) ? (
+        <SubmitPage
+            dao={name
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[-]+/g, '-')
+                .replace(/[^\w-]+/g, '')}
+        />
+    ) : (
         <Styled.Page>
             <Header />
-            <Styled.Container onSubmit={submitToDB}>
+            <Styled.Container>
                 <Styled.SpaceBox id="space-canvas" />
                 <Styled.Heading>Add your Community</Styled.Heading>
+
                 <Styled.Fieldset>
                     <Styled.Label for="name">Name</Styled.Label>
                     <Styled.Input
@@ -180,6 +199,7 @@ const AddCommunity = () => {
                         required
                     />
                 </Styled.Fieldset>
+
                 <Styled.Fieldset>
                     <Styled.Label for="logo">Logo</Styled.Label>
                     {!logoFile ? (
@@ -192,6 +212,9 @@ const AddCommunity = () => {
                             onDrop={(e) => {
                                 e.preventDefault()
                                 e.persist()
+                                setLogoImg(
+                                    URL.createObjectURL(e.dataTransfer.files[0])
+                                )
                                 setLogoFile(e.dataTransfer.files[0])
                                 setover(false)
                             }}
@@ -208,19 +231,26 @@ const AddCommunity = () => {
                                 <Styled.Span> Upload </Styled.Span>or Drag your
                                 image here
                             </Styled.Header>
+
+                            {/* <Styled.button className="button">
+                            Browse File 
+                        </Styled.button> */}
                             <input
                                 type="file"
                                 accept="image/*"
                                 hidden
                                 ref={$input}
-                                onChange={(e) => setLogoFile(e.target.files[0])}
+                                onChange={(e) => {
+                                    setLogoImg(
+                                        URL.createObjectURL(e.target.files[0])
+                                    )
+                                    setLogoFile(e.target.files[0])
+                                }}
                                 required
                             ></input>
                         </Styled.DragArea>
                     ) : (
-                        <Styled.Background
-                            image={URL.createObjectURL(logoFile)}
-                        >
+                        <Styled.Background image={logoImg}>
                             <Styled.Cross onClick={removeLogoFile}>
                                 +
                             </Styled.Cross>
@@ -231,13 +261,13 @@ const AddCommunity = () => {
                 <Styled.Fieldset>
                     <Styled.Label for="backgroundURL">Background</Styled.Label>
                     {/* <Styled.Input
-                        onChange={(e) => setBackgroundURL(e.target.value)}
-                        type="text"
-                        id="backgroundURL"
-                        name="backgroundURL"
-                        placeholder="Your Community  background URL"
-                        value={backgroundURL}
-                    /> */}
+                    onChange={(e) => setBackgroundURL(e.target.value)}
+                    type="text"
+                    id="backgroundURL"
+                    name="backgroundURL"
+                    placeholder="Your Community  background URL"
+                    value={backgroundURL}
+                /> */}
                     {!bgFile ? (
                         <Styled.DragArea
                             hover={bghover}
@@ -248,6 +278,9 @@ const AddCommunity = () => {
                             onDrop={(e) => {
                                 e.preventDefault()
                                 e.persist()
+                                setBGImg(
+                                    URL.createObjectURL(e.dataTransfer.files[0])
+                                )
                                 setBGFile(e.dataTransfer.files[0])
                                 setbghover(false)
                             }}
@@ -266,25 +299,30 @@ const AddCommunity = () => {
                             </Styled.Header>
 
                             {/* <Styled.button className="button">
-                                Browse File 
-                            </Styled.button> */}
+                            Browse File 
+                        </Styled.button> */}
                             <input
                                 type="file"
                                 accept="image/*"
                                 hidden
                                 ref={$bgImage}
-                                onChange={(e) => setBGFile(e.target.files[0])}
+                                onChange={(e) => {
+                                    setBGImg(
+                                        URL.createObjectURL(e.target.files[0])
+                                    )
+                                    setBGFile(e.target.files[0])
+                                }}
                                 required
                             ></input>
                         </Styled.DragArea>
                     ) : (
-                        <Styled.Background image={URL.createObjectURL(bgFile)}>
+                        <Styled.Background image={BGImg}>
                             <Styled.Cross onClick={removeBackgroundImage}>
                                 {/* <ImCross /> */}+
                             </Styled.Cross>
                             {/* <Styled.Image  src={backGroundImage} >
-                         
-                         </Styled.Image>   */}
+                    
+                    </Styled.Image>   */}
                         </Styled.Background>
                     )}
                 </Styled.Fieldset>
@@ -452,6 +490,7 @@ const AddCommunity = () => {
                                     type="text"
                                     onChange={(e) => changeSocial(idx, e)}
                                     value={social.url}
+                                    placeholder="Add your network URL"
                                     required
                                 />
                                 <Styled.IconButton
@@ -590,7 +629,10 @@ const AddCommunity = () => {
                                 '',
                             ])
                         }
-                        style={{ width: 'fit-content', alignSelf: 'center' }}
+                        style={{
+                            width: 'fit-content',
+                            alignSelf: 'center',
+                        }}
                     >
                         <FaPlus />
                     </Styled.IconButton>
@@ -608,6 +650,7 @@ const AddCommunity = () => {
                         required
                     />
                 </Styled.Fieldset>
+
                 <Styled.Fieldset>
                     <Styled.Label for="SpaceId">Snapshot Space Id</Styled.Label>
                     <Styled.Input
@@ -618,7 +661,8 @@ const AddCommunity = () => {
                         required
                     />
                 </Styled.Fieldset>
-                <Styled.Button id="submit_msg" type="submit">
+
+                <Styled.Button id="submit_msg" onClick={submitToDB}>
                     Save Changes
                 </Styled.Button>
             </Styled.Container>

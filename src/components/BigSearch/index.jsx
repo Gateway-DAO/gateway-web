@@ -81,7 +81,7 @@ const BigSearch = (props) => {
                         onClick={() => setShowTyping(false)}
                         onChange={updateSearchValue}
                         //value={searchValue}
-                        type="search"
+                        type="text"
                         onKeyPress={handleInput}
                     />
                 </Styled.SearchSecondary>

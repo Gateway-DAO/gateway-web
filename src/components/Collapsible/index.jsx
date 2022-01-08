@@ -10,9 +10,9 @@ const Collapsible = (props) => {
             <Styled.Header onClick={() => setOpen(!isOpen)}>
                 <Styled.Title active={isOpen}>{props.title}</Styled.Title>
                 {isOpen ? (
-                    <FaChevronUp style={{ color: '#E265B8' }} />
+                    <FaChevronUp size={21} style={{ color: '#ff00b8', alignSelf: "flex-end" }} />
                 ) : (
-                    <FaChevronDown />
+                    <FaChevronDown size={21} style={{ alignSelf: "flex-end" }} />
                 )}
             </Styled.Header>
             {isOpen && <Styled.Body>{props.children}</Styled.Body>}

@@ -27,6 +27,7 @@ export const useCreateDAOWithChannels = () => {
         () => ({
             createDAO,
             data,
+            called,
             error,
             loading,
         }),

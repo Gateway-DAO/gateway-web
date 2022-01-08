@@ -12,16 +12,13 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import Header from '../../components/Header'
 import { useAuth } from '../../contexts/UserContext'
 
-// Database
-import { db } from '../../api/firebase'
-import { collection, query, where, getDocs } from '@firebase/firestore'
-
 // AWS
 import { useSearchDAO } from '../../api/database/useSearchDAO'
 import { useListDAOs } from '../../api/database/useGetDAO'
 import Amplify from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 import { useFileUpload } from '../../api/database/useFileUpload'
+import { useRef } from 'react'
 
 Amplify.configure(awsconfig)
 
@@ -40,6 +37,10 @@ const CreateProfile = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [searchQuery, setSearchQuery] = useState('')
     const [searchRes, setSearchRes] = useState([])
+
+    // Picture drag
+    const $input = useRef(null)
+    const [over, setOver] = useState(false)
 
     const {
         loading: listLoading,
@@ -127,6 +128,7 @@ const CreateProfile = () => {
             })
         } catch (err) {
             alert('An error occurred. Please try again later!')
+            console.log(err)
         }
     }
 
@@ -145,45 +147,6 @@ const CreateProfile = () => {
                 membership.filter((dao) => dao.name === name)[0],
             ])
     }
-
-    // Listeners
-    useEffect(() => {
-        const getMemberships = async () => {
-            const address = userInfo.uid
-            Moralis.start({
-                serverUrl: 'https://tppdzaw584lv.usemoralis.com:2053/server',
-                appId: 'PHwU3Sg5svxT49hbICB9JEtIsdVXsx1wFkOxyfwJ',
-            })
-
-            const balances = (
-                await Moralis.Web3API.account.getTokenBalances({ address })
-            ).map((val) => {
-                return { balance: val.balance, tokenAddress: val.token_address }
-            })
-
-            const tokens = balances.map((balance) => balance.tokenAddress)
-            const daos = listData.listDAOs.items.filter((dao) =>
-                tokens.includes(dao.tokenAddress)
-            )
-
-            if (!!daos.length) {
-                const memberOf = daos.map((dao) => {
-                    return {
-                        name: dao.data().name,
-                        id: dao.id,
-                        logoURL: dao.data().logoURL,
-                    }
-                })
-
-                setMembership([
-                    ...membership,
-                    memberOf.filter((dao) => !membership.includes(dao)),
-                ])
-            }
-        }
-
-        loggedIn && !!userInfo.wallet && getMemberships()
-    }, [loggedIn, listData])
 
     useEffect(() => {
         const clear = setTimeout(() => {
@@ -252,16 +215,63 @@ const CreateProfile = () => {
                     </Styled.Fieldset>
 
                     <Styled.Fieldset>
-                        <Styled.Label for="pfp">Profile Picture</Styled.Label>
-                        <Styled.Input
-                            onChange={onChangePicture}
-                            type="file"
-                            id="pfp"
-                            name="pfp"
-                            accept="image/png, image/jpeg"
-                        />
-                        {!!picture && <img src={imgData} alt="upload image" />}
-                    </Styled.Fieldset>
+                    <Styled.Label for="logo">Profile Picture</Styled.Label>
+                    {/* <Styled.Input
+                        onChange={(e) => setLogoURL(e.target.value)}
+                        type="text"
+                        id="logoURL"
+                        name="logoURL"
+                        placeholder="Your Community  logo URL"
+                        value={logoURL}
+                    /> */}
+
+                    {!picture ? (
+                        <Styled.DragArea
+                            hover={over}
+                            for="uploadFile"
+                            onClick={() => {
+                                $input.current.click()
+                            }}
+                            onDrop={(e) => {
+                                e.preventDefault()
+                                e.persist()
+                                setPicture(e.dataTransfer.files[0])
+                                setOver(false)
+                            }}
+                            onDragOver={(e) => {
+                                e.preventDefault()
+                                setOver(true)
+                            }}
+                            onDragLeave={(e) => {
+                                e.preventDefault()
+                                setOver(false)
+                            }}
+                        >
+                            <Styled.DragHeader hover={over} className="header">
+                                <Styled.Span>Upload</Styled.Span> or Drag your
+                                image here
+                            </Styled.DragHeader>
+
+                            {/* <Styled.button className="button">
+                                Browse File 
+                            </Styled.button> */}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                hidden
+                                ref={$input}
+                                onChange={(e) => setPicture(e.target.files[0])}
+                                required
+                            ></input>
+                        </Styled.DragArea>
+                    ) : (
+                        <Styled.Background
+                            image={URL.createObjectURL(picture)}
+                        >
+                            <Styled.Cross onClick={() => setPicture(null)}>+</Styled.Cross>
+                        </Styled.Background>
+                    )}
+                </Styled.Fieldset>
 
                     <Styled.Fieldset>
                         <Styled.Label for="socials">Socials</Styled.Label>
@@ -397,11 +407,8 @@ const CreateProfile = () => {
 
                     <Styled.Fieldset>
                         <Styled.Label for="membership">Membership</Styled.Label>
-                        <Styled.SubLabel>
-                            Membership based on token holdings.
-                        </Styled.SubLabel>
                         <Styled.MembershipBox>
-                            {membership.map((dao) => {
+                            {membership.length && membership.map((dao) => {
                                 return (
                                     <Styled.MembershipIcon>
                                         <Styled.MembershipImg
@@ -419,14 +426,11 @@ const CreateProfile = () => {
                     </Styled.Fieldset>
 
                     <Styled.Fieldset>
-                        <Styled.Label for="dao-search">
-                            Your dao/community doesn’t have a token?
-                        </Styled.Label>
                         <Styled.Input
                             id="dao-search"
                             name="dao-search"
-                            type="search"
-                            placeholder="Search"
+                            type="text"
+                            placeholder="Search by DAO name"
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         {searchRes.length && (

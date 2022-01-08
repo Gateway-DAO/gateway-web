@@ -26,7 +26,7 @@ export const Page = styled.main`
     }
 `
 
-export const Container = styled.form`
+export const Container = styled.div`
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -300,7 +300,6 @@ export const Background = styled.div`
     width: 337px;
     height: 256px;
     margin-top: 10px;
-    background-color: blue;
     background-image: url(${(props) => props.image});
     background-position: center;
     background-repeat: no-repeat;
