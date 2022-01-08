@@ -58,7 +58,8 @@ export const CardBox = styled.section`
     // grid-auto-rows: 0; 
     // overflow-y: hidden;
     // grid-auto-flow: column;
-    margin: 60px 40px;
+    // margin: 60px 40px;
+    margin: 60px 0;
     //margin-top: 60px;
 
     /*

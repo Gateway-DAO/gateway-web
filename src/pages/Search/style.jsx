@@ -1,11 +1,51 @@
-import styled from "styled-components"
-import { FiSearch } from "react-icons/fi"
+import styled from 'styled-components'
+import { FiSearch } from 'react-icons/fi'
 
 export const Container = styled.main`
     background-color: #170627;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
     margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+`
+
+export const LoaderBox = styled.div`
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+export const TextBox = styled(LoaderBox)`
+    flex-flow: column;
+`
+
+export const MainText = styled.h2`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 21px;
+    line-height: 80px;
+    /* identical to box height, or 381% */
+
+    letter-spacing: -0.015em;
+
+    color: #E5E5E5;
+`
+
+export const SmallText = styled.p`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    /* or 133% */
+
+    text-align: center;
+    letter-spacing: -0.015em;
+
+    color: #E5E5E5;
 `
 
 export const CardBox = styled.section`
@@ -33,7 +73,6 @@ export const CardBox = styled.section`
     @media only screen and (max-width: 480px) {
         margin-top: 60px;
     }
-
 `
 
 export const CardContainer = styled.div`
@@ -51,7 +90,7 @@ export const CardContainer = styled.div`
 
 // export const SearchTerm = styled.p`
 //     display: inline;
-    
+
 //     font-family: 'Montserrat';
 //     font-style: normal;
 //     font-weight:  '800';
@@ -68,11 +107,11 @@ export const CardContainer = styled.div`
 //     -moz-text-fill-color: 'transparent';
 // `
 
-export const SearchTermContainer = styled.div`
-    margin-top: 25px;
-    text-color: white;
+export const Nav = styled.div`
+    margin: 25px 40px 0px 40px;
+    color: white;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     text-transform: capitalize;
 
     @media only screen and (max-width: 945px) {
@@ -83,21 +122,44 @@ export const SearchTermContainer = styled.div`
     }
 `
 
+export const SearchTermContainer = styled.div`
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-right: auto;
+`
+
+export const SearchIcon = styled.span`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+`
+
 export const SearchTerm = styled.p`
-    padding: 0 30px;
-    margin-left: 20px;
+    margin-left: 10px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 800;
-    font-size: 28px;
-    line-height: 20px;
+    font-size: 26px;
+    // line-height: 20px;
+    align-self: center;
     letter-spacing: 0.05em;
     text-transform: capitalize;
     color: rgba(255, 255, 255, 0.6);
     /* Background */
-    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
     -webkit-background-clip: text;
-    -webkit-text-fill-color:  transparent; 
+    -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
 
@@ -105,20 +167,57 @@ export const SearchTerm = styled.p`
         padding: 30px 0;
         margin-left: 0px;
     }
-`;
+`
 
+export const DAOAndUserSelectionContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`
+
+export const SelectContainer = styled.div`
+    width: 90px;
+    height: 40px;
+    border: ${(props) =>
+        props.active ? `none` : `1px solid rgba(229, 229, 229, 0.5)`};
+    box-sizing: border-box;
+    border-radius: 20px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+    cursor: pointer;
+    background: ${(props) =>
+        props.active ? 'rgba(229, 229, 229, 0.2)' : 'inherit'}; ;
+`
+
+export const SelectContainerText = styled.div`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+`
+
+export const LeftNav = styled.div`
+    display: flex;
+    flex: 1;
+    margin-left: auto;
+    justify-content: flex-end;
+`
 
 export const SearchInputBox = styled.div`
-    margin-right: 40px;
     padding-left: 30px;
-    background: #FFFFFF;
-    width: 30%;
+    background: #ffffff;
     justify-content: space-between;
     align-items: center;
     display: flex;
     flex-direction: row;
     position: relative;
     border-radius: 100px;
+
     @media only screen and (max-width: 945px) {
         margin: 0;
     }

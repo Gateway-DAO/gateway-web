@@ -1,36 +1,35 @@
-import React, { useEffect, useState } from 'react'
+// Components
 import Header from '../../components/Header'
 import TitleSection from '../../components/AboutDaoComponents/TitleSection'
 import Footer from '../../components/Footer'
 import CardScrollWrapper from '../../components/AboutDaoComponents/CardScrollWrapper'
+import Loader from '../../components/Loader'
+
+// Assets
 import texts from '../../components/AboutDaoComponents/texts'
-import { allDocs } from '../../api/db'
 import whiteboard from '../../assets/about-dao-whiteboard.png'
+
+// Styling
 import * as Styled from './style'
 
+// Hooks
+import { useListDAOs } from '../../api/database/useGetDAO'
+import React, { useState, useEffect } from 'react'
+
 const AboutDAOS = (props) => {
+    const { data, error, loading } = useListDAOs()
     const [cards, setCards] = useState([])
 
-    const fetchAllCards = async () => {
-        let allCards = await allDocs
-        let { docs } = allCards
-        let newCards = docs.map(async (doc) => {
-            const data = doc.data()
-            const id = doc.id
-            return { id, ...data }
-        })
-
-        const resolved = await Promise.all(newCards)
-        setCards(resolved)
-    }
-    useEffect(() => {
-        fetchAllCards()
-    }, [])
-
     const typeOfDao = (type) => {
-        const socialDao = cards.filter((item, idx) => idx < 4).filter((card) => card.categories.includes(type))
+        console.log(`Type: ${type}`)
+        const socialDao = cards.filter((card) => card.categories.includes(type)).filter((item, idx) => idx < 3)
+        console.log(socialDao)
         return socialDao
     }
+
+    useEffect(() => {
+        setCards(loading ? [] : data.listDAOs.items)
+    }, [data])
 
     return (
         <Styled.PageContainer>
@@ -39,8 +38,11 @@ const AboutDAOS = (props) => {
             <Styled.MainWrapper>
                 <Styled.CenterWrapper>
                     <Styled.ParagraphContainer>
+                        This page below is using Cooper Turley's article. Click <a href="https://coopahtroopa.mirror.xyz/_EDyn4cs9tDoOxNGZLfKL7JjLo5rGkkEfRa_a-6VEWw" target="_blank">here</a> for the original article
+                    </Styled.ParagraphContainer>
+                    <Styled.ParagraphContainer>
                         {texts.definition[0]}
-                        <Styled.BoldText>{texts.definition[1]}</Styled.BoldText>
+                        <Styled.BoldText> {texts.definition[1]}</Styled.BoldText>
                         <br/>
                     </Styled.ParagraphContainer>
                     <Styled.MediumText>
@@ -80,7 +82,7 @@ const AboutDAOS = (props) => {
                         </Styled.CenterWrapper>
                     </Styled.MainWrapper>
                     <Styled.CardContainer>
-                        <CardScrollWrapper cards={typeOfDao(text.type)} />
+                        {!!cards ? <CardScrollWrapper cards={typeOfDao(text.type)} /> : <Loader color="white" size={35} />}
                     </Styled.CardContainer>
                 </React.Fragment>
             ))}

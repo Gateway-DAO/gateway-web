@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const FeedContainer = styled.div`
     display: grid;
-    grid-template-columns: 0.4fr 2fr 6fr 1fr;
+    grid-template-columns: 0.4fr 2fr 6fr;
     margin-top: 30px;
     margin-bottom: 30px;
 `
@@ -16,7 +16,7 @@ export const ChannelContainer = styled.div`
 export const FeedMessageContainer = styled.div`
     display: grid;
     grid-column: 3 / 5;
-    // grid-row: 1fr auto;
+    grid-row: 1fr auto;
 `
 
 export const H4Text = styled.h4`

@@ -5,23 +5,22 @@ import * as ModalStyled from '../style'
 import { doc, updateDoc, onSnapshot } from '@firebase/firestore'
 import React, { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO"
 
 const WDWDModal = (props) => {
-    const [WDWD, setWDWD] = useState(props.data)
+    const [WDWD, setWDWD] = useState(props.data);
+    const { updateDAO, data, error, loading } = useUpdateDAO();
 
     const submitToDB = async () => {
-        const dao = doc(db, 'daos', props.id)
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                whatDoWeDo: WDWD
+            }
+        } })
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(WDWD)
-            props.toggle()
-        })
-
-        await updateDoc(dao, {
-            whatDoWeDo: WDWD,
-        })
-
-        unsub()
+        props.set(WDWD)
+        props.toggle()
     }
 
     return (

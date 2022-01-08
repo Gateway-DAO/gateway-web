@@ -5,25 +5,38 @@ import * as Styled from './style'
 
 import Typewriter from 'typewriter-effect'
 
-import { daos } from '../../api/algolia'
 import React from 'react'
 
 const BigSearch = (props) => {
     const [showTyping, setShowTyping] = useState(true)
+    const [searchValue, setSearchValue] = useState('')
     const history = useHistory()
     // const [placeholder, setPlaceholder] = useState("Search for ");
-   
-    const showTypingHandler = (e) => {
-        if (e.target.value === '') {
+    const onBlurHandler = () => {
+        if (searchValue.length === 0) {
             setShowTyping(true)
-        } else {
-            setShowTyping(false)
         }
     }
     const handleInput = async (e) => {
         if (e.key === 'Enter') {
-            history.push(`search/${e.target.value}`)
+            if (searchValue.length === 0) {
+                history.push(`search/all`)
+            } else {
+                history.push(`search/${e.target.value}`)
+            }
         }
+    }
+
+    const showClickResult = async (e) => {
+        if (searchValue.length === 0) {
+            history.push(`search/all`)
+        } else {
+            history.push(`search/${searchValue}`)
+        }
+    }
+
+    const updateSearchValue = (e) => {
+        setSearchValue(e.target.value)
     }
 
     const TypewriterText = (
@@ -50,9 +63,9 @@ const BigSearch = (props) => {
         />
     )
 
-    
     return (
         <React.Fragment>
+            {console.log('value', searchValue.length)}
             <Styled.SearchMainDiv>
                 <Styled.SearchSecondary>
                     <Styled.TypewriterDiv>
@@ -64,12 +77,15 @@ const BigSearch = (props) => {
                         </Styled.TypewriterText>
                     </Styled.TypewriterDiv>
                     <Styled.InputBox
-                        onChange={showTypingHandler}
-                        type="search"
+                        onBlur={onBlurHandler}
+                        onClick={() => setShowTyping(false)}
+                        onChange={updateSearchValue}
+                        //value={searchValue}
+                        type="text"
                         onKeyPress={handleInput}
                     />
                 </Styled.SearchSecondary>
-                <Styled.SearchIconDiv>
+                <Styled.SearchIconDiv onClick={showClickResult}>
                     <Styled.WrappedFiSearch size={60} />
                 </Styled.SearchIconDiv>
             </Styled.SearchMainDiv>

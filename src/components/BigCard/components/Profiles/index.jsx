@@ -28,7 +28,7 @@ import AccomplishmentModal from '../../../Modal/AccomplishmentModal'
 import MVModal from '../../../Modal/MVModal'
 import EditCardModal from '../../../Modal/EditCardModal'
 import ShowBountyModal from '../../../Modal/ShowBountyModal'
-
+import SnapshotModal from '../../../Modal/SnapshotModal'
 //  styling
 import Collapsible from '../../../Collapsible'
 
@@ -89,101 +89,6 @@ const Profile = (props) => {
         youtubeID = props.youtubeURL.split('v=')[1].substring(0, 11)
     }
 
-    const socials = Object.keys(props.socials).map((key) => {
-        switch (key) {
-            case 'discord':
-                return (
-                    <Styled.Social>
-                        <FaDiscord />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Discord
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'twitter':
-                return (
-                    <Styled.Social>
-                        <FaTwitter />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Twitter
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'website':
-                return (
-                    <Styled.Social>
-                        <FiGlobe />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Website
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'medium':
-                return (
-                    <Styled.Social>
-                        <FaMedium />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Medium
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'github':
-                return (
-                    <Styled.Social>
-                        <FaGithub />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            GitHub
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'telegram':
-                return (
-                    <Styled.Social>
-                        <FaTelegram />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Telegram
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'chat':
-                return (
-                    <Styled.Social>
-                        <BsChatTextFill />
-                        <Styled.SocialLink href={props.socials[key]}>
-                            Chat
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            default:
-                return (
-                    <Styled.Social>
-                        <FaLink />
-                        <Styled.SocialLink href={props.socials[key]}>
-                            {key.charAt(0).toUpperCase() + key.slice(1)}
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-        }
-    })
-
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
     const toggleBountyInfoModal = (idx) =>
         setShowBountyInfo({ bounty: bounties[idx], show: !showBountyInfo.show })
@@ -239,12 +144,14 @@ const Profile = (props) => {
                 id={props.id}
                 show={showBountyModal}
                 toggle={toggleBountyModal}
+                data={bounties}
                 set={(newBounties) => setBounties(newBounties)}
             />
             <TokenBenefitModal
                 id={props.id}
                 show={showTBModal}
                 toggle={toggleTBModal}
+                data={benefits}
                 set={(newTB) => setBenefits(newTB)}
             />
             <FAQModal
@@ -423,7 +330,8 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title="Governance Proposals">
                                 <Styled.Description>
-                                    ⚡️Snapshot integration coming soon.
+                                    {/* ⚡️Snapshot integration coming soon. */}
+                                        <SnapshotModal props={props.SpaceId} />
                                 </Styled.Description>
                             </Collapsible>
                         </Styled.DivContainer>

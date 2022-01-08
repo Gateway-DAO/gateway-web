@@ -1,0 +1,27 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "api": {
+      "gateway": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "User:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "DAO:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
+}

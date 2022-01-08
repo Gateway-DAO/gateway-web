@@ -11,7 +11,7 @@ const DropDown = () => {
                 Profile
             </Styled.ItemTextContainer>
             <Styled.BorderLine />
-            <Styled.ItemTextContainer onClick={() => userSignOut() }>
+            <Styled.ItemTextContainer onClick={async () => {await userSignOut(); history.push('/') }}>
                 Disconnect Wallet
             </Styled.ItemTextContainer>
         </Styled.DropDownContainer>

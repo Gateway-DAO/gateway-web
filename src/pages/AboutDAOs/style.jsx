@@ -56,7 +56,7 @@ export const MediumTextContainer = styled.div`
     display: flex;
 `
 
-export const BoldText = styled.p`
+export const BoldText = styled.span`
     font-weight: bold;
 `
 

@@ -1,30 +1,55 @@
+// Libraries/components
 import React from 'react'
-import { shortenAddress } from '../../utils/web3'
-import { useAuth } from '../../contexts/UserContext'
-import * as Styled from './style'
-import { useHistory } from 'react-router'
 import DropDown from './component/DropBox'
+import WrongNetworkModal from '../Modal/WrongNetworkModal'
+
+// Styling
+import * as Styled from './style'
+
+// Web3
+import { shortenAddress, SUPPORTED_CHAINS } from '../../utils/web3'
+
+// Hooks
+import { useAuth } from '../../contexts/UserContext'
 import { useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import { useEffect } from 'react'
 
 const Wallet = (props) => {
-    const { signIn, loggedIn, userInfo, loggingIn } = useAuth()
-    const history = useHistory()
+    const { signIn, loggedIn, userInfo, loggingIn, activateWeb3, loadingWallet } = useAuth()
+    const { active } = useWeb3React()
     const [hidden, setHidden] = useState(false)
+    const [wrong, setWrong] = useState(!SUPPORTED_CHAINS.includes(parseInt(window.ethereum.chainId, 16)))
+    const [showModal, setShowModal] = useState(false)
+
+    const toggleModal = () => setShowModal(!showModal)
+
+    useEffect(() => window.ethereum.on("chainChanged", chain => setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))), [])
+
+    if (wrong) {
+        return (
+            <>
+                <WrongNetworkModal show={showModal} toggle={toggleModal} />
+                <Styled.ConnectToWallet wrong={true} onClick={(e) => setShowModal(true)}>
+                    <Styled.ConnectText>WRONG NETWORK</Styled.ConnectText>
+                </Styled.ConnectToWallet>
+            </>
+        )
+    }
 
     return loggedIn ? (
         <>
-            <Styled.ConnectToWallet onClick={(e) => setHidden(!hidden)}>
+            <Styled.ConnectToWallet wrong={false} onClick={(e) => setHidden(!hidden)}>
                 <Styled.ConnectText>
-                    {shortenAddress(userInfo.uid, 4, 12)}
+                    {shortenAddress(userInfo?.wallet, 4, 12)}
                 </Styled.ConnectText>
             </Styled.ConnectToWallet>
             {hidden ? <DropDown /> : null}
         </>
     ) : (
-        <Styled.ConnectToWallet onClick={signIn}>
+        <Styled.ConnectToWallet onClick={active ? signIn : activateWeb3}>
             <Styled.ConnectText>
-                {loggingIn && <Styled.SpinningLoader color="white" />} Connect
-                To Wallet
+                {(loggingIn || loadingWallet) && <Styled.SpinningLoader color="white" />} {active ? "Sign In" : "Connect To Wallet"}
             </Styled.ConnectText>
         </Styled.ConnectToWallet>
     )

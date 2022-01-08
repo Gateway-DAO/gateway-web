@@ -1,12 +1,13 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const PostContainer = styled.div`
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    margin-right: 40px;
     border-radius: 20px;
     margin-bottom: 20px;
+    margin-right: 40px;
     z-index: 2;
 `
 
@@ -46,7 +47,6 @@ export const PostByInfo = styled.span`
     line-height: 23px;
     display: flex;
     align-items: center;
-    text-transform: capitalize;
     color: rgba(229, 229, 229, 0.5);
 `
 
@@ -54,6 +54,11 @@ export const PostByName = styled(PostByInfo)`
     color: #ffffff;
 `
 export const PostByUsername = styled(PostByInfo)`
+    color: #df78fe;
+`
+
+export const UserLink = styled(Link)`
+    text-decoration: none;
     color: #df78fe;
 `
 
@@ -139,6 +144,7 @@ export const PostButton = styled.button`
     background-color: #170627;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
+    cursor: pointer;
 `
 
 export const ActivityTextContainer = styled.span`

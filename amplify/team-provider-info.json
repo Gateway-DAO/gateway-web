@@ -10,6 +10,46 @@
       "StackName": "amplify-gateway-dev-184152",
       "StackId": "arn:aws:cloudformation:us-east-1:628607619154:stack/amplify-gateway-dev-184152/af6a99e0-591f-11ec-8bf7-12f6914b066f",
       "AmplifyAppId": "d1eyfltl5g67m"
+    },
+    "categories": {
+      "function": {
+        "getUserDAOs": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/getUserDAOs-452b55493656692f5667-build.zip"
+        },
+        "getAuthenticationNonce": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/getAuthenticationNonce-2b4f35357364512f5874-build.zip"
+        },
+        "gateway7887c977DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977DefineAuthChallenge-733531714971354e3778-build.zip"
+        },
+        "gateway7887c977CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977CreateAuthChallenge-45686c71565a53493462-build.zip"
+        },
+        "gateway7887c977VerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-357569527a4162645738-build.zip"
+        },
+        "gateway7887c977PreSignup": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/gateway7887c977PreSignup-6348566f625650774d72-build.zip"
+        },
+        "vote": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/vote-6b54512f517079505579-build.zip"
+        },
+        "addDAOAndChannels": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/addDAOAndChannels-4d706b2f6f4f65584779-build.zip"
+        }
+      },
+      "auth": {
+        "gateway7887c977": {},
+        "true": {}
+      }
     }
   }
 }
