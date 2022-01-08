@@ -202,7 +202,6 @@ const AddCommunity = () => {
 
                 <Styled.Fieldset>
                     <Styled.Label for="logo">Logo</Styled.Label>
-
                     {!logoFile ? (
                         <Styled.DragArea
                             hover={over}
@@ -253,12 +252,8 @@ const AddCommunity = () => {
                     ) : (
                         <Styled.Background image={logoImg}>
                             <Styled.Cross onClick={removeLogoFile}>
-                                {/* <ImCross /> */}+
+                                +
                             </Styled.Cross>
-
-                            {/* <Styled.Image src={files} >
-                    
-                    </Styled.Image>   */}
                         </Styled.Background>
                     )}
                 </Styled.Fieldset>
