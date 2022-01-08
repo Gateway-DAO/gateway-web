@@ -12,6 +12,9 @@ const useAdmin = (addressOrList) => {
     else if (loggedIn && addressOrList instanceof String) {
         isAdmin = (addressOrList === userInfo.wallet)
     }
+    else if (loggedIn && userInfo.isAdmin) {
+        isAdmin = userInfo.isAdmin
+    }
     
     return {
         isAdmin
