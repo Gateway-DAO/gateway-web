@@ -52,7 +52,7 @@ const Search = (props) => {
         setInputVal(e.target.value)
         // setToggle(true);
     }
-
+    
     const {
         data: searchData,
         loading: searchLoading,

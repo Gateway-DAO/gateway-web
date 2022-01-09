@@ -62,7 +62,7 @@ const AddCommunity = () => {
 
     const toggleCheckbox = (e) => {
         const value = e.target.value
-        console.log(categories)
+        // console.log(categories)
 
         if (categories.includes(value) && !e.target.checked) {
             setCategories(categories.filter((cat) => cat !== value))

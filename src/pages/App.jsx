@@ -24,7 +24,7 @@ const About = React.lazy(() => import('./About'))
 const AddCommunity = React.lazy(() => import('./AddCommunity'))
 const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
 const KeyQuiz = React.lazy(() => import('./Quiz'))
-
+const AddGateForm = React.lazy(()=>import('./AddGateForm'))
 const App = (props) => {
     return (
         <Router>
@@ -85,6 +85,9 @@ const App = (props) => {
                     </Route>
                     <Route path="/dao-gate">
                         <DAOsGate />
+                    </Route>
+                    <Route path="/add-gate">
+                        <AddGateForm />
                     </Route>
                     <Route path="/key-quiz">
                         <KeyQuiz />
