@@ -24,9 +24,9 @@ const Wallet = (props) => {
 
     const toggleModal = () => setShowModal(!showModal)
 
-    useEffect(() => window.ethereum.on("chainChanged", chain => setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))), [])
+    useEffect(() => window.ethereum.on("chainChanged", chain => setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))))
 
-    if (wrong) {
+    if (wrong && !loggedIn) {
         return (
             <>
                 <WrongNetworkModal show={showModal} toggle={toggleModal} />

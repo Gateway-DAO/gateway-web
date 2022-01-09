@@ -8,17 +8,9 @@
 	API_GATEWAY_USERTABLE_NAME
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
-	API_GATEWAY_DAOTABLE_ARN
-	API_GATEWAY_DAOTABLE_NAME
-	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
-	API_GATEWAY_GRAPHQLAPIIDOUTPUT
-	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
-	API_GATEWAY_USERTABLE_ARN
-	API_GATEWAY_USERTABLE_NAME
-	ENV
-	REGION
 Amplify Params - DO NOT EDIT */
+
+const API_GATEWAY_GRAPHQL = process.env.API_GATEWAY_GRAPHQLAPIIDOUTPUT
 
 const AWS = require('aws-sdk')
 
@@ -96,9 +88,28 @@ const resolvers = {
                 return []
             }
 
-            const daos = daos_ids.map((id) => {
+            const DAOTableName = `DAO-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`
+            const docClient = new AWS.DynamoDB.DocumentClient()
+
+            const { Items: daos = [] } = await docClient
+                .scan({
+                    TableName: DAOTableName,
+                    ExpressionAttributeNames: {
+                        '#dao': 'dao',
+                    },
+                    ExpressionAttributeValues: {
+                        ':daos': daos_ids,
+                    },
+                    FilterExpression: "contains(:daos, #dao)"
+                })
+                .promise()
+
+            /*
+            const daos = "[" + daos_ids.map((id) => {
                 return `{ dao: { eq: "${id}" } }`
-            })
+            }).toString() + "]"
+            
+            console.log(print(listDAOs(daos)))
 
             const req = await axios.post(
                 process.env.API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT,
@@ -114,6 +125,9 @@ const resolvers = {
             )
 
             return req.data.data.listDAOs.items || []
+            */
+
+            return daos
         },
     },
 }
