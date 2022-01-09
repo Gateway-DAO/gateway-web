@@ -1,25 +1,43 @@
 import * as Styled from './style'
 
 import { useParams, useHistory } from 'react-router'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import DAOTab from './component/DAOs'
 import UserTab from './component/Users'
+import { useLazySearchDAO } from '../../api/database/useSearchDAO'
+import { useSearchDAO } from '../../api/database/useSearchDAO'
+// import { useSearchDAO } from '../../api/database/useSearchDAO'
+// import { searchDaos } from '../../graphql/queries'
+import SearchSuggestions from './component/SearchSuggestions'
 
 const Search = (props) => {
+    let typingTimer;
+    const doneTypingInterval = 1000;
     const [selectionTab, setSelectionTab] = useState('DAOs')
     const { query } = useParams()
     const [inputVal, setInputVal] = useState(query || '')
     const history = useHistory()
+    const [hits, setHits] = useState([])
+    const [toggle, setToggle] = useState(false);
 
+    // const { searchDAO, data, loading, error } = useLazySearchDAO()
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             history.push(`/search/${e.target.value}`)
+            setToggle(false);
         }
     }
-
+    const handelSearchAll = ()=>{
+        if(!inputVal){
+            history.push(`/search/all`)
+        }else{
+            history.push(`/search/${inputVal}`)
+        }
+    }
+    
     const ActiveTab = () => {
         switch (selectionTab) {
             case 'DAOs':
@@ -30,7 +48,62 @@ const Search = (props) => {
                 return <DAOTab />
         }
     }
+    const searchBarInput = (e) =>{ 
+        setInputVal(e.target.value)
+        // setToggle(true);
+    }
+    // const pauseTyping= ()=> {
+    //     clearTimeout(typingTimer);
+    //     typingTimer = setTimeout(handelar, doneTypingInterval);
+    // };
+      
+      //on keydown, clear the countdown 
+    // const resumeTyping = ()=> {
+    //     clearTimeout(typingTimer);
+    // };
+      
+    // const handelar = ()=>{
+    //     // const res = await searchDAO({
+    //     //     variables: {
+    //     //         filter: {
+    //     //             or: [
+    //     //                 { dao: { matchPhrasePrefix: inputVal } },
+    //     //                 { name: { matchPhrase: inputVal } },
+    //     //                 { categories: { matchPhrase: inputVal } },
+    //     //                 { tags: { matchPhrase: inputVal } },
+    //     //                 { description: { matchPhrase: inputVal } },
+    //     //             ],
+    //     //         },
+    //     //     },
+    //     // })
+    //     // setHit(res.data.searchDAOs.items);
+    //     setHits(!searchLoading ? searchData.searchDAOs.items : [])
+    //     console.log(hits);
+    //     setToggle(true);
+    // }
+    const {
+        data: searchData,
+        loading: searchLoading,
+        error: searchError,
+    } = useSearchDAO({
+        variables: {
+            filter: {
+                or: [
+                    { dao: { wildcard: `*${inputVal}*` } },
+                    { name: { wildcard: `*${inputVal}*` } },
+                    { description: { wildcard: `*${inputVal}*` } },
+                    { categories: { match: `*${inputVal}*` } },
+                    { tags: { wildcard: `*${inputVal}*` } },
+                ],
+            },
+        },
+    })
 
+    useEffect(()=>{
+        setHits(!searchLoading ? searchData.searchDAOs.items : [])
+        console.log(hits);
+        // setToggle(true);
+    },[searchData,searchLoading])
     return (
         <Styled.Container>
             <Header />
@@ -57,17 +130,34 @@ const Search = (props) => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
-                <Styled.LeftNav>
-                    <Styled.SearchInputBox>
-                        <Styled.SearchInput
-                            type="search"
-                            value={inputVal}
-                            onChange={(e) => setInputVal(e.target.value)}
-                            onKeyPress={handleEnter}
-                        />
-                        <Styled.WrappedFiSearch />
-                    </Styled.SearchInputBox>
-                </Styled.LeftNav>
+                <Styled.SearchInputBox>
+                    <Styled.SearchInput
+                    //    onKeyDown={resumeTyping}
+                    //    onKeyUp={pauseTyping}
+                        type="search"
+                        value={inputVal}
+                        onChange={searchBarInput}
+                        onKeyPress={handleEnter}
+                        onClick={()=>setToggle(true)}
+                    />
+                    <Styled.WrappedFiSearch />
+                    {toggle && hits.length!=0 && <Styled.SearchSuggestionBox>
+                    {
+                        hits.filter((item, idx) => idx < 5).map((val)=>{
+                            return(
+                                <SearchSuggestions hits={val}/>
+                            )    
+                        })
+                    }
+                    {!searchLoading && 
+                        <Styled.SearchMoreButton onClick={handelSearchAll} inputVal>
+                            See all results        
+                        </Styled.SearchMoreButton>
+                    }
+                </Styled.SearchSuggestionBox>}
+                </Styled.SearchInputBox>
+                
+            {/* </Styled.SearchTermContainer> */}
             </Styled.Nav>
             <ActiveTab />
             <Footer />
