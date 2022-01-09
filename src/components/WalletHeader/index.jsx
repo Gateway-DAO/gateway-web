@@ -19,13 +19,14 @@ const Wallet = (props) => {
     const { signIn, loggedIn, userInfo, loggingIn, activateWeb3, loadingWallet } = useAuth()
     const { active } = useWeb3React()
     const [hidden, setHidden] = useState(false)
-    const [wrong, setWrong] = useState(!SUPPORTED_CHAINS.includes(parseInt(window.ethereum.chainId, 16)))
+    //const [wrong, setWrong] = useState(!SUPPORTED_CHAINS.includes(parseInt(window.ethereum.chainId, 16)))
     const [showModal, setShowModal] = useState(false)
 
     const toggleModal = () => setShowModal(!showModal)
 
-    useEffect(() => window.ethereum.on("chainChanged", chain => setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))))
+    //useEffect(() => window.ethereum.on("chainChanged", chain => setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))))
 
+    /*
     if (wrong && !loggedIn) {
         return (
             <>
@@ -36,6 +37,7 @@ const Wallet = (props) => {
             </>
         )
     }
+    */
 
     return loggedIn ? (
         <>
@@ -44,7 +46,7 @@ const Wallet = (props) => {
                     {shortenAddress(userInfo?.wallet, 4, 12)}
                 </Styled.ConnectText>
             </Styled.ConnectToWallet>
-            {hidden ? <DropDown /> : null}
+            {hidden ? <DropDown toggle={setHidden} /> : null}
         </>
     ) : (
         <Styled.ConnectToWallet onClick={active ? signIn : activateWeb3}>

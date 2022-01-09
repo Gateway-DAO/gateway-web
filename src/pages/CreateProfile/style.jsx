@@ -14,14 +14,6 @@ export const Container = styled.main`
 `
 
 export const MainBox = styled.section`
-    /*
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    */
-
     display: grid;
     grid-template-columns: 3fr 6fr 3fr;
     margin: 50px 0;
@@ -51,6 +43,14 @@ export const SearchBox = styled.ul`
     color: #e5e5e5;
     margin: 12px 0;
     width: 100%;
+`
+
+export const LoadingBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin: 12px 0;
 `
 
 export const DragArea = styled.div`
@@ -270,28 +270,21 @@ export const CloseBtn = styled(IoMdClose)`
     right: 15px;
 `
 
-export const Header = styled.h1`
-    font-family: Poppins;
+export const Header = styled.div`
+    width: 100%;
+    height: 32px;
+    font-family: Be Vietnam;
     font-style: normal;
-    font-weight: bold;
-    font-size: 48px;
-    line-height: 90px;
-    /* identical to box height, or 187% */
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
+
     text-align: center;
-    letter-spacing: -0.05em;
-    /* Background */
-    background: linear-gradient(
-        88.04deg,
-        #ee787b 22.54%,
-        #e153f2 41.08%,
-        #495be0 65.25%,
-        #6a39f3 86.1%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
+    color: ${(props) =>
+        props.hover ? ' rgba(255, 255, 255, 1)' : ' rgba(255, 255, 255, 0.2)'};
 `
+
 export const Label = styled.label`
     font-family: Poppins;
     font-style: normal;

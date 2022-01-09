@@ -1,6 +1,7 @@
 import Modal from '../index'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
+import { FormStyled } from '../../Form'
 import { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
@@ -43,51 +44,51 @@ const TokenBenefitModal = (props) => {
             <Styled.Container>
                 <ModalStyled.Header>Add Token Benefits</ModalStyled.Header>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="title">Title</ModalStyled.Label>
-                    <ModalStyled.Input
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="title">Title</FormStyled.Label>
+                    <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
                         type="text"
                         id="title"
                         name="title"
                         placeholder="Discord Access"
                     />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="description">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="description">
                         Description
-                    </ModalStyled.Label>
+                    </FormStyled.Label>
                     <RichEditor set={setDescription} value={description} />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="token">Token</ModalStyled.Label>
-                    <ModalStyled.Input
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="token">Token</FormStyled.Label>
+                    <FormStyled.Input
                         id="token"
                         placeholder="Ex: GATE"
                         onChange={(e) => setToken(e.target.value)}
                     />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="amount">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="amount">
                         Token Amount Required
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
+                    </FormStyled.Label>
+                    <FormStyled.Input
                         id="amount"
                         placeholder="Ex: 25"
                         onChange={(e) => setAmount(e.target.value)}
                     />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Button
+                <FormStyled.Button
                     id="submit_msg"
                     type="button"
                     onClick={submitToDB}
                 >
                     Submit
-                </ModalStyled.Button>
+                </FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

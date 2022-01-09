@@ -212,7 +212,6 @@ export const LeftNav = styled.div`
 export const SearchInputBox = styled.div`
     padding-left: 30px;
     background: #ffffff;
-    width: 20%;
     justify-content: space-between;
     align-items: center;
     display: flex;

@@ -48,8 +48,8 @@ export const Description = styled.div`
 
     color: #e5e5e5;
 
-    margin-top: 15px;
-    margin-bottom: 60px;
+    margin-top: 10px;
+    margin-bottom: 70px;
 
     display: flex;
     flex-direction: column;

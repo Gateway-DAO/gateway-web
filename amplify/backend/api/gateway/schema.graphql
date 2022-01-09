@@ -41,7 +41,7 @@ type DAO
     backgroundURL: AWSURL!
     youtubeURL: AWSURL
     logoURL: AWSURL!
-    bounties: [Bounty]
+    bounties: [Bounty] @connection(keyName: "bountyByDAO", fields: ["id"])
     categories: [String]!
     tags: [String]
     description: String!
@@ -55,7 +55,7 @@ type DAO
     socials: [Social]
     chains: [String]
     channels: [Channel] @connection(keyName: "channelByDAO", fields: ["id"])
-    gates: [Gate] @connection(keyName: "gateByDAOID ", fields: ["id"])
+    gates: [Gate] @connection(keyName: "gateByDAO", fields: ["id"])
     createdAt: AWSDateTime
     updatedAt: AWSDateTime
 }
@@ -65,7 +65,14 @@ type FAQ {
     answer: String!
 }
 
-type Bounty {
+type Bounty @model @key(
+        name: "bountyByDAO"
+        fields: ["daoID"]
+        queryField: "getBountyByDAOID"
+    ) {
+    id: ID!
+    daoID: ID!
+    dao: DAO @connection(fields: ["daoID"])
     headline: String!
     description: String
     level: String!
@@ -197,14 +204,14 @@ type Prerequisites {
 
 type Trigger {
     type: OptionType
-    completed: Bool!
+    completed: Boolean!
     noOfPeople: Int!
 }
 
 type Gate
     @model
     @key(
-        name: "gateByDAOID"
+        name: "gateByDAO"
         fields: ["daoID"]
         queryField: "getGatesByDAOID"
     ) {
@@ -216,14 +223,14 @@ type Gate
     categories: String!
     admins: [User]!
     keys: number
-    tasks: [Task] @connection(keyName: "TaskByGateID", fields: ["id"])
+    tasks: [Task] @connection(keyName: "TaskByGate", fields: ["id"])
     prerequisites: Prerequisites
 }
 
 type Task
     @model
     @key(
-        name: "TaskByGateID"
+        name: "TaskByGate"
         fields: ["gateID"]
         queryField: "getTasksByGateID"
     ) {
@@ -232,7 +239,7 @@ type Task
     title: String!
     description: String!
     triggers: [Trigger]
-    completed: Bool!
+    completed: Boolean!
     gate: Gate @connection(fields: ["gateID"])
 }
 

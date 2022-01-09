@@ -14,30 +14,30 @@ import { useSearchDAO } from '../../api/database/useSearchDAO'
 import SearchSuggestions from './component/SearchSuggestions'
 
 const Search = (props) => {
-    let typingTimer;
-    const doneTypingInterval = 1000;
+    let typingTimer
+    const doneTypingInterval = 1000
     const [selectionTab, setSelectionTab] = useState('DAOs')
     const { query } = useParams()
     const [inputVal, setInputVal] = useState(query || '')
     const history = useHistory()
     const [hits, setHits] = useState([])
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(false)
 
     // const { searchDAO, data, loading, error } = useLazySearchDAO()
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             history.push(`/search/${e.target.value}`)
-            setToggle(false);
+            setToggle(false)
         }
     }
-    const handelSearchAll = ()=>{
-        if(!inputVal){
+    const handelSearchAll = () => {
+        if (!inputVal) {
             history.push(`/search/all`)
-        }else{
+        } else {
             history.push(`/search/${inputVal}`)
         }
     }
-    
+
     const ActiveTab = () => {
         switch (selectionTab) {
             case 'DAOs':
@@ -48,39 +48,11 @@ const Search = (props) => {
                 return <DAOTab />
         }
     }
-    const searchBarInput = (e) =>{ 
+    const searchBarInput = (e) => {
         setInputVal(e.target.value)
         // setToggle(true);
     }
-    // const pauseTyping= ()=> {
-    //     clearTimeout(typingTimer);
-    //     typingTimer = setTimeout(handelar, doneTypingInterval);
-    // };
-      
-      //on keydown, clear the countdown 
-    // const resumeTyping = ()=> {
-    //     clearTimeout(typingTimer);
-    // };
-      
-    // const handelar = ()=>{
-    //     // const res = await searchDAO({
-    //     //     variables: {
-    //     //         filter: {
-    //     //             or: [
-    //     //                 { dao: { matchPhrasePrefix: inputVal } },
-    //     //                 { name: { matchPhrase: inputVal } },
-    //     //                 { categories: { matchPhrase: inputVal } },
-    //     //                 { tags: { matchPhrase: inputVal } },
-    //     //                 { description: { matchPhrase: inputVal } },
-    //     //             ],
-    //     //         },
-    //     //     },
-    //     // })
-    //     // setHit(res.data.searchDAOs.items);
-    //     setHits(!searchLoading ? searchData.searchDAOs.items : [])
-    //     console.log(hits);
-    //     setToggle(true);
-    // }
+
     const {
         data: searchData,
         loading: searchLoading,
@@ -99,11 +71,11 @@ const Search = (props) => {
         },
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         setHits(!searchLoading ? searchData.searchDAOs.items : [])
-        console.log(hits);
+        console.log(hits)
         // setToggle(true);
-    },[searchData,searchLoading])
+    }, [searchData, searchLoading])
     return (
         <Styled.Container>
             <Header />
@@ -130,34 +102,39 @@ const Search = (props) => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
-                <Styled.SearchInputBox>
-                    <Styled.SearchInput
-                    //    onKeyDown={resumeTyping}
-                    //    onKeyUp={pauseTyping}
-                        type="search"
-                        value={inputVal}
-                        onChange={searchBarInput}
-                        onKeyPress={handleEnter}
-                        onClick={()=>setToggle(true)}
-                    />
-                    <Styled.WrappedFiSearch />
-                    {toggle && hits.length!=0 && <Styled.SearchSuggestionBox>
-                    {
-                        hits.filter((item, idx) => idx < 5).map((val)=>{
-                            return(
-                                <SearchSuggestions hits={val}/>
-                            )    
-                        })
-                    }
-                    {!searchLoading && 
-                        <Styled.SearchMoreButton onClick={handelSearchAll} inputVal>
-                            See all results        
-                        </Styled.SearchMoreButton>
-                    }
-                </Styled.SearchSuggestionBox>}
-                </Styled.SearchInputBox>
-                
-            {/* </Styled.SearchTermContainer> */}
+                <Styled.LeftNav>
+                    <Styled.SearchInputBox>
+                        <Styled.SearchInput
+                            //    onKeyDown={resumeTyping}
+                            //    onKeyUp={pauseTyping}
+                            type="search"
+                            value={inputVal}
+                            onChange={searchBarInput}
+                            onKeyPress={handleEnter}
+                            onClick={() => setToggle(true)}
+                        />
+                        <Styled.WrappedFiSearch />
+                        {toggle && hits.length != 0 && (
+                            <Styled.SearchSuggestionBox>
+                                {hits
+                                    .filter((item, idx) => idx < 5)
+                                    .map((val) => {
+                                        return <SearchSuggestions hits={val} />
+                                    })}
+                                {!searchLoading && (
+                                    <Styled.SearchMoreButton
+                                        onClick={handelSearchAll}
+                                        inputVal
+                                    >
+                                        See all results
+                                    </Styled.SearchMoreButton>
+                                )}
+                            </Styled.SearchSuggestionBox>
+                        )}
+                    </Styled.SearchInputBox>
+                </Styled.LeftNav>
+
+                {/* </Styled.SearchTermContainer> */}
             </Styled.Nav>
             <ActiveTab />
             <Footer />

@@ -1,8 +1,7 @@
 import Modal from '../index'
-import { db } from '../../../api/firebase'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
-import { doc, updateDoc, onSnapshot } from '@firebase/firestore'
+import { FormStyled } from '../../Form'
 import React, { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO"
@@ -26,23 +25,22 @@ const WDWDModal = (props) => {
     return (
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
-                <ModalStyled.Header>What Do We Do</ModalStyled.Header>
+                <FormStyled.Header>What Do We Do</FormStyled.Header>
 
-                <Styled.Fieldset>
-                    <ModalStyled.Label for="information">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="information">
                         Information
-                    </ModalStyled.Label>
+                    </FormStyled.Label>
                     <RichEditor set={setWDWD} value={WDWD} />
+                </FormStyled.Fieldset>
 
-                </Styled.Fieldset>
-
-                <ModalStyled.Button
+                <FormStyled.Button
                     id="submit_msg"
                     type="button"
                     onClick={submitToDB}
                 >
                     Submit
-                </ModalStyled.Button>
+                </FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

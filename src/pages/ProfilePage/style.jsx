@@ -55,27 +55,38 @@ const SelectionTabStyling = `
     border-bottom: 4px solid ;
     border-image: linear-gradient(95.57deg, #EE787B 8.89%, #E153F2 34.15%, #495BE0 67.09%, #6A39F3 95.52%);
     border-image-slice: 1;  
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    /* or 444% */
+`
+
+const UnselectedTabStyling = `
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+
+    color: rgba(255, 255, 255, 0.6);
 `
 
 export const SelectedTab = styled.h2`
-    font-size: 18px;
-    ${(props) => (props.showActive ? SelectionTabStyling : '')}
+    ${(props) => (props.showActive ? SelectionTabStyling : UnselectedTabStyling)}
 
     margin-right: 25px;
-    font-family: Poppins;
-    font-style: normal;
-    line-height: 40px;
-    cursor: pointer;
+    display: flex;
+    line-height: 50px;
+    align-items: flex-start;
     letter-spacing: -0.015em;
 `
 
 export const UserInfo = styled.section`
     display: flex;
     flex-direction: column;
-
-    & * {
-        color: white;
-    }
 `
 
 export const RightSidebar = styled.aside``

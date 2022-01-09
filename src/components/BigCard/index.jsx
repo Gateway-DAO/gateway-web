@@ -103,7 +103,7 @@ const NewCard = (props) => {
                 return (
                     <Styled.Social>
                         <Styled.SocialLink href={social.url} target="_blank">
-                            <FaTwitter />
+                            <FaTwitter size={20} />
                         </Styled.SocialLink>
                     </Styled.Social>
                 )

@@ -20,11 +20,14 @@ export const ProfileInfoContainer = styled.div`
     flex-direction: row;
 `
 
-export const ProfileImageContainer = styled.img`
+export const ProfileImageContainer = styled.div`
     border-radius: 100%;
     width: 148px;
     height: 148px;
     background-color: #ffffff;
+    background: url(${props => props.src || ""});
+    background-size: cover;
+    background-position: center;
 `
 
 export const DaoBioInfo = styled.div`

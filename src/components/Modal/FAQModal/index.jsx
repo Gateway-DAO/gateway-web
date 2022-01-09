@@ -1,6 +1,7 @@
 import Modal from "../index";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
+import { FormStyled } from "../../Form";
 import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
@@ -55,22 +56,22 @@ const FAQModal = props => {
                 <ModalStyled.Header>FAQ</ModalStyled.Header>
 
                 {FAQ.map((pair, idx) => (
-                    <Styled.Fieldset>
-                        <ModalStyled.Label for={`description-${idx}`}>Question {idx + 1}</ModalStyled.Label>
-                        <ModalStyled.InputWrapper>
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label for={`description-${idx}`}>Question {idx + 1}</FormStyled.Label>
+                        <FormStyled.InputWrapper>
                             <div style={{ flex: 1 }}>
-                                <ModalStyled.Input id={`question-${idx}`} key={`q-input-${idx}`} placeholder="Question" onChange={e => changeQuestion(idx, e)} value={pair.question} type="text" />
-                                <ModalStyled.Input id={`answer-${idx}`} key={`a-input-${idx}`} placeholder="Answer" onChange={e => changeAnswer(idx, e)} value={pair.answer} type="text" />
+                                <FormStyled.Input id={`question-${idx}`} key={`q-input-${idx}`} placeholder="Question" onChange={e => changeQuestion(idx, e)} value={pair.question} type="text" />
+                                <FormStyled.Input id={`answer-${idx}`} key={`a-input-${idx}`} placeholder="Answer" onChange={e => changeAnswer(idx, e)} value={pair.answer} type="text" />
                             </div>
-                            <ModalStyled.IconButton onClick={() => deletePair(idx)} style={{ marginLeft: "10px", alignSelf: "center" }}><FaTrashAlt /></ModalStyled.IconButton>
-                        </ModalStyled.InputWrapper>
-                    </Styled.Fieldset>
+                            <FormStyled.IconButton onClick={() => deletePair(idx)} style={{ marginLeft: "10px", alignSelf: "center" }}><FaTrashAlt /></FormStyled.IconButton>
+                        </FormStyled.InputWrapper>
+                    </FormStyled.Fieldset>
                 ))}
 
-                <ModalStyled.InputWrapper>
-                    <ModalStyled.IconButton style={{ marginRight: "10px" }} onClick={e => setFAQ([...FAQ, { question: "", answer: "" }])}><FaPlus /></ModalStyled.IconButton>
-                    <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
-                </ModalStyled.InputWrapper>
+                <FormStyled.InputWrapper>
+                    <FormStyled.IconButton style={{ marginRight: "10px" }} onClick={e => setFAQ([...FAQ, { question: "", answer: "" }])}><FaPlus /></FormStyled.IconButton>
+                    <FormStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</FormStyled.Button>
+                </FormStyled.InputWrapper>
             </Styled.Container>
         </Modal>
     )

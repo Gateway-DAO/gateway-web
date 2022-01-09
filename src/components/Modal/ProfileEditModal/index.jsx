@@ -1,6 +1,7 @@
 // Styling
 import * as Styled from './style'
 import * as ModalStyled from '../style'
+import { FormStyled } from '../../Form'
 
 // Components
 import Modal from '../index'
@@ -12,6 +13,7 @@ import { useAuth } from '../../../contexts/UserContext'
 import { useEffect, useState } from 'react'
 import { useFileUpload } from '../../../api/database/useFileUpload'
 import useSearchDAO from '../../../api/database/useSearchDAO'
+import { ImageUpload } from '../../Form'
 
 const ProfileEditModal = (props) => {
     const [name, setName] = useState(props.name || "")
@@ -19,6 +21,7 @@ const ProfileEditModal = (props) => {
     const [socials, setSocials] = useState(props.socials || [{network: "any-0", url: ""}])
     const [membership, setMembership] = useState(props.membership || [])
     const [pfp, setPfp] = useState()
+    const [pfpURL, setPfpURL] = useState(props.pfp)
     const [updateLoading, setUpdateLoading] = useState(false)
 
     const [searchTerm, setSearchTerm] = useState('')
@@ -84,13 +87,19 @@ const ProfileEditModal = (props) => {
 
             if (!!searchData && !searchLoading) {
                 const query = searchData.searchDAOs.items
-                const results = query.slice(0, 5).map((dao) => {
-                    return {
+                const results = query.map((dao) => {
+                    const obj = {
                         name: dao.name,
                         dao: dao.dao,
                         logoURL: dao.logoURL,
                     }
-                })
+
+                    if (!membership.includes(obj)) {
+                        return obj
+                    }
+
+                    return null
+                }).slice(0, 5)
                 setSearchRes(results)
             }
         }, 1000)
@@ -142,11 +151,11 @@ const ProfileEditModal = (props) => {
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
                 <ModalStyled.Header>Edit Profile</ModalStyled.Header>
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="name">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="name">
                         Display Name
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
+                    </FormStyled.Label>
+                    <FormStyled.Input
                         onChange={(e) => setName(e.target.value)}
                         type="text"
                         id="name"
@@ -154,34 +163,25 @@ const ProfileEditModal = (props) => {
                         placeholder="Change your name"
                         value={name}
                     />
-                </ModalStyled.Fieldset>
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="pfp">
-                        Profile Picture
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
-                        onChange={(e) => setPfp(e.target.files[0])}
-                        type="file"
-                        id="pfp"
-                        name="pfp"
-                        accept="image/png, image/jpeg"
-                    />
-                </ModalStyled.Fieldset>
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="bio">Bio</ModalStyled.Label>
-                    <ModalStyled.Textarea
+                </FormStyled.Fieldset>
+
+                <ImageUpload for="pfp" label="Profile Picture" defaultImageURL={pfpURL} setImage={setPfp} />
+
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="bio">Bio</FormStyled.Label>
+                    <FormStyled.Textarea
                         height="100px"
                         id="Bio"
                         onChange={(e) => setBio(e.target.value)}
                         value={bio}
-                    ></ModalStyled.Textarea>
-                </ModalStyled.Fieldset>
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="socials">Socials</ModalStyled.Label>
+                    ></FormStyled.Textarea>
+                </FormStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="socials">Socials</FormStyled.Label>
                     {socials.map((social, idx) => {
                         return (
-                            <ModalStyled.InputWrapper>
-                                <ModalStyled.Select
+                            <FormStyled.InputWrapper>
+                                <FormStyled.Select
                                     style={{ marginRight: '10px' }}
                                     onChange={(e) =>
                                         changeSocialName(idx, e.target.value)
@@ -256,23 +256,23 @@ const ProfileEditModal = (props) => {
                                     >
                                         Other
                                     </option>
-                                </ModalStyled.Select>
-                                <ModalStyled.Input
+                                </FormStyled.Select>
+                                <FormStyled.Input
                                     id={`social-${social.network}`}
                                     type="text"
                                     onChange={(e) => changeSocial(idx, e)}
                                     value={social.url}
                                 />
-                                <ModalStyled.IconButton
+                                <FormStyled.IconButton
                                     onClick={() => deleteSocial(idx)}
                                     style={{ marginLeft: '10px' }}
                                 >
                                     <FaTrashAlt />
-                                </ModalStyled.IconButton>
-                            </ModalStyled.InputWrapper>
+                                </FormStyled.IconButton>
+                            </FormStyled.InputWrapper>
                         )
                     })}
-                    <ModalStyled.IconButton
+                    <FormStyled.IconButton
                         onClick={() =>
                             setSocials([
                                 ...socials,
@@ -288,11 +288,11 @@ const ProfileEditModal = (props) => {
                         }}
                     >
                         <FaPlus />
-                    </ModalStyled.IconButton>
-                </ModalStyled.Fieldset>
+                    </FormStyled.IconButton>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                        <ModalStyled.Label for="membership">Membership</ModalStyled.Label>
+                <FormStyled.Fieldset>
+                        <FormStyled.Label for="membership">Membership</FormStyled.Label>
                         <Styled.MembershipBox>
                             {!!membership.length && membership.map((dao) => {
                                 return (
@@ -309,10 +309,10 @@ const ProfileEditModal = (props) => {
                                 )
                             })}
                         </Styled.MembershipBox>
-                    </ModalStyled.Fieldset>
+                    </FormStyled.Fieldset>
 
-                    <ModalStyled.Fieldset>
-                        <ModalStyled.Input
+                    <FormStyled.Fieldset>
+                        <FormStyled.Input
                             id="dao-search"
                             name="dao-search"
                             type="text"
@@ -331,16 +331,16 @@ const ProfileEditModal = (props) => {
                                 ))}
                             </Styled.SearchBox>
                         )}
-                    </ModalStyled.Fieldset>
+                    </FormStyled.Fieldset>
 
-                <ModalStyled.Button
+                <FormStyled.Button
                     id="submit_msg"
                     type="button"
                     onClick={onSave}
                 >
                     {updateLoading && <Loader color="white" />}
                     Save Changes
-                </ModalStyled.Button>
+                </FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

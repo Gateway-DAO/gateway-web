@@ -284,6 +284,14 @@ export const MoreCard = styled.div`
     justify-content:center;
     height: 25em;
     position:relative;
+
+    &:hover {
+        background: #220A38;
+        border: 1px solid #7E3BDC;
+        box-sizing: border-box;
+        border-radius: 20px;
+    }
+
     @media only screen and (max-width: 1170px) {
         height: 27em;
         min-width: 15em;

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { useParams, useHistory } from 'react-router'
-import Footer from '../../components/Footer'
+import { useHistory } from 'react-router'
 import Header from '../../components/Header'
 import space from '../../utils/canvas'
 import * as Styled from './style'
+import { FormStyled } from '../../components/Form'
 
 const SubmitPage = ({ name }) => {
     const history = useHistory()
@@ -28,13 +28,13 @@ const SubmitPage = ({ name }) => {
                 <Styled.Text>
                     Thank you, {name} Is Successfully Added.
                 </Styled.Text>
-                <Styled.Button
+                <FormStyled.Button
                     id="submit_msg"
                     type="button"
                     onClick={backToHome}
                 >
                     Back To Home
-                </Styled.Button>
+                </FormStyled.Button>
             </Styled.Container>
             {/* <Footer /> */}
         </Styled.Page>

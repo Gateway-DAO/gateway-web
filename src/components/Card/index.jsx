@@ -21,8 +21,8 @@ const Card = (props) => {
     }
 
     let desc = parser(props.description)
-    if (desc.length > 300) {
-        desc = desc.slice(0, 297)
+    if (desc.length > 200) {
+        desc = desc.slice(0, 197)
         desc = desc.concat('...')
     }
     return (

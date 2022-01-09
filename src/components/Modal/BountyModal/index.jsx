@@ -1,6 +1,7 @@
 import Modal from "../index";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
+import { FormStyled } from "../../Form"
 import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import RichEditor from "../../RichTextEditor";
@@ -84,71 +85,71 @@ const BountyModal = props => {
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
                 <ModalStyled.Header>Add Bounty</ModalStyled.Header>
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="headline">Headline
-                    </ModalStyled.Label>
-                    <ModalStyled.Input onChange={e => setHeadline(e.target.value)} type="text" id="headline" name="headline" placeholder="Integrate your community on Gateway" />
-                </ModalStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="headline">Headline
+                    </FormStyled.Label>
+                    <FormStyled.Input onChange={e => setHeadline(e.target.value)} type="text" id="headline" name="headline" placeholder="Integrate your community on Gateway" />
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="description">Description</ModalStyled.Label>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="description">Description</FormStyled.Label>
                     <RichEditor set={setDescription} value={description} />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset marginBottom="30px">
-                    <ModalStyled.Label>Categories</ModalStyled.Label>
+                <FormStyled.Fieldset marginBottom="30px">
+                    <FormStyled.Label>Categories</FormStyled.Label>
                     <Styled.GridBox>
-                        <ModalStyled.Checkbox id="category-1" name="category" value="Design" label="Design" onChange={toggleCheckbox} />
-                        <ModalStyled.Checkbox id="category-2" name="category" value="Technical" label="Technical" onChange={toggleCheckbox} />
-                        <ModalStyled.Checkbox id="category-3" name="category" value="Business" label="Business" onChange={toggleCheckbox} />
-                        <ModalStyled.Checkbox id="category-4" name="category" value="Creative" label="Creative" onChange={toggleCheckbox} />
-                        <ModalStyled.Checkbox id="category-5" name="category" value="Strategy" label="Strategy" onChange={toggleCheckbox} />
-                        <ModalStyled.Checkbox id="category-6" name="category" value="Product" label="Product" onChange={toggleCheckbox} />
-                        <ModalStyled.Checkbox id="category-7" name="category" value="Other" label="Other" onChange={toggleCheckbox} />
+                        <FormStyled.Checkbox id="category-1" name="category" value="Design" label="Design" onChange={toggleCheckbox} />
+                        <FormStyled.Checkbox id="category-2" name="category" value="Technical" label="Technical" onChange={toggleCheckbox} />
+                        <FormStyled.Checkbox id="category-3" name="category" value="Business" label="Business" onChange={toggleCheckbox} />
+                        <FormStyled.Checkbox id="category-4" name="category" value="Creative" label="Creative" onChange={toggleCheckbox} />
+                        <FormStyled.Checkbox id="category-5" name="category" value="Strategy" label="Strategy" onChange={toggleCheckbox} />
+                        <FormStyled.Checkbox id="category-6" name="category" value="Product" label="Product" onChange={toggleCheckbox} />
+                        <FormStyled.Checkbox id="category-7" name="category" value="Other" label="Other" onChange={toggleCheckbox} />
                     </Styled.GridBox>
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset marginBottom="30px">
-                    <ModalStyled.Label>Level</ModalStyled.Label>
+                <FormStyled.Fieldset marginBottom="30px">
+                    <FormStyled.Label>Level</FormStyled.Label>
                     <Styled.GridBox onChange={e => setLevel(e.target.value)}>
-                        <ModalStyled.Radio id="level-1" name="level" value="Novice" label="Novice" checked={level === "Novice"} />
-                        <ModalStyled.Radio id="level-2" name="level" value="Warrior" label="Warrior" checked={level === "Warrior"} />
-                        <ModalStyled.Radio id="level-3" name="level" value="Master" label="Master" checked={level === "Master"} />
-                        <ModalStyled.Radio id="level-4" name="level" value="Champion" label="Champion" checked={level === "Champion"} />
-                        <ModalStyled.Radio id="level-5" name="level" value="Legend" label="Legend" checked={level === "Legend"} />
+                        <FormStyled.Radio id="level-1" name="level" value="Novice" label="Novice" checked={level === "Novice"} />
+                        <FormStyled.Radio id="level-2" name="level" value="Warrior" label="Warrior" checked={level === "Warrior"} />
+                        <FormStyled.Radio id="level-3" name="level" value="Master" label="Master" checked={level === "Master"} />
+                        <FormStyled.Radio id="level-4" name="level" value="Champion" label="Champion" checked={level === "Champion"} />
+                        <FormStyled.Radio id="level-5" name="level" value="Legend" label="Legend" checked={level === "Legend"} />
                     </Styled.GridBox>
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="reward">Reward</ModalStyled.Label>
-                    <ModalStyled.Input id="reward" type="text" onChange={e => setReward(e.target.value)} />
-                </ModalStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="reward">Reward</FormStyled.Label>
+                    <FormStyled.Input id="reward" type="text" onChange={e => setReward(e.target.value)} />
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="directions">Directions</ModalStyled.Label>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="directions">Directions</FormStyled.Label>
                     <RichEditor set={setDirections} value={directions} />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="links">Important Links</ModalStyled.Label>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="links">Important Links</FormStyled.Label>
 
                     {links.map((step, idx) => (
-                        <ModalStyled.InputWrapper>
-                            <ModalStyled.Input id={`link-${idx}`} key={`bounty-link-${idx}`}
+                        <FormStyled.InputWrapper>
+                            <FormStyled.Input id={`link-${idx}`} key={`bounty-link-${idx}`}
                                 onChange={e => changeLink(idx, e)} value={step.description} type="text" />
-                            <ModalStyled.IconButton onClick={() => deleteLink(idx)} style={{ marginLeft: "10px" }}><FaTrashAlt /></ModalStyled.IconButton>
-                        </ModalStyled.InputWrapper>
+                            <FormStyled.IconButton onClick={() => deleteLink(idx)} style={{ marginLeft: "10px" }}><FaTrashAlt /></FormStyled.IconButton>
+                        </FormStyled.InputWrapper>
                     ))}
 
-                    <ModalStyled.IconButton onClick={() => setLinks([ ...links, "" ])} style={{ width: "fit-content", alignSelf: "center" }}><FaPlus /></ModalStyled.IconButton>
-                </ModalStyled.Fieldset>
+                    <FormStyled.IconButton onClick={() => setLinks([ ...links, "" ])} style={{ width: "fit-content", alignSelf: "center" }}><FaPlus /></FormStyled.IconButton>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="end-date">End Date</ModalStyled.Label>
-                    <ModalStyled.Input id="end-date" type="date" onChange={e => setEndDate(e.target.value)} />
-                </ModalStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="end-date">End Date</FormStyled.Label>
+                    <FormStyled.Input id="end-date" type="date" onChange={e => setEndDate(e.target.value)} />
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
+                <FormStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

@@ -48,13 +48,17 @@ export const CardBanner = styled.div`
     grid-row: 1 / span 2;
 `
 
-export const CardLogo = styled.img`
+export const CardLogo = styled.div`
     position: absolute;
     border-radius: 100%;
     width: 50px;
+    height: 50px;
     top: 15px;
     left: 15px;
     background-color: white;
+    background: url(${props => props.src || ""});
+    background-size: cover;
+    background-position: center;
 `
 
 export const CardBody = styled.div`

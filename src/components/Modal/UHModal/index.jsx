@@ -1,6 +1,7 @@
 import Modal from "../index";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
+import { FormStyled } from "../../Form"
 import { useState } from "react";
 import RichEditor from "../../RichTextEditor";
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
@@ -29,12 +30,12 @@ const UHModal = props => {
             <Styled.Container>
                 <ModalStyled.Header>Upcoming Hangouts</ModalStyled.Header>
 
-                <Styled.Fieldset>
-                    <ModalStyled.Label for="information">Information</ModalStyled.Label>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label for="information">Information</FormStyled.Label>
                     <RichEditor set={setUH} value={UH} />
-                </Styled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
+                <FormStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

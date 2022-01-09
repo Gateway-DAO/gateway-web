@@ -60,6 +60,20 @@ const ProfilePage = () => {
 
     }, [searchTerm, authUser, userLoading, loading])
 
+    const Tab = () => {
+        let component;
+
+        switch (activeTab) {
+            case "experience":
+                component = <AddExperience />
+                break;
+            default:
+                component = null
+        }
+
+        return component
+    }
+
     if (error) {
         return <Redirect to="/404" />
     }
@@ -98,9 +112,7 @@ const ProfilePage = () => {
                                     Activity
                                 </Styled.SelectedTab>
                             </Styled.ProfileDiv>
-                            {activeTab === 'experience' ? (
-                                <AddExperience />
-                            ) : null}
+                            {loggedIn && (authUser.id === userInfo.id) && <Tab />}
                         </Styled.FeedContainer>
                     </Styled.UserInfo>
                     {/*
