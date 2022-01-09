@@ -2,129 +2,183 @@ import React, { useRef, useState } from "react";
 // import Modal from '../../components/Modal/index';
 // import styled from "styled-components";
 import RichEditor from "../../components/RichTextEditor";
-import * as Styled from './style';
-import * as ModalStyled from '../../components/Modal/style';
+import * as Styled from './styles';
+// import * as Styled from '../../../components/Modal/style';
 import Header from "../../components/Header";
-import icon from "../../assets/imageicon.jpeg"
+import SearchedItem from "./Components/SearhedItem";
+// import icon from "../../assets/imageicon.jpeg"
 
 
-const AddGateForm =({maxFiles=1}) =>{
+const AddGateForm =(toggleForm) =>{
     const [name, setName] = useState("");
     const [description, setDescription] = useState("Its a rich editor")
-const [retroactivelearner,setRetroactivelearner] = useState("");
-const fileInputField = useRef(null);
+    const [retroactivelearner,setRetroactivelearner] = useState("");
+    const fileInputField = useRef(null);
     const [files, setFile] = useState("");
     const $input = useRef(null);
+    const [uploadFile, setUploadFile] = useState(null);
     const [over,setover]= useState(false);
-console.log(files);
-   
+    const [category, setCategory] = useState("");
+    const [categoryList, setCategoryList] = useState([]);
+    const [prerequisite, setPrerequisite]= useState("");
+    const [prerequisiteList, setPrerequisiteList]= useState("");
 
+    console.log(files);
+    
+    const removeUploadFile= ()=>{
+        setUploadFile(null);
+    }
+    const addCategories = (e)=>{
+        if(e.key==='Enter'){
+            setCategoryList([...categoryList, category]);
+            setCategory("")
+        }
+    }
+    const addPrerequisite = (e)=>{
+        if(e.key==='Enter'){
+            setPrerequisiteList([...prerequisiteList, prerequisite]);
+            setPrerequisite("")
+        }
+    }
     return (
-            <Styled.Page>
-                <Header />
-                
-                <Styled.Container>
-                    <ModalStyled.Header>Create a New Gate</ModalStyled.Header>
-                        <ModalStyled.Fieldset>
-                         <ModalStyled.Label for="title">Title</ModalStyled.Label>
-                            <ModalStyled.Input
-                        onChange={(e) => setName(e.target.value)}
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Year Finance for beginners"
-                        value={name}
-                    />
-                        </ModalStyled.Fieldset>
-                    <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="description">
-                        Description
-                    </ModalStyled.Label>
-                    <RichEditor set={setDescription} 
-                    placeholder ="Through this Gate you will loan everything related Yearn.Finance, from conect your personal wallet to how your wallet works"
-                    value={description} />
-                </ModalStyled.Fieldset>   
+        <Styled.Page>
+        <Header />        
+            <Styled.Container>
+                <Styled.Header>Create a New Gate</Styled.Header>
+                    <Styled.Fieldset>
+                        <Styled.Label for="title">Title</Styled.Label>
+                        <Styled.Input
+                            onChange={(e) => setName(e.target.value)}
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Year Finance for beginners"
+                            value={name}
+                        />
+                    </Styled.Fieldset>
+                    <Styled.Fieldset>
+                        <Styled.Label for="description">Description</Styled.Label>
+                        <RichEditor set={setDescription} 
+                        placeholder ="Through this Gate you will loan everything related Yearn.Finance, from conect your personal wallet to how your wallet works"
+                        value={description} />
+                    </Styled.Fieldset>   
+                    <Styled.Fieldset>
+                        <Styled.Label for="ProfileImage">Upload Badge or NFT</Styled.Label>
+                        {!uploadFile ? (
+                            <Styled.DragArea
+                                hover={over}
+                                for="uploadFile"
+                                onClick={() => {
+                                    $input.current.click()
+                                }}
+                                onDrop={(e) => {
+                                    e.preventDefault()
+                                    e.persist()
+                                    setUploadFile(e.dataTransfer.files[0])
+                                    setover(false)
+                                }}
+                                onDragOver={(e) => {
+                                    e.preventDefault()
+                                    setover(true)
+                                }}
+                                onDragLeave={(e) => {
+                                    e.preventDefault()
+                                    setover(false)
+                                }}
+                            >
+                                <Styled.DragAreaText hover={over} className="header">
+                                    <Styled.Span> Upload </Styled.Span>or Drag your
+                                    image here
+                                </Styled.DragAreaText>
 
-               
-
-                     <ModalStyled.Fieldset>
-                     <ModalStyled.Label for="ProfileImage">
-                         PROFILE IMAGE
-                    </ModalStyled.Label>
-                      
-                         <Styled.drag_area for = "uploadFile"
-                          onClick={()=> {$input.current.click()}}
-                          onDrop={(e) => {
-                            e.preventDefault();
-                            e.persist();
-                            setFile(URL.createObjectURL(e.dataTransfer.files[0]));
-                            setover(false);
-                          }}
-                          onDragOver={(e) => {
-                            e.preventDefault();
-                            setover(true);
-                          }}
-                          onDragLeave={(e) => {
-                            e.preventDefault();
-                            setover(false);
-                          }}
-                                         >
-                            <Styled.icon>
-                              <img src={icon}
-                              width = '42px'
-                              height = '42px'></img>
-                            </Styled.icon>
-                            
-                            <Styled.header className="header">
-                            <Styled.span> Upload </Styled.span>or Drag your image here
-                            </Styled.header>
-                            
-                            {/* <Styled.button className="button">
+                                {/* <Styled.button className="button">
                                 Browse File 
                             </Styled.button> */}
-                            <input type="file"  hidden ref={$input} onChange={e=> {setFile(URL.createObjectURL(e.target.files[0]))}}>
-                            </input>
-
-                         </Styled.drag_area>
-                         {files?<img src={files} maxWidth='337px' height='256px'>
-
-                         </img>
-                         : ''}
-                     {/* <Styled.FileUploadContainer>
-        <Styled.InputLabel>{label}</Styled.InputLabel>
-        <Styled.DragDropText>Drag and drop your files anywhere or</Styled.DragDropText>
-        <Styled.UploadFileBtn type="button" >
-          <i className="fas fa-file-upload" />
-          <span> Upload {otherProps.multiple ? "files" : "a file"}</span>
-        </Styled.UploadFileBtn>
-        <Styled.FormField
-          type="file"
-          ref={fileInputField}
-          onChange={handleNewFileUpload}
-          title=""
-          value=""
-          {...otherProps}
-        />
-      </Styled.FileUploadContainer> */}
-      </ModalStyled.Fieldset>
-                     <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="retroactiveLearner">
+                                <input
+                                    type="file"
+                                    accept="image/*, video/*, audio/*"
+                                    hidden
+                                    ref={$input}
+                                    onChange={(e) => {
+                                        setUploadFile(e.target.files[0])
+                                    }}
+                                    required
+                                ></input>
+                            </Styled.DragArea>
+                        ) : (
+                            <Styled.Background image={URL.createObjectURL(uploadFile)}>
+                                <Styled.Cross onClick={removeUploadFile}>
+                                    +
+                                </Styled.Cross>
+                            </Styled.Background>
+                        )}
+                        <Styled.AllowedFileType>
+                        <p>Image, Video, Audio, or 3D Model</p>
+                        <p>File supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF.</p>
+                        <p>Max size: 100 MB</p>
+                        </Styled.AllowedFileType>
+                    </Styled.Fieldset>
+                <Styled.Fieldset>
+                    <Styled.Label for="title">Category</Styled.Label>
+                    <Styled.Input
+                        onChange={(e) => setCategory(e.target.value)}
+                        type="text"
+                        id="category"
+                        name="category"
+                        placeholder="Search your Category"
+                        onKeyPress={addCategories}
+                        value={category}
+                    />
+                    {categoryList.length>0 
+                        &&
+                        <Styled.CategoryList>
+                            {categoryList.map((category)=>{
+                                return(
+                                    <SearchedItem val={category}/>
+                                )
+                            })
+                            }
+                        </Styled.CategoryList> 
+                    }
+                </Styled.Fieldset>
+                <Styled.Fieldset>
+                    <Styled.Label for="retroactiveLearner">
                         RETROACTIVE LEARNER
-                    </ModalStyled.Label>
+                    </Styled.Label>
                     <RichEditor set={setDescription} value={retroactivelearner} />
-                </ModalStyled.Fieldset>
-
-                <ModalStyled.Button
+                </Styled.Fieldset>
+                <Styled.Fieldset>
+                    <Styled.Label for="title">Prerequisite</Styled.Label>
+                    <Styled.Input
+                        onChange={(e) => setPrerequisite(e.target.value)}
+                        type="text"
+                        id="prerequisite"
+                        name="prerequisite"
+                        placeholder="Search"
+                        onKeyPress={addPrerequisite}
+                        value={prerequisite}
+                    />
+                    {prerequisiteList.length>0 
+                        &&
+                        <Styled.CategoryList>
+                            {prerequisiteList.map((prerequisite)=>{
+                                return(
+                                    <SearchedItem val={prerequisite}/>
+                                )
+                            })
+                            }
+                        </Styled.CategoryList> 
+                    }
+                </Styled.Fieldset>
+                
+                <Styled.Button
                     id="submit_msg"
-                    type="button"
-                    
+                    type="button"    
                 >
                     Submit
-                </ModalStyled.Button>
-                </Styled.Container>
-                </Styled.Page>
-        
-
+                </Styled.Button>
+            </Styled.Container>
+        </Styled.Page>
     )
 }
 export default AddGateForm

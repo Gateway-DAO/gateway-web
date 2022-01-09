@@ -31,13 +31,7 @@ display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 20%;
-  margin: 40px 140px;
-  color: white;
-  font-family: Poppins sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 500px;
+    margin: 50px 0;
 `
 
 export const GridBox = styled.div`
@@ -60,23 +54,102 @@ export const  description= styled.label`
 
     color: #ffffff;
 `
-// body
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   min-height: 100vh;
-//   background: #5256ad;
-// }
-export const drag_area=styled.button`
-  // border: 2px dashed #fff;
-  // height: 300px;
-  // width: 500px;
-  // margin:10px;
-  // border-radius: 5px;
-   display: flex;
-   align-items: center;
-  justify-content: center;
-  flex-direction: column;
+export const Header = styled.h1`
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 86px;
+  line-height: 90px;
+  /* identical to box height, or 94% */
+  text-align: center;
+  letter-spacing: -0.05em;
+  /* Background */
+  background: linear-gradient(
+      88.04deg,
+      #ee787b 22.54%,
+      #e153f2 41.08%,
+      #495be0 65.25%,
+      #6a39f3 86.1%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+`
+export const Label = styled.label`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #ffffff;
+`
+
+export const Textarea = styled.textarea`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    width: 100%;
+    height: ${(props) => props.height || '250px'};
+    color: #e5e5e5;
+    background: #170627;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 12px;
+    margin: 12px 0;
+    resize: vertical;
+`
+
+export const Button = styled.button`
+    background: #170627;
+    border: 1px solid #a5a5a5;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 9px 65px;
+    color: #e5e5e5;
+    margin-top: 15px;
+
+    cursor: pointer;
+`
+
+export const IconButton = styled(Button)`
+    display: flex;
+    padding: 10px;
+`
+
+export const Fieldset = styled.fieldset`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: ${props => props.marginY || "10px"} 0;
+    ${props => props.marginBottom ? "margin-bottom: " + props.marginBottom : ""}
+`
+
+export const Input = styled.input`
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 10px;
   font-family: Be Vietnam;
   font-style: normal;
   font-weight: normal;
@@ -85,192 +158,106 @@ export const drag_area=styled.button`
   display: flex;
   align-items: center;
   letter-spacing: 0.05em;
-  width: 100%;
-  height: ${(props) => props.height || '250px'};
-  color: #e5e5e5;
   background: #170627;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-sizing: border-box;
-  border-radius: 5px;
-  padding: 12px;
+  color: #e5e5e5;
   margin: 12px 0;
-  resize: vertical;
-  
-`
-// export const drag_area.active{
-//   border: 2px solid #fff;
-// }
- export const icon= styled.div`
-  font-size: 100px;
-  color: #453852;
-`
-export const header= styled.div`
-  
-  color: #fff;
-  font-family: Be Vietnam;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
-/* or 162% */
-
-text-align: center;
-
-`
-export const span=styled.span`
-font-family: Be Vietnam;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
-/* or 162% */
-
-text-align: center;
-
-  color: #FE02B9;
-  margin: 10px 0 15px 0;
-`
-export const button=styled.div`
-  padding: 10px 25px;
-  font-size: 20px;
-  font-weight: 500;
-  border: none;
-  outline: none;
-  background: #fff;
-  color: #5256ad;
-  border-radius: 5px;
-  cursor: pointer;
-`
-export const img= styled.div`
-  height: 100%;
   width: 100%;
-  object-fit: cover;
-  border-radius: 5px;
 `
-// export const FileUploadContainer = styled.section`
-//   position: relative;
-//   margin: 25px 0 15px;
-//   border: 2px dotted lightgray;
-//   padding: 35px 20px;
-//   border-radius: 6px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   background-color: white;
-// `;
+export const AllowedFileType = styled.div`
+  font-family: Be Vietnam;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.05em;
+  text-transform: capitalize;
 
-// export const FormField = styled.input`
-//   font-size: 18px;
-//   display: block;
-//   width: 100%;
-//   border: none;
-//   text-transform: none;
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   opacity: 0;
+  color: rgba(229, 229, 229, 0.6);
+`
 
-//   &:focus {
-//     outline: none;
-//   }
-// `;
 
-// export const InputLabel = styled.label`
-//   top: -21px;
-//   font-size: 13px;
-//   color: black;
-//   left: 0;
-//   position: absolute;
-// `;
+export const Text = styled.p`
+    margin: 50px auto;
+    color: white;
+    font-family: Poppins;
+    font-style: normal;
+`
+export const DragArea = styled.div`
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #170627;
+    border: ${(props) =>
+        props.hover
+            ? '1px solid rgba(255, 255, 255, 0.2)'
+            : '1px dashed rgba(255, 255, 255, 0.2)'};
+    box-sizing: border-box;
+    margin:10px 0;
+    border-radius: 5px;
+`
+export const DragAreaText = styled.div`
+    width: 100%;
+    height: 32px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
 
-// export const DragDropText = styled.p`
-//   font-weight: bold;
-//   letter-spacing: 2.2px;
-//   margin-top: 0;
-//   text-align: center;
-// `;
-
-// export const UploadFileBtn = styled.button`
-//   box-sizing: border-box;
-//   appearance: none;
-//   background-color: transparent;
-//   border: 2px solid #3498db;
-//   cursor: pointer;
-//   font-size: 1rem;
-//   line-height: 1;
-//   padding: 1.1em 2.8em;
-//   text-align: center;
-//   text-transform: uppercase;
-//   font-weight: 700;
-//   border-radius: 6px;
-//   color: #3498db;
-//   position: relative;
-//   overflow: hidden;
-//   z-index: 1;
-//   transition: color 250ms ease-in-out;
-//   font-family: "Open Sans", sans-serif;
-//   width: 45%;
-//   display: flex;
-//   align-items: center;
-//   padding-right: 0;
-//   justify-content: center;
-
-//   &:after {
-//     content: "";
-//     position: absolute;
-//     display: block;
-//     top: 0;
-//     left: 50%;
-//     transform: translateX(-50%);
-//     width: 0;
-//     height: 100%;
-//     background: #3498db;
-//     z-index: -1;
-//     transition: width 250ms ease-in-out;
-//   }
-//   i {
-//     font-size: 22px;
-//     margin-right: 5px;
-//     border-right: 2px solid;
-//     position: absolute;
-//     top: 0;
-//     bottom: 0;
-//     left: 0;
-//     right: 0;
-//     width: 20%;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//   }
-
-//   @media only screen and (max-width: 500px) {
-//     width: 70%;
-//   }
-
-//   @media only screen and (max-width: 350px) {
-//     width: 100%;
-//   }
-
-//   &:hover {
-//     color: #fff;
-//     outline: 0;
-//     background: transparent;
-
-//     &:after {
-//       width: 110%;
-//     }
-//   }
-
-//   &:focus {
-//     outline: 0;
-//     background: transparent;
-//   }
-
-//   &:disabled {
-//     opacity: 0.4;
-//     filter: grayscale(100%);
-//     pointer-events: none;
-//   }
-// `;
+    text-align: center;
+    color: ${(props) =>
+        props.hover ? ' rgba(255, 255, 255, 1)' : ' rgba(255, 255, 255, 0.2)'};
+`
+export const Span = styled.span`
+    color: #fe02b9;
+`
+export const Background = styled.div`
+    position: relative;
+    width: 337px;
+    height: 256px;
+    margin-top: 10px;
+    background-image: url(${(props) => props.image});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid #7e3bdc;
+    box-sizing: border-box;
+    border-radius: 4px;
+`
+export const Cross = styled.div`
+    cursor: pointer;
+    position: absolute;
+    left: 96%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -4%;
+    width: 18px;
+    height: 18px;
+    border-radius: 100%;
+    background: #7e3bdc;
+    border: 1px solid #ffffff;
+    transform: rotate(45deg);
+    z-index: 10;
+    font-weight: 500;
+    color: #ffffff;
+`
+export const Image = styled.img`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #7e3bdc;
+    box-sizing: border-box;
+    border-radius: 4px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+`
+export const CategoryList = styled.div`
+    margin-top:15px;
+    display:flex;
+    max-width:400px;
+`

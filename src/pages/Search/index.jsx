@@ -52,35 +52,7 @@ const Search = (props) => {
         setInputVal(e.target.value)
         // setToggle(true);
     }
-    // const pauseTyping= ()=> {
-    //     clearTimeout(typingTimer);
-    //     typingTimer = setTimeout(handelar, doneTypingInterval);
-    // };
-      
-      //on keydown, clear the countdown 
-    // const resumeTyping = ()=> {
-    //     clearTimeout(typingTimer);
-    // };
-      
-    // const handelar = ()=>{
-    //     // const res = await searchDAO({
-    //     //     variables: {
-    //     //         filter: {
-    //     //             or: [
-    //     //                 { dao: { matchPhrasePrefix: inputVal } },
-    //     //                 { name: { matchPhrase: inputVal } },
-    //     //                 { categories: { matchPhrase: inputVal } },
-    //     //                 { tags: { matchPhrase: inputVal } },
-    //     //                 { description: { matchPhrase: inputVal } },
-    //     //             ],
-    //     //         },
-    //     //     },
-    //     // })
-    //     // setHit(res.data.searchDAOs.items);
-    //     setHits(!searchLoading ? searchData.searchDAOs.items : [])
-    //     console.log(hits);
-    //     setToggle(true);
-    // }
+    
     const {
         data: searchData,
         loading: searchLoading,
