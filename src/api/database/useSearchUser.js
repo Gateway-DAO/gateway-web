@@ -9,6 +9,7 @@ export const useSearchUsers = (config = {}) => {
         () => ({
             data, 
             loading: loading || (!called && loading === false),
+            called,
             refetch,
             error,
         }),
@@ -24,6 +25,7 @@ export const useLazySearchUsers = () => {
             searchUsers,
             data,
             loading: loading || (!called && loading === false),
+            called,
             refetch,
             error,
         }),

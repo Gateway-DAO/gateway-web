@@ -32,7 +32,7 @@ const EditCardModal = (props) => {
             logoFile
         )
         const backgroundURL = backgroundFile && await uploadFile(
-            `daos/${props.id}/logo.${backgroundFile.name.split('.').pop()}`,
+            `daos/${props.id}/background.${backgroundFile.name.split('.').pop()}`,
             backgroundFile
         )
 
@@ -121,7 +121,7 @@ const EditCardModal = (props) => {
             <Styled.Container>
                 <ModalStyled.Header>Edit Information</ModalStyled.Header>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="name">Name</FormStyled.Label>
+                    <FormStyled.Label htmlFor="name">Name</FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setName(e.target.value)}
                         type="text"
@@ -132,12 +132,12 @@ const EditCardModal = (props) => {
                     />
                 </FormStyled.Fieldset>
 
-                <ImageUpload for="logo" label="Logo" setImage={setLogoFile} defaultImageURL={props.logoURL} />
+                <ImageUpload htmlFor="logo" label="Logo" setImage={setLogoFile} defaultImageURL={props.logoURL} />
 
-                <ImageUpload for="logo" label="Background" setImage={setBackgroundFile} defaultImageURL={props.backgroundURL} />
+                <ImageUpload htmlFor="logo" label="Background" setImage={setBackgroundFile} defaultImageURL={props.backgroundURL} />
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="backgroundURL">
+                    <FormStyled.Label htmlFor="backgroundURL">
                         Youtube URL
                     </FormStyled.Label>
                     <FormStyled.Input
@@ -151,7 +151,7 @@ const EditCardModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="description">
+                    <FormStyled.Label htmlFor="description">
                         Description
                     </FormStyled.Label>
                     <FormStyled.Textarea onChange={e => setDescription(e.target.value)} value={description} />
@@ -236,7 +236,7 @@ const EditCardModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="socials">Socials</FormStyled.Label>
+                    <FormStyled.Label htmlFor="socials">Socials</FormStyled.Label>
                     {socials.map((social, idx) => {
                         return (
                             <FormStyled.InputWrapper>
@@ -418,7 +418,7 @@ const EditCardModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="whitelistedAddress">
+                    <FormStyled.Label htmlFor="whitelistedAddress">
                     Whitelisted Addresses
                     </FormStyled.Label>
                     {whitelistedAddresses.map((address, idx) => {
@@ -450,7 +450,7 @@ const EditCardModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="tokenAddress">
+                    <FormStyled.Label htmlFor="tokenAddress">
                         Token Address
                     </FormStyled.Label>
                     <FormStyled.Input
@@ -462,7 +462,7 @@ const EditCardModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="snapshotID">
+                    <FormStyled.Label htmlFor="snapshotID">
                         Snapshot ID
                     </FormStyled.Label>
                     <FormStyled.Input

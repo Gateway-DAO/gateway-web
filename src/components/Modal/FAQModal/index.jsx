@@ -57,7 +57,7 @@ const FAQModal = props => {
 
                 {FAQ.map((pair, idx) => (
                     <FormStyled.Fieldset>
-                        <FormStyled.Label for={`description-${idx}`}>Question {idx + 1}</FormStyled.Label>
+                        <FormStyled.Label htmlFor={`description-${idx}`}>Question {idx + 1}</FormStyled.Label>
                         <FormStyled.InputWrapper>
                             <div style={{ flex: 1 }}>
                                 <FormStyled.Input id={`question-${idx}`} key={`q-input-${idx}`} placeholder="Question" onChange={e => changeQuestion(idx, e)} value={pair.question} type="text" />

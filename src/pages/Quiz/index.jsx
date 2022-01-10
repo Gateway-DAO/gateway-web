@@ -27,7 +27,7 @@ const CreateQuiz = () => {
                 {showComponent ? (
                     <>
                         <Styled.Fieldset>
-                            <Styled.Label for="name">QUIZ TITLE</Styled.Label>
+                            <Styled.Label htmlFor="name">QUIZ TITLE</Styled.Label>
                             <Styled.Input
                                 onChange={(e) => setTitle(e.target.value)}
                                 type="text"
@@ -38,7 +38,7 @@ const CreateQuiz = () => {
                             />
                         </Styled.Fieldset>
                         <Styled.Fieldset>
-                            <Styled.Label for="description">
+                            <Styled.Label htmlFor="description">
                                 QUIZ Description
                             </Styled.Label>
                             <Styled.Textarea

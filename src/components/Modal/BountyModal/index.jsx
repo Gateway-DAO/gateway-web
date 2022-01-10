@@ -89,7 +89,7 @@ const BountyModal = (props) => {
             <Styled.Container>
                 <ModalStyled.Header>Add Bounty</ModalStyled.Header>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="headline">Headline</FormStyled.Label>
+                    <FormStyled.Label htmlFor="headline">Headline</FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setHeadline(e.target.value)}
                         value={headline}
@@ -101,7 +101,7 @@ const BountyModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="description">
+                    <FormStyled.Label htmlFor="description">
                         Description
                     </FormStyled.Label>
                     <RichEditor set={setDescription} value={description} />
@@ -204,7 +204,7 @@ const BountyModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="reward">Reward</FormStyled.Label>
+                    <FormStyled.Label htmlFor="reward">Reward</FormStyled.Label>
                     <FormStyled.Input
                         id="reward"
                         type="text"
@@ -214,14 +214,14 @@ const BountyModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="directions">
+                    <FormStyled.Label htmlFor="directions">
                         Directions
                     </FormStyled.Label>
                     <RichEditor set={setDirections} value={directions} />
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="links">
+                    <FormStyled.Label htmlFor="links">
                         Important Links
                     </FormStyled.Label>
 
@@ -252,7 +252,7 @@ const BountyModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="end-date">End Date</FormStyled.Label>
+                    <FormStyled.Label htmlFor="end-date">End Date</FormStyled.Label>
                     <FormStyled.Input
                         id="end-date"
                         type="date"

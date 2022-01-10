@@ -21,12 +21,14 @@ const DAOTab = () => {
         data: listData,
         loading: listLoading,
         error: listError,
+        called: listCalled,
     } = useListDAOs()
 
     const {
         data: searchData,
         loading: searchLoading,
         error: searchError,
+        called: searchCalled,
     } = useSearchDAO({
         variables: {
             filter: {
@@ -53,15 +55,18 @@ const DAOTab = () => {
         return <Redirect to="/404" />
     }
 
+    const searchOrListLoading = (query.toLowerCase() === 'all' ? listLoading : searchLoading)
+    const searchOrListCalled = (query.toLowerCase() === 'all' ? listCalled : searchCalled)
+
     return (
         <>
-            {((!!query ? searchLoading : listLoading) && !!hits.length) && (
+            {searchOrListLoading && (
                 <SearchStyled.LoaderBox>
                     <Loader color="white" size={35} />
                 </SearchStyled.LoaderBox>
             )}
 
-            {!hits.length && !(searchLoading) && (
+            {(!hits.length && !searchOrListLoading && searchOrListCalled) && (
                 <SearchStyled.TextBox>
                     <SearchStyled.MainText>
                         Oops! There's no "{query}" DAO on our records :/

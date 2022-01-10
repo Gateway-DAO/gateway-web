@@ -46,7 +46,7 @@ const AddGateForm =(toggleForm) =>{
             <Styled.Container>
                 <Styled.Header>Create a New Gate</Styled.Header>
                     <Styled.Fieldset>
-                        <Styled.Label for="title">Title</Styled.Label>
+                        <Styled.Label htmlFor="title">Title</Styled.Label>
                         <Styled.Input
                             onChange={(e) => setName(e.target.value)}
                             type="text"
@@ -57,17 +57,17 @@ const AddGateForm =(toggleForm) =>{
                         />
                     </Styled.Fieldset>
                     <Styled.Fieldset>
-                        <Styled.Label for="description">Description</Styled.Label>
+                        <Styled.Label htmlFor="description">Description</Styled.Label>
                         <RichEditor set={setDescription} 
                         placeholder ="Through this Gate you will loan everything related Yearn.Finance, from conect your personal wallet to how your wallet works"
                         value={description} />
                     </Styled.Fieldset>   
                     <Styled.Fieldset>
-                        <Styled.Label for="ProfileImage">Upload Badge or NFT</Styled.Label>
+                        <Styled.Label htmlFor="ProfileImage">Upload Badge or NFT</Styled.Label>
                         {!uploadFile ? (
                             <Styled.DragArea
                                 hover={over}
-                                for="uploadFile"
+                                htmlFor="uploadFile"
                                 onClick={() => {
                                     $input.current.click()
                                 }}
@@ -119,7 +119,7 @@ const AddGateForm =(toggleForm) =>{
                         </Styled.AllowedFileType>
                     </Styled.Fieldset>
                 <Styled.Fieldset>
-                    <Styled.Label for="title">Category</Styled.Label>
+                    <Styled.Label htmlFor="title">Category</Styled.Label>
                     <Styled.Input
                         onChange={(e) => setCategory(e.target.value)}
                         type="text"
@@ -142,13 +142,13 @@ const AddGateForm =(toggleForm) =>{
                     }
                 </Styled.Fieldset>
                 <Styled.Fieldset>
-                    <Styled.Label for="retroactiveLearner">
+                    <Styled.Label htmlFor="retroactiveLearner">
                         RETROACTIVE LEARNER
                     </Styled.Label>
                     <RichEditor set={setDescription} value={retroactivelearner} />
                 </Styled.Fieldset>
                 <Styled.Fieldset>
-                    <Styled.Label for="title">Prerequisite</Styled.Label>
+                    <Styled.Label htmlFor="title">Prerequisite</Styled.Label>
                     <Styled.Input
                         onChange={(e) => setPrerequisite(e.target.value)}
                         type="text"

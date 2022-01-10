@@ -175,7 +175,7 @@ const CreateProfile = () => {
 
                 <Styled.FormBox onSubmit={onSave}>
                     <FormStyled.Fieldset>
-                        <FormStyled.Label for="name">Display name</FormStyled.Label>
+                        <FormStyled.Label htmlFor="name">Display name</FormStyled.Label>
                         <FormStyled.Input
                             onChange={(e) => setName(e.target.value)}
                             type="text"
@@ -187,7 +187,7 @@ const CreateProfile = () => {
                     </FormStyled.Fieldset>
 
                     <FormStyled.Fieldset>
-                        <FormStyled.Label for="username">Username</FormStyled.Label>
+                        <FormStyled.Label htmlFor="username">Username</FormStyled.Label>
                         <FormStyled.Input
                             onChange={(e) => setUsername(e.target.value)}
                             type="text"
@@ -199,7 +199,7 @@ const CreateProfile = () => {
                     </FormStyled.Fieldset>
 
                     <FormStyled.Fieldset>
-                        <FormStyled.Label for="Bio">Bio</FormStyled.Label>
+                        <FormStyled.Label htmlFor="Bio">Bio</FormStyled.Label>
                         <FormStyled.Textarea
                             height="100px"
                             id="Bio"
@@ -209,10 +209,10 @@ const CreateProfile = () => {
                         ></FormStyled.Textarea>
                     </FormStyled.Fieldset>
 
-                    <ImageUpload for="pfp" label="Profile Picture" setImage={setPicture} />
+                    <ImageUpload htmlFor="pfp" label="Profile Picture" setImage={setPicture} />
 
                     <FormStyled.Fieldset>
-                        <FormStyled.Label for="socials">Socials</FormStyled.Label>
+                        <FormStyled.Label htmlFor="socials">Socials</FormStyled.Label>
                         {socials.map((social, idx) => {
                             return (
                                 <FormStyled.InputWrapper>
@@ -344,7 +344,7 @@ const CreateProfile = () => {
                     </FormStyled.Fieldset>
 
                     <FormStyled.Fieldset>
-                        <FormStyled.Label for="membership">Membership</FormStyled.Label>
+                        <FormStyled.Label htmlFor="membership">Membership</FormStyled.Label>
                         <Styled.MembershipBox>
                             {membership.length &&
                                 membership.map((dao) => {

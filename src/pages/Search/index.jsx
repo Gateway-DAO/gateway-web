@@ -1,21 +1,19 @@
 import * as Styled from './style'
 
+// Hooks
 import { useParams, useHistory } from 'react-router'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import { useLazySearchDAO } from '../../api/database/useSearchDAO'
 
+// Components
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import DAOTab from './component/DAOs'
 import UserTab from './component/Users'
-import { useLazySearchDAO } from '../../api/database/useSearchDAO'
-import { useSearchDAO } from '../../api/database/useSearchDAO'
-// import { useSearchDAO } from '../../api/database/useSearchDAO'
-// import { searchDaos } from '../../graphql/queries'
 import SearchSuggestions from './component/SearchSuggestions'
+import { Redirect } from 'react-router-dom'
 
 const Search = (props) => {
-    let typingTimer
-    const doneTypingInterval = 1000
     const [selectionTab, setSelectionTab] = useState('DAOs')
     const { query } = useParams()
     const [inputVal, setInputVal] = useState(query || '')
@@ -48,33 +46,23 @@ const Search = (props) => {
                 return <DAOTab />
         }
     }
-    const searchBarInput = (e) => {
-        setInputVal(e.target.value)
-        // setToggle(true);
-    }
     
     const {
+        searchDAO,
         data: searchData,
         loading: searchLoading,
         error: searchError,
-    } = useSearchDAO({
-        variables: {
-            filter: {
-                or: [
-                    { dao: { wildcard: `*${inputVal}*` } },
-                    { name: { wildcard: `*${inputVal}*` } },
-                    { description: { wildcard: `*${inputVal}*` } },
-                    { categories: { match: `*${inputVal}*` } },
-                    { tags: { wildcard: `*${inputVal}*` } },
-                ],
-            },
-        },
-    })
+    } = useLazySearchDAO()
 
     useEffect(() => {
         setHits(!searchLoading ? searchData.searchDAOs.items : [])
         // setToggle(true);
     }, [searchData, searchLoading])
+    
+    if (searchError) {
+        return <Redirect to="/404" />
+    }
+
     return (
         <Styled.Container>
             <Header />
@@ -106,14 +94,14 @@ const Search = (props) => {
                         <Styled.SearchInput
                             //    onKeyDown={resumeTyping}
                             //    onKeyUp={pauseTyping}
-                            type="search"
+                            type="input"
                             value={inputVal}
-                            onChange={searchBarInput}
+                            onChange={e => setInputVal(e.target.value)}
                             onKeyPress={handleEnter}
                             onClick={() => setToggle(true)}
                         />
                         <Styled.WrappedFiSearch />
-                        {toggle && hits.length != 0 && (
+                        {toggle && hits.length !== 0 && (
                             <Styled.SearchSuggestionBox>
                                 {hits
                                     .filter((item, idx) => idx < 5)

@@ -53,7 +53,7 @@ const HowtoJoinModal = props => {
 
                 {inputs.map((step, idx) => (
                     <FormStyled.Fieldset>
-                        <FormStyled.Label for={`description-${idx}`}>Step {idx + 1}</FormStyled.Label>
+                        <FormStyled.Label htmlFor={`description-${idx}`}>Step {idx + 1}</FormStyled.Label>
                         <FormStyled.InputWrapper>
                             <FormStyled.Input id={`description-${idx}`} key={`htj-input-${idx}`}
                                 placeholder="If you hold the required amount of tokens, you are given access to the discord"

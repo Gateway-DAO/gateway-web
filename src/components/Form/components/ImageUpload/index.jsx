@@ -16,11 +16,11 @@ const ImageUpload = (props) => {
 
     return (
         <FormStyled.Fieldset>
-            <FormStyled.Label for={props.for}>{props.label}</FormStyled.Label>
+            <FormStyled.Label htmlFor={props.for}>{props.label}</FormStyled.Label>
             {!imageURL ? (
                 <Styled.DragArea
                     hover={over}
-                    for="uploadFile"
+                    htmlFor="uploadFile"
                     onClick={() => {
                         $input.current.click()
                     }}

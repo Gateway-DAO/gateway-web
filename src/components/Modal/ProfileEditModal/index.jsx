@@ -152,7 +152,7 @@ const ProfileEditModal = (props) => {
             <Styled.Container>
                 <ModalStyled.Header>Edit Profile</ModalStyled.Header>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="name">
+                    <FormStyled.Label htmlFor="name">
                         Display Name
                     </FormStyled.Label>
                     <FormStyled.Input
@@ -165,10 +165,10 @@ const ProfileEditModal = (props) => {
                     />
                 </FormStyled.Fieldset>
 
-                <ImageUpload for="pfp" label="Profile Picture" defaultImageURL={pfpURL} setImage={setPfp} />
+                <ImageUpload htmlFor="pfp" label="Profile Picture" defaultImageURL={pfpURL} setImage={setPfp} />
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="bio">Bio</FormStyled.Label>
+                    <FormStyled.Label htmlFor="bio">Bio</FormStyled.Label>
                     <FormStyled.Textarea
                         height="100px"
                         id="Bio"
@@ -177,7 +177,7 @@ const ProfileEditModal = (props) => {
                     ></FormStyled.Textarea>
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="socials">Socials</FormStyled.Label>
+                    <FormStyled.Label htmlFor="socials">Socials</FormStyled.Label>
                     {socials.map((social, idx) => {
                         return (
                             <FormStyled.InputWrapper>
@@ -292,7 +292,7 @@ const ProfileEditModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                        <FormStyled.Label for="membership">Membership</FormStyled.Label>
+                        <FormStyled.Label htmlFor="membership">Membership</FormStyled.Label>
                         <Styled.MembershipBox>
                             {!!membership.length && membership.map((dao) => {
                                 return (

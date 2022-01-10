@@ -31,7 +31,7 @@ const UHModal = props => {
                 <ModalStyled.Header>Upcoming Hangouts</ModalStyled.Header>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="information">Information</FormStyled.Label>
+                    <FormStyled.Label htmlFor="information">Information</FormStyled.Label>
                     <RichEditor set={setUH} value={UH} />
                 </FormStyled.Fieldset>
 

@@ -46,6 +46,7 @@ const CardsScrollWrapper = (props) => {
     //     cardRef.current.addEventListener('mouseup', stopDragging, false)
     //     cardRef.current.addEventListener('mouseleave', stopDragging, false)
     // }, [])
+    
     useEffect(()=>{
         let size = window.innerWidth;
         if(size<735){
@@ -57,7 +58,6 @@ const CardsScrollWrapper = (props) => {
         }else{
             setNumberOfCards(4);
         }
-        console.log(size);
     },[])
    
     return (

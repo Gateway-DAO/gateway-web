@@ -31,7 +31,7 @@ const AccomplishmentModal = props => {
                 <ModalStyled.Header>Accomplishments</ModalStyled.Header>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="information">Information</FormStyled.Label>
+                    <FormStyled.Label htmlFor="information">Information</FormStyled.Label>
                     <RichEditor set={setAccomplish} value={accomplish} />
                 </FormStyled.Fieldset>
 

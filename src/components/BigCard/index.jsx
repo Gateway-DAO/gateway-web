@@ -1,12 +1,7 @@
 import * as Styled from './style'
 import { Link } from 'react-router-dom'
-import { useHistory } from 'react-router'
-import useAdmin from '../../hooks/useAdmin'
 import React, { useState, useEffect, useRef } from 'react'
 import RelatedDAOSection from './components/RelatedDAO'
-import { useWeb3React } from '@web3-react/core'
-import { BigNumber } from '@ethersproject/bignumber'
-import EditCardModal from '../Modal/EditCardModal'
 import {
     FaDiscord,
     FaTwitter,
@@ -18,20 +13,22 @@ import {
 } from 'react-icons/fa'
 import { FiGlobe } from 'react-icons/fi'
 import { BsChatTextFill } from 'react-icons/bs'
-import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
-// Profile tab options
-import Profile from './components/Profiles'
-import Feed from './components/Feed'
+import useAdmin from '../../hooks/useAdmin'
+
 //components
 import Plugins from './components/Plugins'
 import Members from './components/Members'
+import Profile from './components/Profiles'
+import Feed from './components/Feed'
+import Gates from './components/Gates'
+import EditCardModal from '../Modal/EditCardModal'
 
 // Web3
 import { ethers } from 'ethers'
 import ERC20_ABI from '../../utils/abis/ERC20.json'
-import Gates from './components/Gates'
+import { useWeb3React } from '@web3-react/core'
 
-// chain Image
+// Assets
 import avalanche from '../../assets/avalanche-avax-logo.png'
 import binance from '../../assets/binance-coin-bnb-logo.png'
 import btc from '../../assets/BTC_Logo.png'
@@ -39,6 +36,7 @@ import ethereum from '../../assets/Ethereum-icon-purple.png'
 import near from '../../assets/near-protocol-near-logo.png'
 import polygon from '../../assets/polygon-matic-logo.png'
 import solana from '../../assets/solana-sol-logo.png'
+import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
 
 const NewCard = (props) => {
     const web3 = useWeb3React()
@@ -59,6 +57,8 @@ const NewCard = (props) => {
 
             web3.active && web3.library && getBalance(props.tokenAddress)
         }
+
+        return () => {}
     }, [web3.active, props.id])
 
     const [balance, setBalance] = useState(0)
@@ -66,7 +66,6 @@ const NewCard = (props) => {
     const [showEditModal, setShowEditModal] = useState(false)
     const iconHover = useRef(null)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
-    const history = useHistory()
     
     const [activeTab, setActiveTab] = useState('profile')
 
@@ -275,10 +274,12 @@ const NewCard = (props) => {
                 return <Feed {...props} />
             case 'members':
                 return <Members daoName={props.name} />
+            /*
             case 'gates':
                 return <Gates />
             case 'Plugins':
                 return <Plugins />
+            */
             default:
                 return <Profile {...props} />
         }
@@ -370,26 +371,28 @@ const NewCard = (props) => {
                         >
                             Discussion
                         </Styled.SelectedTab>
+                        {/*
                         <Styled.SelectedTab
                             showActive={activeTab === 'gates'}
                             onClick={() => setActiveTab('gates')}
                         >
                             Gates
                         </Styled.SelectedTab>
-
+                        */}
                         <Styled.SelectedTab
                             showActive={activeTab === 'members'}
                             onClick={() => setActiveTab('members')}
                         >
                             Members
                         </Styled.SelectedTab>
-
+                        {/*
                         <Styled.SelectedTab
                             showActive={activeTab === 'Plugins'}
                             onClick={() => setActiveTab('Plugins')}
                         >
                             Plugins
                         </Styled.SelectedTab>
+                        */}
                     </Styled.ProfileDiv>
                 </Styled.ProfileAndFeedContainer>
                 {/* {activeTab === 'profile' ? (

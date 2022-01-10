@@ -30,7 +30,7 @@ const WDWDModal = (props) => {
                 <ModalStyled.Header>What Do We Do</ModalStyled.Header>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="information">
+                    <FormStyled.Label htmlFor="information">
                         Information
                     </FormStyled.Label>
                     <RichEditor set={setWDWD} value={WDWD} />

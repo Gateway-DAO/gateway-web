@@ -16,6 +16,7 @@ export const useGetUser = (id) => {
         () => ({
             data: data?.getUser.items[0],
             loading: loading || (!called && loading === false),
+            called,
             refetch,
             error,
         }),
@@ -35,6 +36,7 @@ export const useGetUserByAddress = (wallet) => {
         () => ({
             data: data?.getUserByAddress.items[0],
             loading: loading || (!called && loading === false),
+            called,
             refetch,
             error,
         }),
@@ -54,6 +56,7 @@ export const useGetUserByUsername = (dao) => {
         () => ({
             data: data?.getUserByUsername.items[0],
             loading: loading || (!called && loading === false),
+            called,
             refetch,
             error,
         }),
@@ -70,6 +73,7 @@ export const useListUsers = (config = {}) => {
         () => ({
             data,
             loading: loading || (!called && loading === false),
+            called,
             refetch,
             error,
         }),
@@ -87,6 +91,7 @@ export const useLazyListUsers = () => {
             listUsers,
             data,
             loading: loading || (!called && loading === false),
+            called,
             refetch,
             error,
         }),

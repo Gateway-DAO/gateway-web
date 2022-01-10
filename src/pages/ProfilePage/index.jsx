@@ -82,7 +82,7 @@ const ProfilePage = () => {
         <Redirect to="/create-profile" />
     ) : (
         <Styled.Container>
-            <Header />
+            <Header style={{ alignSelf: 'flex-start' }} />
             {loading || userLoading ? (
                 <Styled.LoaderBox>
                     <Loader color="white" size={30} />

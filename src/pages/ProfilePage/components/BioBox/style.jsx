@@ -93,11 +93,15 @@ export const MembershipBox = styled.div`
     flex-wrap: wrap;
 `
 
-export const MembershipImg = styled.img`
+export const MembershipImg = styled.div`
     width: 40px;
+    height: 40px;
     border-radius: 100%;
     margin-right: 12px;
     background-color: white;
+    background: url(${props => props.src || ""});
+    background-position: center;
+    background-size: cover;
 `
 
 export const MessageBox = styled(Link)`

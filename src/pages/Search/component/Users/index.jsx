@@ -20,6 +20,7 @@ const UserTab = ({ query }) => {
         data: listData,
         loading: listLoading,
         error: listError,
+        called: listCalled,
     } = useListUsers({
         variables: {
             filter: { init: { eq: true } },
@@ -30,6 +31,7 @@ const UserTab = ({ query }) => {
         data: searchData,
         loading: searchLoading,
         error: searchError,
+        called: searchCalled,
     } = useSearchUsers({
         variables: {
             filter: {
@@ -52,7 +54,10 @@ const UserTab = ({ query }) => {
         }
     }, [query, searchLoading, listLoading])
 
-    if (!!query ? searchLoading : listLoading) {
+    const searchOrListLoading = (query.toLowerCase() === 'all' ? listLoading : searchLoading)
+    const searchOrListCalled = (query.toLowerCase() === 'all' ? listCalled : searchCalled)
+
+    if (searchOrListLoading) {
         return (
             <SearchStyled.LoaderBox>
                 <Loader color="white" size={35} />
@@ -60,7 +65,7 @@ const UserTab = ({ query }) => {
         )
     }
 
-    if (!hits.length && !searchLoading) {
+    if (!hits.length && !searchOrListLoading && searchOrListCalled) {
         return (
             <SearchStyled.TextBox>
                 <SearchStyled.MainText>
@@ -89,9 +94,3 @@ const UserTab = ({ query }) => {
 }
 
 export default UserTab
-
-// filter: {
-//     daos_ids: {
-//         matchPhrase: props.query,
-//     },
-// }

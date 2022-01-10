@@ -45,7 +45,7 @@ const TokenBenefitModal = (props) => {
                 <ModalStyled.Header>Add Token Benefits</ModalStyled.Header>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="title">Title</FormStyled.Label>
+                    <FormStyled.Label htmlFor="title">Title</FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
                         value={title}
@@ -57,14 +57,14 @@ const TokenBenefitModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="description">
+                    <FormStyled.Label htmlFor="description">
                         Description
                     </FormStyled.Label>
                     <RichEditor set={setDescription} value={description} />
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="token">Token</FormStyled.Label>
+                    <FormStyled.Label htmlFor="token">Token</FormStyled.Label>
                     <FormStyled.Input
                         id="token"
                         placeholder="Ex: GATE"
@@ -74,7 +74,7 @@ const TokenBenefitModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="amount">
+                    <FormStyled.Label htmlFor="amount">
                         Token Amount Required
                     </FormStyled.Label>
                     <FormStyled.Input

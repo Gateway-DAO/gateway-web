@@ -14,6 +14,12 @@ import { getTokenFromAddress } from '../../api/coingecko'
 import React from 'react'
 import * as Styled from './style'
 
+// AWS
+import { API, graphqlOperation } from 'aws-amplify'
+import { gql } from '@apollo/client'
+import { onUpdateDao } from '../../graphql/subscriptions'
+import { daysToWeeks } from 'date-fns'
+
 const DAO = (props) => {
     const { id } = useParams()
     const [daoData, setDaoData] = useState({
@@ -27,16 +33,16 @@ const DAO = (props) => {
         tokenBenefits: [],
         whitelistedAddresses: [],
     })
-    const { data: dbData, loading, error } = useGetDAOByID(id);
+    const { data: dbData, loading, error } = useGetDAOByID(id)
     const [loaded, setLoaded] = useState(false)
     const [inputVal, setInputVal] = useState('')
     const history = useHistory()
     const navigate = (e) => {
         history.goBack()
     }
-    
+
     // Get CoinGecko data
-    const getCGData = async (address) => await getTokenFromAddress(address);  
+    const getCGData = async (address) => await getTokenFromAddress(address)
 
     // In case the DAO's token address gets changed
     useEffect(() => {
@@ -44,29 +50,31 @@ const DAO = (props) => {
             const cgData = daoData.tokenAddress
                 ? await getCGData(daoData.tokenAddress)
                 : {}
-            
-            const tokenData = daoData.tokenAddress && cgData.market_data
-                ? {
-                      symbol: cgData.symbol,
-                      ranking: cgData.market_cap_rank,
-                      tokenFeed: {
-                          price: cgData.market_data.current_price.usd,
-                          ath: cgData.market_data.ath.usd,
-                          atl: cgData.market_data.atl.usd,
-                          marketCap: cgData.market_data.market_cap.usd,
-                          change24h:
-                              cgData.market_data.price_change_percentage_24h,
-                          change7d:
-                              cgData.market_data.price_change_percentage_7d,
-                          totalSupply: cgData.market_data.total_supply,
-                          circulatingSupply:
-                              cgData.market_data.circulating_supply,
-                      },
-                      showTokenFeed:true
-                  }
-                : {
-                    showTokenFeed:false
-                }
+
+            const tokenData =
+                daoData.tokenAddress && cgData.market_data
+                    ? {
+                          symbol: cgData.symbol,
+                          ranking: cgData.market_cap_rank,
+                          tokenFeed: {
+                              price: cgData.market_data.current_price.usd,
+                              ath: cgData.market_data.ath.usd,
+                              atl: cgData.market_data.atl.usd,
+                              marketCap: cgData.market_data.market_cap.usd,
+                              change24h:
+                                  cgData.market_data
+                                      .price_change_percentage_24h,
+                              change7d:
+                                  cgData.market_data.price_change_percentage_7d,
+                              totalSupply: cgData.market_data.total_supply,
+                              circulatingSupply:
+                                  cgData.market_data.circulating_supply,
+                          },
+                          showTokenFeed: true,
+                      }
+                    : {
+                          showTokenFeed: false,
+                      }
 
             setDaoData({ ...daoData, ...tokenData })
         }
@@ -79,33 +87,38 @@ const DAO = (props) => {
         const handleData = async () => {
             if (daoData && !loading && !error) {
                 const cgData = dbData.tokenAddress
-                    ? await getCGData(dbData.tokenAddress).catch((e)=>{console.log(e)})
+                    ? await getCGData(dbData.tokenAddress).catch((e) => {
+                          console.log(e)
+                      })
                     : {}
-                
-                const tokenData = dbData.tokenAddress && cgData.symbol
-                    ? {
-                        symbol: cgData.symbol,
-                        ranking: cgData.market_cap_rank,
-                        tokenFeed: {
-                            price: cgData.market_data.current_price.usd,
-                            ath: cgData.market_data.ath.usd,
-                            atl: cgData.market_data.atl.usd,
-                            marketCap: cgData.market_data.market_cap.usd,
-                            change24h:
-                                cgData.market_data.price_change_percentage_24h,
-                            change7d:
-                                cgData.market_data.price_change_percentage_7d,
-                            totalSupply: cgData.market_data.total_supply,
-                            circulatingSupply:
-                                cgData.market_data.circulating_supply,
-                        },
-                        showTokenFeed:true
-                    }
-                    : {
-                    showTokenFeed:false
-                    }
 
-                    console.log(dbData)
+                const tokenData =
+                    dbData.tokenAddress && cgData.symbol
+                        ? {
+                              symbol: cgData.symbol,
+                              ranking: cgData.market_cap_rank,
+                              tokenFeed: {
+                                  price: cgData.market_data.current_price.usd,
+                                  ath: cgData.market_data.ath.usd,
+                                  atl: cgData.market_data.atl.usd,
+                                  marketCap: cgData.market_data.market_cap.usd,
+                                  change24h:
+                                      cgData.market_data
+                                          .price_change_percentage_24h,
+                                  change7d:
+                                      cgData.market_data
+                                          .price_change_percentage_7d,
+                                  totalSupply: cgData.market_data.total_supply,
+                                  circulatingSupply:
+                                      cgData.market_data.circulating_supply,
+                              },
+                              showTokenFeed: true,
+                          }
+                        : {
+                              showTokenFeed: false,
+                          }
+
+                console.log(dbData)
 
                 // Organize presentable data
                 const data = {
@@ -121,6 +134,24 @@ const DAO = (props) => {
         handleData()
     }, [id, loading])
 
+    // Subscription to updates
+    useEffect(() => {
+        const subscription = API.graphql(
+            graphqlOperation(gql(onUpdateDao))
+        ).subscribe({
+            next: (data) => {
+                let dao = data.value.data.onUpdateDao
+
+                if (dao.id === props.id) {
+                    console.log('onUpdateDao')
+                    setDaoData({ ...daoData, ...dao })
+                }
+            },
+        })
+
+        return () => subscription.unsubscribe()
+    })
+
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             history.push(`/search/${e.target.value}`)
@@ -128,7 +159,7 @@ const DAO = (props) => {
     }
 
     if (error) {
-        console.error(error);
+        console.error(error)
         return <Redirect to="/404" />
     }
 
@@ -159,7 +190,7 @@ const DAO = (props) => {
                 </Styled.SearchInputBox>
             </Styled.SearchTermContainer>
 
-            {(loading && !loaded) && (
+            {loading && !loaded && (
                 <Styled.LoaderBox>
                     <Loader color="white" size={35} />
                 </Styled.LoaderBox>

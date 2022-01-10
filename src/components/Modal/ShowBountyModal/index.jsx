@@ -11,12 +11,12 @@ const ShowBountyModal = props => {
             <Styled.Container>
                 <ModalStyled.Header>Bounty Info</ModalStyled.Header>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="headline">Headline</FormStyled.Label>
+                    <FormStyled.Label htmlFor="headline">Headline</FormStyled.Label>
                     <Styled.Text>{props.bounty.headline}</Styled.Text>
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="description">Description</FormStyled.Label>
+                    <FormStyled.Label htmlFor="description">Description</FormStyled.Label>
                     <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{props.bounty.description}</ReactMarkdown></Styled.Text>
                 </FormStyled.Fieldset>
 
@@ -45,24 +45,24 @@ const ShowBountyModal = props => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="reward">Reward</FormStyled.Label>
+                    <FormStyled.Label htmlFor="reward">Reward</FormStyled.Label>
                     <Styled.Text>{props.bounty.reward}</Styled.Text>
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="directions">Directions</FormStyled.Label>
+                    <FormStyled.Label htmlFor="directions">Directions</FormStyled.Label>
                     <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{props.bounty.directions}</ReactMarkdown></Styled.Text>
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="links">Important Links</FormStyled.Label>
+                    <FormStyled.Label htmlFor="links">Important Links</FormStyled.Label>
                     {props.bounty.links.map(link => {
                         return <Styled.Text><ReactMarkdown remarkPlugins={[remarkGfm]}>{link}</ReactMarkdown></Styled.Text>
                     })}
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="end-date">End Date</FormStyled.Label>
+                    <FormStyled.Label htmlFor="end-date">End Date</FormStyled.Label>
                     <Styled.Text>{props.bounty.endDate}</Styled.Text>
                 </FormStyled.Fieldset>
             </Styled.Container>

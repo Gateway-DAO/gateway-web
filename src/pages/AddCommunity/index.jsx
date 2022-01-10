@@ -115,7 +115,7 @@ const AddCommunity = () => {
             logoFile
         )
         const backgroundURL = await uploadFile(
-            `daos/${id}/logo.${bgFile.name.split('.').pop()}`,
+            `daos/${id}/background.${bgFile.name.split('.').pop()}`,
             bgFile
         )
 
@@ -175,7 +175,7 @@ const AddCommunity = () => {
                 <Styled.Heading>Add your Community</Styled.Heading>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="name">Name</FormStyled.Label>
+                    <FormStyled.Label htmlFor="name">Name</FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setName(e.target.value)}
                         type="text"
@@ -187,11 +187,11 @@ const AddCommunity = () => {
                     />
                 </FormStyled.Fieldset>
 
-                <ImageUpload for="logo" label="Logo" setImage={setLogoFile} />
-                <ImageUpload for="background" label="Background Image" setImage={setBGFile} />
+                <ImageUpload htmlFor="logo" label="Logo" setImage={setLogoFile} />
+                <ImageUpload htmlFor="background" label="Background Image" setImage={setBGFile} />
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="description">Description</FormStyled.Label>
+                    <FormStyled.Label htmlFor="description">Description</FormStyled.Label>
                     <FormStyled.Textarea onChange={e => setDescription(e.target.value)} value={description} />
                 </FormStyled.Fieldset>
 
@@ -274,7 +274,7 @@ const AddCommunity = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="socials">Socials</FormStyled.Label>
+                    <FormStyled.Label htmlFor="socials">Socials</FormStyled.Label>
                     {socials.map((social, idx) => {
                         return (
                             <FormStyled.InputWrapper>
@@ -463,7 +463,7 @@ const AddCommunity = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="whitelistedAddress">
+                    <FormStyled.Label htmlFor="whitelistedAddress">
                         Whitelisted Addresses
                     </FormStyled.Label>
                     {whitelistedAddresses.map((address, idx) => {
@@ -510,7 +510,7 @@ const AddCommunity = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="tokenAddress">
+                    <FormStyled.Label htmlFor="tokenAddress">
                         Token Address
                     </FormStyled.Label>
                     <FormStyled.Input
@@ -523,7 +523,7 @@ const AddCommunity = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label for="SpaceId">Snapshot Space Id</FormStyled.Label>
+                    <FormStyled.Label htmlFor="SpaceId">Snapshot Space Id</FormStyled.Label>
                     <FormStyled.Input
                         id="SpaceId"
                         type="text"

@@ -1,18 +1,6 @@
 import * as Styled from './style'
-import { Link } from 'react-router-dom'
-import {
-    FaDiscord,
-    FaTwitter,
-    FaMedium,
-    FaGithub,
-    FaTelegram,
-    FaLink,
-    FaPencilAlt,
-} from 'react-icons/fa'
-import { FiGlobe } from 'react-icons/fi'
-import { BsChatTextFill } from 'react-icons/bs'
-import { useState } from 'react'
-import React, { useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import React from 'react'
 import parser from 'html-react-parser'
 
 import useAdmin from '../../../../hooks/useAdmin'
@@ -118,7 +106,8 @@ const Profile = (props) => {
                 show={showMVModal}
                 toggle={toggleMVModal}
                 data={MV}
-                set={(newMV) => setMV(newMV)}
+                set={setMV}
+                changeDAOData={props.changeDAOData}
             />
             <UHModal
                 id={props.id}
