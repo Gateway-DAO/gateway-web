@@ -73,7 +73,6 @@ const Search = (props) => {
 
     useEffect(() => {
         setHits(!searchLoading ? searchData.searchDAOs.items : [])
-        console.log(hits)
         // setToggle(true);
     }, [searchData, searchLoading])
     return (

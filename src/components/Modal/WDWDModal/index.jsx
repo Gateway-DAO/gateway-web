@@ -4,19 +4,21 @@ import * as ModalStyled from '../style'
 import { FormStyled } from '../../Form'
 import React, { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
-import { useUpdateDAO } from "../../../api/database/useUpdateDAO"
+import { useUpdateDAO } from '../../../api/database/useUpdateDAO'
 
 const WDWDModal = (props) => {
-    const [WDWD, setWDWD] = useState(props.data);
-    const { updateDAO, data, error, loading } = useUpdateDAO();
+    const [WDWD, setWDWD] = useState(props.data)
+    const { updateDAO, data, error, loading } = useUpdateDAO()
 
     const submitToDB = async () => {
-        await updateDAO({ variables: {
-            input: {
-                id: props.id,
-                whatDoWeDo: WDWD
-            }
-        } })
+        await updateDAO({
+            variables: {
+                input: {
+                    id: props.id,
+                    whatDoWeDo: WDWD,
+                },
+            },
+        })
 
         props.set(WDWD)
         props.toggle()
@@ -25,7 +27,7 @@ const WDWDModal = (props) => {
     return (
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
-                <FormStyled.Header>What Do We Do</FormStyled.Header>
+                <ModalStyled.Header>What Do We Do</ModalStyled.Header>
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label for="information">

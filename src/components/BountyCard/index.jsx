@@ -1,35 +1,30 @@
 import * as Styled from './style'
 import { Category, CategoryList } from '../BigCard/components/Profiles/style'
-import { doc, updateDoc, onSnapshot } from '@firebase/firestore'
-import { db } from '../../api/firebase'
 import parser from 'html-react-parser'
-import { useState } from 'react'
+import { useDeleteBounty } from '../../api/database/useDeleteBounty'
 
 const BountyCard = (props) => {
+    const { deleteBounty } = useDeleteBounty()
+
     const bounty = props.bounties[props.idx]
-    // const [description, setDescription] = useState("");
     let description = "";
-    console.log(bounty.description);
-    if(bounty.description){
-        // setDescription(parser(bounty.description));
+
+    if (bounty.description){
         description = parser(bounty.description);
     }
-    const deleteBounty = async (e) => {
+
+    const deleteThisBounty = async (e) => {
         e.stopPropagation()
-        const dao = doc(db, 'daos', props.id)
-        const newBounties = props.bounties.filter(
-            (bounty, idx) => idx !== props.idx
-        )
-
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(newBounties)
+        
+        await deleteBounty({
+            variables: {
+                input: {
+                    id: bounty.id
+                }
+            }
         })
 
-        await updateDoc(dao, {
-            bounties: newBounties,
-        })
-
-        unsub()
+        props.set(props.bounties.filter(obj => bounty.id !== obj.id))
     }
 
     return (
@@ -60,7 +55,7 @@ const BountyCard = (props) => {
             </Styled.BountyInfoBox>
 
             {props.admin && (
-                <Styled.TrashBtn onClick={deleteBounty} size={14} />
+                <Styled.TrashBtn onClick={deleteThisBounty} size={14} />
             )}
         </Styled.Container>
     )

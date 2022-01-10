@@ -48,6 +48,7 @@ const TokenBenefitModal = (props) => {
                     <FormStyled.Label for="title">Title</FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
+                        value={title}
                         type="text"
                         id="title"
                         name="title"
@@ -68,6 +69,7 @@ const TokenBenefitModal = (props) => {
                         id="token"
                         placeholder="Ex: GATE"
                         onChange={(e) => setToken(e.target.value)}
+                        value={token}
                     />
                 </FormStyled.Fieldset>
 
@@ -79,6 +81,7 @@ const TokenBenefitModal = (props) => {
                         id="amount"
                         placeholder="Ex: 25"
                         onChange={(e) => setAmount(e.target.value)}
+                        value={amount}
                     />
                 </FormStyled.Fieldset>
 

@@ -13,7 +13,7 @@ export const DragArea = styled.div`
             : '1px dashed rgba(255, 255, 255, 0.2)'};
     box-sizing: border-box;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 15px;
 `
 
 export const Header = styled.div`
@@ -39,7 +39,7 @@ export const Background = styled.div`
     position: relative;
     width: 337px;
     height: 256px;
-    margin-top: 10px;
+    margin-top: 15px;
     background-image: url(${(props) => props.image});
     background-position: center;
     background-repeat: no-repeat;

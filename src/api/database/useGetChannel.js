@@ -53,8 +53,6 @@ export const useGetChannelByDAOID = (dao) => {
         variables: { dao },
     });
 
-    console.log(data)
-
     return useMemo(
         () => ({
             data: data?.getChannelByDAOID.items,

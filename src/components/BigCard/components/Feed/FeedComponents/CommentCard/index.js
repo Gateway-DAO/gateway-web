@@ -1,6 +1,5 @@
 import * as Styled from './style'
-import { useState, useEffect } from 'react'
-import CTA_BG from '../../../../../../assets/Gateway.svg'
+import { formatDistance } from 'date-fns'
 
 const CommentCard = (props) => {
     let options = {
@@ -29,8 +28,7 @@ const CommentCard = (props) => {
                         </Styled.PostByInfo>
                     </Styled.ProfileBioContainer>
                     <Styled.PostTime>
-                        {new Date(props.comment.createdAt)
-                            .toLocaleTimeString('en-us', options)}
+                        {formatDistance(new Date(props.comment.createdAt), new Date(), { addSuffix: true })}
                     </Styled.PostTime>
                 </Styled.PostHeaderInfo>
                 <Styled.MessageContainer>

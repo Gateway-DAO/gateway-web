@@ -65,7 +65,9 @@ type FAQ {
     answer: String!
 }
 
-type Bounty @model @key(
+type Bounty
+    @model
+    @key(
         name: "bountyByDAO"
         fields: ["daoID"]
         queryField: "getBountyByDAOID"
@@ -197,10 +199,11 @@ type Mutation {
         @function(name: "vote-${env}")
 }
 
-type Prerequisites {
-    whitelistedUser: [User]
-    gatesCompletors: [Gate]
-}
+### For now, let's keep the Prerequisites off the schema ###
+#type Prerequisites {
+#    whitelistedUser: [User]
+#    gatesCompletors: [Gate]
+#}
 
 type Trigger {
     type: OptionType
@@ -208,29 +211,26 @@ type Trigger {
     noOfPeople: Int!
 }
 
+
 type Gate
     @model
-    @key(
-        name: "gateByDAO"
-        fields: ["daoID"]
-        queryField: "getGatesByDAOID"
-    ) {
+    @key(name: "gateByDAO", fields: ["daoID"], queryField: "getGatesByDAOID") {
     id: ID!
     daoID: ID!
     dao: DAO @connection(fields: ["daoID"])
     name: String!
     description: String!
     categories: String!
-    admins: [User]!
-    keys: number
-    tasks: [Task] @connection(keyName: "TaskByGate", fields: ["id"])
-    prerequisites: Prerequisites
+    admins: [ID]!
+    keys: Int!
+    tasks: [Task] @connection(keyName: "taskByGateID", fields: ["id"])
+    # prerequisites: Prerequisites
 }
 
 type Task
     @model
     @key(
-        name: "TaskByGate"
+        name: "taskByGateID"
         fields: ["gateID"]
         queryField: "getTasksByGateID"
     ) {

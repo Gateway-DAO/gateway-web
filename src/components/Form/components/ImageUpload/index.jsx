@@ -58,7 +58,10 @@ const ImageUpload = (props) => {
                 </Styled.DragArea>
             ) : (
                 <Styled.Background image={imageURL}>
-                    <Styled.Cross onClick={() => setImage(null)}>
+                    <Styled.Cross onClick={() => {
+                        setImage(null)
+                        setImageURL(null)
+                    }}>
                         +
                     </Styled.Cross>
                 </Styled.Background>

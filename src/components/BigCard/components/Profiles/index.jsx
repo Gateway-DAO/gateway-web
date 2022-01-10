@@ -41,14 +41,12 @@ import BountyCard from '../../../BountyCard'
 
 // column second import
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
-import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { shortenAddress } from '../../../../utils/web3'
-import { parseTransaction } from 'ethers/lib/utils'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
 
-    const [bounties, setBounties] = useState(props.bounties || [])
+    const [bounties, setBounties] = useState(props.bounties.items || [])
     const [benefits, setBenefits] = useState(props.tokenBenefits || [])
     const [HTJ, setHTJ] = useState(props.howToJoin || '')
     const [WDWD, setWDWD] = useState(props.whatDoWeDo || '')
@@ -56,17 +54,6 @@ const Profile = (props) => {
     const [MV, setMV] = useState(props.missionAndVision || '')
     const [ACC, setACC] = useState(props.accomplishments || '')
     const [FAQ, setFAQ] = useState(props.FAQ || [])
-
-    useEffect(() => {
-        setBounties(props.bounties || [])
-        setBenefits(props.tokenBenefits || [])
-        setHTJ(props.howToJoin || '')
-        setWDWD(props.whatDoWeDo || '')
-        setUH(props.upcomingHangouts || '')
-        setMV(props.missionAndVision || '')
-        setACC(props.accomplishments || '')
-        setFAQ(props.FAQ || [])
-    }, [props])
 
     // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
@@ -329,10 +316,7 @@ const Profile = (props) => {
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Governance Proposals">
-                                <Styled.Description>
-                                    {/* ⚡️Snapshot integration coming soon. */}
-                                        <SnapshotModal props={props.SpaceId} />
-                                </Styled.Description>
+                                <SnapshotModal id={props.snapshotID} />
                             </Collapsible>
                         </Styled.DivContainer>
                     </Styled.ColumnOne>

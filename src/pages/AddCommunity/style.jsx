@@ -64,6 +64,8 @@ export const Heading = styled.h1`
     -moz-text-fill-color: transparent;
 
     grid-column: 1/4;
+
+    margin-bottom: 50px;
 `
 export const SpaceBox = styled.canvas`
     position: absolute;

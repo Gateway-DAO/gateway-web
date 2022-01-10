@@ -55,7 +55,7 @@ const DAOTab = () => {
 
     return (
         <>
-            {(!!query ? searchLoading : listLoading) && (
+            {((!!query ? searchLoading : listLoading) && !!hits.length) && (
                 <SearchStyled.LoaderBox>
                     <Loader color="white" size={35} />
                 </SearchStyled.LoaderBox>

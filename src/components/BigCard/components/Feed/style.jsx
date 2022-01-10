@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const FeedContainer = styled.div`
     display: grid;
     grid-template-columns: 0.4fr 2fr 6fr;
-    margin-top: 30px;
+    margin-top: 55px;
     margin-bottom: 30px;
 `
 
@@ -46,6 +46,7 @@ export const H5Text = styled.h5`
     letter-spacing: 0.05em;
     cursor: pointer;
 
-    color: #e5e5e5;
-    ${(props) => (props.active ? `font-weight : bold; color :#ffffff` : '')}
+    color: rgba(229, 229, 229, 0.5);
+
+    ${(props) => (props.active ? `font-weight: bold; color :#ffffff` : '')}
 `

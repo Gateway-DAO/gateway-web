@@ -24,6 +24,8 @@ const Wallet = (props) => {
 
     const toggleModal = () => setShowModal(!showModal)
 
+    useEffect(() => !active && activateWeb3(), [])
+
     //useEffect(() => window.ethereum.on("chainChanged", chain => setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))))
 
     /*

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect, useHistory } from 'react-router'
+import normalizeUrl from 'normalize-url'
 
 // Styling
 import * as Styled from './style'
+import { FormStyled } from '../../components/Form'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 
 // Components
@@ -107,7 +109,12 @@ const CreateProfile = () => {
                 name,
                 username: username.toLowerCase(),
                 bio,
-                socials,
+                socials: socials.map(social => {
+                    return {
+                        url: normalizeUrl(social.url, { defaultProtocol: "https:" }),
+                        network: social.network
+                    }
+                }),
                 daos_ids: membership.map((dao) => dao.id),
                 pfp: pfpURL,
                 init: true,
@@ -167,9 +174,9 @@ const CreateProfile = () => {
                 <Styled.MainText>Create Profile</Styled.MainText>
 
                 <Styled.FormBox onSubmit={onSave}>
-                    <Styled.Fieldset>
-                        <Styled.Label for="name">Display name</Styled.Label>
-                        <Styled.Input
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label for="name">Display name</FormStyled.Label>
+                        <FormStyled.Input
                             onChange={(e) => setName(e.target.value)}
                             type="text"
                             id="name"
@@ -177,11 +184,11 @@ const CreateProfile = () => {
                             placeholder="Enter your name"
                             required
                         />
-                    </Styled.Fieldset>
+                    </FormStyled.Fieldset>
 
-                    <Styled.Fieldset>
-                        <Styled.Label for="username">Username</Styled.Label>
-                        <Styled.Input
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label for="username">Username</FormStyled.Label>
+                        <FormStyled.Input
                             onChange={(e) => setUsername(e.target.value)}
                             type="text"
                             id="username"
@@ -189,27 +196,27 @@ const CreateProfile = () => {
                             placeholder="Enter your username"
                             required
                         />
-                    </Styled.Fieldset>
+                    </FormStyled.Fieldset>
 
-                    <Styled.Fieldset>
-                        <Styled.Label for="Bio">Bio</Styled.Label>
-                        <Styled.Textarea
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label for="Bio">Bio</FormStyled.Label>
+                        <FormStyled.Textarea
                             height="100px"
                             id="Bio"
                             onChange={(e) => setBio(e.target.value)}
                             placeholder="Tell about yourself"
                             required
-                        ></Styled.Textarea>
-                    </Styled.Fieldset>
+                        ></FormStyled.Textarea>
+                    </FormStyled.Fieldset>
 
                     <ImageUpload for="pfp" label="Profile Picture" setImage={setPicture} />
 
-                    <Styled.Fieldset>
-                        <Styled.Label for="socials">Socials</Styled.Label>
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label for="socials">Socials</FormStyled.Label>
                         {socials.map((social, idx) => {
                             return (
-                                <Styled.InputWrapper>
-                                    <Styled.Select
+                                <FormStyled.InputWrapper>
+                                    <FormStyled.Select
                                         style={{ marginRight: '10px' }}
                                         onChange={(e) =>
                                             changeSocialName(
@@ -301,23 +308,23 @@ const CreateProfile = () => {
                                         >
                                             Other
                                         </option>
-                                    </Styled.Select>
-                                    <Styled.Input
+                                    </FormStyled.Select>
+                                    <FormStyled.Input
                                         id={`social-${social.network}`}
                                         type="text"
                                         onChange={(e) => changeSocial(idx, e)}
                                         value={social.url}
                                     />
-                                    <Styled.IconButton
+                                    <FormStyled.IconButton
                                         onClick={() => deleteSocial(idx)}
                                         style={{ marginLeft: '10px' }}
                                     >
                                         <FaTrashAlt />
-                                    </Styled.IconButton>
-                                </Styled.InputWrapper>
+                                    </FormStyled.IconButton>
+                                </FormStyled.InputWrapper>
                             )
                         })}
-                        <Styled.IconButton
+                        <FormStyled.IconButton
                             onClick={() =>
                                 setSocials([
                                     ...socials,
@@ -333,11 +340,11 @@ const CreateProfile = () => {
                             }}
                         >
                             <FaPlus />
-                        </Styled.IconButton>
-                    </Styled.Fieldset>
+                        </FormStyled.IconButton>
+                    </FormStyled.Fieldset>
 
-                    <Styled.Fieldset>
-                        <Styled.Label for="membership">Membership</Styled.Label>
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label for="membership">Membership</FormStyled.Label>
                         <Styled.MembershipBox>
                             {membership.length &&
                                 membership.map((dao) => {
@@ -357,10 +364,10 @@ const CreateProfile = () => {
                                     )
                                 })}
                         </Styled.MembershipBox>
-                    </Styled.Fieldset>
+                    </FormStyled.Fieldset>
 
-                    <Styled.Fieldset>
-                        <Styled.Input
+                    <FormStyled.Fieldset>
+                        <FormStyled.Input
                             id="dao-search"
                             name="dao-search"
                             type="text"
@@ -385,9 +392,9 @@ const CreateProfile = () => {
                                 </Styled.SearchBox>
                             )
                         )}
-                    </Styled.Fieldset>
+                    </FormStyled.Fieldset>
 
-                    <Styled.Button type="submit">Save</Styled.Button>
+                    <FormStyled.Button type="submit">Save</FormStyled.Button>
                 </Styled.FormBox>
             </Styled.MainBox>
         </Styled.Container>

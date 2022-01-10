@@ -50,8 +50,6 @@ export const useGetUserByUsername = (dao) => {
         }
     )
 
-    console.log(data)
-
     return useMemo(
         () => ({
             data: data?.getUserByUsername.items[0],
@@ -67,8 +65,6 @@ export const useListUsers = (config = {}) => {
     const { loading, called, refetch, data, error } = useQuery(
         gql(LIST_USERS), config
     )
-
-    console.log(data)
 
     return useMemo(
         () => ({

@@ -10,6 +10,7 @@ import MakeComment from '../MakeComment'
 import CommentCard from '../CommentCard'
 import { BsArrowDownCircle, BsArrowUpCircle } from 'react-icons/bs'
 import { MdDelete } from 'react-icons/md'
+import { formatDistance } from 'date-fns'
 
 import { useAuth } from '../../../../../../contexts/UserContext'
 import { useDeletePost } from '../../../../../../api/database/useDeletePost'
@@ -175,7 +176,7 @@ const PostCard = (props) => {
                             </Styled.PostByInfo>
                         </Styled.ProfileBioContainer>
                         <Styled.PostTime>
-                            {new Date(post.createdAt).toLocaleTimeString('en-us', options)}
+                            {formatDistance(new Date(post.createdAt), new Date(), { addSuffix: true })}
                             {loggedIn && userInfo.id === post.userID && (
                                 <MdDelete
                                     color="#db3b45"

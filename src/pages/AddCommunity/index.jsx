@@ -262,6 +262,14 @@ const AddCommunity = () => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Gaming')}
                         />
+                        <FormStyled.Checkbox
+                            id="category-9"
+                            name="category"
+                            value="DeSci"
+                            label="DeSci"
+                            onChange={toggleCheckbox}
+                            checked={categories.includes('DeSci')}
+                        />
                     </FormStyled.GridBox>
                 </FormStyled.Fieldset>
 

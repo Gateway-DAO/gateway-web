@@ -24,15 +24,7 @@ export const onCreateUser = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -55,6 +47,9 @@ export const onCreateUser = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -95,15 +90,7 @@ export const onUpdateUser = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -126,6 +113,9 @@ export const onUpdateUser = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -166,15 +156,7 @@ export const onDeleteUser = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -197,6 +179,9 @@ export const onDeleteUser = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -230,15 +215,22 @@ export const onCreateDao = /* GraphQL */ `
       youtubeURL
       logoURL
       bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
+        items {
+          id
+          daoID
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       categories
       tags
@@ -265,6 +257,20 @@ export const onCreateDao = /* GraphQL */ `
           id
           name
           daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gates {
+        items {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keys
           createdAt
           updatedAt
         }
@@ -291,15 +297,22 @@ export const onUpdateDao = /* GraphQL */ `
       youtubeURL
       logoURL
       bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
+        items {
+          id
+          daoID
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       categories
       tags
@@ -326,6 +339,20 @@ export const onUpdateDao = /* GraphQL */ `
           id
           name
           daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gates {
+        items {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keys
           createdAt
           updatedAt
         }
@@ -352,15 +379,22 @@ export const onDeleteDao = /* GraphQL */ `
       youtubeURL
       logoURL
       bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
+        items {
+          id
+          daoID
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       categories
       tags
@@ -392,6 +426,212 @@ export const onDeleteDao = /* GraphQL */ `
         }
         nextToken
       }
+      gates {
+        items {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keys
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateBounty = /* GraphQL */ `
+  subscription OnCreateBounty {
+    onCreateBounty {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      headline
+      description
+      level
+      categories
+      reward
+      directions
+      links
+      endDate
+      postDate
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateBounty = /* GraphQL */ `
+  subscription OnUpdateBounty {
+    onUpdateBounty {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      headline
+      description
+      level
+      categories
+      reward
+      directions
+      links
+      endDate
+      postDate
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteBounty = /* GraphQL */ `
+  subscription OnDeleteBounty {
+    onDeleteBounty {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      headline
+      description
+      level
+      categories
+      reward
+      directions
+      links
+      endDate
+      postDate
       createdAt
       updatedAt
     }
@@ -417,15 +657,7 @@ export const onCreateChannel = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -448,6 +680,9 @@ export const onCreateChannel = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -492,15 +727,7 @@ export const onUpdateChannel = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -523,6 +750,9 @@ export const onUpdateChannel = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -567,15 +797,7 @@ export const onDeleteChannel = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -598,6 +820,9 @@ export const onDeleteChannel = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -641,15 +866,7 @@ export const onCreatePost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -672,6 +889,9 @@ export const onCreatePost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -790,15 +1010,7 @@ export const onUpdatePost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -821,6 +1033,9 @@ export const onUpdatePost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -939,15 +1154,7 @@ export const onDeletePost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -970,6 +1177,9 @@ export const onDeletePost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -1223,6 +1433,384 @@ export const onDeleteComment = /* GraphQL */ `
       content
       upvotes
       downvotes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateGate = /* GraphQL */ `
+  subscription OnCreateGate {
+    onCreateGate {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      categories
+      admins
+      keys
+      tasks {
+        items {
+          id
+          gateID
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateGate = /* GraphQL */ `
+  subscription OnUpdateGate {
+    onUpdateGate {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      categories
+      admins
+      keys
+      tasks {
+        items {
+          id
+          gateID
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteGate = /* GraphQL */ `
+  subscription OnDeleteGate {
+    onDeleteGate {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      categories
+      admins
+      keys
+      tasks {
+        items {
+          id
+          gateID
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTask = /* GraphQL */ `
+  subscription OnCreateTask {
+    onCreateTask {
+      id
+      gateID
+      title
+      description
+      triggers {
+        type
+        completed
+        noOfPeople
+      }
+      completed
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keys
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTask = /* GraphQL */ `
+  subscription OnUpdateTask {
+    onUpdateTask {
+      id
+      gateID
+      title
+      description
+      triggers {
+        type
+        completed
+        noOfPeople
+      }
+      completed
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keys
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTask = /* GraphQL */ `
+  subscription OnDeleteTask {
+    onDeleteTask {
+      id
+      gateID
+      title
+      description
+      triggers {
+        type
+        completed
+        noOfPeople
+      }
+      completed
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keys
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }

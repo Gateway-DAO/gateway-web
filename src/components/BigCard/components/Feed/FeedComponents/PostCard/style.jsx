@@ -98,7 +98,7 @@ export const MessageContainer = styled.p`
 
 export const ActivityContainer = styled.div`
     margin: 0px 40px;
-    margin-top: 20px;
+    margin-top: 35px;
     display: flex;
     margin-bottom: 20px;
 `

@@ -1,18 +1,19 @@
 import Modal from '../index'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
-import { FormStyled } from '../../Form'
+import { FormStyled, ImageUpload } from '../../Form'
 import { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
-import RichEditor from '../../RichTextEditor'
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
 import { Redirect } from "react-router-dom";
+import useFileUpload from '../../../api/database/useFileUpload'
+import normalizeUrl from 'normalize-url'
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name)
-    const [backgroundURL, setBackgroundURL] = useState(props.backgroundURL)
+    const [backgroundFile, setBackgroundFile] = useState(props.backgroundURL)
     const [youtubeURL, setyoutubeURL] = useState(props.youtubeURL || "")
-    const [logoURL, setLogoURL] = useState(props.logoURL)
+    const [logoFile, setLogoFile] = useState(props.logoURL)
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress)
     const [description, setDescription] = useState(props.description)
     const [categories, setCategories] = useState(props.categories)
@@ -22,13 +23,24 @@ const EditCardModal = (props) => {
     const [whitelistedAddresses, setWhitelistedAddresses] = useState(props.whitelistedAddresses || [""])
 
     const { updateDAO, data, error, loading } = useUpdateDAO()
+    const { uploadFile } = useFileUpload()
 
     const submitToDB = async () => {
+        // Upload files to S3
+        const logoURL = logoFile && await uploadFile(
+            `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
+            logoFile
+        )
+        const backgroundURL = backgroundFile && await uploadFile(
+            `daos/${props.id}/logo.${backgroundFile.name.split('.').pop()}`,
+            backgroundFile
+        )
+
         const newInfo = {
             name,
-            backgroundURL,
-            ...(youtubeURL || {}),
-            logoURL,
+            ...(backgroundFile ? { backgroundURL } : {}),
+            ...(youtubeURL ? { youtubeURL: normalizeUrl(youtubeURL, { defaultProtocol: "https:" }) } : {}),
+            ...(logoFile ? { logoURL } : {}),
             tokenAddress,
             description,
             categories,
@@ -120,33 +132,9 @@ const EditCardModal = (props) => {
                     />
                 </FormStyled.Fieldset>
 
-                <FormStyled.Fieldset>
-                    <FormStyled.Label for="logoURL">
-                        Logo URL
-                    </FormStyled.Label>
-                    <FormStyled.Input
-                        onChange={(e) => setLogoURL(e.target.value)}
-                        type="text"
-                        id="logoURL"
-                        name="logoURL"
-                        placeholder="Your DAO logo URL"
-                        value={logoURL}
-                    />
-                </FormStyled.Fieldset>
+                <ImageUpload for="logo" label="Logo" setImage={setLogoFile} defaultImageURL={props.logoURL} />
 
-                <FormStyled.Fieldset>
-                    <FormStyled.Label for="backgroundURL">
-                        Background URL
-                    </FormStyled.Label>
-                    <FormStyled.Input
-                        onChange={(e) => setBackgroundURL(e.target.value)}
-                        type="text"
-                        id="backgroundURL"
-                        name="backgroundURL"
-                        placeholder="Your DAO background URL"
-                        value={backgroundURL}
-                    />
-                </FormStyled.Fieldset>
+                <ImageUpload for="logo" label="Background" setImage={setBackgroundFile} defaultImageURL={props.backgroundURL} />
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label for="backgroundURL">
@@ -166,7 +154,7 @@ const EditCardModal = (props) => {
                     <FormStyled.Label for="description">
                         Description
                     </FormStyled.Label>
-                    <RichEditor set={setDescription} value={description} />
+                    <FormStyled.Textarea onChange={e => setDescription(e.target.value)} value={description} />
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset marginBottom="30px">
@@ -235,6 +223,14 @@ const EditCardModal = (props) => {
                             label="Gaming"
                             onChange={toggleCheckbox}
                             checked={categories.includes('Gaming')}
+                        />
+                        <FormStyled.Checkbox
+                            id="category-9"
+                            name="category"
+                            value="DeSci"
+                            label="DeSci"
+                            onChange={toggleCheckbox}
+                            checked={categories.includes('DeSci')}
                         />
                     </Styled.GridBox>
                 </FormStyled.Fieldset>

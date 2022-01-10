@@ -25,15 +25,22 @@ export const createDaoWithChannels = /* GraphQL */ `
       youtubeURL
       logoURL
       bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
+        items {
+          id
+          daoID
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       categories
       tags
@@ -65,6 +72,20 @@ export const createDaoWithChannels = /* GraphQL */ `
         }
         nextToken
       }
+      gates {
+        items {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keys
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -89,15 +110,20 @@ export const votePost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+          }
         }
         categories
         tags
@@ -120,6 +146,9 @@ export const votePost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -238,15 +267,22 @@ export const unvotePost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -269,6 +305,9 @@ export const unvotePost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -394,15 +433,22 @@ export const createUser = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -425,6 +471,9 @@ export const createUser = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -468,15 +517,22 @@ export const updateUser = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -499,6 +555,9 @@ export const updateUser = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -542,15 +601,22 @@ export const deleteUser = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -573,6 +639,9 @@ export const deleteUser = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -609,15 +678,22 @@ export const createDao = /* GraphQL */ `
       youtubeURL
       logoURL
       bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
+        items {
+          id
+          daoID
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       categories
       tags
@@ -644,6 +720,20 @@ export const createDao = /* GraphQL */ `
           id
           name
           daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gates {
+        items {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keys
           createdAt
           updatedAt
         }
@@ -673,15 +763,22 @@ export const updateDao = /* GraphQL */ `
       youtubeURL
       logoURL
       bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
+        items {
+          id
+          daoID
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       categories
       tags
@@ -708,6 +805,20 @@ export const updateDao = /* GraphQL */ `
           id
           name
           daoID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      gates {
+        items {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keys
           createdAt
           updatedAt
         }
@@ -737,15 +848,22 @@ export const deleteDao = /* GraphQL */ `
       youtubeURL
       logoURL
       bounties {
-        headline
-        description
-        level
-        categories
-        reward
-        directions
-        links
-        endDate
-        postDate
+        items {
+          id
+          daoID
+          headline
+          description
+          level
+          categories
+          reward
+          directions
+          links
+          endDate
+          postDate
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       categories
       tags
@@ -777,6 +895,221 @@ export const deleteDao = /* GraphQL */ `
         }
         nextToken
       }
+      gates {
+        items {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keys
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createBounty = /* GraphQL */ `
+  mutation CreateBounty(
+    $input: CreateBountyInput!
+    $condition: ModelBountyConditionInput
+  ) {
+    createBounty(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      headline
+      description
+      level
+      categories
+      reward
+      directions
+      links
+      endDate
+      postDate
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateBounty = /* GraphQL */ `
+  mutation UpdateBounty(
+    $input: UpdateBountyInput!
+    $condition: ModelBountyConditionInput
+  ) {
+    updateBounty(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      headline
+      description
+      level
+      categories
+      reward
+      directions
+      links
+      endDate
+      postDate
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteBounty = /* GraphQL */ `
+  mutation DeleteBounty(
+    $input: DeleteBountyInput!
+    $condition: ModelBountyConditionInput
+  ) {
+    deleteBounty(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      headline
+      description
+      level
+      categories
+      reward
+      directions
+      links
+      endDate
+      postDate
       createdAt
       updatedAt
     }
@@ -805,15 +1138,7 @@ export const createChannel = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
         }
         categories
         tags
@@ -836,6 +1161,9 @@ export const createChannel = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -883,15 +1211,22 @@ export const updateChannel = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -914,6 +1249,9 @@ export const updateChannel = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -961,15 +1299,22 @@ export const deleteChannel = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -992,6 +1337,9 @@ export const deleteChannel = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -1038,15 +1386,22 @@ export const createPost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -1069,6 +1424,9 @@ export const createPost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -1190,15 +1548,22 @@ export const updatePost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -1221,6 +1586,9 @@ export const updatePost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -1342,15 +1710,22 @@ export const deletePost = /* GraphQL */ `
         youtubeURL
         logoURL
         bounties {
-          headline
-          description
-          level
-          categories
-          reward
-          directions
-          links
-          endDate
-          postDate
+          nextToken
+          items {
+            id
+            daoID
+            headline
+            description
+            level
+            categories
+            reward
+            directions
+            links
+            endDate
+            postDate
+            createdAt
+            updatedAt
+          }
         }
         categories
         tags
@@ -1373,6 +1748,9 @@ export const deletePost = /* GraphQL */ `
         }
         chains
         channels {
+          nextToken
+        }
+        gates {
           nextToken
         }
         createdAt
@@ -1635,6 +2013,402 @@ export const deleteComment = /* GraphQL */ `
       content
       upvotes
       downvotes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createGate = /* GraphQL */ `
+  mutation CreateGate(
+    $input: CreateGateInput!
+    $condition: ModelGateConditionInput
+  ) {
+    createGate(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      categories
+      admins
+      keys
+      tasks {
+        items {
+          id
+          gateID
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateGate = /* GraphQL */ `
+  mutation UpdateGate(
+    $input: UpdateGateInput!
+    $condition: ModelGateConditionInput
+  ) {
+    updateGate(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      categories
+      admins
+      keys
+      tasks {
+        items {
+          id
+          gateID
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteGate = /* GraphQL */ `
+  mutation DeleteGate(
+    $input: DeleteGateInput!
+    $condition: ModelGateConditionInput
+  ) {
+    deleteGate(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          amount
+          description
+          title
+          token
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      categories
+      admins
+      keys
+      tasks {
+        items {
+          id
+          gateID
+          title
+          description
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createTask = /* GraphQL */ `
+  mutation CreateTask(
+    $input: CreateTaskInput!
+    $condition: ModelTaskConditionInput
+  ) {
+    createTask(input: $input, condition: $condition) {
+      id
+      gateID
+      title
+      description
+      triggers {
+        type
+        completed
+        noOfPeople
+      }
+      completed
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keys
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTask = /* GraphQL */ `
+  mutation UpdateTask(
+    $input: UpdateTaskInput!
+    $condition: ModelTaskConditionInput
+  ) {
+    updateTask(input: $input, condition: $condition) {
+      id
+      gateID
+      title
+      description
+      triggers {
+        type
+        completed
+        noOfPeople
+      }
+      completed
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keys
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTask = /* GraphQL */ `
+  mutation DeleteTask(
+    $input: DeleteTaskInput!
+    $condition: ModelTaskConditionInput
+  ) {
+    deleteTask(input: $input, condition: $condition) {
+      id
+      gateID
+      title
+      description
+      triggers {
+        type
+        completed
+        noOfPeople
+      }
+      completed
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keys
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
     }

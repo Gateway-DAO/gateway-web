@@ -36,9 +36,6 @@ const CardScrollWrapper = (props) => {
         cardRef.current.addEventListener('mousemove', () =>
             setIsScrolling(true)
         )
-        cardRef.current.addEventListener('mouseup', () =>
-            console.log(isScrolling ? 'drag' : 'click')
-        )
 
         // Add the event listeners
         cardRef.current.addEventListener('mousedown', startDragging, false)

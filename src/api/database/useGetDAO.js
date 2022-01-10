@@ -83,8 +83,6 @@ export const useGetDAOByID = (dao) => {
         variables: { dao: dao },
     });
 
-    console.log(data)
-
     return useMemo(
         () => ({
             data: data?.getDAOById.items[0],

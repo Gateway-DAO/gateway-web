@@ -13,8 +13,7 @@ export const Fieldset = styled.fieldset`
     display: flex;
     flex-direction: column;
     margin: ${(props) => props.marginY || '10px'} 0;
-    ${(props) =>
-        props.marginBottom ? 'margin-bottom: ' + props.marginBottom : ''}
+    margin-bottom: ${(props) => props.marginBottom || "30px"};
 `
 
 export const Label = styled.label`
@@ -22,7 +21,6 @@ export const Label = styled.label`
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
-    line-height: 19px;
     /* identical to box height */
 
     letter-spacing: 0.05em;
@@ -48,7 +46,7 @@ export const Textarea = styled.textarea`
     box-sizing: border-box;
     border-radius: 5px;
     padding: 12px;
-    margin: 12px 0;
+    margin: 15px 0;
     resize: vertical;
     outline: none;
 
@@ -97,11 +95,11 @@ export const Input = styled.input`
     letter-spacing: 0.05em;
     background: #170627;
     color: #e5e5e5;
-    margin: 12px 0;
+    margin: 15px 0;
     width: 100%;
     outline: none;
 
-    ${(props) => (props.value.length ? FilledInput : '')}
+    ${(props) => (!!props.value ? FilledInput : '')}
 `
 
 const CheckboxContainer = styled.div`
@@ -219,7 +217,7 @@ export const Select = styled.select`
     letter-spacing: 0.05em;
     background: #170627;
     color: #e5e5e5;
-    margin: 12px 0;
+    margin: 15px 0;
     ${'' /* width: 100%; */}
 `
 
@@ -228,5 +226,5 @@ export const GridBox = styled.div`
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 10px;
     grid-row-gap: 30px;
-    margin: 10px 0;
+    margin: 15px 0;
 `

@@ -42,6 +42,7 @@ import solana from '../../assets/solana-sol-logo.png'
 
 const NewCard = (props) => {
     const web3 = useWeb3React()
+    
     useEffect(() => {
         if (props.tokenAddress && props.showTokenFeed) {
             const getBalance = async (tokenAddress) => {
@@ -53,7 +54,6 @@ const NewCard = (props) => {
                 const balance =
                     (await contract.balanceOf(web3.account)) /
                     10 ** (await contract.decimals())
-                console.log(balance)
                 setBalance(parseFloat(balance))
             }
 
@@ -67,10 +67,7 @@ const NewCard = (props) => {
     const iconHover = useRef(null)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
     const history = useHistory()
-    const navigate = (e) => {
-        history.goBack()
-    }
-    // useState Hook to change betweenn Profile Dom And Fedd Dom
+    
     const [activeTab, setActiveTab] = useState('profile')
 
     const Modals = () => (
@@ -83,9 +80,6 @@ const NewCard = (props) => {
             })}
         </>
     )
-    const onHover = () => {
-        console.log(iconHover.current.id)
-    }
 
     const removeHover = () => {}
 
@@ -157,6 +151,7 @@ const NewCard = (props) => {
                 )
         }
     })
+
     const chains =
         props.chains &&
         Object.keys(props.chains).map((key) => {
@@ -166,7 +161,6 @@ const NewCard = (props) => {
                         <Styled.Chain
                             ref={iconHover}
                             id="Ethereum"
-                            onMouseEnter={onHover}
                             onMouseLeave={removeHover}
                         >
                             <Styled.ChainLink
@@ -185,7 +179,6 @@ const NewCard = (props) => {
                         <Styled.Chain
                             ref={iconHover}
                             id="Solana"
-                            onMouseEnter={onHover}
                         >
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
@@ -199,7 +192,6 @@ const NewCard = (props) => {
                         <Styled.Chain
                             ref={iconHover}
                             id="Polygon"
-                            onMouseEnter={onHover}
                         >
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
@@ -213,7 +205,6 @@ const NewCard = (props) => {
                         <Styled.Chain
                             ref={iconHover}
                             id="NEAR"
-                            onMouseEnter={onHover}
                         >
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
@@ -227,7 +218,6 @@ const NewCard = (props) => {
                         <Styled.Chain
                             ref={iconHover}
                             id="Avalanche"
-                            onMouseEnter={onHover}
                         >
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
@@ -252,7 +242,6 @@ const NewCard = (props) => {
                                     height="22px"
                                     ref={iconHover}
                                     id="Binance"
-                                    onMouseEnter={onHover}
                                 />
                             </Styled.ChainLink>
                         </Styled.Chain>
@@ -269,7 +258,6 @@ const NewCard = (props) => {
                                     height="22px"
                                     ref={iconHover}
                                     id="Bitcoin"
-                                    onMouseEnter={onHover}
                                 />
                             </Styled.ChainLink>
                         </Styled.Chain>
@@ -295,7 +283,7 @@ const NewCard = (props) => {
                 return <Profile {...props} />
         }
     }
-    // console.log(props);
+
     return (
         <>
             <Styled.DaoWrapper>
