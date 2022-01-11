@@ -48,7 +48,7 @@ type DAO
     howToJoin: [String]
     missionAndVision: String
     whatDoWeDo: String
-    tokenBenefits: [TokenBenefit]
+    tokenBenefits: [TokenBenefit] @connection(keyName: "tokenBenefitByDAO", fields: ["id"])
     upcomingHangouts: String
     tokenAddress: String
     whitelistedAddresses: [String!]
@@ -86,7 +86,16 @@ type Bounty
     postDate: AWSDateTime!
 }
 
-type TokenBenefit {
+type TokenBenefit 
+    @model
+    @key(
+        name: "tokenBenefitByDAO"
+        fields: ["daoID"]
+        queryField: "getTokenBenefitByDAOID"
+    ) {
+    id: ID!
+    daoID: ID!
+    dao: DAO @connection(fields: ["daoID"])
     amount: String
     description: String!
     title: String!

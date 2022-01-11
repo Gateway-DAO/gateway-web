@@ -21,7 +21,6 @@ const ProfileEditModal = (props) => {
     const [socials, setSocials] = useState(props.socials || [{network: "any-0", url: ""}])
     const [membership, setMembership] = useState(props.membership || [])
     const [pfp, setPfp] = useState()
-    const [pfpURL, setPfpURL] = useState(props.pfp)
     const [updateLoading, setUpdateLoading] = useState(false)
 
     const [searchTerm, setSearchTerm] = useState('')
@@ -165,7 +164,7 @@ const ProfileEditModal = (props) => {
                     />
                 </FormStyled.Fieldset>
 
-                <ImageUpload htmlFor="pfp" label="Profile Picture" defaultImageURL={pfpURL} setImage={setPfp} />
+                <ImageUpload htmlFor="pfp" label="Profile Picture" defaultImageURL={props.pfp} setImage={setPfp} />
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="bio">Bio</FormStyled.Label>

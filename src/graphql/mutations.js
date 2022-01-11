@@ -49,10 +49,17 @@ export const createDaoWithChannels = /* GraphQL */ `
       missionAndVision
       whatDoWeDo
       tokenBenefits {
-        amount
-        description
-        title
-        token
+        items {
+          id
+          daoID
+          amount
+          description
+          title
+          token
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       upcomingHangouts
       tokenAddress
@@ -132,10 +139,17 @@ export const votePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -291,10 +305,17 @@ export const unvotePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -457,10 +478,17 @@ export const createUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -541,10 +569,17 @@ export const updateUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -625,10 +660,17 @@ export const deleteUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -702,10 +744,17 @@ export const createDao = /* GraphQL */ `
       missionAndVision
       whatDoWeDo
       tokenBenefits {
-        amount
-        description
-        title
-        token
+        items {
+          id
+          daoID
+          amount
+          description
+          title
+          token
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       upcomingHangouts
       tokenAddress
@@ -787,10 +836,17 @@ export const updateDao = /* GraphQL */ `
       missionAndVision
       whatDoWeDo
       tokenBenefits {
-        amount
-        description
-        title
-        token
+        items {
+          id
+          daoID
+          amount
+          description
+          title
+          token
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       upcomingHangouts
       tokenAddress
@@ -872,10 +928,17 @@ export const deleteDao = /* GraphQL */ `
       missionAndVision
       whatDoWeDo
       tokenBenefits {
-        amount
-        description
-        title
-        token
+        items {
+          id
+          daoID
+          amount
+          description
+          title
+          token
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       upcomingHangouts
       tokenAddress
@@ -945,10 +1008,17 @@ export const createBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1012,10 +1082,17 @@ export const updateBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1079,10 +1156,17 @@ export const deleteBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1110,6 +1194,183 @@ export const deleteBounty = /* GraphQL */ `
       links
       endDate
       postDate
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createTokenBenefit = /* GraphQL */ `
+  mutation CreateTokenBenefit(
+    $input: CreateTokenBenefitInput!
+    $condition: ModelTokenBenefitConditionInput
+  ) {
+    createTokenBenefit(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      amount
+      description
+      title
+      token
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTokenBenefit = /* GraphQL */ `
+  mutation UpdateTokenBenefit(
+    $input: UpdateTokenBenefitInput!
+    $condition: ModelTokenBenefitConditionInput
+  ) {
+    updateTokenBenefit(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      amount
+      description
+      title
+      token
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTokenBenefit = /* GraphQL */ `
+  mutation DeleteTokenBenefit(
+    $input: DeleteTokenBenefitInput!
+    $condition: ModelTokenBenefitConditionInput
+  ) {
+    deleteTokenBenefit(input: $input, condition: $condition) {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      amount
+      description
+      title
+      token
       createdAt
       updatedAt
     }
@@ -1147,10 +1408,17 @@ export const createChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1235,10 +1503,17 @@ export const updateChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1323,10 +1598,17 @@ export const deleteChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1410,10 +1692,17 @@ export const createPost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1572,10 +1861,17 @@ export const updatePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1734,10 +2030,17 @@ export const deletePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -2049,10 +2352,17 @@ export const createGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -2124,10 +2434,17 @@ export const updateGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -2199,10 +2516,17 @@ export const deleteGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          items {
+            id
+            daoID
+            amount
+            description
+            title
+            token
+            createdAt
+            updatedAt
+          }
+          nextToken
         }
         upcomingHangouts
         tokenAddress

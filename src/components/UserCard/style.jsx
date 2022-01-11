@@ -21,7 +21,7 @@ export const UserInfo = styled.div`
     flex-direction: column;
     margin-left: 36px;
     position: absolute;
-    bottom: 5px;
+    bottom: 30px;
     width: 15vw;
 `
 

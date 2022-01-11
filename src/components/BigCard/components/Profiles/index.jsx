@@ -35,7 +35,7 @@ const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
 
     const [bounties, setBounties] = useState(props.bounties.items || [])
-    const [benefits, setBenefits] = useState(props.tokenBenefits || [])
+    const [benefits, setBenefits] = useState(props.tokenBenefits.items || [])
     const [HTJ, setHTJ] = useState(props.howToJoin || '')
     const [WDWD, setWDWD] = useState(props.whatDoWeDo || '')
     const [UH, setUH] = useState(props.upcomingHangouts || '')

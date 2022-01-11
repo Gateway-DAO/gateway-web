@@ -179,11 +179,15 @@ export const MembershipIcon = styled.div`
     margin-top: 10px;
 `
 
-export const MembershipImg = styled.img`
+export const MembershipImg = styled.div`
     position: relative;
     width: 54px;
+    height: 54px;
     border-radius: 100%;
     background-color: white;
+    background: url(${props => props.src || ""});
+    background-position: center;
+    background-size: cover;
 `
 
 export const MembershipRemove = styled(FaTimes)`

@@ -39,7 +39,7 @@
         },
         "vote": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/vote-6b54512f517079505579-build.zip"
+          "s3Key": "amplify-builds/vote-556d6f7969466c726765-build.zip"
         },
         "addDAOAndChannels": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -49,6 +49,34 @@
       "auth": {
         "gateway7887c977": {},
         "true": {}
+      }
+    }
+  },
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gateway-main-200441-authRole",
+      "UnauthRoleArn": "arn:aws:iam::628607619154:role/amplify-gateway-main-200441-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::628607619154:role/amplify-gateway-main-200441-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-gateway-main-200441-deployment",
+      "UnauthRoleName": "amplify-gateway-main-200441-unauthRole",
+      "StackName": "amplify-gateway-main-200441",
+      "StackId": "arn:aws:cloudformation:us-east-1:628607619154:stack/amplify-gateway-main-200441/8e6b9c90-7250-11ec-8483-120ea8ce0c23",
+      "AmplifyAppId": "d1eyfltl5g67m"
+    },
+    "categories": {
+      "function": {
+        "getUserDAOs": {},
+        "getAuthenticationNonce": {},
+        "gateway7887c977DefineAuthChallenge": {},
+        "gateway7887c977CreateAuthChallenge": {},
+        "gateway7887c977VerifyAuthChallengeResponse": {},
+        "gateway7887c977PreSignup": {},
+        "vote": {},
+        "addDAOAndChannels": {}
+      },
+      "auth": {
+        "gateway7887c977": {}
       }
     }
   }

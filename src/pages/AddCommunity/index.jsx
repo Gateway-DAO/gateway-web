@@ -10,7 +10,7 @@ import { FormStyled } from '../../components/Form'
 // Components
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import RichEditor from '../../components/RichTextEditor'
+import Loader from '../../components/Loader'
 import SubmitPage from './submitPage'
 import { ImageUpload } from '../../components/Form'
 
@@ -24,6 +24,7 @@ import useFileUpload from '../../api/database/useFileUpload'
 // Utils
 import space from '../../utils/canvas'
 import { v4 as uuidv4 } from 'uuid'
+import normalizeUrl from 'normalize-url'
 
 const AddCommunity = () => {
     const { userInfo, loggedIn } = useAuth()
@@ -50,6 +51,7 @@ const AddCommunity = () => {
     const [bgFile, setBGFile] = useState()
     const [logoFile, setLogoFile] = useState()
     const [spaceId, setSpaceId] = useState('')
+    const [updateLoading, setUpdateLoading] = useState(false)
 
     const { createDAO, data, error, called, loading } =
         useCreateDAOWithChannels()
@@ -106,45 +108,53 @@ const AddCommunity = () => {
     }
 
     const submitToDB = async () => {
-        // DAO ID
-        const id = uuidv4()
+        setUpdateLoading(true)
+        try {
+            // DAO ID
+            const id = uuidv4()
 
-        // Upload files to S3
-        const logoURL = await uploadFile(
-            `daos/${id}/logo.${logoFile.name.split('.').pop()}`,
-            logoFile
-        )
-        const backgroundURL = await uploadFile(
-            `daos/${id}/background.${bgFile.name.split('.').pop()}`,
-            bgFile
-        )
+            // Upload files to S3
+            const logoURL = await uploadFile(
+                `daos/${id}/logo.${logoFile.name.split('.').pop()}`,
+                logoFile
+            )
+            const backgroundURL = await uploadFile(
+                `daos/${id}/background.${bgFile.name.split('.').pop()}`,
+                bgFile
+            )
 
-        const newInfo = {
-            id,
-            dao: name
-                .toLowerCase()
-                .replace(/ /g, '-')
-                .replace(/[-]+/g, '-')
-                .replace(/[^\w-]+/g, ''),
-            name,
-            backgroundURL,
-            logoURL,
-            tokenAddress,
-            description,
-            categories,
-            chains,
-            socials,
-            whitelistedAddresses,
-            snapshotID: spaceId,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
+            const newInfo = {
+                id,
+                dao: name
+                    .toLowerCase()
+                    .replace(/ /g, '-')
+                    .replace(/[-]+/g, '-')
+                    .replace(/[^\w-]+/g, ''),
+                name,
+                backgroundURL,
+                logoURL,
+                tokenAddress,
+                description,
+                categories,
+                chains,
+                socials,
+                whitelistedAddresses,
+                snapshotID: spaceId,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+            }
+
+            await createDAO({
+                variables: {
+                    input: newInfo,
+                },
+            })
         }
-
-        await createDAO({
-            variables: {
-                input: newInfo,
-            },
-        })
+        catch (err) {
+            alert("An error occurred. Please try again later!")
+            console.log(err)
+        }
+        setUpdateLoading(false)
     }
 
     if (error) {
@@ -534,6 +544,7 @@ const AddCommunity = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Button id="submit_msg" onClick={submitToDB}>
+                    {updateLoading && <Loader color="white" />}
                     Save Changes
                 </FormStyled.Button>
             </Styled.Container>

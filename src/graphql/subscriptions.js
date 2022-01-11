@@ -33,10 +33,7 @@ export const onCreateUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -99,10 +96,7 @@ export const onUpdateUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -165,10 +159,7 @@ export const onDeleteUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -239,10 +230,17 @@ export const onCreateDao = /* GraphQL */ `
       missionAndVision
       whatDoWeDo
       tokenBenefits {
-        amount
-        description
-        title
-        token
+        items {
+          id
+          daoID
+          amount
+          description
+          title
+          token
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       upcomingHangouts
       tokenAddress
@@ -321,10 +319,17 @@ export const onUpdateDao = /* GraphQL */ `
       missionAndVision
       whatDoWeDo
       tokenBenefits {
-        amount
-        description
-        title
-        token
+        items {
+          id
+          daoID
+          amount
+          description
+          title
+          token
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       upcomingHangouts
       tokenAddress
@@ -403,10 +408,17 @@ export const onDeleteDao = /* GraphQL */ `
       missionAndVision
       whatDoWeDo
       tokenBenefits {
-        amount
-        description
-        title
-        token
+        items {
+          id
+          daoID
+          amount
+          description
+          title
+          token
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       upcomingHangouts
       tokenAddress
@@ -473,10 +485,7 @@ export const onCreateBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -537,10 +546,7 @@ export const onUpdateBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -601,10 +607,7 @@ export const onDeleteBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -632,6 +635,174 @@ export const onDeleteBounty = /* GraphQL */ `
       links
       endDate
       postDate
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTokenBenefit = /* GraphQL */ `
+  subscription OnCreateTokenBenefit {
+    onCreateTokenBenefit {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      amount
+      description
+      title
+      token
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTokenBenefit = /* GraphQL */ `
+  subscription OnUpdateTokenBenefit {
+    onUpdateTokenBenefit {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      amount
+      description
+      title
+      token
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTokenBenefit = /* GraphQL */ `
+  subscription OnDeleteTokenBenefit {
+    onDeleteTokenBenefit {
+      id
+      daoID
+      dao {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      amount
+      description
+      title
+      token
       createdAt
       updatedAt
     }
@@ -666,10 +837,7 @@ export const onCreateChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -736,10 +904,7 @@ export const onUpdateChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -806,10 +971,7 @@ export const onDeleteChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -875,10 +1037,7 @@ export const onCreatePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1019,10 +1178,7 @@ export const onUpdatePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1163,10 +1319,7 @@ export const onDeletePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1466,10 +1619,7 @@ export const onCreateGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1538,10 +1688,7 @@ export const onUpdateGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
@@ -1610,10 +1757,7 @@ export const onDeleteGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          amount
-          description
-          title
-          token
+          nextToken
         }
         upcomingHangouts
         tokenAddress
