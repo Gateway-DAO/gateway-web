@@ -66,14 +66,38 @@
     },
     "categories": {
       "function": {
-        "getUserDAOs": {},
-        "getAuthenticationNonce": {},
-        "gateway7887c977DefineAuthChallenge": {},
-        "gateway7887c977CreateAuthChallenge": {},
-        "gateway7887c977VerifyAuthChallengeResponse": {},
-        "gateway7887c977PreSignup": {},
-        "vote": {},
-        "addDAOAndChannels": {}
+        "getUserDAOs": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/getUserDAOs-65344878494458773954-build.zip"
+        },
+        "getAuthenticationNonce": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/getAuthenticationNonce-2b4f35357364512f5874-build.zip"
+        },
+        "gateway7887c977DefineAuthChallenge": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/gateway7887c977DefineAuthChallenge-733531714971354e3778-build.zip"
+        },
+        "gateway7887c977CreateAuthChallenge": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/gateway7887c977CreateAuthChallenge-45686c71565a53493462-build.zip"
+        },
+        "gateway7887c977VerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-357569527a4162645738-build.zip"
+        },
+        "gateway7887c977PreSignup": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/gateway7887c977PreSignup-6348566f625650774d72-build.zip"
+        },
+        "vote": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/vote-556d6f7969466c726765-build.zip"
+        },
+        "addDAOAndChannels": {
+          "deploymentBucketName": "amplify-gateway-main-200441-deployment",
+          "s3Key": "amplify-builds/addDAOAndChannels-696f4c4e572b5a38324b-build.zip"
+        }
       },
       "auth": {
         "gateway7887c977": {}

@@ -1,7 +1,7 @@
 // AWS/Amplify
 import Amplify, { API, graphqlOperation, Storage, Auth } from "aws-amplify";
 import awsconfig from "../aws-exports";
-import { createDao, createUser, createComment, createPost, createChannel, updateUser as UPDATE_USER } from "../graphql/mutations";
+import { createDao, createUser, createChannel, updateUser as UPDATE_USER, createBounty, createTokenBenefit } from "../graphql/mutations";
 import { getUserByAddress } from "../graphql/queries";
 
 // Firebase
@@ -44,12 +44,12 @@ const importChannel = async (channel) => {
     return await API.graphql(graphqlOperation(createChannel, { input: channel }))
 }
 
-const importPost = async (post) => {
-    return await API.graphql(graphqlOperation(createPost, { input: post }))
+const importBounty = async (bounty) => {
+    return await API.graphql(graphqlOperation(createBounty, { input: bounty }))
 }
 
-const importComment = async (comment) => {
-    return await API.graphql(graphqlOperation(createComment, { input: comment }))
+const importTokenBenefit = async (tb) => {
+    return await API.graphql(graphqlOperation(createTokenBenefit, { input: tb }))
 }
 
 export const runDAOMigration = async () => {
@@ -71,14 +71,12 @@ export const runDAOMigration = async () => {
                 accomplishments: data.accomplishments,
                 backgroundURL: data.backgroundURL,
                 logoURL: data.logoURL,
-                bounties: data.bounties,
                 categories: data.categories,
                 tags: data.tags,
                 description: data.description,
                 howToJoin: data.howToJoin,
                 missionAndVision: data.missionAndVision,
                 whatDoWeDo: data.WhatDoWeDo,
-                tokenBenefits: data.tokenBenefits,
                 upcomingHangouts: data.upcomingHangouts,
                 tokenAddress: data.tokenAddress,
                 createdAt: new Date().toISOString(),
@@ -105,6 +103,36 @@ export const runDAOMigration = async () => {
                                 console.log(err)
                             })
                     })
+
+                    data.bounties.forEach(bounty => {
+                        importBounty({
+                            id: uuidv4(),
+                            daoID: mutation.id,
+                            ...bounty
+                        })
+                            .then(res => {
+                                console.log(`Created bounty for DAO ${mutation.dao}`)
+                            })
+                            .catch(err => {
+                                console.log(`There was an error migrating bounty on DAO ${mutation.dao}`)
+                                console.log(err)
+                            })
+                    })
+
+                    data.tokenBenefits.forEach(tb => {
+                        importTokenBenefit({
+                            id: uuidv4(),
+                            daoID: mutation.id,
+                            ...tb
+                        })
+                            .then(res => {
+                                console.log(`Created TB for DAO ${mutation.dao}`)
+                            })
+                            .catch(err => {
+                                console.log(`There was an error migrating TB on DAO ${mutation.dao}`)
+                                console.log(err)
+                            })
+                    })
                 })
                 .catch(err => {
                     console.error(`There was an error migrating ${dao.id}`)
@@ -122,13 +150,13 @@ export const runUserMigration = async () => {
         // 1. get users
         const users = await getDocs(collection(db, "users"))
         console.log(users.docs.length)
-        users.forEach(async user => {
+        const promises = users.docs.map(async user => {
             const data = user.data()
             const socials = data.socials ? Object.keys(data.socials).map(social => {
                 return { network: social, url: data.socials[social] };
             }) : null;
 
-            let pfpKey = ""
+            let pfpURL = ""
 
             if (data.pfp) {
                 try {
@@ -136,10 +164,13 @@ export const runUserMigration = async () => {
 
                     const ext = {"image/jpeg": ".jpg", "image/png": ".png"}[pfp.type]
 
-                    const { key } = await Storage.put(`users/${user.id}/profile${ext}`, pfp)
+                    await Storage.put(`users/${user.id}/profile${ext}`, pfp, {})
 
-                    pfpKey = key
-                    console.log(`key: ${pfpKey}`)
+                    const url = await Storage.get(`users/${user.id}/profile${ext}`, {
+                        level: "public",
+                    })
+
+                    pfpURL = url.split('?')[0].toString()
                 }
                 catch (err) {
                     console.log(`[STORAGE]: ${err}`)
@@ -153,10 +184,10 @@ export const runUserMigration = async () => {
                 init: data.init,
                 bio: data.bio,
                 daos_ids: data.daos,
-                nonce: data.nonce,
                 username: data.username,
                 wallet: user.id,
-                pfp: pfpKey ? `https://${awsconfig.aws_user_files_s3_bucket}.s3.${awsconfig.aws_user_files_s3_bucket_region}.amazonaws.com/${pfpKey}` : "",
+                pfp: pfpURL,
+                nonce: Math.floor(Math.random() * 1000000),
                 ...(data.socials ? { socials } : {})
             }
 
@@ -178,6 +209,8 @@ export const runUserMigration = async () => {
                     console.error(err)
                 })
         })
+
+        await Promise.all(promises)
     }
     catch (err) {
         console.error(`Something happened here! - ${err}`)
