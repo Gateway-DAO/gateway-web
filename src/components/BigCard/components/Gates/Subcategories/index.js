@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { BoldText } from '../../../../../pages/About/style'
 import { useHistory } from 'react-router-dom'
 
-const Subcategories = (props) => {
+const Subcategories = ({ activeCategory, setActiveCategory }) => {
     const categories = [
         'All',
         'Governance',
@@ -11,7 +11,7 @@ const Subcategories = (props) => {
         'Development',
         'Educational',
     ]
-    const [activeCategory, setActiveCategory] = useState('All')
+
     const activeCategoryHandler = (event) => {
         const name = event.target.name
         console.log(name)
