@@ -1,6 +1,7 @@
 import * as Styled from './style'
 import { useState } from 'react'
 import { BoldText } from '../../../../../pages/About/style'
+import { useHistory } from 'react-router-dom'
 
 const Subcategories = (props) => {
     const categories = [
@@ -15,6 +16,10 @@ const Subcategories = (props) => {
         const name = event.target.name
         console.log(name)
         setActiveCategory(name)
+    }
+    const history = useHistory()
+    const addGate = ()=>{
+        history.push("/add-gate");
     }
     return (
         <Styled.Wrapper>
@@ -34,7 +39,7 @@ const Subcategories = (props) => {
                     <Styled.BoldText2>whitelisted address</Styled.BoldText2> you
                     can add gates
                 </Styled.Text>
-                <Styled.WhitelistButton>
+                <Styled.WhitelistButton onClick={addGate}>
                     <Styled.ButtonText>ADD GATES</Styled.ButtonText>
                 </Styled.WhitelistButton>
             </Styled.WhitelistButtonDiv>

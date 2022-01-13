@@ -60,6 +60,7 @@ export const Header = styled.h1`
   font-weight: bold;
   font-size: 86px;
   line-height: 90px;
+  margin-bottom:40px;
   /* identical to box height, or 94% */
   text-align: center;
   letter-spacing: -0.05em;
@@ -163,6 +164,25 @@ export const Input = styled.input`
   margin: 12px 0;
   width: 100%;
 `
+export const InputSmall = styled.input`
+    width: 108px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    margin: 12px 0;
+`
 export const AllowedFileType = styled.div`
   font-family: Be Vietnam;
   font-style: normal;
@@ -260,4 +280,21 @@ export const CategoryList = styled.div`
     margin-top:15px;
     display:flex;
     max-width:400px;
+`
+
+export const SearchIconTop = styled.div`
+    width: 17px;
+    height: 17px;
+    border: 2px solid #E5E5E5;
+    box-sizing: border-box;
+`
+export const StyledIconBottom = styled.div`
+position: absolute;
+width: 6.79px;
+height: 0px;
+
+
+border: 2px solid #E5E5E5;
+transform: rotate(136.63deg);
+
 `

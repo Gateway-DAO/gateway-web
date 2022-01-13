@@ -6,15 +6,16 @@ import * as Styled from './styles';
 // import * as Styled from '../../../components/Modal/style';
 import Header from "../../components/Header";
 import SearchedItem from "./Components/SearhedItem";
+import { FormStyled, ImageUpload } from "../../components/Form";
 // import icon from "../../assets/imageicon.jpeg"
-
+import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 
 
 
 const AddGateForm =(toggleForm) =>{
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("Its a rich editor")
-    const [retroactivelearner,setRetroactivelearner] = useState("");
+    const [description, setDescription] = useState("")
+    const [retroactiveEarners,setretroactiveEarners] = useState([""]);
     const fileInputField = useRef(null);
     const [files, setFile] = useState("");
     const $input = useRef(null);
@@ -23,9 +24,13 @@ const AddGateForm =(toggleForm) =>{
     const [category, setCategory] = useState("");
     const [categoryList, setCategoryList] = useState([]);
     const [prerequisite, setPrerequisite]= useState("");
-    const [prerequisiteList, setPrerequisiteList]= useState("");
+    const [prerequisiteList, setPrerequisiteList]= useState([]);
+    const [keyRequired, setKeyRequired] = useState();
+    const [badgeName, setBadgeName] = useState("");
+    const [admin, setAdmin] = useState("");
+    const [adminList, setAdminList] = useState([]);
 
-    console.log(files);
+    // console.log(files);
     
     const removeUploadFile= ()=>{
         setUploadFile(null);
@@ -42,30 +47,94 @@ const AddGateForm =(toggleForm) =>{
             setPrerequisite("")
         }
     }
+    const addAdmin = (e)=>{
+        if(e.key=== "Enter"){
+            setAdminList([...adminList, admin])
+            setAdmin("");
+        }
+    }
+    const updateRetroactiveEarner = (e,idx)=>{
+        console.log(idx);
+        const add = retroactiveEarners.map((value,i)=>{
+            if(idx===i){
+                console.log(retroactiveEarners[i])
+                // retroactiveEarners[i]=e;
+                return(e)
+            }
+            return value
+        })
+        
+        setretroactiveEarners(add);
+    }
+    const removeRetroactiveEarner=(idx)=>{
+        setretroactiveEarners(retroactiveEarners.filter((value,i)=> i!==idx))
+    }
     return (
         <Styled.Page>
         <Header />        
             <Styled.Container>
                 <Styled.Header>Create a New Gate</Styled.Header>
-                    <Styled.Fieldset>
-                        <Styled.Label htmlFor="title">Title</Styled.Label>
-                        <Styled.Input
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label htmlFor="title">Gate Title*</FormStyled.Label>
+                        <FormStyled.Input
                             onChange={(e) => setName(e.target.value)}
                             type="text"
                             id="name"
                             name="name"
-                            placeholder="Year Finance for beginners"
+                            placeholder="This will be the title of your Gate"
                             value={name}
                         />
-                    </Styled.Fieldset>
-                    <Styled.Fieldset>
-                        <Styled.Label htmlFor="description">Description</Styled.Label>
-                        <RichEditor set={setDescription} 
-                        placeholder ="Through this Gate you will loan everything related Yearn.Finance, from conect your personal wallet to how your wallet works"
-                        value={description} />
-                    </Styled.Fieldset>   
-                    <Styled.Fieldset>
-                        <Styled.Label htmlFor="ProfileImage">Upload Badge or NFT</Styled.Label>
+                    </FormStyled.Fieldset>
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label htmlFor="description">Description*</FormStyled.Label>
+                        <FormStyled.Textarea 
+                            onChange={e=>setDescription(e.target.value)} 
+                            value={description} 
+                            placeholder="This will be the description of your Gate. We reccommend maximum of 2 lines."
+                        />
+                        
+                    </FormStyled.Fieldset>  
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label htmlFor="title">KEYS REQUIRED*</FormStyled.Label>
+                        <Styled.InputSmall
+                            onChange={(e) => setKeyRequired(e.target.value)}
+                            type="text"
+                            id="keyReq"
+                            name="keyReq"
+                            placeholder="0"
+                            value={keyRequired}
+                        />
+                    </FormStyled.Fieldset> 
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label htmlFor="title">Category</FormStyled.Label>
+                        <FormStyled.Input
+                            onChange={(e) => setCategory(e.target.value)}
+                            type="text"
+                            id="category"
+                            name="category"
+                            placeholder="Search your Category"
+                            onKeyPress={addCategories}
+                            value={category}
+                        />
+                        {/* <Styled.SearchIcon>
+                            <Styled.SearchIconTop></Styled.SearchIconTop>
+                            <Styled.SearchIconBottom></Styled.SearchIconBottom>
+                        </Styled.SearchIcon> */}
+                        {categoryList.length>0 
+                            &&
+                            <Styled.CategoryList>
+                                {categoryList.map((category)=>{
+                                    return(
+                                        <SearchedItem val={category}/>
+                                    )
+                                })
+                                }
+                            </Styled.CategoryList> 
+                        }
+                    </FormStyled.Fieldset>
+                
+                    <FormStyled.Fieldset>
+                        <FormStyled.Label htmlFor="ProfileImage">Upload Badge or NFT</FormStyled.Label>
                         {!uploadFile ? (
                             <Styled.DragArea
                                 hover={over}
@@ -119,38 +188,82 @@ const AddGateForm =(toggleForm) =>{
                         <p>File supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF.</p>
                         <p>Max size: 100 MB</p>
                         </Styled.AllowedFileType>
-                    </Styled.Fieldset>
-                <Styled.Fieldset>
-                    <Styled.Label htmlFor="title">Category</Styled.Label>
+                    </FormStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="title">BADGE/NFT Name</FormStyled.Label>
                     <Styled.Input
-                        onChange={(e) => setCategory(e.target.value)}
+                        onChange={(e) => setBadgeName(e.target.value)}
                         type="text"
-                        id="category"
-                        name="category"
-                        placeholder="Search your Category"
-                        onKeyPress={addCategories}
-                        value={category}
+                        id="badgeName"
+                        name="badgeName"
+                        placeholder="Insert the name here"
+                        value={badgeName}
                     />
-                    {categoryList.length>0 
+                </FormStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="title">Admin Privileges</FormStyled.Label>
+                    <FormStyled.Input
+                        onChange={(e) => setAdmin(e.target.value)}
+                        type="text"
+                        id="admin"
+                        name="admin"
+                        placeholder="Search for admins"
+                        onKeyPress={addAdmin}
+                        value={admin}
+                    />
+                    {adminList.length>0 
                         &&
                         <Styled.CategoryList>
-                            {categoryList.map((category)=>{
+                            {adminList.map((admin)=>{
                                 return(
-                                    <SearchedItem val={category}/>
+                                    <SearchedItem val={admin}/>
                                 )
                             })
                             }
                         </Styled.CategoryList> 
                     }
-                </Styled.Fieldset>
-                <Styled.Fieldset>
-                    <Styled.Label htmlFor="retroactiveLearner">
+                </FormStyled.Fieldset>
+                
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="retroactiveLearner">
                         RETROACTIVE LEARNER
-                    </Styled.Label>
-                    <RichEditor set={setDescription} value={retroactivelearner} />
-                </Styled.Fieldset>
-                <Styled.Fieldset>
-                    <Styled.Label htmlFor="title">Prerequisite</Styled.Label>
+                    </FormStyled.Label>
+                    {retroactiveEarners.map((retroactiveEarner,idx)=>{
+                        return(
+                            <FormStyled.InputWrapper>
+                                <FormStyled.Input 
+                                    id={`retroactiveEarners-${idx}`}
+                                    type="text"
+                                    value={retroactiveEarner}
+                                    placeholder="Enter wallet/ens address"
+                                    onChange={(e)=>updateRetroactiveEarner(e.target.value,idx)}
+                                />
+                                <FormStyled.IconButton
+                                    onClick={()=>removeRetroactiveEarner(idx)}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    <FaTrashAlt />
+                                </FormStyled.IconButton>
+                            </FormStyled.InputWrapper>
+                        )
+                    })}
+                    <FormStyled.IconButton
+                        onClick={() =>
+                            setretroactiveEarners([
+                                ...retroactiveEarners,
+                                ""
+                            ])
+                        }
+                        style={{
+                            width: 'fit-content',
+                            alignSelf: 'center',
+                        }}
+                    >
+                        <FaPlus />
+                    </FormStyled.IconButton>
+                </FormStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="title">Prerequisite</FormStyled.Label>
                     <Styled.Input
                         onChange={(e) => setPrerequisite(e.target.value)}
                         type="text"
@@ -171,14 +284,14 @@ const AddGateForm =(toggleForm) =>{
                             }
                         </Styled.CategoryList> 
                     }
-                </Styled.Fieldset>
+                </FormStyled.Fieldset>
                 
-                <Styled.Button
+                <FormStyled.Button
                     id="submit_msg"
                     type="button"    
                 >
                     Submit
-                </Styled.Button>
+                </FormStyled.Button>
             </Styled.Container>
         </Styled.Page>
     )

@@ -101,7 +101,27 @@ export const Input = styled.input`
 
     ${(props) => (!!props.value ? FilledInput : '')}
 `
+const SearchInput = styled.input`
+border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
 
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    margin: 15px 0;
+    width: 100%;
+    outline: none;
+
+`
 const CheckboxContainer = styled.div`
     position: relative;
     display: flex;
