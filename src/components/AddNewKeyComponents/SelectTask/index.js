@@ -10,7 +10,7 @@ const SelectTask = (props) => {
             task: 'SNAPSHOT GOVERNANCE',
             link: '/dao/forefront/newkey/governance',
         },
-        { task: 'MANUAL TASK', link: '' },
+        { task: 'MANUAL TASK', link: '/dao/forefront/newkey/manual' },
         { task: 'COORDINAPE', link: '' },
         { task: 'SOURCECRED', link: '' },
         { task: 'COLONY', link: '' },

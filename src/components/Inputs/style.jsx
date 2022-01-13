@@ -64,6 +64,10 @@ export const Select = styled.select`
     padding: 10px 0px 10px 10px;
     color: white;
 `
+export const OptionWrapper = styled.div`
+
+    border-bottom: 1px solid rgba(229, 229, 229, 0.15);
+`
 export const Option = styled.option`
     background: #220a38;
     border: 1px solid #7e3bdc;
@@ -76,6 +80,15 @@ export const Option = styled.option`
     line-height: 26px;
     display: flex;
     align-items: center;
+    
+`
+export const ChainLogo = styled.img`
+    width: 16px;
+    height: 16px;
+    // left: 413px;
+    // top: 432px;
+    // background: ${props => `url(${props.logo})`};
+    // transform: matrix(-1, 0, 0, 1, 0, 0);
 `
 export const DateInput = styled.input`
     font-family: Be Vietnam;
