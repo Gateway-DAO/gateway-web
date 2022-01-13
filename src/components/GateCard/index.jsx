@@ -77,7 +77,7 @@ have earned it."
                         offColor="#FF003D"
                         onColor="#27D5A2"
                         onHandleColor="#FFFFFF"
-                        handleDiameter={30}
+                        handleDiameter={20}
                         uncheckedIcon={false}
                         checkedIcon={false}
                         boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"

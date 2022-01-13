@@ -275,7 +275,7 @@ export const ButtonText = styled.h3`
 export const PublishContainer = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 10px;
+    margin-left: 20px;
 `
 
 export const PublishText = styled.span`
