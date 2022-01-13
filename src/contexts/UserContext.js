@@ -31,7 +31,9 @@ export const UserProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState(null)
 
     const [getUser, { data: userData, loading: userLoading, called }] =
-        useLazyQuery(gql(getUserQuery))
+        useLazyQuery(gql(getUserQuery), {
+            fetchPolicy: "no-cache"
+        })
 
     const {
         updateUser,

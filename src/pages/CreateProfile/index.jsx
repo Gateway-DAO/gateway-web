@@ -39,6 +39,7 @@ const CreateProfile = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const [searchQuery, setSearchQuery] = useState('')
     const [searchRes, setSearchRes] = useState([])
+    const [updateLoading, setUpdateLoading] = useState(false)
 
     const {
         loading: listLoading,
@@ -103,6 +104,7 @@ const CreateProfile = () => {
 
     const onSave = async (e) => {
         e.preventDefault()
+        setUpdateLoading(true)
         try {
             const pfpURL = await uploadPfp()
             await updateUserInfo({
@@ -123,6 +125,7 @@ const CreateProfile = () => {
             alert('An error occurred. Please try again later!')
             console.log(err)
         }
+        setUpdateLoading(false)
     }
 
     const addDAO = (dao) => {
@@ -178,6 +181,7 @@ const CreateProfile = () => {
                         <FormStyled.Label htmlFor="name">Display name</FormStyled.Label>
                         <FormStyled.Input
                             onChange={(e) => setName(e.target.value)}
+                            value={name}
                             type="text"
                             id="name"
                             name="name"
@@ -190,6 +194,7 @@ const CreateProfile = () => {
                         <FormStyled.Label htmlFor="username">Username</FormStyled.Label>
                         <FormStyled.Input
                             onChange={(e) => setUsername(e.target.value)}
+                            value={username}
                             type="text"
                             id="username"
                             name="username"
@@ -204,6 +209,7 @@ const CreateProfile = () => {
                             height="100px"
                             id="Bio"
                             onChange={(e) => setBio(e.target.value)}
+                            value={bio}
                             placeholder="Tell about yourself"
                             required
                         ></FormStyled.Textarea>
@@ -394,7 +400,7 @@ const CreateProfile = () => {
                         )}
                     </FormStyled.Fieldset>
 
-                    <FormStyled.Button type="submit">Save</FormStyled.Button>
+                    <FormStyled.Button type="submit">{updateLoading && <Loader color="white" />} Save</FormStyled.Button>
                 </Styled.FormBox>
             </Styled.MainBox>
         </Styled.Container>

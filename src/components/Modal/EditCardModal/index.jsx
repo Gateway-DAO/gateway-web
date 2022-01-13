@@ -8,6 +8,7 @@ import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
 import { Redirect } from "react-router-dom";
 import useFileUpload from '../../../api/database/useFileUpload'
 import normalizeUrl from 'normalize-url'
+import Loader from '../../Loader'
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name)
@@ -22,45 +23,58 @@ const EditCardModal = (props) => {
     const [chains, setChains] = useState(props.chains || [])
     const [whitelistedAddresses, setWhitelistedAddresses] = useState(props.whitelistedAddresses || [""])
 
+    const [updateLoading, setUpdateLoading] = useState(false)
+
     const { updateDAO, data, error, loading } = useUpdateDAO()
     const { uploadFile } = useFileUpload()
 
     const submitToDB = async () => {
-        // Upload files to S3
-        const logoURL = logoFile && await uploadFile(
-            `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
-            logoFile
-        )
-        const backgroundURL = backgroundFile && await uploadFile(
-            `daos/${props.id}/background.${backgroundFile.name.split('.').pop()}`,
-            backgroundFile
-        )
+        setUpdateLoading(true)
+        try {
+            // Upload files to S3
+            const logoURL = logoFile && await uploadFile(
+                `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
+                logoFile
+            )
+            const backgroundURL = backgroundFile && await uploadFile(
+                `daos/${props.id}/background.${backgroundFile.name.split('.').pop()}`,
+                backgroundFile
+            )
 
-        const newInfo = {
-            name,
-            ...(backgroundFile ? { backgroundURL } : {}),
-            ...(youtubeURL ? { youtubeURL: normalizeUrl(youtubeURL, { defaultProtocol: "https:" }) } : {}),
-            ...(logoFile ? { logoURL } : {}),
-            tokenAddress,
-            description,
-            categories,
-            socials: socials.map(social => {
-                return {network: social.network, url: social.url}
-            }),
-            chains,
-            whitelistedAddresses,
-            snapshotID
-        }
+            console.log(logoURL)
+            console.log(backgroundURL)
 
-        await updateDAO({ variables: {
-            input: {
-                id: props.id,
-                ...newInfo
+            const newInfo = {
+                name,
+                ...(backgroundFile ? { backgroundURL } : {}),
+                ...(youtubeURL ? { youtubeURL: normalizeUrl(youtubeURL, { defaultProtocol: "https:" }) } : {}),
+                ...(logoFile ? { logoURL } : {}),
+                tokenAddress,
+                description,
+                categories,
+                socials: socials.map(social => {
+                    return {network: social.network, url: social.url}
+                }),
+                chains,
+                whitelistedAddresses,
+                snapshotID
             }
-        } })
 
-        props.changeDAOData(newInfo)
-        props.toggle()
+            await updateDAO({ variables: {
+                input: {
+                    id: props.id,
+                    ...newInfo
+                }
+            } })
+
+            props.changeDAOData(newInfo)
+            props.toggle()
+        }
+        catch (err) {
+            alert("An error occurred. Try again later!")
+            console.log(err)
+        }
+        setUpdateLoading(false)
     }
 
     if (error) { return <Redirect to="/404" /> }
@@ -104,8 +118,6 @@ const EditCardModal = (props) => {
             return social
         })
 
-        console.log(copy)
-        
         setSocials(copy)
     }
 
@@ -133,8 +145,7 @@ const EditCardModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <ImageUpload htmlFor="logo" label="Logo" setImage={setLogoFile} defaultImageURL={props.logoURL} />
-
-                <ImageUpload htmlFor="logo" label="Background" setImage={setBackgroundFile} defaultImageURL={props.backgroundURL} />
+                <ImageUpload htmlFor="background" label="Background" setImage={setBackgroundFile} defaultImageURL={props.backgroundURL} />
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="backgroundURL">
@@ -478,6 +489,7 @@ const EditCardModal = (props) => {
                     type="button"
                     onClick={submitToDB}
                 >
+                    {updateLoading && <Loader color="white" />}
                     Save Changes
                 </FormStyled.Button>
             </Styled.Container>

@@ -1,26 +1,24 @@
-import * as Styled from "./style";
-import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
-import { db } from "../../api/firebase";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import parser from "html-react-parser"
+import * as Styled from './style'
+import parser from 'html-react-parser'
+import { useDeleteTokenBenefit } from '../../api/database/useDeleteTokenBenefit'
 
-const TokenBenefitCard = props => {
+const TokenBenefitCard = (props) => {
     const benefit = props.tbs[props.idx]
 
-    const deleteBenefit = async () => {
-        const dao = doc(db, "daos", props.id)
-        const newTBs = props.tbs.filter((benefit, idx) => idx !== props.idx)
+    const { deleteTokenBenefit } = useDeleteTokenBenefit()
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(newTBs)
-        });
+    const deleteBenefit = async (e) => {
+        e.stopPropagation()
 
-        await updateDoc(dao, {
-            tokenBenefits: newTBs
+        await deleteTokenBenefit({
+            variables: {
+                input: {
+                    id: benefit.id,
+                },
+            },
         })
 
-        unsub()
+        props.set(props.tbs.filter((obj) => benefit.id !== obj.id))
     }
 
     return (
@@ -38,9 +36,11 @@ const TokenBenefitCard = props => {
                 </Styled.TBInfo>
             </Styled.TBInfoBox>
 
-            {props.admin && <Styled.TrashBtn onClick={deleteBenefit} size={14} />}
+            {props.admin && (
+                <Styled.TrashBtn onClick={deleteBenefit} size={14} />
+            )}
         </Styled.Container>
     )
 }
 
-export default TokenBenefitCard;
+export default TokenBenefitCard

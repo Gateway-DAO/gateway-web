@@ -26,7 +26,7 @@ const SubmitPage = ({ name }) => {
                     We're Building Communities Together
                 </Styled.Heading>
                 <Styled.Text>
-                    Thank you, {name} Is Successfully Added.
+                    Thank you, your DAO was successfully added1
                 </Styled.Text>
                 <FormStyled.Button
                     id="submit_msg"

@@ -4,8 +4,9 @@ import * as ModalStyled from '../style'
 import { FormStyled } from '../../Form'
 import { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
-import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
-import { Redirect } from "react-router-dom";
+import { useCreateTokenBenefit } from '../../../api/database/useCreateTokenBenefit'
+import { Redirect } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 const TokenBenefitModal = (props) => {
     const [title, setTitle] = useState(null)
@@ -13,31 +14,31 @@ const TokenBenefitModal = (props) => {
     const [token, setToken] = useState(null)
     const [amount, setAmount] = useState(null)
 
-    const { updateDAO, data, error, loading } = useUpdateDAO();
+    const { createTokenBenefit, error } = useCreateTokenBenefit()
 
     const submitToDB = async () => {
-        const newTB = [
-            ...(props.data || []),
-            {
-                title,
-                description,
-                token,
-                amount
+        const newTB = {
+            id: uuidv4(),
+            daoID: props.id,
+            title,
+            description,
+            token,
+            amount,
+        }
+
+        await createTokenBenefit({
+            variables: {
+                input: newTB,
             },
-        ]
+        })
 
-        await updateDAO({ variables: {
-            input: {
-                id: props.id,
-                tokenBenefits: newTB
-            }
-        } })
-
-        props.set(newTB)
+        props.set([...props.data, newTB])
         props.toggle()
     }
 
-    if (error) { return <Redirect to="/404" /> }
+    if (error) {
+        return <Redirect to="/404" />
+    }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>

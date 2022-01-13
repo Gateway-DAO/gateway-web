@@ -9,6 +9,8 @@ import SearchedItem from "./Components/SearhedItem";
 // import icon from "../../assets/imageicon.jpeg"
 
 
+
+
 const AddGateForm =(toggleForm) =>{
     const [name, setName] = useState("");
     const [description, setDescription] = useState("Its a rich editor")

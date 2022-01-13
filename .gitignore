@@ -30,6 +30,7 @@ yarn-error.log*
 # Random stuff
 cors.json
 deleteAllUsers.sh
+/src/utils/aws-migration.js
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

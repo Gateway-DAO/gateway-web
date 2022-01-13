@@ -18,7 +18,6 @@ import * as Styled from './style'
 import { API, graphqlOperation } from 'aws-amplify'
 import { gql } from '@apollo/client'
 import { onUpdateDao } from '../../graphql/subscriptions'
-import { daysToWeeks } from 'date-fns'
 
 const DAO = (props) => {
     const { id } = useParams()
@@ -118,8 +117,6 @@ const DAO = (props) => {
                               showTokenFeed: false,
                           }
 
-                console.log(dbData)
-
                 // Organize presentable data
                 const data = {
                     ...dbData,
@@ -140,9 +137,11 @@ const DAO = (props) => {
             graphqlOperation(gql(onUpdateDao))
         ).subscribe({
             next: (data) => {
-                let dao = data.value.data.onUpdateDao
+                let dao = data.value.data.onUpdateDAO
+                console.log("New thing")
+                console.log(dao)
 
-                if (dao.id === props.id) {
+                if (dao.id === daoData.id) {
                     console.log('onUpdateDao')
                     setDaoData({ ...daoData, ...dao })
                 }
