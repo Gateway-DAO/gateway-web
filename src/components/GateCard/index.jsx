@@ -1,7 +1,6 @@
 import * as Styled from './style'
 import EditIcon from '../../theme/icons/Edit'
 import PfpBox from '../PfpBox'
-import { useHistory } from 'react-router'
 import { useState } from 'react'
 import Switch from 'react-switch'
 

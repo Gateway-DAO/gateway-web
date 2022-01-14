@@ -10,7 +10,7 @@ export const GateCardBox = styled.div`
     cursor: pointer;
     // With the card bottom => height: 30em;
     height: 30em;
-    width: 25em;
+    width: 26em;
     // max-width: calc(100%/3.5);
 
     transition: margin 0.5s ease-in-out;
@@ -275,7 +275,7 @@ export const ButtonText = styled.h3`
 export const PublishContainer = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 30px;
 `
 
 export const PublishText = styled.span`

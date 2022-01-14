@@ -12,6 +12,11 @@ const Gates = (props) => {
             />
             <Styled.GatesContainer>
                 <GateCard />
+                <GateCard />
+                <GateCard />
+                <GateCard />
+                <GateCard />
+                <GateCard />
             </Styled.GatesContainer>
         </Styled.Wrapper>
     )
