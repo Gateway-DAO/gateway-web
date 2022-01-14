@@ -9,11 +9,13 @@ import { Redirect } from "react-router-dom";
 import useFileUpload from '../../../api/database/useFileUpload'
 import normalizeUrl from 'normalize-url'
 import Loader from '../../Loader'
+import { ytVideoID } from '../../../utils/functions'
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name)
     const [backgroundFile, setBackgroundFile] = useState(props.backgroundURL)
-    const [youtubeURL, setyoutubeURL] = useState(props.youtubeURL || "")
+    const [youtubeURL, setYoutubeURL] = useState(props.youtubeURL || "")
+    const [validYoutubeURL, setValidYoutubeURL] = useState(true)
     const [logoFile, setLogoFile] = useState(props.logoURL)
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress)
     const [description, setDescription] = useState(props.description)
@@ -41,13 +43,10 @@ const EditCardModal = (props) => {
                 backgroundFile
             )
 
-            console.log(logoURL)
-            console.log(backgroundURL)
-
             const newInfo = {
                 name,
                 ...(backgroundFile ? { backgroundURL } : {}),
-                ...(youtubeURL ? { youtubeURL: normalizeUrl(youtubeURL, { defaultProtocol: "https:" }) } : {}),
+                ...((youtubeURL && validYoutubeURL) ? { youtubeURL: normalizeUrl(youtubeURL, { defaultProtocol: "https:" }) } : {}),
                 ...(logoFile ? { logoURL } : {}),
                 tokenAddress,
                 description,
@@ -76,8 +75,6 @@ const EditCardModal = (props) => {
         }
         setUpdateLoading(false)
     }
-
-    if (error) { return <Redirect to="/404" /> }
 
     const toggleCheckbox = (e) => {
         const value = e.target.value
@@ -128,6 +125,17 @@ const EditCardModal = (props) => {
         setWhitelistedAddresses(newList)
     }
 
+    const ytVideoValidator = e => {
+        const url = e.target.value
+        const id = ytVideoID(url)
+
+        setYoutubeURL(url)
+
+        setValidYoutubeURL(!!id.length)
+    }
+
+    if (error) { return <Redirect to="/404" /> }
+
     return ( 
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
@@ -152,13 +160,14 @@ const EditCardModal = (props) => {
                         Youtube URL
                     </FormStyled.Label>
                     <FormStyled.Input
-                        onChange={(e) => setyoutubeURL(e.target.value)}
+                        onChange={ytVideoValidator}
                         type="text"
                         id="backgroundURL"
                         name="youtubeURL"
                         placeholder="Your Youtube Video URL"
                         value={youtubeURL}
                     />
+                    {!validYoutubeURL && <FormStyled.SubText>Invalid YouTube Video URL</FormStyled.SubText>}
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>

@@ -232,6 +232,7 @@ type Gate
     categories: String!
     admins: [ID]!
     keys: Int!
+    nftURL: AWSURL
     tasks: [Task] @connection(keyName: "taskByGateID", fields: ["id"])
     # prerequisites: Prerequisites
 }

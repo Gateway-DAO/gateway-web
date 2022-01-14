@@ -228,3 +228,15 @@ export const GridBox = styled.div`
     grid-row-gap: 30px;
     margin: 15px 0;
 `
+
+export const SubText = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+
+    color: rgba(229, 229, 229, 0.6);
+`

@@ -30,6 +30,7 @@ import BountyCard from '../../../BountyCard'
 // column second import
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
 import { shortenAddress } from '../../../../utils/web3'
+import { ytVideoID } from '../../../../utils/functions'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
@@ -59,10 +60,7 @@ const Profile = (props) => {
     const [showMVModal, setShowMVModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
 
-    let youtubeID = null
-    if (props.youtubeURL) {
-        youtubeID = props.youtubeURL.split('v=')[1].substring(0, 11)
-    }
+    let youtubeID = ytVideoID(props.youtubeURL) || ""
 
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
     const toggleBountyInfoModal = (idx) =>
