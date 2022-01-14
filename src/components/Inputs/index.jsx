@@ -2,6 +2,17 @@ import { useState } from 'react'
 import * as Styled from './style'
 import CheckboxComponent from './Checkbox'
 
+//Chian Logo 
+import avalanche from '../../assets/avalanche-avax-logo.png'
+import binance from '../../assets/binance-coin-bnb-logo.png'
+import btc from '../../assets/BTC_Logo.png'
+import ethereum from '../../assets/Ethereum-icon-purple.png'
+import near from '../../assets/near-protocol-near-logo.png'
+import polygon from '../../assets/polygon-matic-logo.png'
+import solana from '../../assets/solana-sol-logo.png'
+import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
+
+
 export const SingleLineInputs = (props) => {
     return (
         <Styled.Wrapper>
@@ -48,8 +59,12 @@ export const SelectInput = (props) => {
             <Styled.Title>Chain</Styled.Title>
             <Styled.Select>
                 <Styled.Option value="">Please choose an option</Styled.Option>
-                {options.map((option) => (
-                    <Styled.Option value={option}>{option.name}</Styled.Option>
+                {options.map((option) => (         
+                    <Styled.Option value={option}>
+                        {option.name}
+                    </Styled.Option>  
+                    
+                    
                 ))}
             </Styled.Select>
         </Styled.Wrapper>

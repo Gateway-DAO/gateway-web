@@ -14,6 +14,7 @@ import AddKeySuccess from '../pages/AddNewKey/AddKeySuccess'
 import AddNewKey from '../pages/AddNewKey'
 import DAOsGate from './DAOsGate'
 import GateSuccessPage from './GateSuccessPage'
+import AddManualTask from './AddNewKey/AddManualTask'
 const DAO = React.lazy(() => import('./DAO'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
@@ -54,6 +55,9 @@ const App = (props) => {
                     </Route>
                     <Route path="/dao/daoname/newkey/token">
                         <AddHoldToken />
+                    </Route>
+                    <Route path="/dao/forefront/newkey/manual">
+                        <AddManualTask />
                     </Route>
                     <Route path="/dao/daoname/newkey/success">
                         <AddKeySuccess />

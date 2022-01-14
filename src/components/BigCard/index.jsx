@@ -274,12 +274,12 @@ const NewCard = (props) => {
                 return <Feed {...props} />
             case 'members':
                 return <Members daoName={props.name} />
-            /*
+            
             case 'gates':
                 return <Gates />
             case 'Plugins':
                 return <Plugins />
-            */
+            
             default:
                 return <Profile {...props} />
         }
@@ -371,14 +371,14 @@ const NewCard = (props) => {
                         >
                             Discussion
                         </Styled.SelectedTab>
-                        {/*
+                        
                         <Styled.SelectedTab
                             showActive={activeTab === 'gates'}
                             onClick={() => setActiveTab('gates')}
                         >
                             Gates
                         </Styled.SelectedTab>
-                        */}
+                       
                         <Styled.SelectedTab
                             showActive={activeTab === 'members'}
                             onClick={() => setActiveTab('members')}

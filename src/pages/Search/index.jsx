@@ -24,6 +24,7 @@ const Search = (props) => {
     // const { searchDAO, data, loading, error } = useLazySearchDAO()
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
+            console.log(searchData)
             history.push(`/search/${e.target.value}`)
             setToggle(false)
         }
@@ -101,7 +102,7 @@ const Search = (props) => {
                             onClick={() => setToggle(true)}
                         />
                         <Styled.WrappedFiSearch />
-                        {toggle && hits.length !== 0 && (
+                        {hits.length !== 0 && (
                             <Styled.SearchSuggestionBox>
                                 {hits
                                     .filter((item, idx) => idx < 5)
