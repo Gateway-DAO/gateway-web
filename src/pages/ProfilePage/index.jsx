@@ -95,8 +95,11 @@ const ProfilePage = () => {
                             pfpURL={userInfo.pfp}
                         />
                     </Styled.LeftSidebar>
+
                     <Styled.UserInfo>
                         {React.createElement(BioBox, { ...userInfo })}
+
+                        {/*
                         <Styled.FeedContainer>
                             <Styled.ProfileDiv>
                                 <Styled.SelectedTab
@@ -114,7 +117,9 @@ const ProfilePage = () => {
                             </Styled.ProfileDiv>
                             {loggedIn && (authUser.id === userInfo.id) && <Tab />}
                         </Styled.FeedContainer>
+                        */}
                     </Styled.UserInfo>
+
                     {/*
                 <Styled.RightSidebar>
                     <BadgeBox />

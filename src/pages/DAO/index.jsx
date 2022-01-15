@@ -164,7 +164,7 @@ const DAO = (props) => {
     }
 
     return (
-        <Styled.Container isLoaded={loaded}>
+        <Styled.Container>
             <Header search={{ visible: true }} />
             <Styled.SearchTermContainer>
                 <Styled.BackButtonContainer>
