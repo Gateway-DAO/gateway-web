@@ -26,6 +26,7 @@ const AddCommunity = React.lazy(() => import('./AddCommunity'))
 const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
 const KeyQuiz = React.lazy(() => import('./Quiz'))
 const AddGateForm = React.lazy(()=>import('./AddGateForm'))
+
 const App = (props) => {
     return (
         <Router>

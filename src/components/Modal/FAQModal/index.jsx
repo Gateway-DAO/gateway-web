@@ -15,7 +15,7 @@ const FAQModal = props => {
         await updateDAO({ variables: {
             input: {
                 id: props.id,
-                FAQ
+                faq: FAQ
             }
         } })
 
