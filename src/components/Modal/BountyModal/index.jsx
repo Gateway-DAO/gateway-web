@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import RichEditor from '../../RichTextEditor'
 import { useCreateBounty } from '../../../api/database/useCreateBounty'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import normalizeUrl from 'normalize-url'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -81,7 +81,7 @@ const BountyModal = (props) => {
     }
 
     if (error) {
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     return (

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 // Web3
 import { CONNECTORS } from '../utils/web3'
@@ -43,7 +43,7 @@ export const UserProvider = ({ children }) => {
     } = useUpdateUser()
 
     const web3 = useWeb3React()
-    const history = useHistory()
+    //const navigate = useNavigate();
 
     const activateWeb3 = async () => {
         try {

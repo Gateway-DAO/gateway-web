@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import * as Styled from './style'
 
@@ -10,7 +10,7 @@ import React from 'react'
 const BigSearch = (props) => {
     const [showTyping, setShowTyping] = useState(true)
     const [searchValue, setSearchValue] = useState('')
-    const history = useHistory()
+    const navigate = useNavigate();
     // const [placeholder, setPlaceholder] = useState("Search for ");
     const onBlurHandler = () => {
         if (searchValue.length === 0) {
@@ -20,18 +20,18 @@ const BigSearch = (props) => {
     const handleInput = async (e) => {
         if (e.key === 'Enter') {
             if (searchValue.length === 0) {
-                history.push(`search/all`)
+                navigate(`search/all`)
             } else {
-                history.push(`search/${e.target.value}`)
+                navigate(`search/${e.target.value}`)
             }
         }
     }
 
     const showClickResult = async (e) => {
         if (searchValue.length === 0) {
-            history.push(`search/all`)
+            navigate(`search/all`)
         } else {
-            history.push(`search/${searchValue}`)
+            navigate(`search/${searchValue}`)
         }
     }
 
