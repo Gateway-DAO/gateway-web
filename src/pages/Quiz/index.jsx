@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import * as Styled from './style'

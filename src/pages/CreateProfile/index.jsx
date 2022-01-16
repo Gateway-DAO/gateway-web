@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router'
+import { Navigate, useNavigate } from 'react-router-dom'
 import normalizeUrl from 'normalize-url'
 
 // Styling
@@ -10,6 +10,7 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 // Components
 import Header from '../../components/Header'
 import Loader from '../../components/Loader'
+import { ImageUpload } from '../../components/Form'
 
 // AWS
 import Amplify from 'aws-amplify'
@@ -18,10 +19,10 @@ import awsconfig from '../../aws-exports'
 // Hooks
 import { useSearchDAO } from '../../api/database/useSearchDAO'
 import { useListDAOs } from '../../api/database/useGetDAO'
-import { useFileUpload } from '../../api/database/useFileUpload'
+import { useFileUpload } from '../../api/useFileUpload'
+import { useGetFile } from '../../api/useGetFile'
 import { useRef } from 'react'
 import { useAuth } from '../../contexts/UserContext'
-import { ImageUpload } from '../../components/Form'
 
 Amplify.configure(awsconfig)
 
@@ -67,6 +68,7 @@ const CreateProfile = () => {
 
     // Upload file hook
     const { uploadFile, imgLoading } = useFileUpload()
+    const { getFile, imgLoading: getImgLoading } = useGetFile()
 
     // Handlers
     const changeSocial = (idx, e) => {
@@ -106,12 +108,12 @@ const CreateProfile = () => {
         e.preventDefault()
         setUpdateLoading(true)
         try {
-            const pfpURL = await uploadPfp()
+            const pfpURL = picture ? await uploadPfp() : await getFile('logo.png')
             await updateUserInfo({
                 name,
                 username: username.toLowerCase(),
                 bio,
-                socials: socials.map(social => {
+                socials: socials.filter(social => social.url !== "").map(social => {
                     return {
                         url: normalizeUrl(social.url, { defaultProtocol: "https:" }),
                         network: social.network
@@ -212,6 +214,7 @@ const CreateProfile = () => {
                             value={bio}
                             placeholder="Tell about yourself"
                             required
+                            name="bio"
                         ></FormStyled.Textarea>
                     </FormStyled.Fieldset>
 

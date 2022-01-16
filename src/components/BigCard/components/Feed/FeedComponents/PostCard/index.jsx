@@ -171,7 +171,7 @@ const PostCard = (props) => {
                                     {user.name}
                                 </Styled.PostByName>
                                 <Styled.PostByUsername>
-                                    <Styled.UserLink>@{user.username}</Styled.UserLink>
+                                    <Styled.UserLink to={`/profile/${user.username}`}>@{user.username}</Styled.UserLink>
                                 </Styled.PostByUsername>
                             </Styled.PostByInfo>
                         </Styled.ProfileBioContainer>

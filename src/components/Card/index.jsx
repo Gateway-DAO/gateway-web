@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import parser from 'html-react-parser'
 
 import * as Styled from './style'

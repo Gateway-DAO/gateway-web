@@ -16,10 +16,9 @@ import { ImageUpload } from '../../components/Form'
 
 // Hooks
 import { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router'
 import { useAuth } from '../../contexts/UserContext'
 import { useCreateDAOWithChannels } from '../../api/database/useCreateDAO'
-import useFileUpload from '../../api/database/useFileUpload'
+import useFileUpload from '../../api/useFileUpload'
 
 // Utils
 import space from '../../utils/canvas'

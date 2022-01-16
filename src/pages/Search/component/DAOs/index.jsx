@@ -9,7 +9,7 @@ import { Navigate } from 'react-router-dom'
 // Hooks
 import { useSearchDAO } from '../../../../api/database/useSearchDAO'
 import { useListDAOs } from '../../../../api/database/useGetDAO'
-import { useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 const DAOTab = () => {

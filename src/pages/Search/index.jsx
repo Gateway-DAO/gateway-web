@@ -1,7 +1,7 @@
 import * as Styled from './style'
 
 // Hooks
-import { useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useLazySearchDAO } from '../../api/database/useSearchDAO'
 

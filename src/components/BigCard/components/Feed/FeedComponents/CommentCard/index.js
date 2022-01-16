@@ -17,7 +17,7 @@ const CommentCard = (props) => {
             <div>
                 <Styled.PostHeaderInfo>
                     <Styled.ProfileBioContainer>
-                        <Styled.PostImageContainer src={user.pfp} />
+                        <Styled.PostImageContainer src={user?.pfp} />
                         <Styled.PostByInfo>
                             {' '}
                             Commented by

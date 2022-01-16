@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Home from './Home'
 import FallbackPage from './FallbackPage'
@@ -26,9 +26,10 @@ const AddCommunity = React.lazy(() => import('./AddCommunity'))
 const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
 const KeyQuiz = React.lazy(() => import('./Quiz'))
 const AddGateForm = React.lazy(() => import('./AddGateForm'))
+
 const App = (props) => {
     return (
-        <BrowserRouter>
+        <Router>
             <React.Suspense fallback={<FallbackPage />}>
                 <Routes>
                     <Route exact path="/" element={<Home />} />
@@ -83,7 +84,7 @@ const App = (props) => {
                     <Route path="*" element={<Page404 />} />
                 </Routes>
             </React.Suspense>
-        </BrowserRouter>
+        </Router>
     )
 }
 

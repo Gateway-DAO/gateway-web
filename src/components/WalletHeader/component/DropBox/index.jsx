@@ -1,5 +1,5 @@
 import * as Styled from './style'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../../contexts/UserContext'
 import { useClickAway } from 'react-use'
 import { useRef } from 'react'

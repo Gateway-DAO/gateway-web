@@ -51,11 +51,9 @@ const Categories = (props) => {
         // alert(`Category: ${DUMMY_CATEGORIES[activeCategory]}\nDAOLoading: ${DAOLoading}\nsearchLoading: ${searchLoading}\nDAOData: ${!!DAOData}\nsearchData: ${!!searchData}`)
 
         if (activeCategory === 0) {
-            console.log(!DAOLoading && DAOData)
             setTotalCards(!DAOLoading ? DAOData.listDAOs.items.length : 0)
             setCards(!DAOLoading ? DAOData.listDAOs.items : [])
         } else {
-            console.log(!searchLoading && searchData)
             setTotalCards(!searchLoading ? searchData.searchDAOs.total : 0)
             setCards(!searchLoading ? searchData.searchDAOs.items : [])
         }

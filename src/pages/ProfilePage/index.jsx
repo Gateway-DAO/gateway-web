@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
-import { useParams, useNavigate, Navigate } from 'react-router'
+import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/UserContext'
 import AddExperience from './components/AddExperience'
 
@@ -100,8 +100,11 @@ const ProfilePage = () => {
                             pfpURL={userInfo.pfp}
                         />
                     </Styled.LeftSidebar>
+
                     <Styled.UserInfo>
                         {React.createElement(BioBox, { ...userInfo })}
+
+                        {/*
                         <Styled.FeedContainer>
                             <Styled.ProfileDiv>
                                 <Styled.SelectedTab
@@ -119,7 +122,9 @@ const ProfilePage = () => {
                             </Styled.ProfileDiv>
                             {loggedIn && authUser.id === userInfo.id && <Tab />}
                         </Styled.FeedContainer>
+                        */}
                     </Styled.UserInfo>
+
                     {/*
                 <Styled.RightSidebar>
                     <BadgeBox />

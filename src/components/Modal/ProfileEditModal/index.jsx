@@ -11,7 +11,7 @@ import Loader from '../../Loader'
 // Hooks
 import { useAuth } from '../../../contexts/UserContext'
 import { useEffect, useState } from 'react'
-import { useFileUpload } from '../../../api/database/useFileUpload'
+import { useFileUpload } from '../../../api/useFileUpload'
 import useSearchDAO from '../../../api/database/useSearchDAO'
 import { ImageUpload } from '../../Form'
 

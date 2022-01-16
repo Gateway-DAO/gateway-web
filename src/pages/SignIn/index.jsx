@@ -6,7 +6,7 @@ import * as Styled from './style'
 import Header from '../../components/Header'
 
 import { useAuth } from '../../contexts/UserContext'
-import { Navigate } from 'react-router'
+import { Navigate } from 'react-router-dom'
 import Wallet from '../../components/WalletHeader'
 
 const SignIn = () => {
