@@ -8,6 +8,13 @@ const FilledInput = `
     border-radius: 5px;
 `
 
+const InvalidInput = `
+    border: 1px solid #FF003D;
+    background: rgba(255, 0, 61, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+`
+
 export const Fieldset = styled.fieldset`
     width: 100%;
     display: flex;
@@ -100,6 +107,7 @@ export const Input = styled.input`
     outline: none;
 
     ${(props) => (!!props.value ? FilledInput : '')}
+    ${(props) => (props.valid === false ? InvalidInput : '')}
 `
 const SearchInput = styled.input`
 border: 1px solid rgba(255, 255, 255, 0.2);
@@ -247,6 +255,15 @@ export const GridBox = styled.div`
     grid-column-gap: 10px;
     grid-row-gap: 30px;
     margin: 15px 0;
+`
+
+export const Text = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    color: #E5E5E5;
 `
 
 export const SubText = styled.p`

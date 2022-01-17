@@ -28,7 +28,7 @@ const RAW_USER = {
 const ProfilePage = () => {
     const { searchTerm } = useParams()
     const history = useHistory()
-    const { userInfo: authUser = { username: "" }, loggedIn, loading } = useAuth()
+    const { userInfo: authUser = { username: "" }, loading, walletConnected } = useAuth()
     const [userInfo, setUserInfo] = useState(RAW_USER)
 
     const {
@@ -51,9 +51,9 @@ const ProfilePage = () => {
                 history.push('/404')
             }
         } else {
-            if (loggedIn && !loading) {
+            if (walletConnected && !loading) {
                 setUserInfo(authUser)
-            } else if (!loggedIn && !loading) {
+            } else if (!walletConnected && !loading) {
                 history.push('/sign-in')
             }
         }
@@ -78,8 +78,8 @@ const ProfilePage = () => {
         return <Redirect to="/404" />
     }
 
-    return !searchTerm && authUser && !authUser.init ? (
-        <Redirect to="/create-profile" />
+    return (!searchTerm && !walletConnected) ? (
+        <Redirect to="/sign-in" />
     ) : (
         <Styled.Container>
             <Header style={{ alignSelf: 'flex-start' }} />

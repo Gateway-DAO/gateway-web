@@ -28,7 +28,7 @@ import { FormStyled } from '../../../../components/Form'
 import EditIcon from '../../../../theme/icons/Edit'
 
 const BioBox = (props) => {
-    const { loggedIn, userInfo } = useAuth()
+    const { walletConnected, userInfo } = useAuth()
     const [showEditModal, setShowEditModal] = useState(false)
 
     const toggleEditModal = () => setShowEditModal(!showEditModal)
@@ -93,9 +93,6 @@ const BioBox = (props) => {
             <ProfileEditModal
                 show={showEditModal}
                 toggle={toggleEditModal}
-                name={props.name}
-                bio={props.bio}
-                socials={props.socials}
                 membership={props.daos.map((dao) => {
                     return {
                         name: dao.name,
@@ -103,7 +100,7 @@ const BioBox = (props) => {
                         logoURL: dao.logoURL,
                     }
                 })}
-                pfpURL={props.pfpURL}
+                {...props}
             />
         </>
     )
@@ -117,7 +114,7 @@ const BioBox = (props) => {
                         <Styled.Name>{props.name}</Styled.Name>
                         <Styled.Username>@{props.username}</Styled.Username>
                     </Styled.NameBox>
-                    {loggedIn && props.id === userInfo.id && (
+                    {walletConnected && props.id === userInfo.id && (
                         <EditIcon onClick={toggleEditModal} />
                     )}
                 </Styled.NameContainer>

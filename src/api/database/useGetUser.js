@@ -4,7 +4,7 @@ import {
     getUser,
     getUserByAddress,
     getUserByUsername,
-    listUsers as LIST_USERS
+    listUsers as LIST_USERS,
 } from '../../graphql/queries'
 
 export const useGetUser = (id) => {
@@ -44,11 +44,11 @@ export const useGetUserByAddress = (wallet) => {
     )
 }
 
-export const useGetUserByUsername = (dao) => {
+export const useGetUserByUsername = (username) => {
     const { loading, called, refetch, data, error } = useQuery(
         gql(getUserByUsername),
         {
-            variables: { dao },
+            variables: { username },
         }
     )
 
@@ -60,13 +60,32 @@ export const useGetUserByUsername = (dao) => {
             refetch,
             error,
         }),
-        [called, getUserByUsername, loading, refetch, dao]
+        [called, getUserByUsername, loading, refetch, username]
+    )
+}
+
+export const useLazyGetUserByUsername = () => {
+    const [getUser, { loading, called, refetch, data, error }] = useLazyQuery(
+        gql(getUserByUsername)
+    )
+
+    return useMemo(
+        () => ({
+            getUser,
+            data,
+            loading: loading || (!called && loading === false),
+            called,
+            refetch,
+            error,
+        }),
+        [called, getUser, getUserByUsername, loading, refetch]
     )
 }
 
 export const useListUsers = (config = {}) => {
     const { loading, called, refetch, data, error } = useQuery(
-        gql(LIST_USERS), config
+        gql(LIST_USERS),
+        config
     )
 
     return useMemo(
