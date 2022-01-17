@@ -1,11 +1,11 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as Styled from './style'
 
 const SearchSuggestions = (props)=>{
-    const history = useHistory();
+    const navigate = useNavigate();
     const search = (e)=>{
-        history.push(`/dao/${props.hits.dao}`)
+        navigate(`/dao/${props.hits.dao}`)
     }
     return(
         <Styled.SearchSuggestionItem onClick={search}>

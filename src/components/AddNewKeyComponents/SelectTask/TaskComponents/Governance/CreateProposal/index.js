@@ -1,10 +1,10 @@
 import { SingleLineInputs, SubmitButton } from '../../../../../Inputs'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as Styled from './style'
 const CreateProposal = (props) => {
-    const history = useHistory()
+    const navigate = useNavigate();
     const SubmitHandler = () => {
-        history.push('/')
+        navigate('/')
     }
     return (
         <Styled.Wrapper>

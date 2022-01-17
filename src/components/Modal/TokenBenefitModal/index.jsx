@@ -5,7 +5,7 @@ import { FormStyled } from '../../Form'
 import { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
 import { useCreateTokenBenefit } from '../../../api/database/useCreateTokenBenefit'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 const TokenBenefitModal = (props) => {
@@ -37,7 +37,7 @@ const TokenBenefitModal = (props) => {
     }
 
     if (error) {
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     return (

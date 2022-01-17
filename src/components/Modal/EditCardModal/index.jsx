@@ -5,7 +5,7 @@ import { FormStyled, ImageUpload } from '../../Form'
 import { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useFileUpload from '../../../api/useFileUpload'
 import normalizeUrl from 'normalize-url'
 import Loader from '../../Loader'
@@ -134,7 +134,7 @@ const EditCardModal = (props) => {
         setValidYoutubeURL(!!id.length)
     }
 
-    if (error) { return <Redirect to="/404" /> }
+    if (error) { return <Navigate to="/404" /> }
 
     return ( 
         <Modal show={props.show} toggle={props.toggle}>
