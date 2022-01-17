@@ -16,11 +16,13 @@ import useSearchDAO from '../../../api/database/useSearchDAO'
 import { ImageUpload } from '../../Form'
 
 const ProfileEditModal = (props) => {
-    const [name, setName] = useState(props.name || "")
-    const [bio, setBio] = useState(props.bio || "")
-    const [socials, setSocials] = useState(props.socials || [{network: "any-0", url: ""}])
+    const [name, setName] = useState(props.name || '')
+    const [bio, setBio] = useState(props.bio || '')
+    const [socials, setSocials] = useState(
+        props.socials || [{ network: 'any-0', url: '' }]
+    )
     const [membership, setMembership] = useState(props.membership || [])
-    const [pfp, setPfp] = useState()
+    const [pfp, setPfp] = useState(props.pfpURL || '')
     const [updateLoading, setUpdateLoading] = useState(false)
 
     const [searchTerm, setSearchTerm] = useState('')
@@ -59,14 +61,14 @@ const ProfileEditModal = (props) => {
     const onSave = async () => {
         try {
             setUpdateLoading(true)
-            const pfpURL = pfp && await uploadPfp()
+            const pfpURL = pfp && (await uploadPfp())
             await updateUserInfo({
                 name,
                 bio,
-                socials: socials.map(social => {
-                    return {network: social.network, url: social.url}
+                socials: socials.map((social) => {
+                    return { network: social.network, url: social.url }
                 }),
-                daos_ids: membership.map(dao => dao.dao),
+                daos_ids: membership.map((dao) => dao.dao),
                 pfp: pfpURL,
             })
         } catch (err) {
@@ -86,19 +88,21 @@ const ProfileEditModal = (props) => {
 
             if (!!searchData && !searchLoading) {
                 const query = searchData.searchDAOs.items
-                const results = query.map((dao) => {
-                    const obj = {
-                        name: dao.name,
-                        dao: dao.dao,
-                        logoURL: dao.logoURL,
-                    }
+                const results = query
+                    .map((dao) => {
+                        const obj = {
+                            name: dao.name,
+                            dao: dao.dao,
+                            logoURL: dao.logoURL,
+                        }
 
-                    if (!membership.includes(obj)) {
-                        return obj
-                    }
+                        if (!membership.includes(obj)) {
+                            return obj
+                        }
 
-                    return null
-                }).slice(0, 5)
+                        return null
+                    })
+                    .slice(0, 5)
                 setSearchRes(results)
             }
         }, 1000)
@@ -114,14 +118,15 @@ const ProfileEditModal = (props) => {
         setSocials(copy)
     }
 
-    const deleteSocial = (idx) => setSocials(socials.filter((social, i) => i !== idx))
+    const deleteSocial = (idx) =>
+        setSocials(socials.filter((social, i) => i !== idx))
 
     const changeSocialName = (idx, newName) => {
         let copy = socials.map((social, i) => {
             if (i === idx) {
                 return {
                     ...social,
-                    network: newName
+                    network: newName,
                 }
             }
 
@@ -164,7 +169,12 @@ const ProfileEditModal = (props) => {
                     />
                 </FormStyled.Fieldset>
 
-                <ImageUpload htmlFor="pfp" label="Profile Picture" defaultImageURL={props.pfp} setImage={setPfp} />
+                <ImageUpload
+                    htmlFor="pfp"
+                    label="Profile Picture"
+                    defaultImageURL={props.pfp}
+                    setImage={setPfp}
+                />
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="bio">Bio</FormStyled.Label>
@@ -176,7 +186,9 @@ const ProfileEditModal = (props) => {
                     ></FormStyled.Textarea>
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="socials">Socials</FormStyled.Label>
+                    <FormStyled.Label htmlFor="socials">
+                        Socials
+                    </FormStyled.Label>
                     {socials.map((social, idx) => {
                         return (
                             <FormStyled.InputWrapper>
@@ -251,7 +263,9 @@ const ProfileEditModal = (props) => {
                                     </option>
                                     <option
                                         value="other"
-                                        selected={social.network.startsWith("any")}
+                                        selected={social.network.startsWith(
+                                            'any'
+                                        )}
                                     >
                                         Other
                                     </option>
@@ -277,7 +291,7 @@ const ProfileEditModal = (props) => {
                                 ...socials,
                                 {
                                     network: `any-${socials.length}`,
-                                    url: ""
+                                    url: '',
                                 },
                             ])
                         }
@@ -291,9 +305,12 @@ const ProfileEditModal = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="membership">Membership</FormStyled.Label>
-                        <Styled.MembershipBox>
-                            {!!membership.length && membership.map((dao) => {
+                    <FormStyled.Label htmlFor="membership">
+                        Membership
+                    </FormStyled.Label>
+                    <Styled.MembershipBox>
+                        {!!membership.length &&
+                            membership.map((dao) => {
                                 return (
                                     <Styled.MembershipIcon>
                                         <Styled.MembershipImg
@@ -307,30 +324,30 @@ const ProfileEditModal = (props) => {
                                     </Styled.MembershipIcon>
                                 )
                             })}
-                        </Styled.MembershipBox>
-                    </FormStyled.Fieldset>
+                    </Styled.MembershipBox>
+                </FormStyled.Fieldset>
 
-                    <FormStyled.Fieldset>
-                        <FormStyled.Input
-                            id="dao-search"
-                            name="dao-search"
-                            type="text"
-                            placeholder="Search by DAO name"
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                        {!!searchRes.length && (
-                            <Styled.SearchBox>
-                                {searchRes.map((res, idx) => (
-                                    <Styled.SearchItem
-                                        onClick={() => addDAO(res)}
-                                        divider={idx !== 0}
-                                    >
-                                        {res.name}
-                                    </Styled.SearchItem>
-                                ))}
-                            </Styled.SearchBox>
-                        )}
-                    </FormStyled.Fieldset>
+                <FormStyled.Fieldset>
+                    <FormStyled.Input
+                        id="dao-search"
+                        name="dao-search"
+                        type="text"
+                        placeholder="Search by DAO name"
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {!!searchRes.length && (
+                        <Styled.SearchBox>
+                            {searchRes.map((res, idx) => (
+                                <Styled.SearchItem
+                                    onClick={() => addDAO(res)}
+                                    divider={idx !== 0}
+                                >
+                                    {res.name}
+                                </Styled.SearchItem>
+                            ))}
+                        </Styled.SearchBox>
+                    )}
+                </FormStyled.Fieldset>
 
                 <FormStyled.Button
                     id="submit_msg"
