@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
+import { useNavigate } from 'react-router-dom'
 
 // Web3
 import { CONNECTORS, shortenAddress } from '../utils/web3'

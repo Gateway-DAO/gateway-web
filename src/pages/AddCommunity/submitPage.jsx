@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import Header from '../../components/Header'
 import space from '../../utils/canvas'
 import * as Styled from './style'
 import { FormStyled } from '../../components/Form'
 
 const SubmitPage = ({ name }) => {
-    const history = useHistory()
+    const navigate = useNavigate()
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
@@ -14,7 +14,7 @@ const SubmitPage = ({ name }) => {
     )
 
     const backToHome = () => {
-        history.push('/')
+        navigate('/')
     }
 
     return (

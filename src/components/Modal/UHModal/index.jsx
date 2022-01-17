@@ -5,7 +5,7 @@ import { FormStyled } from "../../Form"
 import { useState } from "react";
 import RichEditor from "../../RichTextEditor";
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const UHModal = props => {
     const [UH, setUH] = useState(props.data);
@@ -23,7 +23,7 @@ const UHModal = props => {
         props.toggle()
     }
 
-    if (error) { return <Redirect to="/404" /> }
+    if (error) { return <Navigate to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>

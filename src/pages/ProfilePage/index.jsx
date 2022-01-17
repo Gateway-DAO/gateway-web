@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import * as Styled from './style'
-import { useParams, useHistory, Redirect } from 'react-router'
+import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/UserContext'
 import AddExperience from './components/AddExperience'
 
@@ -27,8 +27,13 @@ const RAW_USER = {
 
 const ProfilePage = () => {
     const { searchTerm } = useParams()
-    const history = useHistory()
-    const { userInfo: authUser = { username: "" }, loading, walletConnected } = useAuth()
+    const navigate = useNavigate()
+    const {
+        userInfo: authUser = { username: '' },
+        loggedIn,
+        loading,
+        walletConnected
+    } = useAuth()
     const [userInfo, setUserInfo] = useState(RAW_USER)
 
     const {
@@ -46,27 +51,28 @@ const ProfilePage = () => {
     useEffect(() => {
         if (searchTerm) {
             try {
-                setUserInfo(!userLoading ? data.getUserByUsername.items[0] : RAW_USER)
+                setUserInfo(
+                    !userLoading ? data.getUserByUsername.items[0] : RAW_USER
+                )
             } catch (err) {
-                history.push('/404')
+                navigate('/404')
             }
         } else {
             if (walletConnected && !loading) {
                 setUserInfo(authUser)
             } else if (!walletConnected && !loading) {
-                history.push('/sign-in')
+                navigate('/sign-in')
             }
         }
-
     }, [searchTerm, authUser, userLoading, loading])
 
     const Tab = () => {
-        let component;
+        let component
 
         switch (activeTab) {
-            case "experience":
+            case 'experience':
                 component = <AddExperience />
-                break;
+                break
             default:
                 component = null
         }
@@ -75,11 +81,11 @@ const ProfilePage = () => {
     }
 
     if (error) {
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     return (!searchTerm && !walletConnected) ? (
-        <Redirect to="/sign-in" />
+        <Navigate to="/create-profile" />
     ) : (
         <Styled.Container>
             <Header style={{ alignSelf: 'flex-start' }} />
@@ -115,7 +121,7 @@ const ProfilePage = () => {
                                     Activity
                                 </Styled.SelectedTab>
                             </Styled.ProfileDiv>
-                            {loggedIn && (authUser.id === userInfo.id) && <Tab />}
+                            {loggedIn && authUser.id === userInfo.id && <Tab />}
                         </Styled.FeedContainer>
                         */}
                     </Styled.UserInfo>

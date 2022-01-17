@@ -1,7 +1,7 @@
 // Libraries/components
 import React from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 // Styling
 import * as Styled from './style'
@@ -16,7 +16,6 @@ import { ImageUpload } from '../../components/Form'
 
 // Hooks
 import { useState, useEffect, useRef } from 'react'
-import { useHistory } from 'react-router'
 import { useAuth } from '../../contexts/UserContext'
 import { useCreateDAOWithChannels } from '../../api/database/useCreateDAO'
 import useFileUpload from '../../api/useFileUpload'
@@ -159,7 +158,7 @@ const AddCommunity = () => {
 
     if (error) {
         console.log(error)
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     const changeWhitelistedAddress = (e, idx) => {
@@ -170,7 +169,7 @@ const AddCommunity = () => {
     }
 
     if (!loggedIn) {
-        return <Redirect to="/sign-in" />
+        return <Navigate to="/sign-in" />
     }
 
     return (data && called) ? (

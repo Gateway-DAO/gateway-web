@@ -5,7 +5,7 @@ import { FormStyled } from "../../Form";
 import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const FAQModal = props => {
     const [FAQ, setFAQ] = useState(props.data);
@@ -47,7 +47,7 @@ const FAQModal = props => {
         }))
     }
 
-    if (error) { return <Redirect to="/404" /> }
+    if (error) { return <Navigate to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>

@@ -1,7 +1,7 @@
 import * as Styled from './style'
 
 // Hooks
-import { useParams, useHistory } from 'react-router'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useLazySearchDAO } from '../../api/database/useSearchDAO'
 
@@ -11,13 +11,13 @@ import Footer from '../../components/Footer'
 import DAOTab from './component/DAOs'
 import UserTab from './component/Users'
 import SearchSuggestions from './component/SearchSuggestions'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 const Search = (props) => {
     const [selectionTab, setSelectionTab] = useState('DAOs')
     const { query } = useParams()
     const [inputVal, setInputVal] = useState(query || '')
-    const history = useHistory()
+    const navigate = useNavigate();
     const [hits, setHits] = useState([])
     const [toggle, setToggle] = useState(false)
 
@@ -25,15 +25,15 @@ const Search = (props) => {
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             console.log(searchData)
-            history.push(`/search/${e.target.value}`)
+            navigate(`/search/${e.target.value}`)
             setToggle(false)
         }
     }
     const handelSearchAll = () => {
         if (!inputVal) {
-            history.push(`/search/all`)
+            navigate(`/search/all`)
         } else {
-            history.push(`/search/${inputVal}`)
+            navigate(`/search/${inputVal}`)
         }
     }
 
@@ -61,7 +61,7 @@ const Search = (props) => {
     }, [searchData, searchLoading])
     
     if (searchError) {
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     return (

@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import parser from 'html-react-parser'
 
 import * as Styled from './style'
@@ -11,13 +11,13 @@ const CardInfo = (props) => (
 )
 
 const Card = (props) => {
-    const history = useHistory()
+    const navigate = useNavigate()
 
-    const navigate = (e) => {
+    const traverse = (e) => {
         // if(!props.isScrolling) {
-        //   history.push(`/dao/${props.id}`)
+        //   navigate(`/dao/${props.id}`)
         // }
-        history.push(`/dao/${props.id}`)
+        navigate(`/dao/${props.id}`)
     }
 
     let desc = parser(props.description)
@@ -27,10 +27,10 @@ const Card = (props) => {
     }
     return (
         <Styled.CardBox>
-            <Styled.CardBanner src={props.bannerURL} onClick={navigate}>
+            <Styled.CardBanner src={props.bannerURL} onClick={traverse}>
                 <Styled.CardLogo src={props.logoURL} />
             </Styled.CardBanner>
-            <Styled.CardBody onClick={navigate}>
+            <Styled.CardBody onClick={traverse}>
                 <Styled.CardTitle>{props.title}</Styled.CardTitle>
                 <Styled.CardDesc>{desc}</Styled.CardDesc>
             </Styled.CardBody>

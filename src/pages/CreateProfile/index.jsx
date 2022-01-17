@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Redirect, useHistory } from 'react-router'
+import { Navigate, useNavigate } from 'react-router-dom'
 import normalizeUrl from 'normalize-url'
 
 // Styling
@@ -28,7 +28,7 @@ Amplify.configure(awsconfig)
 
 const CreateProfile = () => {
     const { userInfo, updateUserInfo } = useAuth()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     // Form state
     const [name, setName] = useState(null)
@@ -171,7 +171,7 @@ const CreateProfile = () => {
     }, [searchTerm, searchLoading, searchData])
 
     return userInfo && userInfo.init ? (
-        <Redirect to="/profile" />
+        <Navigate to="/profile" />
     ) : (
         <Styled.Container>
             <Header />

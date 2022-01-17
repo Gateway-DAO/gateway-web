@@ -1,11 +1,11 @@
 import * as Styled from './style'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../../contexts/UserContext'
 import { useClickAway } from 'react-use'
 import { useRef } from 'react'
 
 const DropDown = ({ toggle }) => {
-    const history = useHistory()
+    const navigate = useNavigate();
     const { signIn, loggedIn } = useAuth()
     const ref = useRef(null)
     
@@ -14,7 +14,7 @@ const DropDown = ({ toggle }) => {
     return (
         <Styled.DropDownContainer ref={ref}>
             <Styled.ItemsContainer>
-                <Styled.ItemTextContainer onClick={() => history.push('/profile')}>
+                <Styled.ItemTextContainer onClick={() => navigate('/profile')}>
                     Profile
                 </Styled.ItemTextContainer>
                 {!loggedIn && (

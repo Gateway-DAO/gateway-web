@@ -1,5 +1,4 @@
-import { useParams, useHistory, Redirect } from 'react-router'
-import styled from 'styled-components'
+import { useParams, useNavigate, Navigate } from 'react-router-dom'
 
 import { useGetDAOByID } from '../../api/database/useGetDAO'
 
@@ -36,9 +35,9 @@ const DAO = (props) => {
     const { data: dbData, loading, error } = useGetDAOByID(id)
     const [loaded, setLoaded] = useState(false)
     const [inputVal, setInputVal] = useState('')
-    const history = useHistory()
-    const navigate = (e) => {
-        history.goBack()
+    const navigate = useNavigate()
+    const traverse = (e) => {
+        navigate(-1)
     }
 
     // Get CoinGecko data
@@ -154,13 +153,13 @@ const DAO = (props) => {
 
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            history.push(`/search/${e.target.value}`)
+            navigate(`/search/${e.target.value}`)
         }
     }
 
     if (error) {
         console.error(error)
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     return (
