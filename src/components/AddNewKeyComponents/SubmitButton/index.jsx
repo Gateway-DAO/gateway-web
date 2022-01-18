@@ -1,8 +1,13 @@
 import * as Styled from './style'
-const SubmitButton = (props)=>{
+import { useHistory } from 'react-router-dom';
+const SubmitButton = ({link})=>{
+    const history = useHistory();
+    const handelClick = ()=>{
+        history.push(link);
+    }
     return(
     <Styled.Wrapper>
-        <Styled.SubmitButton>
+        <Styled.SubmitButton onClick={handelClick}>
             SUBMIT
         </Styled.SubmitButton>
     </Styled.Wrapper>

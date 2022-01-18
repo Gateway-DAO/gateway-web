@@ -1,6 +1,8 @@
 import * as Styled from './style'
+import {useState} from "react"; 
 
-const SelectTask = (props) => {
+
+const SelectTask = ({setLink}) => {
     const tasks = [
         { task: 'CREATE A QUIZ', link: '' },
         { task: 'Hold a NFT', link: '' },
@@ -15,6 +17,11 @@ const SelectTask = (props) => {
         { task: 'SOURCECRED', link: '' },
         { task: 'COLONY', link: '' },
     ]
+    const [selected, setSelected] = useState("");
+    const selectTask = (task)=>{
+        setLink(task.link)
+        setSelected(task.task)
+    }
     return (
         <Styled.Wrapper>
             <Styled.Heading>Select A Task</Styled.Heading>
@@ -23,7 +30,7 @@ const SelectTask = (props) => {
             </Styled.SubHeading>
             <Styled.TasksBox>
                 {tasks.map((task) => (
-                    <Styled.TaskBox to={task.link} >
+                    <Styled.TaskBox onClick={()=>selectTask(task)} background={task.task==selected?"#220A38":""}> 
                         <Styled.TaskBoxText>{task.task}</Styled.TaskBoxText>
                     </Styled.TaskBox>
                 ))}

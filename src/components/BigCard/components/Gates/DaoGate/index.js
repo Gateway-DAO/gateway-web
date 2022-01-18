@@ -4,7 +4,12 @@ import BackButtonDiv from './BackButtonDiv'
 import NftBadge from './NftBadge'
 import SmallLogo from '../../../../../assets/yearnFinance.png'
 import * as Styled from './style'
+import { useHistory } from 'react-router-dom'
 const DaoGate = (props) => {
+    const history = useHistory();
+    const handleClick = ()=>{
+        history.push("/dao/daoname/newkey");
+    }
     return (
         <Styled.Wrapper>
             <Header />
@@ -48,7 +53,7 @@ const DaoGate = (props) => {
                             <Styled.BigText>
                                 Now let’s create the Keys of your Gate.
                             </Styled.BigText>
-                            <Styled.StartButton>
+                            <Styled.StartButton onClick={handleClick}>
                                 <Styled.ButtonText>Start Now</Styled.ButtonText>
                             </Styled.StartButton>
                         </Styled.Box>
