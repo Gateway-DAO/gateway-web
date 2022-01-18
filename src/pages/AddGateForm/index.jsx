@@ -36,12 +36,26 @@ const AddGateForm = (toggleForm) => {
             setUploadFile(null)
             return false
         }
-        if (!file.name.match(/\.(jpg|jpeg|png|gif)$/)) {
+        if (!file.name.match(/\.(jpg|jpeg|png|gif|svg|webm)$/)) {
             console.log('select valid image.')
+            console.log(file)
+            setUploadFile(null)
+            return false
+        }
+
+        if (file.size < 20000) {
+            console.log('please upload a file size more than 20kb.')
+            setUploadFile(null)
+            return false
+        }
+
+        if (file.size > 100000000) {
+            console.log('file size is too big. please upload less than 100mb.')
             setUploadFile(null)
             return false
         }
         setUploadFile(file)
+        console.log(file)
     }
 
     const removeUploadFile = () => {
@@ -211,10 +225,7 @@ const AddGateForm = (toggleForm) => {
                     )}
                     <Styled.AllowedFileType>
                         <p>Image, Video, Audio, or 3D Model</p>
-                        <p>
-                            File supported: JPG, PNG, GIF, SVG, MP4, WEBM, MP3,
-                            WAV, OGG.
-                        </p>
+                        <p>File supported: JPG, PNG, GIF, SVG, WEBM,</p>
                         <p>Max size: 100 MB</p>
                     </Styled.AllowedFileType>
                 </FormStyled.Fieldset>
