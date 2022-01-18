@@ -32,25 +32,25 @@ const AddGateForm = (toggleForm) => {
 
     const onUploadeFile = (file) => {
         if (!file) {
-            console.log('image is required')
+            alert('image is required')
             setUploadFile(null)
             return false
         }
         if (!file.name.match(/\.(jpg|jpeg|png|gif|svg|webm)$/)) {
-            console.log('select valid image.')
+            alert('select valid image.')
             console.log(file)
             setUploadFile(null)
             return false
         }
 
         if (file.size < 20000) {
-            console.log('please upload a file size more than 20kb.')
+            alert('please upload a file size more than 20kb.')
             setUploadFile(null)
             return false
         }
 
         if (file.size > 100000000) {
-            console.log('file size is too big. please upload less than 100mb.')
+            alert('file size is too big. please upload less than 100mb.')
             setUploadFile(null)
             return false
         }
@@ -93,6 +93,10 @@ const AddGateForm = (toggleForm) => {
         setretroactiveEarners(add)
     }
     const removeRetroactiveEarner = (idx) => {
+        if (retroactiveEarners.length == 1) {
+            alert('you have to put atleast one retroactive earner')
+            return false
+        }
         setretroactiveEarners(
             retroactiveEarners.filter((value, i) => i !== idx)
         )
