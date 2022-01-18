@@ -4,12 +4,12 @@ import * as SearchStyled from '../../style'
 // Components
 import Card from '../../../../components/Card'
 import Loader from '../../../../components/Loader'
-import { Redirect } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 // Hooks
 import { useSearchDAO } from '../../../../api/database/useSearchDAO'
 import { useListDAOs } from '../../../../api/database/useGetDAO'
-import { useParams, useHistory } from 'react-router'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 const DAOTab = () => {
@@ -52,7 +52,7 @@ const DAOTab = () => {
     }, [query, searchLoading, listLoading])
 
     if (searchError || listError) {
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     const searchOrListLoading = (query.toLowerCase() === 'all' ? listLoading : searchLoading)

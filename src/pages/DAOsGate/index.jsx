@@ -1,22 +1,24 @@
-import React from "react";
-import * as Styled from "./style";
-import Header from "../../components/Header"
-import { useHistory } from "react-router-dom";
+import React from 'react'
+import * as Styled from './style'
+import Header from '../../components/Header'
+import { useNavigate } from 'react-router-dom'
 
-
-const DAOsGate= ()=>{
-    const history = useHistory()
-    const addGate = ()=>{
-        history.push("/add-gate");
+const DAOsGate = () => {
+    const navigate = useNavigate()
+    const addGate = () => {
+        navigate('/add-gate')
     }
-    return(
+    return (
         <Styled.MainPage>
             <Header />
             <Styled.Wrapper>
                 <Styled.Top>
                     <Styled.LeftText>
                         <Styled.Heading>DAO Gates</Styled.Heading>
-                        <Styled.Para>Use DAO Gates to onboard new users and contributors for your community.</Styled.Para>
+                        <Styled.Para>
+                            Use DAO Gates to onboard new users and contributors
+                            for your community.
+                        </Styled.Para>
                     </Styled.LeftText>
                     <Styled.RightSearch>
                         <Styled.SearchBar></Styled.SearchBar>
@@ -34,4 +36,4 @@ const DAOsGate= ()=>{
     )
 }
 
-export default DAOsGate;
+export default DAOsGate

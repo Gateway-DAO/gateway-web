@@ -7,7 +7,7 @@ import * as Styled from './style'
 
 // Hooks
 import { useEffect, useRef, useState } from 'react'
-import { Redirect, useHistory } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useListDAOs } from '../../api/database/useGetDAO'
 import { useSearchDAO } from '../../api/database/useSearchDAO'
 
@@ -51,11 +51,9 @@ const Categories = (props) => {
         // alert(`Category: ${DUMMY_CATEGORIES[activeCategory]}\nDAOLoading: ${DAOLoading}\nsearchLoading: ${searchLoading}\nDAOData: ${!!DAOData}\nsearchData: ${!!searchData}`)
 
         if (activeCategory === 0) {
-            console.log(!DAOLoading && DAOData)
             setTotalCards(!DAOLoading ? DAOData.listDAOs.items.length : 0)
             setCards(!DAOLoading ? DAOData.listDAOs.items : [])
         } else {
-            console.log(!searchLoading && searchData)
             setTotalCards(!searchLoading ? searchData.searchDAOs.total : 0)
             setCards(!searchLoading ? searchData.searchDAOs.items : [])
         }
@@ -135,15 +133,15 @@ const Categories = (props) => {
     */
 
     // navigation to search page
-    const history = useHistory()
-    const navigate = (e) => {
+    const navigate = useNavigate();
+    const traverse = (e) => {
         if (activeCategory === 0) {
-            history.push(`/search/all`)
-        } else history.push(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
+            navigate(`/search/all`)
+        } else navigate(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
     }
 
     if (searchError || DAOError) {
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     return (
@@ -194,7 +192,7 @@ const Categories = (props) => {
                             )
                         })}
                     {totalCards > 3 && (
-                        <Styled.MoreCard onClick={navigate}>
+                        <Styled.MoreCard onClick={traverse}>
                             <Styled.MoreText>
                                 +{totalCards - numberOfCards} more
                             </Styled.MoreText>

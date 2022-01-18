@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Home from './Home'
 import FallbackPage from './FallbackPage'
@@ -25,84 +25,64 @@ const About = React.lazy(() => import('./About'))
 const AddCommunity = React.lazy(() => import('./AddCommunity'))
 const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
 const KeyQuiz = React.lazy(() => import('./Quiz'))
-const AddGateForm = React.lazy(()=>import('./AddGateForm'))
+const AddGateForm = React.lazy(() => import('./AddGateForm'))
+
 const App = (props) => {
     return (
         <Router>
             <React.Suspense fallback={<FallbackPage />}>
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route path="/about-us">
-                        <About />
-                    </Route>
-                    <Route path="/what-are-daos">
-                        <AboutDAOs />
-                    </Route>
-                    <Route path="/dao/forefront/gate">
-                        <DaoGate />
-                    </Route>
-                    <Route path="/dao/forefront/gatewithkeys">
-                        <DaoGateWithKeys />
-                    </Route>
+                <Routes>
+                    <Route exact path="/" element={<Home />} />
+                    <Route path="/about-us" element={<About />} />
+                    <Route path="/what-are-daos" element={<AboutDAOs />} />
+                    <Route path="/dao/forefront/gate" element={<DaoGate />} />
+                    <Route
+                        path="/dao/forefront/gatewithkeys"
+                        element={<DaoGateWithKeys />}
+                    />
                     {/* Add New Key Routes start */}
-                    <Route path="/profile/add-experience">
-                        <AddExperience />
-                    </Route>
-                    <Route path="/dao/daoname/newkey/governance">
-                        <AddGovernanceSnapshopt />
-                    </Route>
-                    <Route path="/dao/daoname/newkey/token">
-                        <AddHoldToken />
-                    </Route>
-                    <Route path="/dao/forefront/newkey/manual">
-                        <AddManualTask />
-                    </Route>
-                    <Route path="/dao/daoname/newkey/success">
-                        <AddKeySuccess />
-                    </Route>
-                    <Route path="/dao/daoname/newkey">
-                        <AddNewKey />
-                    </Route>
+                    <Route
+                        path="/profile/add-experience"
+                        element={<AddExperience />}
+                    />
+                    <Route
+                        path="/dao/daoname/newkey/governance"
+                        element={<AddGovernanceSnapshopt />}
+                    />
+
+                    <Route
+                        path="/dao/daoname/newkey/token"
+                        element={<AddHoldToken />}
+                    />
+                    <Route
+                        path="/dao/forefront/newkey/manual"
+                        element={<AddManualTask />}
+                    />
+                    <Route
+                        path="/dao/daoname/newkey/success"
+                        element={<AddKeySuccess />}
+                    />
+
+                    <Route path="/dao/daoname/newkey" element={<AddNewKey />} />
                     {/* Add New Key Routes ends */}
-                    <Route path="/dao/:id">
-                        <DAO />
+                    <Route path="/dao/:id" element={<DAO />} />
+                    <Route path="/search/:query" element={<Search />} />
+                    <Route path="/profile/" element={<ProfilePage />}>
+                        <Route path=":searchTerm" element={<ProfilePage />} />
                     </Route>
-                    <Route path="/search/:query">
-                        <Search />
-                    </Route>
-                    <Route path="/profile/:searchTerm?">
-                        <ProfilePage />
-                    </Route>
-                    <Route path="/sign-in">
-                        <SignIn />
-                    </Route>
-                    <Route path="/create-profile">
-                        <CreateProfile />
-                    </Route>
-                    <Route path="/add-community">
-                        <AddCommunity />
-                    </Route>
-                    <Route path="/new-community/:name">
-                        <SubmitPage />
-                    </Route>
-                    <Route path="/dao-gate">
-                        <DAOsGate />
-                    </Route>
-                    <Route path="/add-gate">
-                        <AddGateForm />
-                    </Route>
-                    <Route path="/key-quiz">
-                        <KeyQuiz />
-                    </Route>
-                    <Route path="/testing">
-                        <GateSuccessPage />
-                    </Route>
-                    <Route path="*">
-                        <Page404 />
-                    </Route>
-                </Switch>
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/create-profile" element={<CreateProfile />} />
+                    <Route path="/add-community" element={<AddCommunity />} />
+                    <Route
+                        path="/new-community/:name"
+                        element={<SubmitPage />}
+                    />
+                    <Route path="/dao-gate" element={<DAOsGate />} />
+                    <Route path="/add-gate" element={<AddGateForm />} />
+                    <Route path="/key-quiz" element={<KeyQuiz />} />
+                    <Route path="/testing" element={<GateSuccessPage />} />
+                    <Route path="*" element={<Page404 />} />
+                </Routes>
             </React.Suspense>
         </Router>
     )

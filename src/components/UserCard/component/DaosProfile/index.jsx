@@ -1,11 +1,11 @@
 import * as Styled from './style'
-import { useHistory } from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 
 const DaosProfile = (props) => {
-    const history = useHistory()
+    const navigate = useNavigate();
 
-    const navigate = (e) => {
-        history.push(`/dao/${props.dao}`)
+    const traverse = (e) => {
+        navigate(`/dao/${props.dao}`)
     }
 
     let imgURl = props.imgURL
@@ -15,7 +15,7 @@ const DaosProfile = (props) => {
         <Styled.DaoPfpContainer
             src={props?.imgURL}
             dao={props.dao}
-            onClick={navigate}
+            onClick={traverse}
         />
     )
 }

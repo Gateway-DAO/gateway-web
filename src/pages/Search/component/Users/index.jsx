@@ -8,7 +8,7 @@ import Loader from '../../../../components/Loader'
 
 // Hooks
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { useSearchUsers } from '../../../../api/database/useSearchUser'
 import { useListUsers } from '../../../../api/database/useGetUser'
 

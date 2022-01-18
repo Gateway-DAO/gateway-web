@@ -17,13 +17,13 @@ const CommentCard = (props) => {
             <div>
                 <Styled.PostHeaderInfo>
                     <Styled.ProfileBioContainer>
-                        <Styled.PostImageContainer src={user.pfp} />
+                        <Styled.PostImageContainer src={user?.pfp} />
                         <Styled.PostByInfo>
                             {' '}
                             Commented by
-                            <Styled.PostByName>{user.name}</Styled.PostByName>
+                            <Styled.PostByName>{user?.name}</Styled.PostByName>
                             <Styled.PostByUsername>
-                                <Styled.UserLink to={`/profile/${user.username}`}>@{user.username}</Styled.UserLink>
+                                <Styled.UserLink to={`/profile/${user?.username}`}>@{user?.username}</Styled.UserLink>
                             </Styled.PostByUsername>
                         </Styled.PostByInfo>
                     </Styled.ProfileBioContainer>

@@ -9,7 +9,7 @@ export const useCreateGate = () => {
 
     return useMemo(
         () => ({
-            createDAO,
+            createGate,
             data,
             error,
             loading,

@@ -2,7 +2,7 @@ import * as Styled from './style'
 import { useState } from 'react'
 import Subcategories from './Subcategories'
 import GateCard from '../../../GateCard'
-const Gates = (props) => {
+const Gates = () => {
     const [activeCategory, setActiveCategory] = useState('All')
     return (
         <Styled.Wrapper>
