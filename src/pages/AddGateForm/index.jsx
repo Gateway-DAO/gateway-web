@@ -93,6 +93,10 @@ const AddGateForm = (toggleForm) => {
         setretroactiveEarners(add)
     }
     const removeRetroactiveEarner = (idx) => {
+        if (retroactiveEarners.length == 1) {
+            alert('you have to put atleast one retroactive earner')
+            return false
+        }
         setretroactiveEarners(
             retroactiveEarners.filter((value, i) => i !== idx)
         )
