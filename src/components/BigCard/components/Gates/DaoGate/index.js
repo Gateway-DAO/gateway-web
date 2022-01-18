@@ -4,11 +4,11 @@ import BackButtonDiv from './BackButtonDiv'
 import NftBadge from './NftBadge'
 import SmallLogo from '../../../../../assets/yearnFinance.png'
 import * as Styled from './style'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 const DaoGate = (props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const handleClick = ()=>{
-        history.push("/dao/daoname/newkey");
+        navigate("/dao/daoname/newkey");
     }
     return (
         <Styled.Wrapper>

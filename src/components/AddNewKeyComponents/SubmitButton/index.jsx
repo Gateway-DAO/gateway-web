@@ -1,9 +1,9 @@
 import * as Styled from './style'
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const SubmitButton = ({link})=>{
-    const history = useHistory();
+    const navigate = useNavigate();
     const handelClick = ()=>{
-        history.push(link);
+        navigate(link);
     }
     return(
     <Styled.Wrapper>
