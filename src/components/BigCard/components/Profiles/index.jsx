@@ -1,18 +1,6 @@
 import * as Styled from './style'
-import { Link } from 'react-router-dom'
-import {
-    FaDiscord,
-    FaTwitter,
-    FaMedium,
-    FaGithub,
-    FaTelegram,
-    FaLink,
-    FaPencilAlt,
-} from 'react-icons/fa'
-import { FiGlobe } from 'react-icons/fi'
-import { BsChatTextFill } from 'react-icons/bs'
-import { useState } from 'react'
-import React, { useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import React from 'react'
 import parser from 'html-react-parser'
 
 import useAdmin from '../../../../hooks/useAdmin'
@@ -28,7 +16,7 @@ import AccomplishmentModal from '../../../Modal/AccomplishmentModal'
 import MVModal from '../../../Modal/MVModal'
 import EditCardModal from '../../../Modal/EditCardModal'
 import ShowBountyModal from '../../../Modal/ShowBountyModal'
-
+import SnapshotModal from '../../../Modal/SnapshotModal'
 //  styling
 import Collapsible from '../../../Collapsible'
 
@@ -41,32 +29,20 @@ import BountyCard from '../../../BountyCard'
 
 // column second import
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
-import { TwitterShareButton, TelegramShareButton } from 'react-share'
 import { shortenAddress } from '../../../../utils/web3'
-import { parseTransaction } from 'ethers/lib/utils'
+import { ytVideoID } from '../../../../utils/functions'
 
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
 
-    const [bounties, setBounties] = useState(props.bounties || [])
-    const [benefits, setBenefits] = useState(props.tokenBenefits || [])
+    const [bounties, setBounties] = useState(props.bounties.items || [])
+    const [benefits, setBenefits] = useState(props.tokenBenefits.items || [])
     const [HTJ, setHTJ] = useState(props.howToJoin || '')
     const [WDWD, setWDWD] = useState(props.whatDoWeDo || '')
     const [UH, setUH] = useState(props.upcomingHangouts || '')
     const [MV, setMV] = useState(props.missionAndVision || '')
     const [ACC, setACC] = useState(props.accomplishments || '')
     const [FAQ, setFAQ] = useState(props.FAQ || [])
-
-    useEffect(() => {
-        setBounties(props.bounties || [])
-        setBenefits(props.tokenBenefits || [])
-        setHTJ(props.howToJoin || '')
-        setWDWD(props.whatDoWeDo || '')
-        setUH(props.upcomingHangouts || '')
-        setMV(props.missionAndVision || '')
-        setACC(props.accomplishments || '')
-        setFAQ(props.FAQ || [])
-    }, [props])
 
     // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false)
@@ -84,105 +60,7 @@ const Profile = (props) => {
     const [showMVModal, setShowMVModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
 
-    let youtubeID = null
-    if (props.youtubeURL) {
-        youtubeID = props.youtubeURL.split('v=')[1].substring(0, 11)
-    }
-
-    const socials = Object.keys(props.socials).map((key) => {
-        switch (key) {
-            case 'discord':
-                return (
-                    <Styled.Social>
-                        <FaDiscord />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Discord
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'twitter':
-                return (
-                    <Styled.Social>
-                        <FaTwitter />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Twitter
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'website':
-                return (
-                    <Styled.Social>
-                        <FiGlobe />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Website
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'medium':
-                return (
-                    <Styled.Social>
-                        <FaMedium />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Medium
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'github':
-                return (
-                    <Styled.Social>
-                        <FaGithub />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            GitHub
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'telegram':
-                return (
-                    <Styled.Social>
-                        <FaTelegram />
-                        <Styled.SocialLink
-                            href={props.socials[key]}
-                            target="_blank"
-                        >
-                            Telegram
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            case 'chat':
-                return (
-                    <Styled.Social>
-                        <BsChatTextFill />
-                        <Styled.SocialLink href={props.socials[key]}>
-                            Chat
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-            default:
-                return (
-                    <Styled.Social>
-                        <FaLink />
-                        <Styled.SocialLink href={props.socials[key]}>
-                            {key.charAt(0).toUpperCase() + key.slice(1)}
-                        </Styled.SocialLink>
-                    </Styled.Social>
-                )
-        }
-    })
+    let youtubeID = ytVideoID(props.youtubeURL) || ""
 
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
     const toggleBountyInfoModal = (idx) =>
@@ -226,7 +104,8 @@ const Profile = (props) => {
                 show={showMVModal}
                 toggle={toggleMVModal}
                 data={MV}
-                set={(newMV) => setMV(newMV)}
+                set={setMV}
+                changeDAOData={props.changeDAOData}
             />
             <UHModal
                 id={props.id}
@@ -239,12 +118,14 @@ const Profile = (props) => {
                 id={props.id}
                 show={showBountyModal}
                 toggle={toggleBountyModal}
+                data={bounties}
                 set={(newBounties) => setBounties(newBounties)}
             />
             <TokenBenefitModal
                 id={props.id}
                 show={showTBModal}
                 toggle={toggleTBModal}
+                data={benefits}
                 set={(newTB) => setBenefits(newTB)}
             />
             <FAQModal
@@ -422,9 +303,7 @@ const Profile = (props) => {
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title="Governance Proposals">
-                                <Styled.Description>
-                                    ⚡️Snapshot integration coming soon.
-                                </Styled.Description>
+                                <SnapshotModal id={props.snapshotID} />
                             </Collapsible>
                         </Styled.DivContainer>
                     </Styled.ColumnOne>

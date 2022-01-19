@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
     position: relative;
     padding: 20px 0;
-    border-bottom: 1px solid rgba(229, 229, 229, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `
 
 export const Header = styled.header`
@@ -20,7 +20,7 @@ export const Title = styled.h2`
     font-size: 18px;
     line-height: 26px;
     align-items: center;
-    ${(props) => (props.active ? 'color : #E265B8' : 'color :#e5e5e5')};
+    ${(props) => (props.active ? 'color: #ff00b8' : 'color :#e5e5e5')};
 `
 
 export const Body = styled.div`

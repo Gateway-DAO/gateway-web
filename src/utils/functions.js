@@ -7,5 +7,17 @@ export const toHex = (stringToConvert) => {
 }
 
 export const timeout = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+export const ytVideoID = (url) => {
+    let regExp =
+        /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+    let match = url.match(regExp)
+
+    if (match && match[2].length === 11) {
+        return match[2]
+    } else {
+        return ""
+    }
 }

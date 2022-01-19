@@ -14,20 +14,12 @@ export const Container = styled.main`
 `
 
 export const MainBox = styled.section`
-    /*
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    */
-
     display: grid;
     grid-template-columns: 3fr 6fr 3fr;
     margin: 50px 0;
 `
 
-export const FormBox = styled.div`
+export const FormBox = styled.form`
     grid-column: 2/3;
     display: flex;
     flex-direction: column;
@@ -51,6 +43,101 @@ export const SearchBox = styled.ul`
     color: #e5e5e5;
     margin: 12px 0;
     width: 100%;
+`
+
+export const LoadingBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin: 12px 0;
+`
+
+export const DragArea = styled.div`
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #170627;
+    border: ${(props) =>
+        props.hover
+            ? '1px solid rgba(255, 255, 255, 0.2)'
+            : '1px dashed rgba(255, 255, 255, 0.2)'};
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin-top: 10px;
+`
+
+export const Background = styled.div`
+    position: relative;
+    width: 337px;
+    height: 256px;
+    margin-top: 10px;
+    background-image: url(${(props) => props.image});
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid #7e3bdc;
+    box-sizing: border-box;
+    border-radius: 4px;
+`
+
+export const Cross = styled.div`
+    cursor: pointer;
+    position: absolute;
+    // align:center
+    left: 96%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // right: -45.71%;
+    top: -4%;
+    // bottom: 7.32%;
+    width: 18px;
+    height: 18px;
+    border-radius: 100%;
+    background: #7e3bdc;
+    border: 1px solid #ffffff;
+    transform: rotate(45deg);
+    z-index: 10;
+    font-weight: 500;
+    // position: absolute;
+    // transform: rotate(45deg);
+    // // left: 70.7%;
+    // right: -1px;
+    // top: -1px;
+    // // bottom: 7.32%;
+    // width:18px;
+    // height:18px;
+    // display:flex;
+    // justify-content: center;
+    // align:center;
+    // size:15px;
+    // border-radius:100%;
+    // background: #7E3BDC;
+    // border: 1px solid #FFFFFF;
+    color: #ffffff;
+    // z-index:50;
+`
+
+export const DragHeader = styled.div`
+    width: 100%;
+    height: 32px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
+
+    text-align: center;
+    color: ${(props) =>
+        props.hover ? ' rgba(255, 255, 255, 1)' : ' rgba(255, 255, 255, 0.2)'};
+`
+
+export const Span = styled.span`
+    color: #fe02b9;
 `
 
 export const MainText = styled.h1`
@@ -92,11 +179,15 @@ export const MembershipIcon = styled.div`
     margin-top: 10px;
 `
 
-export const MembershipImg = styled.img`
+export const MembershipImg = styled.div`
     position: relative;
     width: 54px;
+    height: 54px;
     border-radius: 100%;
     background-color: white;
+    background: url(${props => props.src || ""});
+    background-position: center;
+    background-size: cover;
 `
 
 export const MembershipRemove = styled(FaTimes)`
@@ -183,28 +274,21 @@ export const CloseBtn = styled(IoMdClose)`
     right: 15px;
 `
 
-export const Header = styled.h1`
-    font-family: Poppins;
+export const Header = styled.div`
+    width: 100%;
+    height: 32px;
+    font-family: Be Vietnam;
     font-style: normal;
-    font-weight: bold;
-    font-size: 48px;
-    line-height: 90px;
-    /* identical to box height, or 187% */
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
+
     text-align: center;
-    letter-spacing: -0.05em;
-    /* Background */
-    background: linear-gradient(
-        88.04deg,
-        #ee787b 22.54%,
-        #e153f2 41.08%,
-        #495be0 65.25%,
-        #6a39f3 86.1%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
+    color: ${(props) =>
+        props.hover ? ' rgba(255, 255, 255, 1)' : ' rgba(255, 255, 255, 0.2)'};
 `
+
 export const Label = styled.label`
     font-family: Poppins;
     font-style: normal;

@@ -27,6 +27,11 @@ yarn-debug.log*
 yarn-error.log*
 /.firebase
 
+# Random stuff
+cors.json
+deleteAllUsers.sh
+/src/utils/aws-migration.js
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*

@@ -46,7 +46,6 @@ export const PostByInfo = styled.span`
     line-height: 23px;
     display: flex;
     align-items: center;
-    text-transform: capitalize;
     color: rgba(229, 229, 229, 0.5);
 `
 
@@ -139,6 +138,7 @@ export const PostButton = styled.button`
     background-color: #170627;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
+    cursor: pointer;
 `
 
 export const ActivityTextContainer = styled.span`

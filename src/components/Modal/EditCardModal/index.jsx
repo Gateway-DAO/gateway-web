@@ -1,45 +1,79 @@
 import Modal from '../index'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
-import { db } from '../../../api/firebase'
-import { doc, getDoc, updateDoc, onSnapshot } from '@firebase/firestore'
+import { FormStyled, ImageUpload } from '../../Form'
 import { useState } from 'react'
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
-import RichEditor from '../../RichTextEditor'
-import parser from "html-react-parser";
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
+import { Redirect } from "react-router-dom";
+import useFileUpload from '../../../api/database/useFileUpload'
+import normalizeUrl from 'normalize-url'
+import Loader from '../../Loader'
+import { ytVideoID } from '../../../utils/functions'
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name)
-    const [backgroundURL, setBackgroundURL] = useState(props.backgroundURL)
-    const [youtubeURL, setyoutubeURL] = useState(props.youtubeURL || "")
-    const [logoURL, setLogoURL] = useState(props.logoURL)
+    const [backgroundFile, setBackgroundFile] = useState(props.backgroundURL)
+    const [youtubeURL, setYoutubeURL] = useState(props.youtubeURL || "")
+    const [validYoutubeURL, setValidYoutubeURL] = useState(true)
+    const [logoFile, setLogoFile] = useState(props.logoURL)
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress)
     const [description, setDescription] = useState(props.description)
     const [categories, setCategories] = useState(props.categories)
     const [socials, setSocials] = useState(props.socials)
+    const [snapshotID, setSnapshotID] = useState(props.snapshotID)
+    const [chains, setChains] = useState(props.chains || [])
+    const [whitelistedAddresses, setWhitelistedAddresses] = useState(props.whitelistedAddresses || [""])
+
+    const [updateLoading, setUpdateLoading] = useState(false)
+
+    const { updateDAO, data, error, loading } = useUpdateDAO()
+    const { uploadFile } = useFileUpload()
 
     const submitToDB = async () => {
-        const dao = doc(db, 'daos', props.id)
+        setUpdateLoading(true)
+        try {
+            // Upload files to S3
+            const logoURL = logoFile && await uploadFile(
+                `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
+                logoFile
+            )
+            const backgroundURL = backgroundFile && await uploadFile(
+                `daos/${props.id}/background.${backgroundFile.name.split('.').pop()}`,
+                backgroundFile
+            )
 
-        const newInfo = {
-            name,
-            backgroundURL,
-            youtubeURL,
-            logoURL,
-            tokenAddress,
-            description,
-            categories,
-            socials,
-        }
+            const newInfo = {
+                name,
+                ...(backgroundFile ? { backgroundURL } : {}),
+                ...((youtubeURL && validYoutubeURL) ? { youtubeURL: normalizeUrl(youtubeURL, { defaultProtocol: "https:" }) } : {}),
+                ...(logoFile ? { logoURL } : {}),
+                tokenAddress,
+                description,
+                categories,
+                socials: socials.map(social => {
+                    return {network: social.network, url: social.url}
+                }),
+                chains,
+                whitelistedAddresses,
+                snapshotID
+            }
 
-        const unsub = onSnapshot(dao, (doc) => {
+            await updateDAO({ variables: {
+                input: {
+                    id: props.id,
+                    ...newInfo
+                }
+            } })
+
             props.changeDAOData(newInfo)
             props.toggle()
-        })
-
-        await updateDoc(dao, newInfo)
-
-        unsub()
+        }
+        catch (err) {
+            alert("An error occurred. Try again later!")
+            console.log(err)
+        }
+        setUpdateLoading(false)
     }
 
     const toggleCheckbox = (e) => {
@@ -52,33 +86,63 @@ const EditCardModal = (props) => {
             setCategories([...categories, value])
         }
     }
-    
-    const changeSocial = (key, e) => {
+    const toggleCheckboxChain = (e)=>{
+        const value = e.target.value;
+        if(chains.includes(value)&& !e.target.checked){
+            setChains(chains.filter((cat) => cat !== value))
+        } else if (e.target.checked) {
+            setChains([...chains, value])
+        }
+    }
+    const changeSocial = (idx, e) => {
         e.preventDefault()
-        setSocials({ ...socials, [key]: e.target.value })
+        let copy = [...socials]
+        copy[idx].url = e.target.value
+        setSocials(copy)
     }
 
-    const deleteSocial = (key) => {
-        const socialCopy = Object.assign({}, socials)
-        delete socialCopy[key]
-        setSocials(socialCopy)
+    const deleteSocial = (idx) => setSocials(socials.filter((social, i) => i !== idx))
+
+    const changeSocialName = (idx, newName) => {
+        let copy = socials.map((social, i) => {
+            if (i === idx) {
+                return {
+                    ...social,
+                    network: newName
+                }
+            }
+
+            return social
+        })
+
+        setSocials(copy)
     }
 
-    const changeSocialName = (oldKey, newKey) => {
-        const socialCopy = {}
-        delete Object.assign(socialCopy, socials, {
-            [newKey]: socials[oldKey],
-        })[oldKey]
-        setSocials(socialCopy)
+    const changeWhitelistedAddress = (e, idx) => {
+        e.preventDefault()
+        let newList = [...whitelistedAddresses]
+        newList[idx] = e.target.value
+        setWhitelistedAddresses(newList)
     }
+
+    const ytVideoValidator = e => {
+        const url = e.target.value
+        const id = ytVideoID(url)
+
+        setYoutubeURL(url)
+
+        setValidYoutubeURL(!!id.length)
+    }
+
+    if (error) { return <Redirect to="/404" /> }
 
     return ( 
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
                 <ModalStyled.Header>Edit Information</ModalStyled.Header>
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="name">Name</ModalStyled.Label>
-                    <ModalStyled.Input
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="name">Name</FormStyled.Label>
+                    <FormStyled.Input
                         onChange={(e) => setName(e.target.value)}
                         type="text"
                         id="name"
@@ -86,61 +150,37 @@ const EditCardModal = (props) => {
                         placeholder="Your DAO name"
                         value={name}
                     />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="logoURL">
-                        Logo URL
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
-                        onChange={(e) => setLogoURL(e.target.value)}
-                        type="text"
-                        id="logoURL"
-                        name="logoURL"
-                        placeholder="Your DAO logo URL"
-                        value={logoURL}
-                    />
-                </ModalStyled.Fieldset>
+                <ImageUpload htmlFor="logo" label="Logo" setImage={setLogoFile} defaultImageURL={props.logoURL} />
+                <ImageUpload htmlFor="background" label="Background" setImage={setBackgroundFile} defaultImageURL={props.backgroundURL} />
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="backgroundURL">
-                        Background URL
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
-                        onChange={(e) => setBackgroundURL(e.target.value)}
-                        type="text"
-                        id="backgroundURL"
-                        name="backgroundURL"
-                        placeholder="Your DAO background URL"
-                        value={backgroundURL}
-                    />
-                </ModalStyled.Fieldset>
-
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="backgroundURL">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="backgroundURL">
                         Youtube URL
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
-                        onChange={(e) => setyoutubeURL(e.target.value)}
+                    </FormStyled.Label>
+                    <FormStyled.Input
+                        onChange={ytVideoValidator}
                         type="text"
                         id="backgroundURL"
                         name="youtubeURL"
                         placeholder="Your Youtube Video URL"
                         value={youtubeURL}
                     />
-                </ModalStyled.Fieldset>
+                    {!validYoutubeURL && <FormStyled.SubText>Invalid YouTube Video URL</FormStyled.SubText>}
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="description">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="description">
                         Description
-                    </ModalStyled.Label>
-                    <RichEditor set={setDescription} value={description} />
-                </ModalStyled.Fieldset>
+                    </FormStyled.Label>
+                    <FormStyled.Textarea onChange={e => setDescription(e.target.value)} value={description} />
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset marginBottom="30px">
-                    <ModalStyled.Label>Categories</ModalStyled.Label>
+                <FormStyled.Fieldset marginBottom="30px">
+                    <FormStyled.Label>Categories</FormStyled.Label>
                     <Styled.GridBox>
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-1"
                             name="category"
                             value="Protocol"
@@ -148,7 +188,7 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Protocol')}
                         />
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-2"
                             name="category"
                             value="DeFi"
@@ -156,7 +196,7 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('DeFi')}
                         />
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-3"
                             name="category"
                             value="Social"
@@ -164,7 +204,7 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Social')}
                         />
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-4"
                             name="category"
                             value="Grant"
@@ -172,7 +212,7 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Grant')}
                         />
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-5"
                             name="category"
                             value="Investment"
@@ -180,7 +220,7 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Investment')}
                         />
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-6"
                             name="category"
                             value="Collector"
@@ -188,7 +228,7 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Collector')}
                         />
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-7"
                             name="category"
                             value="Framework"
@@ -196,7 +236,7 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Framework')}
                         />
-                        <ModalStyled.Checkbox
+                        <FormStyled.Checkbox
                             id="category-8"
                             name="category"
                             value="Gaming"
@@ -204,24 +244,32 @@ const EditCardModal = (props) => {
                             onChange={toggleCheckbox}
                             checked={categories.includes('Gaming')}
                         />
+                        <FormStyled.Checkbox
+                            id="category-9"
+                            name="category"
+                            value="DeSci"
+                            label="DeSci"
+                            onChange={toggleCheckbox}
+                            checked={categories.includes('DeSci')}
+                        />
                     </Styled.GridBox>
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="socials">Socials</ModalStyled.Label>
-                    {Object.keys(socials).map((key, idx) => {
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="socials">Socials</FormStyled.Label>
+                    {socials.map((social, idx) => {
                         return (
-                            <ModalStyled.InputWrapper>
-                                <ModalStyled.Select
+                            <FormStyled.InputWrapper>
+                                <FormStyled.Select
                                     style={{ marginRight: '10px' }}
                                     onChange={(e) =>
-                                        changeSocialName(key, e.target.value)
+                                        changeSocialName(idx, e.target.value)
                                     }
                                 >
                                     <option
                                         value="twitter"
-                                        selected={key === 'twitter'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'twitter'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'twitter'
                                         )}
                                     >
@@ -229,8 +277,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="telegram"
-                                        selected={key === 'telegram'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'telegram'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'telegram'
                                         )}
                                     >
@@ -238,8 +286,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="medium"
-                                        selected={key === 'medium'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'medium'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'medium'
                                         )}
                                     >
@@ -247,8 +295,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="github"
-                                        selected={key === 'github'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'github'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'github'
                                         )}
                                     >
@@ -256,8 +304,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="discord"
-                                        selected={key === 'discord'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'discord'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'discord'
                                         )}
                                     >
@@ -265,8 +313,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="website"
-                                        selected={key === 'website'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'website'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'website'
                                         )}
                                     >
@@ -274,8 +322,8 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="chat"
-                                        selected={key === 'chat'}
-                                        disabled={Object.keys(socials).includes(
+                                        selected={social.network === 'chat'}
+                                        disabled={socials.map(social => social.network).includes(
                                             'chat'
                                         )}
                                     >
@@ -283,71 +331,176 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value="other"
-                                        selected={key.startsWith('any')}
+                                        selected={social.network.startsWith('any')}
                                     >
                                         Other
                                     </option>
-                                </ModalStyled.Select>
-                                <ModalStyled.Input
-                                    id={`social-${key}`}
+                                </FormStyled.Select>
+                                <FormStyled.Input
+                                    id={`social-${social.network}`}
                                     type="text"
-                                    onChange={(e) => changeSocial(key, e)}
-                                    value={socials[key]}
+                                    onChange={(e) => changeSocial(idx, e)}
+                                    value={social.url}
                                 />
-                                <ModalStyled.IconButton
-                                    onClick={() => deleteSocial(key)}
+                                <FormStyled.IconButton
+                                    onClick={() => deleteSocial(idx)}
                                     style={{ marginLeft: '10px' }}
                                 >
                                     <FaTrashAlt />
-                                </ModalStyled.IconButton>
-                            </ModalStyled.InputWrapper>
+                                </FormStyled.IconButton>
+                            </FormStyled.InputWrapper>
                         )
                     })}
-                    <ModalStyled.IconButton
+                    <FormStyled.IconButton
                         onClick={() =>
-                            setSocials({
+                            setSocials([
                                 ...socials,
-                                [`any-${Object.keys(socials).length}`]: '',
-                            })
+                                {
+                                    network: `any-${socials.length}`,
+                                    url: ""
+                                }
+                            ])
                         }
                         style={{ width: 'fit-content', alignSelf: 'center' }}
                     >
                         <FaPlus />
-                    </ModalStyled.IconButton>
-                </ModalStyled.Fieldset>
+                    </FormStyled.IconButton>
+                </FormStyled.Fieldset>
 
-                {/*
-                <ModalStyled.Fieldset marginBottom="30px">
-                    <ModalStyled.Label>Level</ModalStyled.Label>
-                    <Styled.GridBox onChange={e => setLevel(e.target.value)}>
-                        <ModalStyled.Radio id="level-1" name="level" value="Novice" label="Novice" checked={level === "Novice"} />
-                        <ModalStyled.Radio id="level-2" name="level" value="Warrior" label="Warrior" checked={level === "Warrior"} />
-                        <ModalStyled.Radio id="level-3" name="level" value="Master" label="Master" checked={level === "Master"} />
-                        <ModalStyled.Radio id="level-4" name="level" value="Champion" label="Champion" checked={level === "Champion"} />
-                        <ModalStyled.Radio id="level-5" name="level" value="Legend" label="Legend" checked={level === "Legend"} />
+                <FormStyled.Fieldset marginBottom="30px">
+                    <FormStyled.Label>Chain</FormStyled.Label>
+                    <Styled.GridBox>
+                        <FormStyled.Checkbox
+                            id="chain-1"
+                            name="chain"
+                            value="ethereum"
+                            label="Ethereum"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('ethereum')}
+                        />
+                        <FormStyled.Checkbox
+                            id="chain-2"
+                            name="chain"
+                            value="solana"
+                            label="Solana"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('solana')}
+                        />
+                        <FormStyled.Checkbox
+                            id="chain-3"
+                            name="chain"
+                            value="Polygon"
+                            label="Polygon"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('Polygon')}
+                        />
+                        <FormStyled.Checkbox
+                            id="chain-4"
+                            name="chain"
+                            value="NEAR"
+                            label="NEAR"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('NEAR')}
+                        />
+                        <FormStyled.Checkbox
+                            id="chain-5"
+                            name="chain"
+                            value="Avalanche"
+                            label="Avalanche"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('Avalanche')}
+                        />
+                        <FormStyled.Checkbox
+                            id="chain-6"
+                            name="chain"
+                            value="Binance"
+                            label="Binance"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('Binance')}
+                        />
+                        <FormStyled.Checkbox
+                            id="chain-7"
+                            name="chain"
+                            value="Bitcoin"
+                            label="Bitcoin"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('Bitcoin')}
+                        />
+                        <FormStyled.Checkbox
+                            id="chain-8"
+                            name="chain"
+                            value="Other"
+                            label="Other"
+                            onChange={toggleCheckboxChain}
+                            checked={chains && chains.includes('Other')}
+                        />
                     </Styled.GridBox>
-                </ModalStyled.Fieldset>
-                */}
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Fieldset>
-                    <ModalStyled.Label for="tokenAddress">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="whitelistedAddress">
+                    Whitelisted Addresses
+                    </FormStyled.Label>
+                    {whitelistedAddresses.map((address, idx) => {
+                        return (
+                            <FormStyled.InputWrapper>
+                                <FormStyled.Input
+                                    id={`social-${idx}`}
+                                    type="text"
+                                    onChange={(e) => changeWhitelistedAddress(e, idx)}
+                                    value={whitelistedAddresses[idx]}
+                                />
+                                <FormStyled.IconButton
+                                    onClick={() => setWhitelistedAddresses(whitelistedAddresses.filter((addr, index) => idx !== index))}
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    <FaTrashAlt />
+                                </FormStyled.IconButton>
+                            </FormStyled.InputWrapper>
+                        )
+                    })}
+                    <FormStyled.IconButton
+                        onClick={() =>
+                            setWhitelistedAddresses([...whitelistedAddresses, ''])
+                        }
+                        style={{ width: 'fit-content', alignSelf: 'center' }}
+                    >
+                        <FaPlus />
+                    </FormStyled.IconButton>
+                </FormStyled.Fieldset>
+
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="tokenAddress">
                         Token Address
-                    </ModalStyled.Label>
-                    <ModalStyled.Input
+                    </FormStyled.Label>
+                    <FormStyled.Input
                         id="tokenAddress"
                         type="text"
                         onChange={(e) => setTokenAddress(e.target.value)}
                         value={tokenAddress}
                     />
-                </ModalStyled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Button
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="snapshotID">
+                        Snapshot ID
+                    </FormStyled.Label>
+                    <FormStyled.Input
+                        id="snapshotID"
+                        type="text"
+                        onChange={(e) => setSnapshotID(e.target.value)}
+                        value={snapshotID}
+                    />
+                </FormStyled.Fieldset>
+
+                <FormStyled.Button
                     id="submit_msg"
                     type="button"
                     onClick={submitToDB}
                 >
+                    {updateLoading && <Loader color="white" />}
                     Save Changes
-                </ModalStyled.Button>
+                </FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

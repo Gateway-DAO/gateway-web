@@ -2,15 +2,13 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
     background: #180b27;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
     border-radius: 20px;
     margin: 10px 0;
-    padding: 25px;
+    margin-bottom: 40px;
     // max-width:500px;
     font-family: Be Vietnam;
     font-style: normal;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 34px;
     /* or 212% */
 

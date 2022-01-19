@@ -48,7 +48,8 @@ export const Description = styled.div`
 
     color: #e5e5e5;
 
-    margin-top: 15px;
+    margin-top: 10px;
+    margin-bottom: 70px;
 
     display: flex;
     flex-direction: column;
@@ -144,9 +145,9 @@ export const CategoryList = styled.ul`
 `
 
 export const Category = styled.li`
-    border: 1px solid #170627;
-    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
+    box-sizing: border-box;
     display: inline-block;
 
     font-family: Be Vietnam;
@@ -158,7 +159,7 @@ export const Category = styled.li`
 
     letter-spacing: 0.05em;
 
-    color: #170627;
+    color: #E5E5E5;
 
     padding: 2px 6px;
     margin-right: 10px;
@@ -228,7 +229,8 @@ export const SocialLink = styled.a`
 export const YoutubeVideoContainer = styled.div`
     margin: auto;
     padding: 5px;
-    width: 90%;
+    width: 100%;
+    margin-bottom: 50px;
 `
 
 export const ColumnTwo = styled.div`

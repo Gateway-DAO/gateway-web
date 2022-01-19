@@ -1,40 +1,41 @@
 import Modal from "../index";
-import { db } from "../../../api/firebase";
 import * as Styled from "./style";
 import * as ModalStyled from "../style";
-import { doc, updateDoc, onSnapshot } from "@firebase/firestore";
+import { FormStyled } from "../../Form"
 import { useState } from "react";
 import RichEditor from "../../RichTextEditor";
+import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
+import { Redirect } from "react-router-dom";
 
 const AccomplishmentModal = props => {
     const [accomplish, setAccomplish] = useState(props.data);
+    const { updateDAO, data, error, loading } = useUpdateDAO();
 
     const submitToDB = async () => {
-        const dao = doc(db, "daos", props.id);
+        await updateDAO({ variables: {
+            input: {
+                id: props.id,
+                accomplishments: accomplish
+            }
+        } })
 
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(accomplish)
-            props.toggle()
-        });
-
-        await updateDoc(dao, {
-            accomplishments: accomplish
-        })
-
-        unsub()
+        props.set(accomplish)
+        props.toggle()
     }
+
+    if (error) { return <Redirect to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>
             <Styled.Container>
                 <ModalStyled.Header>Accomplishments</ModalStyled.Header>
 
-                <Styled.Fieldset>
-                    <ModalStyled.Label for="information">Information</ModalStyled.Label>
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="information">Information</FormStyled.Label>
                     <RichEditor set={setAccomplish} value={accomplish} />
-                </Styled.Fieldset>
+                </FormStyled.Fieldset>
 
-                <ModalStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</ModalStyled.Button>
+                <FormStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

@@ -4,6 +4,7 @@ import Header from '../../components/Header'
 import WrappedBigSearch from '../../components/BigSearch'
 import Categories from '../../components/Categories'
 import Footer from '../../components/Footer'
+import CTASection from './components/CTASection'
 import * as Styled from './style'
 
 import space from '../../utils/canvas'
@@ -43,19 +44,7 @@ const Home = (props) => {
             </Styled.EMSBox>
 
             {/* Call to Action */}
-            <Styled.CTABox>
-                <Styled.MediumText>
-                    Join us to build the
-                    <br />
-                    future of communities
-                </Styled.MediumText>
-                <Styled.CTAButton
-                    href="https://forms.gle/w6WqEuqznbaK8QeT9"
-                    target="_blank"
-                >
-                    <Styled.CTAButtonText>Join Today</Styled.CTAButtonText>
-                </Styled.CTAButton>
-            </Styled.CTABox>
+            <CTASection />
             
             <Footer />
         </Styled.HomeContainer>

@@ -46,6 +46,7 @@ const CardsScrollWrapper = (props) => {
     //     cardRef.current.addEventListener('mouseup', stopDragging, false)
     //     cardRef.current.addEventListener('mouseleave', stopDragging, false)
     // }, [])
+    
     useEffect(()=>{
         let size = window.innerWidth;
         if(size<735){
@@ -57,7 +58,6 @@ const CardsScrollWrapper = (props) => {
         }else{
             setNumberOfCards(4);
         }
-        console.log(size);
     },[])
    
     return (
@@ -65,7 +65,7 @@ const CardsScrollWrapper = (props) => {
             {props.cards.filter((item, idx) => idx < numberOfCards).map((card) => {
                 return (
                     <Card
-                        id={card.id}
+                        id={card.dao}
                         title={card.name}
                         description={card.description}
                         logoURL={card.logoURL}

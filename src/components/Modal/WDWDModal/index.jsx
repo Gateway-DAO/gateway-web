@@ -1,27 +1,27 @@
 import Modal from '../index'
-import { db } from '../../../api/firebase'
 import * as Styled from './style'
 import * as ModalStyled from '../style'
-import { doc, updateDoc, onSnapshot } from '@firebase/firestore'
+import { FormStyled } from '../../Form'
 import React, { useState } from 'react'
 import RichEditor from '../../RichTextEditor'
+import { useUpdateDAO } from '../../../api/database/useUpdateDAO'
 
 const WDWDModal = (props) => {
     const [WDWD, setWDWD] = useState(props.data)
+    const { updateDAO, data, error, loading } = useUpdateDAO()
 
     const submitToDB = async () => {
-        const dao = doc(db, 'daos', props.id)
-
-        const unsub = onSnapshot(dao, (doc) => {
-            props.set(WDWD)
-            props.toggle()
+        await updateDAO({
+            variables: {
+                input: {
+                    id: props.id,
+                    whatDoWeDo: WDWD,
+                },
+            },
         })
 
-        await updateDoc(dao, {
-            whatDoWeDo: WDWD,
-        })
-
-        unsub()
+        props.set(WDWD)
+        props.toggle()
     }
 
     return (
@@ -29,21 +29,20 @@ const WDWDModal = (props) => {
             <Styled.Container>
                 <ModalStyled.Header>What Do We Do</ModalStyled.Header>
 
-                <Styled.Fieldset>
-                    <ModalStyled.Label for="information">
+                <FormStyled.Fieldset>
+                    <FormStyled.Label htmlFor="information">
                         Information
-                    </ModalStyled.Label>
+                    </FormStyled.Label>
                     <RichEditor set={setWDWD} value={WDWD} />
+                </FormStyled.Fieldset>
 
-                </Styled.Fieldset>
-
-                <ModalStyled.Button
+                <FormStyled.Button
                     id="submit_msg"
                     type="button"
                     onClick={submitToDB}
                 >
                     Submit
-                </ModalStyled.Button>
+                </FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

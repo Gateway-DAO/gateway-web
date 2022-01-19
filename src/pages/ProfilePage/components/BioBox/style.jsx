@@ -9,11 +9,16 @@ export const Container = styled.div`
     padding: 20px 30px;
 `
 
+export const NameContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+`
+
 export const NameBox = styled.div`
     display: flex;
     flex-direction: row;
     align-items: baseline;
-    margin-bottom: 10px;
 `
 
 export const Name = styled.h2`
@@ -45,21 +50,22 @@ export const BioText = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
+    font-size: 14px;
+    line-height: 20px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
 
     color: rgba(255, 255, 255, 0.6);
 
-    margin: 10px 0;
+    margin: 10px 0 15px 0;
 `
 
 export const Socials = styled.div`
     display: flex;
     flex-direction: row;
     margin: 10px 0;
+    margin-bottom: 20px;
 `
 
 export const SocialLink = styled.a`
@@ -87,11 +93,15 @@ export const MembershipBox = styled.div`
     flex-wrap: wrap;
 `
 
-export const MembershipImg = styled.img`
+export const MembershipImg = styled.div`
     width: 40px;
+    height: 40px;
     border-radius: 100%;
     margin-right: 12px;
     background-color: white;
+    background: url(${props => props.src || ""});
+    background-position: center;
+    background-size: cover;
 `
 
 export const MessageBox = styled(Link)`
@@ -105,6 +115,6 @@ export const MessageBox = styled(Link)`
 `
 
 export const EditContainer = styled.div`
-    margin: 10px;
+    margin: 10px 10px 0 0;
     font-size: 20px;
 `

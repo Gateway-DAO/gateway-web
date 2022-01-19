@@ -1,8 +1,6 @@
 import * as Styled from './style'
-import { useState, useEffect } from 'react'
+import { formatDistance } from 'date-fns'
 
-import CTA_BG from '../../../../../../assets/Gateway.svg'
-import { getUserById } from '../Handlers'
 const CommentCard = (props) => {
     let options = {
         year: 'numeric',
@@ -12,15 +10,8 @@ const CommentCard = (props) => {
         minute: '2-digit',
     }
 
-    const [user, setUser] = useState({ name: '...', username: '...' })
-    const userID = props.comment.userID
-    useEffect(() => {
-        const getUser = async () => {
-            const user = await getUserById(userID)
-            setUser({ name: user.name, username: user.username, pfp: user.pfp })
-        }
-        getUser()
-    }, [userID])
+    const user = props.comment.user
+    
     return (
         <Styled.PostContainer>
             <div>
@@ -29,21 +20,19 @@ const CommentCard = (props) => {
                         <Styled.PostImageContainer src={user.pfp} />
                         <Styled.PostByInfo>
                             {' '}
-                            Posted by
+                            Commented by
                             <Styled.PostByName>{user.name}</Styled.PostByName>
                             <Styled.PostByUsername>
-                                @{user.username}
+                                <Styled.UserLink to={`/profile/${user.username}`}>@{user.username}</Styled.UserLink>
                             </Styled.PostByUsername>
                         </Styled.PostByInfo>
                     </Styled.ProfileBioContainer>
                     <Styled.PostTime>
-                        {props.comment.createdAt
-                            .toDate()
-                            .toLocaleTimeString('en-us', options)}
+                        {formatDistance(new Date(props.comment.createdAt), new Date(), { addSuffix: true })}
                     </Styled.PostTime>
                 </Styled.PostHeaderInfo>
                 <Styled.MessageContainer>
-                    {props.comment.text}
+                    {props.comment.content}
                 </Styled.MessageContainer>
             </div>
         </Styled.PostContainer>

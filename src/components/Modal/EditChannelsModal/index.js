@@ -2,6 +2,7 @@ import * as Styled from './style'
 import { useEffect, useState } from 'react'
 import Modal from '../index'
 import * as ModalStyled from '../style'
+import { FormStyled } from '../../Form'
 import { IoAddCircleOutline } from 'react-icons/io5'
 import { MdDelete } from 'react-icons/md'
 
@@ -37,7 +38,7 @@ const EditChannelModal = (props) => {
                 <Styled.Underline />
                 {Object.keys(channels).map((key) => {
                     return (
-                        <ModalStyled.Fieldset>
+                        <FormStyled.Fieldset>
                             <Styled.ChannelNumber>
                                 Channel {Number(key)+1}
                                 <MdDelete
@@ -50,8 +51,8 @@ const EditChannelModal = (props) => {
                                     }}
                                 />
                             </Styled.ChannelNumber>
-                            <ModalStyled.Label>Display Name </ModalStyled.Label>
-                            <ModalStyled.Input
+                            <FormStyled.Label>Display Name </FormStyled.Label>
+                            <FormStyled.Input
                                 type="text"
                                 id="name"
                                 name="name"
@@ -66,7 +67,7 @@ const EditChannelModal = (props) => {
                                     })
                                 }
                             />
-                        </ModalStyled.Fieldset>
+                        </FormStyled.Fieldset>
                     )
                 })}
                 <Styled.AddChannelButton>
@@ -82,13 +83,13 @@ const EditChannelModal = (props) => {
                     />
                 </Styled.AddChannelButton>
 
-                <ModalStyled.Button
+                <FormStyled.Button
                     onClick={submitHandler}
                     id="submit_msg"
                     type="button"
                 >
                     Submit
-                </ModalStyled.Button>
+                </FormStyled.Button>
             </Styled.Container>
         </Modal>
     )

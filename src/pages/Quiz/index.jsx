@@ -4,7 +4,7 @@ import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import * as Styled from './style'
 import space from '../../utils/canvas'
-import QuizContainer from './Component/QuizContainer'
+import CreateQuestion from './Component/CreateQuestion'
 
 const CreateQuiz = () => {
     const [title, setTitle] = useState()
@@ -27,7 +27,7 @@ const CreateQuiz = () => {
                 {showComponent ? (
                     <>
                         <Styled.Fieldset>
-                            <Styled.Label for="name">QUIZ TITLE</Styled.Label>
+                            <Styled.Label htmlFor="name">QUIZ TITLE</Styled.Label>
                             <Styled.Input
                                 onChange={(e) => setTitle(e.target.value)}
                                 type="text"
@@ -38,7 +38,7 @@ const CreateQuiz = () => {
                             />
                         </Styled.Fieldset>
                         <Styled.Fieldset>
-                            <Styled.Label for="description">
+                            <Styled.Label htmlFor="description">
                                 QUIZ Description
                             </Styled.Label>
                             <Styled.Textarea
@@ -59,7 +59,7 @@ const CreateQuiz = () => {
                         </Styled.Button>
                     </>
                 ) : (
-                    <QuizContainer />
+                    <CreateQuestion />
                 )}
             </Styled.Container>
             <Footer />

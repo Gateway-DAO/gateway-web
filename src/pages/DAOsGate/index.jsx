@@ -1,9 +1,14 @@
 import React from "react";
 import * as Styled from "./style";
 import Header from "../../components/Header"
+import { useHistory } from "react-router-dom";
+
 
 const DAOsGate= ()=>{
-
+    const history = useHistory()
+    const addGate = ()=>{
+        history.push("/add-gate");
+    }
     return(
         <Styled.MainPage>
             <Header />
@@ -20,7 +25,7 @@ const DAOsGate= ()=>{
                 </Styled.Top>
                 <Styled.CardCategoryTitleDev>
                     <Styled.CategryTitle>Dummy</Styled.CategryTitle>
-                    <Styled.AddButton>
+                    <Styled.AddButton onClick={addGate}>
                         <Styled.ButtonText>Add Gate</Styled.ButtonText>
                     </Styled.AddButton>
                 </Styled.CardCategoryTitleDev>

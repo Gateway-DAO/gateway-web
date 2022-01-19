@@ -7,6 +7,7 @@ export const RelatedContainer = styled.section`
     background-position: center;
     background-size: cover;
     height: 100%;
+    width: 100%;
     justify-content: center;
     flex-direction: column;
     margin-bottom: 20px;
@@ -35,7 +36,7 @@ export const MediumText = styled.h4`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 36px;
+    font-size: 20px;
     line-height: 64px;
     text-align: left;
     /* or 100% */
@@ -74,7 +75,7 @@ export const StyledShowAllButton = styled(Link)`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 21px;
+    font-size: 18px;
     line-height: 31px;
     color: #e5e5e5;
 `

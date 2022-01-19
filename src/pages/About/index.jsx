@@ -18,10 +18,11 @@ const About = () => {
                     <Styled.TextContent>
                         <Styled.Heading>About Us</Styled.Heading>
                         <Styled.Description>
-                            Gateway is the premier DAO discoveryplatform by
-                            helping curate and maintain important information on
-                            Web3 communities. We are the Gateway for crypto
-                            curious individuals into DAOs.
+                            <Styled.BoldText>Gateway</Styled.BoldText> is the
+                            premier DAO discovery platform by helping curate and
+                            maintain important information on Web3 communities.
+                            We are the Gateway for crypto curious individuals
+                            into DAOs.
                         </Styled.Description>
                     </Styled.TextContent>
                 </Styled.Container>
