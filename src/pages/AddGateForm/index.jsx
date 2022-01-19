@@ -1,17 +1,39 @@
 import React, { useRef, useState } from 'react'
-// import Modal from '../../components/Modal/index';
-// import styled from "styled-components";
-import RichEditor from '../../components/RichTextEditor'
+
+//Styling 
 import * as Styled from './styles'
-// import * as Styled from '../../../components/Modal/style';
+import { FormStyled, ImageUpload } from '../../components/Form'
+
+//Components
 import Header from '../../components/Header'
 import SearchedItem from './Components/SearhedItem'
-import { FormStyled, ImageUpload } from '../../components/Form'
-// import icon from "../../assets/imageicon.jpeg"
+
+//Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 
+//Validation
+import {Formik} from "formik";
+import * as yup from 'yup';
+
+const validateSchema = yup.object({
+    title: yup.string().required("Name is Required!"),
+    description: yup.string().required("Description is Reqired!"),
+    keyRequired: yup
+        .number()
+        .min(0,"Required keys can not be less then 0")
+        .required("Value is Required!"),
+    category:  yup
+        .array()
+        .of(
+            yup.string("Enter only String").required("Required")
+        )
+        .min(1, "Atleast one value is required")
+
+})
+
+
 const AddGateForm = (toggleForm) => {
-    const [name, setName] = useState('')
+    const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [retroactiveEarners, setretroactiveEarners] = useState([''])
     const fileInputField = useRef(null)
@@ -111,12 +133,12 @@ const AddGateForm = (toggleForm) => {
                         Gate Title*
                     </FormStyled.Label>
                     <FormStyled.Input
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setTitle(e.target.value)}
                         type="text"
-                        id="name"
-                        name="name"
+                        id="title"
+                        name="title"
                         placeholder="This will be the title of your Gate"
-                        value={name}
+                        value={title}
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>

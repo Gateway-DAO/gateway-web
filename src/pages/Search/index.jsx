@@ -3,7 +3,7 @@ import * as Styled from './style'
 // Hooks
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { useLazySearchDAO } from '../../api/database/useSearchDAO'
+import { useSearchDAO } from '../../api/database/useSearchDAO'
 
 // Components
 import Header from '../../components/Header'
@@ -25,8 +25,9 @@ const Search = (props) => {
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
             console.log(searchData)
-            navigate(`/search/${e.target.value}`)
             setToggle(false)
+            navigate(`/search/${e.target.value}`)
+            
         }
     }
     const handelSearchAll = () => {
@@ -49,19 +50,39 @@ const Search = (props) => {
     }
     
     const {
-        searchDAO,
         data: searchData,
         loading: searchLoading,
         error: searchError,
-    } = useLazySearchDAO()
+        called: searchCalled,
+    } = useSearchDAO({
+        variables: {
+            filter: {
+                or: [
+                    { dao: { wildcard: `*${inputVal}*` } },
+                    { name: { wildcard: `*${inputVal}*` } },
+                    { description: { wildcard: `*${inputVal}*` } },
+                    { categories: { match: `*${inputVal}*` } },
+                    { tags: { wildcard: `*${inputVal}*` } },
+                ],
+            },
+        },
+    })
 
-    useEffect(() => {
-        setHits(!searchLoading ? searchData.searchDAOs.items : [])
-        // setToggle(true);
-    }, [searchData, searchLoading])
+    // useEffect(() => {
+    //     setHits(!searchLoading ? searchData.searchDAOs.items : [])
+    //     console.log(hits);
+    //     setToggle(true);
+    // }, [searchData, searchLoading,inputVal])
     
     if (searchError) {
         return <Navigate to="/404" />
+    }
+
+    const typing = async (val)=>{
+        setInputVal(val);
+        await setHits(!searchLoading ? searchData.searchDAOs.items : [])
+        console.log(hits);
+        setToggle(true);
     }
 
     return (
@@ -97,12 +118,12 @@ const Search = (props) => {
                             //    onKeyUp={pauseTyping}
                             type="input"
                             value={inputVal}
-                            onChange={e => setInputVal(e.target.value)}
+                            onChange={e => typing(e.target.value)}
                             onKeyPress={handleEnter}
                             onClick={() => setToggle(true)}
                         />
                         <Styled.WrappedFiSearch />
-                        {hits.length !== 0 && (
+                        {hits.length !== 0 && toggle && (
                             <Styled.SearchSuggestionBox>
                                 {hits
                                     .filter((item, idx) => idx < 5)

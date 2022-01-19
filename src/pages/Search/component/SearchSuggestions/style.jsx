@@ -18,7 +18,7 @@ export const SearchSuggestionItem = styled.div`
     padding-left:40px;
     cursor:pointer;
     // &:hover{
-
+    //     background-color: #A5A5A5;
     // }
 `
 export const SearchLogo = styled.img`
