@@ -3,6 +3,7 @@ import EditIcon from '../../theme/icons/Edit'
 import PfpBox from '../PfpBox'
 import { useState } from 'react'
 import Switch from 'react-switch'
+import KeyStatusBar from '../AddNewKeyComponents/KeyStatusBar'
 
 const GateCard = (props) => {
     const [checked, setChecked] = useState(false)
@@ -56,7 +57,8 @@ have earned it."
                 <Styled.InfoBox>
                     <Styled.MediumHeading>KEYS REQUIRED </Styled.MediumHeading>
                     <Styled.KeyBox>
-                        <Styled.Circle />
+                        {/* <Styled.Circle /> */}
+                        <KeyStatusBar radius='9' keys='100' TotalKeys='200'/>
                         <Styled.SmallText>200 of 200</Styled.SmallText>
                     </Styled.KeyBox>
                 </Styled.InfoBox>

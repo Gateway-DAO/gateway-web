@@ -35,7 +35,7 @@ const DaoGateWithKeys = (props) => {
                     <Styled.SecondDiv>
                         <Styled.SecondDivName>Keys</Styled.SecondDivName>
                         <Styled.AnotherDiv>
-                            <Styled.Circle />
+                            <Styled.Circle  />
                             <Styled.ProgressInfoDiv>
                                 <Styled.ProgressInfoDivOne>
                                     Progress
