@@ -15,7 +15,7 @@ const AddGateForm = (toggleForm) => {
     const [description, setDescription] = useState('')
     const [retroactiveEarners, setretroactiveEarners] = useState([''])
     const fileInputField = useRef(null)
-    const [files, setFile] = useState('')
+    //const [files, setFile] = useState('')
     const $input = useRef(null)
     const [uploadFile, setUploadFile] = useState(null)
     const [over, setover] = useState(false)
@@ -101,10 +101,26 @@ const AddGateForm = (toggleForm) => {
             retroactiveEarners.filter((value, i) => i !== idx)
         )
     }
+
+    const onSave = (e) => {
+        e.preventDefault()
+        if (!uploadFile) {
+            alert('please upload nft')
+            return false
+        }
+        console.log(e)
+    }
     return (
         <Styled.Page>
             <Header />
-            <Styled.Container>
+            <Styled.Container
+                onSubmit={onSave}
+                onKeyPress={(event) => {
+                    if (event.which === 13 /* Enter */) {
+                        event.preventDefault()
+                    }
+                }}
+            >
                 <Styled.Header>Create a New Gate</Styled.Header>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="title">
@@ -117,6 +133,7 @@ const AddGateForm = (toggleForm) => {
                         name="name"
                         placeholder="This will be the title of your Gate"
                         value={name}
+                        required
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
@@ -126,7 +143,9 @@ const AddGateForm = (toggleForm) => {
                     <FormStyled.Textarea
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}
+                        name="description"
                         placeholder="This will be the description of your Gate. We reccommend maximum of 2 lines."
+                        required
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
@@ -135,7 +154,7 @@ const AddGateForm = (toggleForm) => {
                     </FormStyled.Label>
                     <Styled.InputSmall
                         onChange={(e) => setKeyRequired(e.target.value)}
-                        type="text"
+                        type="number"
                         id="keyReq"
                         name="keyReq"
                         placeholder="0"
@@ -209,13 +228,13 @@ const AddGateForm = (toggleForm) => {
                             <input
                                 type="file"
                                 accept="image/*, video/*, audio/*"
+                                name="file"
                                 hidden
                                 ref={$input}
                                 onChange={(e) => {
                                     //setUploadFile(e.target.files[0])
                                     onUploadeFile(e.target.files[0])
                                 }}
-                                required
                             ></input>
                         </Styled.DragArea>
                     ) : (
@@ -244,6 +263,7 @@ const AddGateForm = (toggleForm) => {
                         name="badgeName"
                         placeholder="Insert the name here"
                         value={badgeName}
+                        required
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
@@ -286,6 +306,8 @@ const AddGateForm = (toggleForm) => {
                                             idx
                                         )
                                     }
+                                    name={retroactiveEarners}
+                                    required
                                 />
                                 <FormStyled.IconButton
                                     onClick={() => removeRetroactiveEarner(idx)}
@@ -320,6 +342,7 @@ const AddGateForm = (toggleForm) => {
                         placeholder="Search"
                         onKeyPress={addPrerequisite}
                         value={prerequisite}
+                        required
                     />
                     {prerequisiteList.length > 0 && (
                         <Styled.CategoryList>
@@ -330,9 +353,7 @@ const AddGateForm = (toggleForm) => {
                     )}
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button id="submit_msg" type="button">
-                    Submit
-                </FormStyled.Button>
+                <FormStyled.Button type="submit">Submit</FormStyled.Button>
             </Styled.Container>
         </Styled.Page>
     )
