@@ -278,6 +278,7 @@ const AddGateForm = (toggleForm) => {
                         placeholder="Search for admins"
                         onKeyPress={addAdmin}
                         value={admin}
+                        required
                     />
                     {adminList.length > 0 && (
                         <Styled.CategoryList>
