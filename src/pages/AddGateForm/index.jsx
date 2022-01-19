@@ -154,7 +154,7 @@ const AddGateForm = (toggleForm) => {
                         id="title"
                         name="title"
                         placeholder="This will be the title of your Gate"
-                        value={name}
+                        value={title}
                         required
                     />
                 </FormStyled.Fieldset>
