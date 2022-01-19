@@ -11,6 +11,7 @@ export const Header = styled.header`
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+    cursor: pointer;
 `
 
 export const Title = styled.h2`

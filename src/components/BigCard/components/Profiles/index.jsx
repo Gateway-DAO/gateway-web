@@ -60,7 +60,7 @@ const Profile = (props) => {
     const [showMVModal, setShowMVModal] = useState(false)
     const [showEditModal, setShowEditModal] = useState(false)
 
-    let youtubeID = ytVideoID(props.youtubeURL) || ""
+    let youtubeID = props.youtubeURL ? ytVideoID(props.youtubeURL) : null
 
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
     const toggleBountyInfoModal = (idx) =>
@@ -161,7 +161,7 @@ const Profile = (props) => {
                             {parser(props.description)}
                         </Styled.Description>
                         <Styled.DivContainer>
-                            {props.youtubeURL && (
+                            {(props.youtubeURL && youtubeID) && (
                                 <Styled.YoutubeVideoContainer>
                                     <iframe
                                         width="90%"

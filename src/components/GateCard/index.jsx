@@ -39,7 +39,7 @@ have earned it."
                 ))} */}
 
                 <Styled.Category>
-                    <Styled.CategoryLink>protocol</Styled.CategoryLink>
+                    <Styled.CategoryLink to='/'>protocol</Styled.CategoryLink>
                 </Styled.Category>
             </Styled.CategoryList>
             <Styled.CardBody>

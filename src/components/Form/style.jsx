@@ -15,7 +15,21 @@ export const Fieldset = styled.fieldset`
     margin: ${(props) => props.marginY || '10px'} 0;
     margin-bottom: ${(props) => props.marginBottom || "30px"};
 `
-
+export const FieldsetWrapper = styled.fieldset`
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+    // flex-direction: column;
+    // margin: ${(props) => props.marginY || '10px'} 0;
+    margin-bottom: ${(props) => props.marginBottom || "30px"};
+`
+export const Wrapper = styled.div`
+    width: 100%;
+    display: flex;
+    align-items:center;
+    margin-top: ${(props) => props.marginTop || "0"};
+    margin-bottom: ${(props) => props.marginBottom || "30px"};
+`
 export const Label = styled.label`
     font-family: Poppins;
     font-style: normal;
@@ -27,6 +41,27 @@ export const Label = styled.label`
     text-transform: uppercase;
 
     color: #ffffff;
+`
+export const TextLabel = styled.div`
+
+// position: absolute;
+// width: 547px;
+// height: 38px;
+// left: 435px;
+// top: 602px;
+margin-left:${props=>props.marginLeft || "0px"};
+font-family: Be Vietnam;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 26px;
+/* or 162% */
+
+display: flex;
+align-items: center;
+
+color: #E5E5E5;
+
 `
 
 export const Textarea = styled.textarea`
@@ -77,6 +112,7 @@ export const Button = styled.button`
 export const IconButton = styled(Button)`
     display: flex;
     padding: 10px;
+    margin-top:0;
 `
 
 export const Input = styled.input`
@@ -100,6 +136,28 @@ export const Input = styled.input`
     outline: none;
 
     ${(props) => (!!props.value ? FilledInput : '')}
+`
+export const SmallInput = styled.input`
+border: 1px solid rgba(255, 255, 255, 0.2);
+box-sizing: border-box;
+border-radius: 5px;
+padding: 10px;
+
+font-family: Be Vietnam;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 18px;
+display: flex;
+align-items: center;
+letter-spacing: 0.05em;
+background: #170627;
+color: #e5e5e5;
+margin: 15px 0;
+width:  324px;
+outline: none;
+
+${(props) => (!!props.value ? FilledInput : '')}
 `
 const SearchInput = styled.input`
 border: 1px solid rgba(255, 255, 255, 0.2);

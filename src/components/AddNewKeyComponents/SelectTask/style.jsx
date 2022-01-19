@@ -32,9 +32,9 @@ export const TasksBox = styled.div`
     color: #444;
     align-self: center;
     justify-items: center;
-    justify-content: center;
+    // justify-content: center;
 `
-export const TaskBox = styled(Link)`
+export const TaskBox = styled.div`
     display: flex;
     height: 100px;
     width: 200px;
@@ -44,6 +44,7 @@ export const TaskBox = styled(Link)`
     font-size: 150%;
     justify-content: center;
     border: solid rgba(255, 255, 255, 0.1);
+    background:${props => props.background || ""};
     border-radius: 5px;
     cursor: pointer;
     text-decoration:none;

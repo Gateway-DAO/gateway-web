@@ -1,7 +1,7 @@
 import * as Styled from './style'
 import { useState } from 'react'
 import { BoldText } from '../../../../../pages/About/style'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Subcategories = ({ activeCategory, setActiveCategory }) => {
     const categories = [
@@ -17,9 +17,9 @@ const Subcategories = ({ activeCategory, setActiveCategory }) => {
         console.log(name)
         setActiveCategory(name)
     }
-    const history = useHistory()
+    const navigate = useNavigate();
     const addGate = ()=>{
-        history.push("/add-gate");
+        navigate("/add-gate");
     }
     return (
         <Styled.Wrapper>

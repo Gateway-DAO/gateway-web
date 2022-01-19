@@ -2,15 +2,15 @@ import React from 'react'
 import * as Styled from './style'
 import BackIcon from '../../../../../../assets/icons/BackIcon.svg'
 import ShareIcon from '../../../../../../assets/icons/share.svg'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 //import'./BackButton.css';
 
 const BackButton = (props) => {
-    let history = useHistory()
+    const navigate = useNavigate();
     return (
         <Styled.Wrapper>
             <Styled.Div>
-                <Styled.ButtonWrapper onClick={() => history.goBack()}>
+                <Styled.ButtonWrapper onClick={() => navigate(-1)}>
                     <img src={BackIcon} alt="Back" />
                 </Styled.ButtonWrapper>
                 <Styled.TextWrapper>
@@ -21,7 +21,7 @@ const BackButton = (props) => {
                 <Styled.TextWrapper>
                     <Styled.Text>Share</Styled.Text>
                 </Styled.TextWrapper>
-                <Styled.ButtonWrapper onClick={() => history.goBack()}>
+                <Styled.ButtonWrapper onClick={() => navigate(-1)}>
                     <img src={ShareIcon} alt="Share" />
                 </Styled.ButtonWrapper>
             </Styled.Div>

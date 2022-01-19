@@ -1,5 +1,4 @@
-import { useParams, useHistory, Redirect } from 'react-router'
-import styled from 'styled-components'
+import { useParams, useNavigate, Navigate } from 'react-router-dom'
 
 import { useGetDAOByID } from '../../api/database/useGetDAO'
 
@@ -18,6 +17,7 @@ import * as Styled from './style'
 import { API, graphqlOperation } from 'aws-amplify'
 import { gql } from '@apollo/client'
 import { onUpdateDao } from '../../graphql/subscriptions'
+import BackButton from '../../components/BackButton'
 
 const DAO = (props) => {
     const { id } = useParams()
@@ -35,9 +35,9 @@ const DAO = (props) => {
     const { data: dbData, loading, error } = useGetDAOByID(id)
     const [loaded, setLoaded] = useState(false)
     const [inputVal, setInputVal] = useState('')
-    const history = useHistory()
-    const navigate = (e) => {
-        history.goBack()
+    const navigate = useNavigate()
+    const traverse = (e) => {
+        navigate(-1)
     }
 
     // Get CoinGecko data
@@ -153,28 +153,21 @@ const DAO = (props) => {
 
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            history.push(`/search/${e.target.value}`)
+            navigate(`/search/${e.target.value}`)
         }
     }
 
     if (error) {
         console.error(error)
-        return <Redirect to="/404" />
+        return <Navigate to="/404" />
     }
 
     return (
-        <Styled.Container isLoaded={loaded}>
+        <Styled.Container>
             <Header search={{ visible: true }} />
             <Styled.SearchTermContainer>
                 <Styled.BackButtonContainer>
-                    <Styled.BackHomeButton onClick={(e) => navigate()}>
-                        <Styled.BackHomeButtonText>
-                            &#8592;
-                        </Styled.BackHomeButtonText>
-                    </Styled.BackHomeButton>
-                    <Styled.BackButtonText>
-                        Back to Results
-                    </Styled.BackButtonText>
+                    <BackButton>Back to Results</BackButton>
                 </Styled.BackButtonContainer>
                 <Styled.SearchInputBox>
                     <Styled.SearchInput

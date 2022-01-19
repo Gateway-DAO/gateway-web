@@ -4,7 +4,7 @@ import * as ModalStyled from "../style";
 import { FormStyled } from "../../Form";
 import { useState } from "react";
 import { FaTrashAlt, FaPlus } from "react-icons/fa";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
 
 const HowtoJoinModal = props => {
@@ -12,10 +12,8 @@ const HowtoJoinModal = props => {
     const { updateDAO, data, error, loading } = useUpdateDAO();
 
     const submitToDB = async () => {
-        const newHTJ = inputs.filter(step => !!step.description).map(step => {
-            return {
-                description: step.description
-            }
+        const newHTJ = inputs.filter(step => !!step).map(step => {
+            return step
         })
 
         await updateDAO({ variables: {
@@ -37,14 +35,14 @@ const HowtoJoinModal = props => {
         e.preventDefault();
         setInputs(inputs.map((i, index) => {
             if (index === idx) {
-                return { description: e.target.value }
+                return e.target.value
             }
 
             return i
         }))
     }
 
-    if (error) { return <Redirect to="/404" /> }
+    if (error) { return <Navigate to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>
@@ -57,14 +55,14 @@ const HowtoJoinModal = props => {
                         <FormStyled.InputWrapper>
                             <FormStyled.Input id={`description-${idx}`} key={`htj-input-${idx}`}
                                 placeholder="If you hold the required amount of tokens, you are given access to the discord"
-                                onChange={e => changeInput(idx, e)} value={step.description} type="text" />
+                                onChange={e => changeInput(idx, e)} value={step} type="text" />
                             <FormStyled.IconButton onClick={() => deleteInput(idx)} style={{ marginLeft: "10px" }}><FaTrashAlt /></FormStyled.IconButton>
                         </FormStyled.InputWrapper>
                     </FormStyled.Fieldset>
                 ))}
 
                 <FormStyled.InputWrapper>
-                    <FormStyled.IconButton style={{ marginRight: "10px" }} onClick={e => setInputs([...inputs, { description: "" }])}><FaPlus /></FormStyled.IconButton>
+                    <FormStyled.IconButton style={{ marginRight: "10px" }} onClick={e => setInputs([...inputs, ""])}><FaPlus /></FormStyled.IconButton>
                     <FormStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</FormStyled.Button>
                 </FormStyled.InputWrapper>
             </Styled.Container>

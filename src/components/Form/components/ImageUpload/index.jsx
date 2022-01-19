@@ -53,7 +53,6 @@ const ImageUpload = (props) => {
                             setImage(e.target.files[0])
                             setImageURL(URL.createObjectURL(e.target.files[0]))
                         }}
-                        required
                     ></input>
                 </Styled.DragArea>
             ) : (
