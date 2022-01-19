@@ -39,7 +39,8 @@ export const Label = styled.label`
 
     letter-spacing: 0.05em;
     text-transform: uppercase;
-
+    display: flex;
+    align-items: center;
     color: #ffffff;
 `
 export const TextLabel = styled.div`
@@ -317,4 +318,26 @@ export const SubText = styled.p`
     text-transform: capitalize;
 
     color: rgba(229, 229, 229, 0.6);
+`
+
+export const QuestionIcon = styled.span`
+    width: 15px;
+    height: 15px;
+    margin-left: 10px; 
+    // padding: 2px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    /* or 118% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #A5A5A5;
+    border: 1px solid #A5A5A5;
+    box-sizing: border-box;
+    border-radius: 100%;
+
 `

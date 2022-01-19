@@ -5,7 +5,7 @@ import {useState} from "react";
 const SelectTask = ({setLink}) => {
     const tasks = [
         { task: 'CREATE A QUIZ', link: '' },
-        { task: 'Hold a NFT', link: '' },
+        { task: 'MEETING Code', link: '' },
         { task: 'HOLD A TOKEN', link: '/dao/forefront/newkey/token' },
         { task: 'SMART CONTRACT INTERACTION', link: '' },
         {
@@ -13,9 +13,7 @@ const SelectTask = ({setLink}) => {
             link: '/dao/forefront/newkey/governance',
         },
         { task: 'MANUAL TASK', link: '/dao/forefront/newkey/manual' },
-        { task: 'COORDINAPE', link: '' },
-        { task: 'SOURCECRED', link: '' },
-        { task: 'COLONY', link: '' },
+        { task: 'Self Verify', link: '' },
     ]
     const [selected, setSelected] = useState("");
     const selectTask = (task)=>{

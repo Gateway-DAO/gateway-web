@@ -13,10 +13,7 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import space from '../../utils/canvas'
 
 const AddNewKey = (props)=>{
-    // const { loggedIn } = useAuth()
     const [taskLink, setTaskLink] = useState("");
-    // const [title, setTitle]=useState("");
-    // const [description,setDescription] = useState("");
     const [titleDescriptionPair,setTitleDescriptionPair] = useState([{
         title:'',
         description:''
@@ -25,6 +22,8 @@ const AddNewKey = (props)=>{
     const [amount, setAmount] = useState(0);
     const [keysRewarded, setKeysRewarded] = useState(0);
     const [peopleLimit, setPeopleLimit] = useState(0);
+
+    //Update the title 
     const updateTitle=(idx, newValue)=>{
         const add= titleDescriptionPair.map((value,i)=>{
             if(idx===i){
@@ -37,6 +36,7 @@ const AddNewKey = (props)=>{
         })
         setTitleDescriptionPair(add);
     }
+    // Update the description
     const updateDescription=(idx, newValue)=>{
         const add= titleDescriptionPair.map((value,i)=>{
             if(idx===i){
@@ -137,7 +137,7 @@ const AddNewKey = (props)=>{
                 </FormStyled.FieldsetWrapper>
                 <FormStyled.FieldsetWrapper>
                     <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor='kayRew'>Keys REWARDED</FormStyled.Label>
+                        <FormStyled.Label htmlFor='kayRew'>Keys REWARDED <FormStyled.QuestionIcon>?</FormStyled.QuestionIcon></FormStyled.Label>
                         <FormStyled.SmallInput 
                             id="kayRew"
                             name="kayRew"
@@ -148,7 +148,7 @@ const AddNewKey = (props)=>{
                         />
                     </FormStyled.Fieldset>
                     <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor='pepleLimit'>PEOPLE LIMIT</FormStyled.Label>
+                        <FormStyled.Label htmlFor='pepleLimit'>PEOPLE LIMIT <FormStyled.QuestionIcon>?</FormStyled.QuestionIcon></FormStyled.Label>
                         <FormStyled.SmallInput 
                             id="pepleLimit"
                             name="pepleLimit"
