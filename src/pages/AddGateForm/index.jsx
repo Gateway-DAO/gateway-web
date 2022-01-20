@@ -16,25 +16,8 @@ import { useNavigate } from 'react-router-dom'
 //Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 
-//Validation
-import { Formik } from 'formik'
-import * as yup from 'yup'
-
-const validateSchema = yup.object({
-    title: yup.string().required('Name is Required!'),
-    description: yup.string().required('Description is Reqired!'),
-    keyRequired: yup
-        .number()
-        .min(0, 'Required keys can not be less then 0')
-        .required('Value is Required!'),
-    category: yup
-        .array()
-        .of(yup.string('Enter only String').required('Required'))
-        .min(1, 'Atleast one value is required'),
-})
-
 /* This is a React component that will render the form to add a gate. */
-const AddGateForm = props => {
+const AddGateForm = (props) => {
     const $input = useRef(null)
 
     // State
@@ -106,6 +89,14 @@ const AddGateForm = props => {
         }
     }
 
+    const removeCategories = (index) => {
+        if (retroactiveEarners.length === 1) {
+            alert('You have to put at least one Category')
+            return false
+        }
+        setCategoryList(categoryList.filter((value, i) => i !== index))
+    }
+
     /* The addPrerequisite function is called when the user presses the Enter key. 
     The function adds the prerequisite to the prerequisiteList array and clears the prerequisite
     text field. */
@@ -151,6 +142,7 @@ const AddGateForm = props => {
         )
     }
 
+    /* We create a new gate with the variables we've defined. */
     const onSave = async (e) => {
         try {
             e.preventDefault()
@@ -164,7 +156,7 @@ const AddGateForm = props => {
                 variables: {
                     input: {
                         id: uuidv4(),
-                        daoID: "hjtryubtkyr", // TODO: need to fix this
+                        daoID: 'hjtryubtkyr', // TODO: need to fix this
                         name: title,
                         description,
                         categories: categoryList,
@@ -172,14 +164,13 @@ const AddGateForm = props => {
                         keysNumber: keyRequired,
                         published: false,
                         badge: {
-                            name: badgeName
-                        }
+                            name: badgeName,
+                        },
                     },
                 },
             })
-        }
-        catch (err) {
-            alert("An error occurred. Please try again later!")
+        } catch (err) {
+            alert('An error occurred. Please try again later!')
             console.log(err)
         }
     }
@@ -255,8 +246,15 @@ const AddGateForm = props => {
                         </Styled.SearchIcon> */}
                     {categoryList.length > 0 && (
                         <Styled.CategoryList>
-                            {categoryList.map((category) => {
-                                return <SearchedItem val={category} />
+                            {categoryList.map((category, id) => {
+                                return (
+                                    <SearchedItem
+                                        val={category}
+                                        id={id}
+                                        setCategoryList={setCategoryList}
+                                        categoryList={categoryList}
+                                    />
+                                )
                             })}
                         </Styled.CategoryList>
                     )}
