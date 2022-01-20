@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
-//Styling 
+//Styling
 import * as Styled from './styles'
 import { FormStyled, ImageUpload } from '../../components/Form'
 
@@ -8,37 +9,38 @@ import { FormStyled, ImageUpload } from '../../components/Form'
 import Header from '../../components/Header'
 import SearchedItem from './Components/SearhedItem'
 
+// Hooks
+import { useCreateGate } from '../../api/database/useCreateGate'
+import { useNavigate } from 'react-router-dom'
+
 //Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 
 //Validation
-import {Formik} from "formik";
-import * as yup from 'yup';
+import { Formik } from 'formik'
+import * as yup from 'yup'
 
 const validateSchema = yup.object({
-    title: yup.string().required("Name is Required!"),
-    description: yup.string().required("Description is Reqired!"),
+    title: yup.string().required('Name is Required!'),
+    description: yup.string().required('Description is Reqired!'),
     keyRequired: yup
         .number()
-        .min(0,"Required keys can not be less then 0")
-        .required("Value is Required!"),
-    category:  yup
+        .min(0, 'Required keys can not be less then 0')
+        .required('Value is Required!'),
+    category: yup
         .array()
-        .of(
-            yup.string("Enter only String").required("Required")
-        )
-        .min(1, "Atleast one value is required")
-
+        .of(yup.string('Enter only String').required('Required'))
+        .min(1, 'Atleast one value is required'),
 })
 
+/* This is a React component that will render the form to add a gate. */
+const AddGateForm = props => {
+    const $input = useRef(null)
 
-const AddGateForm = (toggleForm) => {
+    // State
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [retroactiveEarners, setretroactiveEarners] = useState([''])
-    const fileInputField = useRef(null)
-    //const [files, setFile] = useState('')
-    const $input = useRef(null)
+    const [retroactiveEarners, setRetroactiveEarners] = useState([''])
     const [uploadFile, setUploadFile] = useState(null)
     const [over, setover] = useState(false)
     const [category, setCategory] = useState('')
@@ -50,14 +52,23 @@ const AddGateForm = (toggleForm) => {
     const [admin, setAdmin] = useState('')
     const [adminList, setAdminList] = useState([])
 
-    // console.log(files);
+    // Hooks
+    const { createGate, loading, data, error } = useCreateGate()
+    const navigate = useNavigate()
 
+    /* If the user has not selected a file, alert them that they need to do so. If the file is not
+    an image, alert them that they need to select an image. If the file is too large, alert them
+    that they need to select a file size less than 20kb. If the file is too large, alert them that
+    they need to select a file size less than 100mb. If the file is an image and is less than 20kb,
+    set the uploadFile state to the file.
+    */
     const onUploadeFile = (file) => {
         if (!file) {
             alert('image is required')
             setUploadFile(null)
             return false
         }
+
         if (!file.name.match(/\.(jpg|jpeg|png|gif|svg|webm)$/)) {
             alert('select valid image.')
             console.log(file)
@@ -76,31 +87,44 @@ const AddGateForm = (toggleForm) => {
             setUploadFile(null)
             return false
         }
+
         setUploadFile(file)
-        console.log(file)
     }
 
+    /* Removing the file from the upload file state. */
     const removeUploadFile = () => {
         setUploadFile(null)
     }
+
+    /* The addCategories function is called when the user presses the Enter key. 
+    The function adds the current value of the category input to the categoryList array and clears
+    the input. */
     const addCategories = (e) => {
         if (e.key === 'Enter') {
             setCategoryList([...categoryList, category])
             setCategory('')
         }
     }
+
+    /* The addPrerequisite function is called when the user presses the Enter key. 
+    The function adds the prerequisite to the prerequisiteList array and clears the prerequisite
+    text field. */
     const addPrerequisite = (e) => {
         if (e.key === 'Enter') {
             setPrerequisiteList([...prerequisiteList, prerequisite])
             setPrerequisite('')
         }
     }
+
+    /* The addAdmin function is called when the user presses the Enter key. 
+    The function adds the admin to the adminList array and resets the admin input field. */
     const addAdmin = (e) => {
         if (e.key === 'Enter') {
             setAdminList([...adminList, admin])
             setAdmin('')
         }
     }
+
     const updateRetroactiveEarner = (e, idx) => {
         console.log(idx)
         const add = retroactiveEarners.map((value, i) => {
@@ -112,26 +136,54 @@ const AddGateForm = (toggleForm) => {
             return value
         })
 
-        setretroactiveEarners(add)
+        setRetroactiveEarners(add)
     }
+
+    /* The removeRetroactiveEarner function is called when the user clicks the remove button. It
+    removes the retroactive earner at the index of the button that was clicked. */
     const removeRetroactiveEarner = (idx) => {
-        if (retroactiveEarners.length == 1) {
-            alert('you have to put atleast one retroactive earner')
+        if (retroactiveEarners.length === 1) {
+            alert('You have to put at least one retroactive earner')
             return false
         }
-        setretroactiveEarners(
+        setRetroactiveEarners(
             retroactiveEarners.filter((value, i) => i !== idx)
         )
     }
 
-    const onSave = (e) => {
-        e.preventDefault()
-        if (!uploadFile) {
-            alert('please upload nft')
-            return false
+    const onSave = async (e) => {
+        try {
+            e.preventDefault()
+
+            if (!uploadFile) {
+                alert('Please upload an NFT')
+                return false
+            }
+
+            await createGate({
+                variables: {
+                    input: {
+                        id: uuidv4(),
+                        daoID: "hjtryubtkyr", // TODO: need to fix this
+                        name: title,
+                        description,
+                        categories: categoryList,
+                        admins: adminList,
+                        keysNumber: keyRequired,
+                        published: false,
+                        badge: {
+                            name: badgeName
+                        }
+                    },
+                },
+            })
         }
-        console.log(e)
+        catch (err) {
+            alert("An error occurred. Please try again later!")
+            console.log(err)
+        }
     }
+
     return (
         <Styled.Page>
             <Header />
@@ -300,7 +352,6 @@ const AddGateForm = (toggleForm) => {
                         placeholder="Search for admins"
                         onKeyPress={addAdmin}
                         value={admin}
-                        required
                     />
                     {adminList.length > 0 && (
                         <Styled.CategoryList>
@@ -313,7 +364,7 @@ const AddGateForm = (toggleForm) => {
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="retroactiveLearner">
-                        RETROACTIVE LEARNER
+                        RETROACTIVE EARNER
                     </FormStyled.Label>
                     {retroactiveEarners.map((retroactiveEarner, idx) => {
                         return (
@@ -330,7 +381,6 @@ const AddGateForm = (toggleForm) => {
                                         )
                                     }
                                     name={retroactiveEarners}
-                                    required
                                 />
                                 <FormStyled.IconButton
                                     onClick={() => removeRetroactiveEarner(idx)}
@@ -343,7 +393,7 @@ const AddGateForm = (toggleForm) => {
                     })}
                     <FormStyled.IconButton
                         onClick={() =>
-                            setretroactiveEarners([...retroactiveEarners, ''])
+                            setRetroactiveEarners([...retroactiveEarners, ''])
                         }
                         style={{
                             width: 'fit-content',
@@ -365,7 +415,6 @@ const AddGateForm = (toggleForm) => {
                         placeholder="Search"
                         onKeyPress={addPrerequisite}
                         value={prerequisite}
-                        required
                     />
                     {prerequisiteList.length > 0 && (
                         <Styled.CategoryList>

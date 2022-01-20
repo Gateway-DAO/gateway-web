@@ -45,27 +45,28 @@ const App = (props) => {
                         path="/profile/add-experience"
                         element={<AddExperience />}
                     />
-                    <Route
-                        path="/dao/daoname/newkey/governance"
-                        element={<AddGovernanceSnapshopt />}
-                    />
 
+                    {/* TODO: make this compliant with V6 */}
+                    <Route path="dao/:id" element={<DAO />} />
+                    <Route path="dao/:id/add-gate" element={<AddGateForm />} />
+                    <Route path="/dao/:id/add-key" element={<AddNewKey />} />
                     <Route
-                        path="/dao/daoname/newkey/token"
+                        path="/dao/:id/add-key/token"
                         element={<AddHoldToken />}
                     />
                     <Route
-                        path="/dao/forefront/newkey/manual"
+                        path="/dao/:id/add-key/manual"
                         element={<AddManualTask />}
                     />
                     <Route
-                        path="/dao/daoname/newkey/success"
+                        path="/dao/:id/add-key/governance"
+                        element={<AddGovernanceSnapshopt />}
+                    />
+                    <Route
+                        path="/dao/:id/add-key/success"
                         element={<AddKeySuccess />}
                     />
 
-                    <Route path="/dao/daoname/newkey" element={<AddNewKey />} />
-                    {/* Add New Key Routes ends */}
-                    <Route path="/dao/:id" element={<DAO />} />
                     <Route path="/search/:query" element={<Search />} />
                     <Route path="/profile/" element={<ProfilePage />}>
                         <Route path=":searchTerm" element={<ProfilePage />} />

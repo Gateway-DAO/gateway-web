@@ -1,4 +1,4 @@
-import { useParams, useNavigate, Navigate } from 'react-router-dom'
+import { useParams, useNavigate, Navigate, Outlet } from 'react-router-dom'
 
 import { useGetDAOByID } from '../../api/database/useGetDAO'
 

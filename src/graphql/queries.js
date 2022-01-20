@@ -217,7 +217,8 @@ export const getDao = /* GraphQL */ `
                     description
                     categories
                     admins
-                    keys
+                    keysNumber
+                    published
                     createdAt
                     updatedAt
                 }
@@ -326,6 +327,21 @@ export const getBounty = /* GraphQL */ `
                 logoURL
                 bounties {
                     nextToken
+                    items {
+                        id
+                        daoID
+                        headline
+                        description
+                        level
+                        categories
+                        reward
+                        directions
+                        links
+                        endDate
+                        postDate
+                        createdAt
+                        updatedAt
+                    }
                 }
                 categories
                 tags
@@ -445,6 +461,21 @@ export const getTokenBenefit = /* GraphQL */ `
                 logoURL
                 bounties {
                     nextToken
+                    items {
+                        id
+                        daoID
+                        headline
+                        description
+                        level
+                        categories
+                        reward
+                        directions
+                        links
+                        endDate
+                        postDate
+                        createdAt
+                        updatedAt
+                    }
                 }
                 categories
                 tags
@@ -453,6 +484,16 @@ export const getTokenBenefit = /* GraphQL */ `
                 missionAndVision
                 whatDoWeDo
                 tokenBenefits {
+                    items {
+                        id
+                        daoID
+                        amount
+                        description
+                        title
+                        token
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 upcomingHangouts
@@ -549,6 +590,21 @@ export const getChannel = /* GraphQL */ `
                 logoURL
                 bounties {
                     nextToken
+                    items {
+                        id
+                        daoID
+                        headline
+                        description
+                        level
+                        categories
+                        reward
+                        directions
+                        links
+                        endDate
+                        postDate
+                        createdAt
+                        updatedAt
+                    }
                 }
                 categories
                 tags
@@ -1011,6 +1067,21 @@ export const getGate = /* GraphQL */ `
                 logoURL
                 bounties {
                     nextToken
+                    items {
+                        id
+                        daoID
+                        headline
+                        description
+                        level
+                        categories
+                        reward
+                        directions
+                        links
+                        endDate
+                        postDate
+                        createdAt
+                        updatedAt
+                    }
                 }
                 categories
                 tags
@@ -1052,18 +1123,28 @@ export const getGate = /* GraphQL */ `
             description
             categories
             admins
-            keys
-            tasks {
+            keysNumber
+            keys {
                 items {
                     id
                     gateID
-                    title
-                    description
-                    completed
+                    token
+                    tokenAmount
+                    keys
+                    peopleLimit
                     createdAt
                     updatedAt
                 }
                 nextToken
+            }
+            published
+            badge {
+                nftURL
+                ipfsURL
+                name
+            }
+            preRequisites {
+                completedGates
             }
             createdAt
             updatedAt
@@ -1106,9 +1187,18 @@ export const listGates = /* GraphQL */ `
                 description
                 categories
                 admins
-                keys
-                tasks {
+                keysNumber
+                keys {
                     nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
                 }
                 createdAt
                 updatedAt
@@ -1117,19 +1207,11 @@ export const listGates = /* GraphQL */ `
         }
     }
 `
-export const getTask = /* GraphQL */ `
-    query GetTask($id: ID!) {
-        getTask(id: $id) {
+export const getKey = /* GraphQL */ `
+    query GetKey($id: ID!) {
+        getKey(id: $id) {
             id
             gateID
-            title
-            description
-            triggers {
-                type
-                completed
-                noOfPeople
-            }
-            completed
             gate {
                 id
                 daoID
@@ -1159,36 +1241,62 @@ export const getTask = /* GraphQL */ `
                 description
                 categories
                 admins
-                keys
-                tasks {
+                keysNumber
+                keys {
                     nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
                 }
                 createdAt
                 updatedAt
+            }
+            information {
+                title
+                description
+            }
+            token
+            tokenAmount
+            keys
+            peopleLimit
+            task {
+                type
+                ... on Quiz {
+                    questions {
+                        question
+                    }
+                    passedAt
+                }
+                ... on MeetingCode {
+                    code
+                    caseSensitive
+                }
+                ... on TokenHold {
+                    chainID
+                    address
+                }
             }
             createdAt
             updatedAt
         }
     }
 `
-export const listTasks = /* GraphQL */ `
-    query ListTasks(
-        $filter: ModelTaskFilterInput
+export const listKeys = /* GraphQL */ `
+    query ListKeys(
+        $filter: ModelKeyFilterInput
         $limit: Int
         $nextToken: String
     ) {
-        listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+        listKeys(filter: $filter, limit: $limit, nextToken: $nextToken) {
             items {
                 id
                 gateID
-                title
-                description
-                triggers {
-                    type
-                    completed
-                    noOfPeople
-                }
-                completed
                 gate {
                     id
                     daoID
@@ -1196,9 +1304,32 @@ export const listTasks = /* GraphQL */ `
                     description
                     categories
                     admins
-                    keys
+                    keysNumber
+                    published
                     createdAt
                     updatedAt
+                }
+                information {
+                    title
+                    description
+                }
+                token
+                tokenAmount
+                keys
+                peopleLimit
+                task {
+                    type
+                    ... on Quiz {
+                        passedAt
+                    }
+                    ... on MeetingCode {
+                        code
+                        caseSensitive
+                    }
+                    ... on TokenHold {
+                        chainID
+                        address
+                    }
                 }
                 createdAt
                 updatedAt
@@ -1518,201 +1649,201 @@ export const getDaoById = /* GraphQL */ `
     }
 `
 export const getDaoByName = /* GraphQL */ `
-  query GetDaoByName(
-    $name: String
-    $sortDirection: ModelSortDirection
-    $filter: ModelDAOFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    getDAOByName(
-      name: $name
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
+    query GetDaoByName(
+        $name: String
+        $sortDirection: ModelSortDirection
+        $filter: ModelDAOFilterInput
+        $limit: Int
+        $nextToken: String
     ) {
-      items {
-        id
-        dao
-        name
-        faq {
-          question
-          answer
-        }
-        accomplishments
-        snapshotID
-        backgroundURL
-        youtubeURL
-        logoURL
-        bounties {
-          nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
-        }
-        categories
-        tags
-        description
-        howToJoin
-        missionAndVision
-        whatDoWeDo
-        tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
-          nextToken
-        }
-        upcomingHangouts
-        tokenAddress
-        whitelistedAddresses
-        socials {
-          network
-          url
-        }
-        chains
-        channels {
-          nextToken
-          items {
-            id
-            name
-            daoID
-            dao {
-              id
-              dao
-              youtubeURL
-              chains
-              name
-              accomplishments
-              backgroundURL
-              logoURL
-              categories
-              tags
-              description
-              howToJoin
-              missionAndVision
-              whatDoWeDo
-              upcomingHangouts
-              tokenAddress
-              whitelistedAddresses
-              createdAt
-              updatedAt
-            }
-            posts {
-              items {
+        getDAOByName(
+            name: $name
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
                 id
-                daoID
-                dao {
-                  id
-                  dao
-                  youtubeURL
-                  chains
-                  name
-                  accomplishments
-                  backgroundURL
-                  logoURL
-                  categories
-                  tags
-                  description
-                  howToJoin
-                  missionAndVision
-                  whatDoWeDo
-                  upcomingHangouts
-                  tokenAddress
-                  whitelistedAddresses
-                  createdAt
-                  updatedAt
+                dao
+                name
+                faq {
+                    question
+                    answer
                 }
-                channelID
-                channel {
-                  id
-                  name
-                  daoID
-                  createdAt
-                  updatedAt
-                }
-                userID
-                user {
-                  id
-                  wallet
-                  username
-                  name
-                  bio
-                  daos_ids
-                  init
-                  nonce
-                  pfp
-                  createdAt
-                  updatedAt
-                }
-                content
-                comments {
-                  items {
-                    id
-                    postID
-                    userID
-                    user {
-                      id
-                      wallet
-                      username
-                      name
-                      bio
-                      daos_ids
-                      init
-                      nonce
-                      pfp
-                      createdAt
-                      updatedAt
+                accomplishments
+                snapshotID
+                backgroundURL
+                youtubeURL
+                logoURL
+                bounties {
+                    nextToken
+                    items {
+                        id
+                        daoID
+                        headline
+                        description
+                        level
+                        categories
+                        reward
+                        directions
+                        links
+                        endDate
+                        postDate
+                        createdAt
+                        updatedAt
                     }
-                    content
-                    upvotes
-                    downvotes
-                    createdAt
-                    updatedAt
-                  }
                 }
-                upvotes
-                downvotes
+                categories
+                tags
+                description
+                howToJoin
+                missionAndVision
+                whatDoWeDo
+                tokenBenefits {
+                    items {
+                        id
+                        daoID
+                        amount
+                        description
+                        title
+                        token
+                        createdAt
+                        updatedAt
+                    }
+                    nextToken
+                }
+                upcomingHangouts
+                tokenAddress
+                whitelistedAddresses
+                socials {
+                    network
+                    url
+                }
+                chains
+                channels {
+                    nextToken
+                    items {
+                        id
+                        name
+                        daoID
+                        dao {
+                            id
+                            dao
+                            youtubeURL
+                            chains
+                            name
+                            accomplishments
+                            backgroundURL
+                            logoURL
+                            categories
+                            tags
+                            description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            createdAt
+                            updatedAt
+                        }
+                        posts {
+                            items {
+                                id
+                                daoID
+                                dao {
+                                    id
+                                    dao
+                                    youtubeURL
+                                    chains
+                                    name
+                                    accomplishments
+                                    backgroundURL
+                                    logoURL
+                                    categories
+                                    tags
+                                    description
+                                    howToJoin
+                                    missionAndVision
+                                    whatDoWeDo
+                                    upcomingHangouts
+                                    tokenAddress
+                                    whitelistedAddresses
+                                    createdAt
+                                    updatedAt
+                                }
+                                channelID
+                                channel {
+                                    id
+                                    name
+                                    daoID
+                                    createdAt
+                                    updatedAt
+                                }
+                                userID
+                                user {
+                                    id
+                                    wallet
+                                    username
+                                    name
+                                    bio
+                                    daos_ids
+                                    init
+                                    nonce
+                                    pfp
+                                    createdAt
+                                    updatedAt
+                                }
+                                content
+                                comments {
+                                    items {
+                                        id
+                                        postID
+                                        userID
+                                        user {
+                                            id
+                                            wallet
+                                            username
+                                            name
+                                            bio
+                                            daos_ids
+                                            init
+                                            nonce
+                                            pfp
+                                            createdAt
+                                            updatedAt
+                                        }
+                                        content
+                                        upvotes
+                                        downvotes
+                                        createdAt
+                                        updatedAt
+                                    }
+                                }
+                                upvotes
+                                downvotes
+                                createdAt
+                                updatedAt
+                            }
+                            nextToken
+                        }
+                        createdAt
+                        updatedAt
+                    }
+                }
+                  createdAt
+                  updatedAt
+            }
+                gates {
+                    nextToken
+                }
                 createdAt
                 updatedAt
-              }
-              nextToken
             }
-            createdAt
-            updatedAt
-          }
+            nextToken
         }
-          createdAt
-          updatedAt
-        }
-        gates {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
     }
-  }
 `
 export const getBountyByDaoid = /* GraphQL */ `
     query GetBountyByDaoid(
@@ -2033,9 +2164,18 @@ export const getGatesByDaoid = /* GraphQL */ `
                 description
                 categories
                 admins
-                keys
-                tasks {
+                keysNumber
+                keys {
                     nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
                 }
                 createdAt
                 updatedAt
@@ -2044,15 +2184,15 @@ export const getGatesByDaoid = /* GraphQL */ `
         }
     }
 `
-export const getTasksByGateId = /* GraphQL */ `
-    query GetTasksByGateId(
+export const getKeysByGateId = /* GraphQL */ `
+    query GetKeysByGateId(
         $gateID: ID
         $sortDirection: ModelSortDirection
-        $filter: ModelTaskFilterInput
+        $filter: ModelKeyFilterInput
         $limit: Int
         $nextToken: String
     ) {
-        getTasksByGateID(
+        getKeysByGateID(
             gateID: $gateID
             sortDirection: $sortDirection
             filter: $filter
@@ -2062,14 +2202,6 @@ export const getTasksByGateId = /* GraphQL */ `
             items {
                 id
                 gateID
-                title
-                description
-                triggers {
-                    type
-                    completed
-                    noOfPeople
-                }
-                completed
                 gate {
                     id
                     daoID
@@ -2077,9 +2209,32 @@ export const getTasksByGateId = /* GraphQL */ `
                     description
                     categories
                     admins
-                    keys
+                    keysNumber
+                    published
                     createdAt
                     updatedAt
+                }
+                information {
+                    title
+                    description
+                }
+                token
+                tokenAmount
+                keys
+                peopleLimit
+                task {
+                    type
+                    ... on Quiz {
+                        passedAt
+                    }
+                    ... on MeetingCode {
+                        code
+                        caseSensitive
+                    }
+                    ... on TokenHold {
+                        chainID
+                        address
+                    }
                 }
                 createdAt
                 updatedAt

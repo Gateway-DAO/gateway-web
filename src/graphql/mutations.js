@@ -87,7 +87,8 @@ export const createDaoWithChannels = /* GraphQL */ `
           description
           categories
           admins
-          keys
+          keysNumber
+          published
           createdAt
           updatedAt
         }
@@ -118,19 +119,6 @@ export const votePost = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-          }
         }
         categories
         tags
@@ -139,16 +127,6 @@ export const votePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -282,21 +260,6 @@ export const unvotePost = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -305,16 +268,6 @@ export const unvotePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -455,21 +408,6 @@ export const createUser = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -478,16 +416,6 @@ export const createUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -546,21 +474,6 @@ export const updateUser = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -569,16 +482,6 @@ export const updateUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -637,21 +540,6 @@ export const deleteUser = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -660,16 +548,6 @@ export const deleteUser = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -782,7 +660,8 @@ export const createDao = /* GraphQL */ `
           description
           categories
           admins
-          keys
+          keysNumber
+          published
           createdAt
           updatedAt
         }
@@ -874,7 +753,8 @@ export const updateDao = /* GraphQL */ `
           description
           categories
           admins
-          keys
+          keysNumber
+          published
           createdAt
           updatedAt
         }
@@ -966,7 +846,8 @@ export const deleteDao = /* GraphQL */ `
           description
           categories
           admins
-          keys
+          keysNumber
+          published
           createdAt
           updatedAt
         }
@@ -1008,16 +889,6 @@ export const createBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -1082,16 +953,6 @@ export const updateBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -1156,16 +1017,6 @@ export const deleteBounty = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -1408,16 +1259,6 @@ export const createChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -1480,21 +1321,6 @@ export const updateChannel = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -1503,16 +1329,6 @@ export const updateChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -1575,21 +1391,6 @@ export const deleteChannel = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -1598,16 +1399,6 @@ export const deleteChannel = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -1669,21 +1460,6 @@ export const createPost = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -1692,16 +1468,6 @@ export const createPost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -1838,21 +1604,6 @@ export const updatePost = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -1861,16 +1612,6 @@ export const updatePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -2007,21 +1748,6 @@ export const deletePost = /* GraphQL */ `
         logoURL
         bounties {
           nextToken
-          items {
-            id
-            daoID
-            headline
-            description
-            level
-            categories
-            reward
-            directions
-            links
-            endDate
-            postDate
-            createdAt
-            updatedAt
-          }
         }
         categories
         tags
@@ -2030,16 +1756,6 @@ export const deletePost = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -2352,16 +2068,6 @@ export const createGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -2385,18 +2091,28 @@ export const createGate = /* GraphQL */ `
       description
       categories
       admins
-      keys
-      tasks {
+      keysNumber
+      keys {
         items {
           id
           gateID
-          title
-          description
-          completed
+          token
+          tokenAmount
+          keys
+          peopleLimit
           createdAt
           updatedAt
         }
         nextToken
+      }
+      published
+      badge {
+        nftURL
+        ipfsURL
+        name
+      }
+      preRequisites {
+        completedGates
       }
       createdAt
       updatedAt
@@ -2434,16 +2150,6 @@ export const updateGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -2467,18 +2173,28 @@ export const updateGate = /* GraphQL */ `
       description
       categories
       admins
-      keys
-      tasks {
+      keysNumber
+      keys {
         items {
           id
           gateID
-          title
-          description
-          completed
+          token
+          tokenAmount
+          keys
+          peopleLimit
           createdAt
           updatedAt
         }
         nextToken
+      }
+      published
+      badge {
+        nftURL
+        ipfsURL
+        name
+      }
+      preRequisites {
+        completedGates
       }
       createdAt
       updatedAt
@@ -2516,16 +2232,6 @@ export const deleteGate = /* GraphQL */ `
         missionAndVision
         whatDoWeDo
         tokenBenefits {
-          items {
-            id
-            daoID
-            amount
-            description
-            title
-            token
-            createdAt
-            updatedAt
-          }
           nextToken
         }
         upcomingHangouts
@@ -2549,40 +2255,42 @@ export const deleteGate = /* GraphQL */ `
       description
       categories
       admins
-      keys
-      tasks {
+      keysNumber
+      keys {
         items {
           id
           gateID
-          title
-          description
-          completed
+          token
+          tokenAmount
+          keys
+          peopleLimit
           createdAt
           updatedAt
         }
         nextToken
       }
+      published
+      badge {
+        nftURL
+        ipfsURL
+        name
+      }
+      preRequisites {
+        completedGates
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const createTask = /* GraphQL */ `
-  mutation CreateTask(
-    $input: CreateTaskInput!
-    $condition: ModelTaskConditionInput
+export const createKey = /* GraphQL */ `
+  mutation CreateKey(
+    $input: CreateKeyInput!
+    $condition: ModelKeyConditionInput
   ) {
-    createTask(input: $input, condition: $condition) {
+    createKey(input: $input, condition: $condition) {
       id
       gateID
-      title
-      description
-      triggers {
-        type
-        completed
-        noOfPeople
-      }
-      completed
       gate {
         id
         daoID
@@ -2612,34 +2320,60 @@ export const createTask = /* GraphQL */ `
         description
         categories
         admins
-        keys
-        tasks {
+        keysNumber
+        keys {
           nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        type
+        ... on Quiz {
+          questions {
+            question
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          chainID
+          address
+        }
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const updateTask = /* GraphQL */ `
-  mutation UpdateTask(
-    $input: UpdateTaskInput!
-    $condition: ModelTaskConditionInput
+export const updateKey = /* GraphQL */ `
+  mutation UpdateKey(
+    $input: UpdateKeyInput!
+    $condition: ModelKeyConditionInput
   ) {
-    updateTask(input: $input, condition: $condition) {
+    updateKey(input: $input, condition: $condition) {
       id
       gateID
-      title
-      description
-      triggers {
-        type
-        completed
-        noOfPeople
-      }
-      completed
       gate {
         id
         daoID
@@ -2669,34 +2403,60 @@ export const updateTask = /* GraphQL */ `
         description
         categories
         admins
-        keys
-        tasks {
+        keysNumber
+        keys {
           nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        type
+        ... on Quiz {
+          questions {
+            question
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          chainID
+          address
+        }
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteTask = /* GraphQL */ `
-  mutation DeleteTask(
-    $input: DeleteTaskInput!
-    $condition: ModelTaskConditionInput
+export const deleteKey = /* GraphQL */ `
+  mutation DeleteKey(
+    $input: DeleteKeyInput!
+    $condition: ModelKeyConditionInput
   ) {
-    deleteTask(input: $input, condition: $condition) {
+    deleteKey(input: $input, condition: $condition) {
       id
       gateID
-      title
-      description
-      triggers {
-        type
-        completed
-        noOfPeople
-      }
-      completed
       gate {
         id
         daoID
@@ -2726,12 +2486,46 @@ export const deleteTask = /* GraphQL */ `
         description
         categories
         admins
-        keys
-        tasks {
+        keysNumber
+        keys {
           nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        type
+        ... on Quiz {
+          questions {
+            question
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          chainID
+          address
+        }
       }
       createdAt
       updatedAt
