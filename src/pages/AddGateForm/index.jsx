@@ -89,12 +89,12 @@ const AddGateForm = (props) => {
         }
     }
 
-    const removeCategories = (index) => {
-        if (retroactiveEarners.length === 1) {
+    const removeCategories = (id) => {
+        if (categoryList.length === 1) {
             alert('You have to put at least one Category')
             return false
         }
-        setCategoryList(categoryList.filter((value, i) => i !== index))
+        setCategoryList(categoryList.filter((value, i) => i !== id))
     }
 
     /* The addPrerequisite function is called when the user presses the Enter key. 
@@ -251,8 +251,7 @@ const AddGateForm = (props) => {
                                     <SearchedItem
                                         val={category}
                                         id={id}
-                                        setCategoryList={setCategoryList}
-                                        categoryList={categoryList}
+                                        removeCategories={removeCategories}
                                     />
                                 )
                             })}

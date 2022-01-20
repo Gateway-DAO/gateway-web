@@ -1,24 +1,11 @@
-import React from "react";
-import * as Styled from "./styles"
+import React from 'react'
+import * as Styled from './styles'
 
-const SearchedItem =({val , id , setCategoryList , categoryList})=>{
-
-    const removeCategories = (index) => {
-        if (categoryList.length === 1) {
-            alert('You have to put at least one Category')
-            return false
-        }
-        setCategoryList(
-            categoryList.filter((value, i) => i !== id)
-        )
-    }
-
-    return(
+const SearchedItem = ({ val, id, removeCategories }) => {
+    return (
         <Styled.Container>
-            <Styled.Text>
-                {val}
-            </Styled.Text>
-            <Styled.Cross onClick={removeCategories}>+</Styled.Cross>
+            <Styled.Text>{val}</Styled.Text>
+            <Styled.Cross onClick={(e) => removeCategories(id)}>+</Styled.Cross>
         </Styled.Container>
     )
 }
