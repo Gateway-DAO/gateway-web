@@ -341,3 +341,38 @@ export const QuestionIcon = styled.span`
     border-radius: 100%;
 
 `
+export const DeleteWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 160px;
+
+`
+export const DeleteIcon = styled.div`
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    // border-radius: 100;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+export const DeleteContent = styled.div`
+    width: 119px;
+    height: 38px;
+
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
+
+    display: flex;
+    align-items: center;
+
+    color: #E5E5E5;
+
+`

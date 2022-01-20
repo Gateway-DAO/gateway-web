@@ -11,6 +11,7 @@ import * as Styled from './style';
 import { FormStyled } from "../../components/Form";
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import space from '../../utils/canvas'
+// import { FaTrashAlt} from 'react-icons/fa'
 
 const AddNewKey = (props)=>{
     const [taskLink, setTaskLink] = useState("");
@@ -58,6 +59,12 @@ const AddNewKey = (props)=>{
             }
         ])
     }
+
+    const deletePair=(idx)=>{
+        setTitleDescriptionPair(
+            titleDescriptionPair.filter((data, i)=>i != idx)
+        );
+    }
     
     useEffect(
         () => space(window.innerHeight, window.innerWidth)
@@ -96,6 +103,12 @@ const AddNewKey = (props)=>{
                                     required
                                 />
                             </FormStyled.Fieldset>
+                            {titleDescriptionPair.length>1 &&
+                                <FormStyled.DeleteWrapper onClick={()=>deletePair(idx)}>
+                                    <FormStyled.DeleteIcon><FaTrashAlt /></FormStyled.DeleteIcon>
+                                    <FormStyled.DeleteContent>Delete section</FormStyled.DeleteContent>
+                                </FormStyled.DeleteWrapper>
+                            }
                         </FormStyled.Fieldset>
                     )
                 })}
