@@ -19,13 +19,6 @@ export const MainBox = styled.section`
     margin: 50px 0;
 `
 
-export const FormBox = styled.form`
-    grid-column: 2/3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-
 export const SearchBox = styled.ul`
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;

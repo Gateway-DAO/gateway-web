@@ -1,18 +1,23 @@
-import BackButton from '../../../../../../components/BackButton'
-import * as Styled from './style'
+// Components
 import CreateProposal from '../../components/SelectTask/TaskComponents/Governance/CreateProposal'
-import { useState } from 'react'
 import Vote from '../../components/SelectTask/TaskComponents/Governance/Vote'
+
+// Styling
+import * as Styled from './style'
 import { FormStyled } from '../../../../../../components/Form'
+
+// Hooks
+import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
 
 const AddGovernanceSnapshot = (props) => {
     const [active, setShowActive] = useState(null)
+    const { state } = useLocation()
 
     return (
         <Styled.Container>
-            <BackButton />
             <Styled.MarginWrapper>
-                <FormStyled.Header text="Add Snapshot Governance" />
+                <FormStyled.H1>Add Snapshot Governance</FormStyled.H1>
                 <Styled.MarginWrapperSecondary>
                     <Styled.TasksBox>
                         <Styled.TaskBox

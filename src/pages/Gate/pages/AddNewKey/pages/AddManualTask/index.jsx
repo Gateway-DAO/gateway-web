@@ -1,4 +1,3 @@
-import BackButton from '../../../../../../components/BackButton'
 import { FormStyled } from '../../../../../../components/Form'
 import ManualTaskForm from '../../components/SelectTask/TaskComponents/ManualTaskForm'
 import * as Styled from './styled'
@@ -6,9 +5,8 @@ import * as Styled from './styled'
 const AddManualTask = (props) => {
     return (
         <Styled.Container>
-            <BackButton />
             <Styled.MarginWrapper>
-                <FormStyled.Header text="Add Manual Task" />
+                <FormStyled.H1>Add Manual Task</FormStyled.H1>
                 <Styled.MarginWrapperSecondary>
                     <ManualTaskForm />
                 </Styled.MarginWrapperSecondary>
