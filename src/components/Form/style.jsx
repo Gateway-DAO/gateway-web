@@ -13,22 +13,22 @@ export const Fieldset = styled.fieldset`
     display: flex;
     flex-direction: column;
     margin: ${(props) => props.marginY || '10px'} 0;
-    margin-bottom: ${(props) => props.marginBottom || "30px"};
+    margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
 export const FieldsetWrapper = styled.fieldset`
     width: 100%;
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     // flex-direction: column;
     // margin: ${(props) => props.marginY || '10px'} 0;
-    margin-bottom: ${(props) => props.marginBottom || "30px"};
+    margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
 export const Wrapper = styled.div`
     width: 100%;
     display: flex;
-    align-items:center;
-    margin-top: ${(props) => props.marginTop || "0"};
-    margin-bottom: ${(props) => props.marginBottom || "30px"};
+    align-items: center;
+    margin-top: ${(props) => props.marginTop || '0'};
+    margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
 export const Label = styled.label`
     font-family: Poppins;
@@ -44,25 +44,46 @@ export const Label = styled.label`
     color: #ffffff;
 `
 export const TextLabel = styled.div`
+    // position: absolute;
+    // width: 547px;
+    // height: 38px;
+    // left: 435px;
+    // top: 602px;
+    margin-left: ${(props) => props.marginLeft || '0px'};
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
 
-// position: absolute;
-// width: 547px;
-// height: 38px;
-// left: 435px;
-// top: 602px;
-margin-left:${props=>props.marginLeft || "0px"};
-font-family: Be Vietnam;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
-/* or 162% */
+    display: flex;
+    align-items: center;
 
-display: flex;
-align-items: center;
+    color: #e5e5e5;
+`
 
-color: #E5E5E5;
-
+export const Header = styled.h1`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 90px;
+    /* identical to box height, or 187% */
+    text-align: center;
+    letter-spacing: -0.05em;
+    /* Background */
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
 `
 
 export const Textarea = styled.textarea`
@@ -86,7 +107,7 @@ export const Textarea = styled.textarea`
     resize: vertical;
     outline: none;
 
-    ${props => props.value ? FilledInput : ""}
+    ${(props) => (props.value ? FilledInput : '')}
 `
 
 export const Button = styled.button`
@@ -113,7 +134,7 @@ export const Button = styled.button`
 export const IconButton = styled(Button)`
     display: flex;
     padding: 10px;
-    margin-top:0;
+    margin-top: 0;
 `
 
 export const Input = styled.input`
@@ -139,29 +160,29 @@ export const Input = styled.input`
     ${(props) => (!!props.value ? FilledInput : '')}
 `
 export const SmallInput = styled.input`
-border: 1px solid rgba(255, 255, 255, 0.2);
-box-sizing: border-box;
-border-radius: 5px;
-padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
 
-font-family: Be Vietnam;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 18px;
-display: flex;
-align-items: center;
-letter-spacing: 0.05em;
-background: #170627;
-color: #e5e5e5;
-margin: 15px 0;
-width:  324px;
-outline: none;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    margin: 15px 0;
+    width: 324px;
+    outline: none;
 
-${(props) => (!!props.value ? FilledInput : '')}
+    ${(props) => (!!props.value ? FilledInput : '')}
 `
 const SearchInput = styled.input`
-border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
     padding: 10px;
@@ -179,7 +200,6 @@ border: 1px solid rgba(255, 255, 255, 0.2);
     margin: 15px 0;
     width: 100%;
     outline: none;
-
 `
 const CheckboxContainer = styled.div`
     position: relative;
@@ -310,12 +330,14 @@ export const GridBox = styled.div`
 
 export const SubText = styled.p`
     font-family: Be Vietnam;
+    font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
     line-height: 18px;
+    /* identical to box height */
+
     letter-spacing: 0.05em;
-    text-transform: capitalize;
 
     color: rgba(229, 229, 229, 0.6);
 `
@@ -323,7 +345,7 @@ export const SubText = styled.p`
 export const QuestionIcon = styled.span`
     width: 15px;
     height: 15px;
-    margin-left: 10px; 
+    margin-left: 10px;
     // padding: 2px;
     font-family: Be Vietnam;
     font-style: normal;
@@ -335,18 +357,16 @@ export const QuestionIcon = styled.span`
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #A5A5A5;
-    border: 1px solid #A5A5A5;
+    color: #a5a5a5;
+    border: 1px solid #a5a5a5;
     box-sizing: border-box;
     border-radius: 100%;
-
 `
 export const DeleteWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 160px;
-
 `
 export const DeleteIcon = styled.div`
     width: 28px;
@@ -354,7 +374,7 @@ export const DeleteIcon = styled.div`
     border-radius: 100%;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    // border-radius: 100;    
+    // border-radius: 100;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -373,6 +393,5 @@ export const DeleteContent = styled.div`
     display: flex;
     align-items: center;
 
-    color: #E5E5E5;
-
+    color: #e5e5e5;
 `

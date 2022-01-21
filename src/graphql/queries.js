@@ -72,6 +72,23 @@ export const getUser = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -298,6 +315,23 @@ export const listDaos = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -374,6 +408,23 @@ export const getBounty = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -508,6 +559,23 @@ export const getTokenBenefit = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -637,6 +705,23 @@ export const getChannel = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -771,6 +856,23 @@ export const getPost = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -1114,6 +1216,23 @@ export const getGate = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -1639,6 +1758,23 @@ export const getDaoById = /* GraphQL */ `
                     }
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -1836,8 +1972,20 @@ export const getDaoByName = /* GraphQL */ `
                   updatedAt
             }
                 gates {
-                    nextToken
+                items {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
                 }
+                nextToken
+            }
                 createdAt
                 updatedAt
             }
@@ -2379,6 +2527,23 @@ export const searchDaos = /* GraphQL */ `
                     nextToken
                 }
                 gates {
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 createdAt

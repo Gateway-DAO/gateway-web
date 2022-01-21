@@ -4,18 +4,30 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Home from './Home'
 import FallbackPage from './FallbackPage'
+import Page from '../components/Page'
 import Page404 from './404'
-import DaoGate from '../components/BigCard/components/Gates/DaoGate'
-import DaoGateWithKeys from '../components/BigCard/components/Gates/DaoGateWithKeys'
-import AddExperience from '../pages/AddExperience'
-import AddGovernanceSnapshopt from '../pages/AddNewKey/AddGovernanceSnapshot'
-import AddHoldToken from '../pages/AddNewKey/AddHoldToken'
-import AddKeySuccess from '../pages/AddNewKey/AddKeySuccess'
-import AddNewKey from '../pages/AddNewKey'
+
+// DAO
+import DAOHome from '../pages/DAO/pages/Home'
+
+// Gate
+import DaoGate from '../pages/Gate/pages/DaoGate'
 import DAOsGate from './DAOsGate'
 import GateSuccessPage from './GateSuccessPage'
-import AddManualTask from './AddNewKey/AddManualTask'
+
+// Keys
+import AddGovernanceSnapshot from '../pages/Gate/pages/AddNewKey/pages/AddGovernanceSnapshot'
+import AddHoldToken from '../pages/Gate/pages/AddNewKey/pages/AddHoldToken'
+import AddKeySuccess from '../pages/Gate/pages/AddNewKey/pages/AddKeySuccess'
+import AddManualTask from '../pages/Gate/pages/AddNewKey/pages/AddManualTask'
+import AddNewKeyHome from '../pages/Gate/pages/AddNewKey/pages/Home'
+
+// Profile
+import AddExperience from '../pages/AddExperience'
+
 const DAO = React.lazy(() => import('./DAO'))
+const Gate = React.lazy(() => import('./Gate'))
+const AddNewKey = React.lazy(() => import('./Gate/pages/AddNewKey'))
 const Search = React.lazy(() => import('./Search'))
 const ProfilePage = React.lazy(() => import('./ProfilePage'))
 const SignIn = React.lazy(() => import('./SignIn'))
@@ -25,7 +37,7 @@ const About = React.lazy(() => import('./About'))
 const AddCommunity = React.lazy(() => import('./AddCommunity'))
 const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
 const KeyQuiz = React.lazy(() => import('./Quiz'))
-const AddGateForm = React.lazy(() => import('./AddGateForm'))
+const AddNewGate = React.lazy(() => import('./DAO/pages/AddNewGate'))
 
 const App = (props) => {
     return (
@@ -35,37 +47,42 @@ const App = (props) => {
                     <Route exact path="/" element={<Home />} />
                     <Route path="/about-us" element={<About />} />
                     <Route path="/what-are-daos" element={<AboutDAOs />} />
-                    <Route path="/dao/forefront/gate" element={<DaoGate />} />
-                    <Route
-                        path="/dao/forefront/gatewithkeys"
-                        element={<DaoGateWithKeys />}
-                    />
+
                     {/* Add New Key Routes start */}
                     <Route
                         path="/profile/add-experience"
                         element={<AddExperience />}
                     />
 
-                    {/* TODO: make this compliant with V6 */}
-                    <Route path="dao/:id" element={<DAO />} />
-                    <Route path="dao/:id/add-gate" element={<AddGateForm />} />
-                    <Route path="/dao/:id/add-key" element={<AddNewKey />} />
-                    <Route
-                        path="/dao/:id/add-key/token"
-                        element={<AddHoldToken />}
-                    />
-                    <Route
-                        path="/dao/:id/add-key/manual"
-                        element={<AddManualTask />}
-                    />
-                    <Route
-                        path="/dao/:id/add-key/governance"
-                        element={<AddGovernanceSnapshopt />}
-                    />
-                    <Route
-                        path="/dao/:id/add-key/success"
-                        element={<AddKeySuccess />}
-                    />
+                    <Route path="dao/:id" element={<DAO />}>
+                        <Route index element={<DAOHome />} />
+                        <Route path="add-gate" element={<AddNewGate />} />
+                    </Route>
+
+                    <Route path="/gates" element={<DAOsGate />} />
+
+                    <Route path="gate/:gate" element={<Gate />}>
+                        <Route index element={<DaoGate />} />
+                        <Route path="add-key" element={<AddNewKey />}>
+                            <Route index element={<AddNewKeyHome />} />
+                            <Route
+                                path="token"
+                                element={<AddHoldToken />}
+                            />
+                            <Route
+                                path="manual"
+                                element={<AddManualTask />}
+                            />
+                            <Route
+                                path="governance"
+                                element={<AddGovernanceSnapshot />}
+                            />
+                            <Route
+                                path="success"
+                                element={<AddKeySuccess />}
+                            />
+                        </Route>
+                    </Route>
 
                     <Route path="/search/:query" element={<Search />} />
                     <Route path="/profile/" element={<ProfilePage />}>
@@ -78,8 +95,7 @@ const App = (props) => {
                         path="/new-community/:name"
                         element={<SubmitPage />}
                     />
-                    <Route path="/dao-gate" element={<DAOsGate />} />
-                    <Route path="/add-gate" element={<AddGateForm />} />
+
                     <Route path="/key-quiz" element={<KeyQuiz />} />
                     <Route path="/testing" element={<GateSuccessPage />} />
                     <Route path="*" element={<Page404 />} />
