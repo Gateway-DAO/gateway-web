@@ -5,8 +5,8 @@ import ShareIcon from '../../assets/icons/share.svg'
 import { useNavigate } from 'react-router-dom'
 //import'./BackButton.css';
 
-const BackButton = props => {
-    const navigate = useNavigate();
+const BackButton = (props) => {
+    const navigate = useNavigate()
 
     return (
         <Styled.Wrapper>

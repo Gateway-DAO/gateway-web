@@ -1,36 +1,36 @@
 import styled from 'styled-components'
-
+import BackButton from '../../../../../../components/BackButton'
 export const AddNewKeyContainer = styled.div`
-// background-color: #170627;
-min-height: 100vh;
-// overflow-x: hidden;
-// width: 100vw;
-// display: flex;
-// justify-content: space-between;
-// flex-direction: column;
-background-color: transparent;
-height: 100%;
-position: relative;
-
-overflow-x: hidden;
-
-&:before {
-    position: absolute;
-    content: '';
-    z-index: -2;
-    background-color: #170627;
+    min-height: 100vh;
+    width: 95vw;
+    margin: auto;
+    margin-top : 10px;
+    background-color: transparent;
     height: 100%;
-    width: 100%;
-}
+    position: relative;
+
+    overflow-x: hidden;
+
+    &:before {
+        position: absolute;
+        content: '';
+        z-index: -2;
+        background-color: #170627;
+        height: 100%;
+        width: 100%;
+    }
+`
+
+export const BackContainer = styled(BackButton)`
+    margin-top: 20px;
 `
 export const MarginWrapper = styled.div`
-    // position:relative;
     margin: auto 20rem;
 `
 export const SpaceBox = styled.canvas`
     position: fixed;
     top: 90px;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     z-index: -1;
 `
