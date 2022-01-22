@@ -1385,20 +1385,25 @@ export const getKey = /* GraphQL */ `
             keys
             peopleLimit
             task {
-                type
                 ... on Quiz {
+                    type
                     questions {
                         question
                     }
                     passedAt
                 }
                 ... on MeetingCode {
+                    type
                     code
                     caseSensitive
                 }
                 ... on TokenHold {
+                    type
                     chainID
                     address
+                }
+                ... on SelfVerify {
+                    type
                 }
             }
             createdAt
@@ -1437,17 +1442,22 @@ export const listKeys = /* GraphQL */ `
                 keys
                 peopleLimit
                 task {
-                    type
                     ... on Quiz {
+                        type
                         passedAt
                     }
                     ... on MeetingCode {
+                        type
                         code
                         caseSensitive
                     }
                     ... on TokenHold {
+                        type
                         chainID
                         address
+                    }
+                    ... on SelfVerify {
+                        type
                     }
                 }
                 createdAt
@@ -1972,20 +1982,25 @@ export const getDaoByName = /* GraphQL */ `
                   updatedAt
             }
                 gates {
-                items {
-                    id
-                    daoID
-                    name
-                    description
-                    categories
-                    admins
-                    keysNumber
-                    published
-                    createdAt
-                    updatedAt
+                    items {
+                        id
+                        daoID
+                        name
+                        description
+                        categories
+                        admins
+                        keysNumber
+                        published
+                        badge {
+                            nftURL
+                            ipfsURL
+                            name
+                        }
+                        createdAt
+                        updatedAt
+                    }
+                    nextToken
                 }
-                nextToken
-            }
                 createdAt
                 updatedAt
             }
@@ -2371,17 +2386,22 @@ export const getKeysByGateId = /* GraphQL */ `
                 keys
                 peopleLimit
                 task {
-                    type
                     ... on Quiz {
+                        type
                         passedAt
                     }
                     ... on MeetingCode {
+                        type
                         code
                         caseSensitive
                     }
                     ... on TokenHold {
+                        type
                         chainID
                         address
+                    }
+                    ... on SelfVerify {
+                        type
                     }
                 }
                 createdAt
