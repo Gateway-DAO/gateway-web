@@ -8,6 +8,13 @@ const FilledInput = `
     border-radius: 5px;
 `
 
+const InvalidInput = `
+    border: 1px solid #FF003D;
+    background: rgba(255, 0, 61, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+`
+
 /** TEXT **/
 export const H1 = styled.h1`
     font-family: Poppins;
