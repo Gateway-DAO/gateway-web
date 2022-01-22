@@ -1890,20 +1890,25 @@ export const onCreateKey = /* GraphQL */ `
       keys
       peopleLimit
       task {
-        type
         ... on Quiz {
+          type
           questions {
             question
           }
           passedAt
         }
         ... on MeetingCode {
+          type
           code
           caseSensitive
         }
         ... on TokenHold {
+          type
           chainID
           address
+        }
+        ... on SelfVerify {
+          type
         }
       }
       createdAt
@@ -1970,20 +1975,25 @@ export const onUpdateKey = /* GraphQL */ `
       keys
       peopleLimit
       task {
-        type
         ... on Quiz {
+          type
           questions {
             question
           }
           passedAt
         }
         ... on MeetingCode {
+          type
           code
           caseSensitive
         }
         ... on TokenHold {
+          type
           chainID
           address
+        }
+        ... on SelfVerify {
+          type
         }
       }
       createdAt
@@ -2050,20 +2060,25 @@ export const onDeleteKey = /* GraphQL */ `
       keys
       peopleLimit
       task {
-        type
         ... on Quiz {
+          type
           questions {
             question
           }
           passedAt
         }
         ... on MeetingCode {
+          type
           code
           caseSensitive
         }
         ... on TokenHold {
+          type
           chainID
           address
+        }
+        ... on SelfVerify {
+          type
         }
       }
       createdAt

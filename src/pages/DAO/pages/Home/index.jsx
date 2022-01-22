@@ -30,9 +30,7 @@ const DAOHome = (props) => {
     return (
         <>
             <Styled.SearchTermContainer>
-                <Styled.BackButtonContainer>
-                    <BackButton>Back to Results</BackButton>
-                </Styled.BackButtonContainer>
+                <BackButton>Go Back</BackButton>
                 <Styled.SearchInputBox>
                     <Styled.SearchInput
                         type="text"

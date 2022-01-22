@@ -8,6 +8,60 @@ const FilledInput = `
     border-radius: 5px;
 `
 
+/** TEXT **/
+export const H1 = styled.h1`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 96px;
+    line-height: 90px;
+    /* identical to box height, or 187% */
+    text-align: center;
+    letter-spacing: -0.05em;
+    /* Background */
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+
+    margin-bottom: 40px;
+`
+
+export const H2 = styled(H1)`
+    font-size: 48px;
+`
+
+export const SubText = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+
+    color: rgba(229, 229, 229, 0.6);
+`
+
+/** CONTAINERS **/
+export const FormBox = styled.form`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20%;
+    margin: 50px 0;
+`
+
 export const Fieldset = styled.fieldset`
     width: 100%;
     display: flex;
@@ -15,21 +69,40 @@ export const Fieldset = styled.fieldset`
     margin: ${(props) => props.marginY || '10px'} 0;
     margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
-export const FieldsetWrapper = styled.fieldset`
+
+export const FieldsetRow = styled.fieldset`
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    // flex-direction: column;
-    // margin: ${(props) => props.marginY || '10px'} 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
     margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
+
 export const Wrapper = styled.div`
-    width: 100%;
     display: flex;
+    align-self: flex-start;
     align-items: center;
     margin-top: ${(props) => props.marginTop || '0'};
     margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
+
+export const AddWrapper = styled(Wrapper)`
+    cursor: pointer;
+`
+
+export const DeleteWrapper = styled(Wrapper)`
+    cursor: pointer;
+`
+
+export const GridBox = styled.div`
+    display: grid;
+    grid-template-columns: repeat(${(props) => props.cols || '3'}, 1fr);
+    grid-column-gap: ${(props) => props.gap || '10px'};
+    grid-row-gap: ${(props) => props.gap || '10px'};
+    margin: 15px 0;
+`
+
+/** FORM ELEMENTS **/
 export const Label = styled.label`
     font-family: Poppins;
     font-style: normal;
@@ -43,6 +116,7 @@ export const Label = styled.label`
     align-items: center;
     color: #ffffff;
 `
+
 export const TextLabel = styled.div`
     // position: absolute;
     // width: 547px;
@@ -61,29 +135,6 @@ export const TextLabel = styled.div`
     align-items: center;
 
     color: #e5e5e5;
-`
-
-export const Header = styled.h1`
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 48px;
-    line-height: 90px;
-    /* identical to box height, or 187% */
-    text-align: center;
-    letter-spacing: -0.05em;
-    /* Background */
-    background: linear-gradient(
-        88.04deg,
-        #ee787b 22.54%,
-        #e153f2 41.08%,
-        #495be0 65.25%,
-        #6a39f3 86.1%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
 `
 
 export const Textarea = styled.textarea`
@@ -159,6 +210,7 @@ export const Input = styled.input`
 
     ${(props) => (!!props.value ? FilledInput : '')}
 `
+
 export const SmallInput = styled.input`
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
@@ -176,11 +228,11 @@ export const SmallInput = styled.input`
     background: #170627;
     color: #e5e5e5;
     margin: 15px 0;
-    width: 324px;
     outline: none;
 
     ${(props) => (!!props.value ? FilledInput : '')}
 `
+
 const SearchInput = styled.input`
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
@@ -201,24 +253,28 @@ const SearchInput = styled.input`
     width: 100%;
     outline: none;
 `
+
 const CheckboxContainer = styled.div`
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100px;
 
     width: 100%;
-    height: 100%;
+    // height: 100%;
     background: #170627;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
-    padding: 10px 0;
+    padding: 20px 0;
 
     ${(props) =>
         props.checked
             ? `background: #220A38;border: 1px solid #7E3BDC;`
             : `background: #170627;border: 1px solid rgba(255, 255, 255, 0.2);`}
+`
+
+const BigCheckboxContainer = styled(CheckboxContainer)`
+    padding: 50px 0;
 `
 
 const CheckboxInput = styled.input`
@@ -296,6 +352,20 @@ export const Radio = (props) => {
     )
 }
 
+export const BigRadio = (props) => {
+    return (
+        <BigCheckboxContainer checked={props.checked}>
+            <CheckboxInput
+                type="radio"
+                id={props.id}
+                name={props.name}
+                value={props.value}
+            />
+            <CheckboxLabel>{props.label}</CheckboxLabel>
+        </BigCheckboxContainer>
+    )
+}
+
 export const InputWrapper = styled.div`
     display: flex;
     align-items: flex-start;
@@ -320,28 +390,6 @@ export const Select = styled.select`
     ${'' /* width: 100%; */}
 `
 
-export const GridBox = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 30px;
-    margin: 15px 0;
-`
-
-export const SubText = styled.p`
-    font-family: Be Vietnam;
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
-    /* identical to box height */
-
-    letter-spacing: 0.05em;
-
-    color: rgba(229, 229, 229, 0.6);
-`
-
 export const QuestionIcon = styled.span`
     width: 15px;
     height: 15px;
@@ -362,23 +410,19 @@ export const QuestionIcon = styled.span`
     box-sizing: border-box;
     border-radius: 100%;
 `
-export const DeleteWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 160px;
-`
+
 export const DeleteIcon = styled.div`
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     border-radius: 100%;
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    // border-radius: 100;
+    border: 1px solid #a5a5a5;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 10px;
 `
+
 export const DeleteContent = styled.div`
     width: 119px;
     height: 38px;
