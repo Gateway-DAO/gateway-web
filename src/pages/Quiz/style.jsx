@@ -1,29 +1,5 @@
 import styled from 'styled-components'
 
-export const Page = styled.main`
-    // background-color: #170627;
-    min-height: 100vh;
-    // overflow-x: hidden;
-    // width: 100vw;
-    // display: flex;
-    // justify-content: space-between;
-    // flex-direction: column;
-    background-color: transparent;
-    height: 100%;
-    position: relative;
-
-    overflow-x: hidden;
-
-    &:before {
-        position: absolute;
-        content: '';
-        z-index: -2;
-        background-color: #170627;
-        height: 100%;
-        width: 100%;
-    }
-`
-
 export const Container = styled.div`
     display: flex;
     flex: 1;
@@ -39,7 +15,6 @@ export const Container = styled.div`
 
 export const SpaceBox = styled.canvas`
     position: absolute;
-    top: 90px;
     z-index: -1;
 `
 

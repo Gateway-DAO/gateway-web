@@ -66,26 +66,21 @@ const App = (props) => {
                         <Route index element={<DaoGate />} />
                         <Route path="add-key" element={<AddNewKey />}>
                             <Route index element={<AddNewKeyHome />} />
-                            <Route
-                                path="token"
-                                element={<AddHoldToken />}
-                            />
-                            <Route
-                                path="manual"
-                                element={<AddManualTask />}
-                            />
+                            <Route path="token" element={<AddHoldToken />} />
+                            <Route path="manual" element={<AddManualTask />} />
                             <Route
                                 path="governance"
                                 element={<AddGovernanceSnapshot />}
                             />
+
+                            <Route path="success" element={<AddKeySuccess />} />
+                            <Route path="quiz" element={<KeyQuiz />} />
+
                             <Route
                                 path="meeting-code"
                                 element={<AddMeetingCode />}
                             />
-                            <Route
-                                path="success"
-                                element={<AddKeySuccess />}
-                            />
+                           
                         </Route>
                     </Route>
 
@@ -100,8 +95,6 @@ const App = (props) => {
                         path="/new-community/:name"
                         element={<SubmitPage />}
                     />
-
-                    <Route path="/key-quiz" element={<KeyQuiz />} />
                     <Route path="/testing" element={<GateSuccessPage />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
