@@ -8,11 +8,58 @@ const FilledInput = `
     border-radius: 5px;
 `
 
-const InvalidInput = `
-    border: 1px solid #FF003D;
-    background: rgba(255, 0, 61, 0.2);
-    box-sizing: border-box;
-    border-radius: 5px;
+/** TEXT **/
+export const H1 = styled.h1`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 96px;
+    line-height: 90px;
+    /* identical to box height, or 187% */
+    text-align: center;
+    letter-spacing: -0.05em;
+    /* Background */
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+
+    margin-bottom: 40px;
+`
+
+export const H2 = styled(H1)`
+    font-size: 48px;
+`
+
+export const SubText = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+
+    color: rgba(229, 229, 229, 0.6);
+`
+
+/** CONTAINERS **/
+export const FormBox = styled.form`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20%;
+    margin: 50px 0;
 `
 
 export const Fieldset = styled.fieldset`
@@ -20,9 +67,42 @@ export const Fieldset = styled.fieldset`
     display: flex;
     flex-direction: column;
     margin: ${(props) => props.marginY || '10px'} 0;
-    margin-bottom: ${(props) => props.marginBottom || "30px"};
+    margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
 
+export const FieldsetRow = styled.fieldset`
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+    margin-bottom: ${(props) => props.marginBottom || '30px'};
+`
+
+export const Wrapper = styled.div`
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+    margin-top: ${(props) => props.marginTop || '0'};
+    margin-bottom: ${(props) => props.marginBottom || '30px'};
+`
+
+export const AddWrapper = styled(Wrapper)`
+    cursor: pointer;
+`
+
+export const DeleteWrapper = styled(Wrapper)`
+    cursor: pointer;
+`
+
+export const GridBox = styled.div`
+    display: grid;
+    grid-template-columns: repeat(${(props) => props.cols || '3'}, 1fr);
+    grid-column-gap: ${(props) => props.gap || '10px'};
+    grid-row-gap: ${(props) => props.gap || '10px'};
+    margin: 15px 0;
+`
+
+/** FORM ELEMENTS **/
 export const Label = styled.label`
     font-family: Poppins;
     font-style: normal;
@@ -32,8 +112,29 @@ export const Label = styled.label`
 
     letter-spacing: 0.05em;
     text-transform: uppercase;
-
+    display: flex;
+    align-items: center;
     color: #ffffff;
+`
+
+export const TextLabel = styled.div`
+    // position: absolute;
+    // width: 547px;
+    // height: 38px;
+    // left: 435px;
+    // top: 602px;
+    margin-left: ${(props) => props.marginLeft || '0px'};
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px;
+    /* or 162% */
+
+    display: flex;
+    align-items: center;
+
+    color: #e5e5e5;
 `
 
 export const Textarea = styled.textarea`
@@ -57,7 +158,7 @@ export const Textarea = styled.textarea`
     resize: vertical;
     outline: none;
 
-    ${props => props.value ? FilledInput : ""}
+    ${(props) => (props.value ? FilledInput : '')}
 `
 
 export const Button = styled.button`
@@ -84,6 +185,7 @@ export const Button = styled.button`
 export const IconButton = styled(Button)`
     display: flex;
     padding: 10px;
+    margin-top: 0;
 `
 
 export const Input = styled.input`
@@ -109,8 +211,31 @@ export const Input = styled.input`
     ${(props) => (!!props.value ? FilledInput : '')}
     ${(props) => (props.valid === false ? InvalidInput : '')}
 `
+
+export const SmallInput = styled.input`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 10px;
+
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    margin: 15px 0;
+    outline: none;
+
+    ${(props) => (!!props.value ? FilledInput : '')}
+`
+
 const SearchInput = styled.input`
-border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
     padding: 10px;
@@ -128,26 +253,29 @@ border: 1px solid rgba(255, 255, 255, 0.2);
     margin: 15px 0;
     width: 100%;
     outline: none;
-
 `
+
 const CheckboxContainer = styled.div`
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100px;
 
     width: 100%;
-    height: 100%;
+    // height: 100%;
     background: #170627;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
-    padding: 10px 0;
+    padding: 20px 0;
 
     ${(props) =>
         props.checked
             ? `background: #220A38;border: 1px solid #7E3BDC;`
             : `background: #170627;border: 1px solid rgba(255, 255, 255, 0.2);`}
+`
+
+const BigCheckboxContainer = styled(CheckboxContainer)`
+    padding: 50px 0;
 `
 
 const CheckboxInput = styled.input`
@@ -225,6 +353,20 @@ export const Radio = (props) => {
     )
 }
 
+export const BigRadio = (props) => {
+    return (
+        <BigCheckboxContainer checked={props.checked}>
+            <CheckboxInput
+                type="radio"
+                id={props.id}
+                name={props.name}
+                value={props.value}
+            />
+            <CheckboxLabel>{props.label}</CheckboxLabel>
+        </BigCheckboxContainer>
+    )
+}
+
 export const InputWrapper = styled.div`
     display: flex;
     align-items: flex-start;
@@ -249,31 +391,52 @@ export const Select = styled.select`
     ${'' /* width: 100%; */}
 `
 
-export const GridBox = styled.div`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: 10px;
-    grid-row-gap: 30px;
-    margin: 15px 0;
+export const QuestionIcon = styled.span`
+    width: 15px;
+    height: 15px;
+    margin-left: 10px;
+    // padding: 2px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    /* or 118% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #a5a5a5;
+    border: 1px solid #a5a5a5;
+    box-sizing: border-box;
+    border-radius: 100%;
 `
 
-export const Text = styled.p`
+export const DeleteIcon = styled.div`
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    color: white;
+    border: 1px solid #a5a5a5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+`
+
+export const DeleteContent = styled.div`
+    width: 119px;
+    height: 38px;
+
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
     line-height: 26px;
-    color: #E5E5E5;
-`
+    /* or 162% */
 
-export const SubText = styled.p`
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
-    letter-spacing: 0.05em;
-    text-transform: capitalize;
+    display: flex;
+    align-items: center;
 
-    color: rgba(229, 229, 229, 0.6);
+    color: #e5e5e5;
 `

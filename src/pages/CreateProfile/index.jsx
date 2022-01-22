@@ -178,7 +178,7 @@ const CreateProfile = () => {
             <Styled.MainBox>
                 <Styled.MainText>Create Profile</Styled.MainText>
 
-                <Styled.FormBox onSubmit={onSave}>
+                <FormStyled.FormBox onSubmit={onSave}>
                     <FormStyled.Fieldset>
                         <FormStyled.Label htmlFor="name">Display name</FormStyled.Label>
                         <FormStyled.Input
@@ -404,7 +404,7 @@ const CreateProfile = () => {
                     </FormStyled.Fieldset>
 
                     <FormStyled.Button type="submit">{updateLoading && <Loader color="white" />} Save</FormStyled.Button>
-                </Styled.FormBox>
+                </FormStyled.FormBox>
             </Styled.MainBox>
         </Styled.Container>
     )

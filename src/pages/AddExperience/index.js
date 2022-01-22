@@ -1,9 +1,5 @@
 import * as Styled from './style'
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import BackButton from '../../components/AddNewKeyComponents/BackButtonDiv'
-import SubmitButton from '../../components/AddNewKeyComponents/SubmitButton'
-import Heading from '../../components/AddNewKeyComponents/Heading'
+import BackButton from '../../components/BackButton'
 import {
     SingleLineInputs,
     MultiLineInputs,
@@ -11,14 +7,14 @@ import {
     CheckBox,
     NumberSelect,
 } from '../../components/Inputs'
+import { FormStyled } from '../../components/Form'
 
 const AddExperience = (props)=>{
     return (
         <Styled.Wrapper>
-            <Header />
             <BackButton />
             <Styled.MarginWrapper>
-                <Heading text="Add Experience" />
+                <FormStyled.Header text="Add Experience" />
                 <SingleLineInputs title="DAO" placeholder="Search" />
                 <SingleLineInputs
                     title="Title"
@@ -31,9 +27,8 @@ const AddExperience = (props)=>{
                 <DateSelect title="Time Period of Contributions" />
                 <CheckBox label="I am currently working in this role" />
                 <NumberSelect title="Hours Per Week Committed on Average" />
-                <SubmitButton />
+                <FormStyled.Button>Submit</FormStyled.Button>
             </Styled.MarginWrapper>
-            <Footer />
         </Styled.Wrapper>
     )
 };

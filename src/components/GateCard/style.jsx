@@ -219,6 +219,7 @@ export const SmallText = styled.p`
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
+    margin-left:10px;
     line-height: 18px;
     /* or 129% */
 

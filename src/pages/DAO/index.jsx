@@ -1,23 +1,17 @@
-import { useParams, useNavigate, Navigate } from 'react-router-dom'
+import { useParams, Navigate, Outlet } from 'react-router-dom'
 
 import { useGetDAOByID } from '../../api/database/useGetDAO'
 
 // Components
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import Loader from '../../components/Loader'
-
-import BigCard from '../../components/BigCard'
+import Page from '../../components/Page'
 import { useState, useEffect } from 'react'
 import { getTokenFromAddress } from '../../api/coingecko'
 import React from 'react'
-import * as Styled from './style'
 
 // AWS
 import { API, graphqlOperation } from 'aws-amplify'
 import { gql } from '@apollo/client'
 import { onUpdateDao } from '../../graphql/subscriptions'
-import BackButton from '../../components/BackButton'
 
 const DAO = (props) => {
     const { id } = useParams()
@@ -34,11 +28,6 @@ const DAO = (props) => {
     })
     const { data: dbData, loading, error } = useGetDAOByID(id)
     const [loaded, setLoaded] = useState(false)
-    const [inputVal, setInputVal] = useState('')
-    const navigate = useNavigate()
-    const traverse = (e) => {
-        navigate(-1)
-    }
 
     // Get CoinGecko data
     const getCGData = async (address) => await getTokenFromAddress(address)
@@ -151,51 +140,20 @@ const DAO = (props) => {
         return () => subscription.unsubscribe()
     })
 
-    const handleEnter = (e) => {
-        if (e.key === 'Enter') {
-            navigate(`/search/${e.target.value}`)
-        }
-    }
-
     if (error) {
         console.error(error)
         return <Navigate to="/404" />
     }
 
     return (
-        <Styled.Container>
-            <Header search={{ visible: true }} />
-            <Styled.SearchTermContainer>
-                <Styled.BackButtonContainer>
-                    <BackButton>Back to Results</BackButton>
-                </Styled.BackButtonContainer>
-                <Styled.SearchInputBox>
-                    <Styled.SearchInput
-                        type="text"
-                        placeholder="Search DAO"
-                        value={inputVal}
-                        onChange={(e) => setInputVal(e.target.value)}
-                        onKeyPress={handleEnter}
-                    />
-
-                    <Styled.WrappedFiSearch />
-                </Styled.SearchInputBox>
-            </Styled.SearchTermContainer>
-
-            {loading && !loaded && (
-                <Styled.LoaderBox>
-                    <Loader color="white" size={35} />
-                </Styled.LoaderBox>
-            )}
-
-            {loaded &&
-                React.createElement(BigCard, {
-                    ...daoData,
-                    changeDAOData: (data) =>
-                        setDaoData({ ...daoData, ...data }),
-                })}
-            <Footer />
-        </Styled.Container>
+        <Page>
+            <Outlet context={{
+                daoData,
+                setDaoData,
+                loaded,
+                loading
+            }}/>
+        </Page>
     )
 }
 

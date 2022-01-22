@@ -19,7 +19,7 @@ const Subcategories = ({ activeCategory, setActiveCategory }) => {
     }
     const navigate = useNavigate();
     const addGate = ()=>{
-        navigate("/add-gate");
+        navigate("add-gate");
     }
     return (
         <Styled.Wrapper>

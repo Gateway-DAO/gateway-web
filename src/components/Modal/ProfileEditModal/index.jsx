@@ -24,7 +24,7 @@ const ProfileEditModal = (props) => {
         props.socials || [{ network: 'any-0', url: '' }]
     )
     const [membership, setMembership] = useState(props.membership || [])
-    const [pfp, setPfp] = useState(props.pfp || '')
+    const [pfp, setPfp] = useState(props.pfpURL || '')
     const [updateLoading, setUpdateLoading] = useState(false)
     const [validUsername, setValidUsername] = useState(true)
 

@@ -170,6 +170,114 @@ enum VoteType {
     DOWNVOTE
 }
 
+### GATES/KEYS ###
+
+type Gate
+    @model
+    @key(name: "gateByDAO", fields: ["daoID"], queryField: "getGatesByDAOID") {
+    id: ID!
+    daoID: ID!
+    dao: DAO @connection(fields: ["daoID"])
+    name: String!
+    description: String!
+    categories: [String!]
+    admins: [ID]!
+    keysNumber: Int!
+    keys: [Key] @connection(keyName: "keyByGateID", fields: ["id"])
+    published: Boolean
+    badge: NFTInfo!
+    preRequisites: PreRequisites
+}
+
+type Key
+    @model
+    @key(
+        name: "keyByGateID"
+        fields: ["gateID"]
+        queryField: "getKeysByGateID"
+    ) {
+    id: ID!
+    gateID: ID!
+    gate: Gate @connection(fields: ["gateID"])
+    information: [KeyInformation]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: TaskUnion
+}
+
+interface ITask {
+    type: TaskType
+}
+
+type Quiz implements ITask {
+    type: TaskType
+    questions: [Question]!
+    passedAt: Int! # Number of questions to mark quiz as completed
+}
+
+type Question {
+    question: String!
+    options: [QuizOption]!
+}
+
+type QuizOption {
+    answer: String!
+    correct: Boolean!
+}
+
+type MeetingCode implements ITask {
+    type: TaskType
+    code: String!
+    caseSensitive: Boolean!
+}
+
+type TokenHold implements ITask {
+    type: TaskType
+    chainID: Int!
+    address: String!
+}
+
+type SelfVerify implements ITask {
+    type: TaskType
+}
+
+type PreRequisites {
+    completedGates: [ID]
+}
+
+type NFTInfo {
+    nftURL: AWSURL
+    ipfsURL: String
+    name: String!
+}
+
+type KeyInformation {
+    title: String!
+    description: String!
+}
+
+enum TaskType {
+    QUIZ,
+    MEETING_CODE,
+    TOKEN_HOLD,
+    SC_INTERACTION,
+    SNAPSHOT,
+    MANUAL,
+    SELF_VERIFY
+}
+
+enum TokenType {
+    ERC20,
+    ERC721
+    ERC1151
+}
+
+union TaskUnion = Quiz | MeetingCode | TokenHold | SelfVerify
+
+### INPUTS ###
+
 input CreateNewDAO {
     id: ID
     dao: String!
@@ -194,6 +302,7 @@ input SocialInput {
     url: String!
 }
 
+### CUSTOM MUTATIONS ###
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
         @function(name: "getAuthenticationNonce-${env}")
@@ -206,54 +315,4 @@ type Mutation {
 
     unvotePost(postID: ID!, userID: ID!, type: VoteType!): Post
         @function(name: "vote-${env}")
-}
-
-### For now, let's keep the Prerequisites off the schema ###
-#type Prerequisites {
-#    whitelistedUser: [User]
-#    gatesCompletors: [Gate]
-#}
-
-type Trigger {
-    type: OptionType
-    completed: Boolean!
-    noOfPeople: Int!
-}
-
-
-type Gate
-    @model
-    @key(name: "gateByDAO", fields: ["daoID"], queryField: "getGatesByDAOID") {
-    id: ID!
-    daoID: ID!
-    dao: DAO @connection(fields: ["daoID"])
-    name: String!
-    description: String!
-    categories: String!
-    admins: [ID]!
-    keys: Int!
-    nftURL: AWSURL
-    tasks: [Task] @connection(keyName: "taskByGateID", fields: ["id"])
-    # prerequisites: Prerequisites
-}
-
-type Task
-    @model
-    @key(
-        name: "taskByGateID"
-        fields: ["gateID"]
-        queryField: "getTasksByGateID"
-    ) {
-    id: ID!
-    gateID: ID!
-    title: String!
-    description: String!
-    triggers: [Trigger]
-    completed: Boolean!
-    gate: Gate @connection(fields: ["gateID"])
-}
-
-enum OptionType {
-    auto
-    manual
 }

@@ -274,11 +274,10 @@ const NewCard = (props) => {
                 return <Feed {...props} />
             case 'members':
                 return <Members daoName={props.name} />
-            
             case 'gates':
-                return <Gates />
+                return <Gates {...props} />
             case 'Plugins':
-                return <Plugins />
+                return <Plugins {...props} />
             
             default:
                 return <Profile {...props} />

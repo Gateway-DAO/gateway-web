@@ -268,7 +268,8 @@ export const onCreateDao = /* GraphQL */ `
           description
           categories
           admins
-          keys
+          keysNumber
+          published
           createdAt
           updatedAt
         }
@@ -357,7 +358,8 @@ export const onUpdateDao = /* GraphQL */ `
           description
           categories
           admins
-          keys
+          keysNumber
+          published
           createdAt
           updatedAt
         }
@@ -446,7 +448,8 @@ export const onDeleteDao = /* GraphQL */ `
           description
           categories
           admins
-          keys
+          keysNumber
+          published
           createdAt
           updatedAt
         }
@@ -1642,18 +1645,28 @@ export const onCreateGate = /* GraphQL */ `
       description
       categories
       admins
-      keys
-      tasks {
+      keysNumber
+      keys {
         items {
           id
           gateID
-          title
-          description
-          completed
+          token
+          tokenAmount
+          keys
+          peopleLimit
           createdAt
           updatedAt
         }
         nextToken
+      }
+      published
+      badge {
+        nftURL
+        ipfsURL
+        name
+      }
+      preRequisites {
+        completedGates
       }
       createdAt
       updatedAt
@@ -1711,18 +1724,28 @@ export const onUpdateGate = /* GraphQL */ `
       description
       categories
       admins
-      keys
-      tasks {
+      keysNumber
+      keys {
         items {
           id
           gateID
-          title
-          description
-          completed
+          token
+          tokenAmount
+          keys
+          peopleLimit
           createdAt
           updatedAt
         }
         nextToken
+      }
+      published
+      badge {
+        nftURL
+        ipfsURL
+        name
+      }
+      preRequisites {
+        completedGates
       }
       createdAt
       updatedAt
@@ -1780,37 +1803,39 @@ export const onDeleteGate = /* GraphQL */ `
       description
       categories
       admins
-      keys
-      tasks {
+      keysNumber
+      keys {
         items {
           id
           gateID
-          title
-          description
-          completed
+          token
+          tokenAmount
+          keys
+          peopleLimit
           createdAt
           updatedAt
         }
         nextToken
       }
+      published
+      badge {
+        nftURL
+        ipfsURL
+        name
+      }
+      preRequisites {
+        completedGates
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const onCreateTask = /* GraphQL */ `
-  subscription OnCreateTask {
-    onCreateTask {
+export const onCreateKey = /* GraphQL */ `
+  subscription OnCreateKey {
+    onCreateKey {
       id
       gateID
-      title
-      description
-      triggers {
-        type
-        completed
-        noOfPeople
-      }
-      completed
       gate {
         id
         daoID
@@ -1840,31 +1865,62 @@ export const onCreateTask = /* GraphQL */ `
         description
         categories
         admins
-        keys
-        tasks {
+        keysNumber
+        keys {
           nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          questions {
+            question
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+        }
+        ... on SelfVerify {
+          type
+        }
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const onUpdateTask = /* GraphQL */ `
-  subscription OnUpdateTask {
-    onUpdateTask {
+export const onUpdateKey = /* GraphQL */ `
+  subscription OnUpdateKey {
+    onUpdateKey {
       id
       gateID
-      title
-      description
-      triggers {
-        type
-        completed
-        noOfPeople
-      }
-      completed
       gate {
         id
         daoID
@@ -1894,31 +1950,62 @@ export const onUpdateTask = /* GraphQL */ `
         description
         categories
         admins
-        keys
-        tasks {
+        keysNumber
+        keys {
           nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          questions {
+            question
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+        }
+        ... on SelfVerify {
+          type
+        }
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const onDeleteTask = /* GraphQL */ `
-  subscription OnDeleteTask {
-    onDeleteTask {
+export const onDeleteKey = /* GraphQL */ `
+  subscription OnDeleteKey {
+    onDeleteKey {
       id
       gateID
-      title
-      description
-      triggers {
-        type
-        completed
-        noOfPeople
-      }
-      completed
       gate {
         id
         daoID
@@ -1948,12 +2035,51 @@ export const onDeleteTask = /* GraphQL */ `
         description
         categories
         admins
-        keys
-        tasks {
+        keysNumber
+        keys {
           nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          questions {
+            question
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+        }
+        ... on SelfVerify {
+          type
+        }
       }
       createdAt
       updatedAt
