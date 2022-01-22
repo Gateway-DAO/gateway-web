@@ -19,6 +19,7 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 // Utils
 import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload'
 import FormData from 'form-data'
+import Loader from '../../../../components/Loader'
 
 /* This is a React component that will render the form to add a gate. */
 const AddGateForm = (props) => {
@@ -38,6 +39,7 @@ const AddGateForm = (props) => {
     const [badgeName, setBadgeName] = useState('')
     const [admin, setAdmin] = useState('')
     const [adminList, setAdminList] = useState([])
+    const [updateLoading, setUpdateeLoading] = useState(false)
 
     // Hooks
     const { daoData } = useOutletContext()
@@ -150,6 +152,7 @@ const AddGateForm = (props) => {
 
     /* We create a new gate with the variables we've defined. */
     const onSave = async (e) => {
+        setUpdateeLoading(true)
         try {
             e.preventDefault()
 
@@ -158,8 +161,8 @@ const AddGateForm = (props) => {
                 return false
             }
 
-            const form = new FormData();
-            form.append("file", uploadFile, "image.png");
+            const form = new FormData()
+            form.append('file', uploadFile, 'image.png')
 
             const hash = await uploadFileToIPFS(form)
             const gateID = uuidv4()
@@ -177,7 +180,7 @@ const AddGateForm = (props) => {
                         published: false,
                         badge: {
                             name: badgeName,
-                            ipfsURL: hash
+                            ipfsURL: hash,
                         },
                     },
                 },
@@ -188,6 +191,7 @@ const AddGateForm = (props) => {
             alert('An error occurred. Please try again later!')
             console.log(err)
         }
+        setUpdateeLoading(false)
     }
 
     return (
@@ -436,7 +440,10 @@ const AddGateForm = (props) => {
                     )}
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button type="submit">Submit</FormStyled.Button>
+                <FormStyled.Button type="submit">
+                    {updateLoading && <Loader color="white" />}
+                    Submit
+                </FormStyled.Button>
             </Styled.Container>
         </Styled.Page>
     )
