@@ -29,5 +29,5 @@ export const Image = styled.div`
     height: 200px;
     border-radius: 100%;
     margin: 10%;
-    z-index: 5;
+    z-index: 2;
 `

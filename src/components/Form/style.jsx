@@ -45,6 +45,19 @@ export const H2 = styled(H1)`
     font-size: 48px;
 `
 
+export const Text = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+
+    color: #FFFFFF;
+`
+
 export const SubText = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
