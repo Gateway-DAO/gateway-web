@@ -1,18 +1,21 @@
 import React from 'react'
-import * as Styled from './style'
-import TokenForm from '../../components/SelectTask/TaskComponents/HoldToken/TokenForm'
 import { FormStyled } from '../../../../../../components/Form'
 
 const AddHoldToken = (props) => {
     return (
-        <Styled.Container>
-            <Styled.MarginWrapper>
-                <FormStyled.H1>Add Hold A Token</FormStyled.H1>
-                <Styled.MarginWrapperSecondary>
-                    <TokenForm />
-                </Styled.MarginWrapperSecondary>
-            </Styled.MarginWrapper>
-        </Styled.Container>
+        <FormStyled.FormBox>
+            <FormStyled.H1>Add Hold A Token</FormStyled.H1>
+            <FormStyled.Fieldset>
+                <FormStyled.Label>Token Address</FormStyled.Label>
+                <FormStyled.Input title="Token" placeholder="Token Address" />
+            </FormStyled.Fieldset>
+
+            <FormStyled.Fieldset>
+                <FormStyled.Label>Amount Required</FormStyled.Label>
+                <FormStyled.Input placeholder="Minimum amount to hold" />
+            </FormStyled.Fieldset>
+            <FormStyled.Button>Next</FormStyled.Button>
+        </FormStyled.FormBox>
     )
 }
 

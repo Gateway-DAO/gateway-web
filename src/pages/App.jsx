@@ -18,6 +18,7 @@ import GateSuccessPage from './GateSuccessPage'
 // Keys
 import AddGovernanceSnapshot from '../pages/Gate/pages/AddNewKey/pages/AddGovernanceSnapshot'
 import AddHoldToken from '../pages/Gate/pages/AddNewKey/pages/AddHoldToken'
+import AddMeetingCode from '../pages/Gate/pages/AddNewKey/pages/AddMeetingCode'
 import AddKeySuccess from '../pages/Gate/pages/AddNewKey/pages/AddKeySuccess'
 import AddManualTask from '../pages/Gate/pages/AddNewKey/pages/AddManualTask'
 import AddNewKeyHome from '../pages/Gate/pages/AddNewKey/pages/Home'
@@ -76,6 +77,10 @@ const App = (props) => {
                             <Route
                                 path="governance"
                                 element={<AddGovernanceSnapshot />}
+                            />
+                            <Route
+                                path="meeting-code"
+                                element={<AddMeetingCode />}
                             />
                             <Route
                                 path="success"

@@ -30,6 +30,8 @@ export const H1 = styled.h1`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
+
+    margin-bottom: 40px;
 `
 
 export const H2 = styled(H1)`
@@ -51,10 +53,13 @@ export const SubText = styled.p`
 
 /** CONTAINERS **/
 export const FormBox = styled.form`
-    grid-column: 2/3;
     display: flex;
+    flex: 1;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    padding: 0 20%;
+    margin: 50px 0;
 `
 
 export const Fieldset = styled.fieldset`
@@ -74,25 +79,26 @@ export const FieldsetRow = styled.fieldset`
 `
 
 export const Wrapper = styled.div`
-    width: 100%;
     display: flex;
+    align-self: flex-start;
     align-items: center;
     margin-top: ${(props) => props.marginTop || '0'};
     margin-bottom: ${(props) => props.marginBottom || '30px'};
 `
 
-export const DeleteWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 160px;
+export const AddWrapper = styled(Wrapper)`
+    cursor: pointer;
+`
+
+export const DeleteWrapper = styled(Wrapper)`
+    cursor: pointer;
 `
 
 export const GridBox = styled.div`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-column-gap: ${props => props.gap || "10px"};
-    grid-row-gap: ${props => props.gap || "10px"};
+    grid-template-columns: repeat(${(props) => props.cols || '3'}, 1fr);
+    grid-column-gap: ${(props) => props.gap || '10px'};
+    grid-row-gap: ${(props) => props.gap || '10px'};
     margin: 15px 0;
 `
 
@@ -406,15 +412,15 @@ export const QuestionIcon = styled.span`
 `
 
 export const DeleteIcon = styled.div`
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     border-radius: 100%;
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    // border-radius: 100;
+    border: 1px solid #a5a5a5;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 10px;
 `
 
 export const DeleteContent = styled.div`

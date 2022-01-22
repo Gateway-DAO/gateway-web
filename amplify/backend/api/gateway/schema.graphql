@@ -170,30 +170,6 @@ enum VoteType {
     DOWNVOTE
 }
 
-input CreateNewDAO {
-    id: ID
-    dao: String!
-    name: String!
-    snapshotID: String
-    backgroundURL: AWSURL!
-    youtubeURL: AWSURL
-    logoURL: AWSURL!
-    categories: [String]!
-    tags: [String]
-    description: String!
-    tokenAddress: String
-    whitelistedAddresses: [String!]
-    socials: [SocialInput]
-    chains: [String]
-    createdAt: AWSDateTime
-    updatedAt: AWSDateTime
-}
-
-input SocialInput {
-    network: String!
-    url: String!
-}
-
 ### GATES/KEYS ###
 
 type Gate
@@ -228,7 +204,7 @@ type Key
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
-    task: ITask
+    task: TaskUnion
 }
 
 interface ITask {
@@ -296,6 +272,34 @@ enum TokenType {
     ERC20,
     ERC721
     ERC1151
+}
+
+union TaskUnion = Quiz | MeetingCode | TokenHold | SelfVerify
+
+### INPUTS ###
+
+input CreateNewDAO {
+    id: ID
+    dao: String!
+    name: String!
+    snapshotID: String
+    backgroundURL: AWSURL!
+    youtubeURL: AWSURL
+    logoURL: AWSURL!
+    categories: [String]!
+    tags: [String]
+    description: String!
+    tokenAddress: String
+    whitelistedAddresses: [String!]
+    socials: [SocialInput]
+    chains: [String]
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
+}
+
+input SocialInput {
+    network: String!
+    url: String!
 }
 
 ### CUSTOM MUTATIONS ###

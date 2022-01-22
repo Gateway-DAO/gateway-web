@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import BackButton from '../../../../../../components/BackButton'
+
 export const AddNewKeyContainer = styled.div`
     min-height: 100vh;
-    width: 95vw;
     margin: auto;
     margin-top : 10px;
     background-color: transparent;

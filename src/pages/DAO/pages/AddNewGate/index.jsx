@@ -162,11 +162,12 @@ const AddGateForm = (props) => {
             form.append("file", uploadFile, "image.png");
 
             const hash = await uploadFileToIPFS(form)
+            const gateID = uuidv4()
 
             await createGate({
                 variables: {
                     input: {
-                        id: uuidv4(),
+                        id: gateID,
                         daoID: daoData.id,
                         name: title,
                         description,
@@ -182,7 +183,7 @@ const AddGateForm = (props) => {
                 },
             })
 
-            navigate("/")
+            navigate(`/gate/${gateID}`)
         } catch (err) {
             alert('An error occurred. Please try again later!')
             console.log(err)
