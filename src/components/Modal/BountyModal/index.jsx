@@ -50,6 +50,8 @@ const BountyModal = (props) => {
 
         props.set([...props.data, newBounty])
         props.toggle()
+
+        window.location.reload()
     }
 
     const toggleCheckbox = (e) => {

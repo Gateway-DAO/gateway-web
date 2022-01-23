@@ -25,6 +25,8 @@ const HowtoJoinModal = props => {
 
         props.set(newHTJ)
         props.toggle()
+
+        window.location.reload()
     }
 
     const deleteInput = idx => {

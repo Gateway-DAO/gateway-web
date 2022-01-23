@@ -22,6 +22,8 @@ const WDWDModal = (props) => {
 
         props.set(WDWD)
         props.toggle()
+
+        window.location.reload()
     }
 
     return (

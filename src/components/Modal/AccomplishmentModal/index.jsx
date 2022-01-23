@@ -21,6 +21,8 @@ const AccomplishmentModal = props => {
 
         props.set(accomplish)
         props.toggle()
+
+        window.location.reload()
     }
 
     if (error) { return <Navigate to="/404" /> }
