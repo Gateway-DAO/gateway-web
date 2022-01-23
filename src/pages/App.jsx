@@ -12,6 +12,7 @@ import DAOHome from '../pages/DAO/pages/Home'
 
 // Gate
 import DaoGate from '../pages/Gate/pages/DaoGate'
+import DaoGateWithKeys from '../pages/Gate/pages/DaoGateWithKeys'
 import DAOsGate from './DAOsGate'
 import GateSuccessPage from './GateSuccessPage'
 
@@ -61,6 +62,8 @@ const App = (props) => {
                     </Route>
 
                     <Route path="/gates" element={<DAOsGate />} />
+
+                    <Route path="/gateWithKey" element={<DaoGateWithKeys />} />
 
                     <Route path="gate/:gate" element={<Gate />}>
                         <Route index element={<DaoGate />} />

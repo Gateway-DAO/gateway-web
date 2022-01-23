@@ -1910,6 +1910,12 @@ export const onCreateKey = /* GraphQL */ `
         ... on SelfVerify {
           type
         }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
+        }
       }
       createdAt
       updatedAt
@@ -1995,6 +2001,12 @@ export const onUpdateKey = /* GraphQL */ `
         ... on SelfVerify {
           type
         }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
+        }
       }
       createdAt
       updatedAt
@@ -2079,6 +2091,12 @@ export const onDeleteKey = /* GraphQL */ `
         }
         ... on SelfVerify {
           type
+        }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
         }
       }
       createdAt

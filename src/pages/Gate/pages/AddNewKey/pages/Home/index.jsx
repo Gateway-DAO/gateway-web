@@ -9,7 +9,7 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom'
-import useCreateKey from '../../../../../../api/database/useCreateKey'
+import { useCreateSelfVerify } from '../../../../../../api/database/useCreateKey'
 
 // Utils
 import space from '../../../../../../utils/canvas'
@@ -32,7 +32,7 @@ const AddNewKey = (props) => {
 
     // Hooks
     const navigate = useNavigate()
-    const { createKey, data, loading, error } = useCreateKey()
+    const { createSelfVerify, data, loading, error } = useCreateSelfVerify()
 
     /**
      * Updates a title on the titleDescriptionPair array.
@@ -117,6 +117,7 @@ const AddNewKey = (props) => {
         if (taskLink !== "self-verify") {
             navigate(taskLink, {
                 state: {
+                    gateData,
                     titleDescriptionPair,
                     token,
                     amount,
@@ -129,7 +130,7 @@ const AddNewKey = (props) => {
             e.preventDefault()
             
             try {
-                await createKey({
+                await createSelfVerify({
                     variables: {
                         input: {
                             id: uuidv4(),
@@ -140,11 +141,13 @@ const AddNewKey = (props) => {
                             keys: keysRewarded,
                             peopleLimit,
                             task: {
-                                type: "SELF_VERIFY"
+                                type: "SELF_VERIFY",
                             }
                         }
                     }
-                })    
+                })
+
+                navigate("..")
             }
             catch (err) {
                 alert("An error occurred. Please try again later!")

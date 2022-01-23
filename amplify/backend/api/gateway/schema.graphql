@@ -207,11 +207,7 @@ type Key
     task: TaskUnion
 }
 
-interface ITask {
-    type: TaskType
-}
-
-type Quiz implements ITask {
+type Quiz {
     type: TaskType
     questions: [Question]!
     passedAt: Int! # Number of questions to mark quiz as completed
@@ -227,20 +223,27 @@ type QuizOption {
     correct: Boolean!
 }
 
-type MeetingCode implements ITask {
+type MeetingCode {
     type: TaskType
     code: String!
     caseSensitive: Boolean!
 }
 
-type TokenHold implements ITask {
+type TokenHold {
     type: TaskType
     chainID: Int!
     address: String!
 }
 
-type SelfVerify implements ITask {
+type SelfVerify {
     type: TaskType
+}
+
+type SnapshotGovernance {
+    type: TaskType
+    snapshotType: SnapshotType
+    spaceID: String!
+    proposal: String!
 }
 
 type PreRequisites {
@@ -265,16 +268,22 @@ enum TaskType {
     SC_INTERACTION,
     SNAPSHOT,
     MANUAL,
-    SELF_VERIFY
+    SELF_VERIFY,
+    SNAPSHOT_GOVERNANCE
 }
 
 enum TokenType {
     ERC20,
-    ERC721
-    ERC1151
+    ERC721,
+    ERC1151,
 }
 
-union TaskUnion = Quiz | MeetingCode | TokenHold | SelfVerify
+enum SnapshotType {
+    VOTE,
+    PROPOSAL
+}
+
+union TaskUnion = Quiz | MeetingCode | TokenHold | SelfVerify | SnapshotGovernance
 
 ### INPUTS ###
 
@@ -302,6 +311,105 @@ input SocialInput {
     url: String!
 }
 
+input CreateKeyQuiz {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: QuizInput
+}
+
+input KeyInformationInput {
+    title: String!
+    description: String!
+}
+
+input QuizInput {
+    type: TaskType = "QUIZ"
+    questions: [QuestionInput]!
+    passedAt: Int! # Number of questions to mark quiz as completed
+}
+
+input QuestionInput {
+    question: String!
+    options: [QuizOptionInput]!
+}
+
+input QuizOptionInput {
+    answer: String!
+    correct: Boolean!
+}
+
+input CreateKeyMeetingCode {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: MeetingCodeInput
+}
+
+input MeetingCodeInput {
+    type: TaskType = "MEETING_CODE"
+    code: String!
+    caseSensitive: Boolean!
+}
+
+input CreateKeyTokenHold {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: TokenHoldInput
+}
+
+input TokenHoldInput {
+    type: TaskType = "TOKEN_HOLD"
+    chainID: Int!
+    address: String!
+}
+
+input CreateKeySelfVerify {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: SelfVerifyInput
+}
+
+input SelfVerifyInput {
+    type: TaskType = "SELF_VERIFY"
+}
+
+input CreateKeySnapshotGovernance {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: SnapshotGovernanceInput
+}
+
+input SnapshotGovernanceInput {
+    type: TaskType = "SNAPSHOT_GOVERNANCE"
+    snapshotType: SnapshotType
+    spaceID: String!
+    proposal: String!
+}
+
 ### CUSTOM MUTATIONS ###
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
@@ -315,4 +423,15 @@ type Mutation {
 
     unvotePost(postID: ID!, userID: ID!, type: VoteType!): Post
         @function(name: "vote-${env}")
+
+    ## For keys ##
+    createQuiz(input: CreateKeyQuiz): Key @function(name: "addKey-${env}")
+
+    createMeetingCode(input: CreateKeyMeetingCode): Key @function(name: "addKey-${env}")
+
+    createTokenHold(input: CreateKeyTokenHold): Key @function(name: "addKey-${env}")
+
+    createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key @function(name: "addKey-${env}")
+
+    createSelfVerify(input: CreateKeySelfVerify): Key @function(name: "addKey-${env}")
 }
