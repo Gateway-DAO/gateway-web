@@ -78,9 +78,9 @@ const AddNewKey = (props) => {
      * Add a new title/description pair to the titleDescriptionPair array.
      * @returns None
      */
-    const addTitleDescription = e => {
+    const addTitleDescription = (e) => {
         e.preventDefault()
-        
+
         setTitleDescriptionPair([
             ...titleDescriptionPair,
             {
@@ -114,7 +114,7 @@ const AddNewKey = (props) => {
     const onSubmit = async (e) => {
         // e.preventDefault()
 
-        if (taskLink !== "self-verify") {
+        if (taskLink !== 'self-verify') {
             navigate(taskLink, {
                 state: {
                     gateData,
@@ -125,10 +125,9 @@ const AddNewKey = (props) => {
                     peopleLimit,
                 },
             })
-        }
-        else {
+        } else {
             e.preventDefault()
-            
+
             try {
                 await createSelfVerify({
                     variables: {
@@ -141,16 +140,15 @@ const AddNewKey = (props) => {
                             keys: keysRewarded,
                             peopleLimit,
                             task: {
-                                type: "SELF_VERIFY",
-                            }
-                        }
-                    }
+                                type: 'SELF_VERIFY',
+                            },
+                        },
+                    },
                 })
 
-                navigate("..")
-            }
-            catch (err) {
-                alert("An error occurred. Please try again later!")
+                navigate('..')
+            } catch (err) {
+                alert('An error occurred. Please try again later!')
                 console.log(err)
             }
         }
@@ -171,9 +169,7 @@ const AddNewKey = (props) => {
                             <FormStyled.Input
                                 id={`title-${idx}`}
                                 name="title"
-                                onChange={(e) =>
-                                    updateTitle(e, idx)
-                                }
+                                onChange={(e) => updateTitle(e, idx)}
                                 value={pair.title}
                                 placeholder="This will be the title of your Key"
                                 required
@@ -183,9 +179,7 @@ const AddNewKey = (props) => {
                             <FormStyled.Label>Description*</FormStyled.Label>
                             <FormStyled.Textarea
                                 id={`description-${idx}`}
-                                onChange={(e) =>
-                                    updateDescription(e, idx)
-                                }
+                                onChange={(e) => updateDescription(e, idx)}
                                 value={pair.description}
                                 height="120px"
                                 placeholder="This will be the description of your Key. We reccommend maximum of 2 lines."
@@ -195,7 +189,7 @@ const AddNewKey = (props) => {
 
                         {titleDescriptionPair.length > 1 && (
                             <FormStyled.DeleteWrapper
-                                onClick={e => deletePair(e, idx)}
+                                onClick={(e) => deletePair(e, idx)}
                             >
                                 <FormStyled.IconButton>
                                     <FaTrashAlt />
@@ -272,14 +266,23 @@ const AddNewKey = (props) => {
                             PEOPLE LIMIT{' '}
                             <FormStyled.QuestionIcon>?</FormStyled.QuestionIcon>
                         </FormStyled.Label>
-                        <FormStyled.Input
-                            id="peopleLimit"
-                            name="peopleLimit"
-                            onChange={(e) => setPeopleLimit(e.target.value)}
-                            placeholder="0"
+                        <Styled.InputContainer
                             value={peopleLimit > 0 ? peopleLimit : ''}
-                            required
-                        />
+                        >
+                            <Styled.Input
+                                id="peopleLimit"
+                                name="peopleLimit"
+                                onChange={(e) => setPeopleLimit(e.target.value)}
+                                placeholder="0"
+                                value={peopleLimit > 0 ? peopleLimit : ''}
+                                required
+                            />
+                            <Styled.UnlimitedBoxContainer
+                                value={peopleLimit > 0 ? peopleLimit : ''}
+                            >
+                                Unlimited
+                            </Styled.UnlimitedBoxContainer>
+                        </Styled.InputContainer>
                     </FormStyled.Fieldset>
                 </FormStyled.FieldsetRow>
 
