@@ -21,6 +21,8 @@ const FAQModal = props => {
 
         props.set(FAQ)
         props.toggle()
+
+        window.location.reload()
     }
 
     const deletePair = idx => {

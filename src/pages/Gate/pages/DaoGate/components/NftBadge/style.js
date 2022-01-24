@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 export const CardWrapper = styled.div`
     min-width: 300px;
@@ -10,7 +9,6 @@ export const CardBox = styled.div`
     display: grid;
     // With the card bottom => grid-template-rows: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    cursor: pointer;
     // With the card bottom => height: 30em;
     height: 350px;
 `
