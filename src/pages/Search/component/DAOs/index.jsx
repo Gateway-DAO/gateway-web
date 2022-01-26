@@ -11,6 +11,7 @@ import { useSearchDAO } from '../../../../api/database/useSearchDAO'
 import { useListDAOs } from '../../../../api/database/useGetDAO'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import Pagination from '../Pagination'
 
 const DAOTab = () => {
     const { query } = useParams()
@@ -119,6 +120,7 @@ const DAOTab = () => {
                     })}
                 </Styled.CardBox>
             )}
+            <Pagination />
         </>
     )
 }

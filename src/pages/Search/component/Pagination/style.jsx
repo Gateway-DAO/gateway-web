@@ -41,5 +41,6 @@ export const CircularButton = styled.div`
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
+    ${(props) => (!!props.select ? `background: rgba(229, 229, 229, 0.2); border : none;` : '')}
     ${(props) => (!!props.value ? FilledBox : '')}
 `
