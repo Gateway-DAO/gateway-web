@@ -72,8 +72,9 @@ const CreateQuiz = () => {
                     return false;
                 }
             })
+            validData.push(true)
             console.log(validData[0])
-            if(!validData[0]){
+            if(validData[0]){
                 alert("till here");
                 return false
             }
