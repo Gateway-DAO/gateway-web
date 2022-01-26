@@ -59,7 +59,7 @@ const NewCard = (props) => {
         }
 
         return () => {}
-    }, [web3.active, props.id])
+    }, [web3.active, props.id,props])
 
     const [balance, setBalance] = useState(0)
     const { isAdmin } = useAdmin(props.whitelistedAddresses)

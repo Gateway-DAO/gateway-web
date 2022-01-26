@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { createKey as KEY_CREATE } from '../../graphql/mutations'
+import { createKey as KEY_CREATE, createSelfVerify as KEY_SELF_VERIFY, createMeetingCode as KEY_MEETING_CODE, createTokenHold as KEY_TOKEN_HOLD } from '../../graphql/mutations'
 
 export const useCreateKey = () => {
     const [createKey, { loading, called, data, error }] = useMutation(
@@ -15,6 +15,54 @@ export const useCreateKey = () => {
             loading,
         }),
         [called, createKey, loading, KEY_CREATE, error]
+    )
+}
+
+export const useCreateSelfVerify = () => {
+    const [createSelfVerify, { loading, called, data, error }] = useMutation(
+        gql(KEY_SELF_VERIFY)
+    )
+
+    return useMemo(
+        () => ({
+            createSelfVerify,
+            data,
+            error,
+            loading,
+        }),
+        [called, createSelfVerify, loading, KEY_SELF_VERIFY, error]
+    )
+}
+
+export const useCreateMeetingCode = () => {
+    const [createMeetingCode, { loading, called, data, error }] = useMutation(
+        gql(KEY_MEETING_CODE)
+    )
+
+    return useMemo(
+        () => ({
+            createMeetingCode,
+            data,
+            error,
+            loading,
+        }),
+        [called, createMeetingCode, loading, KEY_MEETING_CODE, error]
+    )
+}
+
+export const useCreateTokenHold = () => {
+    const [createTokenHold, { loading, called, data, error }] = useMutation(
+        gql(KEY_TOKEN_HOLD)
+    )
+
+    return useMemo(
+        () => ({
+            createTokenHold,
+            data,
+            error,
+            loading,
+        }),
+        [called, createTokenHold, loading, KEY_TOKEN_HOLD, error]
     )
 }
 

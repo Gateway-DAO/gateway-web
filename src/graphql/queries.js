@@ -1247,6 +1247,10 @@ export const getGate = /* GraphQL */ `
                 items {
                     id
                     gateID
+                    information {
+                        title
+                        description
+                    }
                     token
                     tokenAmount
                     keys
@@ -1405,6 +1409,12 @@ export const getKey = /* GraphQL */ `
                 ... on SelfVerify {
                     type
                 }
+                ... on SnapshotGovernance {
+                    type
+                    snapshotType
+                    spaceID
+                    proposal
+                }
             }
             createdAt
             updatedAt
@@ -1458,6 +1468,12 @@ export const listKeys = /* GraphQL */ `
                     }
                     ... on SelfVerify {
                         type
+                    }
+                    ... on SnapshotGovernance {
+                        type
+                        snapshotType
+                        spaceID
+                        proposal
                     }
                 }
                 createdAt
@@ -1978,9 +1994,6 @@ export const getDaoByName = /* GraphQL */ `
                         updatedAt
                     }
                 }
-                  createdAt
-                  updatedAt
-            }
                 gates {
                     items {
                         id
@@ -2402,6 +2415,12 @@ export const getKeysByGateId = /* GraphQL */ `
                     }
                     ... on SelfVerify {
                         type
+                    }
+                    ... on SnapshotGovernance {
+                        type
+                        snapshotType
+                        spaceID
+                        proposal
                     }
                 }
                 createdAt

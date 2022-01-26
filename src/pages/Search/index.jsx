@@ -4,6 +4,7 @@ import * as Styled from './style'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useSearchDAO } from '../../api/database/useSearchDAO'
+import { useDAOLength } from '../../api/database/useDAOLength'
 
 // Components
 import Header from '../../components/Header'
@@ -67,6 +68,10 @@ const Search = (props) => {
             },
         },
     })
+
+    const {
+        data: daoLength
+    } = useDAOLength()
 
     // useEffect(() => {
     //     setHits(!searchLoading ? searchData.searchDAOs.items : [])

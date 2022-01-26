@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "api": {
+      "gateway": [
+        "read"
+      ]
+    },
+    "storage": {
+      "Key:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
