@@ -21,6 +21,8 @@ const UHModal = props => {
 
         props.set(UH)
         props.toggle()
+
+        window.location.reload()
     }
 
     if (error) { return <Navigate to="/404" /> }

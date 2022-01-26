@@ -1,10 +1,26 @@
 import styled from 'styled-components'
 import BackButton from '../../../../../../components/BackButton'
 
+const FilledInput = `
+    background: #220A38;
+    border: 1px solid #7E3BDC;
+    box-sizing: border-box;
+    border-radius: 5px;
+`
+
+const FilledLimitBox = `
+    background: #220A38;
+`
+
+const FilledUnlimitedBox = `
+    background: #7E3BDC;
+    color : #ffffff;
+`
+
 export const AddNewKeyContainer = styled.div`
     min-height: 100vh;
     margin: auto;
-    margin-top : 10px;
+    margin-top: 10px;
     background-color: transparent;
     height: 100%;
     position: relative;
@@ -19,6 +35,59 @@ export const AddNewKeyContainer = styled.div`
         height: 100%;
         width: 100%;
     }
+`
+
+export const InputContainer = styled.div`
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin: 15px 0;
+
+    width: 100%;
+    ${(props) => (!!props.value ? FilledInput : '')}
+    display : flex;
+`
+
+export const Input = styled.input`
+    border-radius: 5px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    background: #170627;
+    color: #e5e5e5;
+    padding: 10px;
+    width: 70%;
+    border: none;
+    outline: none;
+    //position : absolute;
+    ${(props) => (!!props.value ? FilledLimitBox : '')}
+`
+
+export const UnlimitedBoxContainer = styled.div`
+    margin: 8px 10px;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    /* or 118% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #a5a5a5;
+    ${(props) => (!props.value ? FilledUnlimitedBox : '')}
+    
 `
 
 export const BackContainer = styled(BackButton)`

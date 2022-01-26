@@ -34,6 +34,8 @@ const TokenBenefitModal = (props) => {
 
         props.set([...props.data, newTB])
         props.toggle()
+
+        window.location.reload()
     }
 
     if (error) {

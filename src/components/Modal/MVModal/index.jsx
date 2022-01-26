@@ -21,6 +21,8 @@ const MVModal = props => {
 
         props.set(MV)
         props.toggle()
+
+        window.location.reload()
     }
 
     if (error) { return <Navigate to="/404" /> }
