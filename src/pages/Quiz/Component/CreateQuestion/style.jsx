@@ -71,7 +71,7 @@ export const AnswerBox = styled.div`
     margin: 10px 0;
 `
 export const IconBox = styled.div`
-    color: white;
+    color: ${(props)=>props.color?props.color:`white`};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -79,7 +79,7 @@ export const IconBox = styled.div`
     width: 40px;
     min-width: 40px;
     background: #170627;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid ${(props)=>props.border?props.border:`rgba(255, 255, 255, 0.2)`};
     border-radius: 5px;
     margin-right: ${(props) => props.mr};
     margin-left: ${(props) => props.ml};
@@ -145,4 +145,22 @@ export const Button = styled.button`
     margin-top: 25px;
 
     cursor: pointer;
+`
+
+export const AddOptionText = styled.div`
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: #e5e5e5;
+    padding: 10px;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 26px; 
+    background: #170627;
+    border: 1px solid #A5A5A5;
+    box-sizing: border-box;
+    border-radius: 5px;
 `
