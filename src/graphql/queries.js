@@ -1257,6 +1257,33 @@ export const getGate = /* GraphQL */ `
                     peopleLimit
                     createdAt
                     updatedAt
+                    task {
+                        ... on Quiz {
+                            type
+                            questions {
+                                question
+                            }
+                            passedAt
+                        }
+                        ... on MeetingCode {
+                            type
+                            caseSensitive
+                        }
+                        ... on TokenHold {
+                            type
+                            chainID
+                            address
+                        }
+                        ... on SelfVerify {
+                            type
+                        }
+                        ... on SnapshotGovernance {
+                            type
+                            snapshotType
+                            spaceID
+                            proposal
+                        }
+                    }
                 }
                 nextToken
             }
