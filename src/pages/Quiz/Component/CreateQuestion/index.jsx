@@ -37,6 +37,9 @@ const CreateQuestion = ({questions,setQuestions}) => {
                 options:[{
                     option: '',
                     correct: false
+                },{
+                    option: '',
+                    correct: false
                 }],
                 noOfCorrectAnswer: 0
             },
@@ -97,7 +100,11 @@ const CreateQuestion = ({questions,setQuestions}) => {
     const deleteOption = (questionNumber, optionNumber)=>{
         const del = questions.map((value, idx)=>{
             if(idx === questionNumber){
-                value.options.splice(optionNumber,1);
+                if(value.options.length>2){
+                    value.options.splice(optionNumber,1);
+                }else{
+                    alert("Each question must has atleast 2 options")
+                }
             }
             return value
         })
@@ -159,7 +166,7 @@ const CreateQuestion = ({questions,setQuestions}) => {
                         <Styled.Label>QUIZ OPTIONS</Styled.Label>
                         {question.options.map((ele,idx) => (
                             <Styled.AnswerBox>
-                                <Styled.IconBox mr="10px" onClick={()=>deleteOption(index, idx)}>
+                                <Styled.IconBox mr="10px">
                                     <BsThreeDotsVertical />
                                 </Styled.IconBox>
                                 <Styled.AnswerInput
@@ -178,8 +185,14 @@ const CreateQuestion = ({questions,setQuestions}) => {
                                 >
                                     <AiOutlineCheck />
                                 </Styled.IconBox>
-                                <Styled.IconBox ml="10px">
-                                    <AiOutlineClose />
+                                <Styled.IconBox ml="10px" onClick={question.options.length>2?
+                                                                    ()=>deleteOption(index, idx)
+                                                                    :undefined}>
+                                    {question.options.length>2?
+                                        <FaTrashAlt style={{ color: 'white' }}/>
+                                        :
+                                        <FaTrashAlt style={{ color: 'rgba(255,255,255,0.2)' }}/>
+                                    }
                                 </Styled.IconBox>
                             </Styled.AnswerBox>
                         ))}

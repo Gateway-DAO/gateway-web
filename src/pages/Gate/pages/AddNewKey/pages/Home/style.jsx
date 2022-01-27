@@ -69,7 +69,7 @@ export const Input = styled.input`
 `
 
 export const UnlimitedBoxContainer = styled.div`
-    margin: 8px 10px;
+    margin: 6px 10px;
     padding: 5px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
@@ -78,7 +78,7 @@ export const UnlimitedBoxContainer = styled.div`
     font-style: normal;
     font-weight: normal;
     font-size: 11px;
-    line-height: 13px;
+    line-height: 10px;
     /* or 118% */
 
     display: flex;
@@ -86,6 +86,7 @@ export const UnlimitedBoxContainer = styled.div`
     text-align: center;
 
     color: #a5a5a5;
+    cursor: pointer;
     ${(props) => (!props.value ? FilledUnlimitedBox : '')}
     
 `

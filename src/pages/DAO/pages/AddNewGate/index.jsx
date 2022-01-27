@@ -190,7 +190,7 @@ const AddGateForm = (props) => {
 
             navigate(`/gate/${gateID}`)
         } catch (err) {
-            alert(err)
+            alert('An error occurred. Please try again later!')
             console.log(err)
         }
         setUpdateeLoading(false)
