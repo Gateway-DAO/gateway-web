@@ -24,6 +24,8 @@ type User
     nonce: Int!
     pfp: String
     socials: [Social]
+    tasks: [TaskStatus]
+        @connection(keyName: "taskStatusByUserID", fields: ["id"])
     createdAt: AWSDateTime
 }
 
@@ -48,7 +50,8 @@ type DAO
     howToJoin: [String]
     missionAndVision: String
     whatDoWeDo: String
-    tokenBenefits: [TokenBenefit] @connection(keyName: "tokenBenefitByDAO", fields: ["id"])
+    tokenBenefits: [TokenBenefit]
+        @connection(keyName: "tokenBenefitByDAO", fields: ["id"])
     upcomingHangouts: String
     tokenAddress: String
     whitelistedAddresses: [String!]
@@ -86,7 +89,7 @@ type Bounty
     postDate: AWSDateTime!
 }
 
-type TokenBenefit 
+type TokenBenefit
     @model
     @key(
         name: "tokenBenefitByDAO"
@@ -262,28 +265,50 @@ type KeyInformation {
 }
 
 enum TaskType {
-    QUIZ,
-    MEETING_CODE,
-    TOKEN_HOLD,
-    SC_INTERACTION,
-    SNAPSHOT,
-    MANUAL,
-    SELF_VERIFY,
+    QUIZ
+    MEETING_CODE
+    TOKEN_HOLD
+    SC_INTERACTION
+    SNAPSHOT
+    MANUAL
+    SELF_VERIFY
     SNAPSHOT_GOVERNANCE
 }
 
 enum TokenType {
-    ERC20,
-    ERC721,
-    ERC1151,
+    ERC20
+    ERC721
+    ERC1151
 }
 
 enum SnapshotType {
-    VOTE,
+    VOTE
     PROPOSAL
 }
 
-union TaskUnion = Quiz | MeetingCode | TokenHold | SelfVerify | SnapshotGovernance
+union TaskUnion =
+      Quiz
+    | MeetingCode
+    | TokenHold
+    | SelfVerify
+    | SnapshotGovernance
+
+### TASK STATUS ###
+
+type TaskStatus
+    @model
+    @key(
+        name: "taskStatusByUserID"
+        fields: ["userID"]
+        queryField: "getTaskStatusByUserID"
+    ) {
+    id: ID
+    userID: ID
+    user: User @connection(fields: ["userID"])
+    keyID: ID
+    key: Key @connection(fields: ["keyID"])
+    completed: Boolean
+}
 
 ### INPUTS ###
 
@@ -427,11 +452,18 @@ type Mutation {
     ## For keys ##
     createQuiz(input: CreateKeyQuiz): Key @function(name: "addKey-${env}")
 
-    createMeetingCode(input: CreateKeyMeetingCode): Key @function(name: "addKey-${env}")
+    createMeetingCode(input: CreateKeyMeetingCode): Key
+        @function(name: "addKey-${env}")
 
-    createTokenHold(input: CreateKeyTokenHold): Key @function(name: "addKey-${env}")
+    createTokenHold(input: CreateKeyTokenHold): Key
+        @function(name: "addKey-${env}")
 
-    createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key @function(name: "addKey-${env}")
+    createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key
+        @function(name: "addKey-${env}")
 
-    createSelfVerify(input: CreateKeySelfVerify): Key @function(name: "addKey-${env}")
+    createSelfVerify(input: CreateKeySelfVerify): Key
+        @function(name: "addKey-${env}")
+
+    ## Verify keys ##
+    verifyMeetingCode(userID: ID!, keyID: ID!, meetingCode: String!): TaskStatus @function(name: "verifyMeetingCode-${env}")
 }
