@@ -17497,6 +17497,13 @@ react-native-get-random-values@^1.4.0:
   dependencies:
     fast-base64-decode "^1.0.0"
 
+react-paginate@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/react-paginate/-/react-paginate-8.1.0.tgz#8c4c6c5b7d90e8a4f33653262204fd32c5dfd207"
+  integrity sha512-XK8cgcX8Zk4De6F4Iozd91a2xm/U+mdD4SB5k4xcBabqZj86U20N7kMiMzOFk1AEGCj6Kg1374xXK03dz7BTRA==
+  dependencies:
+    prop-types "^15.6.1"
+
 react-particles-js@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/react-particles-js/-/react-particles-js-3.5.3.tgz#5fa8912cd3317061e4d31ed7743d331d9d7f2afe"

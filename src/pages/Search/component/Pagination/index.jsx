@@ -1,33 +1,37 @@
 import * as Styled from './style'
 import { useState } from 'react'
-import { CircularButton, PaginationBox } from './style'
+import ReactPaginate from 'react-paginate'
 
 const Pagination = () => {
+    const [pageNumber, setPageNumber] = useState(0)
 
-    // const {pageDetails , setPageDetails} = useState({
-    //     pageNumbers : []
-    // })
-    let totalPage = 61;
-    let postPerPage = 8;
-    const pageNumbers = []
+    let totalPage = 61
+    let postPerPage = 8
 
-    for(let i =1 ; i <= Math.ceil(totalPage / postPerPage) && i <=5; i++){
-        pageNumbers.push(i)
-    }
+
+    const changePage = ({ selected }) => {
+        setPageNumber(selected);
+      };
+    
     return (
         <Styled.PaginationContainer>
-            <PaginationBox>
-                <Styled.CircularButton>{'<'}</Styled.CircularButton>
-                {
-                    pageNumbers.map((element) =>
-                        <Styled.CircularButton select={element==3}>{element}</Styled.CircularButton>
-                    )
-                }
-
-                <Styled.CircularButton value={true}>
-                    {'>'}
-                </Styled.CircularButton>
-            </PaginationBox>
+            <Styled.StyledPaginateContainer>
+                <ReactPaginate
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                    pageCount={60}
+                    breakLabel={null}
+                    onPageChange={changePage}
+                    marginPagesDisplayed={0}
+                    pageRangeDisplayed={4}
+                    containerClassName={'paginationBttns'}
+                    previousLinkClassName={'pageactive'}
+                    nextLinkClassName={'pageactive'}
+                    disabledClassName={'paginationDisabled'}
+                    
+                    activeClassName={'paginationActive'}
+                />
+            </Styled.StyledPaginateContainer>
         </Styled.PaginationContainer>
     )
 }

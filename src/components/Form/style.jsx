@@ -119,6 +119,7 @@ export const GridBox = styled.div`
 
 /** FORM ELEMENTS **/
 export const Label = styled.label`
+    position: relative;
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
@@ -277,7 +278,9 @@ const CheckboxContainer = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
     padding: 20px 0;
-
+    &:hover{
+        background: #220A38;border: 1px solid #7E3BDC;
+    }
     ${(props) =>
         props.checked
             ? `background: #220A38;border: 1px solid #7E3BDC;`
@@ -286,6 +289,7 @@ const CheckboxContainer = styled.div`
 
 const BigCheckboxContainer = styled(CheckboxContainer)`
     padding: 50px 0;
+    // cursor: pointer;
 `
 
 const CheckboxInput = styled.input`
@@ -293,7 +297,7 @@ const CheckboxInput = styled.input`
     width: 100%;
     height: 100%;
     z-index: 50;
-
+    cursor: pointer;
     opacity: 0;
 `
 
@@ -449,4 +453,24 @@ export const DeleteContent = styled.div`
     align-items: center;
 
     color: #e5e5e5;
+`
+export const DescriptionDilogBox = styled.div`
+    position: absolute;
+    right: 180px;
+    top:-12px;
+    width: 70px;
+    height: 40px;
+    
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    // line-height: px;
+
+    display: flex;
+    align-items: center;
+
+    background: #220A38;
+    border: 1px solid #7E3BDC;
+    color: rgba(255, 255, 255, 0.6);
 `

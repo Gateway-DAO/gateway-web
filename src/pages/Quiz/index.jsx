@@ -30,12 +30,6 @@ const CreateQuiz = () => {
                 },{
                     option: '',
                     correct: false
-                },{
-                    option: '',
-                    correct: false
-                },{
-                    option: '',
-                    correct: false
                 }
             ],
             noOfCorrectAnswer: 0
@@ -58,24 +52,27 @@ const CreateQuiz = () => {
                 return false;
             }
             alert("Questions are added");
-            var validData = data.map((value,idx)=>{
+            let validData = true;
+            data.map((value,idx)=>{
                 if(value.question.length===0){
                     alert(`In question ${idx+1} please enter question title`);
+                    validData= false;
                     return false;
                 }
                 if(value.options.length===0){
                     alert(`In question ${idx+1} please enter atleast one option`);
+                    validData= false;
                     return false;
                 }
                 if(value.noOfCorrectAnswer===0 || value.noOfCorrectAnswer>value.options.length){
                     alert(`In question ${idx+1} no correct answer is there`);
+                    validData = false;
                     return false;
                 }
             })
-            validData.push(true)
-            console.log(validData[0])
-            if(validData[0]){
-                alert("till here");
+            console.log(validData)
+            if(!validData){
+                alert("Fill the quiz properly");
                 return false
             }
             alert("Question added are correct")
@@ -84,6 +81,7 @@ const CreateQuiz = () => {
                 description: description,
                 questions: data
             }
+            console.log(finalData)
             navigate(`/`)
         }catch(err){
             alert(err);

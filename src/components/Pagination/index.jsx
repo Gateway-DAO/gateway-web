@@ -1,11 +1,12 @@
 import React from 'react'
 import * as Styled from './style';
 
-const Pagination = ({totalPage, paginate})=>{
-    const pageArray=[];
-    for(let i=1;i<=totalPage;i++){
-        pageArray.push(i);
-    }
+
+const Pagination = ()=>{
+    const [pageNumber, setPageNumber] = useState(0);
+    const results = 100;
+    const usersPerPage = 8;
+    const pageCount = Math.ceil(results / usersPerPage);
 
     return(
         <Styled.List>
