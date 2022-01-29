@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+
+// Styling
 import * as Styled from './style'
 import { FormStyled } from '../../components/Form'
+
+// Components
 import space from '../../utils/canvas'
 import CreateQuestion from './Component/CreateQuestion'
-import { useNavigate } from 'react-router-dom'
 
+// Hooks
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useCreateQuiz } from '../../api/database/useCreateKey'
+import Loader from '../../components/Loader'
+
+/**
+ * This function is responsible for creating a quiz.
+ */
 const CreateQuiz = () => {
+    // State
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [showComponent, setShowComponent] = useState(true)
-    const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
-
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    )
-
-    // quiz data
-    // const [data, setData] = useState([])
     const [data, setData] = useState([
         {
             question: '',
@@ -31,11 +33,26 @@ const CreateQuiz = () => {
                     answer: '',
                     correct: false,
                 },
-            ],
-            noOfCorrectAnswer: 0,
+            ]
         },
     ])
+    const [showComponent, setShowComponent] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const { state } = useLocation()
 
+    // Hooks
+    const navigate = useNavigate()
+    const { createQuiz } = useCreateQuiz()
+
+    useEffect(
+        () => space(window.innerHeight, window.innerWidth),
+        [window.innerHeight, window.innerWidth]
+    )
+
+    /**
+     * * If the title and description are empty, alert the user.
+     * * Otherwise, set the showComponent to true.
+     */
     const showShowComponent = () => {
         if (title.length === 0 || description.length === 0) {
             alert('Please enter title and description')
@@ -44,17 +61,25 @@ const CreateQuiz = () => {
         }
     }
 
-    const onSave = e => {
+    /**
+     * This function is used to create a quiz.
+     * @param e - event
+     * @returns The mutation is returning the data of the quiz.
+     */
+    const onSave = async (e) => {
         e.preventDefault()
         setLoading(true)
+
+        // TODO: find better alerts
         try {
             if (data.length === 0) {
                 alert('Please enter at least one question')
                 return false
             }
-            alert('Questions are added')
+
             let validData = true
-            data.map((value, idx) => {
+            
+            data.forEach((value, idx) => {
                 if (value.question.length === 0) {
                     alert(`In question ${idx + 1} please enter question title`)
                     validData = false
@@ -82,8 +107,6 @@ const CreateQuiz = () => {
                 return false
             }
 
-            alert('Question added are correct')
-
             const finalData = {
                 title: title,
                 description: description,
@@ -92,13 +115,33 @@ const CreateQuiz = () => {
 
             console.log(finalData)
 
-            navigate(`/`)
+            await createQuiz({
+                variables: {
+                    input: {
+                        id: uuidv4(),
+                        gateID: state.gateData.id,
+                        information: state.titleDescriptionPair,
+                        token: state.token,
+                        tokenAmount: state.amount,
+                        keys: state.keysRewarded,
+                        peopleLimit: state.peopleLimit,
+                        task: {
+                            type: 'QUIZ',
+                            questions: data,
+                            passedAt: 0
+                        },
+                    },
+                },
+            })
+
+            navigate(`/gate/${state.gateData.id}`)
         } catch (err) {
             alert(err)
             console.log(err)
         }
         setLoading(true)
     }
+
     return (
         <FormStyled.FormBox onSubmit={onSave}>
             <Styled.SpaceBox id="space-canvas" />
@@ -106,7 +149,9 @@ const CreateQuiz = () => {
             {showComponent ? (
                 <>
                     <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="name">QUIZ TITLE</FormStyled.Label>
+                        <FormStyled.Label htmlFor="name">
+                            QUIZ TITLE
+                        </FormStyled.Label>
                         <FormStyled.Input
                             onChange={(e) => setTitle(e.target.value)}
                             type="text"
@@ -137,6 +182,7 @@ const CreateQuiz = () => {
                         type="button"
                         onClick={showShowComponent}
                     >
+                        {loading && <Loader color="white" />}
                         Next
                     </FormStyled.Button>
                 </>

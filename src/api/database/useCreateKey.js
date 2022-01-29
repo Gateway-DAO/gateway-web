@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { createKey as KEY_CREATE, createSelfVerify as KEY_SELF_VERIFY, createMeetingCode as KEY_MEETING_CODE, createTokenHold as KEY_TOKEN_HOLD } from '../../graphql/mutations'
+import { createKey as KEY_CREATE, createSelfVerify as KEY_SELF_VERIFY, createMeetingCode as KEY_MEETING_CODE, createTokenHold as KEY_TOKEN_HOLD, createQuiz as KEY_QUIZ } from '../../graphql/mutations'
 
 export const useCreateKey = () => {
     const [createKey, { loading, called, data, error }] = useMutation(
@@ -63,6 +63,22 @@ export const useCreateTokenHold = () => {
             loading,
         }),
         [called, createTokenHold, loading, KEY_TOKEN_HOLD, error]
+    )
+}
+
+export const useCreateQuiz = () => {
+    const [createQuiz, { loading, called, data, error }] = useMutation(
+        gql(KEY_QUIZ)
+    )
+
+    return useMemo(
+        () => ({
+            createQuiz,
+            data,
+            error,
+            loading,
+        }),
+        [called, createQuiz, loading, KEY_QUIZ, error]
     )
 }
 

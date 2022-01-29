@@ -11,6 +11,10 @@ const AddMeetingCode = (props) => {
     const { createMeetingCode, data, loading, error } = useCreateMeetingCode()
     const navigate = useNavigate()
 
+    /**
+     * Creates a meeting code task.
+     * @param e - event
+     */
     const onSubmit = async (e) => {
         e.preventDefault()
         
