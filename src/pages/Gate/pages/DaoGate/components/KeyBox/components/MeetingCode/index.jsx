@@ -8,34 +8,39 @@ import { FormStyled } from '../../../../../../../../components/Form'
 import useVerifyMeetingCode from '../../../../../../../../api/database/keys/useVerifyMeetingCode'
 import { useAuth } from '../../../../../../../../contexts/UserContext'
 
-const MeetingCode = props => {
-    const [meetingCode, setMeetingCode] = useState("")
+const MeetingCode = ({ data, setVerify }) => {
+    const [meetingCode, setMeetingCode] = useState('')
     const { userInfo } = useAuth()
     const { verifyMeetingCode } = useVerifyMeetingCode()
 
     useEffect(() => {
-        const verify = async () => {
+        setVerify.current = async () => {
             try {
                 const res = await verifyMeetingCode({
-                    userID: userInfo.id,
-                    keyID: props.data.id
+                    variables: {
+                        userID: userInfo.id,
+                        keyID: data.id,
+                        meetingCode,
+                    },
                 })
-    
+
                 return res
-            }
-            catch (err) {
-                alert("An error occurred")
+            } catch (err) {
+                alert('An error occurred')
                 console.log(err)
             }
         }
-
-        props.verify(verify)
     }, [])
 
     return (
         <Styled.Container>
             <FormStyled.Label color="black">Meeting Code</FormStyled.Label>
-            <FormStyled.Input white width="25%" value={meetingCode} onChange={e => setMeetingCode(e.target.value)} />
+            <FormStyled.Input
+                white
+                width="25%"
+                value={meetingCode}
+                onChange={(e) => setMeetingCode(e.target.value)}
+            />
         </Styled.Container>
     )
 }

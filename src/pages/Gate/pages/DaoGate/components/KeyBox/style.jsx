@@ -84,7 +84,7 @@ export const StartButton = styled.div`
 `
 export const StartButtonTwo = styled.div`
     min-width: 150px;
-    margin-top: 10px;
+    // margin-top: 10px;
     font-family: Poppins;
     font-size: 13px;
     font-style: normal;

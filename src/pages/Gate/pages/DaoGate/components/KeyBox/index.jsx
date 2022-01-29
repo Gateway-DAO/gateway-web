@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import * as Styled from './style'
 
 // Task components
@@ -7,7 +7,7 @@ import MeetingCode from './components/MeetingCode'
 const KeyBox = (props) => {
     const [opened, setOpened] = useState(false)
     const [startBox, setStartBox] = useState(false)
-    const [taskVerify, setTaskVerify] = useState(() => {})
+    const taskVerify = useRef(null)
     const data = props.data
 
     const openedHandler = () => {
@@ -22,7 +22,7 @@ const KeyBox = (props) => {
     const Task = () => {
         switch (data.task.type) {
             case 'MEETING_CODE':
-                return <MeetingCode data={data} verify={func => setTaskVerify(func)} />
+                return <MeetingCode data={data} setVerify={taskVerify} />
             case 'SELF_VERIFY':
             default:
                 return null
@@ -55,14 +55,14 @@ const KeyBox = (props) => {
                     </Styled.TextContainer>
                 )}
                 <Styled.BottonBox>
-                    <Styled.StartButton opened={opened} onClick={!opened ? startHandler : taskVerify}>
+                    <Styled.StartButton opened={opened} onClick={!opened ? startHandler : () => taskVerify.current()}>
                         <Styled.ButtonText>
                             {startBox ? 'Finish Task' : 'Start'}
                         </Styled.ButtonText>
                     </Styled.StartButton>
-                    {data.information.length > 1 && (
-                        <Styled.StartButtonTwo>
-                            <Styled.ButtonText onClick={openedHandler}>
+                    {((data.information.length > 1) || opened) && (
+                        <Styled.StartButtonTwo onClick={startBox ? startHandler : openedHandler}>
+                            <Styled.ButtonText>
                                 {opened ? 'Hide' : 'Details'}
                             </Styled.ButtonText>
                         </Styled.StartButtonTwo>
