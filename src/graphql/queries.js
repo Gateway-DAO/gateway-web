@@ -2846,6 +2846,29 @@ export const searchDaos = /* GraphQL */ `
         }
     }
 `
+
+export const getNumber = /* GraphQL */ `
+    query GetDAONumber(
+        $filter: SearchableDAOFilterInput
+        $sort: SearchableDAOSortInput
+        $limit: Int
+        $nextToken: String
+        $from: Int
+    ) {
+        searchDAOs(
+            filter: $filter
+            sort: $sort
+            limit: $limit
+            nextToken: $nextToken
+            from: $from
+        ) {
+            items {
+                id
+            }
+        }
+    }
+`
+
 export const searchPosts = /* GraphQL */ `
     query SearchPosts(
         $filter: SearchablePostFilterInput

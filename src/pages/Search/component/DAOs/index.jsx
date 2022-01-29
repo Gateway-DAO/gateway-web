@@ -7,6 +7,7 @@ import Loader from '../../../../components/Loader'
 import { Navigate } from 'react-router-dom'
 
 // Hooks
+import useDAOLength from '../../../../api/database/useDAOLength'
 import { useSearchDAO } from '../../../../api/database/useSearchDAO'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -21,7 +22,6 @@ const DAOTab = () => {
     const [pageCount, setPageCount] = useState(0)
     let from = pageNumber * 8
 
-  
     const {
         data: listData,
         loading: listLoading,
@@ -55,16 +55,39 @@ const DAOTab = () => {
         },
     })
 
+    const {
+        data: searchDaosLength,
+        loading: searchDaosLengthLoading,
+        error: searchDaosLengthError,
+        called: searchDaosLengthCalled,
+    } = useDAOLength({
+        variables: {
+            filter: {
+                or: [
+                    { dao: { wildcard: `*${query}*` } },
+                    { name: { wildcard: `*${query}*` } },
+                    { description: { wildcard: `*${query}*` } },
+                    { categories: { match: `*${query}*` } },
+                    { tags: { wildcard: `*${query}*` } },
+                ],
+            },
+        },
+    })
+
     useEffect(() => {
         if (query.toLowerCase() === 'all') {
-            console.log(listData)
+            console.log(query.toLowerCase())
             setHits(!listLoading ? listData.searchDAOs.items : [])
             setPageCount(Math.ceil(listData?.searchDAOs.total / resultPerPage))
         } else {
             setHits(!searchLoading ? searchData.searchDAOs.items : [])
-            setPageCount(Math.ceil(listData?.searchDAOs.items.length / resultPerPage))
+            setPageCount(
+                Math.ceil(
+                    searchDaosLength?.searchDAOs.items.length / resultPerPage
+                )
+            )
         }
-    }, [query, searchLoading, listLoading, pageNumber])
+    }, [query, searchLoading, listLoading, searchDaosLengthLoading, pageNumber])
 
     if (searchError || listError) {
         return <Navigate to="/404" />
