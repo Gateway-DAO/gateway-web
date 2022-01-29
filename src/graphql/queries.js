@@ -101,6 +101,17 @@ export const getUser = /* GraphQL */ `
                 network
                 url
             }
+            tasks {
+                items {
+                    id
+                    userID
+                    keyID
+                    completed
+                    createdAt
+                    updatedAt
+                }
+                nextToken
+            }
             createdAt
             updatedAt
         }
@@ -148,6 +159,9 @@ export const listUsers = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                tasks {
+                    nextToken
                 }
                 createdAt
                 updatedAt
@@ -948,6 +962,9 @@ export const getPost = /* GraphQL */ `
                     network
                     url
                 }
+                tasks {
+                    nextToken
+                }
                 createdAt
                 updatedAt
             }
@@ -1103,6 +1120,9 @@ export const getComment = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                tasks {
+                    nextToken
                 }
                 createdAt
                 updatedAt
@@ -1510,6 +1530,153 @@ export const listKeys = /* GraphQL */ `
         }
     }
 `
+export const getTaskStatus = /* GraphQL */ `
+    query GetTaskStatus($id: ID!) {
+        getTaskStatus(id: $id) {
+            id
+            userID
+            user {
+                id
+                wallet
+                username
+                name
+                bio
+                daos_ids
+                daos {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                init
+                nonce
+                pfp
+                socials {
+                    network
+                    url
+                }
+                tasks {
+                    nextToken
+                }
+                createdAt
+                updatedAt
+            }
+            keyID
+            key {
+                id
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                }
+                information {
+                    title
+                    description
+                }
+                token
+                tokenAmount
+                keys
+                peopleLimit
+                task {
+                    ... on Quiz {
+                        type
+                        passedAt
+                    }
+                    ... on MeetingCode {
+                        type
+                        code
+                        caseSensitive
+                    }
+                    ... on TokenHold {
+                        type
+                        chainID
+                        address
+                    }
+                    ... on SelfVerify {
+                        type
+                    }
+                    ... on SnapshotGovernance {
+                        type
+                        snapshotType
+                        spaceID
+                        proposal
+                    }
+                }
+                createdAt
+                updatedAt
+            }
+            completed
+            createdAt
+            updatedAt
+        }
+    }
+`
+export const listTaskStatuss = /* GraphQL */ `
+    query ListTaskStatuss(
+        $filter: ModelTaskStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        listTaskStatuss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                keyID
+                key {
+                    id
+                    gateID
+                    token
+                    tokenAmount
+                    keys
+                    peopleLimit
+                    createdAt
+                    updatedAt
+                }
+                completed
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
 export const getUserByAddress = /* GraphQL */ `
     query GetUserByAddress(
         $wallet: String
@@ -1560,6 +1727,9 @@ export const getUserByAddress = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                tasks {
+                    nextToken
                 }
                 createdAt
                 updatedAt
@@ -1618,6 +1788,9 @@ export const getUserByUsername = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                tasks {
+                    nextToken
                 }
                 createdAt
                 updatedAt
@@ -2457,6 +2630,56 @@ export const getKeysByGateId = /* GraphQL */ `
         }
     }
 `
+export const getTaskStatusByUserId = /* GraphQL */ `
+    query GetTaskStatusByUserId(
+        $userID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelTaskStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getTaskStatusByUserID(
+            userID: $userID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                keyID
+                key {
+                    id
+                    gateID
+                    token
+                    tokenAmount
+                    keys
+                    peopleLimit
+                    createdAt
+                    updatedAt
+                }
+                completed
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
 export const searchUsers = /* GraphQL */ `
     query SearchUsers(
         $filter: SearchableUserFilterInput
@@ -2507,6 +2730,9 @@ export const searchUsers = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                tasks {
+                    nextToken
                 }
                 createdAt
                 updatedAt

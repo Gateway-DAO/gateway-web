@@ -59,6 +59,17 @@ export const onCreateUser = /* GraphQL */ `
         network
         url
       }
+      tasks {
+        items {
+          id
+          userID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -122,6 +133,17 @@ export const onUpdateUser = /* GraphQL */ `
         network
         url
       }
+      tasks {
+        items {
+          id
+          userID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -184,6 +206,17 @@ export const onDeleteUser = /* GraphQL */ `
       socials {
         network
         url
+      }
+      tasks {
+        items {
+          id
+          userID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -1129,6 +1162,9 @@ export const onCreatePost = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1269,6 +1305,9 @@ export const onUpdatePost = /* GraphQL */ `
         socials {
           network
           url
+        }
+        tasks {
+          nextToken
         }
         createdAt
         updatedAt
@@ -1411,6 +1450,9 @@ export const onDeletePost = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1477,6 +1519,9 @@ export const onCreateComment = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1530,6 +1575,9 @@ export const onUpdateComment = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1582,6 +1630,9 @@ export const onDeleteComment = /* GraphQL */ `
         socials {
           network
           url
+        }
+        tasks {
+          nextToken
         }
         createdAt
         updatedAt
@@ -2099,6 +2150,321 @@ export const onDeleteKey = /* GraphQL */ `
           proposal
         }
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateTaskStatus = /* GraphQL */ `
+  subscription OnCreateTaskStatus {
+    onCreateTaskStatus {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      keyID
+      key {
+        id
+        gateID
+        gate {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keysNumber
+          published
+          createdAt
+          updatedAt
+        }
+        information {
+          title
+          description
+        }
+        token
+        tokenAmount
+        keys
+        peopleLimit
+        task {
+          ... on Quiz {
+            type
+            passedAt
+          }
+          ... on MeetingCode {
+            type
+            code
+            caseSensitive
+          }
+          ... on TokenHold {
+            type
+            chainID
+            address
+          }
+          ... on SelfVerify {
+            type
+          }
+          ... on SnapshotGovernance {
+            type
+            snapshotType
+            spaceID
+            proposal
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTaskStatus = /* GraphQL */ `
+  subscription OnUpdateTaskStatus {
+    onUpdateTaskStatus {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      keyID
+      key {
+        id
+        gateID
+        gate {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keysNumber
+          published
+          createdAt
+          updatedAt
+        }
+        information {
+          title
+          description
+        }
+        token
+        tokenAmount
+        keys
+        peopleLimit
+        task {
+          ... on Quiz {
+            type
+            passedAt
+          }
+          ... on MeetingCode {
+            type
+            code
+            caseSensitive
+          }
+          ... on TokenHold {
+            type
+            chainID
+            address
+          }
+          ... on SelfVerify {
+            type
+          }
+          ... on SnapshotGovernance {
+            type
+            snapshotType
+            spaceID
+            proposal
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTaskStatus = /* GraphQL */ `
+  subscription OnDeleteTaskStatus {
+    onDeleteTaskStatus {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      keyID
+      key {
+        id
+        gateID
+        gate {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keysNumber
+          published
+          createdAt
+          updatedAt
+        }
+        information {
+          title
+          description
+        }
+        token
+        tokenAmount
+        keys
+        peopleLimit
+        task {
+          ... on Quiz {
+            type
+            passedAt
+          }
+          ... on MeetingCode {
+            type
+            code
+            caseSensitive
+          }
+          ... on TokenHold {
+            type
+            chainID
+            address
+          }
+          ... on SelfVerify {
+            type
+          }
+          ... on SnapshotGovernance {
+            type
+            snapshotType
+            spaceID
+            proposal
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      completed
       createdAt
       updatedAt
     }
