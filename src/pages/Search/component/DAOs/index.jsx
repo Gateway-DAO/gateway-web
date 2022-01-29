@@ -8,42 +8,30 @@ import { Navigate } from 'react-router-dom'
 
 // Hooks
 import { useSearchDAO } from '../../../../api/database/useSearchDAO'
-import { useListDAOs } from '../../../../api/database/useGetDAO'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Pagination from '../Pagination'
 
 const DAOTab = () => {
+    const [pageNumber, setPageNumber] = useState(0)
     const { query } = useParams()
     const [loading, setLoading] = useState(true)
     const [hits, setHits] = useState([])
+    const resultPerPage = 8
+    const [pageCount, setPageCount] = useState(0)
+    let from = pageNumber * 8
 
-    // for pagination
-    const [nextToken, setNextToken] = useState(undefined)
-    const [nextNextToken, setNextNextToken] = useState()
-    const [previousTokens, setPreviousTokens] = useState([])
-    /* The `useListDAOs` hook is a custom hook that uses the `graphql` package to make a query to the
-   server. 
-   
-   The `useListDAOs` hook returns a `data`, `loading`, `error`, and `called` object. 
-   
-   The `data` object contains the data returned from the server. 
-   
-   The `loading` object contains a boolean that indicates whether the data is still loading. 
-   
-   The `error` object contains an error message if the query failed. 
-   
-   The `called` object */
+  
     const {
         data: listData,
         loading: listLoading,
         error: listError,
         called: listCalled,
-    } = useListDAOs({
-        // variables: {
-        //     nextToken: nextToken,
-        //     limit: 8,
-        // },
+    } = useSearchDAO({
+        variables: {
+            limit: resultPerPage,
+            from: from,
+        },
     })
 
     const {
@@ -53,6 +41,8 @@ const DAOTab = () => {
         called: searchCalled,
     } = useSearchDAO({
         variables: {
+            limit: resultPerPage,
+            from: from,
             filter: {
                 or: [
                     { dao: { wildcard: `*${query}*` } },
@@ -67,12 +57,14 @@ const DAOTab = () => {
 
     useEffect(() => {
         if (query.toLowerCase() === 'all') {
-            setHits(!listLoading ? listData.listDAOs.items : [])
-            //console.log(listData.listDAOs)
+            console.log(listData)
+            setHits(!listLoading ? listData.searchDAOs.items : [])
+            setPageCount(Math.ceil(listData?.searchDAOs.total / resultPerPage))
         } else {
             setHits(!searchLoading ? searchData.searchDAOs.items : [])
+            setPageCount(Math.ceil(listData?.searchDAOs.items.length / resultPerPage))
         }
-    }, [query, searchLoading, listLoading])
+    }, [query, searchLoading, listLoading, pageNumber])
 
     if (searchError || listError) {
         return <Navigate to="/404" />
@@ -80,6 +72,7 @@ const DAOTab = () => {
 
     const searchOrListLoading =
         query.toLowerCase() === 'all' ? listLoading : searchLoading
+
     const searchOrListCalled =
         query.toLowerCase() === 'all' ? listCalled : searchCalled
 
@@ -120,7 +113,7 @@ const DAOTab = () => {
                     })}
                 </Styled.CardBox>
             )}
-            <Pagination />
+            <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
         </>
     )
 }

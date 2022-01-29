@@ -2,24 +2,19 @@ import * as Styled from './style'
 import { useState } from 'react'
 import ReactPaginate from 'react-paginate'
 
-const Pagination = () => {
-    const [pageNumber, setPageNumber] = useState(0)
-
-    let totalPage = 61
-    let postPerPage = 8
-
-
+const Pagination = ({pageCount , setPageNumber}) => {
+  
     const changePage = ({ selected }) => {
-        setPageNumber(selected);
-      };
-    
+        setPageNumber(selected)
+    }
+
     return (
         <Styled.PaginationContainer>
             <Styled.StyledPaginateContainer>
                 <ReactPaginate
                     previousLabel={'<'}
                     nextLabel={'>'}
-                    pageCount={60}
+                    pageCount={pageCount}
                     breakLabel={null}
                     onPageChange={changePage}
                     marginPagesDisplayed={0}
@@ -28,7 +23,6 @@ const Pagination = () => {
                     previousLinkClassName={'pageactive'}
                     nextLinkClassName={'pageactive'}
                     disabledClassName={'paginationDisabled'}
-                    
                     activeClassName={'paginationActive'}
                 />
             </Styled.StyledPaginateContainer>
