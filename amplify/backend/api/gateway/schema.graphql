@@ -293,7 +293,7 @@ union TaskUnion =
     | SelfVerify
     | SnapshotGovernance
 
-### TASK STATUS ###
+### TASK STATUS / ERROR ###
 
 type TaskStatus
     @model
@@ -309,6 +309,22 @@ type TaskStatus
     key: Key @connection(fields: ["keyID"])
     completed: Boolean
 }
+
+type Error {
+    keyID: ID!
+    error: ErrorType!
+    msg: String
+}
+
+enum ErrorType {
+    INVALID_KEY
+    NO_HOLD # for hold a token
+    INVALID_CODE # for meeting code
+    NOT_ENOUGH_RIGHTS # for quiz
+    UNEXPECTED_ERROR
+}
+
+union KeyVerificationResponse = TaskStatus | Error
 
 ### INPUTS ###
 
@@ -465,5 +481,7 @@ type Mutation {
         @function(name: "addKey-${env}")
 
     ## Verify keys ##
-    verifyMeetingCode(userID: ID!, keyID: ID!, meetingCode: String!): TaskStatus @function(name: "verifyMeetingCode-${env}")
+    verifyMeetingCode(userID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
+
+    verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
 }

@@ -849,105 +849,224 @@ export const verifyMeetingCode = /* GraphQL */ `
       keyID: $keyID
       meetingCode: $meetingCode
     ) {
-      id
-      userID
-      user {
+      ... on TaskStatus {
         id
-        wallet
-        username
-        name
-        bio
-        daos_ids
-        daos {
+        userID
+        user {
           id
-          dao
+          wallet
+          username
           name
-          accomplishments
-          snapshotID
-          backgroundURL
-          youtubeURL
-          logoURL
-          categories
-          tags
-          description
-          howToJoin
-          missionAndVision
-          whatDoWeDo
-          upcomingHangouts
-          tokenAddress
-          whitelistedAddresses
-          chains
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
           createdAt
           updatedAt
         }
-        init
-        nonce
-        pfp
-        socials {
-          network
-          url
-        }
-        tasks {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      keyID
-      key {
-        id
-        gateID
-        gate {
+        keyID
+        key {
           id
-          daoID
-          name
-          description
-          categories
-          admins
-          keysNumber
-          published
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+          }
           createdAt
           updatedAt
         }
-        information {
-          title
-          description
-        }
-        token
-        tokenAmount
-        keys
-        peopleLimit
-        task {
-          ... on Quiz {
-            type
-            passedAt
-          }
-          ... on MeetingCode {
-            type
-            code
-            caseSensitive
-          }
-          ... on TokenHold {
-            type
-            chainID
-            address
-          }
-          ... on SelfVerify {
-            type
-          }
-          ... on SnapshotGovernance {
-            type
-            snapshotType
-            spaceID
-            proposal
-          }
-        }
+        completed
         createdAt
         updatedAt
       }
-      completed
-      createdAt
-      updatedAt
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifyHoldAToken = /* GraphQL */ `
+  mutation VerifyHoldAToken($userID: ID!, $keyID: ID!) {
+    verifyHoldAToken(userID: $userID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
     }
   }
 `;

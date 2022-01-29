@@ -42,7 +42,11 @@ exports.handler = async (event, ctx, callback) => {
 			return item
 		}
 
-        return null
+        return {
+			keyID,
+			error: "INVALID_CODE",
+			msg: "User inserted the wrong meeting code"
+		}
     } catch (error) {
         console.log(error)
         return error

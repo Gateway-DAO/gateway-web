@@ -12,8 +12,7 @@ const docClient = new AWS.DynamoDB.DocumentClient()
 const getKey = async (id) => {
     const { Items: [key] = [] } = await docClient
         .query({
-            TableName: `TaskStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
-            IndexName: 'UserByAddress',
+            TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
             KeyConditionExpression: 'id = :id',
             ExpressionAttributeValues: {
                 ':id': id,
@@ -22,6 +21,20 @@ const getKey = async (id) => {
         .promise()
 
     return key
+}
+
+const getUser = async (id) => {
+    const { Items: [user] = [] } = await docClient
+        .query({
+            TableName: `User-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            KeyConditionExpression: 'id = :id',
+            ExpressionAttributeValues: {
+                ':id': id,
+            },
+        })
+        .promise()
+
+    return user
 }
 
 const createTaskStatus = async (input) => {
@@ -44,4 +57,4 @@ const createTaskStatus = async (input) => {
     return Item
 }
 
-module.exports = { getKey, createTaskStatus }
+module.exports = { getKey, getUser, createTaskStatus }
