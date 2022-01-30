@@ -27,7 +27,7 @@ const QuizKey = (props) => {
             {showVideoContainer ? (
                 <Styled.videoContainer>
                     <iframe
-                        width="926"
+                        width="700"
                         height="528"
                         src="https://www.youtube-nocookie.com/embed/qUYBsCJY140"
                         title="YouTube video player"

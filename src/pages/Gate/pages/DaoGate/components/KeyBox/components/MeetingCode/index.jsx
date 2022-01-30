@@ -13,24 +13,26 @@ const MeetingCode = ({ data, setVerify }) => {
     const { userInfo } = useAuth()
     const { verifyMeetingCode } = useVerifyMeetingCode()
 
-    useEffect(() => {
-        setVerify.current = async () => {
-            try {
-                const res = await verifyMeetingCode({
-                    variables: {
-                        userID: userInfo.id,
-                        keyID: data.id,
-                        meetingCode,
-                    },
-                })
+    const verify = async () => {
+        try {
+            const res = await verifyMeetingCode({
+                variables: {
+                    userID: userInfo.id,
+                    keyID: data.id,
+                    meetingCode,
+                },
+            })
 
-                return res
-            } catch (err) {
-                alert('An error occurred')
-                console.log(err)
-            }
+            return res
+        } catch (err) {
+            alert('An error occurred')
+            console.log(err)
         }
-    }, [])
+    }
+
+    useEffect(() => {
+        setVerify.current = verify
+    }, [meetingCode])
 
     return (
         <Styled.Container>
@@ -45,4 +47,6 @@ const MeetingCode = ({ data, setVerify }) => {
     )
 }
 
-export default MeetingCode
+const MemoizedMeetingCode = React.memo(MeetingCode)
+
+export default MemoizedMeetingCode

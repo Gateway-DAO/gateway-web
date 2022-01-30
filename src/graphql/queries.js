@@ -1282,6 +1282,9 @@ export const getGate = /* GraphQL */ `
                             type
                             questions {
                                 question
+                                options {
+                                    answer
+                                }
                             }
                             passedAt
                         }
@@ -1440,6 +1443,9 @@ export const getKey = /* GraphQL */ `
                     type
                     questions {
                         question
+                        options {
+                            answer
+                        }
                     }
                     passedAt
                 }
@@ -1501,6 +1507,12 @@ export const listKeys = /* GraphQL */ `
                 task {
                     ... on Quiz {
                         type
+                        questions {
+                            question
+                            options {
+                                answer
+                            }
+                        }
                         passedAt
                     }
                     ... on MeetingCode {
@@ -1604,6 +1616,12 @@ export const getTaskStatus = /* GraphQL */ `
                 task {
                     ... on Quiz {
                         type
+                        questions {
+                            question
+                            options {
+                                answer
+                            }
+                        }
                         passedAt
                     }
                     ... on MeetingCode {
@@ -2601,6 +2619,12 @@ export const getKeysByGateId = /* GraphQL */ `
                 task {
                     ... on Quiz {
                         type
+                        questions {
+                            question
+                            options {
+                                answer
+                            }
+                        }
                         passedAt
                     }
                     ... on MeetingCode {

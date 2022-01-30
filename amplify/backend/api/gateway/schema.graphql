@@ -311,7 +311,7 @@ type TaskStatus
 }
 
 type Error {
-    keyID: ID!
+    keyID: ID
     error: ErrorType!
     msg: String
 }

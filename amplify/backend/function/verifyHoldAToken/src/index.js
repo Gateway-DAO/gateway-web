@@ -36,6 +36,7 @@ exports.handler = async (event, ctx, callback) => {
         // 3. check if user holds the token
         const chainID = key.task.chainID
         const tokenAddress = key.task.address
+        const amount = key.task.amount
 		const wallet = user.wallet
 
         // 3.1 get the accurate provider
@@ -119,7 +120,7 @@ exports.handler = async (event, ctx, callback) => {
 		const contract = new ethers.Contract(tokenAddress, abi, provider);
 		const balance = await contract.balanceOf(wallet);
 
-        if (balance > 0) {
+        if (balance > amount) {
 			// The user holds the token, so task completed
 			const item = await createTaskStatus({
 				userID,

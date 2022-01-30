@@ -38,6 +38,7 @@ export const Description = styled.p`
 export const videoContainer = styled.div`
     margin-top: 37px;
     margin-bottom: 59px;
+    width: 200px;
 `
 
 export const ActivityContainer = styled.div`

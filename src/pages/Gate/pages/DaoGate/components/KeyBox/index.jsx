@@ -1,13 +1,15 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import * as Styled from './style'
 
 // Task components
 import MeetingCode from './components/MeetingCode'
+import Quiz from './components/Quiz'
 
 const KeyBox = (props) => {
     const [opened, setOpened] = useState(false)
     const [startBox, setStartBox] = useState(false)
     const taskVerify = useRef(null)
+    const buttonBehavior = useRef(null)
     const data = props.data
 
     const openedHandler = () => {
@@ -23,6 +25,8 @@ const KeyBox = (props) => {
         switch (data.task.type) {
             case 'MEETING_CODE':
                 return <MeetingCode data={data} setVerify={taskVerify} />
+            case 'QUIZ':
+                return <Quiz data={data} setVerify={taskVerify} buttonBehavior={buttonBehavior} />
             case 'SELF_VERIFY':
             default:
                 return null
@@ -55,9 +59,9 @@ const KeyBox = (props) => {
                     </Styled.TextContainer>
                 )}
                 <Styled.BottonBox>
-                    <Styled.StartButton opened={opened} onClick={!opened ? startHandler : () => taskVerify.current()}>
+                    <Styled.StartButton opened={opened} onClick={!opened ? startHandler : (buttonBehavior.current ? buttonBehavior.current.onClick : taskVerify.current)}>
                         <Styled.ButtonText>
-                            {startBox ? 'Finish Task' : 'Start'}
+                            {startBox ? (buttonBehavior.current ? buttonBehavior.current.text : 'Finish Task') : 'Start'}
                         </Styled.ButtonText>
                     </Styled.StartButton>
                     {((data.information.length > 1) || opened) && (
@@ -73,4 +77,4 @@ const KeyBox = (props) => {
     )
 }
 
-export default KeyBox
+export default React.memo(KeyBox)
