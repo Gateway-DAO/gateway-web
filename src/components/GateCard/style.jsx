@@ -10,7 +10,7 @@ export const GateCardBox = styled.div`
     cursor: pointer;
     // With the card bottom => height: 30em;
     height: 30em;
-    width: 26em;
+    width: 25em;
     // max-width: calc(100%/3.5);
 
     transition: margin 0.5s ease-in-out;

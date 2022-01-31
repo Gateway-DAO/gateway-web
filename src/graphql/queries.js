@@ -2893,6 +2893,28 @@ export const getNumber = /* GraphQL */ `
     }
 `
 
+export const getUserNumber = /* GraphQL */ `
+    query GetUserNumber(
+        $filter: SearchableDAOFilterInput
+        $sort: SearchableDAOSortInput
+        $limit: Int
+        $nextToken: String
+        $from: Int
+    ) {
+        searchUsers(
+            filter: $filter
+            sort: $sort
+            limit: $limit
+            nextToken: $nextToken
+            from: $from
+        ) {
+            items {
+                id
+            }
+        }
+    }
+`
+
 export const searchPosts = /* GraphQL */ `
     query SearchPosts(
         $filter: SearchablePostFilterInput
