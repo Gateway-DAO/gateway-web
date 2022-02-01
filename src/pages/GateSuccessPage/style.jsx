@@ -2,11 +2,13 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
     background-color: #170627;
+    width:100%;
 `
 
 export const BoxContainer = styled.div`
     display: flex;
-    margin: 25vh 20vw;
+    // margin: 25vh 20vw;
+    // max-width:100vw;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -29,6 +31,7 @@ export const TextContainer = styled.div`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
+    padding-bottom: 30px;
 
     /* or 94% */
 
