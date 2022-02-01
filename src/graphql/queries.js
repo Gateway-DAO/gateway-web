@@ -1285,6 +1285,7 @@ export const getGate = /* GraphQL */ `
                                 options {
                                     answer
                                 }
+                                nrOfCorrectAnswers
                             }
                             passedAt
                         }
@@ -1305,6 +1306,12 @@ export const getGate = /* GraphQL */ `
                             snapshotType
                             spaceID
                             proposal
+                        }
+                        ... on ContractInteraction {
+                            type
+                            chainID
+                            address
+                            methodName
                         }
                     }
                 }
@@ -1439,36 +1446,43 @@ export const getKey = /* GraphQL */ `
             keys
             peopleLimit
             task {
-                ... on Quiz {
-                    type
-                    questions {
-                        question
-                        options {
-                            answer
+                        ... on Quiz {
+                            type
+                            questions {
+                                question
+                                options {
+                                  answer
+                                }
+                                nrOfCorrectAnswers
+                            }
+                            passedAt
+                        }
+                        ... on MeetingCode {
+                            type
+                            caseSensitive
+                        }
+                        ... on TokenHold {
+                            type
+                            chainID
+                            address
+                        }
+                        ... on SelfVerify {
+                            type
+                        }
+                        ... on SnapshotGovernance {
+                            type
+                            snapshotType
+                            spaceID
+                            proposal
+                        }
+                        ... on ContractInteraction {
+                            type
+                            chainID
+                            address
+                            methodName
                         }
                     }
-                    passedAt
                 }
-                ... on MeetingCode {
-                    type
-                    code
-                    caseSensitive
-                }
-                ... on TokenHold {
-                    type
-                    chainID
-                    address
-                }
-                ... on SelfVerify {
-                    type
-                }
-                ... on SnapshotGovernance {
-                    type
-                    snapshotType
-                    spaceID
-                    proposal
-                }
-            }
             createdAt
             updatedAt
         }
@@ -1512,12 +1526,12 @@ export const listKeys = /* GraphQL */ `
                             options {
                                 answer
                             }
+                            nrOfCorrectAnswers
                         }
                         passedAt
                     }
                     ... on MeetingCode {
                         type
-                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -1533,6 +1547,12 @@ export const listKeys = /* GraphQL */ `
                         snapshotType
                         spaceID
                         proposal
+                    }
+                    ... on ContractInteraction {
+                        type
+                        chainID
+                        address
+                        methodName
                     }
                 }
                 createdAt
@@ -1621,12 +1641,12 @@ export const getTaskStatus = /* GraphQL */ `
                             options {
                                 answer
                             }
+                            nrOfCorrectAnswers
                         }
                         passedAt
                     }
                     ... on MeetingCode {
                         type
-                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -1642,6 +1662,12 @@ export const getTaskStatus = /* GraphQL */ `
                         snapshotType
                         spaceID
                         proposal
+                    }
+                    ... on ContractInteraction {
+                        type
+                        chainID
+                        address
+                        methodName
                     }
                 }
                 createdAt
@@ -2624,12 +2650,12 @@ export const getKeysByGateId = /* GraphQL */ `
                             options {
                                 answer
                             }
+                            nrOfCorrectAnswers
                         }
                         passedAt
                     }
                     ... on MeetingCode {
                         type
-                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -2645,6 +2671,12 @@ export const getKeysByGateId = /* GraphQL */ `
                         snapshotType
                         spaceID
                         proposal
+                    }
+                    ... on ContractInteraction {
+                        type
+                        chainID
+                        address
+                        methodName
                     }
                 }
                 createdAt
