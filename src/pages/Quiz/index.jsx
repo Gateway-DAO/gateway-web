@@ -36,7 +36,7 @@ const CreateQuiz = () => {
                     correct: false,
                 },
             ],
-            
+            noOfCorrectAnswer:0
         },
     ])
     const [showComponent, setShowComponent] = useState(true)
@@ -72,12 +72,10 @@ const CreateQuiz = () => {
     const onSave = async (e) => {
         e.preventDefault()
         setLoading(true)
-
         // TODO: find better alerts
         try {
             if (data.length === 0) {
                 setMessage('Please enter at least one question')
-                alert('Please enter at least one question')
                 // setLoading(false)
                 return false
             }
@@ -87,16 +85,12 @@ const CreateQuiz = () => {
             data.forEach((value, idx) => {
                 if (value.question.length === 0) {
                     setMessage(`In question ${idx + 1} please enter question title`)
-                    alert(`In question ${idx + 1} please enter question title`)
                     // setLoading(false)
                     validData = false
                     return false
                 }
                 if (value.options.length === 0) {
                     setMessage(
-                        `In question ${idx + 1} please enter atleast one option`
-                    )
-                    alert(
                         `In question ${idx + 1} please enter atleast one option`
                     )
                     // setLoading(false)
@@ -108,15 +102,16 @@ const CreateQuiz = () => {
                     value.noOfCorrectAnswer > value.options.length
                 ) {
                     setMessage(`In question ${idx + 1} no correct answer is there`)
-                    alert(`In question ${idx + 1} no correct answer is there`)
                     validData = false
                     return false
                 }
             })
 
             if (!validData) {
-                setMessage('Fill the quiz properly')
-                alert('Fill the quiz properly')
+                setTimeout(()=>{
+                    setLoading(false)
+                    setMessage('Processing your Quiz')
+                },5000);
                 return false
             }
 
@@ -152,16 +147,19 @@ const CreateQuiz = () => {
             alert(err)
             console.log(err)
         }
+        // finally{
+        //     setLoading(false)
+        // }
         setLoading(false)
     }
 
     return (
         <FormStyled.FormBox onSubmit={onSave}>
-            <Styled.SpaceBox id="space-canvas" />
             {loading?
                 <GateSuccessPage heading={message}/>
             :
                 <Styled.Container>
+                <Styled.SpaceBox id="space-canvas"/>
                 <FormStyled.H1>Add Quiz</FormStyled.H1>
                 {showComponent ? (
                     <>

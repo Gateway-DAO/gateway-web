@@ -5,7 +5,7 @@ import * as Styled from './style'
 const GateSuccessPage = (props) => {
     return (
         <Styled.Container>
-            <Header />
+            {/* <Header /> */}
             <Styled.BoxContainer>
                 <Styled.TextContainer>
                     {props.heading}
@@ -14,7 +14,7 @@ const GateSuccessPage = (props) => {
                     Redirecting...
                 </Styled.smallTextContainer>
             </Styled.BoxContainer>
-            <Footer />
+            {/* <Footer /> */}
         </Styled.Container>
     )
 }
