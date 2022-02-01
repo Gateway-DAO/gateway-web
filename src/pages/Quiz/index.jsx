@@ -144,13 +144,18 @@ const CreateQuiz = () => {
             setMessage("Quiz is successfully added");
             navigate(`/gate/${state.gateData.id}`)
         } catch (err) {
-            alert(err)
+            setMessage("We are facing error in saving please try again");
+            // alert(err)
             console.log(err)
         }
         // finally{
         //     setLoading(false)
         // }
-        setLoading(false)
+        // setLoading(false)
+        setTimeout(()=>{
+            setLoading(false)
+            setMessage('Processing your Quiz')
+        },5000);
     }
 
     return (
