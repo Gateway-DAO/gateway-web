@@ -13,6 +13,7 @@ import CreateQuestion from './Component/CreateQuestion'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useCreateQuiz } from '../../api/database/useCreateKey'
 import Loader from '../../components/Loader'
+import GateSuccessPage from '../GateSuccessPage'
 
 /**
  * This function is responsible for creating a quiz.
@@ -21,6 +22,7 @@ const CreateQuiz = () => {
     // State
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
+    const [message, setMessage] = useState('Processing your Quiz');
     const [data, setData] = useState([
         {
             question: '',
@@ -33,7 +35,8 @@ const CreateQuiz = () => {
                     answer: '',
                     correct: false,
                 },
-            ]
+            ],
+            
         },
     ])
     const [showComponent, setShowComponent] = useState(true)
@@ -73,7 +76,9 @@ const CreateQuiz = () => {
         // TODO: find better alerts
         try {
             if (data.length === 0) {
+                setMessage('Please enter at least one question')
                 alert('Please enter at least one question')
+                // setLoading(false)
                 return false
             }
 
@@ -81,14 +86,20 @@ const CreateQuiz = () => {
             
             data.forEach((value, idx) => {
                 if (value.question.length === 0) {
+                    setMessage(`In question ${idx + 1} please enter question title`)
                     alert(`In question ${idx + 1} please enter question title`)
+                    // setLoading(false)
                     validData = false
                     return false
                 }
                 if (value.options.length === 0) {
+                    setMessage(
+                        `In question ${idx + 1} please enter atleast one option`
+                    )
                     alert(
                         `In question ${idx + 1} please enter atleast one option`
                     )
+                    // setLoading(false)
                     validData = false
                     return false
                 }
@@ -96,6 +107,7 @@ const CreateQuiz = () => {
                     value.noOfCorrectAnswer === 0 ||
                     value.noOfCorrectAnswer > value.options.length
                 ) {
+                    setMessage(`In question ${idx + 1} no correct answer is there`)
                     alert(`In question ${idx + 1} no correct answer is there`)
                     validData = false
                     return false
@@ -103,6 +115,7 @@ const CreateQuiz = () => {
             })
 
             if (!validData) {
+                setMessage('Fill the quiz properly')
                 alert('Fill the quiz properly')
                 return false
             }
@@ -133,62 +146,69 @@ const CreateQuiz = () => {
                     },
                 },
             })
-
+            setMessage("Quiz is successfully added");
             navigate(`/gate/${state.gateData.id}`)
         } catch (err) {
             alert(err)
             console.log(err)
         }
-        setLoading(true)
+        setLoading(false)
     }
 
     return (
         <FormStyled.FormBox onSubmit={onSave}>
             <Styled.SpaceBox id="space-canvas" />
-            <FormStyled.H1>Add Quiz</FormStyled.H1>
-            {showComponent ? (
-                <>
-                    <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="name">
-                            QUIZ TITLE
-                        </FormStyled.Label>
-                        <FormStyled.Input
-                            onChange={(e) => setTitle(e.target.value)}
-                            type="text"
-                            id="title"
-                            name="title"
-                            placeholder="This will be the title of your Gate "
-                            value={title}
-                            required
-                        />
-                    </FormStyled.Fieldset>
+            {loading?
+                <GateSuccessPage heading={message}/>
+            :
+                <Styled.Container>
+                <FormStyled.H1>Add Quiz</FormStyled.H1>
+                {showComponent ? (
+                    <>
+                        <FormStyled.Fieldset>
+                            <FormStyled.Label htmlFor="name">
+                                QUIZ TITLE
+                            </FormStyled.Label>
+                            <FormStyled.Input
+                                onChange={(e) => setTitle(e.target.value)}
+                                type="text"
+                                id="title"
+                                name="title"
+                                placeholder="This will be the title of your Gate "
+                                value={title}
+                                required
+                            />
+                        </FormStyled.Fieldset>
 
-                    <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="description">
-                            QUIZ Description
-                        </FormStyled.Label>
-                        <FormStyled.Textarea
-                            height="100px"
-                            id="description"
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="This will be the description of your Gate. We reccommend maximum of 2 lines."
-                            value={description}
-                            required
-                        ></FormStyled.Textarea>
-                    </FormStyled.Fieldset>
+                        <FormStyled.Fieldset>
+                            <FormStyled.Label htmlFor="description">
+                                QUIZ Description
+                            </FormStyled.Label>
+                            <FormStyled.Textarea
+                                height="100px"
+                                id="description"
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder="This will be the description of your Gate. We reccommend maximum of 2 lines."
+                                value={description}
+                                required
+                            ></FormStyled.Textarea>
+                        </FormStyled.Fieldset>
 
-                    <FormStyled.Button
-                        id="submit_msg"
-                        type="button"
-                        onClick={showShowComponent}
-                    >
-                        {loading && <Loader color="white" />}
-                        Next
-                    </FormStyled.Button>
-                </>
-            ) : (
-                <CreateQuestion questions={data} setQuestions={setData} />
-            )}
+                        <FormStyled.Button
+                            id="submit_msg"
+                            type="button"
+                            onClick={showShowComponent}
+                        >
+                            {loading && <Loader color="white" />}
+                            Next
+                        </FormStyled.Button>
+                    </>
+                ) : (
+                    <CreateQuestion questions={data} setQuestions={setData} />
+                )
+                }
+            </Styled.Container>
+        }
         </FormStyled.FormBox>
     )
 }
