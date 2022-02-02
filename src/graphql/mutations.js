@@ -450,6 +450,7 @@ export const createQuiz = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -471,6 +472,12 @@ export const createQuiz = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -541,6 +548,7 @@ export const createMeetingCode = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -562,6 +570,12 @@ export const createMeetingCode = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -632,6 +646,7 @@ export const createTokenHold = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -653,6 +668,12 @@ export const createTokenHold = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -723,6 +744,7 @@ export const createSnapshotGovernance = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -744,6 +766,12 @@ export const createSnapshotGovernance = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -814,6 +842,7 @@ export const createSelfVerify = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -835,6 +864,110 @@ export const createSelfVerify = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createContractInteraction = /* GraphQL */ `
+  mutation CreateContractInteraction($input: CreateKeyContractInteraction) {
+    createContractInteraction(input: $input) {
+      id
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          questions {
+            question
+            nrOfCorrectAnswers
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+        }
+        ... on SelfVerify {
+          type
+        }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -941,6 +1074,12 @@ export const verifyMeetingCode = /* GraphQL */ `
               snapshotType
               spaceID
               proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
             }
           }
           createdAt
@@ -1053,6 +1192,130 @@ export const verifyHoldAToken = /* GraphQL */ `
               snapshotType
               spaceID
               proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifyContractInteraction = /* GraphQL */ `
+  mutation VerifyContractInteraction($userID: ID!, $keyID: ID) {
+    verifyContractInteraction(userID: $userID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
             }
           }
           createdAt
@@ -3089,6 +3352,7 @@ export const createKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -3110,6 +3374,12 @@ export const createKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -3183,6 +3453,7 @@ export const updateKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -3204,6 +3475,12 @@ export const updateKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -3277,6 +3554,7 @@ export const deleteKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -3298,6 +3576,12 @@ export const deleteKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -3402,6 +3686,12 @@ export const createTaskStatus = /* GraphQL */ `
             snapshotType
             spaceID
             proposal
+          }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
           }
         }
         createdAt
@@ -3511,6 +3801,12 @@ export const updateTaskStatus = /* GraphQL */ `
             spaceID
             proposal
           }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
+          }
         }
         createdAt
         updatedAt
@@ -3618,6 +3914,12 @@ export const deleteTaskStatus = /* GraphQL */ `
             snapshotType
             spaceID
             proposal
+          }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
           }
         }
         createdAt

@@ -22,6 +22,7 @@ const CreateQuestion = ({ questions, setQuestions }) => {
                         correct: false,
                     },
                 ],
+                noOfCorrectAnswer: 0
             },
         ])
     }
@@ -96,9 +97,11 @@ const CreateQuestion = ({ questions, setQuestions }) => {
             if (idx === questionNumber) {
                 let arr = value.options
                 if (value.options.at(optionNumber).correct) {
-                    arr[optionNumber].correct = false
+                    arr[optionNumber].correct = false;
+                    value.noOfCorrectAnswer = value.noOfCorrectAnswer-1;
                 } else {
                     arr[optionNumber].correct = true
+                    value.noOfCorrectAnswer = value.noOfCorrectAnswer+1;
                 }
                 return {
                     ...value,

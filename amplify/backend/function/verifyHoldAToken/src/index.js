@@ -128,7 +128,10 @@ exports.handler = async (event, ctx, callback) => {
 				completed: true,
 			})
 
-			return item
+			return {
+                __typename: 'TaskStatus',
+                ...item,
+            }
 		}
 
         return {
