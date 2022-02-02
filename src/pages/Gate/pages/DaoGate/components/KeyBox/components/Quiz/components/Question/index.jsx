@@ -3,9 +3,13 @@ import React, { useState } from 'react'
 // Styling
 import * as Styled from './style'
 
-const Question = ({ idx, question, nrQuestions }) => {
-    const [selectedAnswer, setSelectedAnswer] = useState(null)
-
+const Question = ({
+    idx,
+    question,
+    nrQuestions,
+    selectedAnswer,
+    setSelectedAnswer,
+}) => {
     return (
         <div>
             <Styled.QuestionNOText>

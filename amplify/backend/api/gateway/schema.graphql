@@ -219,6 +219,7 @@ type Quiz {
 type Question {
     question: String!
     options: [QuizOption]!
+    nrOfCorrectAnswers: Int
 }
 
 type QuizOption {
@@ -249,6 +250,13 @@ type SnapshotGovernance {
     proposal: String!
 }
 
+type ContractInteraction {
+    type: TaskType
+    chainID: Int!
+    address: String!
+    methodName: String!
+}
+
 type PreRequisites {
     completedGates: [ID]
 }
@@ -273,6 +281,7 @@ enum TaskType {
     MANUAL
     SELF_VERIFY
     SNAPSHOT_GOVERNANCE
+    CONTRACT_INTERACTION
 }
 
 enum TokenType {
@@ -292,6 +301,7 @@ union TaskUnion =
     | TokenHold
     | SelfVerify
     | SnapshotGovernance
+    | ContractInteraction
 
 ### TASK STATUS / ERROR ###
 
@@ -322,6 +332,8 @@ enum ErrorType {
     INVALID_CODE # for meeting code
     NOT_ENOUGH_RIGHTS # for quiz
     UNEXPECTED_ERROR
+    INVALID_METHOD_NAME # for contract interaction
+    NO_INTERACTION # for contract interaction
 }
 
 union KeyVerificationResponse = TaskStatus | Error
@@ -418,6 +430,24 @@ input TokenHoldInput {
     address: String!
 }
 
+input CreateKeyContractInteraction {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: ContractInteractionInput
+}
+
+input ContractInteractionInput {
+    type: TaskType = "CONTRACT_INTERACTION"
+    chainID: Int!
+    address: String!
+    methodName: String!
+}
+
 input CreateKeySelfVerify {
     id: ID!
     gateID: ID!
@@ -480,8 +510,13 @@ type Mutation {
     createSelfVerify(input: CreateKeySelfVerify): Key
         @function(name: "addKey-${env}")
 
+    createContractInteraction(input: CreateKeyContractInteraction): Key
+        @function(name: "addKey-${env}")
+
     ## Verify keys ##
     verifyMeetingCode(userID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
 
     verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
+
+    verifyContractInteraction(userID: ID!, keyID: ID): KeyVerificationResponse @function(name: "verifyContractInteraction-${env}")
 }

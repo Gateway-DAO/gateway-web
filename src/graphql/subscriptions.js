@@ -1945,6 +1945,7 @@ export const onCreateKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -1966,6 +1967,12 @@ export const onCreateKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -2036,6 +2043,7 @@ export const onUpdateKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -2057,6 +2065,12 @@ export const onUpdateKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -2127,6 +2141,7 @@ export const onDeleteKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -2148,6 +2163,12 @@ export const onDeleteKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -2249,6 +2270,12 @@ export const onCreateTaskStatus = /* GraphQL */ `
             snapshotType
             spaceID
             proposal
+          }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
           }
         }
         createdAt
@@ -2355,6 +2382,12 @@ export const onUpdateTaskStatus = /* GraphQL */ `
             spaceID
             proposal
           }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
+          }
         }
         createdAt
         updatedAt
@@ -2459,6 +2492,12 @@ export const onDeleteTaskStatus = /* GraphQL */ `
             snapshotType
             spaceID
             proposal
+          }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
           }
         }
         createdAt
