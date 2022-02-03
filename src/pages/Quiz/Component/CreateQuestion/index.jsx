@@ -1,3 +1,4 @@
+import { useState} from 'react'
 import * as Styled from './style'
 import { FormStyled } from '../../../../components/Form'
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -5,7 +6,23 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import { FaTrashAlt } from 'react-icons/fa'
 import { IoMdAdd } from 'react-icons/io'
 
-const CreateQuestion = ({ questions, setQuestions }) => {
+const CreateQuestion = ({data, setData, setActiveModal}) => {
+    const [questions, setQuestions] = useState(data || [
+        {
+            question: '',
+            options: [
+                {
+                    answer: '',
+                    correct: false,
+                },
+                {
+                    answer: '',
+                    correct: false,
+                },
+            ],
+            noOfCorrectAnswer:0
+        },
+    ])
     //This function add a new question set when user press ADD icon
     const AddQuestionHandler = () => {
         setQuestions([
@@ -126,6 +143,10 @@ const CreateQuestion = ({ questions, setQuestions }) => {
     //     console.log(questions);
     //     setData(questions);
     // }
+    const saveQuiz= ()=>{
+        setData(questions);
+        setActiveModal('PERSENTAGE_PAGE');
+    }
     return (
         <>
             {questions.map((question, index) => (
@@ -235,7 +256,7 @@ const CreateQuestion = ({ questions, setQuestions }) => {
                 </Styled.Circle>
                 Add Questions
             </Styled.AddQuestionBox>
-            <FormStyled.Button type="submit">Submit</FormStyled.Button>
+            <FormStyled.Button onClick={saveQuiz}>Next</FormStyled.Button>
         </>
     )
 }

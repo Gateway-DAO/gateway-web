@@ -8,19 +8,29 @@ import { FormStyled } from '../../../../../../../../components/Form'
 import { useAuth } from '../../../../../../../../contexts/UserContext'
 import Question from './components/Question'
 
-const Quiz = ({ data, setVerify, buttonBehavior }) => {
+const Quiz = ({
+    data,
+    setVerify,
+    buttonBehavior,
+    questionIdx,
+    setQuestionIdx,
+}) => {
     const { userInfo } = useAuth()
     // const { verifyQuiz } = useVerifyQuiz()
-    const [questionIdx, setQuestionIdx] = useState(0)
+
     const [answers, setAnswers] = useState([])
+    const [selectedAnswer, setSelectedAnswer] = useState(null)
 
     const nrQuestions = data.task.questions.length
 
     const nextQuestion = () => {
         console.log('Hey')
         if (questionIdx + 1 < nrQuestions) {
+            console.log(selectedAnswer)
+            setAnswers([...answers, selectedAnswer])
             setQuestionIdx((prev) => prev + 1)
         }
+        console.log(answers)
     }
 
     const verify = async () => {
@@ -40,6 +50,7 @@ const Quiz = ({ data, setVerify, buttonBehavior }) => {
             alert('An error occurred')
             console.log(err)
         }
+        console.log('finally you have sumbitted your answer')
     }
 
     useEffect(() => {
@@ -48,6 +59,8 @@ const Quiz = ({ data, setVerify, buttonBehavior }) => {
 
     // TODO: fix this
     useEffect(() => {
+        console.log(nrQuestions)
+        console.log(questionIdx)
         if (questionIdx + 1 < nrQuestions) {
             buttonBehavior.current = {
                 text: 'Next',
@@ -67,6 +80,8 @@ const Quiz = ({ data, setVerify, buttonBehavior }) => {
                 question={data.task.questions[questionIdx]}
                 nrQuestions={data.task.questions.length}
                 idx={questionIdx}
+                selectedAnswer={selectedAnswer}
+                setSelectedAnswer={setSelectedAnswer}
             />
         </>
     )
