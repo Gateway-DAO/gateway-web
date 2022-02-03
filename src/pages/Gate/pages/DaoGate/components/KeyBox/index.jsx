@@ -5,7 +5,7 @@ import * as Styled from './style'
 // Task components
 import MeetingCode from './components/MeetingCode'
 import Quiz from './components/Quiz'
-
+import Snapshot from './components/Snapshot'
 
 const KeyBox = (props) => {
     const [questionIdx, setQuestionIdx] = useState(0)
@@ -30,12 +30,21 @@ const KeyBox = (props) => {
                 return <MeetingCode data={data} setVerify={taskVerify} />
             case 'QUIZ':
                 return (
-                    <Quiz
+                    // <Quiz
+                    //     data={data}
+                    //     setVerify={taskVerify}
+                    //     buttonBehavior={buttonBehavior}
+                    //     questionIdx={questionIdx}
+                    //     setQuestionIdx={setQuestionIdx}
+                    // />
+                    <Snapshot 
+                        
+                    />
+                )
+            case 'SNAPSHOT':
+                return (
+                    <Snapshot 
                         data={data}
-                        setVerify={taskVerify}
-                        buttonBehavior={buttonBehavior}
-                        questionIdx={questionIdx}
-                        setQuestionIdx={setQuestionIdx}
                     />
                 )
             case 'SELF_VERIFY':
