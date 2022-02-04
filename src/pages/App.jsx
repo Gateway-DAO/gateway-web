@@ -26,6 +26,8 @@ import AddNewKeyHome from '../pages/Gate/pages/AddNewKey/pages/Home'
 
 // Profile
 import AddExperience from '../pages/AddExperience'
+import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz'
+
 
 const DAO = React.lazy(() => import('./DAO'))
 const Gate = React.lazy(() => import('./Gate'))
@@ -64,9 +66,11 @@ const App = (props) => {
                     <Route path="/gates" element={<DAOsGate />} />
 
                     <Route path="/gateWithKey" element={<DaoGateWithKeys />} />
+                   
 
                     <Route path="gate/:gate" element={<Gate />}>
                         <Route index element={<DaoGate />} />
+                        <Route path="testingquiz" element={<NewQuiz />} />
                         <Route path="add-key" element={<AddNewKey />}>
                             <Route index element={<AddNewKeyHome />} />
                             <Route path="token" element={<AddHoldToken />} />
@@ -83,7 +87,6 @@ const App = (props) => {
                                 path="meeting-code"
                                 element={<AddMeetingCode />}
                             />
-                           
                         </Route>
                     </Route>
 
