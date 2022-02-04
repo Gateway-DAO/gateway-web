@@ -24,11 +24,12 @@ const QuestionAndAnswer = (props) => {
     const addAnswer = (e, selection) => {
         let result = answerList.includes(selection)
         if (result) {
-            setAnswerList(answerList.filter((value, i) => i !== selection))
+            setAnswerList(answerList.filter((value) => value == !selection))
         } else {
             setAnswerList([...answerList, selection])
         }
     }
+
 
     const DynamicButton = (props) => {
         const onNext = (e) => {
@@ -64,35 +65,35 @@ const QuestionAndAnswer = (props) => {
             </Styled.QuestionText>
             <Styled.AnswerContainer>
                 {console.log(answerList)}
-                <Styled.Answers onClick={(e) => addAnswer(e, 'A')}>
-                    <Styled.Option>
+                <Styled.Answers onClick={(e) => addAnswer(e, 'A')} >
+                    <Styled.Option active={answerList.includes('A')}>
                         {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[0]}
                     </Styled.Option>
-                    <Styled.OptionAnswer>35,000</Styled.OptionAnswer>
+                    <Styled.OptionAnswer active={answerList.includes('A')}>35,000</Styled.OptionAnswer>
                 </Styled.Answers>
-                <Styled.Answers>
-                    <Styled.Option>
+                <Styled.Answers onClick={(e) => addAnswer(e, 'B')}>
+                    <Styled.Option active={answerList.includes('B')}>
                         {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[1]}
-                    </Styled.Option>
-                    <Styled.OptionAnswer>35,000</Styled.OptionAnswer>
+                    </Styled.Option >
+                    <Styled.OptionAnswer active={answerList.includes('B')}>35,000</Styled.OptionAnswer>
                 </Styled.Answers>
-                <Styled.Answers>
-                    <Styled.Option>
+                <Styled.Answers onClick={(e) => addAnswer(e, 'C')}>
+                    <Styled.Option active={answerList.includes('C')}>
                         {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[2]}
                     </Styled.Option>
-                    <Styled.OptionAnswer>35,000</Styled.OptionAnswer>
+                    <Styled.OptionAnswer active={answerList.includes('C')}>35,000</Styled.OptionAnswer>
                 </Styled.Answers>
-                <Styled.Answers>
-                    <Styled.Option>
+                <Styled.Answers onClick={(e) => addAnswer(e, 'D')}>
+                    <Styled.Option active={answerList.includes('D')}>
                         {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3]}
                     </Styled.Option>
-                    <Styled.OptionAnswer>35,000</Styled.OptionAnswer>
+                    <Styled.OptionAnswer active={answerList.includes('D')}>35,000</Styled.OptionAnswer>
                 </Styled.Answers>
-                <Styled.Answers>
-                    <Styled.Option>
+                <Styled.Answers onClick={(e) => addAnswer(e, 'E')}>
+                    <Styled.Option active={answerList.includes('E')}>
                         {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[4]}
                     </Styled.Option>
-                    <Styled.OptionAnswer>35,000</Styled.OptionAnswer>
+                    <Styled.OptionAnswer active={answerList.includes('E')}>35,000</Styled.OptionAnswer>
                 </Styled.Answers>
             </Styled.AnswerContainer>
             <DynamicButton type="next" active={active} />
