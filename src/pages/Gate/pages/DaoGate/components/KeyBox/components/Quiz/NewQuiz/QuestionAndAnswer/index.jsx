@@ -8,16 +8,25 @@ const QuestionAndAnswer = (props) => {
     const [answerList, setAnswerList] = useState([])
 
     function checkElement(selection) {
-        return answerList.some(function (el) {
-            return el === selection
+        let result = false
+        const helllo = answerList.some(function (el) {
+            if (el === selection) {
+                result = true
+            }
         })
+        return result
     }
 
+    /**
+     * Given an event and a selection, add the selection to the answer list if it's not already in the
+     * list, otherwise remove it from the list
+     */
     const addAnswer = (e, selection) => {
-        if (checkElement(selection)) {
+        let result = answerList.includes(selection)
+        if (result) {
             setAnswerList(answerList.filter((value, i) => i !== selection))
         } else {
-            setAnswerList(...answerList, selection)
+            setAnswerList([...answerList, selection])
         }
     }
 
