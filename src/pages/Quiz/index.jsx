@@ -8,12 +8,15 @@ import { FormStyled } from '../../components/Form'
 // Components
 import space from '../../utils/canvas'
 import CreateQuestion from './Component/CreateQuestion'
+import Home from './Component/Home'
+import GateSuccessPage from '../GateSuccessPage'
+import Persentage from './Component/Persentage'
 
 // Hooks
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useCreateQuiz } from '../../api/database/useCreateKey'
-import Loader from '../../components/Loader'
-import GateSuccessPage from '../GateSuccessPage'
+// import Loader from '../../components/Loader'
+
 
 /**
  * This function is responsible for creating a quiz.
@@ -23,6 +26,8 @@ const CreateQuiz = () => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [message, setMessage] = useState('Processing your Quiz');
+    const [activeModal, setActiveModal] = useState('HOME');
+    const [persentage, setPersentage] = useState(0);
     const [data, setData] = useState([
         {
             question: '',
@@ -37,7 +42,7 @@ const CreateQuiz = () => {
                 },
             ],
             noOfCorrectAnswer:0
-        },
+        }
     ])
     const [showComponent, setShowComponent] = useState(true)
     const [loading, setLoading] = useState(false)
@@ -47,10 +52,10 @@ const CreateQuiz = () => {
     const navigate = useNavigate()
     const { createQuiz } = useCreateQuiz()
 
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    )
+    // useEffect(
+    //     () => space(window.innerHeight, window.innerWidth),
+    //     [window.innerHeight, window.innerWidth]
+    // )
 
     /**
      * * If the title and description are empty, alert the user.
@@ -63,7 +68,31 @@ const CreateQuiz = () => {
             setShowComponent(!showComponent)
         }
     }
-
+    const ActiveModal = ()=>{
+        switch(activeModal){
+            case 'HOME':
+                return <Home 
+                            title={title} 
+                            setTitle={setTitle} 
+                            description={description} 
+                            setDescription={setDescription}
+                            setActiveModal={setActiveModal}
+                        />
+            case 'CREATE_QUIZ':
+                return <CreateQuestion 
+                            data={data} 
+                            setData={setData} 
+                            setActiveModal={setActiveModal}
+                        />
+            case 'PERSENTAGE_PAGE':
+                return <Persentage 
+                            persentage={persentage}
+                            setPersentage={setPersentage}
+                        />
+            default:
+                return <Home />
+        }
+    }
     /**
      * This function is used to create a quiz.
      * @param e - event
@@ -74,9 +103,23 @@ const CreateQuiz = () => {
         setLoading(true)
         // TODO: find better alerts
         try {
+            if (title.length === 0 || description.length === 0) {
+                setMessage('Please enter title and description')
+                setTimeout(()=>{
+                    setLoading(false)
+                    setMessage('Processing your Quiz')
+                    setActiveModal('HOME')
+                },5000);
+
+                return false
+            }
             if (data.length === 0) {
                 setMessage('Please enter at least one question')
-                // setLoading(false)
+                setTimeout(()=>{
+                    setLoading(false)
+                    setMessage('Processing your Quiz')
+                    setActiveModal('CREATE_QUIZ')
+                },5000);
                 return false
             }
 
@@ -111,6 +154,7 @@ const CreateQuiz = () => {
                 setTimeout(()=>{
                     setLoading(false)
                     setMessage('Processing your Quiz')
+                    setActiveModal('CREATE_QUIZ')
                 },5000);
                 return false
             }
@@ -148,10 +192,6 @@ const CreateQuiz = () => {
             // alert(err)
             console.log(err)
         }
-        // finally{
-        //     setLoading(false)
-        // }
-        // setLoading(false)
         setTimeout(()=>{
             setLoading(false)
             setMessage('Processing your Quiz')
@@ -164,53 +204,10 @@ const CreateQuiz = () => {
                 <GateSuccessPage heading={message}/>
             :
                 <Styled.Container>
-                <Styled.SpaceBox id="space-canvas"/>
-                <FormStyled.H1>Add Quiz</FormStyled.H1>
-                {showComponent ? (
-                    <>
-                        <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor="name">
-                                QUIZ TITLE
-                            </FormStyled.Label>
-                            <FormStyled.Input
-                                onChange={(e) => setTitle(e.target.value)}
-                                type="text"
-                                id="title"
-                                name="title"
-                                placeholder="This will be the title of your Gate "
-                                value={title}
-                                required
-                            />
-                        </FormStyled.Fieldset>
-
-                        <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor="description">
-                                QUIZ Description
-                            </FormStyled.Label>
-                            <FormStyled.Textarea
-                                height="100px"
-                                id="description"
-                                onChange={(e) => setDescription(e.target.value)}
-                                placeholder="This will be the description of your Gate. We reccommend maximum of 2 lines."
-                                value={description}
-                                required
-                            ></FormStyled.Textarea>
-                        </FormStyled.Fieldset>
-
-                        <FormStyled.Button
-                            id="submit_msg"
-                            type="button"
-                            onClick={showShowComponent}
-                        >
-                            {loading && <Loader color="white" />}
-                            Next
-                        </FormStyled.Button>
-                    </>
-                ) : (
-                    <CreateQuestion questions={data} setQuestions={setData} />
-                )
-                }
-            </Styled.Container>
+                    {/* <Styled.SpaceBox id="space-canvas"/> */}
+                    <FormStyled.H1>Add Quiz</FormStyled.H1>
+                    <ActiveModal />
+                </Styled.Container>
         }
         </FormStyled.FormBox>
     )

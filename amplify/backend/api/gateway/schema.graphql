@@ -254,7 +254,7 @@ type ContractInteraction {
     type: TaskType
     chainID: Int!
     address: String!
-    methodName: String!
+    methodName: String
 }
 
 type PreRequisites {
@@ -334,6 +334,8 @@ enum ErrorType {
     UNEXPECTED_ERROR
     INVALID_METHOD_NAME # for contract interaction
     NO_INTERACTION # for contract interaction
+    NO_PROPOSAL # for snapshot proposal
+    NO_VOTE # for snapshot proposal
 }
 
 union KeyVerificationResponse = TaskStatus | Error
@@ -389,6 +391,7 @@ input QuizInput {
 input QuestionInput {
     question: String!
     options: [QuizOptionInput]!
+    nrOfCorrectAnswers: Int
 }
 
 input QuizOptionInput {
@@ -445,7 +448,7 @@ input ContractInteractionInput {
     type: TaskType = "CONTRACT_INTERACTION"
     chainID: Int!
     address: String!
-    methodName: String!
+    methodName: String
 }
 
 input CreateKeySelfVerify {
