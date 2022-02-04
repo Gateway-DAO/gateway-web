@@ -3,8 +3,6 @@ import { useState } from 'react'
 import { ActionButton } from './style'
 
 const QuestionAndAnswer = (props) => {
-    const [active, setActive] = useState(false)
-    const [answer, setAnswer] = useState('')
     const [answerList, setAnswerList] = useState([])
 
     function checkElement(selection) {
@@ -34,7 +32,6 @@ const QuestionAndAnswer = (props) => {
     const DynamicButton = (props) => {
         const onNext = (e) => {
             console.log('next button call')
-            setActive(!active)
         }
 
         const onFinish = (e) => {
@@ -96,7 +93,7 @@ const QuestionAndAnswer = (props) => {
                     <Styled.OptionAnswer active={answerList.includes('E')}>35,000</Styled.OptionAnswer>
                 </Styled.Answers>
             </Styled.AnswerContainer>
-            <DynamicButton type="next" active={active} />
+            <DynamicButton type="next" active={answerList[0]} />
         </Styled.QuestionBox>
     )
 }
