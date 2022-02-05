@@ -27,7 +27,7 @@ const CreateQuiz = () => {
     const [description, setDescription] = useState('')
     const [message, setMessage] = useState('Processing your Quiz');
     const [activeModal, setActiveModal] = useState('HOME');
-    const [persentage, setPersentage] = useState(0);
+    const [persentage, setPersentage] = useState(100);
     const [data, setData] = useState([
         {
             question: '',

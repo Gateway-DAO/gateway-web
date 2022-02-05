@@ -31,6 +31,7 @@ const AddNewKey = (props) => {
     const [peopleLimitPlaceholder, setPeopleLimitPlaceholder] = useState("0");
     const [keysDilogBox,setKeysDilogBox] = useState(false);
     const [peopleLimitDilogBox,setPeopleLimitDilogBox] = useState(false);
+    
     const { gateData } = useOutletContext()
 
     // Hooks
@@ -310,7 +311,7 @@ const AddNewKey = (props) => {
                                 onChange={(e) => setPeopleLimit(e.target.value)}
                                 placeholder={peopleLimitPlaceholder}
                                 value={peopleLimit > 0 ? peopleLimit : ''}
-                                required
+                                required ={peopleLimitPlaceholder==='0'}
                             />
                             <Styled.UnlimitedBoxContainer
                                 onClick={unlimitedClicked}
