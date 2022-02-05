@@ -1333,6 +1333,242 @@ export const verifyContractInteraction = /* GraphQL */ `
     }
   }
 `;
+export const verifySnapshot = /* GraphQL */ `
+  mutation VerifySnapshot($userID: ID!, $keyID: ID) {
+    verifySnapshot(userID: $userID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifySelfVerify = /* GraphQL */ `
+  mutation VerifySelfVerify($userID: ID!, $keyID: ID) {
+    verifySelfVerify(userID: $userID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!

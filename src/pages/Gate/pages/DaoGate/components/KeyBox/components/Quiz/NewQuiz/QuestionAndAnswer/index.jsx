@@ -1,19 +1,8 @@
 import * as Styled from './style'
-import { useState } from 'react'
-import { ActionButton } from './style'
+import { useEffect, useState } from 'react'
 
-const QuestionAndAnswer = (props) => {
+const QuestionAndAnswer = ({ question, questionIdx, totalQuestions }) => {
     const [answerList, setAnswerList] = useState([])
-
-    function checkElement(selection) {
-        let result = false
-        const helllo = answerList.some(function (el) {
-            if (el === selection) {
-                result = true
-            }
-        })
-        return result
-    }
 
     /**
      * Given an event and a selection, add the selection to the answer list if it's not already in the
@@ -21,79 +10,36 @@ const QuestionAndAnswer = (props) => {
      */
     const addAnswer = (e, selection) => {
         let result = answerList.includes(selection)
+
         if (result) {
-            setAnswerList(answerList.filter((value) => value == !selection))
+            setAnswerList(prev => prev.filter((value) => value === !selection))
         } else {
             setAnswerList([...answerList, selection])
         }
     }
 
+    useEffect(() => {
+        setAnswerList([])
+    }, [questionIdx])
 
-    const DynamicButton = (props) => {
-        const onNext = (e) => {
-            console.log('next button call')
-        }
-
-        const onFinish = (e) => {
-            console.log('finish button call')
-        }
-
-        if (props.type == 'Next' || 'next') {
-            return (
-                <ActionButton onClick={onNext} active={props.active}>
-                    NEXT
-                </ActionButton>
-            )
-        }
-
-        if (props.type == 'finish' || 'Finish') {
-            return (
-                <ActionButton onClick={onFinish} active={props.active}>
-                    Finish
-                </ActionButton>
-            )
-        }
-    }
     return (
         <Styled.QuestionBox>
-            <Styled.QuestionNOText>Question 1 OF 3</Styled.QuestionNOText>
+            <Styled.QuestionNOText>Question {questionIdx + 1} OF {totalQuestions}</Styled.QuestionNOText>
             <Styled.QuestionText>
-                How many tokens are required for membership?
+                {question.question}
             </Styled.QuestionText>
             <Styled.AnswerContainer>
-                {console.log(answerList)}
-                <Styled.Answers onClick={(e) => addAnswer(e, 'A')} >
-                    <Styled.Option active={answerList.includes('A')}>
-                        {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[0]}
-                    </Styled.Option>
-                    <Styled.OptionAnswer active={answerList.includes('A')}>35,000</Styled.OptionAnswer>
-                </Styled.Answers>
-                <Styled.Answers onClick={(e) => addAnswer(e, 'B')}>
-                    <Styled.Option active={answerList.includes('B')}>
-                        {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[1]}
-                    </Styled.Option >
-                    <Styled.OptionAnswer active={answerList.includes('B')}>35,000</Styled.OptionAnswer>
-                </Styled.Answers>
-                <Styled.Answers onClick={(e) => addAnswer(e, 'C')}>
-                    <Styled.Option active={answerList.includes('C')}>
-                        {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[2]}
-                    </Styled.Option>
-                    <Styled.OptionAnswer active={answerList.includes('C')}>35,000</Styled.OptionAnswer>
-                </Styled.Answers>
-                <Styled.Answers onClick={(e) => addAnswer(e, 'D')}>
-                    <Styled.Option active={answerList.includes('D')}>
-                        {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[3]}
-                    </Styled.Option>
-                    <Styled.OptionAnswer active={answerList.includes('D')}>35,000</Styled.OptionAnswer>
-                </Styled.Answers>
-                <Styled.Answers onClick={(e) => addAnswer(e, 'E')}>
-                    <Styled.Option active={answerList.includes('E')}>
-                        {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[4]}
-                    </Styled.Option>
-                    <Styled.OptionAnswer active={answerList.includes('E')}>35,000</Styled.OptionAnswer>
-                </Styled.Answers>
+                {question.options.map((opt, idx) => (
+                    <Styled.Answers onClick={(e) => addAnswer(e, idx)}>
+                        <Styled.Option active={answerList.includes(idx)}>
+                            {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[idx]}
+                        </Styled.Option>
+                        <Styled.OptionAnswer active={answerList.includes(idx)}>
+                            {opt.answer}
+                        </Styled.OptionAnswer>
+                    </Styled.Answers>
+                ))}
             </Styled.AnswerContainer>
-            <DynamicButton type="next" active={answerList[0]} />
         </Styled.QuestionBox>
     )
 }

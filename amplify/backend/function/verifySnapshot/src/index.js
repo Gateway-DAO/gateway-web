@@ -45,14 +45,14 @@ exports.handler = async (event, ctx, callback) => {
         const QUERY_PROPOSAL = `
 			query Proposals($space: String!, $wallet: String!) {
 				proposals(
-				first: 20,
-				skip: 0,
-				where: {
-					space: $space,
-					author: $wallet
-				},
-				orderBy: "created",
-				orderDirection: desc
+					first: 20,
+					skip: 0,
+					where: {
+						space: $space,
+						author: $wallet
+					},
+					orderBy: "created",
+					orderDirection: desc
 				) {
 					id
 					title
@@ -73,11 +73,11 @@ exports.handler = async (event, ctx, callback) => {
         const QUERY_VOTE = `
 			query Votes($proposal: String!, $wallet: String!) {
 				votes (
-				first: 1000
-				where: {
-					proposal: $proposal,
-
-				}
+					first: 1000
+					where: {
+						proposal: $proposal,
+						voter: $wallet
+					}
 				) {
 					id
 					voter
@@ -92,17 +92,19 @@ exports.handler = async (event, ctx, callback) => {
 
         const res = await axios.get(ENDPOINT, {
             data: JSON.stringify({
-                //query: QUERY,
-                //variables: VARIABLES,
+                query: type === "VOTE" ? QUERY_VOTE : QUERY_PROPOSAL,
+                variables: JSON.stringify({
+					wallet,
+					...(type === "VOTE" ? { proposal } : { space: spaceID })
+				}),
             }),
             headers: {
                 'Content-Type': 'application/json',
                 'User-Agent': 'Node',
-                'X-API-KEY': process.env.BITQUERY_KEY,
             },
         })
 
-        const interactions = res.data.data.ethereum.smartContractCalls
+        const interactions = type === "VOTE" ? res.data.data.votes : res.data.data.proposals
 
         if (interactions.length > 0) {
             // The user interacted with the contract, so task completed

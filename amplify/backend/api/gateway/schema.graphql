@@ -318,6 +318,8 @@ type TaskStatus
     keyID: ID
     key: Key @connection(fields: ["keyID"])
     completed: Boolean
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
 }
 
 type Error {
@@ -336,6 +338,7 @@ enum ErrorType {
     NO_INTERACTION # for contract interaction
     NO_PROPOSAL # for snapshot proposal
     NO_VOTE # for snapshot proposal
+    WRONG_TASK
 }
 
 union KeyVerificationResponse = TaskStatus | Error
@@ -522,4 +525,8 @@ type Mutation {
     verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
 
     verifyContractInteraction(userID: ID!, keyID: ID): KeyVerificationResponse @function(name: "verifyContractInteraction-${env}")
+
+    verifySnapshot(userID: ID!, keyID: ID): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
+
+    verifySelfVerify(userID: ID!, keyID: ID): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
 }

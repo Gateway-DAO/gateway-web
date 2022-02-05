@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Lambda Function resource stack creation using Amplify CLI",
+  "Description": "{\"createdOn\":\"Linux\",\"createdBy\":\"Amplify\",\"createdWith\":\"7.6.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -63,12 +63,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "verifySnapshot",
+            "verifySelfVerify",
             {
               "Fn::Join": [
                 "",
                 [
-                  "verifySnapshot",
+                  "verifySelfVerify",
                   "-",
                   {
                     "Ref": "env"
@@ -248,12 +248,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "gatewayLambdaRole5eab2262",
+            "gatewayLambdaRolea9af45d8",
             {
               "Fn::Join": [
                 "",
                 [
-                  "gatewayLambdaRole5eab2262",
+                  "gatewayLambdaRolea9af45d8",
                   "-",
                   {
                     "Ref": "env"
@@ -342,10 +342,35 @@
             {
               "Effect": "Allow",
               "Action": [
+                "appsync:Create*",
+                "appsync:StartSchemaCreation",
+                "appsync:GraphQL",
                 "appsync:Get*",
-                "appsync:List*"
+                "appsync:List*",
+                "appsync:Update*",
+                "appsync:Delete*"
               ],
               "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apigatewayGraphQLAPIIdOutput"
+                      },
+                      "/*"
+                    ]
+                  ]
+                },
                 {
                   "Fn::Join": [
                     "",

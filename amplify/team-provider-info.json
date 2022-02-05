@@ -65,11 +65,19 @@
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "bitqueryKey": "BQYTFxjdFDvYNpjzU1echVkLgWLavvpK",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyContractInteraction-42377a71706178617449-build.zip"
+          "s3Key": "amplify-builds/verifyContractInteraction-5a5a464356525a453241-build.zip"
         },
         "verifyQuiz": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
           "s3Key": "amplify-builds/verifyQuiz-455274466b796d436c4c-build.zip"
+        },
+        "verifySnapshot": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/verifySnapshot-62466151324159776b42-build.zip"
+        },
+        "verifySelfVerify": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/verifySelfVerify-5a434448734935706f45-build.zip"
         }
       },
       "auth": {

@@ -1,21 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 import * as Styled from './style'
 import { useCallbackRef } from 'use-callback-ref'
+import useKeyValidation from '../../../../../../hooks/useKeyValidation'
 
-// Task components
+// Task Components
 import MeetingCode from './components/MeetingCode'
-import Quiz from './components/Quiz'
 import Snapshot from './components/Snapshot'
 
 const KeyBox = (props) => {
-    const [questionIdx, setQuestionIdx] = useState(0)
     const [opened, setOpened] = useState(false)
     const [startBox, setStartBox] = useState(false)
-    const taskVerify = useRef(null)
-    //const buttonBehavior = useRef(null)
-    const [_, update] = useState(null);
-    const buttonBehavior = useCallbackRef(null, () => update({}));
     const data = props.data
+    const keyValidation = useKeyValidation(data)
 
     const openedHandler = () => {
         setOpened((prev) => !prev)
@@ -29,26 +25,10 @@ const KeyBox = (props) => {
     const Task = () => {
         switch (data.task.type) {
             case 'MEETING_CODE':
-                return <MeetingCode data={data} setVerify={taskVerify} />
-            case 'QUIZ':
-                return (
-                    // <Quiz
-                    //     data={data}
-                    //     setVerify={taskVerify}
-                    //     buttonBehavior={buttonBehavior}
-                    //     questionIdx={questionIdx}
-                    //     setQuestionIdx={setQuestionIdx}
-                    // />
-                    <Snapshot 
-                        
-                    />
-                )
+                return <MeetingCode data={data} setInfo={info => keyValidation.setInfo(info)} />
             case 'SNAPSHOT':
-                return (
-                    <Snapshot 
-                        data={data}
-                    />
-                )
+                return <Snapshot data={data} />
+            case 'QUIZ':
             case 'SELF_VERIFY':
             default:
                 return null
@@ -83,20 +63,10 @@ const KeyBox = (props) => {
                 <Styled.BottonBox>
                     <Styled.StartButton
                         opened={opened}
-                        onClick={
-                            !opened
-                                ? startHandler
-                                : buttonBehavior.current
-                                ? buttonBehavior.current.onClick
-                                : taskVerify.current
-                        }
+                        onClick={!opened ? startHandler : keyValidation.buttonBehavior.onClick}
                     >
                         <Styled.ButtonText>
-                            {startBox
-                                ? buttonBehavior.current
-                                    ? buttonBehavior.current.text
-                                    : 'Finish Task'
-                                : 'Start'}
+                            {startBox ? keyValidation.buttonBehavior.title : "Start"}
                         </Styled.ButtonText>
                     </Styled.StartButton>
                     {(data.information.length > 1 || opened) && (

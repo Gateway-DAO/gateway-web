@@ -1446,43 +1446,42 @@ export const getKey = /* GraphQL */ `
             keys
             peopleLimit
             task {
-                        ... on Quiz {
-                            type
-                            questions {
-                                question
-                                options {
-                                  answer
-                                }
-                                nrOfCorrectAnswers
-                            }
-                            passedAt
+                ... on Quiz {
+                    type
+                    questions {
+                        question
+                        options {
+                            answer
                         }
-                        ... on MeetingCode {
-                            type
-                            caseSensitive
-                        }
-                        ... on TokenHold {
-                            type
-                            chainID
-                            address
-                        }
-                        ... on SelfVerify {
-                            type
-                        }
-                        ... on SnapshotGovernance {
-                            type
-                            snapshotType
-                            spaceID
-                            proposal
-                        }
-                        ... on ContractInteraction {
-                            type
-                            chainID
-                            address
-                            methodName
-                        }
+                        nrOfCorrectAnswers
                     }
+                    passedAt
                 }
+                ... on MeetingCode {
+                    type
+                    caseSensitive
+                }
+                ... on TokenHold {
+                    type
+                    chainID
+                    address
+                }
+                ... on SelfVerify {
+                    type
+                }
+                ... on SnapshotGovernance {
+                    type
+                    snapshotType
+                    spaceID
+                    proposal
+                }
+                ... on ContractInteraction {
+                    type
+                    chainID
+                    address
+                    methodName
+                }
+            }
             createdAt
             updatedAt
         }

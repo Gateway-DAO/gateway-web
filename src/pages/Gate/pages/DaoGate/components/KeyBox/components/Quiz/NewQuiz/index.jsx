@@ -1,12 +1,54 @@
+// Components
 import BackButton from '../../../../../../../../../components/BackButton'
-import * as Styled from './style'
-import Page from '../../../../../../../../../components/Page'
-import { useState } from 'react'
 import QuestionAndAnswer from './QuestionAndAnswer'
+import { ActionButton } from './QuestionAndAnswer/style'
 
-const NewQuiz = (props) => {
+// Styling
+import * as Styled from './style'
 
-    const [selectedAnswer, setSelectedAnswer] = useState([])
+// Hooks
+import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
+
+const Quiz = (props) => {
+    const [answers, setAnswers] = useState([])
+    const [questionIdx, setQuestionIdx] = useState(0)
+    const { state } = useLocation()
+
+    /**
+     * It creates a button that can be used to navigate between questions.
+     * @returns A button with the text "Next" or "Finish"
+     */
+    const DynamicButton = (props) => {
+        const onNext = (e) => {
+            setQuestionIdx((idx) => idx + 1)
+        }
+
+        const onFinish = (e) => {
+            try {
+
+            }
+            catch (err) {
+                alert("An error ocurred")
+                console.log(err)
+            }
+        }
+
+        if (props.type.toLowerCase() === 'next') {
+            return (
+                <ActionButton onClick={onNext} active={props.active}>
+                    Next
+                </ActionButton>
+            )
+        } else if (props.type.toLowerCase() === 'finish') {
+            return (
+                <ActionButton onClick={onFinish} active={props.active}>
+                    Finish
+                </ActionButton>
+            )
+        }
+    }
+
     return (
         <Styled.Container>
             <BackButton>Go back</BackButton>
@@ -16,12 +58,19 @@ const NewQuiz = (props) => {
                     <Styled.DaoTextBox>BanklessDAO</Styled.DaoTextBox>
                 </Styled.DaosContainer>
                 <Styled.HeadingContainer>
-                    Introduction Quiz
+                    {state.information[0].title}
                 </Styled.HeadingContainer>
-                <QuestionAndAnswer />
+                <QuestionAndAnswer
+                    question={state.task.questions[questionIdx]}
+                    questionIdx={questionIdx}
+                    totalQuestions={state.task.questions.length}
+                />
+                <DynamicButton
+                    type={questionIdx === state.task.questions.length - 1 ? "finish" : "next"}
+                />
             </Styled.Box>
         </Styled.Container>
     )
 }
 
-export default NewQuiz
+export default Quiz
