@@ -35,40 +35,65 @@ exports.handler = async (event, ctx, callback) => {
         const user = await getUser(userID)
 
         // 3. check if user has interacted with the contract
-        const chainID = key.task.chainID
-        const scAddress = key.task.address
-        const method = key.task.method
+        const type = key.task.snapshotType
+        const spaceID = key.task.spaceID
+        const proposal = key.task.proposal
         const wallet = user.wallet
 
-        // 3.1. connect to BitQuery
-        const ENDPOINT = 'https://graphql.bitquery.io/'
-        const QUERY = `
-			query getContractInteraction($wallet: String!, $scaddress: String!, $method: String!) {
-				ethereum(network: ethereum) {
-					smartContractCalls(
-					caller: {is: $wallet}
-					${method && `smartContractMethod: {is: $method}`}
-					smartContractAddress: {is: $scaddress}
-					) {
-					smartContractMethod {
+        // 3.1. connect to Snapshot API
+        const ENDPOINT = 'https://hub.snapshot.org/graphql'
+        const QUERY_PROPOSAL = `
+			query Proposals($space: String!, $wallet: String!) {
+				proposals(
+				first: 20,
+				skip: 0,
+				where: {
+					space: $space,
+					author: $wallet
+				},
+				orderBy: "created",
+				orderDirection: desc
+				) {
+					id
+					title
+					body
+					choices
+					start
+					end
+					snapshot
+					state
+					author
+					space {
+						id
 						name
-					}
 					}
 				}
 			}
 		`
-        const VARIABLES = `
-			{
-				"wallet": "${wallet}",
-				"scaddress": "${scAddress}",
-				${method && `"method": "${method}"`}
+        const QUERY_VOTE = `
+			query Votes($proposal: String!, $wallet: String!) {
+				votes (
+				first: 1000
+				where: {
+					proposal: $proposal,
+
+				}
+				) {
+					id
+					voter
+					created
+					choice
+					space {
+						id
+					}
+				}
 			}
 		`
 
         const res = await axios.get(ENDPOINT, {
             data: JSON.stringify({
-                query: QUERY,
-                variables: VARIABLES,
+                //query: QUERY,
+                //variables: VARIABLES,
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -77,21 +102,21 @@ exports.handler = async (event, ctx, callback) => {
             },
         })
 
-		const interactions = res.data.data.ethereum.smartContractCalls
+        const interactions = res.data.data.ethereum.smartContractCalls
 
-		if (interactions.length > 0) {
-			// The user interacted with the contract, so task completed
-			const item = await createTaskStatus({
-				userID,
-				keyID,
-				completed: true,
-			})
+        if (interactions.length > 0) {
+            // The user interacted with the contract, so task completed
+            const item = await createTaskStatus({
+                userID,
+                keyID,
+                completed: true,
+            })
 
-			return {
+            return {
                 __typename: 'TaskStatus',
                 ...item,
             }
-		}
+        }
 
         return {
             __typename: 'Error',

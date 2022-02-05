@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import * as Styled from './style'
-
+import { useCallbackRef } from 'use-callback-ref'
 
 // Task components
 import MeetingCode from './components/MeetingCode'
@@ -12,7 +12,9 @@ const KeyBox = (props) => {
     const [opened, setOpened] = useState(false)
     const [startBox, setStartBox] = useState(false)
     const taskVerify = useRef(null)
-    const buttonBehavior = useRef(null)
+    //const buttonBehavior = useRef(null)
+    const [_, update] = useState(null);
+    const buttonBehavior = useCallbackRef(null, () => update({}));
     const data = props.data
 
     const openedHandler = () => {
