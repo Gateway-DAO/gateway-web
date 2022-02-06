@@ -10,6 +10,9 @@ import * as Styled from './style'
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useGateAdmin } from '../../../../hooks/useAdmin'
+import { useGetTaskStatusByUserID } from '../../../../api/database/useGetTaskStatus'
+import { useAuth } from '../../../../contexts/UserContext'
+import { useEffect, useState } from 'react'
 
 /**
  * This is the gate page of the DAO. It shows the logo of the dao, the name of the dao, the heading,
@@ -22,6 +25,25 @@ const DaoGate = (props) => {
     const dao = gateData.dao
     const navigate = useNavigate()
     const { isAdmin } = useGateAdmin(gateData.admins)
+    const { userInfo } = useAuth()
+
+    const { data, loading: taskStatusLoading, error } = useGetTaskStatusByUserID(userInfo ? userInfo?.id : "", {
+        filter: {
+            gateID: {
+                eq: gateData.id
+            }
+        }
+    })
+
+    const [keysDone, setKeysDone] = useState(0)
+
+    /*
+    useEffect(() => {
+        if (data) {
+            setKeysDone(data ? data.getTaskStatusByUserID.items.map(ts => ts.key.keys).reduce((sum, el) => sum + el, 0) : 0)
+        }
+    }, [data])
+    */
 
     const handleClick = () => {
         navigate('add-key')
@@ -52,7 +74,7 @@ const DaoGate = (props) => {
                             {gateData.categories.map((category) => (
                                 <Styled.Tag>{category}</Styled.Tag>
                             ))}
-                            • 27 applicants
+                            • 27 holders
                         </Styled.TagsDiv>
                         <Styled.HeaderLine />
                         <Styled.SecondDiv>
@@ -64,7 +86,7 @@ const DaoGate = (props) => {
                                         Progress
                                     </Styled.ProgressInfoDivOne>
                                     <Styled.ProgressInfoDivTwo>
-                                        0 of {gateData.keysNumber}
+                                        {keysDone} of {gateData.keysNumber}
                                     </Styled.ProgressInfoDivTwo>
                                 </Styled.ProgressInfoDiv>
                             </Styled.AnotherDiv>
@@ -82,7 +104,7 @@ const DaoGate = (props) => {
                                     </Styled.StartButton>
                                 </Styled.Box>
                             )}
-                            {gateData.keys.items.map(key => <KeyBox data={key} />)}
+                            {gateData.keys.items.map(key => <KeyBox data={key} gateData={gateData} />)}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
                 </Styled.ContentWrapper>

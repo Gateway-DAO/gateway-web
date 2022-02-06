@@ -17,7 +17,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useCreateQuiz } from '../../api/database/useCreateKey'
 // import Loader from '../../components/Loader'
 
-
 /**
  * This function is responsible for creating a quiz.
  */
@@ -25,9 +24,9 @@ const CreateQuiz = () => {
     // State
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [message, setMessage] = useState('Processing your Quiz');
-    const [activeModal, setActiveModal] = useState('HOME');
-    const [persentage, setPersentage] = useState(100);
+    const [message, setMessage] = useState('Processing your Quiz')
+    const [activeModal, setActiveModal] = useState('HOME')
+    const [persentage, setPersentage] = useState(100)
     const [data, setData] = useState([
         {
             question: '',
@@ -41,8 +40,8 @@ const CreateQuiz = () => {
                     correct: false,
                 },
             ],
-            noOfCorrectAnswer:0
-        }
+            nrOfCorrectAnswers: 0,
+        },
     ])
     const [showComponent, setShowComponent] = useState(true)
     const [loading, setLoading] = useState(false)
@@ -68,27 +67,33 @@ const CreateQuiz = () => {
             setShowComponent(!showComponent)
         }
     }
-    const ActiveModal = ()=>{
-        switch(activeModal){
+    const ActiveModal = () => {
+        switch (activeModal) {
             case 'HOME':
-                return <Home 
-                            title={title} 
-                            setTitle={setTitle} 
-                            description={description} 
-                            setDescription={setDescription}
-                            setActiveModal={setActiveModal}
-                        />
+                return (
+                    <Home
+                        title={title}
+                        setTitle={setTitle}
+                        description={description}
+                        setDescription={setDescription}
+                        setActiveModal={setActiveModal}
+                    />
+                )
             case 'CREATE_QUIZ':
-                return <CreateQuestion 
-                            data={data} 
-                            setData={setData} 
-                            setActiveModal={setActiveModal}
-                        />
+                return (
+                    <CreateQuestion
+                        data={data}
+                        setData={setData}
+                        setActiveModal={setActiveModal}
+                    />
+                )
             case 'PERSENTAGE_PAGE':
-                return <Persentage 
-                            persentage={persentage}
-                            setPersentage={setPersentage}
-                        />
+                return (
+                    <Persentage
+                        persentage={persentage}
+                        setPersentage={setPersentage}
+                    />
+                )
             default:
                 return <Home />
         }
@@ -105,29 +110,31 @@ const CreateQuiz = () => {
         try {
             if (title.length === 0 || description.length === 0) {
                 setMessage('Please enter title and description')
-                setTimeout(()=>{
+                setTimeout(() => {
                     setLoading(false)
                     setMessage('Processing your Quiz')
                     setActiveModal('HOME')
-                },5000);
+                }, 5000)
 
                 return false
             }
             if (data.length === 0) {
                 setMessage('Please enter at least one question')
-                setTimeout(()=>{
+                setTimeout(() => {
                     setLoading(false)
                     setMessage('Processing your Quiz')
                     setActiveModal('CREATE_QUIZ')
-                },5000);
+                }, 5000)
                 return false
             }
 
             let validData = true
-            
+
             data.forEach((value, idx) => {
                 if (value.question.length === 0) {
-                    setMessage(`In question ${idx + 1} please enter question title`)
+                    setMessage(
+                        `In question ${idx + 1} please enter question title`
+                    )
                     // setLoading(false)
                     validData = false
                     return false
@@ -144,18 +151,20 @@ const CreateQuiz = () => {
                     value.noOfCorrectAnswer === 0 ||
                     value.noOfCorrectAnswer > value.options.length
                 ) {
-                    setMessage(`In question ${idx + 1} no correct answer is there`)
+                    setMessage(
+                        `In question ${idx + 1} no correct answer is there`
+                    )
                     validData = false
                     return false
                 }
             })
 
             if (!validData) {
-                setTimeout(()=>{
+                setTimeout(() => {
                     setLoading(false)
                     setMessage('Processing your Quiz')
                     setActiveModal('CREATE_QUIZ')
-                },5000);
+                }, 5000)
                 return false
             }
 
@@ -164,8 +173,6 @@ const CreateQuiz = () => {
                 description: description,
                 questions: data,
             }
-
-            console.log(finalData)
 
             await createQuiz({
                 variables: {
@@ -180,35 +187,36 @@ const CreateQuiz = () => {
                         task: {
                             type: 'QUIZ',
                             questions: data,
-                            passedAt: 0
+                            passedAt: 0,
                         },
                     },
                 },
             })
-            setMessage("Quiz is successfully added");
+
+            setMessage('Quiz is successfully added')
             navigate(`/gate/${state.gateData.id}`)
         } catch (err) {
-            setMessage("We are facing error in saving please try again");
+            setMessage('We are facing error in saving. Please try again')
             // alert(err)
             console.log(err)
         }
-        setTimeout(()=>{
+        setTimeout(() => {
             setLoading(false)
             setMessage('Processing your Quiz')
-        },5000);
+        }, 5000)
     }
 
     return (
         <FormStyled.FormBox onSubmit={onSave}>
-            {loading?
-                <GateSuccessPage heading={message}/>
-            :
+            {loading ? (
+                <GateSuccessPage heading={message} />
+            ) : (
                 <Styled.Container>
                     {/* <Styled.SpaceBox id="space-canvas"/> */}
                     <FormStyled.H1>Add Quiz</FormStyled.H1>
                     <ActiveModal />
                 </Styled.Container>
-        }
+            )}
         </FormStyled.FormBox>
     )
 }

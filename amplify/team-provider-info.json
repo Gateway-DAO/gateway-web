@@ -51,21 +51,21 @@
         },
         "verifyMeetingCode": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyMeetingCode-4e747950677134584572-build.zip"
+          "s3Key": "amplify-builds/verifyMeetingCode-777a45704337772f6243-build.zip"
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion97e0f5eb-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion78acc2ef-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyHoldAToken-394e7231316841747579-build.zip"
+          "s3Key": "amplify-builds/verifyHoldAToken-31412b5072776d4a7871-build.zip"
         },
         "verifyContractInteraction": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "bitqueryKey": "BQYTFxjdFDvYNpjzU1echVkLgWLavvpK",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyContractInteraction-5a5a464356525a453241-build.zip"
+          "s3Key": "amplify-builds/verifyContractInteraction-66313136724a726e7742-build.zip"
         },
         "verifyQuiz": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -73,11 +73,11 @@
         },
         "verifySnapshot": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySnapshot-62466151324159776b42-build.zip"
+          "s3Key": "amplify-builds/verifySnapshot-5975386c4b457a4a7038-build.zip"
         },
         "verifySelfVerify": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySelfVerify-5a434448734935706f45-build.zip"
+          "s3Key": "amplify-builds/verifySelfVerify-747146375a7662657367-build.zip"
         }
       },
       "auth": {

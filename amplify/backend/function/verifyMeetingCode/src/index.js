@@ -23,10 +23,12 @@ AWS.config.update({
 
 exports.handler = async (event, ctx, callback) => {
     try {
-        const { userID, keyID, meetingCode } = event.arguments
+        const { userID, keyID, gateID, meetingCode } = event.arguments
 
         // 1. get key
         const key = await getKey(keyID)
+
+        console.log(key)
 
         // 2. check if inserted meeting code is equal to the one on the DB
         const meetingCodeDB = key.task.code
@@ -36,6 +38,7 @@ exports.handler = async (event, ctx, callback) => {
             const item = await createTaskStatus({
                 userID,
                 keyID,
+                gateID,
                 completed: true,
             })
 

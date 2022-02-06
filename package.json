@@ -40,6 +40,7 @@
     "quill-image-resize-module-react": "^3.0.0",
     "react": "^17.0.2",
     "react-apollo": "^3.1.5",
+    "react-circular-progressbar": "^2.0.4",
     "react-collapsible": "^2.8.4",
     "react-dom": "^17.0.2",
     "react-draft-wysiwyg": "^1.14.7",

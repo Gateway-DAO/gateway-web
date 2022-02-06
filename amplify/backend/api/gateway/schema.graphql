@@ -247,7 +247,7 @@ type SnapshotGovernance {
     type: TaskType
     snapshotType: SnapshotType
     spaceID: String!
-    proposal: String!
+    proposal: String
 }
 
 type ContractInteraction {
@@ -311,11 +311,18 @@ type TaskStatus
         name: "taskStatusByUserID"
         fields: ["userID"]
         queryField: "getTaskStatusByUserID"
+    )
+    @key(
+        name: "taskStatusByGateID"
+        fields: ["gateID"]
+        queryField: "getTaskStatusByGateID"
     ) {
-    id: ID
-    userID: ID
+    id: ID!
+    userID: ID!
     user: User @connection(fields: ["userID"])
-    keyID: ID
+    gateID: ID!
+    gate: Gate @connection(fields: ["gateID"])
+    keyID: ID!
     key: Key @connection(fields: ["keyID"])
     completed: Boolean
     createdAt: AWSDateTime
@@ -323,7 +330,7 @@ type TaskStatus
 }
 
 type Error {
-    keyID: ID
+    keyID: ID!
     error: ErrorType!
     msg: String
 }
@@ -484,7 +491,7 @@ input SnapshotGovernanceInput {
     type: TaskType = "SNAPSHOT_GOVERNANCE"
     snapshotType: SnapshotType
     spaceID: String!
-    proposal: String!
+    proposal: String
 }
 
 ### CUSTOM MUTATIONS ###
@@ -520,13 +527,13 @@ type Mutation {
         @function(name: "addKey-${env}")
 
     ## Verify keys ##
-    verifyMeetingCode(userID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
+    verifyMeetingCode(userID: ID!, gateID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
 
-    verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
+    verifyHoldAToken(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
 
-    verifyContractInteraction(userID: ID!, keyID: ID): KeyVerificationResponse @function(name: "verifyContractInteraction-${env}")
+    verifyContractInteraction(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyContractInteraction-${env}")
 
-    verifySnapshot(userID: ID!, keyID: ID): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
+    verifySnapshot(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
 
-    verifySelfVerify(userID: ID!, keyID: ID): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
+    verifySelfVerify(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
 }

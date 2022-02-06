@@ -11,7 +11,7 @@ const KeyBox = (props) => {
     const [opened, setOpened] = useState(false)
     const [startBox, setStartBox] = useState(false)
     const data = props.data
-    const keyValidation = useKeyValidation(data)
+    const keyValidation = useKeyValidation(data, props.gateData)
 
     const openedHandler = () => {
         setOpened((prev) => !prev)
@@ -63,10 +63,10 @@ const KeyBox = (props) => {
                 <Styled.BottonBox>
                     <Styled.StartButton
                         opened={opened}
-                        onClick={!opened ? startHandler : keyValidation.buttonBehavior.onClick}
+                        onClick={!props.blocked ? !opened ? startHandler : keyValidation.buttonBehavior.onClick : null}
                     >
                         <Styled.ButtonText>
-                            {startBox ? keyValidation.buttonBehavior.title : "Start"}
+                            {props.blocked ? "Completed" : startBox ? keyValidation.buttonBehavior.title : "Start"}
                         </Styled.ButtonText>
                     </Styled.StartButton>
                     {(data.information.length > 1 || opened) && (

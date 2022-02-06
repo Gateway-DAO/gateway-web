@@ -63,6 +63,7 @@ export const onCreateUser = /* GraphQL */ `
         items {
           id
           userID
+          gateID
           keyID
           completed
           createdAt
@@ -137,6 +138,7 @@ export const onUpdateUser = /* GraphQL */ `
         items {
           id
           userID
+          gateID
           keyID
           completed
           createdAt
@@ -211,6 +213,7 @@ export const onDeleteUser = /* GraphQL */ `
         items {
           id
           userID
+          gateID
           keyID
           completed
           createdAt
@@ -2223,6 +2226,52 @@ export const onCreateTaskStatus = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
       keyID
       key {
         id
@@ -2334,6 +2383,52 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
       keyID
       key {
         id
@@ -2441,6 +2536,52 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         }
         tasks {
           nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt

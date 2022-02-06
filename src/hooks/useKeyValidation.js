@@ -33,6 +33,7 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
+                                    gateID: gateData.id,
                                     meetingCode: taskInformation.current,
                                 },
                             })
@@ -54,6 +55,7 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
+                                    gateID: gateData.id
                                 },
                             })
 
@@ -74,6 +76,7 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
+                                    gateID: gateData.id
                                 },
                             })
 
