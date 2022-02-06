@@ -37,7 +37,7 @@ const KeyBox = (props) => {
 
     return (
         <Styled.ThirdDiv>
-            <Styled.Box opened={opened}>
+            <Styled.Box opened={opened} blocked={props.blocked}>
                 <Styled.TextContainer>
                     <Styled.BoxTitle>
                         {data.information[0].title}
@@ -63,6 +63,7 @@ const KeyBox = (props) => {
                 <Styled.BottonBox>
                     <Styled.StartButton
                         opened={opened}
+                        blocked={props.blocked}
                         onClick={!props.blocked ? !opened ? startHandler : keyValidation.buttonBehavior.onClick : null}
                     >
                         <Styled.ButtonText>

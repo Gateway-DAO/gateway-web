@@ -38,7 +38,14 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             })
 
-                            return res
+                            if (res.data.__typename !== 'Error') {
+                                navigate('/key-completed', {
+                                    state: {
+                                        key: data,
+                                        gate: gateData,
+                                    },
+                                })
+                            }
                         } catch (err) {
                             alert('An error occurred')
                             console.log(err)
@@ -47,7 +54,7 @@ export const useKeyValidation = (data, gateData) => {
                 }))
                 break
             case 'CONTRACT_INTERACTION':
-                setButtonBehavior(prev => ({
+                setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
                         try {
@@ -55,11 +62,18 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
-                                    gateID: gateData.id
+                                    gateID: gateData.id,
                                 },
                             })
 
-                            return res
+                            if (res.data.__typename !== 'Error') {
+                                navigate('/key-completed', {
+                                    state: {
+                                        key: data,
+                                        gate: gateData,
+                                    },
+                                })
+                            }
                         } catch (err) {
                             alert('An error occurred')
                             console.log(err)
@@ -68,7 +82,7 @@ export const useKeyValidation = (data, gateData) => {
                 }))
                 break
             case 'TOKEN_HOLD':
-                setButtonBehavior(prev => ({
+                setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
                         try {
@@ -76,11 +90,18 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
-                                    gateID: gateData.id
+                                    gateID: gateData.id,
                                 },
                             })
 
-                            return res
+                            if (res.data.__typename !== 'Error') {
+                                navigate('/key-completed', {
+                                    state: {
+                                        key: data,
+                                        gate: gateData,
+                                    },
+                                })
+                            }
                         } catch (err) {
                             alert('An error occurred')
                             console.log(err)
@@ -103,14 +124,14 @@ export const useKeyValidation = (data, gateData) => {
             case 'SELF_VERIFY':
             case 'SNAPSHOT':
             default:
-                setButtonBehavior(prev => ({ ...prev }))
+                setButtonBehavior((prev) => ({ ...prev }))
         }
     }, [data.task.type])
 
     return useMemo(
         () => ({
             taskInformation: taskInformation.current,
-            setInfo: (value) => taskInformation.current = value,
+            setInfo: (value) => (taskInformation.current = value),
             buttonBehavior,
         }),
         [taskInformation, buttonBehavior]

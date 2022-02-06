@@ -24,6 +24,7 @@ import AddMeetingCode from '../pages/Gate/pages/AddNewKey/pages/AddMeetingCode'
 import AddKeySuccess from '../pages/Gate/pages/AddNewKey/pages/AddKeySuccess'
 import AddManualTask from '../pages/Gate/pages/AddNewKey/pages/AddManualTask'
 import AddNewKeyHome from '../pages/Gate/pages/AddNewKey/pages/Home'
+import KeyCompletedPage from './KeyCompleted'
 
 // Profile
 import AddExperience from '../pages/AddExperience'
@@ -66,11 +67,6 @@ const App = (props) => {
 
                         <Route path="/gates" element={<DAOsGate />} />
 
-                        <Route
-                            path="/gateWithKey"
-                            element={<DaoGateWithKeys />}
-                        />
-
                         <Route path="gate/:gate" element={<Gate />}>
                             <Route index element={<DaoGate />} />
                             <Route path="quiz/:id" element={<NewQuiz />} />
@@ -102,6 +98,8 @@ const App = (props) => {
                             </Route>
                         </Route>
 
+                        <Route path="key-completed" element={<KeyCompletedPage />} />
+
                         <Route path="/search/:query" element={<Search />} />
                         <Route path="/profile/" element={<ProfilePage />}>
                             <Route
@@ -122,7 +120,6 @@ const App = (props) => {
                             path="/new-community/:name"
                             element={<SubmitPage />}
                         />
-                        <Route path="/testing" element={<GateSuccessPage />} />
                         <Route path="*" element={<Page404 />} />
                     </Routes>
                 </ScrollToTop>

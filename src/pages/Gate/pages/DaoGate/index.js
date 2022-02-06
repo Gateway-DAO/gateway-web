@@ -27,23 +27,31 @@ const DaoGate = (props) => {
     const { isAdmin } = useGateAdmin(gateData.admins)
     const { userInfo } = useAuth()
 
-    const { data, loading: taskStatusLoading, error } = useGetTaskStatusByUserID(userInfo ? userInfo?.id : "", {
+    const {
+        data,
+        loading: taskStatusLoading,
+        error,
+    } = useGetTaskStatusByUserID(userInfo ? userInfo?.id : '', {
         filter: {
             gateID: {
-                eq: gateData.id
-            }
-        }
+                eq: gateData.id,
+            },
+        },
     })
 
     const [keysDone, setKeysDone] = useState(0)
 
-    /*
     useEffect(() => {
         if (data) {
-            setKeysDone(data ? data.getTaskStatusByUserID.items.map(ts => ts.key.keys).reduce((sum, el) => sum + el, 0) : 0)
+            setKeysDone(
+                data.getTaskStatusByUserID !== null
+                    ? data.getTaskStatusByUserID.items
+                          .map((ts) => ts.key.keys)
+                          .reduce((sum, el) => sum + el, 0)
+                    : 0
+            )
         }
     }, [data])
-    */
 
     const handleClick = () => {
         navigate('add-key')
@@ -104,7 +112,20 @@ const DaoGate = (props) => {
                                     </Styled.StartButton>
                                 </Styled.Box>
                             )}
-                            {gateData.keys.items.map(key => <KeyBox data={key} gateData={gateData} />)}
+                            {gateData.keys.items.map((key) => (
+                                <KeyBox
+                                    data={key}
+                                    gateData={gateData}
+                                    blocked={
+                                        data &&
+                                        data.getTaskStatusByUserID !== null
+                                            ? data.getTaskStatusByUserID.items
+                                                  .map((ts) => ts.key.id)
+                                                  .includes(key.id)
+                                            : false
+                                    }
+                                />
+                            ))}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
                 </Styled.ContentWrapper>

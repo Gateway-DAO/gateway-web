@@ -10,7 +10,7 @@ export const Box = styled.div`
     flex-direction: column;
     width: 100%;
     height: 100%;
-    border: 1px solid #7e3bdc;
+    border: 1px solid ${props => props.blocked ? "#A5A5A580" : "#7e3bdc"};
     box-sizing: border-box;
     border-radius: 20px;
     padding: 30px 25px;
@@ -52,6 +52,10 @@ const DetailsButton = `
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
 `
 
+const CompletedButton = `
+    border: 1px solid #27D5A2;
+`
+
 export const StartButton = styled.div`
     display: flex;
     align-items: center;
@@ -66,7 +70,9 @@ export const StartButton = styled.div`
     border-radius: 20px;
 
     ${(props) =>
-        props.opened
+        props.blocked
+            ? CompletedButton
+            : props.opened
             ? DetailsButton
             : `
         border: solid 1px transparent;
