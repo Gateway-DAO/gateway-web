@@ -109,4 +109,6 @@ export const StartButtonTwo = styled.div`
 export const ButtonText = styled.p`
     font-size: 14px;
     margin: 12px 50px;
+    display: flex;
+    align-items: center;
 `

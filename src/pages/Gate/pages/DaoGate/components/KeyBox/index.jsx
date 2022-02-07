@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import * as Styled from './style'
-import { useCallbackRef } from 'use-callback-ref'
 import useKeyValidation from '../../../../../../hooks/useKeyValidation'
+
+import { AiFillCheckCircle } from 'react-icons/ai'
 
 // Task Components
 import MeetingCode from './components/MeetingCode'
@@ -67,6 +68,7 @@ const KeyBox = (props) => {
                         onClick={!props.blocked ? !opened ? startHandler : keyValidation.buttonBehavior.onClick : null}
                     >
                         <Styled.ButtonText>
+                            {props.blocked && <AiFillCheckCircle color='#27D5A2' size={24} style={{ marginRight: 10 }} />}
                             {props.blocked ? "Completed" : startBox ? keyValidation.buttonBehavior.title : "Start"}
                         </Styled.ButtonText>
                     </Styled.StartButton>

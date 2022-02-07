@@ -3,6 +3,8 @@ import BackButtonDiv from './components/BackButtonDiv'
 import NftBadge from './components/NftBadge'
 import Loader from '../../../../components/Loader'
 import KeyBox from './components/KeyBox'
+import { CircularProgressbar } from 'react-circular-progressbar'
+import { GradientSVG } from '../../../../components/ProgressCircle'
 
 // Styling
 import * as Styled from './style'
@@ -67,6 +69,7 @@ const DaoGate = (props) => {
         return (
             <Styled.Wrapper>
                 <BackButtonDiv />
+                <GradientSVG idCSS="circleGradient" />
                 <Styled.ContentWrapper>
                     <NftBadge nft={gateData.badge} />
                     <Styled.MainContent>
@@ -88,10 +91,17 @@ const DaoGate = (props) => {
                         <Styled.SecondDiv>
                             <Styled.SecondDivName>Keys</Styled.SecondDivName>
                             <Styled.AnotherDiv>
-                                <Styled.Circle />
+                                <Styled.CircleBox>
+                                    <CircularProgressbar
+                                        value={keysDone}
+                                        minValue={0}
+                                        maxValue={gateData.keysNumber}
+                                        strokeWidth={15}
+                                    />
+                                </Styled.CircleBox>
                                 <Styled.ProgressInfoDiv>
                                     <Styled.ProgressInfoDivOne>
-                                        Progress
+                                        Keys
                                     </Styled.ProgressInfoDivOne>
                                     <Styled.ProgressInfoDivTwo>
                                         {keysDone} of {gateData.keysNumber}
