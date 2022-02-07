@@ -43,6 +43,7 @@ const AddCommunity = React.lazy(() => import('./AddCommunity'))
 const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
 const KeyQuiz = React.lazy(() => import('./Quiz'))
 const AddNewGate = React.lazy(() => import('./DAO/pages/AddNewGate'))
+const AddLinks = React.lazy(() => import('./Gate/pages/AddLinks'))
 
 const App = (props) => {
     return (
@@ -70,6 +71,7 @@ const App = (props) => {
                         <Route path="gate/:gate" element={<Gate />}>
                             <Route index element={<DaoGate />} />
                             <Route path="quiz/:id" element={<NewQuiz />} />
+                            <Route path="add-links" element={<AddLinks />} />
                             <Route path="add-key" element={<AddNewKey />}>
                                 <Route index element={<AddNewKeyHome />} />
                                 <Route
@@ -98,7 +100,10 @@ const App = (props) => {
                             </Route>
                         </Route>
 
-                        <Route path="key-completed" element={<KeyCompletedPage />} />
+                        <Route
+                            path="key-completed"
+                            element={<KeyCompletedPage />}
+                        />
 
                         <Route path="/search/:query" element={<Search />} />
                         <Route path="/profile/" element={<ProfilePage />}>
