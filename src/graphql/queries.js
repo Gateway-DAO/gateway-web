@@ -1281,6 +1281,8 @@ export const getGate = /* GraphQL */ `
                     task {
                         ... on Quiz {
                             type
+                            title
+                            description
                             questions {
                                 question
                                 options {
@@ -1449,6 +1451,8 @@ export const getKey = /* GraphQL */ `
             task {
                 ... on Quiz {
                     type
+                    title
+                    description
                     questions {
                         question
                         options {
@@ -1521,6 +1525,8 @@ export const listKeys = /* GraphQL */ `
                 task {
                     ... on Quiz {
                         type
+                        title
+                        description
                         questions {
                             question
                             options {
@@ -1682,6 +1688,8 @@ export const getTaskStatus = /* GraphQL */ `
                 task {
                     ... on Quiz {
                         type
+                        title
+                        description
                         questions {
                             question
                             options {
@@ -2704,6 +2712,8 @@ export const getKeysByGateId = /* GraphQL */ `
                 task {
                     ... on Quiz {
                         type
+                        title
+                        description
                         questions {
                             question
                             options {
@@ -3150,6 +3160,71 @@ export const searchPosts = /* GraphQL */ `
                 }
                 upvotes
                 downvotes
+                createdAt
+                updatedAt
+            }
+            nextToken
+            total
+        }
+    }
+`
+export const searchGates = /* GraphQL */ `
+    query SearchGates(
+        $filter: SearchableGateFilterInput
+        $sort: SearchableGateSortInput
+        $limit: Int
+        $nextToken: String
+        $from: Int
+    ) {
+        searchGates(
+            filter: $filter
+            sort: $sort
+            limit: $limit
+            nextToken: $nextToken
+            from: $from
+        ) {
+            items {
+                id
+                daoID
+                dao {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                categories
+                admins
+                keysNumber
+                keys {
+                    nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
+                }
                 createdAt
                 updatedAt
             }

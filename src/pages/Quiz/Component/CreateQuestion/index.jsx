@@ -1,29 +1,38 @@
-import { useState} from 'react'
+import { useState } from 'react'
+
+// Styling
 import * as Styled from './style'
 import { FormStyled } from '../../../../components/Form'
+
+// Icons
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { FaTrashAlt } from 'react-icons/fa'
 import { IoMdAdd } from 'react-icons/io'
 
-const CreateQuestion = ({data, setData, setActiveModal}) => {
-    const [questions, setQuestions] = useState(data || [
-        {
-            question: '',
-            options: [
-                {
-                    answer: '',
-                    correct: false,
-                },
-                {
-                    answer: '',
-                    correct: false,
-                },
-            ],
-            noOfCorrectAnswer:0
-        },
-    ])
-    //This function add a new question set when user press ADD icon
+const CreateQuestion = ({ data, setData, setActiveModal }) => {
+    const [questions, setQuestions] = useState(
+        data || [
+            {
+                question: '',
+                options: [
+                    {
+                        answer: '',
+                        correct: false,
+                    },
+                    {
+                        answer: '',
+                        correct: false,
+                    },
+                ],
+                nrOfCorrectAnswers: 0,
+            },
+        ]
+    )
+
+    /**
+     * It adds a new question to the list of questions.
+     */
     const AddQuestionHandler = () => {
         setQuestions([
             ...questions,
@@ -39,17 +48,21 @@ const CreateQuestion = ({data, setData, setActiveModal}) => {
                         correct: false,
                     },
                 ],
-                noOfCorrectAnswer: 0
+                nrOfCorrectAnswers: 0,
             },
         ])
     }
 
-    //This function delete the quetion section
+    /**
+     * It removes the question from the array of questions.
+     */
     const deleteQuestion = (questionNumber) => {
         setQuestions(questions.filter((v, idx) => idx !== questionNumber))
     }
-
-    //This function is used for editing the question
+    
+    /**
+     * This function is used to update the question text in the questions array
+     */
     const editQuestion = (e, index) => {
         const changeValue = e.target.value
         const helper = questions.map((values, idx) => {
@@ -64,7 +77,9 @@ const CreateQuestion = ({data, setData, setActiveModal}) => {
         setQuestions(helper)
     }
 
-    //This function add new option in question
+    /**
+     * It adds an option to the question at the specified index.
+     */
     const addOption = (index) => {
         const addingOption = questions.map((value, idx) => {
             if (idx === index) {
@@ -76,7 +91,9 @@ const CreateQuestion = ({data, setData, setActiveModal}) => {
         setQuestions(addingOption)
     }
 
-    //This function is used for editing the options values.
+    /**
+     * This function is used to update the answer of a question option
+     */
     const editOption = (event, index, optionIndex) => {
         const changedValue = event.target.value
         const helper = questions.map((value, idx) => {
@@ -93,7 +110,9 @@ const CreateQuestion = ({data, setData, setActiveModal}) => {
         setQuestions(helper)
     }
 
-    //This function is used for deleting the option
+    /**
+     * This function deletes an option from a question
+     */
     const deleteOption = (questionNumber, optionNumber) => {
         const del = questions.map((value, idx) => {
             if (idx === questionNumber) {
@@ -108,17 +127,22 @@ const CreateQuestion = ({data, setData, setActiveModal}) => {
         setQuestions(del)
     }
 
-    //This finction add correct answer for a question
+    /**
+     * * If the option is correct, then set the correct value to false and decrease the number of
+     * correct answers by 1.
+     * * If the option is incorrect, then set the correct value to true and increase the number of
+     * correct answers by 1
+     */
     const addCorrectAnswer = (questionNumber, optionNumber) => {
         const add = questions.map((value, idx) => {
             if (idx === questionNumber) {
                 let arr = value.options
                 if (value.options.at(optionNumber).correct) {
-                    arr[optionNumber].correct = false;
-                    value.noOfCorrectAnswer = value.noOfCorrectAnswer-1;
+                    arr[optionNumber].correct = false
+                    value.nrOfCorrectAnswers = value.nrOfCorrectAnswers - 1
                 } else {
                     arr[optionNumber].correct = true
-                    value.noOfCorrectAnswer = value.noOfCorrectAnswer+1;
+                    value.nrOfCorrectAnswers = value.nrOfCorrectAnswers + 1
                 }
                 return {
                     ...value,
@@ -131,6 +155,9 @@ const CreateQuestion = ({data, setData, setActiveModal}) => {
         console.log(questions)
     }
 
+    /**
+     * It checks to see if the answer is correct and returns a color based on that.
+     */
     const checkToggle = (answer, idx, color) => {
         if (answer) {
             return '#72B841'
@@ -138,21 +165,23 @@ const CreateQuestion = ({data, setData, setActiveModal}) => {
             return color
         }
     }
-    // for sending this to database
-    // const submitHandler = () => {
-    //     console.log(questions);
-    //     setData(questions);
-    // }
-    const saveQuiz= ()=>{
-        setData(questions);
-        setActiveModal('PERSENTAGE_PAGE');
+
+    /**
+     * It sends the quiz to the next phase.
+     */
+    const saveQuiz = () => {
+        setData(questions)
+        setActiveModal('PERCENTAGE_PAGE')
     }
+
     return (
         <>
             {questions.map((question, index) => (
                 <>
                     <FormStyled.Fieldset>
-                        <FormStyled.Label>QUIZ QUESTION {index + 1}</FormStyled.Label>
+                        <FormStyled.Label>
+                            QUIZ QUESTION {index + 1}
+                        </FormStyled.Label>
                         <FormStyled.Input
                             onChange={(e) => editQuestion(e, index)}
                             type="text"

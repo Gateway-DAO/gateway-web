@@ -38,7 +38,7 @@ export const TextContainer = styled.div`
     text-align: center;
     letter-spacing: -0.05em;
 `
-export const smallTextContainer = styled.div`
+export const SmallTextContainer = styled.div`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;

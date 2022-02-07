@@ -6,6 +6,7 @@ import { FormStyled } from '../../../../../../components/Form'
 
 // Components
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import Loader from '../../../../../../components/Loader'
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom'
@@ -14,6 +15,7 @@ import { useCreateSelfVerify } from '../../../../../../api/database/useCreateKey
 // Utils
 import space from '../../../../../../utils/canvas'
 import { v4 as uuidv4 } from 'uuid'
+import AddKeySuccess from '../AddKeySuccess'
 
 const AddNewKey = (props) => {
     // States
@@ -24,13 +26,14 @@ const AddNewKey = (props) => {
             description: '',
         },
     ])
-    const [token, setToken] = useState('')
-    const [amount, setAmount] = useState(0)
+    // const [token, setToken] = useState('')
+    // const [amount, setAmount] = useState(0)
     const [keysRewarded, setKeysRewarded] = useState(0)
     const [peopleLimit, setPeopleLimit] = useState(0)
     const [peopleLimitPlaceholder, setPeopleLimitPlaceholder] = useState("0");
     const [keysDilogBox,setKeysDilogBox] = useState(false);
     const [peopleLimitDilogBox,setPeopleLimitDilogBox] = useState(false);
+    const [createdKey, setCreatedKey] = useState(false);
     
     const { gateData } = useOutletContext()
 
@@ -139,8 +142,8 @@ const AddNewKey = (props) => {
                 state: {
                     gateData,
                     titleDescriptionPair,
-                    token,
-                    amount,
+                    token: "",
+                    amount: 0,
                     keysRewarded,
                     peopleLimit,
                 },
@@ -155,8 +158,10 @@ const AddNewKey = (props) => {
                             id: uuidv4(),
                             gateID: gateData.id,
                             information: titleDescriptionPair,
-                            token,
-                            tokenAmount: amount,
+                            //token: token,
+                            //tokenAmount: amount,
+                            token: "",
+                            tokenAmount: 0,
                             keys: keysRewarded,
                             peopleLimit,
                             task: {
@@ -166,7 +171,7 @@ const AddNewKey = (props) => {
                     },
                 })
 
-                navigate('..')
+                setCreatedKey(true)
             } catch (err) {
                 alert('An error occurred. Please try again later!')
                 console.log(err)
@@ -174,7 +179,7 @@ const AddNewKey = (props) => {
         }
     }
 
-    return (
+    return createdKey ? <AddKeySuccess gate={gateData.id} /> : (
         <Styled.AddNewKeyContainer>
             <Styled.SpaceBox id="space-canvas" />
             <FormStyled.FormBox onSubmit={onSubmit}>
@@ -386,7 +391,10 @@ const AddNewKey = (props) => {
                     </FormStyled.GridBox>
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button type="submit">Next</FormStyled.Button>
+                <FormStyled.Button type="submit">
+                    {loading && <Loader color="white" />}
+                    Next
+                </FormStyled.Button>
             </FormStyled.FormBox>
         </Styled.AddNewKeyContainer>
     )

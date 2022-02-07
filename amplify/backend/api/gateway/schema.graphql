@@ -177,7 +177,8 @@ enum VoteType {
 
 type Gate
     @model
-    @key(name: "gateByDAO", fields: ["daoID"], queryField: "getGatesByDAOID") {
+    @key(name: "gateByDAO", fields: ["daoID"], queryField: "getGatesByDAOID")
+    @searchable {
     id: ID!
     daoID: ID!
     dao: DAO @connection(fields: ["daoID"])
@@ -212,6 +213,8 @@ type Key
 
 type Quiz {
     type: TaskType
+    title: String!
+    description: String!
     questions: [Question]!
     passedAt: Int! # Number of questions to mark quiz as completed
 }
@@ -394,6 +397,8 @@ input KeyInformationInput {
 
 input QuizInput {
     type: TaskType = "QUIZ"
+    title: String!
+    description: String!
     questions: [QuestionInput]!
     passedAt: Int! # Number of questions to mark quiz as completed
 }

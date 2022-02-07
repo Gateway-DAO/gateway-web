@@ -1,16 +1,37 @@
+// Styling
 import * as Styled from './style'
+import * as ThemeStyled from '../../../../../../theme/style'
 
-const AddKeySuccess = (props) => {
+// Hooks
+import { useEffect } from 'react'
+
+// Utils
+import space from '../../../../../../utils/canvas'
+
+const AddKeySuccess = ({ gate }) => {
+    useEffect(
+        () => space(window.innerHeight, window.innerWidth),
+        [window.innerHeight, window.innerWidth]
+    )
+
+    useEffect(() => {
+        if (gate === undefined) {
+            window.location.href = '/'
+        }
+
+        const clear = setTimeout(() => {
+            window.location.href = `/gate/${gate}/`
+        }, 3000)
+
+        return () => clearTimeout(clear)
+    }, [])
+
     return (
-        <Styled.Wrapper>
-            <Styled.HeadingMainWrapper>
-                <Styled.HeadingSecondWrapper>
-                    <Styled.HeadingText>
-                        Key Added Successfully!
-                    </Styled.HeadingText>
-                </Styled.HeadingSecondWrapper>
-            </Styled.HeadingMainWrapper>
-        </Styled.Wrapper>
+        <Styled.Container>
+            <ThemeStyled.SpaceBox id="space-canvas" />
+            <Styled.Heading>Key Successfully Added!</Styled.Heading>
+            <Styled.RedirectText>Redirecting...</Styled.RedirectText>
+        </Styled.Container>
     )
 }
 

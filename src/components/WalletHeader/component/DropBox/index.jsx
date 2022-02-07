@@ -8,8 +8,10 @@ const DropDown = ({ toggle }) => {
     const navigate = useNavigate();
     const { signIn, loggedIn } = useAuth()
     const ref = useRef(null)
-    
-    
+
+    useClickAway(ref, () => {
+        toggle()
+    })
 
     return (
         <Styled.DropDownContainer ref={ref}>

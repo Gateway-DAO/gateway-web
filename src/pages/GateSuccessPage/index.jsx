@@ -1,20 +1,14 @@
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
 import * as Styled from './style'
 
 const GateSuccessPage = (props) => {
     return (
         <Styled.Container>
-            {/* <Header /> */}
             <Styled.BoxContainer>
-                <Styled.TextContainer>
-                    {props.heading}
-                </Styled.TextContainer>
-                <Styled.smallTextContainer>
+                <Styled.TextContainer>{props.heading}</Styled.TextContainer>
+                <Styled.SmallTextContainer>
                     Redirecting...
-                </Styled.smallTextContainer>
+                </Styled.SmallTextContainer>
             </Styled.BoxContainer>
-            {/* <Footer /> */}
         </Styled.Container>
     )
 }

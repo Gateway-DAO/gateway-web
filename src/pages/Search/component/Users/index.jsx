@@ -11,7 +11,6 @@ import Pagination from '../Pagination'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSearchUsers } from '../../../../api/database/useSearchUser'
-import { useListUsers } from '../../../../api/database/useGetUser'
 import useUserLength from '../../../../api/database/useUserLength'
 
 const UserTab = ({ query }) => {
@@ -46,11 +45,11 @@ const UserTab = ({ query }) => {
             from: from,
             filter: {
                 or: [
-                    { daos_ids: { wildcard: `*${query}*` } },
-                    { username: { wildcard: `*${query}*` } },
-                    { bio: { wildcard: `*${query}*` } },
-                    { id: { wildcard: `*${query}*` } },
-                    { name: { wildcard: `*${query}*` } },
+                    { daos_ids: { wildcard: `*${query.toLowerCase()}*` } },
+                    { username: { wildcard: `*${query.toLowerCase()}*` } },
+                    { bio: { wildcard: `*${query.toLowerCase()}*` } },
+                    { id: { wildcard: `*${query.toLowerCase()}*` } },
+                    { name: { wildcard: `*${query.toLowerCase()}*` } },
                 ],
             },
         },
@@ -84,9 +83,11 @@ const UserTab = ({ query }) => {
             console.log('fdsfdfds')
 
             console.log(lengthData)
-            setPageCount(Math.ceil(lengthData?.searchUsers.items.length / resultPerPage))
+            setPageCount(
+                Math.ceil(lengthData?.searchUsers.items.length / resultPerPage)
+            )
         }
-    }, [query, searchLoading, listLoading , pageNumber , lengthDataLoading])
+    }, [query, searchLoading, listLoading, pageNumber, lengthDataLoading])
 
     const searchOrListLoading =
         query.toLowerCase() === 'all' ? listLoading : searchLoading

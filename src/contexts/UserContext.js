@@ -346,11 +346,11 @@ export const UserProvider = ({ children }) => {
                         id: data.username,
                     },
                 })
+                */
                 setUserInfo({
-                    ...userDB.data.getUser,
+                    ...userInfo,
                     ...getUserGroups(data.signInUserSession),
                 })
-                */
                 setLoggedIn(true)
                 break
             case 'signOut':

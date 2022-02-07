@@ -1,8 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import useVerifyMeetingCode from '../api/database/keys/useVerifyMeetingCode'
-import useVerifyContractInteraction from '../api/database/keys/useVerifyContractInteraction'
-import useVerifyHoldAToken from '../api/database/keys/useVerifyHoldAToken'
+import {
+    useVerifyMeetingCode,
+    useVerifyContractInteraction,
+    useVerifyHoldAToken,
+    useVerifySelfVerify,
+    useVerifySnapshot,
+} from '../api/database/useVerifyKeys'
 import { useAuth } from '../contexts/UserContext'
 
 export const useKeyValidation = (data, gateData) => {
@@ -21,6 +25,8 @@ export const useKeyValidation = (data, gateData) => {
     const { verifyMeetingCode } = useVerifyMeetingCode()
     const { verifyContractInteraction } = useVerifyContractInteraction()
     const { verifyHoldAToken } = useVerifyHoldAToken()
+    const { verifySelfVerify } = useVerifySelfVerify()
+    const { verifySnapshot } = useVerifySnapshot()
 
     useEffect(() => {
         switch (data.task.type) {
@@ -122,7 +128,61 @@ export const useKeyValidation = (data, gateData) => {
                 })
                 break
             case 'SELF_VERIFY':
-            case 'SNAPSHOT':
+                setButtonBehavior((prev) => ({
+                    ...prev,
+                    onClick: async () => {
+                        try {
+                            const res = await verifySelfVerify({
+                                variables: {
+                                    userID: userInfo.id,
+                                    keyID: data.id,
+                                    gateID: gateData.id,
+                                },
+                            })
+
+                            if (res.data.__typename !== 'Error') {
+                                navigate('/key-completed', {
+                                    state: {
+                                        key: data,
+                                        gate: gateData,
+                                    },
+                                })
+                            }
+                        } catch (err) {
+                            alert('An error occurred')
+                            console.log(err)
+                        }
+                    },
+                }))
+                break
+            case 'SNAPSHOT_GOVERNANCE':
+                setButtonBehavior((prev) => ({
+                    ...prev,
+                    onClick: async () => {
+                        try {
+                            const res = await verifySnapshot({
+                                variables: {
+                                    userID: userInfo.id,
+                                    keyID: data.id,
+                                    gateID: gateData.id,
+                                },
+                            })
+
+                            if (res.data.__typename !== 'Error') {
+                                navigate('/key-completed', {
+                                    state: {
+                                        key: data,
+                                        gate: gateData,
+                                    },
+                                })
+                            }
+                        } catch (err) {
+                            alert('An error occurred')
+                            console.log(err)
+                        }
+                    },
+                }))
+                break
             default:
                 setButtonBehavior((prev) => ({ ...prev }))
         }

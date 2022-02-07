@@ -448,6 +448,8 @@ export const createQuiz = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -546,6 +548,8 @@ export const createMeetingCode = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -644,6 +648,8 @@ export const createTokenHold = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -742,6 +748,8 @@ export const createSnapshotGovernance = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -840,6 +848,8 @@ export const createSelfVerify = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -938,6 +948,8 @@ export const createContractInteraction = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -1106,6 +1118,8 @@ export const verifyMeetingCode = /* GraphQL */ `
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1270,6 +1284,8 @@ export const verifyHoldAToken = /* GraphQL */ `
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1434,6 +1450,8 @@ export const verifyContractInteraction = /* GraphQL */ `
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1598,6 +1616,8 @@ export const verifySnapshot = /* GraphQL */ `
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1762,6 +1782,8 @@ export const verifySelfVerify = /* GraphQL */ `
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -3825,6 +3847,8 @@ export const createKey = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -3926,6 +3950,8 @@ export const updateKey = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -4027,6 +4053,8 @@ export const deleteKey = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -4187,6 +4215,8 @@ export const createTaskStatus = /* GraphQL */ `
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -4347,6 +4377,8 @@ export const updateTaskStatus = /* GraphQL */ `
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -4507,6 +4539,8 @@ export const deleteTaskStatus = /* GraphQL */ `
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {

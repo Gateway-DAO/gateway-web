@@ -1946,6 +1946,8 @@ export const onCreateKey = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -2044,6 +2046,8 @@ export const onUpdateKey = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -2142,6 +2146,8 @@ export const onDeleteKey = /* GraphQL */ `
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -2299,6 +2305,8 @@ export const onCreateTaskStatus = /* GraphQL */ `
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -2456,6 +2464,8 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -2613,6 +2623,8 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
