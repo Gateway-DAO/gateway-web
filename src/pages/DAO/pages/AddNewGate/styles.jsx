@@ -305,3 +305,21 @@ export const SearchBox = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
 `
+
+export const IconBox = styled.div`
+    color: ${(props) => (props.color ? props.color : `white`)};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    background: #170627;
+    border: 1px solid
+        ${(props) => (props.border ? props.border : `rgba(255, 255, 255, 0.2)`)};
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-right: ${(props) => props.mr};
+    margin-left: ${(props) => props.ml};
+    cursor: pointer;
+`

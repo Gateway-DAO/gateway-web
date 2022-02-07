@@ -405,7 +405,7 @@ export const BigRadio = (props) => {
 
 export const InputWrapper = styled.div`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 `
 
 export const Select = styled.select`
