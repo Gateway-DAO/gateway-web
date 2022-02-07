@@ -8,6 +8,7 @@ export const Container = styled.div`
     margin-right: 20px;
     padding: 10px 30px;
     margin-bottom: 15px;
+    display: flex;
 `
 
 export const ProfilePicture = styled.div`
