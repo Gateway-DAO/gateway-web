@@ -1,29 +1,23 @@
-
 import { useQuery, gql } from '@apollo/client'
 import { useMemo } from 'react'
 
-const getNumber = gql`
-    query GetDAONumber {
-        listDAOs {
-            items {
-                id
-            }
-        }
-    }
-`
+import { getNumber } from '../../graphql/queries'
 
-export const useDAOLength = () => {
-    const { loading, called, refetch, data, error } = useQuery(getNumber);
+export const useDAOLength = (config = {}) => {
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getNumber),
+        config
+    )
 
     return useMemo(
         () => ({
-            data: data?.listDAOs.items.length,
+            data,
             loading: loading || (!called && loading === false),
             refetch,
             error,
         }),
-        [called, getNumber, loading, refetch]
-    );
-};
+        [called, getNumber, loading, refetch , config]
+    )
+}
 
-export default useDAOLength;
+export default useDAOLength

@@ -1,14 +1,31 @@
 import * as Styled from './style'
-import { CircularButton, PaginationBox } from './style'
+import { useState } from 'react'
+import ReactPaginate from 'react-paginate'
 
-const Pagination = () => {
+const Pagination = ({pageCount , setPageNumber}) => {
+  
+    const changePage = ({ selected }) => {
+        setPageNumber(selected)
+    }
+
     return (
         <Styled.PaginationContainer>
-            <PaginationBox>
-                <Styled.CircularButton>{'<'}</Styled.CircularButton>
-                <Styled.CircularButton>{'1'}</Styled.CircularButton>
-                <Styled.CircularButton value={true}>{'>'}</Styled.CircularButton>
-            </PaginationBox>
+            <Styled.StyledPaginateContainer>
+                <ReactPaginate
+                    previousLabel={'<'}
+                    nextLabel={'>'}
+                    pageCount={pageCount}
+                    breakLabel={null}
+                    onPageChange={changePage}
+                    marginPagesDisplayed={0}
+                    pageRangeDisplayed={4}
+                    containerClassName={'paginationBttns'}
+                    previousLinkClassName={'pageactive'}
+                    nextLinkClassName={'pageactive'}
+                    disabledClassName={'paginationDisabled'}
+                    activeClassName={'paginationActive'}
+                />
+            </Styled.StyledPaginateContainer>
         </Styled.PaginationContainer>
     )
 }

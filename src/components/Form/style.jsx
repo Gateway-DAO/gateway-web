@@ -1,6 +1,21 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 
+const InputDefault = `
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: #170627;
+    color: #e5e5e5;
+`
+
+const InputWhite = `
+    border: 1px solid #170627;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #170627;
+`
+
 const FilledInput = `
     background: #220A38;
     border: 1px solid #7E3BDC;
@@ -73,6 +88,7 @@ export const SubText = styled.p`
 
 /** CONTAINERS **/
 export const FormBox = styled.form`
+    max-width:100vw;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -124,6 +140,7 @@ export const GridBox = styled.div`
 
 /** FORM ELEMENTS **/
 export const Label = styled.label`
+    position: relative;
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
@@ -134,7 +151,7 @@ export const Label = styled.label`
     text-transform: uppercase;
     display: flex;
     align-items: center;
-    color: #ffffff;
+    color: ${(props) => props.color || '#ffffff'};
 `
 
 export const TextLabel = styled.div`
@@ -209,10 +226,7 @@ export const IconButton = styled(Button)`
 `
 
 export const Input = styled.input`
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 10px;
+    ${props => props.white ? InputWhite : InputDefault}
 
     font-family: Be Vietnam;
     font-style: normal;
@@ -222,13 +236,12 @@ export const Input = styled.input`
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
-    background: #170627;
-    color: #e5e5e5;
     margin: 15px 0;
-    width: 100%;
+    padding: 10px;
+    width: ${props => props.width || "100%"};
     outline: none;
 
-    ${(props) => (!!props.value ? FilledInput : '')}
+    ${(props) => ((!!props.value && !props.white) ? FilledInput : '')}
     ${(props) => (props.valid === false ? InvalidInput : '')}
 `
 
@@ -287,7 +300,9 @@ const CheckboxContainer = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
     padding: 20px 0;
-
+    &:hover{
+        background: #220A38;border: 1px solid #7E3BDC;
+    }
     ${(props) =>
         props.checked
             ? `background: #220A38;border: 1px solid #7E3BDC;`
@@ -296,6 +311,7 @@ const CheckboxContainer = styled.div`
 
 const BigCheckboxContainer = styled(CheckboxContainer)`
     padding: 50px 0;
+    // cursor: pointer;
 `
 
 const CheckboxInput = styled.input`
@@ -303,7 +319,7 @@ const CheckboxInput = styled.input`
     width: 100%;
     height: 100%;
     z-index: 50;
-
+    cursor: pointer;
     opacity: 0;
 `
 
@@ -459,4 +475,24 @@ export const DeleteContent = styled.div`
     align-items: center;
 
     color: #e5e5e5;
+`
+export const DescriptionDilogBox = styled.div`
+    position: absolute;
+    right: 180px;
+    top:-12px;
+    width: 70px;
+    height: 40px;
+    
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    // line-height: px;
+
+    display: flex;
+    align-items: center;
+
+    background: #220A38;
+    border: 1px solid #7E3BDC;
+    color: rgba(255, 255, 255, 0.6);
 `

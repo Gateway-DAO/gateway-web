@@ -28,6 +28,10 @@ const AddNewKey = (props) => {
     const [amount, setAmount] = useState(0)
     const [keysRewarded, setKeysRewarded] = useState(0)
     const [peopleLimit, setPeopleLimit] = useState(0)
+    const [peopleLimitPlaceholder, setPeopleLimitPlaceholder] = useState("0");
+    const [keysDilogBox,setKeysDilogBox] = useState(false);
+    const [peopleLimitDilogBox,setPeopleLimitDilogBox] = useState(false);
+    
     const { gateData } = useOutletContext()
 
     // Hooks
@@ -88,6 +92,7 @@ const AddNewKey = (props) => {
                 description: '',
             },
         ])
+        window.scrollBy(0,30);
     }
 
     /**
@@ -102,6 +107,21 @@ const AddNewKey = (props) => {
         )
     }
 
+    const unlimitedClicked = ()=>{
+        if(peopleLimitPlaceholder==='0' || peopleLimit>0){
+            setPeopleLimitPlaceholder('Unlimited');
+            setPeopleLimit(0);
+        }else{
+            setPeopleLimitPlaceholder('0');
+        }
+    }
+
+    const keysDilogBoxFunc = ()=>{
+        setKeysDilogBox(!keysDilogBox);
+    }
+    const peopleLimitDilogBoxFunc= ()=>{
+        setPeopleLimitDilogBox(!peopleLimitDilogBox)
+    }
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
@@ -216,6 +236,8 @@ const AddNewKey = (props) => {
                         Add another title and description
                     </FormStyled.TextLabel>
                 </FormStyled.AddWrapper>
+                
+                {/*
                 <FormStyled.FieldsetRow marginBottom="0">
                     <FormStyled.Fieldset>
                         <FormStyled.Label htmlFor="token">
@@ -244,12 +266,21 @@ const AddNewKey = (props) => {
                         />
                     </FormStyled.Fieldset>
                 </FormStyled.FieldsetRow>
+                */}
 
                 <FormStyled.FieldsetRow>
                     <FormStyled.Fieldset>
                         <FormStyled.Label htmlFor="keysRewarded">
                             Keys REWARDED{' '}
-                            <FormStyled.QuestionIcon>?</FormStyled.QuestionIcon>
+                            <FormStyled.QuestionIcon
+                                onMouseEnter={keysDilogBoxFunc}
+                                onMouseLeave={keysDilogBoxFunc}    
+                            >?</FormStyled.QuestionIcon>
+                            {keysDilogBox&& 
+                                <FormStyled.DescriptionDilogBox>
+                                    Keys REWARDED
+                                </FormStyled.DescriptionDilogBox>
+                            }
                         </FormStyled.Label>
                         <FormStyled.Input
                             id="keysRewarded"
@@ -264,7 +295,15 @@ const AddNewKey = (props) => {
                     <FormStyled.Fieldset>
                         <FormStyled.Label htmlFor="peopleLimit">
                             PEOPLE LIMIT{' '}
-                            <FormStyled.QuestionIcon>?</FormStyled.QuestionIcon>
+                            <FormStyled.QuestionIcon
+                                onMouseEnter={peopleLimitDilogBoxFunc}
+                                onMouseLeave={peopleLimitDilogBoxFunc}    
+                            >?</FormStyled.QuestionIcon>
+                            {peopleLimitDilogBox&& 
+                                <FormStyled.DescriptionDilogBox>
+                                    People Limit
+                                </FormStyled.DescriptionDilogBox>
+                            }
                         </FormStyled.Label>
                         <Styled.InputContainer
                             value={peopleLimit > 0 ? peopleLimit : ''}
@@ -273,11 +312,12 @@ const AddNewKey = (props) => {
                                 id="peopleLimit"
                                 name="peopleLimit"
                                 onChange={(e) => setPeopleLimit(e.target.value)}
-                                placeholder="0"
+                                placeholder={peopleLimitPlaceholder}
                                 value={peopleLimit > 0 ? peopleLimit : ''}
-                                required
+                                required ={peopleLimitPlaceholder==='0'}
                             />
                             <Styled.UnlimitedBoxContainer
+                                onClick={unlimitedClicked}
                                 value={peopleLimit > 0 ? peopleLimit : ''}
                             >
                                 Unlimited

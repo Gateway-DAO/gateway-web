@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { FormStyled } from '../../../../../../components/Form'
 import { useCreateMeetingCode } from '../../../../../../api/database/useCreateKey'
 import { v4 as uuidv4 } from 'uuid'
@@ -9,7 +9,12 @@ const AddMeetingCode = (props) => {
     const [code, setCode] = useState(null)
     const { state } = useLocation()
     const { createMeetingCode, data, loading, error } = useCreateMeetingCode()
+    const navigate = useNavigate()
 
+    /**
+     * Creates a meeting code task.
+     * @param e - event
+     */
     const onSubmit = async (e) => {
         e.preventDefault()
         
@@ -32,6 +37,8 @@ const AddMeetingCode = (props) => {
                     }
                 }
             })
+
+            navigate(`/gate/${state.gateData.id}`)
         }
         catch (err) {
             alert("An error occurred. Please try again later!")

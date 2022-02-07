@@ -1,26 +1,52 @@
+// Styling
 import * as Styled from './style'
+import 'react-circular-progressbar/dist/styles.css'
+
+// Components
 import EditIcon from '../../theme/icons/Edit'
 import PfpBox from '../PfpBox'
-import { useState } from 'react'
 import Switch from 'react-switch'
-import ProgressCircle from '../../components/ProgressCircle'
+import { CircularProgressbar } from 'react-circular-progressbar'
+
+// Hooks
+import { useState } from 'react'
 import useAdmin from '../../hooks/useAdmin'
 import { useNavigate } from 'react-router-dom'
+import useUpdateGate from '../../api/database/useUpdateGate'
 
 /* This is a card that displays information about a gate. */
 const GateCard = (props) => {
     // State
-    const [checked, setChecked] = useState(false)
+    const [checked, setChecked] = useState(props.gate.published)
     const gate = props.gate
 
     // Hooks
     const { isAdmin } = useAdmin(props.gate.admins || [])
     const navigate = useNavigate()
+    const { updateGate } = useUpdateGate()
+
+    const toggleGatePublished = async () => {
+        try {
+            setChecked(!gate.published)
+            await updateGate({
+                variables: {
+                    input: {
+                        id: gate.id,
+                        published: !gate.published,
+                    },
+                },
+            })
+        } catch (err) {
+            alert('An error ocurred')
+            console.log(err)
+        }
+    }
 
     return (
-        <Styled.GateCardBox onClick={() => navigate(`/gate/${gate.id}`)}>
+        <Styled.GateCardBox>
             <Styled.GateBanner
                 src={`https://gateway.pinata.cloud/ipfs/${gate.badge.ipfsURL}`}
+                onClick={() => navigate(`/gate/${gate.id}`)}
             >
                 {isAdmin && (
                     <Styled.EditContainer>
@@ -45,11 +71,11 @@ const GateCard = (props) => {
                     </Styled.Category>
                 ))}
             </Styled.CategoryList>
-            <Styled.CardBody>
+            <Styled.CardBody onClick={() => navigate(`/gate/${gate.id}`)}>
                 <Styled.CardTitle>{gate.name}</Styled.CardTitle>
                 <Styled.CardDesc>{gate.description}</Styled.CardDesc>
             </Styled.CardBody>
-            <Styled.InfoContainer>
+            <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
                 <Styled.InfoBox>
                     <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
                     <Styled.SmallText>BANK.Beginner</Styled.SmallText>
@@ -57,13 +83,24 @@ const GateCard = (props) => {
                 <Styled.InfoBox>
                     <Styled.MediumHeading>KEYS REQUIRED</Styled.MediumHeading>
                     <Styled.KeyBox>
-                        <ProgressCircle radius="9" keys="80" TotalKeys={props.gate.keysNumber} />
-                        <Styled.SmallText>200 of {props.gate.keysNumber}</Styled.SmallText>
+                        <Styled.Circle>
+                            <CircularProgressbar
+                                value={80}
+                                minValue={0}
+                                maxValue={props.gate.keysNumber}
+                                strokeWidth={20}
+                            />
+                        </Styled.Circle>
+                        <Styled.SmallText>
+                            80 of {props.gate.keysNumber}
+                        </Styled.SmallText>
                     </Styled.KeyBox>
                 </Styled.InfoBox>
             </Styled.InfoContainer>
             <Styled.ActivityBox>
-                <Styled.ActionButton>
+                <Styled.ActionButton
+                    onClick={() => navigate(`/gate/${gate.id}`)}
+                >
                     <Styled.ButtonText>DONE</Styled.ButtonText>
                 </Styled.ActionButton>
                 <Styled.ActionButton>
@@ -74,7 +111,7 @@ const GateCard = (props) => {
                         <Styled.PublishText>PUBLISH</Styled.PublishText>
                         <Switch
                             checked={checked}
-                            onChange={() => setChecked(!checked)}
+                            onChange={toggleGatePublished}
                             offColor="#FF003D"
                             onColor="#27D5A2"
                             onHandleColor="#FFFFFF"

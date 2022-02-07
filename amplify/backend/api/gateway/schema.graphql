@@ -24,6 +24,8 @@ type User
     nonce: Int!
     pfp: String
     socials: [Social]
+    tasks: [TaskStatus]
+        @connection(keyName: "taskStatusByUserID", fields: ["id"])
     createdAt: AWSDateTime
 }
 
@@ -48,7 +50,8 @@ type DAO
     howToJoin: [String]
     missionAndVision: String
     whatDoWeDo: String
-    tokenBenefits: [TokenBenefit] @connection(keyName: "tokenBenefitByDAO", fields: ["id"])
+    tokenBenefits: [TokenBenefit]
+        @connection(keyName: "tokenBenefitByDAO", fields: ["id"])
     upcomingHangouts: String
     tokenAddress: String
     whitelistedAddresses: [String!]
@@ -86,7 +89,7 @@ type Bounty
     postDate: AWSDateTime!
 }
 
-type TokenBenefit 
+type TokenBenefit
     @model
     @key(
         name: "tokenBenefitByDAO"
@@ -216,6 +219,7 @@ type Quiz {
 type Question {
     question: String!
     options: [QuizOption]!
+    nrOfCorrectAnswers: Int
 }
 
 type QuizOption {
@@ -243,7 +247,14 @@ type SnapshotGovernance {
     type: TaskType
     snapshotType: SnapshotType
     spaceID: String!
-    proposal: String!
+    proposal: String
+}
+
+type ContractInteraction {
+    type: TaskType
+    chainID: Int!
+    address: String!
+    methodName: String
 }
 
 type PreRequisites {
@@ -262,28 +273,82 @@ type KeyInformation {
 }
 
 enum TaskType {
-    QUIZ,
-    MEETING_CODE,
-    TOKEN_HOLD,
-    SC_INTERACTION,
-    SNAPSHOT,
-    MANUAL,
-    SELF_VERIFY,
+    QUIZ
+    MEETING_CODE
+    TOKEN_HOLD
+    SC_INTERACTION
+    SNAPSHOT
+    MANUAL
+    SELF_VERIFY
     SNAPSHOT_GOVERNANCE
+    CONTRACT_INTERACTION
 }
 
 enum TokenType {
-    ERC20,
-    ERC721,
-    ERC1151,
+    ERC20
+    ERC721
+    ERC1151
 }
 
 enum SnapshotType {
-    VOTE,
+    VOTE
     PROPOSAL
 }
 
-union TaskUnion = Quiz | MeetingCode | TokenHold | SelfVerify | SnapshotGovernance
+union TaskUnion =
+      Quiz
+    | MeetingCode
+    | TokenHold
+    | SelfVerify
+    | SnapshotGovernance
+    | ContractInteraction
+
+### TASK STATUS / ERROR ###
+
+type TaskStatus
+    @model
+    @key(
+        name: "taskStatusByUserID"
+        fields: ["userID"]
+        queryField: "getTaskStatusByUserID"
+    )
+    @key(
+        name: "taskStatusByGateID"
+        fields: ["gateID"]
+        queryField: "getTaskStatusByGateID"
+    ) {
+    id: ID!
+    userID: ID!
+    user: User @connection(fields: ["userID"])
+    gateID: ID!
+    gate: Gate @connection(fields: ["gateID"])
+    keyID: ID!
+    key: Key @connection(fields: ["keyID"])
+    completed: Boolean
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
+}
+
+type Error {
+    keyID: ID!
+    error: ErrorType!
+    msg: String
+}
+
+enum ErrorType {
+    INVALID_KEY
+    NO_HOLD # for hold a token
+    INVALID_CODE # for meeting code
+    NOT_ENOUGH_RIGHTS # for quiz
+    UNEXPECTED_ERROR
+    INVALID_METHOD_NAME # for contract interaction
+    NO_INTERACTION # for contract interaction
+    NO_PROPOSAL # for snapshot proposal
+    NO_VOTE # for snapshot proposal
+    WRONG_TASK
+}
+
+union KeyVerificationResponse = TaskStatus | Error
 
 ### INPUTS ###
 
@@ -336,6 +401,7 @@ input QuizInput {
 input QuestionInput {
     question: String!
     options: [QuizOptionInput]!
+    nrOfCorrectAnswers: Int
 }
 
 input QuizOptionInput {
@@ -377,6 +443,24 @@ input TokenHoldInput {
     address: String!
 }
 
+input CreateKeyContractInteraction {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    task: ContractInteractionInput
+}
+
+input ContractInteractionInput {
+    type: TaskType = "CONTRACT_INTERACTION"
+    chainID: Int!
+    address: String!
+    methodName: String
+}
+
 input CreateKeySelfVerify {
     id: ID!
     gateID: ID!
@@ -407,7 +491,7 @@ input SnapshotGovernanceInput {
     type: TaskType = "SNAPSHOT_GOVERNANCE"
     snapshotType: SnapshotType
     spaceID: String!
-    proposal: String!
+    proposal: String
 }
 
 ### CUSTOM MUTATIONS ###
@@ -427,11 +511,29 @@ type Mutation {
     ## For keys ##
     createQuiz(input: CreateKeyQuiz): Key @function(name: "addKey-${env}")
 
-    createMeetingCode(input: CreateKeyMeetingCode): Key @function(name: "addKey-${env}")
+    createMeetingCode(input: CreateKeyMeetingCode): Key
+        @function(name: "addKey-${env}")
 
-    createTokenHold(input: CreateKeyTokenHold): Key @function(name: "addKey-${env}")
+    createTokenHold(input: CreateKeyTokenHold): Key
+        @function(name: "addKey-${env}")
 
-    createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key @function(name: "addKey-${env}")
+    createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key
+        @function(name: "addKey-${env}")
 
-    createSelfVerify(input: CreateKeySelfVerify): Key @function(name: "addKey-${env}")
+    createSelfVerify(input: CreateKeySelfVerify): Key
+        @function(name: "addKey-${env}")
+
+    createContractInteraction(input: CreateKeyContractInteraction): Key
+        @function(name: "addKey-${env}")
+
+    ## Verify keys ##
+    verifyMeetingCode(userID: ID!, gateID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
+
+    verifyHoldAToken(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
+
+    verifyContractInteraction(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyContractInteraction-${env}")
+
+    verifySnapshot(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
+
+    verifySelfVerify(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
 }

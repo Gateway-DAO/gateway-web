@@ -5,24 +5,32 @@ import * as SearchStyled from '../../style'
 // Components
 import UserCard from '../../../../components/UserCard'
 import Loader from '../../../../components/Loader'
+import Pagination from '../Pagination'
 
 // Hooks
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSearchUsers } from '../../../../api/database/useSearchUser'
 import { useListUsers } from '../../../../api/database/useGetUser'
+import useUserLength from '../../../../api/database/useUserLength'
 
 const UserTab = ({ query }) => {
     const [hits, setHits] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const [pageCount, setPageCount] = useState(0)
+    const [pageNumber, setPageNumber] = useState(0)
+    const resultPerPage = 8
+    let from = pageNumber * 8
     const {
         data: listData,
         loading: listLoading,
         error: listError,
         called: listCalled,
-    } = useListUsers({
+    } = useSearchUsers({
         variables: {
+            limit: resultPerPage,
+            from: from,
             filter: { init: { eq: true } },
         },
     })
@@ -33,6 +41,27 @@ const UserTab = ({ query }) => {
         error: searchError,
         called: searchCalled,
     } = useSearchUsers({
+        variables: {
+            limit: resultPerPage,
+            from: from,
+            filter: {
+                or: [
+                    { daos_ids: { wildcard: `*${query}*` } },
+                    { username: { wildcard: `*${query}*` } },
+                    { bio: { wildcard: `*${query}*` } },
+                    { id: { wildcard: `*${query}*` } },
+                    { name: { wildcard: `*${query}*` } },
+                ],
+            },
+        },
+    })
+
+    const {
+        data: lengthData,
+        loading: lengthDataLoading,
+        error: userLengthError,
+        called: userLengthCalled,
+    } = useUserLength({
         variables: {
             filter: {
                 or: [
@@ -48,14 +77,21 @@ const UserTab = ({ query }) => {
 
     useEffect(() => {
         if (query.toLowerCase() === 'all') {
-            setHits(!listLoading ? listData.listUsers.items : [])
+            setHits(!listLoading ? listData.searchUsers.items : [])
+            setPageCount(Math.ceil(listData?.searchUsers.total / resultPerPage))
         } else {
             setHits(!searchLoading ? searchData.searchUsers.items : [])
-        }
-    }, [query, searchLoading, listLoading])
+            console.log('fdsfdfds')
 
-    const searchOrListLoading = (query.toLowerCase() === 'all' ? listLoading : searchLoading)
-    const searchOrListCalled = (query.toLowerCase() === 'all' ? listCalled : searchCalled)
+            console.log(lengthData)
+            setPageCount(Math.ceil(lengthData?.searchUsers.items.length / resultPerPage))
+        }
+    }, [query, searchLoading, listLoading , pageNumber , lengthDataLoading])
+
+    const searchOrListLoading =
+        query.toLowerCase() === 'all' ? listLoading : searchLoading
+    const searchOrListCalled =
+        query.toLowerCase() === 'all' ? listCalled : searchCalled
 
     if (searchOrListLoading) {
         return (
@@ -79,17 +115,20 @@ const UserTab = ({ query }) => {
     }
 
     return (
-        <Styled.UserCardBox>
-            {hits?.map((item) => (
-                <UserCard
-                    key={item.nonce}
-                    name={item.name}
-                    username={item.username}
-                    pfp={item.pfp}
-                    daos={item.daos}
-                />
-            ))}
-        </Styled.UserCardBox>
+        <>
+            <Styled.UserCardBox>
+                {hits?.map((item) => (
+                    <UserCard
+                        key={item.nonce}
+                        name={item.name}
+                        username={item.username}
+                        pfp={item.pfp}
+                        daos={item.daos}
+                    />
+                ))}
+            </Styled.UserCardBox>
+            <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
+        </>
     )
 }
 

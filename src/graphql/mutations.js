@@ -216,6 +216,9 @@ export const votePost = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -357,6 +360,9 @@ export const unvotePost = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -444,6 +450,7 @@ export const createQuiz = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -465,6 +472,12 @@ export const createQuiz = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -535,6 +548,7 @@ export const createMeetingCode = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -556,6 +570,12 @@ export const createMeetingCode = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -626,6 +646,7 @@ export const createTokenHold = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -647,6 +668,12 @@ export const createTokenHold = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -717,6 +744,7 @@ export const createSnapshotGovernance = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -738,6 +766,12 @@ export const createSnapshotGovernance = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -808,6 +842,7 @@ export const createSelfVerify = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -830,9 +865,943 @@ export const createSelfVerify = /* GraphQL */ `
           spaceID
           proposal
         }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
+        }
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const createContractInteraction = /* GraphQL */ `
+  mutation CreateContractInteraction($input: CreateKeyContractInteraction) {
+    createContractInteraction(input: $input) {
+      id
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          questions {
+            question
+            nrOfCorrectAnswers
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+        }
+        ... on SelfVerify {
+          type
+        }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const verifyMeetingCode = /* GraphQL */ `
+  mutation VerifyMeetingCode(
+    $userID: ID!
+    $gateID: ID!
+    $keyID: ID!
+    $meetingCode: String!
+  ) {
+    verifyMeetingCode(
+      userID: $userID
+      gateID: $gateID
+      keyID: $keyID
+      meetingCode: $meetingCode
+    ) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifyHoldAToken = /* GraphQL */ `
+  mutation VerifyHoldAToken($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifyHoldAToken(userID: $userID, gateID: $gateID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifyContractInteraction = /* GraphQL */ `
+  mutation VerifyContractInteraction($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifyContractInteraction(userID: $userID, gateID: $gateID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifySnapshot = /* GraphQL */ `
+  mutation VerifySnapshot($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifySnapshot(userID: $userID, gateID: $gateID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifySelfVerify = /* GraphQL */ `
+  mutation VerifySelfVerify($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifySelfVerify(userID: $userID, gateID: $gateID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
     }
   }
 `;
@@ -896,6 +1865,18 @@ export const createUser = /* GraphQL */ `
       socials {
         network
         url
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -963,6 +1944,18 @@ export const updateUser = /* GraphQL */ `
         network
         url
       }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -1028,6 +2021,18 @@ export const deleteUser = /* GraphQL */ `
       socials {
         network
         url
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       createdAt
       updatedAt
@@ -2012,6 +3017,9 @@ export const createPost = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2155,6 +3163,9 @@ export const updatePost = /* GraphQL */ `
         socials {
           network
           url
+        }
+        tasks {
+          nextToken
         }
         createdAt
         updatedAt
@@ -2300,6 +3311,9 @@ export const deletePost = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2369,6 +3383,9 @@ export const createComment = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2425,6 +3442,9 @@ export const updateComment = /* GraphQL */ `
           network
           url
         }
+        tasks {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2480,6 +3500,9 @@ export const deleteComment = /* GraphQL */ `
         socials {
           network
           url
+        }
+        tasks {
+          nextToken
         }
         createdAt
         updatedAt
@@ -2804,6 +3827,7 @@ export const createKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -2825,6 +3849,12 @@ export const createKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -2898,6 +3928,7 @@ export const updateKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -2919,6 +3950,12 @@ export const updateKey = /* GraphQL */ `
           snapshotType
           spaceID
           proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
         }
       }
       createdAt
@@ -2992,6 +4029,7 @@ export const deleteKey = /* GraphQL */ `
           type
           questions {
             question
+            nrOfCorrectAnswers
           }
           passedAt
         }
@@ -3014,7 +4052,493 @@ export const deleteKey = /* GraphQL */ `
           spaceID
           proposal
         }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
+        }
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createTaskStatus = /* GraphQL */ `
+  mutation CreateTaskStatus(
+    $input: CreateTaskStatusInput!
+    $condition: ModelTaskStatusConditionInput
+  ) {
+    createTaskStatus(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      keyID
+      key {
+        id
+        gateID
+        gate {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keysNumber
+          published
+          createdAt
+          updatedAt
+        }
+        information {
+          title
+          description
+        }
+        token
+        tokenAmount
+        keys
+        peopleLimit
+        task {
+          ... on Quiz {
+            type
+            passedAt
+          }
+          ... on MeetingCode {
+            type
+            code
+            caseSensitive
+          }
+          ... on TokenHold {
+            type
+            chainID
+            address
+          }
+          ... on SelfVerify {
+            type
+          }
+          ... on SnapshotGovernance {
+            type
+            snapshotType
+            spaceID
+            proposal
+          }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTaskStatus = /* GraphQL */ `
+  mutation UpdateTaskStatus(
+    $input: UpdateTaskStatusInput!
+    $condition: ModelTaskStatusConditionInput
+  ) {
+    updateTaskStatus(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      keyID
+      key {
+        id
+        gateID
+        gate {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keysNumber
+          published
+          createdAt
+          updatedAt
+        }
+        information {
+          title
+          description
+        }
+        token
+        tokenAmount
+        keys
+        peopleLimit
+        task {
+          ... on Quiz {
+            type
+            passedAt
+          }
+          ... on MeetingCode {
+            type
+            code
+            caseSensitive
+          }
+          ... on TokenHold {
+            type
+            chainID
+            address
+          }
+          ... on SelfVerify {
+            type
+          }
+          ... on SnapshotGovernance {
+            type
+            snapshotType
+            spaceID
+            proposal
+          }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTaskStatus = /* GraphQL */ `
+  mutation DeleteTaskStatus(
+    $input: DeleteTaskStatusInput!
+    $condition: ModelTaskStatusConditionInput
+  ) {
+    deleteTaskStatus(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      keyID
+      key {
+        id
+        gateID
+        gate {
+          id
+          daoID
+          name
+          description
+          categories
+          admins
+          keysNumber
+          published
+          createdAt
+          updatedAt
+        }
+        information {
+          title
+          description
+        }
+        token
+        tokenAmount
+        keys
+        peopleLimit
+        task {
+          ... on Quiz {
+            type
+            passedAt
+          }
+          ... on MeetingCode {
+            type
+            code
+            caseSensitive
+          }
+          ... on TokenHold {
+            type
+            chainID
+            address
+          }
+          ... on SelfVerify {
+            type
+          }
+          ... on SnapshotGovernance {
+            type
+            snapshotType
+            spaceID
+            proposal
+          }
+          ... on ContractInteraction {
+            type
+            chainID
+            address
+            methodName
+          }
+        }
+        createdAt
+        updatedAt
+      }
+      completed
       createdAt
       updatedAt
     }

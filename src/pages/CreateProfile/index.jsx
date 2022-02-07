@@ -57,9 +57,9 @@ const CreateProfile = () => {
         variables: {
             filter: {
                 or: [
-                    { dao: { wildcard: `*${searchTerm}*` } },
-                    { name: { wildcard: `*${searchTerm}*` } },
-                    { description: { wildcard: `*${searchTerm}*` } },
+                    { dao: { wildcard: `*${searchTerm.toLowerCase()}*` } },
+                    { name: { wildcard: `*${searchTerm.toLowerCase()}*` } },
+                    { description: { wildcard: `*${searchTerm.toLowerCase()}*` } },
                 ],
             },
         },

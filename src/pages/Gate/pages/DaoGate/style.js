@@ -129,11 +129,13 @@ export const AnotherDiv = styled.div`
     align-items: center;
 `
 
-export const Circle = styled.div`
-    height: 30px;
-    width: 30px;
-    border: 5px solid white;
-    border-radius: 100%;
+export const CircleBox = styled.div`
+    height: 50px;
+    width: 50px;
+
+    & .CircularProgressbar .CircularProgressbar-path {
+        stroke: url(#circleGradient);
+    }
 `
 
 export const ProgressInfoDiv = styled.div`

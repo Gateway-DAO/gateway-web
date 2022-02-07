@@ -5,21 +5,21 @@ export const ThirdDiv = styled.div`
     color: white;
 `
 export const Box = styled.div`
-    color: ${(props) => (props.details ? 'black' : 'white')};
+    color: ${(props) => (props.opened ? 'black' : 'white')};
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
-    border: 1px solid #7e3bdc;
+    border: 1px solid ${props => props.blocked ? "#A5A5A580" : "#7e3bdc"};
     box-sizing: border-box;
     border-radius: 20px;
     padding: 30px 25px;
-    background-color: ${(props) => (props.details ? 'white' : 'transparent')};
+    background-color: ${(props) => (props.opened ? 'white' : 'transparent')};
     transition: 0.2s;
 `
 
 export const TextContainer = styled.div`
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 `
 
 export const BoxTitle = styled.div`
@@ -41,7 +41,7 @@ export const BoxSubtitle = styled.div`
     line-height: 26px;
     /* or 144% */
 
-    color: ${(props) => (props.details ? '#170627' : '#e5e5e5')};
+    color: ${(props) => (props.opened ? '#170627' : '#e5e5e5')};
 `
 export const BottonBox = styled.div`
     display: flex;
@@ -52,11 +52,14 @@ const DetailsButton = `
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
 `
 
+const CompletedButton = `
+    border: 1px solid #27D5A2;
+`
+
 export const StartButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
     font-family: Poppins;
     font-size: 13px;
     font-style: normal;
@@ -67,7 +70,9 @@ export const StartButton = styled.div`
     border-radius: 20px;
 
     ${(props) =>
-        props.details
+        props.blocked
+            ? CompletedButton
+            : props.opened
             ? DetailsButton
             : `
         border: solid 1px transparent;
@@ -85,7 +90,7 @@ export const StartButton = styled.div`
 `
 export const StartButtonTwo = styled.div`
     min-width: 150px;
-    margin-top: 10px;
+    // margin-top: 10px;
     font-family: Poppins;
     font-size: 13px;
     font-style: normal;
@@ -103,5 +108,7 @@ export const StartButtonTwo = styled.div`
 
 export const ButtonText = styled.p`
     font-size: 14px;
-    margin: 10px 50px;
+    margin: 12px 50px;
+    display: flex;
+    align-items: center;
 `

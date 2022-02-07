@@ -21,6 +21,8 @@ import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload'
 import FormData from 'form-data'
 import Loader from '../../../../components/Loader'
 
+
+
 /* This is a React component that will render the form to add a gate. */
 const AddGateForm = (props) => {
     const $input = useRef(null)

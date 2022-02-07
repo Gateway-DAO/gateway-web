@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import ScrollToTop from '../components/ScrollToTop'
 
 import Home from './Home'
 import FallbackPage from './FallbackPage'
@@ -23,9 +24,11 @@ import AddMeetingCode from '../pages/Gate/pages/AddNewKey/pages/AddMeetingCode'
 import AddKeySuccess from '../pages/Gate/pages/AddNewKey/pages/AddKeySuccess'
 import AddManualTask from '../pages/Gate/pages/AddNewKey/pages/AddManualTask'
 import AddNewKeyHome from '../pages/Gate/pages/AddNewKey/pages/Home'
+import KeyCompletedPage from './KeyCompleted'
 
 // Profile
 import AddExperience from '../pages/AddExperience'
+import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz'
 
 const DAO = React.lazy(() => import('./DAO'))
 const Gate = React.lazy(() => import('./Gate'))
@@ -40,67 +43,91 @@ const AddCommunity = React.lazy(() => import('./AddCommunity'))
 const SubmitPage = React.lazy(() => import('./AddCommunity/submitPage'))
 const KeyQuiz = React.lazy(() => import('./Quiz'))
 const AddNewGate = React.lazy(() => import('./DAO/pages/AddNewGate'))
+const AddLinks = React.lazy(() => import('./Gate/pages/AddLinks'))
 
 const App = (props) => {
     return (
         <Router>
             <React.Suspense fallback={<FallbackPage />}>
-                <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    <Route path="/about-us" element={<About />} />
-                    <Route path="/what-are-daos" element={<AboutDAOs />} />
+                <ScrollToTop>
+                    <Routes>
+                        <Route exact path="/" element={<Home />} />
+                        <Route path="/about-us" element={<About />} />
+                        <Route path="/what-are-daos" element={<AboutDAOs />} />
 
-                    {/* Add New Key Routes start */}
-                    <Route
-                        path="/profile/add-experience"
-                        element={<AddExperience />}
-                    />
+                        {/* Add New Key Routes start */}
+                        <Route
+                            path="/profile/add-experience"
+                            element={<AddExperience />}
+                        />
 
-                    <Route path="dao/:id" element={<DAO />}>
-                        <Route index element={<DAOHome />} />
-                        <Route path="add-gate" element={<AddNewGate />} />
-                    </Route>
-
-                    <Route path="/gates" element={<DAOsGate />} />
-
-                    <Route path="/gateWithKey" element={<DaoGateWithKeys />} />
-
-                    <Route path="gate/:gate" element={<Gate />}>
-                        <Route index element={<DaoGate />} />
-                        <Route path="add-key" element={<AddNewKey />}>
-                            <Route index element={<AddNewKeyHome />} />
-                            <Route path="token" element={<AddHoldToken />} />
-                            <Route path="manual" element={<AddManualTask />} />
-                            <Route
-                                path="governance"
-                                element={<AddGovernanceSnapshot />}
-                            />
-
-                            <Route path="success" element={<AddKeySuccess />} />
-                            <Route path="quiz" element={<KeyQuiz />} />
-
-                            <Route
-                                path="meeting-code"
-                                element={<AddMeetingCode />}
-                            />
-                           
+                        <Route path="dao/:id" element={<DAO />}>
+                            <Route index element={<DAOHome />} />
+                            <Route path="add-gate" element={<AddNewGate />} />
                         </Route>
-                    </Route>
 
-                    <Route path="/search/:query" element={<Search />} />
-                    <Route path="/profile/" element={<ProfilePage />}>
-                        <Route path=":searchTerm" element={<ProfilePage />} />
-                    </Route>
-                    <Route path="/sign-in" element={<SignIn />} />
-                    <Route path="/create-profile" element={<CreateProfile />} />
-                    <Route path="/add-community" element={<AddCommunity />} />
-                    <Route
-                        path="/new-community/:name"
-                        element={<SubmitPage />}
-                    />
-                    <Route path="/testing" element={<GateSuccessPage />} />
-                    <Route path="*" element={<Page404 />} />
-                </Routes>
+                        <Route path="/gates" element={<DAOsGate />} />
+
+                        <Route path="gate/:gate" element={<Gate />}>
+                            <Route index element={<DaoGate />} />
+                            <Route path="quiz/:id" element={<NewQuiz />} />
+                            <Route path="add-links" element={<AddLinks />} />
+                            <Route path="add-key" element={<AddNewKey />}>
+                                <Route index element={<AddNewKeyHome />} />
+                                <Route
+                                    path="token"
+                                    element={<AddHoldToken />}
+                                />
+                                <Route
+                                    path="manual"
+                                    element={<AddManualTask />}
+                                />
+                                <Route
+                                    path="governance"
+                                    element={<AddGovernanceSnapshot />}
+                                />
+
+                                <Route
+                                    path="success"
+                                    element={<AddKeySuccess />}
+                                />
+                                <Route path="quiz" element={<KeyQuiz />} />
+
+                                <Route
+                                    path="meeting-code"
+                                    element={<AddMeetingCode />}
+                                />
+                            </Route>
+                        </Route>
+
+                        <Route
+                            path="key-completed"
+                            element={<KeyCompletedPage />}
+                        />
+
+                        <Route path="/search/:query" element={<Search />} />
+                        <Route path="/profile/" element={<ProfilePage />}>
+                            <Route
+                                path=":searchTerm"
+                                element={<ProfilePage />}
+                            />
+                        </Route>
+                        <Route path="/sign-in" element={<SignIn />} />
+                        <Route
+                            path="/create-profile"
+                            element={<CreateProfile />}
+                        />
+                        <Route
+                            path="/add-community"
+                            element={<AddCommunity />}
+                        />
+                        <Route
+                            path="/new-community/:name"
+                            element={<SubmitPage />}
+                        />
+                        <Route path="*" element={<Page404 />} />
+                    </Routes>
+                </ScrollToTop>
             </React.Suspense>
         </Router>
     )

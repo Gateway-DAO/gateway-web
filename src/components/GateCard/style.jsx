@@ -10,8 +10,7 @@ export const GateCardBox = styled.div`
     cursor: pointer;
     // With the card bottom => height: 30em;
     height: 30em;
-    width: 26em;
-    // max-width: calc(100%/3.5);
+    width: 25em;
 
     transition: margin 0.5s ease-in-out;
     transition: box-shadow 0.01s ease-in-out;
@@ -108,7 +107,7 @@ export const PeopleInvolved = styled.div`
 
 export const CategoryList = styled.ul`
     //margin-top: -15px;
-    margin-left: 15px;
+    margin: 0 25px;
     display: flex;
     align-items: center;
     @media only screen and (max-width: 380px) {
@@ -154,7 +153,7 @@ export const CategoryLink = styled(Link)`
 export const CardBody = styled.div`
     margin-top: -10px;
     grid-row: 5 / span 2;
-    padding: 15px;
+    margin: 0 25px;
 `
 
 export const CardTitle = styled.h1`
@@ -187,18 +186,17 @@ export const CardDesc = styled.div`
 `
 export const InfoContainer = styled.div`
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     /* align-items: center; */
     border-bottom: 1px solid #e5e5e5;
+    margin: 0 25px;
+    padding-bottom: 15px;
 `
 export const InfoBox = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 15px;
-    margin: 0 20px;
     margin-bottom: 15px;
     text-align: left;
-    margin-bottom: 15px;
 `
 
 export const MediumHeading = styled.h3`
@@ -219,7 +217,6 @@ export const SmallText = styled.p`
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
-    margin-left:10px;
     line-height: 18px;
     /* or 129% */
 
@@ -229,14 +226,17 @@ export const KeyBox = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
 `
 
 export const Circle = styled.div`
     width: 16px;
     height: 16px;
-    border: 5px solid red;
-    border-radius: 100%;
     margin-right: 5px;
+
+    & .CircularProgressbar .CircularProgressbar-path {
+        stroke: url(#circleGradient);
+    }
 `
 
 export const ActivityBox = styled.div`

@@ -131,7 +131,6 @@ const ProfilePage = () => {
                     <Styled.UserInfo>
                         {React.createElement(BioBox, { ...userInfo, toggleEditModal })}
 
-                        {/*
                         <Styled.FeedContainer>
                             <Styled.ProfileDiv>
                                 <Styled.SelectedTab
@@ -149,7 +148,7 @@ const ProfilePage = () => {
                             </Styled.ProfileDiv>
                             {loggedIn && authUser.id === userInfo.id && <Tab />}
                         </Styled.FeedContainer>
-                        */}
+
                     </Styled.UserInfo>
 
                     {/*
