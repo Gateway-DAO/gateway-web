@@ -383,7 +383,11 @@ const AddNewKey = (props) => {
                     </FormStyled.GridBox>
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button type="submit">Next</FormStyled.Button>
+                <Styled.Button type="submit">
+                    <Styled.ButtonText>
+                        Next
+                    </Styled.ButtonText>    
+                </Styled.Button>
             </FormStyled.FormBox>
         </Styled.AddNewKeyContainer>
     )
