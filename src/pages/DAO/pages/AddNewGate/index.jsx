@@ -446,12 +446,26 @@ const AddGateForm = (props) => {
                                     }
                                     name={retroactiveEarners}
                                 />
-                                <FormStyled.IconButton
-                                    onClick={() => removeRetroactiveEarner(idx)}
-                                    style={{ marginLeft: '10px' }}
+                                <Styled.IconBox
+                                    ml="10px"
+                                    onClick={
+                                        retroactiveEarners.length > 1
+                                            ? () => removeRetroactiveEarner(idx)
+                                            : undefined
+                                    }
                                 >
-                                    <FaTrashAlt />
-                                </FormStyled.IconButton>
+                                    {retroactiveEarners.length > 1 ? (
+                                        <FaTrashAlt
+                                            style={{ color: 'white' }}
+                                        />
+                                    ) : (
+                                        <FaTrashAlt
+                                            style={{
+                                                color: 'rgba(255,255,255,0.2)',
+                                            }}
+                                        />
+                                    )}
+                                </Styled.IconBox>
                             </FormStyled.InputWrapper>
                         )
                     })}

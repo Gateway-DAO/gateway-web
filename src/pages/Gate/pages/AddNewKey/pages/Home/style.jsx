@@ -104,3 +104,26 @@ export const SpaceBox = styled.canvas`
     right: 0;
     z-index: -1;
 `
+export const Button = styled.button`
+    margin-top: 10px;
+    
+    color: white;
+    border-radius: 20px;
+    border: solid 1px transparent;
+    background-image: linear-gradient(#170627, #170627),
+        linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    cursor: pointer;
+`
+export const ButtonText = styled.div`
+    font-family: Poppins;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 9px 70px;
+    cursor: pointer;
+`
