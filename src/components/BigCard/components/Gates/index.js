@@ -2,6 +2,7 @@ import * as Styled from './style'
 import { useState } from 'react'
 import Subcategories from './Subcategories'
 import GateCard from '../../../GateCard'
+import { GradientSVG } from '../../../ProgressCircle'
 
 const Gates = props => {
     const [activeCategory, setActiveCategory] = useState('All')
@@ -9,6 +10,7 @@ const Gates = props => {
 
     return (
         <Styled.Wrapper>
+            <GradientSVG idCSS='circleGradient' />
             <Subcategories
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}

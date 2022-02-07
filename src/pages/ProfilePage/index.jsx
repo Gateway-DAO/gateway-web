@@ -8,6 +8,7 @@ import AddExperience from './components/AddExperience'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import Loader from '../../components/Loader'
+import ProfileEditModal from '../../components/Modal/ProfileEditModal'
 
 // Sub-components
 import BioBox from './components/BioBox'
@@ -26,12 +27,18 @@ const RAW_USER = {
 }
 
 const ProfilePage = () => {
+    // State
+    const [activeTab, setActiveTab] = useState('experience')
+    const [showEditModal, setShowEditModal] = useState(false)
+
+    // Hooks
     const { searchTerm } = useParams()
     const navigate = useNavigate()
     const {
         userInfo: authUser = { username: '' },
         loggedIn,
         loading,
+        walletConnected
     } = useAuth()
     const [userInfo, setUserInfo] = useState(RAW_USER)
 
@@ -45,7 +52,7 @@ const ProfilePage = () => {
         },
     })
 
-    const [activeTab, setActiveTab] = useState('experience')
+    const toggleEditModal = () => setShowEditModal(!showEditModal)
 
     useEffect(() => {
         if (searchTerm) {
@@ -57,12 +64,14 @@ const ProfilePage = () => {
                 navigate('/404')
             }
         } else {
-            if (loggedIn && !loading) {
+            if (walletConnected && !loading) {
                 setUserInfo(authUser)
-            } else if (!loggedIn && !loading) {
+            } else if (!walletConnected && !loading) {
                 navigate('/sign-in')
             }
         }
+
+        return () => {}
     }, [searchTerm, authUser, userLoading, loading])
 
     const Tab = () => {
@@ -79,14 +88,32 @@ const ProfilePage = () => {
         return component
     }
 
+    const Modals = (props) => (
+        <>
+            <ProfileEditModal
+                show={showEditModal}
+                toggle={toggleEditModal}
+                membership={props.daos.map((dao) => {
+                    return {
+                        name: dao.name,
+                        dao: dao.dao,
+                        logoURL: dao.logoURL,
+                    }
+                })}
+                {...props}
+            />
+        </>
+    )
+
     if (error) {
         return <Navigate to="/404" />
     }
 
-    return !searchTerm && authUser && !authUser.init ? (
+    return (!searchTerm && !walletConnected) ? (
         <Navigate to="/create-profile" />
     ) : (
         <Styled.Container>
+            <Modals {...userInfo} />
             <Header style={{ alignSelf: 'flex-start' }} />
             {loading || userLoading ? (
                 <Styled.LoaderBox>
@@ -102,9 +129,8 @@ const ProfilePage = () => {
                     </Styled.LeftSidebar>
 
                     <Styled.UserInfo>
-                        {React.createElement(BioBox, { ...userInfo })}
+                        {React.createElement(BioBox, { ...userInfo, toggleEditModal })}
 
-                        {/*
                         <Styled.FeedContainer>
                             <Styled.ProfileDiv>
                                 <Styled.SelectedTab
@@ -122,7 +148,7 @@ const ProfilePage = () => {
                             </Styled.ProfileDiv>
                             {loggedIn && authUser.id === userInfo.id && <Tab />}
                         </Styled.FeedContainer>
-                        */}
+
                     </Styled.UserInfo>
 
                     {/*

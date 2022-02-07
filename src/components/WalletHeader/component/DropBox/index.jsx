@@ -6,22 +6,26 @@ import { useRef } from 'react'
 
 const DropDown = ({ toggle }) => {
     const navigate = useNavigate();
-    const { userSignOut } = useAuth()
+    const { signIn, loggedIn } = useAuth()
     const ref = useRef(null)
     
-    useClickAway(ref, () => {
-        toggle(false)
-    })
+    
 
     return (
         <Styled.DropDownContainer ref={ref}>
-            <Styled.ItemTextContainer onClick={() => navigate('/profile')}>
-                Profile
-            </Styled.ItemTextContainer>
-            <Styled.BorderLine />
-            <Styled.ItemTextContainer onClick={async () => {await userSignOut(); navigate('/') }}>
-                Disconnect Wallet
-            </Styled.ItemTextContainer>
+            <Styled.ItemsContainer>
+                <Styled.ItemTextContainer onClick={() => navigate('/profile')}>
+                    Profile
+                </Styled.ItemTextContainer>
+                {!loggedIn && (
+                    <>
+                        <Styled.BorderLine />
+                        <Styled.ItemTextContainer onClick={async () => { await signIn() }}>
+                            Authorize Metamask
+                        </Styled.ItemTextContainer>
+                    </>
+                )}
+            </Styled.ItemsContainer>
         </Styled.DropDownContainer>
     )
 }

@@ -10,9 +10,9 @@ export const DropDownContainer = styled.div`
     justify-content: center;
     position: absolute;
     top: 60px;
-    width: 210px;
-    height: 76px;
+    width: 200px;
     border: double 1px transparent;
+    
     background-image: linear-gradient(#170627, #170627),
         linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
     background-origin: border-box;
@@ -21,6 +21,10 @@ export const DropDownContainer = styled.div`
     &:hover {
         cursor: pointer;
     }
+`
+
+export const ItemsContainer = styled.div`
+    margin: 10px 0;
 `
 
 export const ItemTextContainer = styled.h3`

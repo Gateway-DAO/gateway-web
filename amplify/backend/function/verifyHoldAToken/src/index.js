@@ -25,7 +25,7 @@ AWS.config.update({
 
 exports.handler = async (event, ctx, callback) => {
     try {
-        const { userID, keyID } = event.arguments
+        const { userID, keyID, gateID } = event.arguments
 
         // 1. get key
         const key = await getKey(keyID)
@@ -125,6 +125,7 @@ exports.handler = async (event, ctx, callback) => {
 			const item = await createTaskStatus({
 				userID,
 				keyID,
+                gateID,
 				completed: true,
 			})
 
@@ -135,6 +136,7 @@ exports.handler = async (event, ctx, callback) => {
 		}
 
         return {
+            __typename: 'Error',
 			keyID,
 			error: "NO_HOLD",
 			msg: "User doesn't hold token"

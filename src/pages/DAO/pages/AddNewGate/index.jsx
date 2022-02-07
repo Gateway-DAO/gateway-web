@@ -7,11 +7,14 @@ import { FormStyled } from '../../../../components/Form'
 
 // Components
 import SearchedItem from './Components/SearhedItem'
+import SearchedAdmin from './Components/SearchedAdmin'
+import SearchRes from './Components/SearchRes'
 
 // Hooks
 import { useCreateGate } from '../../../../api/database/useCreateGate'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useAuth } from '../../../../contexts/UserContext'
+import useSearchUsers from '../../../../api/database/useSearchUser'
 
 // Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
@@ -20,12 +23,12 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload'
 import FormData from 'form-data'
 import Loader from '../../../../components/Loader'
-
-
+import { useEffect } from 'react'
 
 /* This is a React component that will render the form to add a gate. */
 const AddGateForm = (props) => {
     const $input = useRef(null)
+    const { userInfo } = useAuth()
 
     // State
     const [title, setTitle] = useState('')
@@ -40,13 +43,28 @@ const AddGateForm = (props) => {
     const [keyRequired, setKeyRequired] = useState(0)
     const [badgeName, setBadgeName] = useState('')
     const [admin, setAdmin] = useState('')
-    const [adminList, setAdminList] = useState([])
+    const [adminList, setAdminList] = useState([{
+        name: userInfo?.name || "",
+        username: userInfo?.username || "",
+        pfp: userInfo?.pfp || ""
+    }])
     const [updateLoading, setUpdateeLoading] = useState(false)
+    const [adminSearch, setAdminSearch] = useState([])
 
     // Hooks
     const { daoData } = useOutletContext()
     const { createGate, loading, data, error } = useCreateGate()
-    const { userInfo } = useAuth()
+    const { data: searchUserData, loading: searchUserLoading } = useSearchUsers({
+        variables: {
+            filter: {
+                or: [
+                    { name: { wildcard: `*${admin.toLowerCase()}*` } },
+                    { username: { wildcard: `*${admin.toLowerCase()}*` } },
+                    { bio: { wildcard: `*${admin.toLowerCase()}*` } },
+                ],
+            },
+        },
+    })
     const navigate = useNavigate()
 
     /* If the user has not selected a file, alert them that they need to do so. If the file is not
@@ -99,11 +117,10 @@ const AddGateForm = (props) => {
         }
     }
 
+    /**
+     * It removes the category from the list of categories.
+     */
     const removeCategories = (id) => {
-        if (categoryList.length === 1) {
-            alert('You have to put at least one Category')
-            return false
-        }
         setCategoryList(categoryList.filter((value, i) => i !== id))
     }
 
@@ -117,13 +134,19 @@ const AddGateForm = (props) => {
         }
     }
 
-    /* The addAdmin function is called when the user presses the Enter key. 
-    The function adds the admin to the adminList array and resets the admin input field. */
-    const addAdmin = (e) => {
-        if (e.key === 'Enter') {
-            setAdminList([...adminList, admin])
-            setAdmin('')
-        }
+    /**
+     * It adds an admin to the list of admins.
+     */
+    const addAdmin = (admin) => {
+        setAdminList([...adminList, admin])
+        setAdminSearch(prev => prev.filter(adm => adm.id !== admin.id))
+    }
+
+    /**
+     * It removes the admin from the list of admins.
+     */
+    const removeAdmin = (id) => {
+        setAdminList(prev => prev.filter(adm => adm.id !== id))
     }
 
     const updateRetroactiveEarner = (e, idx) => {
@@ -196,6 +219,29 @@ const AddGateForm = (props) => {
         setUpdateeLoading(false)
     }
 
+    useEffect(() => {
+        const clear = setTimeout(() => {
+            if (!admin) {
+                setAdminSearch([])
+            }
+
+            if (!!searchUserData && !searchUserLoading) {
+                const query = searchUserData.searchUsers.items
+                const results = query.slice(0, 5).map((user) => {
+                    return {
+                        name: user.name,
+                        username: user.username,
+                        id: user.id,
+                        pfp: user.pfp,
+                    }
+                })
+                setAdminSearch(results)
+            }
+        }, 2000)
+
+        return () => clearTimeout(clear)
+    }, [admin])
+
     return (
         <Styled.Page>
             <Styled.Container
@@ -260,10 +306,7 @@ const AddGateForm = (props) => {
                         onKeyPress={addCategories}
                         value={category}
                     />
-                    {/* <Styled.SearchIcon>
-                            <Styled.SearchIconTop></Styled.SearchIconTop>
-                            <Styled.SearchIconBottom></Styled.SearchIconBottom>
-                        </Styled.SearchIcon> */}
+                    
                     {categoryList.length > 0 && (
                         <Styled.CategoryList>
                             {categoryList.map((category, id) => {
@@ -367,15 +410,19 @@ const AddGateForm = (props) => {
                         id="admin"
                         name="admin"
                         placeholder="Search for admins"
-                        onKeyPress={addAdmin}
                         value={admin}
                     />
+
                     {adminList.length > 0 && (
                         <Styled.CategoryList>
-                            {adminList.map((admin) => {
-                                return <SearchedItem val={admin} />
-                            })}
+                            {adminList.map((admin) => <SearchedAdmin val={admin} id={admin.id} removeAdmin={removeAdmin} />)}
                         </Styled.CategoryList>
+                    )}
+
+                    {adminSearch.length > 0 && (
+                        <Styled.SearchBox>
+                            {adminSearch.map(admin => <SearchRes res={admin} addAdmin={addAdmin} />)}
+                        </Styled.SearchBox>
                     )}
                 </FormStyled.Fieldset>
 

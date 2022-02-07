@@ -1,7 +1,6 @@
 // Libraries/components
 import React from 'react'
 import DropDown from './component/DropBox'
-import WrongNetworkModal from '../Modal/WrongNetworkModal'
 
 // Styling
 import * as Styled from './style'
@@ -11,17 +10,16 @@ import { shortenAddress, SUPPORTED_CHAINS } from '../../utils/web3'
 
 // Hooks
 import { useAuth } from '../../contexts/UserContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import { useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 
 const Wallet = (props) => {
     const { signIn, loggedIn, userInfo, loggingIn, activateWeb3, loadingWallet } = useAuth()
-    const { active } = useWeb3React()
+    const { active, account } = useWeb3React()
     const [hidden, setHidden] = useState(false)
-    //const [wrong, setWrong] = useState(!SUPPORTED_CHAINS.includes(parseInt(window.ethereum.chainId, 16)))
-    const [showModal, setShowModal] = useState(false)
 
+    const [showModal, setShowModal] = useState(false)
     const toggleModal = () => setShowModal(!showModal)
 
     useEffect(() => !active && activateWeb3(), [])
@@ -41,21 +39,15 @@ const Wallet = (props) => {
     }
     */
 
-    return loggedIn ? (
+    return (
         <>
-            <Styled.ConnectToWallet wrong={false} onClick={(e) => setHidden(!hidden)}>
+            <Styled.ConnectToWallet onClick={active ? () => setHidden(!hidden) : activateWeb3}>
                 <Styled.ConnectText>
-                    {shortenAddress(userInfo?.wallet, 4, 12)}
+                    {(loggingIn || loadingWallet) && <Styled.SpinningLoader color="white" />} {active ? shortenAddress(account, 4, 12) : "Connect To Wallet"}
                 </Styled.ConnectText>
             </Styled.ConnectToWallet>
             {hidden ? <DropDown toggle={setHidden} /> : null}
         </>
-    ) : (
-        <Styled.ConnectToWallet onClick={active ? signIn : activateWeb3}>
-            <Styled.ConnectText>
-                {(loggingIn || loadingWallet) && <Styled.SpinningLoader color="white" />} {active ? "Sign In" : "Connect To Wallet"}
-            </Styled.ConnectText>
-        </Styled.ConnectToWallet>
     )
 }
 

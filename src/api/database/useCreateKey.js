@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { createKey as KEY_CREATE, createSelfVerify as KEY_SELF_VERIFY, createMeetingCode as KEY_MEETING_CODE, createTokenHold as KEY_TOKEN_HOLD, createQuiz as KEY_QUIZ } from '../../graphql/mutations'
+import { createKey as KEY_CREATE, createSelfVerify as KEY_SELF_VERIFY, createMeetingCode as KEY_MEETING_CODE, createTokenHold as KEY_TOKEN_HOLD, createQuiz as KEY_QUIZ, createSnapshotGovernance as KEY_SNAPSHOT, createContractInteraction as KEY_CONTRACT } from '../../graphql/mutations'
 
 export const useCreateKey = () => {
     const [createKey, { loading, called, data, error }] = useMutation(
@@ -79,6 +79,38 @@ export const useCreateQuiz = () => {
             loading,
         }),
         [called, createQuiz, loading, KEY_QUIZ, error]
+    )
+}
+
+export const useCreateSnapshot = () => {
+    const [createSnapshot, { loading, called, data, error }] = useMutation(
+        gql(KEY_SNAPSHOT)
+    )
+
+    return useMemo(
+        () => ({
+            createSnapshot,
+            data,
+            error,
+            loading,
+        }),
+        [called, createSnapshot, loading, KEY_SNAPSHOT, error]
+    )
+}
+
+export const useCreateContractInteraction = () => {
+    const [createContractInteraction, { loading, called, data, error }] = useMutation(
+        gql(KEY_CONTRACT)
+    )
+
+    return useMemo(
+        () => ({
+            createContractInteraction,
+            data,
+            error,
+            loading,
+        }),
+        [called, createContractInteraction, loading, KEY_CONTRACT, error]
     )
 }
 

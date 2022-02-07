@@ -1,5 +1,18 @@
 import styled from 'styled-components'
 
+/** CONTAINERS **/
+
+export const SpaceBox = styled.canvas`
+    position: absolute;
+    top: 90px;
+    left:0;
+    right:0;
+    right:0;
+    z-index: -1;
+`
+
+/** TEXT **/
+
 export const MainText = styled.h1`
     font-family: Poppins;
     font-style: normal;

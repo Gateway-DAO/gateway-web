@@ -5,8 +5,8 @@ export const Container = styled.main`
     overflow-x: hidden;
     width: auto;
     display: flex;
-    justify-content: center;
-    //justify-content: space-between;
+    //justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
     min-height: 100vh;
 `

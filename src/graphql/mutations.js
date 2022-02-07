@@ -976,9 +976,15 @@ export const createContractInteraction = /* GraphQL */ `
   }
 `;
 export const verifyMeetingCode = /* GraphQL */ `
-  mutation VerifyMeetingCode($userID: ID!, $keyID: ID!, $meetingCode: String!) {
+  mutation VerifyMeetingCode(
+    $userID: ID!
+    $gateID: ID!
+    $keyID: ID!
+    $meetingCode: String!
+  ) {
     verifyMeetingCode(
       userID: $userID
+      gateID: $gateID
       keyID: $keyID
       meetingCode: $meetingCode
     ) {
@@ -1023,6 +1029,52 @@ export const verifyMeetingCode = /* GraphQL */ `
           }
           tasks {
             nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
           }
           createdAt
           updatedAt
@@ -1098,8 +1150,8 @@ export const verifyMeetingCode = /* GraphQL */ `
   }
 `;
 export const verifyHoldAToken = /* GraphQL */ `
-  mutation VerifyHoldAToken($userID: ID!, $keyID: ID!) {
-    verifyHoldAToken(userID: $userID, keyID: $keyID) {
+  mutation VerifyHoldAToken($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifyHoldAToken(userID: $userID, gateID: $gateID, keyID: $keyID) {
       ... on TaskStatus {
         id
         userID
@@ -1141,6 +1193,52 @@ export const verifyHoldAToken = /* GraphQL */ `
           }
           tasks {
             nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
           }
           createdAt
           updatedAt
@@ -1216,8 +1314,8 @@ export const verifyHoldAToken = /* GraphQL */ `
   }
 `;
 export const verifyContractInteraction = /* GraphQL */ `
-  mutation VerifyContractInteraction($userID: ID!, $keyID: ID) {
-    verifyContractInteraction(userID: $userID, keyID: $keyID) {
+  mutation VerifyContractInteraction($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifyContractInteraction(userID: $userID, gateID: $gateID, keyID: $keyID) {
       ... on TaskStatus {
         id
         userID
@@ -1259,6 +1357,380 @@ export const verifyContractInteraction = /* GraphQL */ `
           }
           tasks {
             nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifySnapshot = /* GraphQL */ `
+  mutation VerifySnapshot($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifySnapshot(userID: $userID, gateID: $gateID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
+          }
+          createdAt
+          updatedAt
+        }
+        keyID
+        key {
+          id
+          gateID
+          gate {
+            id
+            daoID
+            name
+            description
+            categories
+            admins
+            keysNumber
+            published
+            createdAt
+            updatedAt
+          }
+          information {
+            title
+            description
+          }
+          token
+          tokenAmount
+          keys
+          peopleLimit
+          task {
+            ... on Quiz {
+              type
+              passedAt
+            }
+            ... on MeetingCode {
+              type
+              code
+              caseSensitive
+            }
+            ... on TokenHold {
+              type
+              chainID
+              address
+            }
+            ... on SelfVerify {
+              type
+            }
+            ... on SnapshotGovernance {
+              type
+              snapshotType
+              spaceID
+              proposal
+            }
+            ... on ContractInteraction {
+              type
+              chainID
+              address
+              methodName
+            }
+          }
+          createdAt
+          updatedAt
+        }
+        completed
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifySelfVerify = /* GraphQL */ `
+  mutation VerifySelfVerify($userID: ID!, $gateID: ID!, $keyID: ID!) {
+    verifySelfVerify(userID: $userID, gateID: $gateID, keyID: $keyID) {
+      ... on TaskStatus {
+        id
+        userID
+        user {
+          id
+          wallet
+          username
+          name
+          bio
+          daos_ids
+          daos {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          init
+          nonce
+          pfp
+          socials {
+            network
+            url
+          }
+          tasks {
+            nextToken
+          }
+          createdAt
+          updatedAt
+        }
+        gateID
+        gate {
+          id
+          daoID
+          dao {
+            id
+            dao
+            name
+            accomplishments
+            snapshotID
+            backgroundURL
+            youtubeURL
+            logoURL
+            categories
+            tags
+            description
+            howToJoin
+            missionAndVision
+            whatDoWeDo
+            upcomingHangouts
+            tokenAddress
+            whitelistedAddresses
+            chains
+            createdAt
+            updatedAt
+          }
+          name
+          description
+          categories
+          admins
+          keysNumber
+          keys {
+            nextToken
+          }
+          published
+          badge {
+            nftURL
+            ipfsURL
+            name
+          }
+          preRequisites {
+            completedGates
           }
           createdAt
           updatedAt
@@ -1398,6 +1870,7 @@ export const createUser = /* GraphQL */ `
         items {
           id
           userID
+          gateID
           keyID
           completed
           createdAt
@@ -1475,6 +1948,7 @@ export const updateUser = /* GraphQL */ `
         items {
           id
           userID
+          gateID
           keyID
           completed
           createdAt
@@ -1552,6 +2026,7 @@ export const deleteUser = /* GraphQL */ `
         items {
           id
           userID
+          gateID
           keyID
           completed
           createdAt
@@ -3639,6 +4114,52 @@ export const createTaskStatus = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
       keyID
       key {
         id
@@ -3753,6 +4274,52 @@ export const updateTaskStatus = /* GraphQL */ `
         createdAt
         updatedAt
       }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
       keyID
       key {
         id
@@ -3863,6 +4430,52 @@ export const deleteTaskStatus = /* GraphQL */ `
         }
         tasks {
           nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
         }
         createdAt
         updatedAt

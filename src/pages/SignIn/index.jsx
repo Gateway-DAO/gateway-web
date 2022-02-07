@@ -10,14 +10,14 @@ import { Navigate } from 'react-router-dom'
 import Wallet from '../../components/WalletHeader'
 
 const SignIn = () => {
-    const { loggedIn } = useAuth()
+    const { walletConnected } = useAuth()
 
     useEffect(
-        () => space(window.innerHeight || 0, window.innerWidth || 0),
+        () => !walletConnected && space(window.innerHeight || 0, window.innerWidth || 0),
         [window.innerHeight, window.innerWidth]
     )
 
-    return loggedIn ? (
+    return walletConnected ? (
         <Navigate to="/profile" />
     ) : (
         <Styled.Container>

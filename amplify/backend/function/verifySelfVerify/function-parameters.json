@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "api": {
+      "gateway": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "User:@model(appsync)": [
+        "read"
+      ],
+      "DAO:@model(appsync)": [
+        "read"
+      ],
+      "Gate:@model(appsync)": [
+        "read"
+      ],
+      "Key:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "TaskStatus:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "gatewayverifyKey",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
+}

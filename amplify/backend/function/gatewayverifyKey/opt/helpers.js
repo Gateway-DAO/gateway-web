@@ -44,6 +44,7 @@ const createTaskStatus = async (input) => {
         id: input.id || taskID,
         userID: input.userID || "",
         keyID: input.keyID || "",
+        gateID: input.gateID || "",
         completed: input.completed || false
     }
 

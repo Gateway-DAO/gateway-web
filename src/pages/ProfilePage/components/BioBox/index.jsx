@@ -18,20 +18,14 @@ import {
 import { BsChatTextFill } from 'react-icons/bs'
 import { FiGlobe } from 'react-icons/fi'
 
-// Components
-import ProfileEditModal from '../../../../components/Modal/ProfileEditModal'
-
 // Hooks
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../../../../contexts/UserContext'
 import { FormStyled } from '../../../../components/Form'
 import EditIcon from '../../../../theme/icons/Edit'
 
 const BioBox = (props) => {
-    const { loggedIn, userInfo } = useAuth()
-    const [showEditModal, setShowEditModal] = useState(false)
-
-    const toggleEditModal = () => setShowEditModal(!showEditModal)
+    const { walletConnected, userInfo } = useAuth()
 
     const socials = props.socials
         ? props.socials.map((social) => {
@@ -88,55 +82,30 @@ const BioBox = (props) => {
           })
         : []
 
-    const Modals = (props) => (
-        <>
-            <ProfileEditModal
-                show={showEditModal}
-                toggle={toggleEditModal}
-                name={props.name}
-                bio={props.bio}
-                socials={props.socials}
-                membership={props.daos.map((dao) => {
-                    return {
-                        name: dao.name,
-                        dao: dao.dao,
-                        logoURL: dao.logoURL,
-                    }
-                })}
-                pfpURL={props.pfpURL}
-            />
-        </>
-    )
-
     return (
-        <>
-            <Modals {...props} />
-            <Styled.Container>
-                <Styled.NameContainer>
-                    <Styled.NameBox>
-                        <Styled.Name>{props.name}</Styled.Name>
-                        <Styled.Username>@{props.username}</Styled.Username>
-                    </Styled.NameBox>
-                    {loggedIn && props.id === userInfo.id && (
-                        <EditIcon onClick={toggleEditModal} />
-                    )}
-                </Styled.NameContainer>
-                <Styled.BioText>{props.bio}</Styled.BioText>
-                <Styled.Socials>
-                    {socials.map((social) => social)}
-                </Styled.Socials>
-                <div>
-                    <FormStyled.Label>Membership</FormStyled.Label>
-                    <Styled.MembershipBox>
-                        {props.daos?.map((dao) => (
-                            <Link to={`/dao/${dao.dao}`}>
-                                <Styled.MembershipImg src={dao.logoURL} />
-                            </Link>
-                        ))}
-                    </Styled.MembershipBox>
-                </div>
-            </Styled.Container>
-        </>
+        <Styled.Container>
+            <Styled.NameContainer>
+                <Styled.NameBox>
+                    <Styled.Name>{props.name}</Styled.Name>
+                    <Styled.Username>@{props.username}</Styled.Username>
+                </Styled.NameBox>
+                {walletConnected && props.id === userInfo.id && (
+                    <EditIcon onClick={props.toggleEditModal} />
+                )}
+            </Styled.NameContainer>
+            <Styled.BioText>{props.bio}</Styled.BioText>
+            <Styled.Socials>{socials.map((social) => social)}</Styled.Socials>
+            <div>
+                <FormStyled.Label>Membership</FormStyled.Label>
+                <Styled.MembershipBox>
+                    {props.daos?.map((dao) => (
+                        <Link to={`/dao/${dao.dao}`}>
+                            <Styled.MembershipImg src={dao.logoURL} />
+                        </Link>
+                    ))}
+                </Styled.MembershipBox>
+            </div>
+        </Styled.Container>
     )
 }
 

@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 // Styling
 import * as Styled from './style'
 import { FormStyled } from '../../../../../../components/Form'
@@ -5,6 +7,7 @@ import { FormStyled } from '../../../../../../components/Form'
 // Hooks
 import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { useCreateSnapshot } from '../../../../../../api/database/useCreateKey'
 
 const AddGovernanceSnapshot = (props) => {
     // States
@@ -14,9 +17,36 @@ const AddGovernanceSnapshot = (props) => {
 
     // Hooks
     const { state } = useLocation()
+    const { createSnapshot } = useCreateSnapshot()
 
-    const onSubmit = e => {
-
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        
+        try {
+            await createSnapshot({
+                variables: {
+                    input: {
+                        id: uuidv4(),
+                        gateID: state.gateData.id,
+                        information: state.titleDescriptionPair,
+                        token: state.token,
+                        tokenAmount: state.amount,
+                        keys: state.keysRewarded,
+                        peopleLimit: state.peopleLimit,
+                        task: {
+                            type: "SNAPSHOT_GOVERNANCE",
+                            snapshotType: active.toUpperCase(),
+                            spaceID,
+                            proposal
+                        }
+                    }
+                }
+            })
+        }
+        catch (err) {
+            alert("An error occurred. Please try again later!")
+            console.log(err)
+        }
     }
 
     return (

@@ -26,7 +26,7 @@ AWS.config.update({
 
 exports.handler = async (event, ctx, callback) => {
     try {
-        const { userID, keyID } = event.arguments
+        const { userID, keyID, gateID } = event.arguments
 
         // 1. get key
         const key = await getKey(keyID)
@@ -40,19 +40,48 @@ exports.handler = async (event, ctx, callback) => {
         const method = key.task.method
         const wallet = user.wallet
 
+		const chain = () => {
+			switch (chainID) {
+				case 1:
+					return "ethereum"
+				case 44787:
+					return "celo_alfajores"
+				case 62320:
+					return "celo_baklava"
+				case 42220:
+					return "celo_rc1"
+				case 56:
+					return "bsc"
+				case 97:
+					return "bsc_testnet"
+				case 5:
+					return "goerli"
+				case 137:
+					return "matic"
+				case 106:
+					return "velas"
+				case 8217:
+					return "klaytn"
+				case 43114:
+					return "avalanche"
+				default:
+					return "ethereum"
+			}
+		}
+
         // 3.1. connect to BitQuery
         const ENDPOINT = 'https://graphql.bitquery.io/'
         const QUERY = `
 			query getContractInteraction($wallet: String!, $scaddress: String!, $method: String!) {
-				ethereum(network: ethereum) {
+				ethereum(network: ${chain()}) {
 					smartContractCalls(
 					caller: {is: $wallet}
 					${method && `smartContractMethod: {is: $method}`}
 					smartContractAddress: {is: $scaddress}
 					) {
-					smartContractMethod {
-						name
-					}
+						smartContractMethod {
+							name
+						}
 					}
 				}
 			}
@@ -84,6 +113,7 @@ exports.handler = async (event, ctx, callback) => {
 			const item = await createTaskStatus({
 				userID,
 				keyID,
+				gateID,
 				completed: true,
 			})
 

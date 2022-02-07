@@ -1,17 +1,17 @@
 import styled from 'styled-components'
 
 const ActiveAns = `
-background: rgba(39, 213, 162, 0.2);
-border: 1px solid #27D5A2;
+    background: #220A38;
+    border: 1px solid #7E3BDC;
 `
 
 const activeStyling = `
-        background-image: linear-gradient(#170627, #170627),
-            linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
-        background-origin: border-box;
-        background-clip: content-box, border-box;
-        box-shadow: 0px 3px 8px rgba(255, 0, 184, 0.1);
-        border: double 1px transparent;
+    background-image: linear-gradient(#170627, #170627),
+        linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 0px 3px 8px rgba(255, 0, 184, 0.1);
+    border: double 1px transparent;
 `
 
 export const QuestionNOText = styled.h3`
@@ -118,4 +118,5 @@ export const ActionButton = styled.div`
     border-radius: 20px;
     margin-top: 90px;
     ${(props) => (props.active ? activeStyling : ' ')}
+    cursor: pointer;
 `

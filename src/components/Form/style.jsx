@@ -23,6 +23,13 @@ const FilledInput = `
     border-radius: 5px;
 `
 
+const InvalidInput = `
+    border: 1px solid #FF003D;
+    background: rgba(255, 0, 61, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+`
+
 /** TEXT **/
 export const H1 = styled.h1`
     font-family: Poppins;
@@ -51,6 +58,19 @@ export const H1 = styled.h1`
 
 export const H2 = styled(H1)`
     font-size: 48px;
+`
+
+export const Text = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+
+    color: #FFFFFF;
 `
 
 export const SubText = styled.p`
@@ -222,6 +242,7 @@ export const Input = styled.input`
     outline: none;
 
     ${(props) => ((!!props.value && !props.white) ? FilledInput : '')}
+    ${(props) => (props.valid === false ? InvalidInput : '')}
 `
 
 export const SmallInput = styled.input`

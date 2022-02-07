@@ -236,6 +236,8 @@ const AddNewKey = (props) => {
                         Add another title and description
                     </FormStyled.TextLabel>
                 </FormStyled.AddWrapper>
+                
+                {/*
                 <FormStyled.FieldsetRow marginBottom="0">
                     <FormStyled.Fieldset>
                         <FormStyled.Label htmlFor="token">
@@ -264,6 +266,7 @@ const AddNewKey = (props) => {
                         />
                     </FormStyled.Fieldset>
                 </FormStyled.FieldsetRow>
+                */}
 
                 <FormStyled.FieldsetRow>
                     <FormStyled.Fieldset>

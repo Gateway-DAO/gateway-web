@@ -105,6 +105,7 @@ export const getUser = /* GraphQL */ `
                 items {
                     id
                     userID
+                    gateID
                     keyID
                     completed
                     createdAt
@@ -1446,43 +1447,42 @@ export const getKey = /* GraphQL */ `
             keys
             peopleLimit
             task {
-                        ... on Quiz {
-                            type
-                            questions {
-                                question
-                                options {
-                                  answer
-                                }
-                                nrOfCorrectAnswers
-                            }
-                            passedAt
+                ... on Quiz {
+                    type
+                    questions {
+                        question
+                        options {
+                            answer
                         }
-                        ... on MeetingCode {
-                            type
-                            caseSensitive
-                        }
-                        ... on TokenHold {
-                            type
-                            chainID
-                            address
-                        }
-                        ... on SelfVerify {
-                            type
-                        }
-                        ... on SnapshotGovernance {
-                            type
-                            snapshotType
-                            spaceID
-                            proposal
-                        }
-                        ... on ContractInteraction {
-                            type
-                            chainID
-                            address
-                            methodName
-                        }
+                        nrOfCorrectAnswers
                     }
+                    passedAt
                 }
+                ... on MeetingCode {
+                    type
+                    caseSensitive
+                }
+                ... on TokenHold {
+                    type
+                    chainID
+                    address
+                }
+                ... on SelfVerify {
+                    type
+                }
+                ... on SnapshotGovernance {
+                    type
+                    snapshotType
+                    spaceID
+                    proposal
+                }
+                ... on ContractInteraction {
+                    type
+                    chainID
+                    address
+                    methodName
+                }
+            }
             createdAt
             updatedAt
         }
@@ -1609,6 +1609,52 @@ export const getTaskStatus = /* GraphQL */ `
                 createdAt
                 updatedAt
             }
+            gateID
+            gate {
+                id
+                daoID
+                dao {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                categories
+                admins
+                keysNumber
+                keys {
+                    nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
+                }
+                createdAt
+                updatedAt
+            }
             keyID
             key {
                 id
@@ -1699,6 +1745,19 @@ export const listTaskStatuss = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
                     createdAt
                     updatedAt
                 }
@@ -2714,6 +2773,82 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                }
+                keyID
+                key {
+                    id
+                    gateID
+                    token
+                    tokenAmount
+                    keys
+                    peopleLimit
+                    createdAt
+                    updatedAt
+                }
+                completed
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
+export const getTaskStatusByGateId = /* GraphQL */ `
+    query GetTaskStatusByGateId(
+        $gateID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelTaskStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getTaskStatusByGateID(
+            gateID: $gateID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
                     createdAt
                     updatedAt
                 }
