@@ -18,18 +18,57 @@
 	REGION
 Amplify Params - DO NOT EDIT */
 
+const AWS = require('aws-sdk')
+
+AWS.config.update({
+    region: 'us-east-1',
+})
+
+const API_GATEWAY_GRAPHQL = process.env.API_GATEWAY_GRAPHQLAPIIDOUTPUT
+
+const docClient = new AWS.DynamoDB.DocumentClient()
+
 const resolvers = {
     GateStatus: {
-        completedKeys: async (ctx) => {
-            const tasks = ctx.source.tasks || []
+        keysDone: async (ctx) => {
+            const { Items } = await docClient
+                .scan({
+                    TableName: `TaskStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+                    FilterExpression: 'gateID = :gateID',
+                    ExpressionAttributeValues: {
+                        ':gateID': ctx.source.gateID,
+                    },
+                })
+                .promise()
+
+            console.log(Items)
+
+            const tasks = Items || []
 
             if (tasks.length === 0) {
                 return 0
             }
 
-            return tasks
-                .map((ts) => ts.key.keys)
-                .reduce((sum, el) => sum + el, 0)
+            let keys = tasks
+                .map(async (ts) => {
+                    const { Items: [key] = [] } = await docClient
+                        .query({
+                            TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+                            KeyConditionExpression: 'id = :keyID',
+                            ExpressionAttributeValues: {
+                                ':keyID': ts.keyID,
+                            },
+                        })
+                        .promise()
+
+                    console.log(key.keys)
+
+                    return key.keys
+                })
+
+            keys = await Promise.all(keys)
+
+            return keys.reduce((sum, el) => sum + el, 0)
         },
     },
 }

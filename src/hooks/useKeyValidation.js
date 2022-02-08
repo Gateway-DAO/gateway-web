@@ -37,7 +37,7 @@ export const useKeyValidation = (data, gateData) => {
                         try {
                             const res = await verifyMeetingCode({
                                 variables: {
-                                    userID: userInfo.id,
+                                    userID: userInfo?.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                     meetingCode: taskInformation.current,

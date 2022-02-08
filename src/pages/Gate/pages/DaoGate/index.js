@@ -16,6 +16,7 @@ import { useGetTaskStatusByUserID } from '../../../../api/database/useGetTaskSta
 import { useAuth } from '../../../../contexts/UserContext'
 import { useEffect, useState } from 'react'
 
+
 /**
  * This is the gate page of the DAO. It shows the logo of the dao, the name of the dao, the heading,
  * the subheading, the tags, the header line, the second div, the third div and the start button.
@@ -28,6 +29,7 @@ const DaoGate = (props) => {
     const navigate = useNavigate()
     const { isAdmin } = useGateAdmin(gateData.admins)
     const { userInfo } = useAuth()
+    
 
     const {
         data,
@@ -40,20 +42,6 @@ const DaoGate = (props) => {
             },
         },
     })
-
-    const [keysDone, setKeysDone] = useState(0)
-
-    useEffect(() => {
-        if (data) {
-            setKeysDone(
-                data.getTaskStatusByUserID !== null
-                    ? data.getTaskStatusByUserID.items
-                          .map((ts) => ts.key.keys)
-                          .reduce((sum, el) => sum + el, 0)
-                    : 0
-            )
-        }
-    }, [data])
 
     const handleClick = () => {
         navigate('add-key')
@@ -85,7 +73,7 @@ const DaoGate = (props) => {
                             {gateData.categories.map((category) => (
                                 <Styled.Tag>{category}</Styled.Tag>
                             ))}
-                            • 27 holders
+                            • {gateData.holders} holder(s)
                         </Styled.TagsDiv>
                         <Styled.HeaderLine />
                         <Styled.SecondDiv>
@@ -93,7 +81,7 @@ const DaoGate = (props) => {
                             <Styled.AnotherDiv>
                                 <Styled.CircleBox>
                                     <CircularProgressbar
-                                        value={keysDone}
+                                        value={gateData.keysDone}
                                         minValue={0}
                                         maxValue={gateData.keysNumber}
                                         strokeWidth={15}
@@ -104,7 +92,7 @@ const DaoGate = (props) => {
                                         Keys
                                     </Styled.ProgressInfoDivOne>
                                     <Styled.ProgressInfoDivTwo>
-                                        {keysDone} of {gateData.keysNumber}
+                                        {gateData.keysDone} of {gateData.keysNumber}
                                     </Styled.ProgressInfoDivTwo>
                                 </Styled.ProgressInfoDiv>
                             </Styled.AnotherDiv>
