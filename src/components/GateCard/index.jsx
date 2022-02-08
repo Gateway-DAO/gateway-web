@@ -20,6 +20,7 @@ import { useAuth } from '../../contexts/UserContext'
 const GateCard = (props) => {
     // State
     const [checked, setChecked] = useState(props.gate.published)
+    const [localChecked , setLocalChecked] = useState(false);
     const gate = props.gate
 
     // Hooks
