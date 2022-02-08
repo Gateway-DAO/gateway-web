@@ -30,11 +30,11 @@ const AddNewKey = (props) => {
     // const [amount, setAmount] = useState(0)
     const [keysRewarded, setKeysRewarded] = useState(0)
     const [peopleLimit, setPeopleLimit] = useState(0)
-    const [peopleLimitPlaceholder, setPeopleLimitPlaceholder] = useState("0");
-    const [keysDilogBox,setKeysDilogBox] = useState(false);
-    const [peopleLimitDilogBox,setPeopleLimitDilogBox] = useState(false);
-    const [createdKey, setCreatedKey] = useState(false);
-    
+    const [peopleLimitPlaceholder, setPeopleLimitPlaceholder] = useState('0')
+    const [keysDilogBox, setKeysDilogBox] = useState(false)
+    const [peopleLimitDilogBox, setPeopleLimitDilogBox] = useState(false)
+    const [createdKey, setCreatedKey] = useState(false)
+
     const { gateData } = useOutletContext()
 
     // Hooks
@@ -95,7 +95,7 @@ const AddNewKey = (props) => {
                 description: '',
             },
         ])
-        window.scrollBy(0,30);
+        window.scrollBy(0, 30)
     }
 
     /**
@@ -110,19 +110,19 @@ const AddNewKey = (props) => {
         )
     }
 
-    const unlimitedClicked = ()=>{
-        if(peopleLimitPlaceholder==='0' || peopleLimit>0){
-            setPeopleLimitPlaceholder('Unlimited');
-            setPeopleLimit(0);
-        }else{
-            setPeopleLimitPlaceholder('0');
+    const unlimitedClicked = () => {
+        if (peopleLimitPlaceholder === '0' || peopleLimit > 0) {
+            setPeopleLimitPlaceholder('Unlimited')
+            setPeopleLimit(0)
+        } else {
+            setPeopleLimitPlaceholder('0')
         }
     }
 
-    const keysDilogBoxFunc = ()=>{
-        setKeysDilogBox(!keysDilogBox);
+    const keysDilogBoxFunc = () => {
+        setKeysDilogBox(!keysDilogBox)
     }
-    const peopleLimitDilogBoxFunc= ()=>{
+    const peopleLimitDilogBoxFunc = () => {
         setPeopleLimitDilogBox(!peopleLimitDilogBox)
     }
     useEffect(
@@ -142,7 +142,7 @@ const AddNewKey = (props) => {
                 state: {
                     gateData,
                     titleDescriptionPair,
-                    token: "",
+                    token: '',
                     amount: 0,
                     keysRewarded,
                     peopleLimit,
@@ -160,7 +160,7 @@ const AddNewKey = (props) => {
                             information: titleDescriptionPair,
                             //token: token,
                             //tokenAmount: amount,
-                            token: "",
+                            token: '',
                             tokenAmount: 0,
                             keys: keysRewarded,
                             peopleLimit,
@@ -179,7 +179,9 @@ const AddNewKey = (props) => {
         }
     }
 
-    return createdKey ? <AddKeySuccess gate={gateData.id} /> : (
+    return createdKey ? (
+        <AddKeySuccess gate={gateData.id} />
+    ) : (
         <Styled.AddNewKeyContainer>
             <Styled.SpaceBox id="space-canvas" />
             <FormStyled.FormBox onSubmit={onSubmit}>
@@ -241,7 +243,7 @@ const AddNewKey = (props) => {
                         Add another title and description
                     </FormStyled.TextLabel>
                 </FormStyled.AddWrapper>
-                
+
                 {/*
                 <FormStyled.FieldsetRow marginBottom="0">
                     <FormStyled.Fieldset>
@@ -279,13 +281,15 @@ const AddNewKey = (props) => {
                             Keys REWARDED{' '}
                             <FormStyled.QuestionIcon
                                 onMouseEnter={keysDilogBoxFunc}
-                                onMouseLeave={keysDilogBoxFunc}    
-                            >?</FormStyled.QuestionIcon>
-                            {keysDilogBox&& 
+                                onMouseLeave={keysDilogBoxFunc}
+                            >
+                                ?
+                            </FormStyled.QuestionIcon>
+                            {keysDilogBox && (
                                 <FormStyled.DescriptionDilogBox>
                                     Keys REWARDED
                                 </FormStyled.DescriptionDilogBox>
-                            }
+                            )}
                         </FormStyled.Label>
                         <FormStyled.Input
                             id="keysRewarded"
@@ -302,13 +306,15 @@ const AddNewKey = (props) => {
                             PEOPLE LIMIT{' '}
                             <FormStyled.QuestionIcon
                                 onMouseEnter={peopleLimitDilogBoxFunc}
-                                onMouseLeave={peopleLimitDilogBoxFunc}    
-                            >?</FormStyled.QuestionIcon>
-                            {peopleLimitDilogBox&& 
+                                onMouseLeave={peopleLimitDilogBoxFunc}
+                            >
+                                ?
+                            </FormStyled.QuestionIcon>
+                            {peopleLimitDilogBox && (
                                 <FormStyled.DescriptionDilogBox>
                                     People Limit
                                 </FormStyled.DescriptionDilogBox>
-                            }
+                            )}
                         </FormStyled.Label>
                         <Styled.InputContainer
                             value={peopleLimit > 0 ? peopleLimit : ''}
@@ -319,7 +325,7 @@ const AddNewKey = (props) => {
                                 onChange={(e) => setPeopleLimit(e.target.value)}
                                 placeholder={peopleLimitPlaceholder}
                                 value={peopleLimit > 0 ? peopleLimit : ''}
-                                required ={peopleLimitPlaceholder==='0'}
+                                required={peopleLimitPlaceholder === '0'}
                             />
                             <Styled.UnlimitedBoxContainer
                                 onClick={unlimitedClicked}

@@ -2,6 +2,11 @@ import React, {useState} from 'react';
 import * as Styled from './style';
 
 const Snapshot = (props)=>{
+
+
+
+    
+
     return(
         <Styled.Container>
             <Styled.Wrapper>

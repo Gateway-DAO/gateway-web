@@ -13,7 +13,6 @@ import DAOHome from '../pages/DAO/pages/Home'
 
 // Gate
 import DaoGate from '../pages/Gate/pages/DaoGate'
-import DaoGateWithKeys from '../pages/Gate/pages/DaoGateWithKeys'
 import DAOsGate from './DAOsGate'
 import GateSuccessPage from './GateSuccessPage'
 
