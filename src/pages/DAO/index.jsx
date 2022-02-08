@@ -35,8 +35,8 @@ const DAO = (props) => {
     // In case the DAO's token address gets changed
     useEffect(() => {
         const fetchTokenInfo = async () => {
-            const cgData = daoData.tokenAddress
-                ? await getCGData(daoData.tokenAddress)
+            const cgData = daoData?.tokenAddress
+                ? await getCGData(daoData?.tokenAddress)
                 : {}
 
             const tokenData =

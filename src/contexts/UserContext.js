@@ -311,7 +311,7 @@ export const UserProvider = ({ children }) => {
                 const { username, signInUserSession } =
                     await Auth.currentAuthenticatedUser()
 
-                if (username) {
+                if (username && signInUserSession) {
                     const userDB = await getUser({
                         variables: {
                             id: username,

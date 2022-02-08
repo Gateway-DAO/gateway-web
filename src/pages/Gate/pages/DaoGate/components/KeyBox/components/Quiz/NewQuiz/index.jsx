@@ -27,6 +27,7 @@ const Quiz = (props) => {
         const onFinish = (e) => {
             try {
                 alert("Congrats!")
+                console.log(answers)
             }
             catch (err) {
                 alert("An error ocurred")
@@ -64,7 +65,7 @@ const Quiz = (props) => {
                     question={state.task.questions[questionIdx]}
                     questionIdx={questionIdx}
                     totalQuestions={state.task.questions.length}
-                    setAnswer={(answer) => setAnswers(prev => [...prev.filter(obj => obj.questionIdx !== answer.questionIdx), answer])}
+                    setAnswer={(answer) => setAnswers(prev => [...prev, answer])}
                 />
                 <DynamicButton
                     type={questionIdx === state.task.questions.length - 1 ? "finish" : "next"}
