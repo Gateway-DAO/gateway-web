@@ -10,6 +10,12 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
     // margin-bottom:0;
+
+    & * {
+        width: 100%;
+    }
+
+    cursor: pointer;
 `
 export const Wrapper = styled.div`
     width: 90%;

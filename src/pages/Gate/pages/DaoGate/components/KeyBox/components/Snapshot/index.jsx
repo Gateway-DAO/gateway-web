@@ -3,18 +3,19 @@ import { useEffect } from 'react'
 import { shortenAddress } from '../../../../../../../../utils/web3'
 import * as Styled from './style'
 import axios from 'axios'
+import ReactMarkdown from 'react-markdown'
+import Loader from '../../../../../../../../components/Loader'
 
 const Snapshot = (props) => {
     const [result, setResult] = useState(null)
-    console.log(props.data)
-    const API_URL = 'https://hub.snapshot.org/graphql'
 
-    let id =
-        '0xbfeb7f3c4a3f1d4979b59129f9a78ee217183b0656a480612d261233fb3f8c62'
+    const API_URL = 'https://hub.snapshot.org/graphql'
+    let id = props.data.task.proposal
+
     let body = {
         query: `
-                query SingleProposal {
-                    proposal(id: "${id}") {
+                query SingleProposal($id: String) {
+                    proposal(id: $id) {
                       id
                       title
                       body
@@ -38,8 +39,11 @@ const Snapshot = (props) => {
                     }
                   }
                 `,
-        variables: {},
+        variables: {
+            id: id,
+        },
     }
+
     let options = {
         headers: {
             'Content-Type': 'application/json',
@@ -54,32 +58,37 @@ const Snapshot = (props) => {
     }, [])
 
     return (
-        <Styled.Container>
-            <Styled.Wrapper>
-                <Styled.Header>
-                    <Styled.Left>
-                        {console.log(result)}
-                        <Styled.Logo></Styled.Logo>
-                        <Styled.Name>{`${
-                            result?.space.name
-                        } by ${shortenAddress(
-                            result?.author,
-                            6,
-                            6
-                        )}`}</Styled.Name>
-                    </Styled.Left>
-                    <Styled.Right state={result?.state == 'active'}>
-                        {result?.state}
-                    </Styled.Right>
-                </Styled.Header>
-                <Styled.SnapshotTitle>{result?.title}</Styled.SnapshotTitle>
-                <Styled.SnapshotDescription>
-                    {result?.body}
-                </Styled.SnapshotDescription>
-            </Styled.Wrapper>
+        <Styled.Container onClick={result ? () => window.open(`https://snapshot.org/#/${props.data.task.spaceID}/proposal/${props.data.task.proposal}`, `_blank`) : () => {}}>
+            {!result ? (
+                <Loader color="black" size={32} />
+            ) : (
+                <Styled.Wrapper>
+                    <Styled.Header>
+                        <Styled.Left>
+                            {/* <Styled.Logo></Styled.Logo> */}
+                            <Styled.Name>{`${
+                                result?.space.name
+                            } by ${shortenAddress(
+                                result?.author,
+                                6,
+                                6
+                            )}`}</Styled.Name>
+                        </Styled.Left>
+                        <Styled.Right state={result?.state === 'active'}>
+                            {result?.state}
+                        </Styled.Right>
+                    </Styled.Header>
+                    <Styled.SnapshotTitle>{result?.title}</Styled.SnapshotTitle>
+                    <Styled.SnapshotDescription>
+                        <ReactMarkdown linkTarget="_blank">
+                            {result?.body.slice(0, 300)}
+                        </ReactMarkdown>
+                        <span>...</span>
+                    </Styled.SnapshotDescription>
+                </Styled.Wrapper>
+            )}
         </Styled.Container>
     )
 }
 
-const SnapshotMemo = React.memo(Snapshot)
-export default SnapshotMemo
+export default Snapshot
