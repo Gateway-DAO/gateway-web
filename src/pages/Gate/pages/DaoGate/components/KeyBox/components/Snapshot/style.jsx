@@ -50,7 +50,7 @@ export const Right = styled.div`
     width: 90px;
     height: 40px;
 
-    background: #27D5A2;
+    background: ${props => props.state ? `#27D5A2` : `#8164F4`}; 
     border-radius: 20px;
     display: flex;
     align-items:center;

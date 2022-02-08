@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { shortenAddress } from '../../../../../../../../utils/web3'
 import * as Styled from './style'
-const axios = require('axios')
+import axios from 'axios'
 
 const Snapshot = (props) => {
     const [result, setResult] = useState(null)
@@ -49,7 +49,7 @@ const Snapshot = (props) => {
     useEffect(() => {
         // Update the document title using the browser API
         axios.post(API_URL, body, options).then((response) => {
-            setResult(response.data.data)
+            setResult(response?.data.data.proposal)
         })
     }, [])
 
@@ -60,15 +60,21 @@ const Snapshot = (props) => {
                     <Styled.Left>
                         {console.log(result)}
                         <Styled.Logo></Styled.Logo>
-                        <Styled.Name>{`${result.space.name} by ${shortenAddress(
-                            result.author
+                        <Styled.Name>{`${
+                            result?.space.name
+                        } by ${shortenAddress(
+                            result?.author,
+                            6,
+                            6
                         )}`}</Styled.Name>
                     </Styled.Left>
-                    <Styled.Right>Active</Styled.Right>
+                    <Styled.Right state={result?.state == 'active'}>
+                        {result?.state}
+                    </Styled.Right>
                 </Styled.Header>
-                <Styled.SnapshotTitle>First Timer Joiner</Styled.SnapshotTitle>
+                <Styled.SnapshotTitle>{result?.title}</Styled.SnapshotTitle>
                 <Styled.SnapshotDescription>
-                    {result.body}
+                    {result?.body}
                 </Styled.SnapshotDescription>
             </Styled.Wrapper>
         </Styled.Container>
