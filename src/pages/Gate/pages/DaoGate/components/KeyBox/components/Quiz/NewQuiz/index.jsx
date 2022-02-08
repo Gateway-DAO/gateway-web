@@ -7,7 +7,7 @@ import { ActionButton } from './QuestionAndAnswer/style'
 import * as Styled from './style'
 
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const Quiz = (props) => {
@@ -65,7 +65,7 @@ const Quiz = (props) => {
                     question={state.task.questions[questionIdx]}
                     questionIdx={questionIdx}
                     totalQuestions={state.task.questions.length}
-                    setAnswer={(answer) => setAnswers(prev => [...prev, answer])}
+                    setAnswer={(answer) => setAnswers(prev => [...prev.filter(obj => obj.questionIdx !== answer.questionIdx), answer])}
                 />
                 <DynamicButton
                     type={questionIdx === state.task.questions.length - 1 ? "finish" : "next"}
