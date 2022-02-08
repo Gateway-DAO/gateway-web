@@ -87,7 +87,7 @@ export const UnlimitedBoxContainer = styled.div`
 
     color: #a5a5a5;
     cursor: pointer;
-    ${(props) => (!props.value ? FilledUnlimitedBox : '')}
+    ${(props) => (props.value ? FilledUnlimitedBox : '')}
     
 `
 

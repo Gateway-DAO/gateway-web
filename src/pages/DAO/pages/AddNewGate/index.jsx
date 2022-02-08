@@ -9,6 +9,8 @@ import { FormStyled } from '../../../../components/Form'
 import SearchedItem from './Components/SearhedItem'
 import SearchedAdmin from './Components/SearchedAdmin'
 import SearchRes from './Components/SearchRes'
+import SearchResGate from './Components/SearchResGate'
+import { ImageUpload } from '../../../../components/Form'
 
 // Hooks
 import { useCreateGate } from '../../../../api/database/useCreateGate'
@@ -16,6 +18,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useAuth } from '../../../../contexts/UserContext'
 import useMint from '../../../../hooks/useMint'
 import useSearchUsers from '../../../../api/database/useSearchUser'
+import useSearchGates from '../../../../api/database/useSearchGates'
 
 // Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
@@ -28,7 +31,6 @@ import { useEffect } from 'react'
 
 /* This is a React component that will render the form to add a gate. */
 const AddGateForm = (props) => {
-    const $input = useRef(null)
     const { userInfo } = useAuth()
 
     // State
@@ -36,7 +38,6 @@ const AddGateForm = (props) => {
     const [description, setDescription] = useState('')
     const [retroactiveEarners, setRetroactiveEarners] = useState([''])
     const [uploadFile, setUploadFile] = useState(null)
-    const [over, setover] = useState(false)
     const [category, setCategory] = useState('')
     const [categoryList, setCategoryList] = useState([])
     const [prerequisite, setPrerequisite] = useState('')
@@ -44,70 +45,45 @@ const AddGateForm = (props) => {
     const [keyRequired, setKeyRequired] = useState(0)
     const [badgeName, setBadgeName] = useState('')
     const [admin, setAdmin] = useState('')
-    const [adminList, setAdminList] = useState([{
-        name: userInfo?.name || "",
-        username: userInfo?.username || "",
-        pfp: userInfo?.pfp || ""
-    }])
+    const [adminQuery, setAdminQuery] = useState('')
+    const [adminList, setAdminList] = useState([
+        {
+            name: userInfo?.name || '',
+            username: userInfo?.username || '',
+            pfp: userInfo?.pfp || '',
+        },
+    ])
     const [updateLoading, setUpdateeLoading] = useState(false)
     const [adminSearch, setAdminSearch] = useState([])
+    const [prereqsSearch, setPrereqsSearch] = useState([])
 
     // Hooks
     const { daoData } = useOutletContext()
     const { createGate, loading, data, error } = useCreateGate()
-    const { data: searchUserData, loading: searchUserLoading } = useSearchUsers({
+    const { data: searchUserData, loading: searchUserLoading } = useSearchUsers(
+        {
+            variables: {
+                filter: {
+                    or: [
+                        { name: { wildcard: `*${admin.toLowerCase()}*` } },
+                        { username: { wildcard: `*${admin.toLowerCase()}*` } },
+                        { bio: { wildcard: `*${admin.toLowerCase()}*` } },
+                    ],
+                },
+            },
+        }
+    )
+    const { data: searchGateData, loading: searchGateLoading } = useSearchGates({
         variables: {
             filter: {
                 or: [
-                    { name: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { username: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { bio: { wildcard: `*${admin.toLowerCase()}*` } },
-                ],
-            },
-        },
+                    { name: { wildcard: `*${prerequisite.toLowerCase()}*` } },
+                ]
+            }
+        }
     })
     const { batchMint } = useMint()
     const navigate = useNavigate()
-
-    /* If the user has not selected a file, alert them that they need to do so. If the file is not
-    an image, alert them that they need to select an image. If the file is too large, alert them
-    that they need to select a file size less than 20kb. If the file is too large, alert them that
-    they need to select a file size less than 100mb. If the file is an image and is less than 20kb,
-    set the uploadFile state to the file.
-    */
-    const onUploadeFile = (file) => {
-        if (!file) {
-            alert('image is required')
-            setUploadFile(null)
-            return false
-        }
-
-        if (!file.name.match(/\.(jpg|jpeg|png|gif|svg|webm)$/)) {
-            alert('select valid image.')
-            console.log(file)
-            setUploadFile(null)
-            return false
-        }
-
-        if (file.size < 20000) {
-            alert('please upload a file size more than 20kb.')
-            setUploadFile(null)
-            return false
-        }
-
-        if (file.size > 100000000) {
-            alert('file size is too big. please upload less than 100mb.')
-            setUploadFile(null)
-            return false
-        }
-
-        setUploadFile(file)
-    }
-
-    /* Removing the file from the upload file state. */
-    const removeUploadFile = () => {
-        setUploadFile(null)
-    }
 
     /* The addCategories function is called when the user presses the Enter key. 
     The function adds the current value of the category input to the categoryList array and clears
@@ -126,14 +102,19 @@ const AddGateForm = (props) => {
         setCategoryList(categoryList.filter((value, i) => i !== id))
     }
 
-    /* The addPrerequisite function is called when the user presses the Enter key. 
-    The function adds the prerequisite to the prerequisiteList array and clears the prerequisite
-    text field. */
-    const addPrerequisite = (e) => {
-        if (e.key === 'Enter') {
-            setPrerequisiteList([...prerequisiteList, prerequisite])
-            setPrerequisite('')
-        }
+    /**
+     * It adds a prerequisite to the list of prerequisites.
+     */
+    const addPrerequisite = (gate) => {
+        setPrerequisiteList(prev => [...prev, gate])
+        setPrereqsSearch((prev) => prev.filter((obj) => obj.id !== gate.id))
+    }
+
+    /**
+     * Given an id, remove the prerequisite with that id from the prerequisite list
+     */
+    const removePrerequisite = (id) => {
+        setPrerequisiteList((prev) => prev.filter((gate) => gate.id !== id))
     }
 
     /**
@@ -141,14 +122,14 @@ const AddGateForm = (props) => {
      */
     const addAdmin = (admin) => {
         setAdminList([...adminList, admin])
-        setAdminSearch(prev => prev.filter(adm => adm.id !== admin.id))
+        setAdminSearch((prev) => prev.filter((adm) => adm.id !== admin.id))
     }
 
     /**
      * It removes the admin from the list of admins.
      */
     const removeAdmin = (id) => {
-        setAdminList(prev => prev.filter(adm => adm.id !== id))
+        setAdminList((prev) => prev.filter((adm) => adm.id !== id))
     }
 
     const updateRetroactiveEarner = (e, idx) => {
@@ -194,7 +175,10 @@ const AddGateForm = (props) => {
             const hash = await uploadFileToIPFS(form)
             const gateID = uuidv4()
 
-            await batchMint(retroactiveEarners.map(re => re.length > 0 && re), "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk")
+            await batchMint(
+                retroactiveEarners.map((re) => re.length > 0 && re),
+                'k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk'
+            )
 
             await createGate({
                 variables: {
@@ -204,7 +188,7 @@ const AddGateForm = (props) => {
                         name: title,
                         description,
                         categories: categoryList,
-                        admins: adminList.map(admin => admin.id),
+                        admins: adminList.map((admin) => admin.id),
                         keysNumber: keyRequired,
                         published: false,
                         badge: {
@@ -230,6 +214,8 @@ const AddGateForm = (props) => {
                 setAdminSearch([])
             }
 
+            !!admin && admin !== adminQuery && setAdminQuery(admin)
+
             if (!!searchUserData && !searchUserLoading) {
                 const query = searchUserData.searchUsers.items
                 const results = query.slice(0, 5).map((user) => {
@@ -246,6 +232,29 @@ const AddGateForm = (props) => {
 
         return () => clearTimeout(clear)
     }, [admin])
+
+    useEffect(() => {
+        const clear = setTimeout(() => {
+            if (!prerequisite) {
+                setPrereqsSearch([])
+            }
+
+            // !!admin && admin !== adminQuery && setAdminQuery(admin)
+
+            if (!!searchGateData && !searchGateLoading) {
+                const query = searchGateData.searchGates.items
+                const results = query.slice(0, 5).map((gate) => {
+                    return {
+                        name: gate.name,
+                        id: gate.id,
+                    }
+                })
+                setPrereqsSearch(results)
+            }
+        }, 2000)
+
+        return () => clearTimeout(clear)
+    }, [prerequisite])
 
     return (
         <Styled.Page>
@@ -311,7 +320,7 @@ const AddGateForm = (props) => {
                         onKeyPress={addCategories}
                         value={category}
                     />
-                    
+
                     {categoryList.length > 0 && (
                         <Styled.CategoryList>
                             {categoryList.map((category, id) => {
@@ -319,7 +328,7 @@ const AddGateForm = (props) => {
                                     <SearchedItem
                                         val={category}
                                         id={id}
-                                        removeCategories={removeCategories}
+                                        remove={removeCategories}
                                     />
                                 )
                             })}
@@ -328,63 +337,8 @@ const AddGateForm = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="ProfileImage">
-                        Upload Badge or NFT
-                    </FormStyled.Label>
-                    {!uploadFile ? (
-                        <Styled.DragArea
-                            hover={over}
-                            htmlFor="uploadFile"
-                            onClick={() => {
-                                $input.current.click()
-                            }}
-                            onDrop={(e) => {
-                                e.preventDefault()
-                                e.persist()
-                                setUploadFile(e.dataTransfer.files[0])
-                                setover(false)
-                            }}
-                            onDragOver={(e) => {
-                                e.preventDefault()
-                                setover(true)
-                            }}
-                            onDragLeave={(e) => {
-                                e.preventDefault()
-                                setover(false)
-                            }}
-                        >
-                            <Styled.DragAreaText
-                                hover={over}
-                                className="header"
-                            >
-                                <Styled.Span> Upload </Styled.Span>or Drag your
-                                image here
-                            </Styled.DragAreaText>
+                    <ImageUpload htmlFor="ProfileImage" label="Upload Badge or NFT" setImage={setUploadFile} />
 
-                            {/* <Styled.button className="button">
-                                Browse File 
-                            </Styled.button> */}
-                            <input
-                                type="file"
-                                accept="image/*, video/*, audio/*"
-                                name="file"
-                                hidden
-                                ref={$input}
-                                onChange={(e) => {
-                                    //setUploadFile(e.target.files[0])
-                                    onUploadeFile(e.target.files[0])
-                                }}
-                            ></input>
-                        </Styled.DragArea>
-                    ) : (
-                        <Styled.Background
-                            image={URL.createObjectURL(uploadFile)}
-                        >
-                            <Styled.Cross onClick={removeUploadFile}>
-                                +
-                            </Styled.Cross>
-                        </Styled.Background>
-                    )}
                     <Styled.AllowedFileType>
                         <p>Image, Video, Audio, or 3D Model</p>
                         <p>File supported: JPG, PNG, GIF, SVG, WEBM,</p>
@@ -420,14 +374,31 @@ const AddGateForm = (props) => {
 
                     {adminList.length > 0 && (
                         <Styled.CategoryList>
-                            {adminList.map((admin) => <SearchedAdmin val={admin} id={admin.id} removeAdmin={removeAdmin} />)}
+                            {adminList.map((admin) => (
+                                <SearchedAdmin
+                                    val={admin}
+                                    id={admin.id}
+                                    removeAdmin={removeAdmin}
+                                />
+                            ))}
                         </Styled.CategoryList>
                     )}
 
-                    {adminSearch.length > 0 && (
-                        <Styled.SearchBox>
-                            {adminSearch.map(admin => <SearchRes res={admin} addAdmin={addAdmin} />)}
-                        </Styled.SearchBox>
+                    {searchUserLoading ? (
+                        <Styled.CentralizedLoader>
+                            <Loader color="white" size={32} />
+                        </Styled.CentralizedLoader>
+                    ) : (
+                        adminSearch.length > 0 && (
+                            <Styled.SearchBox>
+                                {adminSearch.map((admin) => (
+                                    <SearchRes
+                                        res={admin}
+                                        addAdmin={addAdmin}
+                                    />
+                                ))}
+                            </Styled.SearchBox>
+                        )
                     )}
                 </FormStyled.Fieldset>
 
@@ -497,15 +468,31 @@ const AddGateForm = (props) => {
                         id="prerequisite"
                         name="prerequisite"
                         placeholder="Search"
-                        onKeyPress={addPrerequisite}
                         value={prerequisite}
                     />
                     {prerequisiteList.length > 0 && (
                         <Styled.CategoryList>
                             {prerequisiteList.map((prerequisite) => {
-                                return <SearchedItem val={prerequisite} />
+                                return <SearchedItem val={prerequisite.name} id={prerequisite.id} remove={removePrerequisite} />
                             })}
                         </Styled.CategoryList>
+                    )}
+
+                    {searchGateLoading ? (
+                        <Styled.CentralizedLoader>
+                            <Loader color="white" size={32} />
+                        </Styled.CentralizedLoader>
+                    ) : (
+                        prereqsSearch.length > 0 && (
+                            <Styled.SearchBox>
+                                {prereqsSearch.map((gate) => (
+                                    <SearchResGate
+                                        gate={gate}
+                                        addGate={addPrerequisite}
+                                    />
+                                ))}
+                            </Styled.SearchBox>
+                        )
                     )}
                 </FormStyled.Fieldset>
 

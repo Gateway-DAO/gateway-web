@@ -40,7 +40,8 @@ const {
     getUser,
     getGate,
     getCompletedKeys,
-    markGateAsCompleted
+    markGateAsCompleted,
+    removePeopleFromKey
 } = require('/opt/helpers.js')
 const abi = require('./ERC20.json')
 
@@ -168,7 +169,11 @@ exports.handler = async (event, ctx, callback) => {
                 completed: true,
             })
 
-            if (keysDone + key.keys >= gate.keysNumber) {
+            if (!key.unlimited && key.peopleLimit > 0) {
+				await removePeopleFromKey(keyID)
+			}
+
+			if (keysDone + key.keys >= gate.keysNumber) {
 				// Gate completed, update gate status
 				await markGateAsCompleted(gateStatus.id)
 			}

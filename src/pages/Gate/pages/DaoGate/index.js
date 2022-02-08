@@ -42,7 +42,7 @@ const DaoGate = (props) => {
     } else if (loaded) {
         return (
             <Styled.Wrapper>
-                <BackButtonDiv />
+                <BackButtonDiv url={`/dao/${dao.name}`} />
                 <GradientSVG idCSS="circleGradient" />
                 <Styled.ContentWrapper>
                     <NftBadge nft={gateData.badge} />
@@ -97,7 +97,7 @@ const DaoGate = (props) => {
                                     </Styled.StartButton>
                                 </Styled.Box>
                             )}
-                            {gateData.keys.items.map((key) => {
+                            {gateData?.keys?.items?.map((key) => {
                                 if (!isAdmin && !key.unlimited && key.peopleLimit === 0) {
                                     return null
                                 }

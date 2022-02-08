@@ -164,6 +164,7 @@ const CreateQuiz = () => {
                         tokenAmount: state.amount,
                         keys: state.keysRewarded,
                         peopleLimit: state.peopleLimit,
+                        unlimited: state.unlimited,
                         task: {
                             type: 'QUIZ',
                             title,

@@ -44,10 +44,15 @@ const removePeopleFromKey = async (keyID) => {
             Key: {
                 id: keyID,
             },
-            ConditionExpression: `unlimited = false and peopleLimit > 0`,
-            UpdateExpression: 'set peopleLimit = peopleLimit - :decrement',
+            ConditionExpression: `#unlimited = :false AND #people >= 0`,
+            UpdateExpression: 'SET #people = #people - :decrement',
             ExpressionAttributeValues: {
                 ':decrement': 1,
+                ':false': false
+            },
+            ExpressionAttributeNames: {
+                '#people': 'peopleLimit',
+                '#unlimited': 'unlimited'
             },
             ReturnValues: 'UPDATED_NEW',
         })
@@ -96,10 +101,13 @@ const markGateAsCompleted = async (gsID) => {
             Key: {
                 id: gsID,
             },
-            ConditionExpression: `status <> :completed`,
-            UpdateExpression: 'set status = :completed',
+            ConditionExpression: `#st <> :completed`,
+            UpdateExpression: 'set #st = :completed',
             ExpressionAttributeValues: {
                 ':completed': 'COMPLETED',
+            },
+            ExpressionAttributeNames: {
+                "#st": "status"
             },
             ReturnValues: 'UPDATED_NEW',
         })
@@ -162,8 +170,6 @@ const getCompletedKeys = async (userID, gateID) => {
             },
         })
         .promise()
-
-    console.log(Items)
 
     const tasks = Items || []
 

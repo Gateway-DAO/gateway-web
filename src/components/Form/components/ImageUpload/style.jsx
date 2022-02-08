@@ -14,6 +14,7 @@ export const DragArea = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
     margin-top: 15px;
+    cursor: pointer;
 `
 
 export const Header = styled.div`

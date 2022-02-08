@@ -28,6 +28,7 @@ const AddContractInteraction = (props) => {
                         tokenAmount: state.amount,
                         keys: state.keysRewarded,
                         peopleLimit: state.peopleLimit,
+                        unlimited: state.unlimited,
                         task: {
                             type: "SC_INTERACTION",
                             chainID: chain,

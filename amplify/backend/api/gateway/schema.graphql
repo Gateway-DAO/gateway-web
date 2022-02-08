@@ -426,6 +426,7 @@ input CreateKeyQuiz {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: QuizInput
 }
 
@@ -461,6 +462,7 @@ input CreateKeyMeetingCode {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: MeetingCodeInput
 }
 
@@ -478,6 +480,7 @@ input CreateKeyTokenHold {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: TokenHoldInput
 }
 
@@ -495,6 +498,7 @@ input CreateKeyContractInteraction {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: ContractInteractionInput
 }
 
@@ -513,6 +517,7 @@ input CreateKeySelfVerify {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: SelfVerifyInput
 }
 
@@ -528,6 +533,7 @@ input CreateKeySnapshotGovernance {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: SnapshotGovernanceInput
 }
 

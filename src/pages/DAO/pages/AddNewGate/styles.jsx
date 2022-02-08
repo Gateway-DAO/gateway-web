@@ -35,6 +35,12 @@ export const Container = styled.form`
     margin: 50px 0;
 `
 
+export const CentralizedLoader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
 export const GridBox = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);

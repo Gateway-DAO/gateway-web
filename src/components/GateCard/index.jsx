@@ -132,7 +132,7 @@ const GateCard = (props) => {
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                <Styled.ActionButton>
+                <Styled.ActionButton onClick={() => navigate(`/gate/${gate.id}`)}>
                     <Styled.ButtonText>DETAILS</Styled.ButtonText>
                 </Styled.ActionButton>
                 {isAdmin && (
