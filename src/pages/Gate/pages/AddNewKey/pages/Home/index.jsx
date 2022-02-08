@@ -369,9 +369,9 @@ const AddNewKey = (props) => {
                         <FormStyled.BigRadio
                             id="task-4"
                             name="task"
-                            value="sc-interation"
+                            value="sc-interaction"
                             label="Contract Interaction"
-                            checked={taskLink === 'sc-interation'}
+                            checked={taskLink === 'sc-interaction'}
                         />
                         <FormStyled.BigRadio
                             id="task-5"

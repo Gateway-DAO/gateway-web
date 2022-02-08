@@ -42,6 +42,9 @@ const {
     getUser,
     getGateStatus,
     createGateStatus,
+	getGate,
+	getCompletedKeys,
+	markGateAsCompleted
 } = require('/opt/helpers.js')
 
 AWS.config.update({
@@ -55,17 +58,22 @@ exports.handler = async (event, ctx, callback) => {
         // 1. get key
         const key = await getKey(keyID)
 
+		// 2. get gate
+		const gate = await getGate(key.gateID)
+
         // 2. get user
         const user = await getUser(userID)
 
-        // 3. get gate status; if doesn't exist, create it
-        const gateStatus = await getGateStatus(userID, gateID)
-        if (!gateStatus) {
-            await createGateStatus({
-                userID,
-                gateID,
-            })
-        }
+		// 3. get gate status; if doesn't exist, create it
+		let gateStatus = await getGateStatus(userID, key.gateID)
+		if (!gateStatus) {
+			gateStatus = await createGateStatus({
+				userID,
+				gateID
+			})
+		}
+
+		let keysDone = await getCompletedKeys(userID, key.gateID)
 
         // 4. check if user has interacted with the contract
         const type = key.task.snapshotType
@@ -148,6 +156,11 @@ exports.handler = async (event, ctx, callback) => {
                 gateID,
                 completed: true,
             })
+
+			if (keysDone + key.keys >= gate.keysNumber) {
+				// Gate completed, update gate status
+				await markGateAsCompleted(gateStatus.id)
+			}
 
             return {
                 __typename: 'TaskStatus',

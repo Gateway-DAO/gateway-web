@@ -195,10 +195,11 @@ const getCompletedKeys = async (userID, gateID) => {
 module.exports = {
     getKey,
     getUser,
+    getGate,
     getGateStatus,
+    getCompletedKeys,
     createTaskStatus,
     createGateStatus,
     removePeopleFromKey,
-    markGateAsCompleted,
-    getCompletedKeys
+    markGateAsCompleted
 }

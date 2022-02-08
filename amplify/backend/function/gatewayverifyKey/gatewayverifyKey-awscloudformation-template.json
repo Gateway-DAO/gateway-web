@@ -20,7 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion7af7d20a": {
+    "LambdaLayerVersione5cb5c0f": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": {
@@ -51,19 +51,19 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivate7af7d20a": {
+    "LambdaLayerPermissionPrivatee5cb5c0f": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
         "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion7af7d20a"
+          "Ref": "LambdaLayerVersione5cb5c0f"
         },
         "Principal": {
           "Ref": "AWS::AccountId"
         }
       }
     },
-    "LambdaLayerVersionab63c272": {
+    "LambdaLayerVersion4531425c": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": [
@@ -73,9 +73,9 @@
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersionab63c272-build.zip"
+          "S3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion4531425c-build.zip"
         },
-        "Description": "Updated layer version 2022-02-07T23:57:21.678Z",
+        "Description": "Updated layer version 2022-02-08T13:03:04.285Z",
         "LayerName": {
           "Fn::Sub": [
             "gatewayverifyKey-${env}",
@@ -90,48 +90,21 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivateab63c272": {
+    "LambdaLayerPermissionPrivate4531425c": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayverifyKey-dev:36",
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayverifyKey-dev:45",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
       }
     },
-    "LambdaLayerVersionf6137e84": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs14.x"
-        ],
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersionf6137e84-build.zip"
-        },
-        "Description": "Updated layer version 2022-02-07T20:30:52.841Z",
-        "LayerName": {
-          "Fn::Sub": [
-            "gatewayverifyKey-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPrivatef6137e84": {
+    "LambdaLayerPermissionPrivateLegacy38": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayverifyKey-dev:35",
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayverifyKey-dev:38",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -151,7 +124,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion7af7d20a"
+        "Ref": "LambdaLayerVersione5cb5c0f"
       }
     }
   }

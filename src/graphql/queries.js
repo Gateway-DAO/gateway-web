@@ -1296,6 +1296,7 @@ export const getGate = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt
@@ -1468,6 +1469,7 @@ export const getKey = /* GraphQL */ `
             token
             tokenAmount
             keys
+            unlimited
             peopleLimit
             task {
                 ... on Quiz {
@@ -1542,6 +1544,7 @@ export const listKeys = /* GraphQL */ `
                 token
                 tokenAmount
                 keys
+                unlimited
                 peopleLimit
                 task {
                     ... on Quiz {
@@ -1879,6 +1882,7 @@ export const getTaskStatus = /* GraphQL */ `
                 token
                 tokenAmount
                 keys
+                unlimited
                 peopleLimit
                 task {
                     ... on Quiz {
@@ -1971,6 +1975,7 @@ export const listTaskStatuss = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt
@@ -2909,6 +2914,7 @@ export const getKeysByGateId = /* GraphQL */ `
                 token
                 tokenAmount
                 keys
+                unlimited
                 peopleLimit
                 task {
                     ... on Quiz {
@@ -3127,6 +3133,7 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt
@@ -3190,6 +3197,7 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt

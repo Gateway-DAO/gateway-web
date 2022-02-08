@@ -51,20 +51,20 @@
         },
         "verifyMeetingCode": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyMeetingCode-3641725253375a586d74-build.zip"
+          "s3Key": "amplify-builds/verifyMeetingCode-35794c634b32636b6a68-build.zip"
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion7af7d20a-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersione5cb5c0f-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyHoldAToken-3646544277766f50556e-build.zip"
+          "s3Key": "amplify-builds/verifyHoldAToken-376159396d5867723830-build.zip"
         },
         "verifyContractInteraction": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyContractInteraction-6f4b424447714f564d47-build.zip",
+          "s3Key": "amplify-builds/verifyContractInteraction-4533357062555a57687a-build.zip",
           "bitqueryKey": "BQYTFxjdFDvYNpjzU1echVkLgWLavvpK"
         },
         "verifyQuiz": {
@@ -73,15 +73,15 @@
         },
         "verifySnapshot": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySnapshot-306866694a4d7937744b-build.zip"
+          "s3Key": "amplify-builds/verifySnapshot-474d432b2f4d6b333164-build.zip"
         },
         "verifySelfVerify": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySelfVerify-41436a52566b734e7a5a-build.zip"
+          "s3Key": "amplify-builds/verifySelfVerify-46395032594461694444-build.zip"
         },
         "getCompletedKeys": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getCompletedKeys-4c2b74757770504e476c-build.zip"
+          "s3Key": "amplify-builds/getCompletedKeys-3141356e7062484f6f78-build.zip"
         }
       },
       "auth": {

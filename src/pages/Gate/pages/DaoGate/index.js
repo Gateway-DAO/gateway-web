@@ -97,19 +97,25 @@ const DaoGate = (props) => {
                                     </Styled.StartButton>
                                 </Styled.Box>
                             )}
-                            {gateData.keys.items.map((key) => (
-                                <KeyBox
-                                    data={key}
-                                    gateData={gateData}
-                                    blocked={
-                                        gateData.taskStatus.length > 0
-                                            ? gateData.taskStatus
-                                                  .map((ts) => ts.key.id)
-                                                  .includes(key.id)
-                                            : false
-                                    }
-                                />
-                            ))}
+                            {gateData.keys.items.map((key) => {
+                                if (!isAdmin && !key.unlimited && key.peopleLimit === 0) {
+                                    return null
+                                }
+
+                                return (
+                                    <KeyBox
+                                        data={key}
+                                        gateData={gateData}
+                                        blocked={
+                                            gateData.taskStatus.length > 0
+                                                ? gateData.taskStatus
+                                                      .map((ts) => ts.key.id)
+                                                      .includes(key.id)
+                                                : false
+                                        }
+                                    />
+                                )
+                            })}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
                 </Styled.ContentWrapper>

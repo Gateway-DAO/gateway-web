@@ -450,6 +450,7 @@ export const createQuiz = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -550,6 +551,7 @@ export const createMeetingCode = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -650,6 +652,7 @@ export const createTokenHold = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -750,6 +753,7 @@ export const createSnapshotGovernance = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -850,6 +854,7 @@ export const createSelfVerify = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -950,6 +955,7 @@ export const createContractInteraction = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -1123,6 +1129,7 @@ export const verifyMeetingCode = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
@@ -1292,6 +1299,7 @@ export const verifyHoldAToken = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
@@ -1461,6 +1469,7 @@ export const verifyContractInteraction = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
@@ -1630,6 +1639,7 @@ export const verifySnapshot = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
@@ -1799,6 +1809,7 @@ export const verifySelfVerify = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
@@ -3674,6 +3685,7 @@ export const createGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -3756,6 +3768,7 @@ export const updateGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -3838,6 +3851,7 @@ export const deleteGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -3918,6 +3932,7 @@ export const createKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -4021,6 +4036,7 @@ export const updateKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -4124,6 +4140,7 @@ export const deleteKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -4655,6 +4672,7 @@ export const createTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
@@ -4820,6 +4838,7 @@ export const updateTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
@@ -4985,6 +5004,7 @@ export const deleteTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {

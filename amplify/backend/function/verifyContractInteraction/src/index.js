@@ -36,7 +36,7 @@ Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
 const { default: axios } = require('axios')
-const { createTaskStatus, createGateStatus, getGateStatus, getKey, getUser, getCompletedKeys, getGate } = require('/opt/helpers.js')
+const { createTaskStatus, createGateStatus, getGateStatus, getKey, getUser, getCompletedKeys, getGate, markGateAsCompleted } = require('/opt/helpers.js')
 
 AWS.config.update({
     region: 'us-east-1',
@@ -152,7 +152,7 @@ exports.handler = async (event, ctx, callback) => {
 
 			if (keysDone + key.keys >= gate.keysNumber) {
 				// Gate completed, update gate status
-				
+				await markGateAsCompleted(gateStatus.id)
 			}
 
 			return {

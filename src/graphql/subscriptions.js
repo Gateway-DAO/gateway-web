@@ -1761,6 +1761,7 @@ export const onCreateGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -1840,6 +1841,7 @@ export const onUpdateGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -1919,6 +1921,7 @@ export const onDeleteGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -1996,6 +1999,7 @@ export const onCreateKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -2096,6 +2100,7 @@ export const onUpdateKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -2196,6 +2201,7 @@ export const onDeleteKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
@@ -2715,6 +2721,7 @@ export const onCreateTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
@@ -2877,6 +2884,7 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
@@ -3039,6 +3047,7 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
