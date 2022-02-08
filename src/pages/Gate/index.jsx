@@ -4,7 +4,11 @@ import { useParams, Navigate, Outlet } from 'react-router-dom'
 import { useGetGate } from '../../api/database/useGetGate'
 import { useAuth } from '../../contexts/UserContext'
 import { onUpdateGate } from '../../graphql/subscriptions'
-import { useGetGateStatusByGateID, useGetGateStatusByUserID } from '../../api/database/useGetGateStatus'
+import {
+    useGetGateStatusByGateID,
+    useGetGateStatusByUserID,
+} from '../../api/database/useGetGateStatus'
+import { useGetTaskStatusByUserID } from '../../api/database/useGetTaskStatus'
 
 // Components
 import Page from '../../components/Page'
@@ -24,20 +28,33 @@ const Gate = (props) => {
     const [gateData, setGateData] = useState(dbData || {})
     const [loaded, setLoaded] = useState(false)
 
-    const { data: GSData, loading: GSLoading } = useGetGateStatusByGateID(gateData.id, {
-        filter: {
-            status: {
-                eq: "COMPLETED"
-            }
+    const { data: GSData, loading: GSLoading } = useGetGateStatusByGateID(
+        gateData.id,
+        {
+            filter: {
+                status: {
+                    eq: 'COMPLETED',
+                },
+            },
         }
-    })
-    const { data: GSUserData, loading: GSUserLoading } = useGetGateStatusByUserID(userInfo?.id, {
-        filter: {
-            gateID: {
-                eq: gateData.id
-            }
-        }
-    })
+    )
+    const { data: GSUserData, loading: GSUserLoading } =
+        useGetGateStatusByUserID(userInfo?.id, {
+            filter: {
+                gateID: {
+                    eq: gateData.id,
+                },
+            },
+        })
+
+    const { data: TSData, loading: taskStatusLoading } =
+        useGetTaskStatusByUserID(userInfo ? userInfo?.id : '', {
+            filter: {
+                gateID: {
+                    eq: gateData.id,
+                },
+            },
+        })
 
     // Fetch data regarding these
     useEffect(() => {
@@ -80,8 +97,13 @@ const Gate = (props) => {
                 context={{
                     gateData: {
                         ...gateData,
-                        holders: GSData?.useGetGateStatusByGateID?.items?.length || 0,
-                        keysDone: GSUserData?.getGateStatusByUserID?.items[0]?.keysDone || 0
+                        holders:
+                            GSData?.useGetGateStatusByGateID?.items?.length ||
+                            0,
+                        keysDone:
+                            GSUserData?.getGateStatusByUserID?.items[0]
+                                ?.keysDone || 0,
+                        taskStatus: TSData?.getTaskStatusByUserID?.items || [],
                     },
                     setGateData,
                     loaded,

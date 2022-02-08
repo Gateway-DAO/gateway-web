@@ -16,7 +16,6 @@ import { useGetTaskStatusByUserID } from '../../../../api/database/useGetTaskSta
 import { useAuth } from '../../../../contexts/UserContext'
 import { useEffect, useState } from 'react'
 
-
 /**
  * This is the gate page of the DAO. It shows the logo of the dao, the name of the dao, the heading,
  * the subheading, the tags, the header line, the second div, the third div and the start button.
@@ -29,19 +28,6 @@ const DaoGate = (props) => {
     const navigate = useNavigate()
     const { isAdmin } = useGateAdmin(gateData.admins)
     const { userInfo } = useAuth()
-    
-
-    const {
-        data,
-        loading: taskStatusLoading,
-        error,
-    } = useGetTaskStatusByUserID(userInfo ? userInfo?.id : '', {
-        filter: {
-            gateID: {
-                eq: gateData.id,
-            },
-        },
-    })
 
     const handleClick = () => {
         navigate('add-key')
@@ -92,7 +78,8 @@ const DaoGate = (props) => {
                                         Keys
                                     </Styled.ProgressInfoDivOne>
                                     <Styled.ProgressInfoDivTwo>
-                                        {gateData.keysDone} of {gateData.keysNumber}
+                                        {gateData.keysDone} of{' '}
+                                        {gateData.keysNumber}
                                     </Styled.ProgressInfoDivTwo>
                                 </Styled.ProgressInfoDiv>
                             </Styled.AnotherDiv>
@@ -115,9 +102,8 @@ const DaoGate = (props) => {
                                     data={key}
                                     gateData={gateData}
                                     blocked={
-                                        data &&
-                                        data.getTaskStatusByUserID !== null
-                                            ? data.getTaskStatusByUserID.items
+                                        gateData.taskStatus.length > 0
+                                            ? gateData.taskStatus
                                                   .map((ts) => ts.key.id)
                                                   .includes(key.id)
                                             : false

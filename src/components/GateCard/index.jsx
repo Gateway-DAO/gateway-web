@@ -35,8 +35,9 @@ const GateCard = (props) => {
         }
     })
 
-    useEffect(() => console.log(data), [data])
-
+    /**
+     * It toggles the published state of the gate.
+     */
     const toggleGatePublished = async () => {
         try {
             setChecked(!gate.published)
@@ -51,6 +52,21 @@ const GateCard = (props) => {
         } catch (err) {
             alert('An error ocurred')
             console.log(err)
+        }
+    }
+
+    /**
+     * It returns the text for the button based on the status of the gate.
+     * @returns The status of the gate.
+     */
+    const getButtonText = () => {
+        switch (data?.getGateStatusByUserID?.items[0]?.status) {
+            case "IN_PROGRESS":
+                return "In Progress"
+            case "COMPLETED":
+                return "Done"
+            default:
+                return "Start"
         }
     }
 
@@ -97,14 +113,14 @@ const GateCard = (props) => {
                     <Styled.KeyBox>
                         <Styled.Circle>
                             <CircularProgressbar
-                                value={80}
+                                value={data?.getGateStatusByUserID?.items[0]?.keysDone || 0}
                                 minValue={0}
                                 maxValue={props.gate.keysNumber}
                                 strokeWidth={20}
                             />
                         </Styled.Circle>
                         <Styled.SmallText>
-                            80 of {props.gate.keysNumber}
+                            {data?.getGateStatusByUserID?.items[0]?.keysDone || 0} of {props.gate.keysNumber}
                         </Styled.SmallText>
                     </Styled.KeyBox>
                 </Styled.InfoBox>
@@ -113,7 +129,7 @@ const GateCard = (props) => {
                 <Styled.ActionButton
                     onClick={() => navigate(`/gate/${gate.id}`)}
                 >
-                    <Styled.ButtonText>DONE</Styled.ButtonText>
+                    <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
                 <Styled.ActionButton>
                     <Styled.ButtonText>DETAILS</Styled.ButtonText>
