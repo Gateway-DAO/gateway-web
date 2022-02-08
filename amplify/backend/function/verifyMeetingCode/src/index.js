@@ -37,9 +37,9 @@ const {
     getGateStatus,
     createGateStatus,
     getGate,
-    getUser,
     getCompletedKeys,
-    markGateAsCompleted
+    markGateAsCompleted,
+    removePeopleFromKey
 } = require('/opt/helpers.js')
 
 AWS.config.update({
@@ -79,7 +79,11 @@ exports.handler = async (event, ctx, callback) => {
                 completed: true,
             })
 
-            if (keysDone + key.keys >= gate.keysNumber) {
+            if (!key.unlimited && key.peopleLimit > 0) {
+				await removePeopleFromKey(keyID)
+			}
+
+			if (keysDone + key.keys >= gate.keysNumber) {
 				// Gate completed, update gate status
 				await markGateAsCompleted(gateStatus.id)
 			}

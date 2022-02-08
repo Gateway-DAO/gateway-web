@@ -30,6 +30,7 @@ const AddNewKey = (props) => {
     // const [amount, setAmount] = useState(0)
     const [keysRewarded, setKeysRewarded] = useState(0)
     const [peopleLimit, setPeopleLimit] = useState(0)
+    const [unlimited, setUnlimited] = useState(false)
     const [peopleLimitPlaceholder, setPeopleLimitPlaceholder] = useState('0')
     const [keysDilogBox, setKeysDilogBox] = useState(false)
     const [peopleLimitDilogBox, setPeopleLimitDilogBox] = useState(false)
@@ -111,12 +112,8 @@ const AddNewKey = (props) => {
     }
 
     const unlimitedClicked = () => {
-        if (peopleLimitPlaceholder === '0' || peopleLimit > 0) {
-            setPeopleLimitPlaceholder('Unlimited')
-            setPeopleLimit(0)
-        } else {
-            setPeopleLimitPlaceholder('0')
-        }
+        setUnlimited(prev => !prev)
+        unlimited && setPeopleLimit(0)
     }
 
     const keysDilogBoxFunc = () => {
@@ -146,6 +143,7 @@ const AddNewKey = (props) => {
                     amount: 0,
                     keysRewarded,
                     peopleLimit,
+                    unlimited
                 },
             })
         } else {
@@ -164,6 +162,7 @@ const AddNewKey = (props) => {
                             tokenAmount: 0,
                             keys: keysRewarded,
                             peopleLimit,
+                            unlimited,
                             task: {
                                 type: 'SELF_VERIFY',
                             },
@@ -317,19 +316,21 @@ const AddNewKey = (props) => {
                             )}
                         </FormStyled.Label>
                         <Styled.InputContainer
-                            value={peopleLimit > 0 ? peopleLimit : ''}
+                            value={!unlimited ? peopleLimit : ''}
                         >
                             <Styled.Input
                                 id="peopleLimit"
                                 name="peopleLimit"
+                                type="number"
+                                min="0"
                                 onChange={(e) => setPeopleLimit(e.target.value)}
-                                placeholder={peopleLimitPlaceholder}
-                                value={peopleLimit > 0 ? peopleLimit : ''}
-                                required={peopleLimitPlaceholder === '0'}
+                                placeholder={unlimited ? "Unlimited" : ""}
+                                value={!unlimited ? peopleLimit : ''}
+                                required={!unlimited}
                             />
                             <Styled.UnlimitedBoxContainer
                                 onClick={unlimitedClicked}
-                                value={peopleLimit > 0 ? peopleLimit : ''}
+                                value={unlimited}
                             >
                                 Unlimited
                             </Styled.UnlimitedBoxContainer>
