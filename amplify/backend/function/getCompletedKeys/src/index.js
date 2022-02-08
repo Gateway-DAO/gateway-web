@@ -34,9 +34,10 @@ const resolvers = {
             const { Items } = await docClient
                 .scan({
                     TableName: `TaskStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
-                    FilterExpression: 'gateID = :gateID',
+                    FilterExpression: 'gateID = :gateID and userID = :userID',
                     ExpressionAttributeValues: {
                         ':gateID': ctx.source.gateID,
+                        ':userID': ctx.source.userID
                     },
                 })
                 .promise()

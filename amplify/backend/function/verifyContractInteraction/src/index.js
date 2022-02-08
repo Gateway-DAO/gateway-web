@@ -36,7 +36,7 @@ Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
 const { default: axios } = require('axios')
-const { createTaskStatus, createGateStatus, getGateStatus, getKey, getUser } = require('/opt/helpers.js')
+const { createTaskStatus, createGateStatus, getGateStatus, getKey, getUser, getCompletedKeys, getGate } = require('/opt/helpers.js')
 
 AWS.config.update({
     region: 'us-east-1',
@@ -49,17 +49,23 @@ exports.handler = async (event, ctx, callback) => {
         // 1. get key
         const key = await getKey(keyID)
 
+		// 2. get gate
+		const gate = await getGate(key.gateID)
+
         // 2. get user
         const user = await getUser(userID)
 
 		// 3. get gate status; if doesn't exist, create it
-		const gateStatus = await getGateStatus(userID, gateID)
+		let gateStatus = await getGateStatus(userID, key.gateID)
 		if (!gateStatus) {
-			await createGateStatus({
+			gateStatus = await createGateStatus({
 				userID,
 				gateID
 			})
 		}
+
+		let keysDone = await getCompletedKeys(userID, key.gateID)
+
 
         // 4. check if user has interacted with the contract
         const chainID = key.task.chainID
@@ -143,6 +149,11 @@ exports.handler = async (event, ctx, callback) => {
 				gateID,
 				completed: true,
 			})
+
+			if (keysDone + key.keys >= gate.keysNumber) {
+				// Gate completed, update gate status
+				
+			}
 
 			return {
                 __typename: 'TaskStatus',

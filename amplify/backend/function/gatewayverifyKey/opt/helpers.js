@@ -23,6 +23,39 @@ const getKey = async (id) => {
     return key
 }
 
+const getGate = async (id) => {
+    const { Items: [gate] = [] } = await docClient
+        .query({
+            TableName: `Gate-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            KeyConditionExpression: 'id = :id',
+            ExpressionAttributeValues: {
+                ':id': id,
+            },
+        })
+        .promise()
+
+    return gate
+}
+
+const removePeopleFromKey = async (keyID) => {
+    const { Items: [key] = [] } = await docClient
+        .update({
+            TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            Key: {
+                id: keyID,
+            },
+            ConditionExpression: `unlimited = false and peopleLimit > 0`,
+            UpdateExpression: 'set peopleLimit = peopleLimit - :decrement',
+            ExpressionAttributeValues: {
+                ':decrement': 1,
+            },
+            ReturnValues: 'UPDATED_NEW',
+        })
+        .promise()
+
+    return key
+}
+
 const getUser = async (id) => {
     const { Items: [user] = [] } = await docClient
         .query({
@@ -43,13 +76,32 @@ const getGateStatus = async (userID, gateID) => {
             TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
             FilterExpression: '#gateID = :id and #userID = :userID',
             ExpressionAttributeNames: {
-                "#gateID": "gateID",
-                "#userID": "userID"
+                '#gateID': 'gateID',
+                '#userID': 'userID',
             },
             ExpressionAttributeValues: {
                 ':id': gateID,
-                ':userID': userID
+                ':userID': userID,
             },
+        })
+        .promise()
+
+    return status
+}
+
+const markGateAsCompleted = async (gsID) => {
+    const { Items: [status] = [] } = await docClient
+        .update({
+            TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            Key: {
+                id: gsID,
+            },
+            ConditionExpression: `status <> :completed`,
+            UpdateExpression: 'set status = :completed',
+            ExpressionAttributeValues: {
+                ':completed': 'COMPLETED',
+            },
+            ReturnValues: 'UPDATED_NEW',
         })
         .promise()
 
@@ -61,17 +113,17 @@ const createTaskStatus = async (input) => {
 
     const Item = {
         id: input.id || taskID,
-        userID: input.userID || "",
-        keyID: input.keyID || "",
-        gateID: input.gateID || "",
-        completed: input.completed || false
+        userID: input.userID || '',
+        keyID: input.keyID || '',
+        gateID: input.gateID || '',
+        completed: input.completed || false,
     }
 
     await docClient
         .put({
             TableName: `TaskStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
             Item,
-            ConditionExpression: 'attribute_not_exists(id)'
+            ConditionExpression: 'attribute_not_exists(id)',
         })
         .promise()
 
@@ -83,20 +135,70 @@ const createGateStatus = async (input) => {
 
     const Item = {
         id: input.id || gateStatusID,
-        userID: input.userID || "",
-        gateID: input.gateID || "",
-        status: input.status || "IN_PROGRESS"
+        userID: input.userID || '',
+        gateID: input.gateID || '',
+        status: input.status || 'IN_PROGRESS',
     }
 
     await docClient
         .put({
             TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
             Item,
-            ConditionExpression: 'attribute_not_exists(id)'
+            ConditionExpression: 'attribute_not_exists(id)',
         })
         .promise()
 
     return Item
 }
 
-module.exports = { getKey, getUser, getGateStatus, createTaskStatus, createGateStatus }
+const getCompletedKeys = async (userID, gateID) => {
+    const { Items } = await docClient
+        .scan({
+            TableName: `TaskStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            FilterExpression: 'gateID = :gateID and userID = :userID',
+            ExpressionAttributeValues: {
+                ':gateID': gateID,
+                ':userID': userID
+            },
+        })
+        .promise()
+
+    console.log(Items)
+
+    const tasks = Items || []
+
+    if (tasks.length === 0) {
+        return 0
+    }
+
+    let keys = tasks.map(async (ts) => {
+        const { Items: [key] = [] } = await docClient
+            .query({
+                TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+                KeyConditionExpression: 'id = :keyID',
+                ExpressionAttributeValues: {
+                    ':keyID': ts.keyID,
+                },
+            })
+            .promise()
+
+        console.log(key.keys)
+
+        return key.keys
+    })
+
+    keys = await Promise.all(keys)
+
+    return keys.reduce((sum, el) => sum + el, 0)
+}
+
+module.exports = {
+    getKey,
+    getUser,
+    getGateStatus,
+    createTaskStatus,
+    createGateStatus,
+    removePeopleFromKey,
+    markGateAsCompleted,
+    getCompletedKeys
+}

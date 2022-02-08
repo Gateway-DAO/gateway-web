@@ -13,7 +13,6 @@ import { useGetTaskStatusByUserID } from '../../api/database/useGetTaskStatus'
 // Components
 import Page from '../../components/Page'
 import { useState, useEffect } from 'react'
-import { getTokenFromAddress } from '../../api/coingecko'
 import React from 'react'
 
 // AWS

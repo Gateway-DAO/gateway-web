@@ -209,7 +209,8 @@ type Key
     token: String # An ERC20 token to reward the users
     tokenAmount: Int
     keys: Int!
-    peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
+    peopleLimit: Int!
     task: TaskUnion
 }
 
