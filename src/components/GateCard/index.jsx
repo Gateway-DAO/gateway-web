@@ -9,10 +9,12 @@ import Switch from 'react-switch'
 import { CircularProgressbar } from 'react-circular-progressbar'
 
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useAdmin from '../../hooks/useAdmin'
 import { useNavigate } from 'react-router-dom'
 import useUpdateGate from '../../api/database/useUpdateGate'
+import { useGetGateStatusByUserID } from '../../api/database/useGetGateStatus'
+import { useAuth } from '../../contexts/UserContext'
 
 /* This is a card that displays information about a gate. */
 const GateCard = (props) => {
@@ -22,8 +24,18 @@ const GateCard = (props) => {
 
     // Hooks
     const { isAdmin } = useAdmin(props.gate.admins || [])
+    const { userInfo } = useAuth()
     const navigate = useNavigate()
     const { updateGate } = useUpdateGate()
+    const { data } = useGetGateStatusByUserID(userInfo.id, {
+        filter: {
+            gateID: {
+                eq: gate.id
+            }
+        }
+    })
+
+    useEffect(() => console.log(data), [data])
 
     const toggleGatePublished = async () => {
         try {

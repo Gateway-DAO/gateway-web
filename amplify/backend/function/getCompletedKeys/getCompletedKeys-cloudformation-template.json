@@ -27,10 +27,6 @@
     "apigatewayGraphQLAPIKeyOutput": {
       "Type": "String",
       "Default": "apigatewayGraphQLAPIKeyOutput"
-    },
-    "functiongatewayverifyKeyArn": {
-      "Type": "String",
-      "Default": "functiongatewayverifyKeyArn"
     }
   },
   "Conditions": {
@@ -63,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "verifyHoldAToken",
+            "getCompletedKeys",
             {
               "Fn::Join": [
                 "",
                 [
-                  "verifyHoldAToken",
+                  "getCompletedKeys",
                   "-",
                   {
                     "Ref": "env"
@@ -147,6 +143,32 @@
                 ]
               ]
             },
+            "API_GATEWAY_GATETABLE_NAME": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:GateTable:Name"
+              }
+            },
+            "API_GATEWAY_GATETABLE_ARN": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:aws:dynamodb:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":table/",
+                  {
+                    "Fn::ImportValue": {
+                      "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:GateTable:Name"
+                    }
+                  }
+                ]
+              ]
+            },
             "API_GATEWAY_KEYTABLE_NAME": {
               "Fn::ImportValue": {
                 "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:KeyTable:Name"
@@ -168,32 +190,6 @@
                   {
                     "Fn::ImportValue": {
                       "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:KeyTable:Name"
-                    }
-                  }
-                ]
-              ]
-            },
-            "API_GATEWAY_TASKSTATUSTABLE_NAME": {
-              "Fn::ImportValue": {
-                "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:TaskStatusTable:Name"
-              }
-            },
-            "API_GATEWAY_TASKSTATUSTABLE_ARN": {
-              "Fn::Join": [
-                "",
-                [
-                  "arn:aws:dynamodb:",
-                  {
-                    "Ref": "AWS::Region"
-                  },
-                  ":",
-                  {
-                    "Ref": "AWS::AccountId"
-                  },
-                  ":table/",
-                  {
-                    "Fn::ImportValue": {
-                      "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:TaskStatusTable:Name"
                     }
                   }
                 ]
@@ -224,6 +220,32 @@
                   }
                 ]
               ]
+            },
+            "API_GATEWAY_TASKSTATUSTABLE_NAME": {
+              "Fn::ImportValue": {
+                "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:TaskStatusTable:Name"
+              }
+            },
+            "API_GATEWAY_TASKSTATUSTABLE_ARN": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:aws:dynamodb:",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ":",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":table/",
+                  {
+                    "Fn::ImportValue": {
+                      "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:TaskStatusTable:Name"
+                    }
+                  }
+                ]
+              ]
             }
           }
         },
@@ -234,11 +256,7 @@
           ]
         },
         "Runtime": "nodejs14.x",
-        "Layers": [
-          {
-            "Ref": "functiongatewayverifyKeyArn"
-          }
-        ],
+        "Layers": [],
         "Timeout": 25
       }
     },
@@ -248,12 +266,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "gatewayLambdaRole24f31e43",
+            "gatewayLambdaRole2b434fd4",
             {
               "Fn::Join": [
                 "",
                 [
-                  "gatewayLambdaRole24f31e43",
+                  "gatewayLambdaRole2b434fd4",
                   "-",
                   {
                     "Ref": "env"
@@ -347,7 +365,8 @@
                 "appsync:GraphQL",
                 "appsync:Get*",
                 "appsync:List*",
-                "appsync:Update*"
+                "appsync:Update*",
+                "appsync:Delete*"
               ],
               "Resource": [
                 {
@@ -511,7 +530,67 @@
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
-                "dynamodb:Query"
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:dynamodb:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":table/",
+                      {
+                        "Fn::ImportValue": {
+                          "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:GateTable:Name"
+                        }
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:dynamodb:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":table/",
+                      {
+                        "Fn::ImportValue": {
+                          "Fn::Sub": "${apigatewayGraphQLAPIIdOutput}:GetAtt:GateTable:Name"
+                        }
+                      },
+                      "/index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*"
               ],
               "Resource": [
                 {

@@ -17,6 +17,11 @@
       "Key:@model(appsync)": [
         "read"
       ],
+      "GateStatus:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ],
       "TaskStatus:@model(appsync)": [
         "create",
         "read",

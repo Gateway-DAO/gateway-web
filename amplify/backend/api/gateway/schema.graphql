@@ -24,6 +24,8 @@ type User
     nonce: Int!
     pfp: String
     socials: [Social]
+    gates: [GateStatus]
+        @connection(keyName: "gateStatusByUserID", fields: ["id"])
     tasks: [TaskStatus]
         @connection(keyName: "taskStatusByUserID", fields: ["id"])
     createdAt: AWSDateTime
@@ -306,7 +308,37 @@ union TaskUnion =
     | SnapshotGovernance
     | ContractInteraction
 
-### TASK STATUS / ERROR ###
+### TASK STATUS / GATE STATUS / ERROR ###
+
+type GateStatus
+    @model
+    @key(
+        name: "gateStatusByUserID"
+        fields: ["userID"]
+        queryField: "getGateStatusByUserID"
+    )
+    @key(
+        name: "gateStatusByGateID"
+        fields: ["gateID"]
+        queryField: "getGateStatusByGateID"
+    ) {
+    id: ID!
+    userID: ID!
+    user: User @connection(fields: ["userID"])
+    gateID: ID!
+    gate: Gate @connection(fields: ["gateID"])
+    reward: GateReward
+    tasks: [TaskStatus] @connection(keyName: "taskStatusByGateID", fields: ["gateID"])
+    keysDone: Int @function(name: "getCompletedKeys-${env}")
+    status: GateStatusList
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
+}
+
+type GateReward {
+    rewardCode: String!
+    retrieved: Boolean!
+}
 
 type TaskStatus
     @model
@@ -336,6 +368,12 @@ type Error {
     keyID: ID!
     error: ErrorType!
     msg: String
+}
+
+enum GateStatusList {
+    NOT_STARTED
+    IN_PROGRESS
+    COMPLETED
 }
 
 enum ErrorType {
@@ -532,13 +570,35 @@ type Mutation {
         @function(name: "addKey-${env}")
 
     ## Verify keys ##
-    verifyMeetingCode(userID: ID!, gateID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
+    verifyMeetingCode(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+        meetingCode: String!
+    ): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
 
-    verifyHoldAToken(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
+    verifyHoldAToken(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
 
-    verifyContractInteraction(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyContractInteraction-${env}")
+    verifyContractInteraction(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse
+        @function(name: "verifyContractInteraction-${env}")
 
-    verifySnapshot(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
+    verifySnapshot(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
 
-    verifySelfVerify(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
+    verifySelfVerify(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
 }

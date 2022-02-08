@@ -101,6 +101,18 @@ export const getUser = /* GraphQL */ `
                 network
                 url
             }
+            gates {
+                items {
+                    id
+                    userID
+                    gateID
+                    keysDone
+                    status
+                    createdAt
+                    updatedAt
+                }
+                nextToken
+            }
             tasks {
                 items {
                     id
@@ -160,6 +172,9 @@ export const listUsers = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -963,6 +978,9 @@ export const getPost = /* GraphQL */ `
                     network
                     url
                 }
+                gates {
+                    nextToken
+                }
                 tasks {
                     nextToken
                 }
@@ -1121,6 +1139,9 @@ export const getComment = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -1568,6 +1589,177 @@ export const listKeys = /* GraphQL */ `
         }
     }
 `
+export const getGateStatus = /* GraphQL */ `
+    query GetGateStatus($id: ID!) {
+        getGateStatus(id: $id) {
+            id
+            userID
+            user {
+                id
+                wallet
+                username
+                name
+                bio
+                daos_ids
+                daos {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                init
+                nonce
+                pfp
+                socials {
+                    network
+                    url
+                }
+                gates {
+                    nextToken
+                }
+                tasks {
+                    nextToken
+                }
+                createdAt
+                updatedAt
+            }
+            gateID
+            gate {
+                id
+                daoID
+                dao {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                categories
+                admins
+                keysNumber
+                keys {
+                    nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
+                }
+                createdAt
+                updatedAt
+            }
+            reward {
+                rewardCode
+                retrieved
+            }
+            tasks {
+                items {
+                    id
+                    userID
+                    gateID
+                    keyID
+                    completed
+                    createdAt
+                    updatedAt
+                }
+                nextToken
+            }
+            keysDone
+            status
+            createdAt
+            updatedAt
+        }
+    }
+`
+export const listGateStatuss = /* GraphQL */ `
+    query ListGateStatuss(
+        $filter: ModelGateStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        listGateStatuss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                }
+                reward {
+                    rewardCode
+                    retrieved
+                }
+                tasks {
+                    nextToken
+                }
+                keysDone
+                status
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
 export const getTaskStatus = /* GraphQL */ `
     query GetTaskStatus($id: ID!) {
         getTaskStatus(id: $id) {
@@ -1608,6 +1800,9 @@ export const getTaskStatus = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -1839,6 +2034,9 @@ export const getUserByAddress = /* GraphQL */ `
                     network
                     url
                 }
+                gates {
+                    nextToken
+                }
                 tasks {
                     nextToken
                 }
@@ -1899,6 +2097,9 @@ export const getUserByUsername = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -2755,6 +2956,126 @@ export const getKeysByGateId = /* GraphQL */ `
         }
     }
 `
+export const getGateStatusByUserId = /* GraphQL */ `
+    query GetGateStatusByUserId(
+        $userID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelGateStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getGateStatusByUserID(
+            userID: $userID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                }
+                reward {
+                    rewardCode
+                    retrieved
+                }
+                tasks {
+                    nextToken
+                }
+                keysDone
+                status
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
+export const getGateStatusByGateId = /* GraphQL */ `
+    query GetGateStatusByGateId(
+        $gateID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelGateStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getGateStatusByGateID(
+            gateID: $gateID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                }
+                reward {
+                    rewardCode
+                    retrieved
+                }
+                tasks {
+                    nextToken
+                }
+                keysDone
+                status
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
 export const getTaskStatusByUserId = /* GraphQL */ `
     query GetTaskStatusByUserId(
         $userID: ID
@@ -2931,6 +3252,9 @@ export const searchUsers = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken

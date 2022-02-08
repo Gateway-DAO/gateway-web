@@ -16,7 +16,8 @@
         "read"
       ],
       "Gate:@model(appsync)": [
-        "read"
+        "read",
+        "update"
       ],
       "Key:@model(appsync)": [
         "read",
@@ -30,18 +31,9 @@
       "TaskStatus:@model(appsync)": [
         "create",
         "read",
-        "update",
-        "delete"
+        "update"
       ]
     }
   },
-  "lambdaLayers": [
-    {
-      "type": "ProjectLayer",
-      "resourceName": "gatewayverifyKey",
-      "env": "dev",
-      "version": "Always choose latest version",
-      "isLatestVersionSelected": true
-    }
-  ]
+  "lambdaLayers": []
 }

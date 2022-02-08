@@ -1,11 +1,7 @@
-import * as Styled from './style'
-import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
-import useGetNFTs from '../../../../hooks/useGetNFTs'
-import { useEffect, useState } from 'react'
-import useMint from '../../../../hooks/useMint'
+import { useWeb3React } from '@web3-react/core'
 
-let t_ABI = [
+let abi = [
     {
         inputs: [
             {
@@ -83,37 +79,6 @@ let t_ABI = [
         type: 'event',
     },
     {
-        inputs: [
-            {
-                internalType: 'address',
-                name: 'to',
-                type: 'address',
-            },
-            {
-                internalType: 'uint256',
-                name: 'tokenId',
-                type: 'uint256',
-            },
-        ],
-        name: 'approve',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'uint256',
-                name: 'tokenId',
-                type: 'uint256',
-            },
-        ],
-        name: 'burn',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
         anonymous: false,
         inputs: [
             {
@@ -125,68 +90,6 @@ let t_ABI = [
         ],
         name: 'BURN',
         type: 'event',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'uint256',
-                name: '_tokenId',
-                type: 'uint256',
-            },
-        ],
-        name: 'changeValidStatus',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'uint256',
-                name: '_tokenId',
-                type: 'uint256',
-            },
-        ],
-        name: 'DAO_burn',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'bytes32',
-                name: 'role',
-                type: 'bytes32',
-            },
-            {
-                internalType: 'address',
-                name: 'account',
-                type: 'address',
-            },
-        ],
-        name: 'grantRole',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'address',
-                name: 'to',
-                type: 'address',
-            },
-            {
-                internalType: 'string',
-                name: '_tokenURI',
-                type: 'string',
-            },
-        ],
-        name: 'mint',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
     },
     {
         anonymous: false,
@@ -202,13 +105,6 @@ let t_ABI = [
         type: 'event',
     },
     {
-        inputs: [],
-        name: 'pause',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
         anonymous: false,
         inputs: [
             {
@@ -220,42 +116,6 @@ let t_ABI = [
         ],
         name: 'Paused',
         type: 'event',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'bytes32',
-                name: 'role',
-                type: 'bytes32',
-            },
-            {
-                internalType: 'address',
-                name: 'account',
-                type: 'address',
-            },
-        ],
-        name: 'renounceRole',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'bytes32',
-                name: 'role',
-                type: 'bytes32',
-            },
-            {
-                internalType: 'address',
-                name: 'account',
-                type: 'address',
-            },
-        ],
-        name: 'revokeRole',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
     },
     {
         anonymous: false,
@@ -333,75 +193,6 @@ let t_ABI = [
         type: 'event',
     },
     {
-        inputs: [
-            {
-                internalType: 'address',
-                name: 'from',
-                type: 'address',
-            },
-            {
-                internalType: 'address',
-                name: 'to',
-                type: 'address',
-            },
-            {
-                internalType: 'uint256',
-                name: 'tokenId',
-                type: 'uint256',
-            },
-        ],
-        name: 'safeTransferFrom',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'address',
-                name: 'from',
-                type: 'address',
-            },
-            {
-                internalType: 'address',
-                name: 'to',
-                type: 'address',
-            },
-            {
-                internalType: 'uint256',
-                name: 'tokenId',
-                type: 'uint256',
-            },
-            {
-                internalType: 'bytes',
-                name: '_data',
-                type: 'bytes',
-            },
-        ],
-        name: 'safeTransferFrom',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [
-            {
-                internalType: 'address',
-                name: 'operator',
-                type: 'address',
-            },
-            {
-                internalType: 'bool',
-                name: 'approved',
-                type: 'bool',
-            },
-        ],
-        name: 'setApprovalForAll',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
         anonymous: false,
         inputs: [
             {
@@ -427,36 +218,6 @@ let t_ABI = [
         type: 'event',
     },
     {
-        inputs: [
-            {
-                internalType: 'address',
-                name: 'from',
-                type: 'address',
-            },
-            {
-                internalType: 'address',
-                name: 'to',
-                type: 'address',
-            },
-            {
-                internalType: 'uint256',
-                name: 'tokenId',
-                type: 'uint256',
-            },
-        ],
-        name: 'transferFrom',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
-        inputs: [],
-        name: 'unpause',
-        outputs: [],
-        stateMutability: 'nonpayable',
-        type: 'function',
-    },
-    {
         anonymous: false,
         inputs: [
             {
@@ -468,6 +229,76 @@ let t_ABI = [
         ],
         name: 'Unpaused',
         type: 'event',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'uint256',
+                name: '_tokenId',
+                type: 'uint256',
+            },
+        ],
+        name: 'DAO_burn',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'DEFAULT_ADMIN_ROLE',
+        outputs: [
+            {
+                internalType: 'bytes32',
+                name: '',
+                type: 'bytes32',
+            },
+        ],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'MINTER_ROLE',
+        outputs: [
+            {
+                internalType: 'bytes32',
+                name: '',
+                type: 'bytes32',
+            },
+        ],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [],
+        name: 'PAUSER_ROLE',
+        outputs: [
+            {
+                internalType: 'bytes32',
+                name: '',
+                type: 'bytes32',
+            },
+        ],
+        stateMutability: 'view',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'to',
+                type: 'address',
+            },
+            {
+                internalType: 'uint256',
+                name: 'tokenId',
+                type: 'uint256',
+            },
+        ],
+        name: 'approve',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
     },
     {
         inputs: [
@@ -489,16 +320,52 @@ let t_ABI = [
         type: 'function',
     },
     {
-        inputs: [],
-        name: 'DEFAULT_ADMIN_ROLE',
-        outputs: [
+        inputs: [
             {
-                internalType: 'bytes32',
-                name: '',
-                type: 'bytes32',
+                internalType: 'address[]',
+                name: 'to',
+                type: 'address[]',
+            },
+            {
+                internalType: 'string[]',
+                name: '_tokenURI',
+                type: 'string[]',
+            },
+            {
+                internalType: 'uint256',
+                name: '_quantity',
+                type: 'uint256',
             },
         ],
-        stateMutability: 'view',
+        name: 'batch_mint',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'uint256',
+                name: 'tokenId',
+                type: 'uint256',
+            },
+        ],
+        name: 'burn',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'uint256',
+                name: '_tokenId',
+                type: 'uint256',
+            },
+        ],
+        name: 'changeValidStatus',
+        outputs: [],
+        stateMutability: 'nonpayable',
         type: 'function',
     },
     {
@@ -614,6 +481,24 @@ let t_ABI = [
                 type: 'address',
             },
         ],
+        name: 'grantRole',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'bytes32',
+                name: 'role',
+                type: 'bytes32',
+            },
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address',
+            },
+        ],
         name: 'hasRole',
         outputs: [
             {
@@ -669,16 +554,21 @@ let t_ABI = [
         type: 'function',
     },
     {
-        inputs: [],
-        name: 'MINTER_ROLE',
-        outputs: [
+        inputs: [
             {
-                internalType: 'bytes32',
-                name: '',
-                type: 'bytes32',
+                internalType: 'address',
+                name: 'to',
+                type: 'address',
+            },
+            {
+                internalType: 'string',
+                name: '_tokenURI',
+                type: 'string',
             },
         ],
-        stateMutability: 'view',
+        name: 'mint',
+        outputs: [],
+        stateMutability: 'nonpayable',
         type: 'function',
     },
     {
@@ -715,6 +605,13 @@ let t_ABI = [
     },
     {
         inputs: [],
+        name: 'pause',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [],
         name: 'paused',
         outputs: [
             {
@@ -727,16 +624,108 @@ let t_ABI = [
         type: 'function',
     },
     {
-        inputs: [],
-        name: 'PAUSER_ROLE',
-        outputs: [
+        inputs: [
             {
                 internalType: 'bytes32',
-                name: '',
+                name: 'role',
                 type: 'bytes32',
             },
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address',
+            },
         ],
-        stateMutability: 'view',
+        name: 'renounceRole',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'bytes32',
+                name: 'role',
+                type: 'bytes32',
+            },
+            {
+                internalType: 'address',
+                name: 'account',
+                type: 'address',
+            },
+        ],
+        name: 'revokeRole',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'from',
+                type: 'address',
+            },
+            {
+                internalType: 'address',
+                name: 'to',
+                type: 'address',
+            },
+            {
+                internalType: 'uint256',
+                name: 'tokenId',
+                type: 'uint256',
+            },
+        ],
+        name: 'safeTransferFrom',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'from',
+                type: 'address',
+            },
+            {
+                internalType: 'address',
+                name: 'to',
+                type: 'address',
+            },
+            {
+                internalType: 'uint256',
+                name: 'tokenId',
+                type: 'uint256',
+            },
+            {
+                internalType: 'bytes',
+                name: '_data',
+                type: 'bytes',
+            },
+        ],
+        name: 'safeTransferFrom',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
+                internalType: 'address',
+                name: 'operator',
+                type: 'address',
+            },
+            {
+                internalType: 'bool',
+                name: 'approved',
+                type: 'bool',
+            },
+        ],
+        name: 'setApprovalForAll',
+        outputs: [],
+        stateMutability: 'nonpayable',
         type: 'function',
     },
     {
@@ -849,6 +838,29 @@ let t_ABI = [
     {
         inputs: [
             {
+                internalType: 'address',
+                name: 'from',
+                type: 'address',
+            },
+            {
+                internalType: 'address',
+                name: 'to',
+                type: 'address',
+            },
+            {
+                internalType: 'uint256',
+                name: 'tokenId',
+                type: 'uint256',
+            },
+        ],
+        name: 'transferFrom',
+        outputs: [],
+        stateMutability: 'nonpayable',
+        type: 'function',
+    },
+    {
+        inputs: [
+            {
                 internalType: 'uint256',
                 name: '',
                 type: 'uint256',
@@ -867,39 +879,33 @@ let t_ABI = [
     },
 ]
 
-const AddExperience = () => {
-    const { library, account } = useWeb3React()
-    const { mintNFT } = useMint()
-    const { getNFTs } = useGetNFTs()
-    const [nfts, setNFTs] = useState([])
+const NFT_ADDRESS = "0xc60b028B4e0e5fD0E48Ed15F2D7607c6729de26B"
 
-    useEffect(() => {
-        getNFTs().then(nfts => {
-            console.log(nfts)
-            setNFTs(nfts)
-        })
-    }, [])
+export const useMint = () => {
+    const { account, library } = useWeb3React()
 
-    return (
-        <Styled.BoxContainer>
-            {/*
-            <Styled.BoxText>
-                Add your Experience and Contributions.{' '}
-            </Styled.BoxText>
-            <Styled.ButtonBox to="/profile/add-experience">
-                <Styled.ButtonText>ADD NOW</Styled.ButtonText>
-            </Styled.ButtonBox>
-            */}
+    const mintNFT = async (tokenURI = "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk") => {
+        try {
+            const provider = await library.getSigner()
+            const contract = new ethers.Contract(NFT_ADDRESS, abi, provider)
+            await contract.mint(account, "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk")
+        }
+        catch (err) {
+            alert("An error occurred!")
+            console.log(err)
+        }
+    }
 
-            {nfts && nfts.map(nft => {
-                return <p style={{ color: "white" }}>{JSON.stringify(nft.metadata)}</p>
-            })}
+    const batchMint = async (addresses, tokenURI = "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk") => {
+        const provider = await library.getSigner()
+        const contract = new ethers.Contract(NFT_ADDRESS, abi, provider)
+        await contract.batch_mint(addresses, addresses.map(() => tokenURI), addresses.length)
+    }
 
-            <Styled.ButtonBox to="" onClick={mintNFT}>
-                <Styled.ButtonText>Mint badge</Styled.ButtonText>
-            </Styled.ButtonBox>
-        </Styled.BoxContainer>
-    )
+    return {
+        mintNFT,
+        batchMint
+    }
 }
 
-export default AddExperience
+export default useMint

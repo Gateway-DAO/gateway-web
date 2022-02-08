@@ -1,6 +1,24 @@
 /* Amplify Params - DO NOT EDIT
 	API_GATEWAY_DAOTABLE_ARN
 	API_GATEWAY_DAOTABLE_NAME
+	API_GATEWAY_GATESTATUSTABLE_ARN
+	API_GATEWAY_GATESTATUSTABLE_NAME
+	API_GATEWAY_GATETABLE_ARN
+	API_GATEWAY_GATETABLE_NAME
+	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
+	API_GATEWAY_GRAPHQLAPIIDOUTPUT
+	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
+	API_GATEWAY_KEYTABLE_ARN
+	API_GATEWAY_KEYTABLE_NAME
+	API_GATEWAY_TASKSTATUSTABLE_ARN
+	API_GATEWAY_TASKSTATUSTABLE_NAME
+	API_GATEWAY_USERTABLE_ARN
+	API_GATEWAY_USERTABLE_NAME
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+	API_GATEWAY_DAOTABLE_ARN
+	API_GATEWAY_DAOTABLE_NAME
 	API_GATEWAY_GATETABLE_ARN
 	API_GATEWAY_GATETABLE_NAME
 	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
@@ -18,7 +36,7 @@ Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
 const { default: axios } = require('axios')
-const { createTaskStatus, getKey, getUser } = require('/opt/helpers.js')
+const { createTaskStatus, createGateStatus, getGateStatus, getKey, getUser } = require('/opt/helpers.js')
 
 AWS.config.update({
     region: 'us-east-1',
@@ -34,7 +52,16 @@ exports.handler = async (event, ctx, callback) => {
         // 2. get user
         const user = await getUser(userID)
 
-        // 3. check if user has interacted with the contract
+		// 3. get gate status; if doesn't exist, create it
+		const gateStatus = await getGateStatus(userID, gateID)
+		if (!gateStatus) {
+			await createGateStatus({
+				userID,
+				gateID
+			})
+		}
+
+        // 4. check if user has interacted with the contract
         const chainID = key.task.chainID
         const scAddress = key.task.address
         const method = key.task.method
@@ -69,7 +96,7 @@ exports.handler = async (event, ctx, callback) => {
 			}
 		}
 
-        // 3.1. connect to BitQuery
+        // 4.1. connect to BitQuery
         const ENDPOINT = 'https://graphql.bitquery.io/'
         const QUERY = `
 			query getContractInteraction($wallet: String!, $scaddress: String!, $method: String!) {
@@ -130,7 +157,15 @@ exports.handler = async (event, ctx, callback) => {
             msg: "User didn't interact with the given method",
         }
     } catch (error) {
+        const { keyID } = event.arguments
+
         console.log(error)
-        return error
+
+        return {
+            __typename: 'Error',
+            keyID,
+            error: 'UNEXPECTED_ERROR',
+            msg: error,
+        }
     }
 }

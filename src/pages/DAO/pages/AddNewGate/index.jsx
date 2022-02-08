@@ -14,6 +14,7 @@ import SearchRes from './Components/SearchRes'
 import { useCreateGate } from '../../../../api/database/useCreateGate'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 import { useAuth } from '../../../../contexts/UserContext'
+import useMint from '../../../../hooks/useMint'
 import useSearchUsers from '../../../../api/database/useSearchUser'
 
 // Icons
@@ -65,6 +66,7 @@ const AddGateForm = (props) => {
             },
         },
     })
+    const { batchMint } = useMint()
     const navigate = useNavigate()
 
     /* If the user has not selected a file, alert them that they need to do so. If the file is not
@@ -192,6 +194,8 @@ const AddGateForm = (props) => {
             const hash = await uploadFileToIPFS(form)
             const gateID = uuidv4()
 
+            await batchMint(retroactiveEarners.map(re => re.length > 0 && re), "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk")
+
             await createGate({
                 variables: {
                     input: {
@@ -200,7 +204,7 @@ const AddGateForm = (props) => {
                         name: title,
                         description,
                         categories: categoryList,
-                        admins: [...adminList, userInfo.id],
+                        admins: adminList.map(admin => admin.id),
                         keysNumber: keyRequired,
                         published: false,
                         badge: {
@@ -215,6 +219,7 @@ const AddGateForm = (props) => {
         } catch (err) {
             alert('An error occurred. Please try again later!')
             console.log(err)
+            setUpdateeLoading(false)
         }
         setUpdateeLoading(false)
     }
@@ -470,9 +475,10 @@ const AddGateForm = (props) => {
                         )
                     })}
                     <FormStyled.IconButton
-                        onClick={() =>
+                        onClick={(e) => {
+                            e.preventDefault()
                             setRetroactiveEarners([...retroactiveEarners, ''])
-                        }
+                        }}
                         style={{
                             width: 'fit-content',
                             alignSelf: 'center',

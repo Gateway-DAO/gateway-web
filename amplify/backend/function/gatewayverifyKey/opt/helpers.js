@@ -37,6 +37,25 @@ const getUser = async (id) => {
     return user
 }
 
+const getGateStatus = async (userID, gateID) => {
+    const { Items: [status] = [] } = await docClient
+        .scan({
+            TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            FilterExpression: '#gateID = :id and #userID = :userID',
+            ExpressionAttributeNames: {
+                "#gateID": "gateID",
+                "#userID": "userID"
+            },
+            ExpressionAttributeValues: {
+                ':id': gateID,
+                ':userID': userID
+            },
+        })
+        .promise()
+
+    return status
+}
+
 const createTaskStatus = async (input) => {
     const taskID = uuidv4()
 
@@ -52,10 +71,32 @@ const createTaskStatus = async (input) => {
         .put({
             TableName: `TaskStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
             Item,
+            ConditionExpression: 'attribute_not_exists(id)'
         })
         .promise()
 
     return Item
 }
 
-module.exports = { getKey, getUser, createTaskStatus }
+const createGateStatus = async (input) => {
+    const gateStatusID = uuidv4()
+
+    const Item = {
+        id: input.id || gateStatusID,
+        userID: input.userID || "",
+        gateID: input.gateID || "",
+        status: input.status || "IN_PROGRESS"
+    }
+
+    await docClient
+        .put({
+            TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            Item,
+            ConditionExpression: 'attribute_not_exists(id)'
+        })
+        .promise()
+
+    return Item
+}
+
+module.exports = { getKey, getUser, getGateStatus, createTaskStatus, createGateStatus }

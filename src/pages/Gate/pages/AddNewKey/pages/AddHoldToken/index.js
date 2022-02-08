@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { useCreateTokenHold } from '../../../../../../api/database/useCreateKey'
 import AddKeySuccess from '../AddKeySuccess'
+import Loader from '../../../../../../components/Loader'
 
 const AddHoldToken = (props) => {
     const [address, setAddress] = useState("")
@@ -56,7 +57,10 @@ const AddHoldToken = (props) => {
                 <FormStyled.Input placeholder="Minimum amount to hold" value={amount} onChange={e => setAmount(e.target.value)} required />
             </FormStyled.Fieldset>
 
-            <FormStyled.Button type="submit">Submit</FormStyled.Button>
+            <FormStyled.Button type="submit">
+                {loading && <Loader color="white" />}
+                Submit
+            </FormStyled.Button>
         </FormStyled.FormBox>
     )
 }

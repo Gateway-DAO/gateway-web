@@ -27,7 +27,7 @@ const KeyCompletedPage = (props) => {
         }
 
         const clear = setTimeout(() => {
-            navigate(`/gate/${state.usr.gate.id}/`)
+            window.location.href = `/gate/${state.usr.gate.id}/`
         }, 6000)
 
         return () => clearTimeout(clear)
