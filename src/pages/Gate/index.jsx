@@ -97,7 +97,7 @@ const Gate = (props) => {
                     gateData: {
                         ...gateData,
                         holders:
-                            GSData?.useGetGateStatusByGateID?.items?.length ||
+                            GSData?.getGateStatusByGateID?.items?.length ||
                             0,
                         keysDone:
                             GSUserData?.getGateStatusByUserID?.items[0]
