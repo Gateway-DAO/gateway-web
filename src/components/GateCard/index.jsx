@@ -40,7 +40,7 @@ const GateCard = (props) => {
      */
     const toggleGatePublished = async () => {
         try {
-            setChecked(!gate.published)
+            //setChecked(!gate.published)
             await updateGate({
                 variables: {
                     input: {

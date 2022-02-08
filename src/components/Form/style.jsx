@@ -36,7 +36,7 @@ export const H1 = styled.h1`
     font-style: normal;
     font-weight: bold;
     font-size: 96px;
-    line-height: 90px;
+    line-height: 120px;
     /* identical to box height, or 187% */
     text-align: center;
     letter-spacing: -0.05em;

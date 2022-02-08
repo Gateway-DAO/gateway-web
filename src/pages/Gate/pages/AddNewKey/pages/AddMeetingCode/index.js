@@ -20,7 +20,7 @@ const AddMeetingCode = (props) => {
      */
     const onSubmit = async (e) => {
         e.preventDefault()
-        
+
         try {
             await createMeetingCode({
                 variables: {
@@ -33,29 +33,35 @@ const AddMeetingCode = (props) => {
                         keys: state.keysRewarded,
                         peopleLimit: state.peopleLimit,
                         task: {
-                            type: "MEETING_CODE",
+                            type: 'MEETING_CODE',
                             code,
-                            caseSensitive: false
-                        }
-                    }
-                }
+                            caseSensitive: false,
+                        },
+                    },
+                },
             })
 
             setCreatedKey(true)
-        }
-        catch (err) {
-            alert("An error occurred. Please try again later!")
+        } catch (err) {
+            alert('An error occurred. Please try again later!')
             console.log(err)
         }
     }
 
-    return createdKey ? <AddKeySuccess gate={state.gateData.id} /> : (
+    return createdKey ? (
+        <AddKeySuccess gate={state.gateData.id} />
+    ) : (
         <FormStyled.FormBox onSubmit={onSubmit}>
             <FormStyled.H1>Add Meeting Code</FormStyled.H1>
 
             <FormStyled.Fieldset>
                 <FormStyled.Label>What's the code?</FormStyled.Label>
-                <FormStyled.Input value={code} onChange={e => setCode(e.target.value)} placeholder="Input the meeting code here" required />
+                <FormStyled.Input
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder="Input the meeting code here"
+                    required
+                />
             </FormStyled.Fieldset>
 
             <FormStyled.Button type="submit">
