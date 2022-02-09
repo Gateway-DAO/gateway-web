@@ -260,7 +260,12 @@ export const UserProvider = ({ children }) => {
                       })
 
                 if (!!userDB.data.getUserByAddress.items.length) {
-                    setUserInfo(userDB.data.getUserByAddress.items[0])
+
+                    // TODO: remove
+                    setUserInfo({
+                        ...userDB.data.getUserByAddress.items[0],
+                        isAdmin: true
+                    })
                 } else {
                     await createNewUser()
                 }
@@ -311,7 +316,7 @@ export const UserProvider = ({ children }) => {
                 const { username, signInUserSession } =
                     await Auth.currentAuthenticatedUser()
 
-                if (username) {
+                if (username && signInUserSession) {
                     const userDB = await getUser({
                         variables: {
                             id: username,
@@ -346,11 +351,11 @@ export const UserProvider = ({ children }) => {
                         id: data.username,
                     },
                 })
+                */
                 setUserInfo({
-                    ...userDB.data.getUser,
+                    ...userInfo,
                     ...getUserGroups(data.signInUserSession),
                 })
-                */
                 setLoggedIn(true)
                 break
             case 'signOut':

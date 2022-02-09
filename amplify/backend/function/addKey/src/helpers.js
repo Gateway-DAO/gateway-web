@@ -20,6 +20,7 @@ const createKey = async (input) => {
         tokenAmount: input.tokenAmount,
         keys: input.keys,
         peopleLimit: input.peopleLimit,
+        unlimited: input.unlimited || true,
         createdAt: input.createdAt || new Date().toISOString(),
         updatedAt: input.createdAt || new Date().toISOString(),
     }
@@ -52,17 +53,16 @@ const createKey = async (input) => {
                 }
             }
             break
-        /*
         case "SC_INTERACTION":
+        case "CONTRACT_INTERACTION":
             Item = {
                 ...Item,
                 task: {
-                    "__typename": "",
+                    "__typename": "ContractInteraction",
                     ...input.task
                 }
             }
             break
-        */
         case "SNAPSHOT":
             Item = {
                 ...Item,

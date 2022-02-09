@@ -13,7 +13,6 @@ import DAOHome from '../pages/DAO/pages/Home'
 
 // Gate
 import DaoGate from '../pages/Gate/pages/DaoGate'
-import DaoGateWithKeys from '../pages/Gate/pages/DaoGateWithKeys'
 import DAOsGate from './DAOsGate'
 import GateSuccessPage from './GateSuccessPage'
 
@@ -24,6 +23,7 @@ import AddMeetingCode from '../pages/Gate/pages/AddNewKey/pages/AddMeetingCode'
 import AddKeySuccess from '../pages/Gate/pages/AddNewKey/pages/AddKeySuccess'
 import AddManualTask from '../pages/Gate/pages/AddNewKey/pages/AddManualTask'
 import AddNewKeyHome from '../pages/Gate/pages/AddNewKey/pages/Home'
+import AddContractInteraction from './Gate/pages/AddNewKey/pages/AddContractInteraction'
 import KeyCompletedPage from './KeyCompleted'
 
 // Profile
@@ -86,7 +86,7 @@ const App = (props) => {
                                     path="governance"
                                     element={<AddGovernanceSnapshot />}
                                 />
-
+                                <Route path="sc-interaction" element={<AddContractInteraction />} />
                                 <Route
                                     path="success"
                                     element={<AddKeySuccess />}

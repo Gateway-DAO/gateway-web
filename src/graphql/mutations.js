@@ -216,6 +216,9 @@ export const votePost = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -360,6 +363,9 @@ export const unvotePost = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -444,10 +450,13 @@ export const createQuiz = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -463,6 +472,7 @@ export const createQuiz = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -542,10 +552,13 @@ export const createMeetingCode = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -561,6 +574,7 @@ export const createMeetingCode = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -640,10 +654,13 @@ export const createTokenHold = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -659,6 +676,7 @@ export const createTokenHold = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -738,10 +756,13 @@ export const createSnapshotGovernance = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -757,6 +778,7 @@ export const createSnapshotGovernance = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -836,10 +858,13 @@ export const createSelfVerify = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -855,6 +880,7 @@ export const createSelfVerify = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -934,10 +960,13 @@ export const createContractInteraction = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -953,6 +982,7 @@ export const createContractInteraction = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -1027,6 +1057,9 @@ export const verifyMeetingCode = /* GraphQL */ `
             network
             url
           }
+          gates {
+            nextToken
+          }
           tasks {
             nextToken
           }
@@ -1102,10 +1135,13 @@ export const verifyMeetingCode = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1117,6 +1153,7 @@ export const verifyMeetingCode = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1191,6 +1228,9 @@ export const verifyHoldAToken = /* GraphQL */ `
             network
             url
           }
+          gates {
+            nextToken
+          }
           tasks {
             nextToken
           }
@@ -1266,10 +1306,13 @@ export const verifyHoldAToken = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1281,6 +1324,7 @@ export const verifyHoldAToken = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1355,6 +1399,9 @@ export const verifyContractInteraction = /* GraphQL */ `
             network
             url
           }
+          gates {
+            nextToken
+          }
           tasks {
             nextToken
           }
@@ -1430,10 +1477,13 @@ export const verifyContractInteraction = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1445,6 +1495,7 @@ export const verifyContractInteraction = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1519,6 +1570,9 @@ export const verifySnapshot = /* GraphQL */ `
             network
             url
           }
+          gates {
+            nextToken
+          }
           tasks {
             nextToken
           }
@@ -1594,10 +1648,13 @@ export const verifySnapshot = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1609,6 +1666,7 @@ export const verifySnapshot = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1683,6 +1741,9 @@ export const verifySelfVerify = /* GraphQL */ `
             network
             url
           }
+          gates {
+            nextToken
+          }
           tasks {
             nextToken
           }
@@ -1758,10 +1819,13 @@ export const verifySelfVerify = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           task {
             ... on Quiz {
               type
+              title
+              description
               passedAt
             }
             ... on MeetingCode {
@@ -1773,6 +1837,7 @@ export const verifySelfVerify = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1866,6 +1931,18 @@ export const createUser = /* GraphQL */ `
         network
         url
       }
+      gates {
+        items {
+          id
+          userID
+          gateID
+          keysDone
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       tasks {
         items {
           id
@@ -1944,6 +2021,18 @@ export const updateUser = /* GraphQL */ `
         network
         url
       }
+      gates {
+        items {
+          id
+          userID
+          gateID
+          keysDone
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       tasks {
         items {
           id
@@ -2021,6 +2110,18 @@ export const deleteUser = /* GraphQL */ `
       socials {
         network
         url
+      }
+      gates {
+        items {
+          id
+          userID
+          gateID
+          keysDone
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       tasks {
         items {
@@ -3017,6 +3118,9 @@ export const createPost = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -3163,6 +3267,9 @@ export const updatePost = /* GraphQL */ `
         socials {
           network
           url
+        }
+        gates {
+          nextToken
         }
         tasks {
           nextToken
@@ -3311,6 +3418,9 @@ export const deletePost = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -3383,6 +3493,9 @@ export const createComment = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -3442,6 +3555,9 @@ export const updateComment = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -3500,6 +3616,9 @@ export const deleteComment = /* GraphQL */ `
         socials {
           network
           url
+        }
+        gates {
+          nextToken
         }
         tasks {
           nextToken
@@ -3577,6 +3696,7 @@ export const createGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -3659,6 +3779,7 @@ export const updateGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -3741,6 +3862,7 @@ export const deleteGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -3821,10 +3943,13 @@ export const createKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -3840,6 +3965,7 @@ export const createKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -3922,10 +4048,13 @@ export const updateKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -3941,6 +4070,7 @@ export const updateKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -4023,10 +4153,13 @@ export const deleteKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -4042,6 +4175,7 @@ export const deleteKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -4059,6 +4193,372 @@ export const deleteKey = /* GraphQL */ `
           methodName
         }
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createGateStatus = /* GraphQL */ `
+  mutation CreateGateStatus(
+    $input: CreateGateStatusInput!
+    $condition: ModelGateStatusConditionInput
+  ) {
+    createGateStatus(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      reward {
+        rewardCode
+        retrieved
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      keysDone
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateGateStatus = /* GraphQL */ `
+  mutation UpdateGateStatus(
+    $input: UpdateGateStatusInput!
+    $condition: ModelGateStatusConditionInput
+  ) {
+    updateGateStatus(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      reward {
+        rewardCode
+        retrieved
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      keysDone
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteGateStatus = /* GraphQL */ `
+  mutation DeleteGateStatus(
+    $input: DeleteGateStatusInput!
+    $condition: ModelGateStatusConditionInput
+  ) {
+    deleteGateStatus(input: $input, condition: $condition) {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      reward {
+        rewardCode
+        retrieved
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      keysDone
+      status
       createdAt
       updatedAt
     }
@@ -4107,6 +4607,9 @@ export const createTaskStatus = /* GraphQL */ `
         socials {
           network
           url
+        }
+        gates {
+          nextToken
         }
         tasks {
           nextToken
@@ -4183,10 +4686,13 @@ export const createTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -4198,6 +4704,7 @@ export const createTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -4268,6 +4775,9 @@ export const updateTaskStatus = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -4343,10 +4853,13 @@ export const updateTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -4358,6 +4871,7 @@ export const updateTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -4428,6 +4942,9 @@ export const deleteTaskStatus = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -4503,10 +5020,13 @@ export const deleteTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -4518,6 +5038,7 @@ export const deleteTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type

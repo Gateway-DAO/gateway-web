@@ -14,8 +14,18 @@
       "DAO:@model(appsync)": [
         "read"
       ],
+      "Gate:@model(appsync)": [
+        "read",
+        "update"
+      ],
       "Key:@model(appsync)": [
-        "read"
+        "read",
+        "update"
+      ],
+      "GateStatus:@model(appsync)": [
+        "create",
+        "read",
+        "update"
       ],
       "TaskStatus:@model(appsync)": [
         "create",

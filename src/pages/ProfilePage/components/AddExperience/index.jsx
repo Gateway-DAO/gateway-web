@@ -1,6 +1,12 @@
 import * as Styled from './style'
 import { useWeb3React } from '@web3-react/core'
 import { ethers } from 'ethers'
+import useGetNFTs from '../../../../hooks/useGetNFTs'
+import { useEffect, useState } from 'react'
+import useMint from '../../../../hooks/useMint'
+import { useAuth } from '../../../../contexts/UserContext'
+import { useGetGateStatusByUserID } from '../../../../api/database/useGetGateStatus'
+import { uploadMetadataToIPFS } from '../../../../api/IPFSFileUpload'
 
 let t_ABI = [
     {
@@ -866,17 +872,37 @@ let t_ABI = [
 
 const AddExperience = () => {
     const { library, account } = useWeb3React()
+    const { userInfo } = useAuth()
+    const { mintNFT } = useMint()
+    const { getNFTs } = useGetNFTs()
+    const [nfts, setNFTs] = useState([])
 
-    const mint = async () => {
-        const provider = await library.getSigner()
-        const contract = new ethers.Contract(
-            '0xDDfd31d91deC6b19945ad41DFe89e5e5A6Bb71Bd',
-            t_ABI,
-            provider
-        )
+    const { data } = useGetGateStatusByUserID(userInfo?.id, {
+        filter: {
+            status: {
+                eq: 'COMPLETED',
+            },
+        },
+    })
 
-        await contract.mint(account, "k2t6wyfsu4pfyd8pcq0pvt4303xt1horghad08hih20cgehdceaswj290nhc0g")
+    const mintHandler = async (gs) => {
+        const obj = {
+            title: gs.gate.name,
+            image: gs.gate.badge.ipfsURL,
+            description: gs.gate.description,
+        }
+
+        const hash = await uploadMetadataToIPFS(obj)
+
+        mintNFT(`https://gateway.pinata.cloud/ipfs/${hash}`)
     }
+
+    useEffect(() => {
+        getNFTs().then((nfts) => {
+            console.log(nfts)
+            setNFTs(nfts)
+        })
+    }, [])
 
     return (
         <Styled.BoxContainer>
@@ -889,9 +915,37 @@ const AddExperience = () => {
             </Styled.ButtonBox>
             */}
 
-            <Styled.ButtonBox to="" onClick={mint}>
-                <Styled.ButtonText>Mint badge</Styled.ButtonText>
-            </Styled.ButtonBox>
+            <Styled.NFTContainer>
+                {nfts &&
+                    nfts.map((nft) => {
+                        if (!!nft.metadata.image) {
+                            return (
+                                <Styled.NFTBox>
+                                    <Styled.NFT
+                                        src={nft.metadata.image}
+                                        alt={nft.metadata.title}
+                                    />
+                                    <Styled.ButtonText>
+                                        {nft.metadata.title}
+                                    </Styled.ButtonText>
+                                </Styled.NFTBox>
+                            )
+                        }
+
+                        return null
+                    })}
+            </Styled.NFTContainer>
+
+            {data?.getGateStatusByUserID &&
+                data?.getGateStatusByUserID?.items?.map((gs) => {
+                    return (
+                        <Styled.ButtonBox to="" onClick={() => mintHandler(gs)}>
+                            <Styled.ButtonText>
+                                Mint badge - {gs.gate.badge.name}
+                            </Styled.ButtonText>
+                        </Styled.ButtonBox>
+                    )
+                })}
         </Styled.BoxContainer>
     )
 }

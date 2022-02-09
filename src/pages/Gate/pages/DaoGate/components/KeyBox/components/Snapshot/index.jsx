@@ -1,25 +1,94 @@
-import React, {useState} from 'react';
-import * as Styled from './style';
+import React, { useState } from 'react'
+import { useEffect } from 'react'
+import { shortenAddress } from '../../../../../../../../utils/web3'
+import * as Styled from './style'
+import axios from 'axios'
+import ReactMarkdown from 'react-markdown'
+import Loader from '../../../../../../../../components/Loader'
 
-const Snapshot = (props)=>{
-    return(
-        <Styled.Container>
-            <Styled.Wrapper>
-                <Styled.Header>
-                    <Styled.Left>
-                        <Styled.Logo></Styled.Logo>
-                        <Styled.Name>BanklessDAO by find4dao.eth</Styled.Name> 
-                    </Styled.Left>
-                    <Styled.Right>Active</Styled.Right>
-                </Styled.Header>
-                <Styled.SnapshotTitle>First Timer Joiner</Styled.SnapshotTitle>
-                <Styled.SnapshotDescription>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dui nulla, vestibulum eu ultrices eget, iaculis in mauris. Suspendisse fringilla turpis ultrices viverra fermentum. In vehicula neque sed pulvinar suscipit. Donec in enim in nulla scelerisque fermentum. Phasellus bibendum, nunc at congue pharetra.
-                </Styled.SnapshotDescription>
-            </Styled.Wrapper>
+const Snapshot = (props) => {
+    const [result, setResult] = useState(null)
+
+    const API_URL = 'https://hub.snapshot.org/graphql'
+    let id = props.data.task.proposal
+
+    let body = {
+        query: `
+                query SingleProposal($id: String) {
+                    proposal(id: $id) {
+                      id
+                      title
+                      body
+                      choices
+                      start
+                      end
+                      snapshot
+                      state
+                      author
+                      created
+                      plugins
+                      network
+                      strategies {
+                        name
+                        params
+                      }
+                      space {
+                        id
+                        name
+                      }
+                    }
+                  }
+                `,
+        variables: {
+            id: id,
+        },
+    }
+
+    let options = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    useEffect(() => {
+        // Update the document title using the browser API
+        axios.post(API_URL, body, options).then((response) => {
+            setResult(response?.data.data.proposal)
+        })
+    }, [])
+
+    return (
+        <Styled.Container onClick={result ? () => window.open(`https://snapshot.org/#/${props.data.task.spaceID}/proposal/${props.data.task.proposal}`, `_blank`) : () => {}}>
+            {!result ? (
+                <Loader color="black" size={32} />
+            ) : (
+                <Styled.Wrapper>
+                    <Styled.Header>
+                        <Styled.Left>
+                            {/* <Styled.Logo></Styled.Logo> */}
+                            <Styled.Name>{`${
+                                result?.space.name
+                            } by ${shortenAddress(
+                                result?.author,
+                                6,
+                                6
+                            )}`}</Styled.Name>
+                        </Styled.Left>
+                        <Styled.Right state={result?.state === 'active'}>
+                            {result?.state}
+                        </Styled.Right>
+                    </Styled.Header>
+                    <Styled.SnapshotTitle>{result?.title}</Styled.SnapshotTitle>
+                    <Styled.SnapshotDescription>
+                        <ReactMarkdown linkTarget="_blank">
+                            {result?.body.slice(0, 300)}
+                        </ReactMarkdown>
+                        <span>...</span>
+                    </Styled.SnapshotDescription>
+                </Styled.Wrapper>
+            )}
         </Styled.Container>
     )
 }
 
-const SnapshotMemo = React.memo(Snapshot)
-export default SnapshotMemo
+export default Snapshot

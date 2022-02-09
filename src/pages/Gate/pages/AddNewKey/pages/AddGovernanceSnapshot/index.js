@@ -8,16 +8,19 @@ import { FormStyled } from '../../../../../../components/Form'
 import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useCreateSnapshot } from '../../../../../../api/database/useCreateKey'
+import AddKeySuccess from '../AddKeySuccess'
+import Loader from '../../../../../../components/Loader'
 
 const AddGovernanceSnapshot = (props) => {
     // States
     const [active, setShowActive] = useState(null)
     const [proposal, setProposal] = useState(null)
     const [spaceID, setSpaceID] = useState(null)
+    const [createdKey, setCreatedKey] = useState(false)
 
     // Hooks
     const { state } = useLocation()
-    const { createSnapshot } = useCreateSnapshot()
+    const { createSnapshot, loading } = useCreateSnapshot()
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -33,6 +36,7 @@ const AddGovernanceSnapshot = (props) => {
                         tokenAmount: state.amount,
                         keys: state.keysRewarded,
                         peopleLimit: state.peopleLimit,
+                        unlimited: state.unlimited,
                         task: {
                             type: "SNAPSHOT_GOVERNANCE",
                             snapshotType: active.toUpperCase(),
@@ -42,6 +46,8 @@ const AddGovernanceSnapshot = (props) => {
                     }
                 }
             })
+
+            setCreatedKey(true)
         }
         catch (err) {
             alert("An error occurred. Please try again later!")
@@ -49,7 +55,7 @@ const AddGovernanceSnapshot = (props) => {
         }
     }
 
-    return (
+    return createdKey ? <AddKeySuccess gate={state.gateData.id} /> : (
         <FormStyled.FormBox onSubmit={onSubmit}>
             <FormStyled.H1>Add Snapshot Governance</FormStyled.H1>
             <FormStyled.Fieldset>
@@ -89,7 +95,10 @@ const AddGovernanceSnapshot = (props) => {
                 </FormStyled.Fieldset>
             )}
 
-            <FormStyled.Button type="submit">Submit</FormStyled.Button>
+            <FormStyled.Button type="submit">
+                {loading && <Loader color="white" />}
+                Submit
+            </FormStyled.Button>
         </FormStyled.FormBox>
     )
 }

@@ -59,6 +59,18 @@ export const onCreateUser = /* GraphQL */ `
         network
         url
       }
+      gates {
+        items {
+          id
+          userID
+          gateID
+          keysDone
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       tasks {
         items {
           id
@@ -134,6 +146,18 @@ export const onUpdateUser = /* GraphQL */ `
         network
         url
       }
+      gates {
+        items {
+          id
+          userID
+          gateID
+          keysDone
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       tasks {
         items {
           id
@@ -208,6 +232,18 @@ export const onDeleteUser = /* GraphQL */ `
       socials {
         network
         url
+      }
+      gates {
+        items {
+          id
+          userID
+          gateID
+          keysDone
+          status
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
       tasks {
         items {
@@ -1165,6 +1201,9 @@ export const onCreatePost = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -1308,6 +1347,9 @@ export const onUpdatePost = /* GraphQL */ `
         socials {
           network
           url
+        }
+        gates {
+          nextToken
         }
         tasks {
           nextToken
@@ -1453,6 +1495,9 @@ export const onDeletePost = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -1522,6 +1567,9 @@ export const onCreateComment = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -1578,6 +1626,9 @@ export const onUpdateComment = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -1633,6 +1684,9 @@ export const onDeleteComment = /* GraphQL */ `
         socials {
           network
           url
+        }
+        gates {
+          nextToken
         }
         tasks {
           nextToken
@@ -1707,6 +1761,7 @@ export const onCreateGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -1786,6 +1841,7 @@ export const onUpdateGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -1865,6 +1921,7 @@ export const onDeleteGate = /* GraphQL */ `
           token
           tokenAmount
           keys
+          unlimited
           peopleLimit
           createdAt
           updatedAt
@@ -1942,10 +1999,13 @@ export const onCreateKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -1961,6 +2021,7 @@ export const onCreateKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -2040,10 +2101,13 @@ export const onUpdateKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -2059,6 +2123,7 @@ export const onUpdateKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -2138,10 +2203,13 @@ export const onDeleteKey = /* GraphQL */ `
       token
       tokenAmount
       keys
+      unlimited
       peopleLimit
       task {
         ... on Quiz {
           type
+          title
+          description
           questions {
             question
             nrOfCorrectAnswers
@@ -2157,6 +2225,7 @@ export const onDeleteKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -2174,6 +2243,363 @@ export const onDeleteKey = /* GraphQL */ `
           methodName
         }
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateGateStatus = /* GraphQL */ `
+  subscription OnCreateGateStatus {
+    onCreateGateStatus {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      reward {
+        rewardCode
+        retrieved
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      keysDone
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateGateStatus = /* GraphQL */ `
+  subscription OnUpdateGateStatus {
+    onUpdateGateStatus {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      reward {
+        rewardCode
+        retrieved
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      keysDone
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteGateStatus = /* GraphQL */ `
+  subscription OnDeleteGateStatus {
+    onDeleteGateStatus {
+      id
+      userID
+      user {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        createdAt
+        updatedAt
+      }
+      reward {
+        rewardCode
+        retrieved
+      }
+      tasks {
+        items {
+          id
+          userID
+          gateID
+          keyID
+          completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      keysDone
+      status
       createdAt
       updatedAt
     }
@@ -2219,6 +2645,9 @@ export const onCreateTaskStatus = /* GraphQL */ `
         socials {
           network
           url
+        }
+        gates {
+          nextToken
         }
         tasks {
           nextToken
@@ -2295,10 +2724,13 @@ export const onCreateTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -2310,6 +2742,7 @@ export const onCreateTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -2377,6 +2810,9 @@ export const onUpdateTaskStatus = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -2452,10 +2888,13 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -2467,6 +2906,7 @@ export const onUpdateTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -2534,6 +2974,9 @@ export const onDeleteTaskStatus = /* GraphQL */ `
           network
           url
         }
+        gates {
+          nextToken
+        }
         tasks {
           nextToken
         }
@@ -2609,10 +3052,13 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         token
         tokenAmount
         keys
+        unlimited
         peopleLimit
         task {
           ... on Quiz {
             type
+            title
+            description
             passedAt
           }
           ... on MeetingCode {
@@ -2624,6 +3070,7 @@ export const onDeleteTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type

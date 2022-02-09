@@ -27,10 +27,11 @@ const KeyBox = (props) => {
         switch (data.task.type) {
             case 'MEETING_CODE':
                 return <MeetingCode data={data} setInfo={info => keyValidation.setInfo(info)} />
-            case 'SNAPSHOT':
+            case 'SNAPSHOT_GOVERNANCE':
                 return <Snapshot data={data} />
             case 'QUIZ':
             case 'SELF_VERIFY':
+            case 'SC_INTERACTION':
             default:
                 return null
         }

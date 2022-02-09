@@ -132,6 +132,7 @@ const ProfilePage = () => {
                         {React.createElement(BioBox, { ...userInfo, toggleEditModal })}
 
                         <Styled.FeedContainer>
+                            {/*
                             <Styled.ProfileDiv>
                                 <Styled.SelectedTab
                                     showActive={activeTab === 'experience'}
@@ -146,7 +147,9 @@ const ProfilePage = () => {
                                     Activity
                                 </Styled.SelectedTab>
                             </Styled.ProfileDiv>
-                            {loggedIn && authUser.id === userInfo.id && <Tab />}
+                            */}
+                            <Tab />
+                            {/* loggedIn && authUser.id === userInfo.id && */}
                         </Styled.FeedContainer>
 
                     </Styled.UserInfo>

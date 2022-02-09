@@ -3,19 +3,19 @@ import { v4 as uuidv4 } from 'uuid'
 
 // Styling
 import * as Styled from './style'
+import * as ThemeStyled from '../../theme/style'
 import { FormStyled } from '../../components/Form'
 
 // Components
 import space from '../../utils/canvas'
 import CreateQuestion from './Component/CreateQuestion'
 import Home from './Component/Home'
-import GateSuccessPage from '../GateSuccessPage'
-import Persentage from './Component/Persentage'
+import AddKeySuccess from '../Gate/pages/AddNewKey/pages/AddKeySuccess'
+import Percentage from './Component/Persentage'
 
 // Hooks
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useCreateQuiz } from '../../api/database/useCreateKey'
-// import Loader from '../../components/Loader'
 
 /**
  * This function is responsible for creating a quiz.
@@ -26,7 +26,7 @@ const CreateQuiz = () => {
     const [description, setDescription] = useState('')
     const [message, setMessage] = useState('Processing your Quiz')
     const [activeModal, setActiveModal] = useState('HOME')
-    const [persentage, setPersentage] = useState(100)
+    const [percentage, setPercentage] = useState(100)
     const [data, setData] = useState([
         {
             question: '',
@@ -43,7 +43,8 @@ const CreateQuiz = () => {
             nrOfCorrectAnswers: 0,
         },
     ])
-    const [showComponent, setShowComponent] = useState(true)
+    const [createdKey, setCreatedKey] = useState(false)
+
     const [loading, setLoading] = useState(false)
     const { state } = useLocation()
 
@@ -51,22 +52,6 @@ const CreateQuiz = () => {
     const navigate = useNavigate()
     const { createQuiz } = useCreateQuiz()
 
-    // useEffect(
-    //     () => space(window.innerHeight, window.innerWidth),
-    //     [window.innerHeight, window.innerWidth]
-    // )
-
-    /**
-     * * If the title and description are empty, alert the user.
-     * * Otherwise, set the showComponent to true.
-     */
-    const showShowComponent = () => {
-        if (title.length === 0 || description.length === 0) {
-            alert('Please enter title and description')
-        } else {
-            setShowComponent(!showComponent)
-        }
-    }
     const ActiveModal = () => {
         switch (activeModal) {
             case 'HOME':
@@ -87,11 +72,12 @@ const CreateQuiz = () => {
                         setActiveModal={setActiveModal}
                     />
                 )
-            case 'PERSENTAGE_PAGE':
+            case 'PERCENTAGE_PAGE':
                 return (
-                    <Persentage
-                        persentage={persentage}
-                        setPersentage={setPersentage}
+                    <Percentage
+                        percentage={percentage}
+                        setPercentage={setPercentage}
+                        loading={loading}
                     />
                 )
             default:
@@ -106,7 +92,7 @@ const CreateQuiz = () => {
     const onSave = async (e) => {
         e.preventDefault()
         setLoading(true)
-        // TODO: find better alerts
+
         try {
             if (title.length === 0 || description.length === 0) {
                 setMessage('Please enter title and description')
@@ -148,8 +134,8 @@ const CreateQuiz = () => {
                     return false
                 }
                 if (
-                    value.noOfCorrectAnswer === 0 ||
-                    value.noOfCorrectAnswer > value.options.length
+                    value.nrOfCorrectAnswers === 0 ||
+                    value.nrOfCorrectAnswers > value.options.length
                 ) {
                     setMessage(
                         `In question ${idx + 1} no correct answer is there`
@@ -168,12 +154,6 @@ const CreateQuiz = () => {
                 return false
             }
 
-            const finalData = {
-                title: title,
-                description: description,
-                questions: data,
-            }
-
             await createQuiz({
                 variables: {
                     input: {
@@ -184,39 +164,45 @@ const CreateQuiz = () => {
                         tokenAmount: state.amount,
                         keys: state.keysRewarded,
                         peopleLimit: state.peopleLimit,
+                        unlimited: state.unlimited,
                         task: {
                             type: 'QUIZ',
+                            title,
+                            description,
                             questions: data,
-                            passedAt: 0,
+                            passedAt: Math.floor(data.length * percentage),
                         },
                     },
                 },
             })
 
-            setMessage('Quiz is successfully added')
-            navigate(`/gate/${state.gateData.id}`)
+            setCreatedKey(true)
         } catch (err) {
             setMessage('We are facing error in saving. Please try again')
             // alert(err)
             console.log(err)
         }
+
         setTimeout(() => {
             setLoading(false)
             setMessage('Processing your Quiz')
         }, 5000)
     }
 
-    return (
+    useEffect(
+        () => space(window.innerHeight, window.innerWidth),
+        [window.innerHeight, window.innerWidth]
+    )
+
+    return createdKey ? (
+        <AddKeySuccess gate={state.gateData.id} />
+    ) : (
         <FormStyled.FormBox onSubmit={onSave}>
-            {loading ? (
-                <GateSuccessPage heading={message} />
-            ) : (
-                <Styled.Container>
-                    {/* <Styled.SpaceBox id="space-canvas"/> */}
-                    <FormStyled.H1>Add Quiz</FormStyled.H1>
-                    <ActiveModal />
-                </Styled.Container>
-            )}
+            <Styled.Container>
+                <ThemeStyled.SpaceBox id="space-canvas" />
+                <FormStyled.H1>Add Quiz</FormStyled.H1>
+                <ActiveModal />
+            </Styled.Container>
         </FormStyled.FormBox>
     )
 }

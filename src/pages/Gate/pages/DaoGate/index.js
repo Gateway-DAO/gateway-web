@@ -29,33 +29,6 @@ const DaoGate = (props) => {
     const { isAdmin } = useGateAdmin(gateData.admins)
     const { userInfo } = useAuth()
 
-    const {
-        data,
-        loading: taskStatusLoading,
-        error,
-    } = useGetTaskStatusByUserID(userInfo ? userInfo?.id : '', {
-        filter: {
-            gateID: {
-                eq: gateData.id,
-            },
-        },
-    })
-
-    const [keysDone, setKeysDone] = useState(0)
-    useEffect(() => {
-        if (data) {
-            setKeysDone(
-                data.getTaskStatusByUserID !== null
-                    ? data.getTaskStatusByUserID.items
-                          .map((ts) => ts.key.keys)
-                          .reduce((sum, el) => sum + el, 0)
-                    : 0
-            )
-        }
-    }, [data])
-
-    // console.log(gateData);
-
     const handleClick = () => {
         navigate('add-key')
     }
@@ -69,7 +42,7 @@ const DaoGate = (props) => {
     } else if (loaded) {
         return (
             <Styled.Wrapper>
-                <BackButtonDiv published={gateData.published} id={gateData.id} daoData={dao} gateData={gateData}/>
+                <BackButtonDiv url={`/dao/${dao.name}`} published={gateData.published} id={gateData.id} daoData={dao} gateData={gateData}/>
                 <GradientSVG idCSS="circleGradient" />
                 <Styled.ContentWrapper>
                     <NftBadge nft={gateData.badge} />
@@ -86,7 +59,7 @@ const DaoGate = (props) => {
                             {gateData.categories.map((category) => (
                                 <Styled.Tag>{category}</Styled.Tag>
                             ))}
-                            • 27 holders
+                            • {gateData.holders} holder(s)
                         </Styled.TagsDiv>
                         <Styled.HeaderLine />
                         <Styled.SecondDiv>
@@ -94,7 +67,7 @@ const DaoGate = (props) => {
                             <Styled.AnotherDiv>
                                 <Styled.CircleBox>
                                     <CircularProgressbar
-                                        value={keysDone}
+                                        value={gateData.keysDone}
                                         minValue={0}
                                         maxValue={gateData.keysNumber}
                                         strokeWidth={15}
@@ -105,7 +78,8 @@ const DaoGate = (props) => {
                                         Keys
                                     </Styled.ProgressInfoDivOne>
                                     <Styled.ProgressInfoDivTwo>
-                                        {keysDone} of {gateData.keysNumber}
+                                        {gateData.keysDone} of{' '}
+                                        {gateData.keysNumber}
                                     </Styled.ProgressInfoDivTwo>
                                 </Styled.ProgressInfoDiv>
                             </Styled.AnotherDiv>
@@ -123,20 +97,25 @@ const DaoGate = (props) => {
                                     </Styled.StartButton>
                                 </Styled.Box>
                             )}
-                            {gateData.keys.items.map((key) => (
-                                <KeyBox
-                                    data={key}
-                                    gateData={gateData}
-                                    blocked={
-                                        data &&
-                                        data.getTaskStatusByUserID !== null
-                                            ? data.getTaskStatusByUserID.items
-                                                  .map((ts) => ts.key.id)
-                                                  .includes(key.id)
-                                            : false
-                                    }
-                                />
-                            ))}
+                            {gateData?.keys?.items?.map((key) => {
+                                if (!isAdmin && !key.unlimited && key.peopleLimit === 0) {
+                                    return null
+                                }
+
+                                return (
+                                    <KeyBox
+                                        data={key}
+                                        gateData={gateData}
+                                        blocked={
+                                            gateData.taskStatus.length > 0
+                                                ? gateData.taskStatus
+                                                      .map((ts) => ts.key.id)
+                                                      .includes(key.id)
+                                                : false
+                                        }
+                                    />
+                                )
+                            })}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
                 </Styled.ContentWrapper>

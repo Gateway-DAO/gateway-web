@@ -24,6 +24,8 @@ type User
     nonce: Int!
     pfp: String
     socials: [Social]
+    gates: [GateStatus]
+        @connection(keyName: "gateStatusByUserID", fields: ["id"])
     tasks: [TaskStatus]
         @connection(keyName: "taskStatusByUserID", fields: ["id"])
     createdAt: AWSDateTime
@@ -177,7 +179,8 @@ enum VoteType {
 
 type Gate
     @model
-    @key(name: "gateByDAO", fields: ["daoID"], queryField: "getGatesByDAOID") {
+    @key(name: "gateByDAO", fields: ["daoID"], queryField: "getGatesByDAOID")
+    @searchable {
     id: ID!
     daoID: ID!
     dao: DAO @connection(fields: ["daoID"])
@@ -206,12 +209,15 @@ type Key
     token: String # An ERC20 token to reward the users
     tokenAmount: Int
     keys: Int!
-    peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
+    peopleLimit: Int!
     task: TaskUnion
 }
 
 type Quiz {
     type: TaskType
+    title: String!
+    description: String!
     questions: [Question]!
     passedAt: Int! # Number of questions to mark quiz as completed
 }
@@ -237,6 +243,7 @@ type TokenHold {
     type: TaskType
     chainID: Int!
     address: String!
+    amount: Int!
 }
 
 type SelfVerify {
@@ -303,7 +310,37 @@ union TaskUnion =
     | SnapshotGovernance
     | ContractInteraction
 
-### TASK STATUS / ERROR ###
+### TASK STATUS / GATE STATUS / ERROR ###
+
+type GateStatus
+    @model
+    @key(
+        name: "gateStatusByUserID"
+        fields: ["userID"]
+        queryField: "getGateStatusByUserID"
+    )
+    @key(
+        name: "gateStatusByGateID"
+        fields: ["gateID"]
+        queryField: "getGateStatusByGateID"
+    ) {
+    id: ID!
+    userID: ID!
+    user: User @connection(fields: ["userID"])
+    gateID: ID!
+    gate: Gate @connection(fields: ["gateID"])
+    reward: GateReward
+    tasks: [TaskStatus] @connection(keyName: "taskStatusByGateID", fields: ["gateID"])
+    keysDone: Int @function(name: "getCompletedKeys-${env}")
+    status: GateStatusList
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
+}
+
+type GateReward {
+    rewardCode: String!
+    retrieved: Boolean!
+}
 
 type TaskStatus
     @model
@@ -333,6 +370,12 @@ type Error {
     keyID: ID!
     error: ErrorType!
     msg: String
+}
+
+enum GateStatusList {
+    NOT_STARTED
+    IN_PROGRESS
+    COMPLETED
 }
 
 enum ErrorType {
@@ -384,6 +427,7 @@ input CreateKeyQuiz {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: QuizInput
 }
 
@@ -394,6 +438,8 @@ input KeyInformationInput {
 
 input QuizInput {
     type: TaskType = "QUIZ"
+    title: String!
+    description: String!
     questions: [QuestionInput]!
     passedAt: Int! # Number of questions to mark quiz as completed
 }
@@ -417,6 +463,7 @@ input CreateKeyMeetingCode {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: MeetingCodeInput
 }
 
@@ -434,6 +481,7 @@ input CreateKeyTokenHold {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: TokenHoldInput
 }
 
@@ -441,6 +489,7 @@ input TokenHoldInput {
     type: TaskType = "TOKEN_HOLD"
     chainID: Int!
     address: String!
+    amount: Int!
 }
 
 input CreateKeyContractInteraction {
@@ -451,6 +500,7 @@ input CreateKeyContractInteraction {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: ContractInteractionInput
 }
 
@@ -469,6 +519,7 @@ input CreateKeySelfVerify {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: SelfVerifyInput
 }
 
@@ -484,6 +535,7 @@ input CreateKeySnapshotGovernance {
     tokenAmount: Int
     keys: Int!
     peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
     task: SnapshotGovernanceInput
 }
 
@@ -527,13 +579,35 @@ type Mutation {
         @function(name: "addKey-${env}")
 
     ## Verify keys ##
-    verifyMeetingCode(userID: ID!, gateID: ID!, keyID: ID!, meetingCode: String!): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
+    verifyMeetingCode(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+        meetingCode: String!
+    ): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
 
-    verifyHoldAToken(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
+    verifyHoldAToken(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
 
-    verifyContractInteraction(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifyContractInteraction-${env}")
+    verifyContractInteraction(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse
+        @function(name: "verifyContractInteraction-${env}")
 
-    verifySnapshot(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
+    verifySnapshot(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
 
-    verifySelfVerify(userID: ID!, gateID: ID!, keyID: ID!): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
+    verifySelfVerify(
+        userID: ID!
+        gateID: ID!
+        keyID: ID!
+    ): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
 }

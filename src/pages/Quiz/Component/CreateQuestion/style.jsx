@@ -25,7 +25,6 @@ export const IconBox = styled.div`
 `
 
 export const AnswerInput = styled(FormStyled.Input)`
-    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
     font-family: Be Vietnam;
@@ -36,7 +35,6 @@ export const AnswerInput = styled(FormStyled.Input)`
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
-    background: #170627;
     color: #e5e5e5;
     width: 100%;
     height: 40px;

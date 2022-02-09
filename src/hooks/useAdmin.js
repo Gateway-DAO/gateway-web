@@ -23,7 +23,7 @@ export const useAdmin = (addressOrList) => {
 }
 
 export const useGateAdmin = (addressOrList) => {
-    const { userInfo, loggedIn } = useAuth()
+    const { userInfo, loggedIn, walletConnected } = useAuth()
 
     let isAdmin = false;
 

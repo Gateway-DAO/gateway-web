@@ -27,7 +27,7 @@ const KeyCompletedPage = (props) => {
         }
 
         const clear = setTimeout(() => {
-            navigate(`/gate/${state.usr.gate.id}/`)
+            window.location.href = `/gate/${state.usr.gate.id}/`
         }, 6000)
 
         return () => clearTimeout(clear)
@@ -49,12 +49,12 @@ const KeyCompletedPage = (props) => {
                 </Styled.Heading>
                 <Styled.CircleBox>
                     <CircularProgressbarWithChildren
-                        value={80}
+                        value={state.usr.keysDone}
                         minValue={0}
                         maxValue={state.usr.gate.keysNumber}
                         strokeWidth={18}
                     >
-                        <Styled.CircleText>{state.usr.key.keys} out of {state.usr.gate.keysNumber}</Styled.CircleText>
+                        <Styled.CircleText>{state.usr.keysDone} out of {state.usr.gate.keysNumber}</Styled.CircleText>
                     </CircularProgressbarWithChildren>
                 </Styled.CircleBox>
                 <Styled.RedirectText>Redirecting...</Styled.RedirectText>

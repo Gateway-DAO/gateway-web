@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { FormStyled } from '../../../../components/Form'
 
 export const Page = styled.div`
     // background-color: #170627;
@@ -32,6 +33,12 @@ export const Container = styled.form`
     align-items: center;
     padding: 0 20%;
     margin: 50px 0;
+`
+
+export const CentralizedLoader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 
 export const GridBox = styled.div`
@@ -165,10 +172,9 @@ export const Input = styled.input`
     margin: 12px 0;
     width: 100%;
 `
-export const InputSmall = styled.input`
+export const InputSmall = styled(FormStyled.Input)`
     width: 108px;
     height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
     padding: 10px;
@@ -180,7 +186,6 @@ export const InputSmall = styled.input`
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
-    background: #170627;
     color: #e5e5e5;
     margin: 12px 0;
 `
@@ -280,6 +285,7 @@ export const CategoryList = styled.div`
     margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 15px;
 `
 
 export const SearchIconTop = styled.div`

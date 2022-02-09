@@ -10,6 +10,12 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
     // margin-bottom:0;
+
+    & * {
+        width: 100%;
+    }
+
+    cursor: pointer;
 `
 export const Wrapper = styled.div`
     width: 90%;
@@ -50,7 +56,7 @@ export const Right = styled.div`
     width: 90px;
     height: 40px;
 
-    background: #27D5A2;
+    background: ${props => props.state ? `#27D5A2` : `#8164F4`}; 
     border-radius: 20px;
     display: flex;
     align-items:center;
