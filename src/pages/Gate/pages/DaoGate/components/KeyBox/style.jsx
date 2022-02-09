@@ -10,7 +10,7 @@ export const Box = styled.div`
     flex-direction: column;
     width: 100%;
     height: 100%;
-    border: 1px solid ${props => props.blocked ? "#A5A5A580" : "#7e3bdc"};
+    border: 1px solid ${(props) => (props.blocked ? '#A5A5A580' : '#7e3bdc')};
     box-sizing: border-box;
     border-radius: 20px;
     padding: 30px 25px;
@@ -44,6 +44,10 @@ export const BoxSubtitle = styled.div`
     color: ${(props) => (props.opened ? '#170627' : '#e5e5e5')};
 `
 export const BottonBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+export const ActionButton = styled.div`
     display: flex;
 `
 
@@ -111,4 +115,42 @@ export const ButtonText = styled.p`
     margin: 12px 50px;
     display: flex;
     align-items: center;
+`
+
+export const InformationDiv = styled.div`
+    display: flex;
+    /* margin-left: 451px; */
+`
+export const KeyRewardBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right : 43px;
+`
+export const CompensationBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right : 43px;
+`
+
+export const InformationBoxHeading = styled.h4`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #ffffff;
+`
+
+export const InformationBoxInfoText = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    /* or 144% */
+
+    color: #a5a5a5;
 `

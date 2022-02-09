@@ -141,7 +141,7 @@ const AddGateForm = (props) => {
      */
     const addAdmin = (admin) => {
         setAdminList([...adminList, admin])
-        setAdminSearch(prev => prev.filter(adm => adm.id !== admin.id))
+        setAdminSearch((prev) => prev.filter((adm) => adm.id !== admin.id))
     }
 
     /**

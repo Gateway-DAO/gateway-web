@@ -26,7 +26,12 @@ const KeyBox = (props) => {
     const Task = () => {
         switch (data.task.type) {
             case 'MEETING_CODE':
-                return <MeetingCode data={data} setInfo={info => keyValidation.setInfo(info)} />
+                return (
+                    <MeetingCode
+                        data={data}
+                        setInfo={(info) => keyValidation.setInfo(info)}
+                    />
+                )
             case 'SNAPSHOT_GOVERNANCE':
                 return <Snapshot data={data} />
             case 'QUIZ':
@@ -63,24 +68,64 @@ const KeyBox = (props) => {
                     </Styled.TextContainer>
                 )}
                 <Styled.BottonBox>
-                    <Styled.StartButton
-                        opened={opened}
-                        blocked={props.blocked}
-                        onClick={!props.blocked ? !opened ? startHandler : keyValidation.buttonBehavior.onClick : null}
-                    >
-                        <Styled.ButtonText>
-                            {props.blocked && <AiFillCheckCircle color='#27D5A2' size={24} style={{ marginRight: 10 }} />}
-                            {props.blocked ? "Completed" : startBox ? keyValidation.buttonBehavior.title : "Start"}
-                        </Styled.ButtonText>
-                    </Styled.StartButton>
-                    {(data.information.length > 1 || opened) && (
-                        <Styled.StartButtonTwo
-                            onClick={startBox ? startHandler : openedHandler}
+                    <Styled.ActionButton>
+                        <Styled.StartButton
+                            opened={opened}
+                            blocked={props.blocked}
+                            onClick={
+                                !props.blocked
+                                    ? !opened
+                                        ? startHandler
+                                        : keyValidation.buttonBehavior.onClick
+                                    : null
+                            }
                         >
                             <Styled.ButtonText>
-                                {opened ? 'Hide' : 'Details'}
+                                {props.blocked && (
+                                    <AiFillCheckCircle
+                                        color="#27D5A2"
+                                        size={24}
+                                        style={{ marginRight: 10 }}
+                                    />
+                                )}
+                                {props.blocked
+                                    ? 'Completed'
+                                    : startBox
+                                    ? keyValidation.buttonBehavior.title
+                                    : 'Start'}
                             </Styled.ButtonText>
-                        </Styled.StartButtonTwo>
+                        </Styled.StartButton>
+                        {(data.information.length > 1 || opened) && (
+                            <Styled.StartButtonTwo
+                                onClick={
+                                    startBox ? startHandler : openedHandler
+                                }
+                            >
+                                <Styled.ButtonText>
+                                    {opened ? 'Hide' : 'Details'}
+                                </Styled.ButtonText>
+                            </Styled.StartButtonTwo>
+                        )}
+                    </Styled.ActionButton>
+                    {!opened && (
+                        <Styled.InformationDiv>
+                            <Styled.KeyRewardBox>
+                                <Styled.InformationBoxHeading>
+                                    Key Reward
+                                </Styled.InformationBoxHeading>
+                                <Styled.InformationBoxInfoText>
+                                    {data.keys}
+                                </Styled.InformationBoxInfoText>
+                            </Styled.KeyRewardBox>
+                            {/* <Styled.CompensationBox>
+                                <Styled.InformationBoxHeading>
+                                    Compensation
+                                </Styled.InformationBoxHeading>
+                                <Styled.InformationBoxInfoText>
+                                    100 $BANK
+                                </Styled.InformationBoxInfoText>
+                            </Styled.CompensationBox> */}
+                        </Styled.InformationDiv>
                     )}
                 </Styled.BottonBox>
             </Styled.Box>
