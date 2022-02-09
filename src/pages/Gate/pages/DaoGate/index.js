@@ -42,7 +42,7 @@ const DaoGate = (props) => {
     } else if (loaded) {
         return (
             <Styled.Wrapper>
-                <BackButtonDiv url={`/dao/${dao.name}`} />
+                <BackButtonDiv url={`/dao/${dao.name}`} published={gateData.published} id={gateData.id} daoData={dao} gateData={gateData}/>
                 <GradientSVG idCSS="circleGradient" />
                 <Styled.ContentWrapper>
                     <NftBadge nft={gateData.badge} />

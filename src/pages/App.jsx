@@ -64,9 +64,9 @@ const App = (props) => {
                         <Route path="dao/:id" element={<DAO />}>
                             <Route index element={<DAOHome />} />
                             <Route path="add-gate" element={<AddNewGate />} />
+                            <Route path="edit-gate" element={<AddNewGate />} />
                         </Route>
 
-                        <Route path="/gates" element={<DAOsGate />} />
 
                         <Route path="gate/:gate" element={<Gate />}>
                             <Route index element={<DaoGate />} />
