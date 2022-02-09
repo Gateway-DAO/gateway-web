@@ -114,8 +114,7 @@ const KeyBox = (props) => {
                                     Key Reward
                                 </Styled.InformationBoxHeading>
                                 <Styled.InformationBoxInfoText>
-                                    50
-                                    {console.log(props)}
+                                    {data.keys}
                                 </Styled.InformationBoxInfoText>
                             </Styled.KeyRewardBox>
                             <Styled.CompensationBox>
