@@ -42,7 +42,6 @@ const DaoGate = (props) => {
     })
 
     const [keysDone, setKeysDone] = useState(0)
-
     useEffect(() => {
         if (data) {
             setKeysDone(
@@ -54,6 +53,8 @@ const DaoGate = (props) => {
             )
         }
     }, [data])
+
+    // console.log(gateData);
 
     const handleClick = () => {
         navigate('add-key')
@@ -68,7 +69,7 @@ const DaoGate = (props) => {
     } else if (loaded) {
         return (
             <Styled.Wrapper>
-                <BackButtonDiv />
+                <BackButtonDiv published={gateData.published} id={gateData.id} daoData={dao} gateData={gateData}/>
                 <GradientSVG idCSS="circleGradient" />
                 <Styled.ContentWrapper>
                     <NftBadge nft={gateData.badge} />

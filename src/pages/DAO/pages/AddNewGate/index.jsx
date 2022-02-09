@@ -12,7 +12,7 @@ import SearchRes from './Components/SearchRes'
 
 // Hooks
 import { useCreateGate } from '../../../../api/database/useCreateGate'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext, useLocation } from 'react-router-dom'
 import { useAuth } from '../../../../contexts/UserContext'
 import useSearchUsers from '../../../../api/database/useSearchUser'
 
@@ -24,36 +24,45 @@ import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload'
 import FormData from 'form-data'
 import Loader from '../../../../components/Loader'
 import { useEffect } from 'react'
+import useUpdateGate from '../../../../api/database/useUpdateGate'
 
 /* This is a React component that will render the form to add a gate. */
 const AddGateForm = (props) => {
     const $input = useRef(null)
     const { userInfo } = useAuth()
-
+    const {state} = useLocation()
+    const edit = state?true:false;
     // State
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+    const [title, setTitle] = useState(edit?state.gateData.name:'')
+    const [description, setDescription] = useState(edit?state.gateData.description:'')
     const [retroactiveEarners, setRetroactiveEarners] = useState([''])
     const [uploadFile, setUploadFile] = useState(null)
     const [over, setover] = useState(false)
     const [category, setCategory] = useState('')
-    const [categoryList, setCategoryList] = useState([])
+    const [categoryList, setCategoryList] = useState(edit?state.gateData.categories:[])
     const [prerequisite, setPrerequisite] = useState('')
     const [prerequisiteList, setPrerequisiteList] = useState([])
-    const [keyRequired, setKeyRequired] = useState(0)
-    const [badgeName, setBadgeName] = useState('')
+    const [keyRequired, setKeyRequired] = useState(edit?state.gateData.keysNumber:0)
+    const [badgeName, setBadgeName] = useState(edit?state.gateData.badge.name:'')
     const [admin, setAdmin] = useState('')
-    const [adminList, setAdminList] = useState([{
+    const [adminList, setAdminList] = useState(edit?state.gateData.admins:[{
         name: userInfo?.name || "",
         username: userInfo?.username || "",
         pfp: userInfo?.pfp || ""
     }])
+    const [adminIDList, setAdminIDList] = useState(edit?state.gateData.admins:[userInfo.id]);
     const [updateLoading, setUpdateeLoading] = useState(false)
     const [adminSearch, setAdminSearch] = useState([])
+    const [NFTupdated, setNFTupdated] = useState(edit);
+
+    
 
     // Hooks
+    // const {state} = useLocation()
+    
     const { daoData } = useOutletContext()
     const { createGate, loading, data, error } = useCreateGate()
+    const {updateGate} = useUpdateGate();
     const { data: searchUserData, loading: searchUserLoading } = useSearchUsers({
         variables: {
             filter: {
@@ -105,6 +114,7 @@ const AddGateForm = (props) => {
     /* Removing the file from the upload file state. */
     const removeUploadFile = () => {
         setUploadFile(null)
+        setNFTupdated(false);
     }
 
     /* The addCategories function is called when the user presses the Enter key. 
@@ -140,21 +150,21 @@ const AddGateForm = (props) => {
     const addAdmin = (admin) => {
         setAdminList([...adminList, admin])
         setAdminSearch(prev => prev.filter(adm => adm.id !== admin.id))
+        setAdminIDList([...adminIDList, admin.id]);
     }
 
     /**
      * It removes the admin from the list of admins.
      */
     const removeAdmin = (id) => {
-        setAdminList(prev => prev.filter(adm => adm.id !== id))
+        setAdminList(prev => prev.filter(adm => adm.id !== id));
+        setAdminIDList(prev => prev.filter(adm => adm.id !== id));
     }
 
     const updateRetroactiveEarner = (e, idx) => {
         console.log(idx)
         const add = retroactiveEarners.map((value, i) => {
             if (idx === i) {
-                console.log(retroactiveEarners[i])
-                // retroactiveEarners[i]=e;
                 return e
             }
             return value
@@ -200,7 +210,7 @@ const AddGateForm = (props) => {
                         name: title,
                         description,
                         categories: categoryList,
-                        admins: [...adminList, userInfo.id],
+                        admins: [...adminIDList, userInfo.id],
                         keysNumber: keyRequired,
                         published: false,
                         badge: {
@@ -217,6 +227,71 @@ const AddGateForm = (props) => {
             console.log(err)
         }
         setUpdateeLoading(false)
+    }
+
+
+    const onEdit = async (e)=>{
+        setUpdateeLoading(true)
+        e.preventDefault();
+        if(uploadFile && NFTupdated){
+            try{
+                const form = new FormData()
+                form.append('file', uploadFile, 'image.png')
+                const hash = await uploadFileToIPFS(form)
+                await updateGate({
+                    variables:{
+                        input:{
+                            id: state.gateData.id,
+                            daoID: daoData.daoID,
+                            name: title,
+                            description,
+                            categories: categoryList,
+                            admins: adminIDList,
+                            keysNumber: keyRequired,
+                            published: state.gateData.published,
+                            badge: {
+                                name: badgeName,
+                                ipfsURL: hash,
+                            },
+                        }
+                    }
+                })
+                navigate(`/gate/${state.gateData.id}`)
+            }catch(e){
+                alert("We are facing issues please try again later")
+                console.log(e);
+            }
+        }else{
+            try{
+                if(!NFTupdated){
+                    alert("Please Enter the NFT");
+                    return false;
+                }
+                await updateGate({
+                    variables:{
+                        input:{
+                            id: state.gateData.id,
+                            daoID: daoData.daoID,
+                            name: title,
+                            description,
+                            categories: categoryList,
+                            admins: adminIDList,
+                            keysNumber: keyRequired,
+                            published: state.gateData.published,
+                            badge: {
+                                name: badgeName,
+                                ipfsURL: state.gateData.badge.ipfsURL
+                            },
+                        }
+                    }
+                })
+                navigate(`/gate/${state.gateData.id}`)
+            }catch(e){
+                alert("We are facing issues please try again later")
+                console.log(e);
+            }
+        }
+        setUpdateeLoading(false);
     }
 
     useEffect(() => {
@@ -245,17 +320,23 @@ const AddGateForm = (props) => {
     return (
         <Styled.Page>
             <Styled.Container
-                onSubmit={onSave}
+                onSubmit={edit?onEdit:onSave}
                 onKeyPress={(event) => {
                     if (event.which === 13 /* Enter */) {
                         event.preventDefault()
                     }
                 }}
             >
-                <Styled.Header>Create a New Gate</Styled.Header>
+                <Styled.Header>
+                    {edit?
+                        `Edit Gate`
+                    :
+                        `Create a New Gate`
+                    }
+                </Styled.Header>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="title">
-                        Gate Title*
+                        Gate Title
                     </FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
@@ -269,7 +350,7 @@ const AddGateForm = (props) => {
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="description">
-                        Description*
+                        Description
                     </FormStyled.Label>
                     <FormStyled.Textarea
                         onChange={(e) => setDescription(e.target.value)}
@@ -281,7 +362,7 @@ const AddGateForm = (props) => {
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor="title">
-                        KEYS REQUIRED*
+                        KEYS REQUIRED
                     </FormStyled.Label>
                     <Styled.InputSmall
                         onChange={(e) => setKeyRequired(e.target.value)}
@@ -326,7 +407,7 @@ const AddGateForm = (props) => {
                     <FormStyled.Label htmlFor="ProfileImage">
                         Upload Badge or NFT
                     </FormStyled.Label>
-                    {!uploadFile ? (
+                    {!NFTupdated ? (
                         <Styled.DragArea
                             hover={over}
                             htmlFor="uploadFile"
@@ -337,6 +418,7 @@ const AddGateForm = (props) => {
                                 e.preventDefault()
                                 e.persist()
                                 setUploadFile(e.dataTransfer.files[0])
+                                setNFTupdated(true);
                                 setover(false)
                             }}
                             onDragOver={(e) => {
@@ -368,12 +450,16 @@ const AddGateForm = (props) => {
                                 onChange={(e) => {
                                     //setUploadFile(e.target.files[0])
                                     onUploadeFile(e.target.files[0])
+                                    setNFTupdated(true);
                                 }}
                             ></input>
                         </Styled.DragArea>
                     ) : (
                         <Styled.Background
-                            image={URL.createObjectURL(uploadFile)}
+                            image={
+                                !(NFTupdated && uploadFile)?
+                                `https://gateway.pinata.cloud/ipfs/${state.gateData.badge.ipfsURL}`:
+                                URL.createObjectURL(uploadFile)}
                         >
                             <Styled.Cross onClick={removeUploadFile}>
                                 +
