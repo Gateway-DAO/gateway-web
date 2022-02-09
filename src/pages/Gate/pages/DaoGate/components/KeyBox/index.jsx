@@ -117,14 +117,14 @@ const KeyBox = (props) => {
                                     {data.keys}
                                 </Styled.InformationBoxInfoText>
                             </Styled.KeyRewardBox>
-                            <Styled.CompensationBox>
+                            {/* <Styled.CompensationBox>
                                 <Styled.InformationBoxHeading>
                                     Compensation
                                 </Styled.InformationBoxHeading>
                                 <Styled.InformationBoxInfoText>
                                     100 $BANK
                                 </Styled.InformationBoxInfoText>
-                            </Styled.CompensationBox>
+                            </Styled.CompensationBox> */}
                         </Styled.InformationDiv>
                     )}
                 </Styled.BottonBox>
