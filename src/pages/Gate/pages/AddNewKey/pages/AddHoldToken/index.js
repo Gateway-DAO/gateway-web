@@ -3,10 +3,13 @@ import { FormStyled } from '../../../../../../components/Form'
 import { useLocation } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { useCreateTokenHold } from '../../../../../../api/database/useCreateKey'
+import AddKeySuccess from '../AddKeySuccess'
+import Loader from '../../../../../../components/Loader'
 
 const AddHoldToken = (props) => {
     const [address, setAddress] = useState("")
     const [amount, setAmount] = useState(0)
+    const [createdKey, setCreatedKey] = useState(false)
     const { state } = useLocation()
     const { createTokenHold, data, loading, error } = useCreateTokenHold()
 
@@ -24,14 +27,18 @@ const AddHoldToken = (props) => {
                         tokenAmount: state.amount,
                         keys: state.keysRewarded,
                         peopleLimit: state.peopleLimit,
+                        unlimited: state.unlimited,
                         task: {
                             type: "TOKEN_HOLD",
                             chainID: 1,
-                            address: address
+                            address: address,
+                            amount
                         }
                     }
                 }
             })
+
+            setCreatedKey(true)
         }
         catch (err) {
             alert("An error occurred. Please try again later!")
@@ -39,7 +46,7 @@ const AddHoldToken = (props) => {
         }
     }
 
-    return (
+    return createdKey ? <AddKeySuccess gate={state.gateData.id} /> : (
         <FormStyled.FormBox onSubmit={onSubmit}>
             <FormStyled.H1>Add Hold A Token</FormStyled.H1>
             <FormStyled.Fieldset>
@@ -52,7 +59,10 @@ const AddHoldToken = (props) => {
                 <FormStyled.Input placeholder="Minimum amount to hold" value={amount} onChange={e => setAmount(e.target.value)} required />
             </FormStyled.Fieldset>
 
-            <FormStyled.Button type="submit">Submit</FormStyled.Button>
+            <FormStyled.Button type="submit">
+                {loading && <Loader color="white" />}
+                Submit
+            </FormStyled.Button>
         </FormStyled.FormBox>
     )
 }

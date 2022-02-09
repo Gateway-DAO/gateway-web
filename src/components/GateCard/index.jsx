@@ -9,36 +9,66 @@ import Switch from 'react-switch'
 import { CircularProgressbar } from 'react-circular-progressbar'
 
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useAdmin from '../../hooks/useAdmin'
 import { useNavigate } from 'react-router-dom'
 import useUpdateGate from '../../api/database/useUpdateGate'
+import { useGetGateStatusByUserID } from '../../api/database/useGetGateStatus'
+import { useAuth } from '../../contexts/UserContext'
 
 /* This is a card that displays information about a gate. */
 const GateCard = (props) => {
     // State
-    const [checked, setChecked] = useState(props.gate.published)
     const gate = props.gate
+    const [checked, setChecked] = useState(gate.published)
 
     // Hooks
-    const { isAdmin } = useAdmin(props.gate.admins || [])
+    const { isAdmin } = useAdmin(gate.admins || [])
+    const { userInfo } = useAuth()
     const navigate = useNavigate()
     const { updateGate } = useUpdateGate()
+    const { data } = useGetGateStatusByUserID(userInfo?.id, {
+        filter: {
+            gateID: {
+                eq: gate.id,
+            },
+        },
+    })
 
+    /**
+     * It toggles the published state of the gate.
+     */
     const toggleGatePublished = async () => {
         try {
-            setChecked(!gate.published)
             await updateGate({
                 variables: {
                     input: {
                         id: gate.id,
-                        published: !gate.published,
+                        published: !checked,
                     },
                 },
             })
+
+            //setChecked(prev => !prev)
+            window.location.reload()
         } catch (err) {
             alert('An error ocurred')
             console.log(err)
+        }
+    }
+
+    /**
+     * It returns the text for the button based on the status of the gate.
+     * @returns The status of the gate.
+     */
+    const getButtonText = () => {
+        switch (data?.getGateStatusByUserID?.items[0]?.status) {
+            case 'IN_PROGRESS':
+                return 'In Progress'
+            case 'COMPLETED':
+                return 'Done'
+            default:
+                return 'Start'
         }
     }
 
@@ -48,7 +78,7 @@ const GateCard = (props) => {
                 src={`https://gateway.pinata.cloud/ipfs/${gate.badge.ipfsURL}`}
                 onClick={() => navigate(`/gate/${gate.id}`)}
             >
-                {isAdmin && (
+                {false && (
                     <Styled.EditContainer>
                         <EditIcon />
                     </Styled.EditContainer>
@@ -58,9 +88,11 @@ const GateCard = (props) => {
                     <Styled.SimpleText>NFT Badge</Styled.SimpleText>
                     <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
                 </Styled.NFTBadgeContainer>
+                {/*
                 <Styled.PeopleInvolved>
                     <PfpBox text="4 people have earned it." />
                 </Styled.PeopleInvolved>
+                */}
             </Styled.GateBanner>
             <Styled.CategoryList>
                 {gate.categories.map((category) => (
@@ -76,23 +108,30 @@ const GateCard = (props) => {
                 <Styled.CardDesc>{gate.description}</Styled.CardDesc>
             </Styled.CardBody>
             <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
+                {/*
                 <Styled.InfoBox>
                     <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
                     <Styled.SmallText>BANK.Beginner</Styled.SmallText>
                 </Styled.InfoBox>
+                */}
                 <Styled.InfoBox>
                     <Styled.MediumHeading>KEYS REQUIRED</Styled.MediumHeading>
                     <Styled.KeyBox>
                         <Styled.Circle>
                             <CircularProgressbar
-                                value={80}
+                                value={
+                                    data?.getGateStatusByUserID?.items[0]
+                                        ?.keysDone || 0
+                                }
                                 minValue={0}
                                 maxValue={props.gate.keysNumber}
                                 strokeWidth={20}
                             />
                         </Styled.Circle>
                         <Styled.SmallText>
-                            80 of {props.gate.keysNumber}
+                            {data?.getGateStatusByUserID?.items[0]?.keysDone ||
+                                0}{' '}
+                            of {props.gate.keysNumber}
                         </Styled.SmallText>
                     </Styled.KeyBox>
                 </Styled.InfoBox>
@@ -101,9 +140,11 @@ const GateCard = (props) => {
                 <Styled.ActionButton
                     onClick={() => navigate(`/gate/${gate.id}`)}
                 >
-                    <Styled.ButtonText>DONE</Styled.ButtonText>
+                    <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                <Styled.ActionButton>
+                <Styled.ActionButton
+                    onClick={() => navigate(`/gate/${gate.id}`)}
+                >
                     <Styled.ButtonText>DETAILS</Styled.ButtonText>
                 </Styled.ActionButton>
                 {isAdmin && (

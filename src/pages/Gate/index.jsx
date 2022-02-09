@@ -1,24 +1,59 @@
 import { useParams, Navigate, Outlet } from 'react-router-dom'
 
+// Hooks
 import { useGetGate } from '../../api/database/useGetGate'
+import { useAuth } from '../../contexts/UserContext'
+import { onUpdateGate } from '../../graphql/subscriptions'
+import {
+    useGetGateStatusByGateID,
+    useGetGateStatusByUserID,
+} from '../../api/database/useGetGateStatus'
+import { useGetTaskStatusByUserID } from '../../api/database/useGetTaskStatus'
 
 // Components
 import Page from '../../components/Page'
 import { useState, useEffect } from 'react'
-import { getTokenFromAddress } from '../../api/coingecko'
 import React from 'react'
 
 // AWS
 import { API, graphqlOperation } from 'aws-amplify'
 import { gql } from '@apollo/client'
-import { onUpdateGate } from '../../graphql/subscriptions'
 
 const Gate = (props) => {
     const { gate } = useParams()
+    const { userInfo } = useAuth()
 
     const { data: dbData, loading, error } = useGetGate(gate)
     const [gateData, setGateData] = useState(dbData || {})
     const [loaded, setLoaded] = useState(false)
+
+    const { data: GSData, loading: GSLoading } = useGetGateStatusByGateID(
+        gateData.id,
+        {
+            filter: {
+                status: {
+                    eq: 'COMPLETED',
+                },
+            },
+        }
+    )
+    const { data: GSUserData, loading: GSUserLoading } =
+        useGetGateStatusByUserID(userInfo?.id, {
+            filter: {
+                gateID: {
+                    eq: gateData.id,
+                },
+            },
+        })
+
+    const { data: TSData, loading: taskStatusLoading } =
+        useGetTaskStatusByUserID(userInfo ? userInfo?.id : '', {
+            filter: {
+                gateID: {
+                    eq: gateData.id,
+                },
+            },
+        })
 
     // Fetch data regarding these
     useEffect(() => {
@@ -59,7 +94,16 @@ const Gate = (props) => {
         <Page>
             <Outlet
                 context={{
-                    gateData,
+                    gateData: {
+                        ...gateData,
+                        holders:
+                            GSData?.getGateStatusByGateID?.items?.length ||
+                            0,
+                        keysDone:
+                            GSUserData?.getGateStatusByUserID?.items[0]
+                                ?.keysDone || 0,
+                        taskStatus: TSData?.getTaskStatusByUserID?.items || [],
+                    },
                     setGateData,
                     loaded,
                     loading,

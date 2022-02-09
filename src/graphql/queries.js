@@ -101,6 +101,18 @@ export const getUser = /* GraphQL */ `
                 network
                 url
             }
+            gates {
+                items {
+                    id
+                    userID
+                    gateID
+                    keysDone
+                    status
+                    createdAt
+                    updatedAt
+                }
+                nextToken
+            }
             tasks {
                 items {
                     id
@@ -160,6 +172,9 @@ export const listUsers = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -963,6 +978,9 @@ export const getPost = /* GraphQL */ `
                     network
                     url
                 }
+                gates {
+                    nextToken
+                }
                 tasks {
                     nextToken
                 }
@@ -1122,6 +1140,9 @@ export const getComment = /* GraphQL */ `
                     network
                     url
                 }
+                gates {
+                    nextToken
+                }
                 tasks {
                     nextToken
                 }
@@ -1275,12 +1296,15 @@ export const getGate = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt
                     task {
                         ... on Quiz {
                             type
+                            title
+                            description
                             questions {
                                 question
                                 options {
@@ -1445,10 +1469,13 @@ export const getKey = /* GraphQL */ `
             token
             tokenAmount
             keys
+            unlimited
             peopleLimit
             task {
                 ... on Quiz {
                     type
+                    title
+                    description
                     questions {
                         question
                         options {
@@ -1466,6 +1493,7 @@ export const getKey = /* GraphQL */ `
                     type
                     chainID
                     address
+                    amount
                 }
                 ... on SelfVerify {
                     type
@@ -1517,10 +1545,13 @@ export const listKeys = /* GraphQL */ `
                 token
                 tokenAmount
                 keys
+                unlimited
                 peopleLimit
                 task {
                     ... on Quiz {
                         type
+                        title
+                        description
                         questions {
                             question
                             options {
@@ -1538,6 +1569,7 @@ export const listKeys = /* GraphQL */ `
                         type
                         chainID
                         address
+                        amount
                     }
                     ... on SelfVerify {
                         type
@@ -1555,6 +1587,177 @@ export const listKeys = /* GraphQL */ `
                         methodName
                     }
                 }
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
+export const getGateStatus = /* GraphQL */ `
+    query GetGateStatus($id: ID!) {
+        getGateStatus(id: $id) {
+            id
+            userID
+            user {
+                id
+                wallet
+                username
+                name
+                bio
+                daos_ids
+                daos {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                init
+                nonce
+                pfp
+                socials {
+                    network
+                    url
+                }
+                gates {
+                    nextToken
+                }
+                tasks {
+                    nextToken
+                }
+                createdAt
+                updatedAt
+            }
+            gateID
+            gate {
+                id
+                daoID
+                dao {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                categories
+                admins
+                keysNumber
+                keys {
+                    nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
+                }
+                createdAt
+                updatedAt
+            }
+            reward {
+                rewardCode
+                retrieved
+            }
+            tasks {
+                items {
+                    id
+                    userID
+                    gateID
+                    keyID
+                    completed
+                    createdAt
+                    updatedAt
+                }
+                nextToken
+            }
+            keysDone
+            status
+            createdAt
+            updatedAt
+        }
+    }
+`
+export const listGateStatuss = /* GraphQL */ `
+    query ListGateStatuss(
+        $filter: ModelGateStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        listGateStatuss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                }
+                reward {
+                    rewardCode
+                    retrieved
+                }
+                tasks {
+                    nextToken
+                }
+                keysDone
+                status
                 createdAt
                 updatedAt
             }
@@ -1602,6 +1805,9 @@ export const getTaskStatus = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -1678,10 +1884,13 @@ export const getTaskStatus = /* GraphQL */ `
                 token
                 tokenAmount
                 keys
+                unlimited
                 peopleLimit
                 task {
                     ... on Quiz {
                         type
+                        title
+                        description
                         questions {
                             question
                             options {
@@ -1699,6 +1908,7 @@ export const getTaskStatus = /* GraphQL */ `
                         type
                         chainID
                         address
+                        amount
                     }
                     ... on SelfVerify {
                         type
@@ -1768,6 +1978,7 @@ export const listTaskStatuss = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt
@@ -1831,6 +2042,9 @@ export const getUserByAddress = /* GraphQL */ `
                     network
                     url
                 }
+                gates {
+                    nextToken
+                }
                 tasks {
                     nextToken
                 }
@@ -1891,6 +2105,9 @@ export const getUserByUsername = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -2700,10 +2917,13 @@ export const getKeysByGateId = /* GraphQL */ `
                 token
                 tokenAmount
                 keys
+                unlimited
                 peopleLimit
                 task {
                     ... on Quiz {
                         type
+                        title
+                        description
                         questions {
                             question
                             options {
@@ -2721,6 +2941,7 @@ export const getKeysByGateId = /* GraphQL */ `
                         type
                         chainID
                         address
+                        amount
                     }
                     ... on SelfVerify {
                         type
@@ -2738,6 +2959,130 @@ export const getKeysByGateId = /* GraphQL */ `
                         methodName
                     }
                 }
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
+export const getGateStatusByUserId = /* GraphQL */ `
+    query GetGateStatusByUserId(
+        $userID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelGateStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getGateStatusByUserID(
+            userID: $userID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                    badge {
+                      ipfsURL
+                      name
+                    }
+                }
+                reward {
+                    rewardCode
+                    retrieved
+                }
+                tasks {
+                    nextToken
+                }
+                keysDone
+                status
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`
+export const getGateStatusByGateId = /* GraphQL */ `
+    query GetGateStatusByGateId(
+        $gateID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelGateStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getGateStatusByGateID(
+            gateID: $gateID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    admins
+                    keysNumber
+                    published
+                    createdAt
+                    updatedAt
+                }
+                reward {
+                    rewardCode
+                    retrieved
+                }
+                tasks {
+                    nextToken
+                }
+                keysDone
+                status
                 createdAt
                 updatedAt
             }
@@ -2796,6 +3141,7 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt
@@ -2859,6 +3205,7 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                     token
                     tokenAmount
                     keys
+                    unlimited
                     peopleLimit
                     createdAt
                     updatedAt
@@ -2921,6 +3268,9 @@ export const searchUsers = /* GraphQL */ `
                 socials {
                     network
                     url
+                }
+                gates {
+                    nextToken
                 }
                 tasks {
                     nextToken
@@ -3150,6 +3500,71 @@ export const searchPosts = /* GraphQL */ `
                 }
                 upvotes
                 downvotes
+                createdAt
+                updatedAt
+            }
+            nextToken
+            total
+        }
+    }
+`
+export const searchGates = /* GraphQL */ `
+    query SearchGates(
+        $filter: SearchableGateFilterInput
+        $sort: SearchableGateSortInput
+        $limit: Int
+        $nextToken: String
+        $from: Int
+    ) {
+        searchGates(
+            filter: $filter
+            sort: $sort
+            limit: $limit
+            nextToken: $nextToken
+            from: $from
+        ) {
+            items {
+                id
+                daoID
+                dao {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                categories
+                admins
+                keysNumber
+                keys {
+                    nextToken
+                }
+                published
+                badge {
+                    nftURL
+                    ipfsURL
+                    name
+                }
+                preRequisites {
+                    completedGates
+                }
                 createdAt
                 updatedAt
             }

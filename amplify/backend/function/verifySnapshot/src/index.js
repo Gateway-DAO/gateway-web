@@ -1,6 +1,24 @@
 /* Amplify Params - DO NOT EDIT
 	API_GATEWAY_DAOTABLE_ARN
 	API_GATEWAY_DAOTABLE_NAME
+	API_GATEWAY_GATESTATUSTABLE_ARN
+	API_GATEWAY_GATESTATUSTABLE_NAME
+	API_GATEWAY_GATETABLE_ARN
+	API_GATEWAY_GATETABLE_NAME
+	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
+	API_GATEWAY_GRAPHQLAPIIDOUTPUT
+	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
+	API_GATEWAY_KEYTABLE_ARN
+	API_GATEWAY_KEYTABLE_NAME
+	API_GATEWAY_TASKSTATUSTABLE_ARN
+	API_GATEWAY_TASKSTATUSTABLE_NAME
+	API_GATEWAY_USERTABLE_ARN
+	API_GATEWAY_USERTABLE_NAME
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+	API_GATEWAY_DAOTABLE_ARN
+	API_GATEWAY_DAOTABLE_NAME
 	API_GATEWAY_GATETABLE_ARN
 	API_GATEWAY_GATETABLE_NAME
 	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
@@ -18,7 +36,17 @@ Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
 const { default: axios } = require('axios')
-const { createTaskStatus, getKey, getUser } = require('/opt/helpers.js')
+const {
+    createTaskStatus,
+    getKey,
+    getUser,
+    getGateStatus,
+    createGateStatus,
+	getGate,
+	getCompletedKeys,
+	markGateAsCompleted,
+	removePeopleFromKey
+} = require('/opt/helpers.js')
 
 AWS.config.update({
     region: 'us-east-1',
@@ -31,16 +59,30 @@ exports.handler = async (event, ctx, callback) => {
         // 1. get key
         const key = await getKey(keyID)
 
+		// 2. get gate
+		const gate = await getGate(key.gateID)
+
         // 2. get user
         const user = await getUser(userID)
 
-        // 3. check if user has interacted with the contract
+		// 3. get gate status; if doesn't exist, create it
+		let gateStatus = await getGateStatus(userID, key.gateID)
+		if (!gateStatus) {
+			gateStatus = await createGateStatus({
+				userID,
+				gateID
+			})
+		}
+
+		let keysDone = await getCompletedKeys(userID, key.gateID)
+
+        // 4. check if user has interacted with the contract
         const type = key.task.snapshotType
         const spaceID = key.task.spaceID
         const proposal = key.task.proposal
         const wallet = user.wallet
 
-        // 3.1. connect to Snapshot API
+        // 4.1. connect to Snapshot API
         const ENDPOINT = 'https://hub.snapshot.org/graphql'
         const QUERY_PROPOSAL = `
 			query Proposals($space: String!, $wallet: String!) {
@@ -92,11 +134,11 @@ exports.handler = async (event, ctx, callback) => {
 
         const res = await axios.get(ENDPOINT, {
             data: JSON.stringify({
-                query: type === "VOTE" ? QUERY_VOTE : QUERY_PROPOSAL,
+                query: type === 'VOTE' ? QUERY_VOTE : QUERY_PROPOSAL,
                 variables: JSON.stringify({
-					wallet,
-					...(type === "VOTE" ? { proposal } : { space: spaceID })
-				}),
+                    wallet,
+                    ...(type === 'VOTE' ? { proposal } : { space: spaceID }),
+                }),
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -104,16 +146,28 @@ exports.handler = async (event, ctx, callback) => {
             },
         })
 
-        const interactions = type === "VOTE" ? res.data.data.votes : res.data.data.proposals
+        const interactions =
+            type === 'VOTE' ? res.data.data.votes : res.data.data.proposals
+
+		console.log(interactions)
 
         if (interactions.length > 0) {
             // The user interacted with the contract, so task completed
             const item = await createTaskStatus({
                 userID,
                 keyID,
-				gateID,
+                gateID,
                 completed: true,
             })
+
+			if (!key.unlimited && key.peopleLimit > 0) {
+				await removePeopleFromKey(keyID)
+			}
+
+			if (keysDone + key.keys >= gate.keysNumber) {
+				// Gate completed, update gate status
+				await markGateAsCompleted(gateStatus.id)
+			}
 
             return {
                 __typename: 'TaskStatus',
@@ -128,7 +182,15 @@ exports.handler = async (event, ctx, callback) => {
             msg: "User didn't interact with the given method",
         }
     } catch (error) {
+        const { keyID } = event.arguments
+
         console.log(error)
-        return error
+
+        return {
+            __typename: 'Error',
+            keyID,
+            error: 'UNEXPECTED_ERROR',
+            msg: error,
+        }
     }
 }

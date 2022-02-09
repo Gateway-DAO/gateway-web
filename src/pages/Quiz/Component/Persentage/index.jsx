@@ -1,9 +1,13 @@
 import { useState } from 'react'
+
+// Styling
 import * as Styled from './style'
 import { FormStyled } from '../../../../components/Form'
 
-const Persentage = ({ persentage, setPersentage }) => {
-    const [arr, setArr] = useState([0, 25, 50, 75, 100])
+// Components
+import Loader from '../../../../components/Loader'
+
+const Percentage = ({ percentage, setPercentage, loading }) => {
     return (
         <>
             <FormStyled.Fieldset>
@@ -12,40 +16,44 @@ const Persentage = ({ persentage, setPersentage }) => {
                 </FormStyled.Label>
                 <Styled.Array>
                     <Styled.Block
-                        onClick={() => setPersentage(0)}
-                        checked={persentage === 0}
+                        onClick={() => setPercentage(0)}
+                        checked={percentage === 0}
                     >
                         0%
                     </Styled.Block>
                     <Styled.Block
-                        onClick={() => setPersentage(25)}
-                        checked={persentage === 25}
+                        onClick={() => setPercentage(0.25)}
+                        checked={percentage === 0.25}
                     >
                         25%
                     </Styled.Block>
                     <Styled.Block
-                        onClick={() => setPersentage(50)}
-                        checked={persentage === 50}
+                        onClick={() => setPercentage(0.50)}
+                        checked={percentage === 0.50}
                     >
                         50%
                     </Styled.Block>
                     <Styled.Block
-                        onClick={() => setPersentage(75)}
-                        checked={persentage === 75}
+                        onClick={() => setPercentage(0.75)}
+                        checked={percentage === 0.75}
                     >
                         75%
                     </Styled.Block>
                     <Styled.Block
-                        onClick={() => setPersentage(100)}
-                        checked={persentage === 100}
+                        onClick={() => setPercentage(1.00)}
+                        checked={percentage === 1.00}
                     >
                         100%
                     </Styled.Block>
                 </Styled.Array>
             </FormStyled.Fieldset>
-            <FormStyled.Button type="submit">Submit</FormStyled.Button>
+
+            <FormStyled.Button type="submit">
+                {loading && <Loader color="white" />}
+                Submit
+            </FormStyled.Button>
         </>
     )
 }
 
-export default Persentage
+export default Percentage

@@ -16,7 +16,7 @@ const ImageUpload = (props) => {
 
     return (
         <FormStyled.Fieldset>
-            <FormStyled.Label htmlFor={props.for}>{props.label}</FormStyled.Label>
+            <FormStyled.Label htmlFor={props.htmlFor}>{props.label}</FormStyled.Label>
             {!imageURL ? (
                 <Styled.DragArea
                     hover={over}

@@ -8,7 +8,7 @@ import useUpdateGate from '../../../../../../api/database/useUpdateGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin'
 //import'./BackButton.css';
 
-const BackButton = (props) => {
+const BackButton = ({ url = -1, children = "Go Back", ...props}) => {
     const gateData = props.gateData;
     
     //States
@@ -45,11 +45,11 @@ const BackButton = (props) => {
     return (
         <Styled.Wrapper>
             <Styled.Div>
-                <Styled.ButtonWrapper onClick={() => navigate(-1)}>
+                <Styled.ButtonWrapper onClick={() => navigate(url)}>
                     <img src={BackIcon} alt="Back" />
                 </Styled.ButtonWrapper>
                 <Styled.TextWrapper>
-                    <Styled.Text>Back to Onboarding</Styled.Text>
+                    <Styled.Text>{children}</Styled.Text>
                 </Styled.TextWrapper>
             </Styled.Div>
                 
@@ -68,8 +68,8 @@ const BackButton = (props) => {
                     </Styled.ButtonWrapper>
                 </>
                 }
-                <Styled.ButtonWrapper onClick={() => navigate(-1)} ml="20">
-                    <img src={ShareIcon} alt="Share" />
+                <Styled.ButtonWrapper onClick={() => navigate(url)} ml="20">
+                    <img src={ShareIcon} />
                 </Styled.ButtonWrapper>
             </Styled.Div>
         </Styled.Wrapper>

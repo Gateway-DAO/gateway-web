@@ -7,12 +7,14 @@ import { ActionButton } from './QuestionAndAnswer/style'
 import * as Styled from './style'
 
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+// import { useVerifyQuiz } from '../../../../../../../../../api/database/useVerifyKeys'
 
 const Quiz = (props) => {
     const [answers, setAnswers] = useState([])
     const [questionIdx, setQuestionIdx] = useState(0)
+    // const { verifyQuiz } = useVerifyQuiz()
     const { state } = useLocation()
 
     /**
@@ -24,9 +26,9 @@ const Quiz = (props) => {
             setQuestionIdx((idx) => idx + 1)
         }
 
-        const onFinish = (e) => {
+        const onFinish = async (e) => {
             try {
-                alert("Congrats!")
+                console.log(answers)
             }
             catch (err) {
                 alert("An error ocurred")
@@ -54,11 +56,11 @@ const Quiz = (props) => {
             <BackButton>Go back</BackButton>
             <Styled.Box>
                 <Styled.DaosContainer>
-                    <Styled.ImageConstainer />
-                    <Styled.DaoTextBox>BanklessDAO</Styled.DaoTextBox>
+                    <Styled.ImageConstainer src={state.gateData.dao.logoURL} />
+                    <Styled.DaoTextBox>{state.gateData.dao.name}</Styled.DaoTextBox>
                 </Styled.DaosContainer>
                 <Styled.HeadingContainer>
-                    {state.information[0].title}
+                    {state.task.title}
                 </Styled.HeadingContainer>
                 <QuestionAndAnswer
                     question={state.task.questions[questionIdx]}

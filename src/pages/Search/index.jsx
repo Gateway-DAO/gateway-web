@@ -2,7 +2,7 @@ import * as Styled from './style'
 
 // Hooks
 import { useParams, useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSearchDAO } from '../../api/database/useSearchDAO'
 import { useDAOLength } from '../../api/database/useDAOLength'
 
@@ -18,7 +18,7 @@ const Search = (props) => {
     const [selectionTab, setSelectionTab] = useState('DAOs')
     const { query } = useParams()
     const [inputVal, setInputVal] = useState(query || '')
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const [hits, setHits] = useState([])
     const [toggle, setToggle] = useState(false)
 
@@ -28,7 +28,6 @@ const Search = (props) => {
             console.log(searchData)
             setToggle(false)
             navigate(`/search/${e.target.value}`)
-            
         }
     }
     const handelSearchAll = () => {
@@ -49,7 +48,7 @@ const Search = (props) => {
                 return <DAOTab />
         }
     }
-    
+
     const {
         data: searchData,
         loading: searchLoading,
@@ -59,35 +58,37 @@ const Search = (props) => {
         variables: {
             filter: {
                 or: [
-                    { dao: { wildcard: `*${inputVal}*` } },
-                    { name: { wildcard: `*${inputVal}*` } },
-                    { description: { wildcard: `*${inputVal}*` } },
-                    { categories: { match: `*${inputVal}*` } },
-                    { tags: { wildcard: `*${inputVal}*` } },
+                    { dao: { wildcard: `*${inputVal.toLowerCase()}*` } },
+                    { name: { wildcard: `*${inputVal.toLowerCase()}*` } },
+                    {
+                        description: {
+                            wildcard: `*${inputVal.toLowerCase()}*`,
+                        },
+                    },
+                    { categories: { match: `*${inputVal.toLowerCase()}*` } },
+                    { tags: { wildcard: `*${inputVal.toLowerCase()}*` } },
                 ],
             },
         },
     })
 
-    const {
-        data: daoLength
-    } = useDAOLength()
+    const { data: daoLength } = useDAOLength()
 
     // useEffect(() => {
     //     setHits(!searchLoading ? searchData.searchDAOs.items : [])
     //     console.log(hits);
     //     setToggle(true);
     // }, [searchData, searchLoading,inputVal])
-    
+
     if (searchError) {
         return <Navigate to="/404" />
     }
 
-    const typing = async (val)=>{
-        setInputVal(val);
+    const typing = async (val) => {
+        setInputVal(val)
         await setHits(!searchLoading ? searchData.searchDAOs.items : [])
-        console.log(hits);
-        setToggle(true);
+        console.log(hits)
+        setToggle(true)
     }
 
     return (
@@ -123,7 +124,7 @@ const Search = (props) => {
                             //    onKeyUp={pauseTyping}
                             type="input"
                             value={inputVal}
-                            onChange={e => typing(e.target.value)}
+                            onChange={(e) => typing(e.target.value)}
                             onKeyPress={handleEnter}
                             onClick={() => setToggle(true)}
                         />

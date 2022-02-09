@@ -8,18 +8,20 @@ const QuestionAndAnswer = ({ question, questionIdx, totalQuestions, setAnswer })
      * Given an event and a selection, add the selection to the answer list if it's not already in the
      * list, otherwise remove it from the list
      */
-    const addAnswer = (selection) => {
-        let result = answerList.includes(selection)
+    const handleAnswer = (selection) => {
+        let val;
 
-        if (result) {
-            setAnswerList(prev => prev.filter((value) => value !== selection))
+        if (answerList.includes(selection)) {
+            val = answerList.filter((value) => value !== selection)
         } else {
-            setAnswerList(prev => [...prev, selection])
+            val = [...answerList, selection]
         }
+
+        setAnswerList(val)
 
         setAnswer({
             questionIdx,
-            answers: answerList
+            answers: val
         })
     }
 
@@ -35,7 +37,7 @@ const QuestionAndAnswer = ({ question, questionIdx, totalQuestions, setAnswer })
             </Styled.QuestionText>
             <Styled.AnswerContainer>
                 {question.options.map((opt, idx) => (
-                    <Styled.Answers onClick={(e) => addAnswer(idx)}>
+                    <Styled.Answers onClick={(e) => handleAnswer(idx)}>
                         <Styled.Option active={answerList.includes(idx)}>
                             {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[idx]}
                         </Styled.Option>

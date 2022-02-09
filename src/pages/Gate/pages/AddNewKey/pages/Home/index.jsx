@@ -6,6 +6,7 @@ import { FormStyled } from '../../../../../../components/Form'
 
 // Components
 import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import Loader from '../../../../../../components/Loader'
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom'
@@ -14,6 +15,7 @@ import { useCreateSelfVerify } from '../../../../../../api/database/useCreateKey
 // Utils
 import space from '../../../../../../utils/canvas'
 import { v4 as uuidv4 } from 'uuid'
+import AddKeySuccess from '../AddKeySuccess'
 
 const AddNewKey = (props) => {
     // States
@@ -24,14 +26,15 @@ const AddNewKey = (props) => {
             description: '',
         },
     ])
-    const [token, setToken] = useState('')
-    const [amount, setAmount] = useState(0)
+    // const [token, setToken] = useState('')
+    // const [amount, setAmount] = useState(0)
     const [keysRewarded, setKeysRewarded] = useState(0)
     const [peopleLimit, setPeopleLimit] = useState(0)
-    const [peopleLimitPlaceholder, setPeopleLimitPlaceholder] = useState("0");
-    const [keysDilogBox,setKeysDilogBox] = useState(false);
-    const [peopleLimitDilogBox,setPeopleLimitDilogBox] = useState(false);
-    
+    const [unlimited, setUnlimited] = useState(true)
+    const [keysDilogBox, setKeysDilogBox] = useState(false)
+    const [peopleLimitDilogBox, setPeopleLimitDilogBox] = useState(false)
+    const [createdKey, setCreatedKey] = useState(false)
+
     const { gateData } = useOutletContext()
 
     // Hooks
@@ -92,7 +95,7 @@ const AddNewKey = (props) => {
                 description: '',
             },
         ])
-        window.scrollBy(0,30);
+        window.scrollBy(0, 30)
     }
 
     /**
@@ -107,19 +110,15 @@ const AddNewKey = (props) => {
         )
     }
 
-    const unlimitedClicked = ()=>{
-        if(peopleLimitPlaceholder==='0' || peopleLimit>0){
-            setPeopleLimitPlaceholder('Unlimited');
-            setPeopleLimit(0);
-        }else{
-            setPeopleLimitPlaceholder('0');
-        }
+    const unlimitedClicked = () => {
+        setUnlimited(prev => !prev)
+        unlimited && setPeopleLimit(0)
     }
 
-    const keysDilogBoxFunc = ()=>{
-        setKeysDilogBox(!keysDilogBox);
+    const keysDilogBoxFunc = () => {
+        setKeysDilogBox(!keysDilogBox)
     }
-    const peopleLimitDilogBoxFunc= ()=>{
+    const peopleLimitDilogBoxFunc = () => {
         setPeopleLimitDilogBox(!peopleLimitDilogBox)
     }
     useEffect(
@@ -139,10 +138,11 @@ const AddNewKey = (props) => {
                 state: {
                     gateData,
                     titleDescriptionPair,
-                    token,
-                    amount,
+                    token: '',
+                    amount: 0,
                     keysRewarded,
                     peopleLimit,
+                    unlimited
                 },
             })
         } else {
@@ -155,10 +155,13 @@ const AddNewKey = (props) => {
                             id: uuidv4(),
                             gateID: gateData.id,
                             information: titleDescriptionPair,
-                            token,
-                            tokenAmount: amount,
+                            //token: token,
+                            //tokenAmount: amount,
+                            token: '',
+                            tokenAmount: 0,
                             keys: keysRewarded,
                             peopleLimit,
+                            unlimited,
                             task: {
                                 type: 'SELF_VERIFY',
                             },
@@ -166,7 +169,7 @@ const AddNewKey = (props) => {
                     },
                 })
 
-                navigate('..')
+                setCreatedKey(true)
             } catch (err) {
                 alert('An error occurred. Please try again later!')
                 console.log(err)
@@ -174,7 +177,9 @@ const AddNewKey = (props) => {
         }
     }
 
-    return (
+    return createdKey ? (
+        <AddKeySuccess gate={gateData.id} />
+    ) : (
         <Styled.AddNewKeyContainer>
             <Styled.SpaceBox id="space-canvas" />
             <FormStyled.FormBox onSubmit={onSubmit}>
@@ -236,7 +241,7 @@ const AddNewKey = (props) => {
                         Add another title and description
                     </FormStyled.TextLabel>
                 </FormStyled.AddWrapper>
-                
+
                 {/*
                 <FormStyled.FieldsetRow marginBottom="0">
                     <FormStyled.Fieldset>
@@ -274,13 +279,15 @@ const AddNewKey = (props) => {
                             Keys REWARDED{' '}
                             <FormStyled.QuestionIcon
                                 onMouseEnter={keysDilogBoxFunc}
-                                onMouseLeave={keysDilogBoxFunc}    
-                            >?</FormStyled.QuestionIcon>
-                            {keysDilogBox&& 
+                                onMouseLeave={keysDilogBoxFunc}
+                            >
+                                ?
+                            </FormStyled.QuestionIcon>
+                            {keysDilogBox && (
                                 <FormStyled.DescriptionDilogBox>
                                     Keys REWARDED
                                 </FormStyled.DescriptionDilogBox>
-                            }
+                            )}
                         </FormStyled.Label>
                         <FormStyled.Input
                             id="keysRewarded"
@@ -297,28 +304,32 @@ const AddNewKey = (props) => {
                             PEOPLE LIMIT{' '}
                             <FormStyled.QuestionIcon
                                 onMouseEnter={peopleLimitDilogBoxFunc}
-                                onMouseLeave={peopleLimitDilogBoxFunc}    
-                            >?</FormStyled.QuestionIcon>
-                            {peopleLimitDilogBox&& 
+                                onMouseLeave={peopleLimitDilogBoxFunc}
+                            >
+                                ?
+                            </FormStyled.QuestionIcon>
+                            {peopleLimitDilogBox && (
                                 <FormStyled.DescriptionDilogBox>
                                     People Limit
                                 </FormStyled.DescriptionDilogBox>
-                            }
+                            )}
                         </FormStyled.Label>
                         <Styled.InputContainer
-                            value={peopleLimit > 0 ? peopleLimit : ''}
+                            value={!unlimited ? peopleLimit : ''}
                         >
                             <Styled.Input
                                 id="peopleLimit"
                                 name="peopleLimit"
+                                type="number"
+                                min="0"
                                 onChange={(e) => setPeopleLimit(e.target.value)}
-                                placeholder={peopleLimitPlaceholder}
-                                value={peopleLimit > 0 ? peopleLimit : ''}
-                                required ={peopleLimitPlaceholder==='0'}
+                                placeholder={unlimited ? "Unlimited" : ""}
+                                value={!unlimited ? peopleLimit : ''}
+                                required={!unlimited}
                             />
                             <Styled.UnlimitedBoxContainer
                                 onClick={unlimitedClicked}
-                                value={peopleLimit > 0 ? peopleLimit : ''}
+                                value={unlimited}
                             >
                                 Unlimited
                             </Styled.UnlimitedBoxContainer>
@@ -358,9 +369,9 @@ const AddNewKey = (props) => {
                         <FormStyled.BigRadio
                             id="task-4"
                             name="task"
-                            value="sc-interation"
+                            value="sc-interaction"
                             label="Contract Interaction"
-                            checked={taskLink === 'sc-interation'}
+                            checked={taskLink === 'sc-interaction'}
                         />
                         <FormStyled.BigRadio
                             id="task-5"
@@ -386,11 +397,10 @@ const AddNewKey = (props) => {
                     </FormStyled.GridBox>
                 </FormStyled.Fieldset>
 
-                <Styled.Button type="submit">
-                    <Styled.ButtonText>
-                        Next
-                    </Styled.ButtonText>    
-                </Styled.Button>
+                <FormStyled.Button type="submit">
+                    {loading && <Loader color="white" />}
+                    Next
+                </FormStyled.Button>
             </FormStyled.FormBox>
         </Styled.AddNewKeyContainer>
     )

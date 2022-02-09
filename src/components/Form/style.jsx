@@ -36,7 +36,7 @@ export const H1 = styled.h1`
     font-style: normal;
     font-weight: bold;
     font-size: 96px;
-    line-height: 90px;
+    line-height: 120px;
     /* identical to box height, or 187% */
     text-align: center;
     letter-spacing: -0.05em;
@@ -70,7 +70,7 @@ export const Text = styled.p`
     align-items: center;
     letter-spacing: 0.05em;
 
-    color: #FFFFFF;
+    color: #ffffff;
 `
 
 export const SubText = styled.p`
@@ -88,7 +88,7 @@ export const SubText = styled.p`
 
 /** CONTAINERS **/
 export const FormBox = styled.form`
-    max-width:100vw;
+    max-width: 100vw;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -226,7 +226,7 @@ export const IconButton = styled(Button)`
 `
 
 export const Input = styled.input`
-    ${props => props.white ? InputWhite : InputDefault}
+    ${(props) => (props.white ? InputWhite : InputDefault)}
 
     font-family: Be Vietnam;
     font-style: normal;
@@ -238,10 +238,10 @@ export const Input = styled.input`
     letter-spacing: 0.05em;
     margin: 15px 0;
     padding: 10px;
-    width: ${props => props.width || "100%"};
+    width: ${(props) => props.width || '100%'};
     outline: none;
 
-    ${(props) => ((!!props.value && !props.white) ? FilledInput : '')}
+    ${(props) => (!!props.value && !props.white ? FilledInput : '')}
     ${(props) => (props.valid === false ? InvalidInput : '')}
 `
 
@@ -300,8 +300,9 @@ const CheckboxContainer = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
     padding: 20px 0;
-    &:hover{
-        background: #220A38;border: 1px solid #7E3BDC;
+    &:hover {
+        background: #220a38;
+        border: 1px solid #7e3bdc;
     }
     ${(props) =>
         props.checked
@@ -478,11 +479,12 @@ export const DeleteContent = styled.div`
 `
 export const DescriptionDilogBox = styled.div`
     position: absolute;
+    padding: 2px 0px 2px 6px;
     right: 180px;
-    top:-12px;
-    width: 70px;
-    height: 40px;
-    
+    top: -26px;
+    width: 100px;
+    height: 20px;
+
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
@@ -492,7 +494,8 @@ export const DescriptionDilogBox = styled.div`
     display: flex;
     align-items: center;
 
-    background: #220A38;
-    border: 1px solid #7E3BDC;
+    background: #220a38;
+    border: 1px solid #7e3bdc;
     color: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
 `

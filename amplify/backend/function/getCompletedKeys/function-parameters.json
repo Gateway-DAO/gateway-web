@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "api": {
+      "gateway": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "User:@model(appsync)": [
+        "read"
+      ],
+      "DAO:@model(appsync)": [
+        "read"
+      ],
+      "Gate:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "Key:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "GateStatus:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ],
+      "TaskStatus:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
