@@ -30,9 +30,9 @@ const GateCard = (props) => {
     const { data } = useGetGateStatusByUserID(userInfo?.id, {
         filter: {
             gateID: {
-                eq: gate.id
-            }
-        }
+                eq: gate.id,
+            },
+        },
     })
 
     /**
@@ -50,6 +50,7 @@ const GateCard = (props) => {
             })
 
             //setChecked(prev => !prev)
+            window.location.reload()
         } catch (err) {
             alert('An error ocurred')
             console.log(err)
@@ -62,12 +63,12 @@ const GateCard = (props) => {
      */
     const getButtonText = () => {
         switch (data?.getGateStatusByUserID?.items[0]?.status) {
-            case "IN_PROGRESS":
-                return "In Progress"
-            case "COMPLETED":
-                return "Done"
+            case 'IN_PROGRESS':
+                return 'In Progress'
+            case 'COMPLETED':
+                return 'Done'
             default:
-                return "Start"
+                return 'Start'
         }
     }
 
@@ -118,14 +119,19 @@ const GateCard = (props) => {
                     <Styled.KeyBox>
                         <Styled.Circle>
                             <CircularProgressbar
-                                value={data?.getGateStatusByUserID?.items[0]?.keysDone || 0}
+                                value={
+                                    data?.getGateStatusByUserID?.items[0]
+                                        ?.keysDone || 0
+                                }
                                 minValue={0}
                                 maxValue={props.gate.keysNumber}
                                 strokeWidth={20}
                             />
                         </Styled.Circle>
                         <Styled.SmallText>
-                            {data?.getGateStatusByUserID?.items[0]?.keysDone || 0} of {props.gate.keysNumber}
+                            {data?.getGateStatusByUserID?.items[0]?.keysDone ||
+                                0}{' '}
+                            of {props.gate.keysNumber}
                         </Styled.SmallText>
                     </Styled.KeyBox>
                 </Styled.InfoBox>
@@ -136,7 +142,9 @@ const GateCard = (props) => {
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                <Styled.ActionButton onClick={() => navigate(`/gate/${gate.id}`)}>
+                <Styled.ActionButton
+                    onClick={() => navigate(`/gate/${gate.id}`)}
+                >
                     <Styled.ButtonText>DETAILS</Styled.ButtonText>
                 </Styled.ActionButton>
                 {isAdmin && (
