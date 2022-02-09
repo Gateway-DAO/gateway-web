@@ -44,13 +44,17 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             })
 
-                            if (res.data.__typename !== 'Error') {
+                            if (res.data.verifyMeetingCode.__typename !== 'Error') {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
+                                        keysDone: gateData.keysDone + data.keys
                                     },
                                 })
+                            }
+                            else {
+                                alert(res.data.verifyMeetingCode.msg)
                             }
                         } catch (err) {
                             alert('An error occurred')
@@ -64,21 +68,26 @@ export const useKeyValidation = (data, gateData) => {
                     ...prev,
                     onClick: async () => {
                         try {
+                            console.log(userInfo)
                             const res = await verifyContractInteraction({
                                 variables: {
-                                    userID: userInfo.id,
+                                    userID: userInfo?.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
                             })
 
-                            if (res.data.__typename !== 'Error') {
+                            if (res.data.verifyContractInteraction.__typename !== 'Error') {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
+                                        keysDone: gateData.keysDone + data.keys
                                     },
                                 })
+                            }
+                            else {
+                                alert(res.data.verifyContractInteraction.msg)
                             }
                         } catch (err) {
                             alert('An error occurred')
@@ -94,19 +103,23 @@ export const useKeyValidation = (data, gateData) => {
                         try {
                             const res = await verifyHoldAToken({
                                 variables: {
-                                    userID: userInfo.id,
+                                    userID: userInfo?.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
                             })
 
-                            if (res.data.__typename !== 'Error') {
+                            if (res.data.verifyHoldAToken.__typename !== 'Error') {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
+                                        keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
+                            }
+                            else {
+                                alert(res.data.verifyHoldAToken.msg)
                             }
                         } catch (err) {
                             alert('An error occurred')
@@ -134,19 +147,23 @@ export const useKeyValidation = (data, gateData) => {
                         try {
                             const res = await verifySelfVerify({
                                 variables: {
-                                    userID: userInfo.id,
+                                    userID: userInfo?.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
                             })
 
-                            if (res.data.__typename !== 'Error') {
+                            if (res.data.verifySelfVerify.__typename !== 'Error') {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
+                                        keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
+                            }
+                            else {
+                                alert(res.data.verifySelfVerify.msg)
                             }
                         } catch (err) {
                             alert('An error occurred')
@@ -160,21 +177,26 @@ export const useKeyValidation = (data, gateData) => {
                     ...prev,
                     onClick: async () => {
                         try {
+                            console.log(userInfo.id)
                             const res = await verifySnapshot({
                                 variables: {
-                                    userID: userInfo.id,
+                                    userID: userInfo?.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
                             })
 
-                            if (res.data.__typename !== 'Error') {
+                            if (res.data.verifySnapshot.__typename !== 'Error') {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
+                                        keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
+                            }
+                            else {
+                                alert(res.data.verifySnapshot.msg)
                             }
                         } catch (err) {
                             alert('An error occurred')

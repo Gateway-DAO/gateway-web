@@ -53,17 +53,16 @@ const createKey = async (input) => {
                 }
             }
             break
-        /*
         case "SC_INTERACTION":
+        case "CONTRACT_INTERACTION":
             Item = {
                 ...Item,
                 task: {
-                    "__typename": "",
+                    "__typename": "ContractInteraction",
                     ...input.task
                 }
             }
             break
-        */
         case "SNAPSHOT":
             Item = {
                 ...Item,

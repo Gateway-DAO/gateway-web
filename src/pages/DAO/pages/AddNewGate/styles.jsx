@@ -285,6 +285,7 @@ export const CategoryList = styled.div`
     margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 15px;
 `
 
 export const SearchIconTop = styled.div`

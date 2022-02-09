@@ -243,6 +243,7 @@ type TokenHold {
     type: TaskType
     chainID: Int!
     address: String!
+    amount: Int!
 }
 
 type SelfVerify {
@@ -488,6 +489,7 @@ input TokenHoldInput {
     type: TaskType = "TOKEN_HOLD"
     chainID: Int!
     address: String!
+    amount: Int!
 }
 
 input CreateKeyContractInteraction {

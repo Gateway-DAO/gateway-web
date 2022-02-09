@@ -260,7 +260,12 @@ export const UserProvider = ({ children }) => {
                       })
 
                 if (!!userDB.data.getUserByAddress.items.length) {
-                    setUserInfo(userDB.data.getUserByAddress.items[0])
+
+                    // TODO: remove
+                    setUserInfo({
+                        ...userDB.data.getUserByAddress.items[0],
+                        isAdmin: true
+                    })
                 } else {
                     await createNewUser()
                 }

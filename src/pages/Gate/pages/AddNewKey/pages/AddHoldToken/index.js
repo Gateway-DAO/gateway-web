@@ -31,7 +31,8 @@ const AddHoldToken = (props) => {
                         task: {
                             type: "TOKEN_HOLD",
                             chainID: 1,
-                            address: address
+                            address: address,
+                            amount
                         }
                     }
                 }

@@ -1493,6 +1493,7 @@ export const getKey = /* GraphQL */ `
                     type
                     chainID
                     address
+                    amount
                 }
                 ... on SelfVerify {
                     type
@@ -1568,6 +1569,7 @@ export const listKeys = /* GraphQL */ `
                         type
                         chainID
                         address
+                        amount
                     }
                     ... on SelfVerify {
                         type
@@ -1906,6 +1908,7 @@ export const getTaskStatus = /* GraphQL */ `
                         type
                         chainID
                         address
+                        amount
                     }
                     ... on SelfVerify {
                         type
@@ -2938,6 +2941,7 @@ export const getKeysByGateId = /* GraphQL */ `
                         type
                         chainID
                         address
+                        amount
                     }
                     ... on SelfVerify {
                         type
@@ -3005,6 +3009,10 @@ export const getGateStatusByUserId = /* GraphQL */ `
                     published
                     createdAt
                     updatedAt
+                    badge {
+                      ipfsURL
+                      name
+                    }
                 }
                 reward {
                     rewardCode

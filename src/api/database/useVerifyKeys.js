@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { verifySnapshot as VERIFY_SNAPSHOT,  verifyMeetingCode as VERIFY_MEETING_CODE, verifyHoldAToken as VERIFY_HOLD_A_TOKEN, verifyContractInteraction as VERIFY_CONTRACT_INTERACTION, verifySelfVerify as VERIFY_SELF_VERIFY } from '../../graphql/mutations'
+import { verifySnapshot as VERIFY_SNAPSHOT,  verifyMeetingCode as VERIFY_MEETING_CODE, verifyHoldAToken as VERIFY_HOLD_A_TOKEN, verifyContractInteraction as VERIFY_CONTRACT_INTERACTION, verifySelfVerify as VERIFY_SELF_VERIFY, /* verifyQuiz as VERIFY_QUIZ */ } from '../../graphql/mutations'
 
 export const useVerifySnapshot = () => {
     const [verifySnapshot, { loading, called, data, error }] = useMutation(
@@ -81,3 +81,21 @@ export const useVerifySelfVerify = () => {
         [called, verifySelfVerify, loading, VERIFY_SELF_VERIFY, error]
     )
 }
+
+/*
+export const useVerifyQuiz = () => {
+    const [verifyQuiz, { loading, called, data, error }] = useMutation(
+        gql(VERIFY_QUIZ)
+    )
+
+    return useMemo(
+        () => ({
+            verifyQuiz,
+            data,
+            error,
+            loading,
+        }),
+        [called, verifyQuiz, loading, VERIFY_QUIZ, error]
+    )
+}
+*/

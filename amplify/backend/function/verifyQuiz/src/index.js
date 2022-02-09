@@ -40,6 +40,11 @@ const {
     getKey,
     getGateStatus,
     createGateStatus,
+    getGate,
+    getUser,
+    getCompletedKeys,
+    removePeopleFromKey,
+    markGateAsCompleted
 } = require('/opt/helpers.js')
 
 AWS.config.update({
@@ -53,20 +58,69 @@ exports.handler = async (event, ctx, callback) => {
         // 1. get key
         const key = await getKey(keyID)
 
-        // 2. get gate status; if doesn't exist, create it
-        const gateStatus = await getGateStatus(userID, gateID)
-        if (!gateStatus) {
-            await createGateStatus({
-                userID,
-                gateID,
+		// 2. get gate
+		const gate = await getGate(key.gateID)
+
+        // 2. get user
+        const user = await getUser(userID)
+
+		// 3. get gate status; if doesn't exist, create it
+		let gateStatus = await getGateStatus(userID, key.gateID)
+		if (!gateStatus) {
+			gateStatus = await createGateStatus({
+				userID,
+				gateID
+			})
+		}
+
+		let keysDone = await getCompletedKeys(userID, key.gateID)
+
+        // 4. 
+        let passed = 0
+        let taskQuestions = key.task.questions
+
+        questions.forEach(q => {
+            let idx = q.questionIdx
+            let answers = q.answers
+
+            taskQuestions[idx].options.every((ans, idx) => {
+                if (ans.correct && answers.includes(idx)) {
+                    
+                }
+
+                return null
             })
+        });
+
+        if (passed >= key.task.passedAt) {
+            // The user holds the token, so task completed
+            const item = await createTaskStatus({
+                userID,
+                keyID,
+                gateID,
+                completed: true,
+            })
+
+            if (!key.unlimited && key.peopleLimit > 0) {
+				await removePeopleFromKey(keyID)
+			}
+
+			if (keysDone + key.keys >= gate.keysNumber) {
+				// Gate completed, update gate status
+				await markGateAsCompleted(gateStatus.id)
+			}
+
+            return {
+                __typename: 'TaskStatus',
+                ...item,
+            }
         }
 
         return {
             __typename: 'Error',
             keyID,
-            error: 'INVALID_CODE',
-            msg: 'User inserted the wrong meeting code',
+            error: 'NO_HOLD',
+            msg: "User doesn't hold token",
         }
     } catch (error) {
         const { keyID } = event.arguments

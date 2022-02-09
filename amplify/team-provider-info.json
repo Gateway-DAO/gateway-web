@@ -47,7 +47,7 @@
         },
         "addKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/addKey-42373441424e7476596a-build.zip"
+          "s3Key": "amplify-builds/addKey-32666c2b4c366331382b-build.zip"
         },
         "verifyMeetingCode": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -55,25 +55,25 @@
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion89989a98-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion59bb294c-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyHoldAToken-38723957462f5a763173-build.zip"
+          "s3Key": "amplify-builds/verifyHoldAToken-366a63375833776c4350-build.zip"
         },
         "verifyContractInteraction": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyContractInteraction-7372686e7062547a6354-build.zip",
+          "s3Key": "amplify-builds/verifyContractInteraction-5a7572394b716c48442f-build.zip",
           "bitqueryKey": "BQYTFxjdFDvYNpjzU1echVkLgWLavvpK"
         },
         "verifyQuiz": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyQuiz-326237332b6a6d69474b-build.zip"
+          "s3Key": "amplify-builds/verifyQuiz-35544446367a4a504c6e-build.zip"
         },
         "verifySnapshot": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySnapshot-62427245507a7931526f-build.zip"
+          "s3Key": "amplify-builds/verifySnapshot-5246686a7a52672f5254-build.zip"
         },
         "verifySelfVerify": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",

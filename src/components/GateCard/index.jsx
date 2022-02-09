@@ -19,16 +19,15 @@ import { useAuth } from '../../contexts/UserContext'
 /* This is a card that displays information about a gate. */
 const GateCard = (props) => {
     // State
-    const [checked, setChecked] = useState(props.gate.published)
-    const [localChecked , setLocalChecked] = useState(false);
     const gate = props.gate
+    const [checked, setChecked] = useState(gate.published)
 
     // Hooks
-    const { isAdmin } = useAdmin(props.gate.admins || [])
+    const { isAdmin } = useAdmin(gate.admins || [])
     const { userInfo } = useAuth()
     const navigate = useNavigate()
     const { updateGate } = useUpdateGate()
-    const { data } = useGetGateStatusByUserID(userInfo.id, {
+    const { data } = useGetGateStatusByUserID(userInfo?.id, {
         filter: {
             gateID: {
                 eq: gate.id
@@ -41,15 +40,16 @@ const GateCard = (props) => {
      */
     const toggleGatePublished = async () => {
         try {
-            //setChecked(!gate.published)
             await updateGate({
                 variables: {
                     input: {
                         id: gate.id,
-                        published: !gate.published,
+                        published: !checked,
                     },
                 },
             })
+
+            //setChecked(prev => !prev)
         } catch (err) {
             alert('An error ocurred')
             console.log(err)
@@ -77,7 +77,7 @@ const GateCard = (props) => {
                 src={`https://gateway.pinata.cloud/ipfs/${gate.badge.ipfsURL}`}
                 onClick={() => navigate(`/gate/${gate.id}`)}
             >
-                {isAdmin && (
+                {false && (
                     <Styled.EditContainer>
                         <EditIcon />
                     </Styled.EditContainer>
@@ -87,9 +87,11 @@ const GateCard = (props) => {
                     <Styled.SimpleText>NFT Badge</Styled.SimpleText>
                     <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
                 </Styled.NFTBadgeContainer>
+                {/*
                 <Styled.PeopleInvolved>
                     <PfpBox text="4 people have earned it." />
                 </Styled.PeopleInvolved>
+                */}
             </Styled.GateBanner>
             <Styled.CategoryList>
                 {gate.categories.map((category) => (
@@ -105,10 +107,12 @@ const GateCard = (props) => {
                 <Styled.CardDesc>{gate.description}</Styled.CardDesc>
             </Styled.CardBody>
             <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
+                {/*
                 <Styled.InfoBox>
                     <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
                     <Styled.SmallText>BANK.Beginner</Styled.SmallText>
                 </Styled.InfoBox>
+                */}
                 <Styled.InfoBox>
                     <Styled.MediumHeading>KEYS REQUIRED</Styled.MediumHeading>
                     <Styled.KeyBox>

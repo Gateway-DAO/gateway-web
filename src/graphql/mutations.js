@@ -472,6 +472,7 @@ export const createQuiz = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -573,6 +574,7 @@ export const createMeetingCode = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -674,6 +676,7 @@ export const createTokenHold = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -775,6 +778,7 @@ export const createSnapshotGovernance = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -876,6 +880,7 @@ export const createSelfVerify = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -977,6 +982,7 @@ export const createContractInteraction = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -1147,6 +1153,7 @@ export const verifyMeetingCode = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1317,6 +1324,7 @@ export const verifyHoldAToken = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1487,6 +1495,7 @@ export const verifyContractInteraction = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1657,6 +1666,7 @@ export const verifySnapshot = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -1827,6 +1837,7 @@ export const verifySelfVerify = /* GraphQL */ `
               type
               chainID
               address
+              amount
             }
             ... on SelfVerify {
               type
@@ -3954,6 +3965,7 @@ export const createKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -4058,6 +4070,7 @@ export const updateKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -4162,6 +4175,7 @@ export const deleteKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -4690,6 +4704,7 @@ export const createTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -4856,6 +4871,7 @@ export const updateTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -5022,6 +5038,7 @@ export const deleteTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type

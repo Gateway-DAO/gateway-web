@@ -149,6 +149,8 @@ exports.handler = async (event, ctx, callback) => {
         const interactions =
             type === 'VOTE' ? res.data.data.votes : res.data.data.proposals
 
+		console.log(interactions)
+
         if (interactions.length > 0) {
             // The user interacted with the contract, so task completed
             const item = await createTaskStatus({

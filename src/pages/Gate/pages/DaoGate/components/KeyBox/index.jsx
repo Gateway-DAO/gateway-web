@@ -31,6 +31,7 @@ const KeyBox = (props) => {
                 return <Snapshot data={data} />
             case 'QUIZ':
             case 'SELF_VERIFY':
+            case 'SC_INTERACTION':
             default:
                 return null
         }

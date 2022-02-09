@@ -73,15 +73,21 @@ const AddGateForm = (props) => {
             },
         }
     )
-    const { data: searchGateData, loading: searchGateLoading } = useSearchGates({
-        variables: {
-            filter: {
-                or: [
-                    { name: { wildcard: `*${prerequisite.toLowerCase()}*` } },
-                ]
-            }
+    const { data: searchGateData, loading: searchGateLoading } = useSearchGates(
+        {
+            variables: {
+                filter: {
+                    or: [
+                        {
+                            name: {
+                                wildcard: `*${prerequisite.toLowerCase()}*`,
+                            },
+                        },
+                    ],
+                },
+            },
         }
-    })
+    )
     const { batchMint } = useMint()
     const navigate = useNavigate()
 
@@ -106,7 +112,7 @@ const AddGateForm = (props) => {
      * It adds a prerequisite to the list of prerequisites.
      */
     const addPrerequisite = (gate) => {
-        setPrerequisiteList(prev => [...prev, gate])
+        setPrerequisiteList((prev) => [...prev, gate])
         setPrereqsSearch((prev) => prev.filter((obj) => obj.id !== gate.id))
     }
 
@@ -175,10 +181,14 @@ const AddGateForm = (props) => {
             const hash = await uploadFileToIPFS(form)
             const gateID = uuidv4()
 
-            await batchMint(
-                retroactiveEarners.map((re) => re.length > 0 && re),
-                'k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk'
-            )
+            /*
+            if (!!retroactiveEarners) {
+                const batch = await batchMint(
+                    retroactiveEarners.map((re) => re.length > 0 && re),
+                    'k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk'
+                )
+            }
+            */
 
             await createGate({
                 variables: {
@@ -191,6 +201,11 @@ const AddGateForm = (props) => {
                         admins: adminList.map((admin) => admin.id),
                         keysNumber: keyRequired,
                         published: false,
+                        preRequisites: {
+                            completedGates: prerequisiteList.map(
+                                (prereq) => prereq.id
+                            ),
+                        },
                         badge: {
                             name: badgeName,
                             ipfsURL: hash,
@@ -337,7 +352,11 @@ const AddGateForm = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <ImageUpload htmlFor="ProfileImage" label="Upload Badge or NFT" setImage={setUploadFile} />
+                    <ImageUpload
+                        htmlFor="ProfileImage"
+                        label="Upload Badge or NFT"
+                        setImage={setUploadFile}
+                    />
 
                     <Styled.AllowedFileType>
                         <p>Image, Video, Audio, or 3D Model</p>
@@ -473,7 +492,13 @@ const AddGateForm = (props) => {
                     {prerequisiteList.length > 0 && (
                         <Styled.CategoryList>
                             {prerequisiteList.map((prerequisite) => {
-                                return <SearchedItem val={prerequisite.name} id={prerequisite.id} remove={removePrerequisite} />
+                                return (
+                                    <SearchedItem
+                                        val={prerequisite.name}
+                                        id={prerequisite.id}
+                                        remove={removePrerequisite}
+                                    />
+                                )
                             })}
                         </Styled.CategoryList>
                     )}

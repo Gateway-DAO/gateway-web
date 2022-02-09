@@ -2021,6 +2021,7 @@ export const onCreateKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -2122,6 +2123,7 @@ export const onUpdateKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -2223,6 +2225,7 @@ export const onDeleteKey = /* GraphQL */ `
           type
           chainID
           address
+          amount
         }
         ... on SelfVerify {
           type
@@ -2739,6 +2742,7 @@ export const onCreateTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -2902,6 +2906,7 @@ export const onUpdateTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type
@@ -3065,6 +3070,7 @@ export const onDeleteTaskStatus = /* GraphQL */ `
             type
             chainID
             address
+            amount
           }
           ... on SelfVerify {
             type

@@ -888,7 +888,7 @@ export const useMint = () => {
         try {
             const provider = await library.getSigner()
             const contract = new ethers.Contract(NFT_ADDRESS, abi, provider)
-            await contract.mint(account, "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk")
+            await contract.mint(account, tokenURI)
         }
         catch (err) {
             alert("An error occurred!")

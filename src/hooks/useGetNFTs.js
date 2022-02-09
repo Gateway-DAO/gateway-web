@@ -899,14 +899,29 @@ export const useGetNFTs = () => {
 
             let nfts = json.result.map(async (nft) => {
                 if (nft.token_uri) {
-                    const res2 = await fetch(
-                        `https://gateway-clay.ceramic.network/api/v0/streams/${nft.token_uri}`
-                    )
-                    const json2 = await res2.json()
+                    if (!nft.token_uri.startsWith("http")) {
+                        const res2 = await fetch(
+                            `https://gateway-clay.ceramic.network/api/v0/streams/${nft.token_uri}`
+                        )
 
-                    return {
-                        ...nft,
-                        metadata: json2.state.metadata,
+                        const json2 = await res2.json()
+    
+                        return {
+                            ...nft,
+                            metadata: json2.state.metadata,
+                        }
+                    }
+                    else {
+                        const res3 = await fetch(nft.token_uri)
+                        const json3 = await res3.json()
+    
+                        return {
+                            ...nft,
+                            metadata: {
+                                ...json3,
+                                image: `https://gateway.pinata.cloud/ipfs/${json3.image}`
+                            },
+                        }
                     }
                 }
             })

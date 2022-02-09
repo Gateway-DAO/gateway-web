@@ -95,6 +95,7 @@ const getGateStatus = async (userID, gateID) => {
 }
 
 const markGateAsCompleted = async (gsID) => {
+    // Mark gate as completed
     const { Items: [status] = [] } = await docClient
         .update({
             TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
