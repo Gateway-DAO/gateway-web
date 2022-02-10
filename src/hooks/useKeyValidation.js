@@ -37,7 +37,7 @@ export const useKeyValidation = (data, gateData) => {
                         try {
                             const res = await verifyMeetingCode({
                                 variables: {
-                                    userID: userInfo?.id,
+                                    userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                     meetingCode: taskInformation.current,
@@ -71,7 +71,7 @@ export const useKeyValidation = (data, gateData) => {
                             console.log(userInfo)
                             const res = await verifyContractInteraction({
                                 variables: {
-                                    userID: userInfo?.id,
+                                    userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
@@ -103,7 +103,7 @@ export const useKeyValidation = (data, gateData) => {
                         try {
                             const res = await verifyHoldAToken({
                                 variables: {
-                                    userID: userInfo?.id,
+                                    userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
@@ -147,7 +147,7 @@ export const useKeyValidation = (data, gateData) => {
                         try {
                             const res = await verifySelfVerify({
                                 variables: {
-                                    userID: userInfo?.id,
+                                    userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
@@ -177,10 +177,9 @@ export const useKeyValidation = (data, gateData) => {
                     ...prev,
                     onClick: async () => {
                         try {
-                            console.log(userInfo.id)
                             const res = await verifySnapshot({
                                 variables: {
-                                    userID: userInfo?.id,
+                                    userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
