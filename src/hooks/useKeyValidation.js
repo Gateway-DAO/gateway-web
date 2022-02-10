@@ -7,7 +7,9 @@ import {
     useVerifySelfVerify,
     useVerifySnapshot,
 } from '../api/database/useVerifyKeys'
+import { useModal } from '../contexts/ModalContext'
 import { useAuth } from '../contexts/UserContext'
+import * as ThemeStyled from '../theme/style'
 
 export const useKeyValidation = (data, gateData) => {
     // State
@@ -19,6 +21,7 @@ export const useKeyValidation = (data, gateData) => {
 
     // Hooks
     const { userInfo } = useAuth()
+    const { showModal } = useModal()
     const navigate = useNavigate()
 
     // Validation mutations
@@ -44,21 +47,42 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             })
 
-                            if (res.data.verifyMeetingCode.__typename !== 'Error') {
+                            if (
+                                res.data.verifyMeetingCode.__typename !==
+                                'Error'
+                            ) {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
-                                        keysDone: gateData.keysDone + data.keys
+                                        keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
-                            }
-                            else {
-                                alert(res.data.verifyMeetingCode.msg)
+                            } else {
+                                const Error = () => (
+                                    <div>
+                                        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
+                                        <p>
+                                            {
+                                                res.data
+                                                    .verifyMeetingCode
+                                                    .msg
+                                            }
+                                        </p>
+                                    </div>
+                                )
+                                showModal(<Error />)
                             }
                         } catch (err) {
-                            alert('An error occurred')
-                            console.log(err)
+                            const Error = () => (
+                                <div>
+                                    <ThemeStyled.H2>
+                                        An error occurred
+                                    </ThemeStyled.H2>
+                                    <p>{err.msg || "Please try again later!"}</p>
+                                </div>
+                            )
+                            showModal(<Error />)
                         }
                     },
                 }))
@@ -71,27 +95,48 @@ export const useKeyValidation = (data, gateData) => {
                             console.log(userInfo)
                             const res = await verifyContractInteraction({
                                 variables: {
-                                    userID: userInfo.id,
-                                    keyID: data.id,
-                                    gateID: gateData.id,
+                                    userID: userInfo?.id,
+                                    keyID: data?.id,
+                                    gateID: gateData?.id,
                                 },
                             })
 
-                            if (res.data.verifyContractInteraction.__typename !== 'Error') {
+                            if (
+                                res.data.verifyContractInteraction
+                                    .__typename !== 'Error'
+                            ) {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
-                                        keysDone: gateData.keysDone + data.keys
+                                        keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
-                            }
-                            else {
-                                alert(res.data.verifyContractInteraction.msg)
+                            } else {
+                                const Error = () => (
+                                    <div>
+                                        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
+                                        <p>
+                                            {
+                                                res.data
+                                                    .verifyContractInteraction
+                                                    .msg
+                                            }
+                                        </p>
+                                    </div>
+                                )
+                                showModal(<Error />)
                             }
                         } catch (err) {
-                            alert('An error occurred')
-                            console.log(err)
+                            const Error = () => (
+                                <div>
+                                    <ThemeStyled.H2>
+                                        An error occurred
+                                    </ThemeStyled.H2>
+                                    <p>{err.msg || "Please try again later!"}</p>
+                                </div>
+                            )
+                            showModal(<Error />)
                         }
                     },
                 }))
@@ -109,7 +154,9 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             })
 
-                            if (res.data.verifyHoldAToken.__typename !== 'Error') {
+                            if (
+                                res.data.verifyHoldAToken.__typename !== 'Error'
+                            ) {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
@@ -117,13 +164,25 @@ export const useKeyValidation = (data, gateData) => {
                                         keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
-                            }
-                            else {
-                                alert(res.data.verifyHoldAToken.msg)
+                            } else {
+                                const Error = () => (
+                                    <div>
+                                        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
+                                        <p>{res.data.verifyHoldAToken.msg}</p>
+                                    </div>
+                                )
+                                showModal(<Error />)
                             }
                         } catch (err) {
-                            alert('An error occurred')
-                            console.log(err)
+                            const Error = () => (
+                                <div>
+                                    <ThemeStyled.H2>
+                                        An error occurred
+                                    </ThemeStyled.H2>
+                                    <p>{err.msg || "Please try again later!"}</p>
+                                </div>
+                            )
+                            showModal(<Error />)
                         }
                     },
                 }))
@@ -153,7 +212,9 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             })
 
-                            if (res.data.verifySelfVerify.__typename !== 'Error') {
+                            if (
+                                res.data.verifySelfVerify.__typename !== 'Error'
+                            ) {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
@@ -161,13 +222,25 @@ export const useKeyValidation = (data, gateData) => {
                                         keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
-                            }
-                            else {
-                                alert(res.data.verifySelfVerify.msg)
+                            } else {
+                                const Error = () => (
+                                    <div>
+                                        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
+                                        <p>{res.data.verifySelfVerify.msg}</p>
+                                    </div>
+                                )
+                                showModal(<Error />)
                             }
                         } catch (err) {
-                            alert('An error occurred')
-                            console.log(err)
+                            const Error = () => (
+                                <div>
+                                    <ThemeStyled.H2>
+                                        An error occurred
+                                    </ThemeStyled.H2>
+                                    <p>{err.msg || "Please try again later!"}</p>
+                                </div>
+                            )
+                            showModal(<Error />)
                         }
                     },
                 }))
@@ -185,7 +258,9 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             })
 
-                            if (res.data.verifySnapshot.__typename !== 'Error') {
+                            if (
+                                res.data.verifySnapshot.__typename !== 'Error'
+                            ) {
                                 navigate('/key-completed', {
                                     state: {
                                         key: data,
@@ -193,13 +268,25 @@ export const useKeyValidation = (data, gateData) => {
                                         keysDone: gateData.keysDone + data.keys,
                                     },
                                 })
-                            }
-                            else {
-                                alert(res.data.verifySnapshot.msg)
+                            } else {
+                                const Error = () => (
+                                    <div>
+                                        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
+                                        <p>{res.data.verifySnapshot.msg}</p>
+                                    </div>
+                                )
+                                showModal(<Error />)
                             }
                         } catch (err) {
-                            alert('An error occurred')
-                            console.log(err)
+                            const Error = () => (
+                                <div>
+                                    <ThemeStyled.H2>
+                                        An error occurred
+                                    </ThemeStyled.H2>
+                                    <p>{err.msg || "Please try again later!"}</p>
+                                </div>
+                            )
+                            showModal(<Error />)
                         }
                     },
                 }))

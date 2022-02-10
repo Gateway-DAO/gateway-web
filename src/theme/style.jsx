@@ -39,3 +39,7 @@ export const MainText = styled.h1`
 
     width: 100%;
 `
+
+export const H2 = styled(MainText)`
+    font-size: 48px;
+`
