@@ -40,7 +40,7 @@ const GateCard = (props) => {
      */
     const toggleGatePublished = async () => {
         try {
-            setChecked(!checked)
+            // setChecked(!checked)
             await updateGate({
                 variables: {
                     input: {
@@ -49,7 +49,7 @@ const GateCard = (props) => {
                     },
                 },
             })
-            // window.location.reload()
+            window.location.reload()
         } catch (err) {
             alert('An error ocurred')
             console.log(err)
