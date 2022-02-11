@@ -9,6 +9,7 @@ import { ThemeProvider, GlobalTheme } from './theme'
 import { Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
 import { UserProvider } from './contexts/UserContext'
+import { ModalProvider } from './contexts/ModalContext'
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider'
 
 // AWS
@@ -27,8 +28,10 @@ ReactDOM.render(
             <Web3ReactProvider getLibrary={getLibrary}>
                 <UserProvider>
                     <ThemeProvider>
-                        <GlobalTheme />
-                        <App />
+                        <ModalProvider>
+                            <GlobalTheme />
+                            <App />
+                        </ModalProvider>
                     </ThemeProvider>
                 </UserProvider>
             </Web3ReactProvider>

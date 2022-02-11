@@ -260,12 +260,12 @@ export const UserProvider = ({ children }) => {
                       })
 
                 if (!!userDB.data.getUserByAddress.items.length) {
-
-                    // TODO: remove
                     setUserInfo({
                         ...userDB.data.getUserByAddress.items[0],
-                        isAdmin: true
+                        isAdmin: false
                     })
+
+                    // setLoggedIn(false)
                 } else {
                     await createNewUser()
                 }
@@ -281,11 +281,16 @@ export const UserProvider = ({ children }) => {
     connected, set the walletConnected state to true. */
     useEffect(() => {
         const callback = async () => {
-            const { username } = await Auth.currentAuthenticatedUser()
+            const { username, signInUserSession } = await Auth.currentAuthenticatedUser()
 
             if (userInfo) {
                 if (username === userInfo.id) {
                     setWalletConnected(true)
+                    setLoggedIn(true)
+                    setUserInfo({
+                        ...userInfo,
+                        ...getUserGroups(signInUserSession),
+                    })
                 } else {
                     Auth.signOut().then(() => {
                         setLoggedIn(false)

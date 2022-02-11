@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import * as Styled from './style'
 
 //Icons
@@ -14,23 +14,23 @@ import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin'
 //import'./BackButton.css';
 
-const BackButton = ({ url = -1, children = "Go Back", ...props}) => {
-    const gateData = props.gateData;
-    
+const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
+    const gateData = props.gateData
+
     //States
     const [published, setPublished] = useState(props.published);
     const [showDelete, setShowDelete] = useState(false);
 
     //Hooks
-    const {updateGate} = useUpdateGate();
-    const navigate = useNavigate();
+    const { updateGate } = useUpdateGate()
+    const navigate = useNavigate()
     const { isAdmin } = useGateAdmin(gateData.admins)
     const {deleteGate, data, loading} = useDeleteGate()
 
-    const editGate = ()=>{
-        const link = "/dao/"+props.daoData.dao+ "/edit-gate"
-        navigate(link,{
-            state:{gateData}
+    const editGate = () => {
+        const link = '/dao/' + props.daoData.dao + '/edit-gate'
+        navigate(link, {
+            state: { gateData },
         })
     }
 
@@ -46,9 +46,11 @@ const BackButton = ({ url = -1, children = "Go Back", ...props}) => {
                     },
                 },
             })
-        }catch(e){
-            alert("We are facing some issue");
-            console.log(e);
+
+            window.location.reload()
+        } catch (e) {
+            alert('We are facing some issue')
+            console.log(e)
         }
     }
 
@@ -76,7 +78,7 @@ const BackButton = ({ url = -1, children = "Go Back", ...props}) => {
                     <Styled.Text>{children}</Styled.Text>
                 </Styled.TextWrapper>
             </Styled.Div>
-                
+
             <Styled.Div>
             {isAdmin
                 &&
