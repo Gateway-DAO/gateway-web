@@ -10,6 +10,7 @@ import {FaTrashAlt} from 'react-icons/fa'
 //Hooks
 import { useNavigate } from 'react-router-dom'
 import useUpdateGate from '../../../../../../api/database/useUpdateGate'; 
+import useDeleteGate from '../../../../../../api/database/useDeleteGate'; 
 import { useGateAdmin } from '../../../../../../hooks/useAdmin'
 //import'./BackButton.css';
 
@@ -18,11 +19,13 @@ const BackButton = ({ url = -1, children = "Go Back", ...props}) => {
     
     //States
     const [published, setPublished] = useState(props.published);
+    const [showDelete, setShowDelete] = useState(false);
 
     //Hooks
     const {updateGate} = useUpdateGate();
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins)
+    const {deleteGate, data, loading} = useDeleteGate()
 
     const editGate = ()=>{
         const link = "/dao/"+props.daoData.dao+ "/edit-gate"
@@ -50,19 +53,18 @@ const BackButton = ({ url = -1, children = "Go Back", ...props}) => {
     }
 
     const showDeleteModal = ()=>{
-        return(
-            <Styled.DeleteModal>
-                <Styled.DeleteContainer>
-                    <Styled.CloseBtn size={24} color="white"/>
-                    <Styled.Text>
-                        Are you sure you want to delete the gate? This action is IRREVERSIBLE.
-                    </Styled.Text>
-                    <Styled.ButtonWrapper width="182px" size="13px">
-                        Delete
-                    </Styled.ButtonWrapper>
-                </Styled.DeleteContainer>
-            </Styled.DeleteModal>
-        )
+        setShowDelete(!showDelete);
+    }
+    const deleteGateFunc = async()=>{
+        
+        const {data} = await deleteGate({
+            variables:{
+                input:{
+                    id: props.id
+                }
+            }
+        })
+        navigate(url);
     }
     return (
         <Styled.Wrapper>
@@ -91,6 +93,21 @@ const BackButton = ({ url = -1, children = "Go Back", ...props}) => {
                     <Styled.ButtonWrapper onClick={showDeleteModal} ml='20'>
                         <FaTrashAlt />
                     </Styled.ButtonWrapper>
+                    {showDelete && 
+                        <Styled.DeleteModal>
+                            <Styled.DeleteContainer>
+                                <Styled.CloseBtn size={24} color="white" onClick={showDeleteModal}/>
+                                <Styled.TextWrapper>
+                                    <Styled.Text>
+                                        Are you sure you want to delete the gate? This action is IRREVERSIBLE.
+                                    </Styled.Text>
+                                </Styled.TextWrapper>
+                                <Styled.ButtonWrapper width="182px" size="13px" onClick={deleteGateFunc}>
+                                    Delete
+                                </Styled.ButtonWrapper>
+                            </Styled.DeleteContainer>
+                        </Styled.DeleteModal>
+                    }
                 </>
                 }
                 <Styled.ButtonWrapper onClick={() => navigate(url)} ml="20">

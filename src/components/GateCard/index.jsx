@@ -20,7 +20,7 @@ import { useAuth } from '../../contexts/UserContext'
 const GateCard = (props) => {
     // State
     const gate = props.gate
-    const [checked, setChecked] = useState(gate.published)
+    const [checked, setChecked] = useState(props.published)
 
     // Hooks
     const { isAdmin } = useAdmin(gate.admins || [])
@@ -40,6 +40,7 @@ const GateCard = (props) => {
      */
     const toggleGatePublished = async () => {
         try {
+            setChecked(!checked)
             await updateGate({
                 variables: {
                     input: {
@@ -48,9 +49,7 @@ const GateCard = (props) => {
                     },
                 },
             })
-
-            //setChecked(prev => !prev)
-            window.location.reload()
+            // window.location.reload()
         } catch (err) {
             alert('An error ocurred')
             console.log(err)

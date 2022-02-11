@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import {deleteGate as DELETE_GATE} from "../../graphql/mutations";
+import {deleteGate as GATE_DELETE} from "../../graphql/mutations";
 
-export const deleteGate = ()=>{
+export const useDeleteGate = ()=>{
     const [deleteGate, {loading, called, data, error}] = useMutation(
-        gql(DELETE_GATE)
+        gql(GATE_DELETE)
     );
 
     return useMemo(
@@ -14,7 +14,7 @@ export const deleteGate = ()=>{
                 error,
                 loading,
             }),
-            [called, deleteGate, loading, DELETE_GATE, error]        
+            [called, deleteGate, loading, GATE_DELETE, error]        
         );
 }
-export default deleteGate;
+export default useDeleteGate;

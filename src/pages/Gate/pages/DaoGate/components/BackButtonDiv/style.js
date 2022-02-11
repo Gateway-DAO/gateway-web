@@ -10,6 +10,7 @@ export const Wrapper = styled.div`
 export const Div = styled.div`
     display: flex;
     align-items: center;
+    position: relative;
 `
 
 export const ButtonWrapper = styled.div`
@@ -41,11 +42,15 @@ export const TextWrapper = styled.div`
     margin: 0px 15px;
 `
 export const Text = styled.div`
-    padding: 0;
     font-family: Be Vietnam;
-    font-size: 13px;
-    color: white;
-    letter-spacing: 1px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 21px;
+    line-height: 31px;
+    display: flex;
+    align-items: center;
+    color:white;
+    margin-bottom: 20px;
 `
 export const DeleteModal = styled.div`
     position: fixed;
@@ -56,8 +61,8 @@ export const DeleteModal = styled.div`
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index : 5;
 `
 export const DeleteContainer= styled.div`
@@ -66,11 +71,20 @@ export const DeleteContainer= styled.div`
     border-radius: 20px;
     display: flex;
     flex-direction: column;
+    text-align: center;
+    align-items:center;
+    justify-content: center;
     position: relative;
     max-width: calc(100% - 80px);
     max-height: calc(100% - 80px);
+    height: 300px;
+    width: 280px;
+
+    padding-left: 20px;
+    padding-right: 20px;
 `
 export const CloseBtn = styled(IoMdClose)`
+
     /* Background */
     background: linear-gradient(
         88.04deg,
@@ -87,4 +101,6 @@ export const CloseBtn = styled(IoMdClose)`
     position: absolute;
     top: 15px;
     right: 15px;
+
+    cursor: pointer;
 `
