@@ -65,11 +65,7 @@ exports.handler = async (event, ctx, callback) => {
             let answers = q.answers
 
             const answeredRight = taskQuestions[qID].options.every((ans, idx) => {
-                if (ans.correct && answers.includes(idx)) {
-                    return true
-                }
-
-                return false
+                return (ans.correct && answers.includes(idx))
             })
 
             if (answeredRight) {

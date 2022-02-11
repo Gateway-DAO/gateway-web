@@ -69,7 +69,7 @@
         },
         "verifyQuiz": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyQuiz-6b366b6d6d4e64653946-build.zip"
+          "s3Key": "amplify-builds/verifyQuiz-3567647961622b58526f-build.zip"
         },
         "verifySnapshot": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
