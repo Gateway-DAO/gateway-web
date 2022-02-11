@@ -16,22 +16,6 @@
 	API_GATEWAY_USERTABLE_NAME
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
-	API_GATEWAY_DAOTABLE_ARN
-	API_GATEWAY_DAOTABLE_NAME
-	API_GATEWAY_GATETABLE_ARN
-	API_GATEWAY_GATETABLE_NAME
-	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
-	API_GATEWAY_GRAPHQLAPIIDOUTPUT
-	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
-	API_GATEWAY_KEYTABLE_ARN
-	API_GATEWAY_KEYTABLE_NAME
-	API_GATEWAY_TASKSTATUSTABLE_ARN
-	API_GATEWAY_TASKSTATUSTABLE_NAME
-	API_GATEWAY_USERTABLE_ARN
-	API_GATEWAY_USERTABLE_NAME
-	ENV
-	REGION
 Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
@@ -42,10 +26,10 @@ const {
     getUser,
     getGateStatus,
     createGateStatus,
-	getGate,
-	getCompletedKeys,
-	markGateAsCompleted,
-	removePeopleFromKey
+    getGate,
+    getCompletedKeys,
+    markGateAsCompleted,
+    removePeopleFromKey,
 } = require('/opt/helpers.js')
 
 AWS.config.update({
@@ -54,27 +38,27 @@ AWS.config.update({
 
 exports.handler = async (event, ctx, callback) => {
     try {
-        const { userID, keyID, gateID } = event.arguments
+        const { userID, keyID } = event.arguments
 
         // 1. get key
         const key = await getKey(keyID)
 
-		// 2. get gate
-		const gate = await getGate(key.gateID)
+        // 2. get gate
+        const gate = await getGate(key.gateID)
 
         // 2. get user
         const user = await getUser(userID)
 
-		// 3. get gate status; if doesn't exist, create it
-		let gateStatus = await getGateStatus(userID, key.gateID)
-		if (!gateStatus) {
-			gateStatus = await createGateStatus({
-				userID,
-				gateID
-			})
-		}
+        // 3. get gate status; if doesn't exist, create it
+        let gateStatus = await getGateStatus(userID, key.gateID)
+        if (!gateStatus) {
+            gateStatus = await createGateStatus({
+                userID,
+                gateID: key.gateID,
+            })
+        }
 
-		let keysDone = await getCompletedKeys(userID, key.gateID)
+        let keysDone = await getCompletedKeys(userID, key.gateID)
 
         // 4. check if user has interacted with the contract
         const type = key.task.snapshotType
@@ -149,29 +133,36 @@ exports.handler = async (event, ctx, callback) => {
         const interactions =
             type === 'VOTE' ? res.data.data.votes : res.data.data.proposals
 
-		console.log(interactions)
+        console.log(interactions)
 
         if (interactions.length > 0) {
             // The user interacted with the contract, so task completed
             const item = await createTaskStatus({
                 userID,
                 keyID,
-                gateID,
+                gateID: key.gateID,
                 completed: true,
             })
 
-			if (!key.unlimited && key.peopleLimit > 0) {
-				await removePeopleFromKey(keyID)
-			}
+            let completedGate = false
 
-			if (keysDone + key.keys >= gate.keysNumber) {
-				// Gate completed, update gate status
-				await markGateAsCompleted(gateStatus.id)
-			}
+            if (!key.unlimited && key.peopleLimit > 0) {
+                await removePeopleFromKey(keyID)
+            }
+
+            if (
+                keysDone + key.keys >= gate.keysNumber &&
+                gateStatus.status !== 'COMPLETED'
+            ) {
+                // Gate completed, update gate status
+                await markGateAsCompleted(gateStatus.id)
+                completedGate = true
+            }
 
             return {
-                __typename: 'TaskStatus',
+                __typename: 'TaskAndGateResponse',
                 ...item,
+                completedGate,
             }
         }
 

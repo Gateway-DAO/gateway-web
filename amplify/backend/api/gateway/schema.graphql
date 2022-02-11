@@ -391,7 +391,20 @@ enum ErrorType {
     WRONG_TASK
 }
 
-union KeyVerificationResponse = TaskStatus | Error
+### KEY VERIFICATION RESPONSE ###
+
+type TaskAndGateResponse {
+    id: ID!
+    userID: ID!
+    gateID: ID!
+    keyID: ID!
+    completed: Boolean!
+    completedGate: Boolean!
+    createdAt: AWSDateTime
+    updatedAt: AWSDateTime
+}
+
+union KeyVerificationResponse = TaskAndGateResponse | Error
 
 ### INPUTS ###
 
@@ -546,6 +559,11 @@ input SnapshotGovernanceInput {
     proposal: String
 }
 
+input QuestionLambdaInput {
+    answers: [Int]!
+    questionIdx: Int!
+}
+
 ### CUSTOM MUTATIONS ###
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
@@ -581,33 +599,30 @@ type Mutation {
     ## Verify keys ##
     verifyMeetingCode(
         userID: ID!
-        gateID: ID!
         keyID: ID!
         meetingCode: String!
     ): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
 
     verifyHoldAToken(
         userID: ID!
-        gateID: ID!
         keyID: ID!
     ): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
 
     verifyContractInteraction(
         userID: ID!
-        gateID: ID!
         keyID: ID!
     ): KeyVerificationResponse
         @function(name: "verifyContractInteraction-${env}")
 
     verifySnapshot(
         userID: ID!
-        gateID: ID!
         keyID: ID!
     ): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
 
     verifySelfVerify(
         userID: ID!
-        gateID: ID!
         keyID: ID!
     ): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
+
+    verifyQuiz(userID: ID!, keyID: ID!, questions: [QuestionLambdaInput]!): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
 }

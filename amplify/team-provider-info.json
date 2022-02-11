@@ -15,7 +15,7 @@
       "function": {
         "getUserDAOs": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getUserDAOs-69684a375576596e3866-build.zip"
+          "s3Key": "amplify-builds/getUserDAOs-67667a516e7074497858-build.zip"
         },
         "getAuthenticationNonce": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -51,7 +51,7 @@
         },
         "verifyMeetingCode": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyMeetingCode-3948456f686a70654a4c-build.zip"
+          "s3Key": "amplify-builds/verifyMeetingCode-716d646d4e4e4178724f-build.zip"
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -59,29 +59,29 @@
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyHoldAToken-366a63375833776c4350-build.zip"
+          "s3Key": "amplify-builds/verifyHoldAToken-4872694435504d597835-build.zip"
         },
         "verifyContractInteraction": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyContractInteraction-5a7572394b716c48442f-build.zip",
+          "s3Key": "amplify-builds/verifyContractInteraction-536d71533768684c424a-build.zip",
           "bitqueryKey": "BQYTFxjdFDvYNpjzU1echVkLgWLavvpK"
         },
         "verifyQuiz": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyQuiz-35544446367a4a504c6e-build.zip"
+          "s3Key": "amplify-builds/verifyQuiz-6b366b6d6d4e64653946-build.zip"
         },
         "verifySnapshot": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySnapshot-5246686a7a52672f5254-build.zip"
+          "s3Key": "amplify-builds/verifySnapshot-575956697245724d3746-build.zip"
         },
         "verifySelfVerify": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySelfVerify-33313449752f466f334a-build.zip"
+          "s3Key": "amplify-builds/verifySelfVerify-4a41786b565852535466-build.zip"
         },
         "getCompletedKeys": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getCompletedKeys-3141356e7062484f6f78-build.zip"
+          "s3Key": "amplify-builds/getCompletedKeys-464b536f307633783866-build.zip"
         }
       },
       "auth": {

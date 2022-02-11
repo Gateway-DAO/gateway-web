@@ -7,6 +7,7 @@ import { AiFillCheckCircle } from 'react-icons/ai'
 // Task Components
 import MeetingCode from './components/MeetingCode'
 import Snapshot from './components/Snapshot'
+import Loader from '../../../../../../components/Loader'
 
 const KeyBox = (props) => {
     const [opened, setOpened] = useState(false)
@@ -76,11 +77,16 @@ const KeyBox = (props) => {
                                 !props.blocked
                                     ? !opened
                                         ? startHandler
-                                        : keyValidation.buttonBehavior.onClick
+                                        : !keyValidation.loading
+                                        ? keyValidation.buttonBehavior.onClick
+                                        : null
                                     : null
                             }
                         >
                             <Styled.ButtonText>
+                                {keyValidation.loading && (
+                                    <Loader color="white" />
+                                )}
                                 {props.blocked && (
                                     <AiFillCheckCircle
                                         color="#27D5A2"

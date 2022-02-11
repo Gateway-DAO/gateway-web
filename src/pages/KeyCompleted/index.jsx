@@ -27,6 +27,9 @@ const KeyCompletedPage = (props) => {
         }
 
         const clear = setTimeout(() => {
+            if (state.usr.completedGate) {
+                navigate(`/gate/${state.usr.gate.id}/gate-success`)
+            }
             window.location.href = `/gate/${state.usr.gate.id}/`
         }, 6000)
 

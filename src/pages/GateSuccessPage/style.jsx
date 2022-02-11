@@ -2,43 +2,38 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
     background-color: #170627;
-    width:100%;
+    width: 100%;
 `
 
 export const BoxContainer = styled.div`
     display: flex;
-    // margin: 25vh 20vw;
-    // max-width:100vw;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 `
 
-export const TextContainer = styled.div`
-    font-family: Poppins;
+export const Text = styled.span`
+    font-family: Be Vietnam;
+    font-size: 18px;
     font-style: normal;
-    font-weight: bold;
-    font-size: 96px;
-    line-height: 90px;
-    background: linear-gradient(
-        88.04deg,
-        #ee787b 22.54%,
-        #e153f2 41.08%,
-        #495be0 65.25%,
-        #6a39f3 86.1%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
-    padding-bottom: 30px;
-
-    /* or 94% */
-
-    text-align: center;
-    letter-spacing: -0.05em;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: white;
 `
-export const SmallTextContainer = styled.div`
+
+export const PurpleText = styled(Text)`
+    color: #ff00b8;
+    font-weight: 700;
+`
+
+export const NFT = styled.img`
+    margin-top: 30px;
+    border-radius: 20px;
+`
+
+export const SmallTextContainer = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;

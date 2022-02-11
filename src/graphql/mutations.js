@@ -1006,175 +1006,19 @@ export const createContractInteraction = /* GraphQL */ `
   }
 `;
 export const verifyMeetingCode = /* GraphQL */ `
-  mutation VerifyMeetingCode(
-    $userID: ID!
-    $gateID: ID!
-    $keyID: ID!
-    $meetingCode: String!
-  ) {
+  mutation VerifyMeetingCode($userID: ID!, $keyID: ID!, $meetingCode: String!) {
     verifyMeetingCode(
       userID: $userID
-      gateID: $gateID
       keyID: $keyID
       meetingCode: $meetingCode
     ) {
-      ... on TaskStatus {
+      ... on TaskAndGateResponse {
         id
         userID
-        user {
-          id
-          wallet
-          username
-          name
-          bio
-          daos_ids
-          daos {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          init
-          nonce
-          pfp
-          socials {
-            network
-            url
-          }
-          gates {
-            nextToken
-          }
-          tasks {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
         gateID
-        gate {
-          id
-          daoID
-          dao {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          name
-          description
-          categories
-          admins
-          keysNumber
-          keys {
-            nextToken
-          }
-          published
-          badge {
-            nftURL
-            ipfsURL
-            name
-          }
-          preRequisites {
-            completedGates
-          }
-          createdAt
-          updatedAt
-        }
         keyID
-        key {
-          id
-          gateID
-          gate {
-            id
-            daoID
-            name
-            description
-            categories
-            admins
-            keysNumber
-            published
-            createdAt
-            updatedAt
-          }
-          information {
-            title
-            description
-          }
-          token
-          tokenAmount
-          keys
-          unlimited
-          peopleLimit
-          task {
-            ... on Quiz {
-              type
-              title
-              description
-              passedAt
-            }
-            ... on MeetingCode {
-              type
-              code
-              caseSensitive
-            }
-            ... on TokenHold {
-              type
-              chainID
-              address
-              amount
-            }
-            ... on SelfVerify {
-              type
-            }
-            ... on SnapshotGovernance {
-              type
-              snapshotType
-              spaceID
-              proposal
-            }
-            ... on ContractInteraction {
-              type
-              chainID
-              address
-              methodName
-            }
-          }
-          createdAt
-          updatedAt
-        }
         completed
+        completedGate
         createdAt
         updatedAt
       }
@@ -1187,165 +1031,15 @@ export const verifyMeetingCode = /* GraphQL */ `
   }
 `;
 export const verifyHoldAToken = /* GraphQL */ `
-  mutation VerifyHoldAToken($userID: ID!, $gateID: ID!, $keyID: ID!) {
-    verifyHoldAToken(userID: $userID, gateID: $gateID, keyID: $keyID) {
-      ... on TaskStatus {
+  mutation VerifyHoldAToken($userID: ID!, $keyID: ID!) {
+    verifyHoldAToken(userID: $userID, keyID: $keyID) {
+      ... on TaskAndGateResponse {
         id
         userID
-        user {
-          id
-          wallet
-          username
-          name
-          bio
-          daos_ids
-          daos {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          init
-          nonce
-          pfp
-          socials {
-            network
-            url
-          }
-          gates {
-            nextToken
-          }
-          tasks {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
         gateID
-        gate {
-          id
-          daoID
-          dao {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          name
-          description
-          categories
-          admins
-          keysNumber
-          keys {
-            nextToken
-          }
-          published
-          badge {
-            nftURL
-            ipfsURL
-            name
-          }
-          preRequisites {
-            completedGates
-          }
-          createdAt
-          updatedAt
-        }
         keyID
-        key {
-          id
-          gateID
-          gate {
-            id
-            daoID
-            name
-            description
-            categories
-            admins
-            keysNumber
-            published
-            createdAt
-            updatedAt
-          }
-          information {
-            title
-            description
-          }
-          token
-          tokenAmount
-          keys
-          unlimited
-          peopleLimit
-          task {
-            ... on Quiz {
-              type
-              title
-              description
-              passedAt
-            }
-            ... on MeetingCode {
-              type
-              code
-              caseSensitive
-            }
-            ... on TokenHold {
-              type
-              chainID
-              address
-              amount
-            }
-            ... on SelfVerify {
-              type
-            }
-            ... on SnapshotGovernance {
-              type
-              snapshotType
-              spaceID
-              proposal
-            }
-            ... on ContractInteraction {
-              type
-              chainID
-              address
-              methodName
-            }
-          }
-          createdAt
-          updatedAt
-        }
         completed
+        completedGate
         createdAt
         updatedAt
       }
@@ -1358,165 +1052,15 @@ export const verifyHoldAToken = /* GraphQL */ `
   }
 `;
 export const verifyContractInteraction = /* GraphQL */ `
-  mutation VerifyContractInteraction($userID: ID!, $gateID: ID!, $keyID: ID!) {
-    verifyContractInteraction(userID: $userID, gateID: $gateID, keyID: $keyID) {
-      ... on TaskStatus {
+  mutation VerifyContractInteraction($userID: ID!, $keyID: ID!) {
+    verifyContractInteraction(userID: $userID, keyID: $keyID) {
+      ... on TaskAndGateResponse {
         id
         userID
-        user {
-          id
-          wallet
-          username
-          name
-          bio
-          daos_ids
-          daos {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          init
-          nonce
-          pfp
-          socials {
-            network
-            url
-          }
-          gates {
-            nextToken
-          }
-          tasks {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
         gateID
-        gate {
-          id
-          daoID
-          dao {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          name
-          description
-          categories
-          admins
-          keysNumber
-          keys {
-            nextToken
-          }
-          published
-          badge {
-            nftURL
-            ipfsURL
-            name
-          }
-          preRequisites {
-            completedGates
-          }
-          createdAt
-          updatedAt
-        }
         keyID
-        key {
-          id
-          gateID
-          gate {
-            id
-            daoID
-            name
-            description
-            categories
-            admins
-            keysNumber
-            published
-            createdAt
-            updatedAt
-          }
-          information {
-            title
-            description
-          }
-          token
-          tokenAmount
-          keys
-          unlimited
-          peopleLimit
-          task {
-            ... on Quiz {
-              type
-              title
-              description
-              passedAt
-            }
-            ... on MeetingCode {
-              type
-              code
-              caseSensitive
-            }
-            ... on TokenHold {
-              type
-              chainID
-              address
-              amount
-            }
-            ... on SelfVerify {
-              type
-            }
-            ... on SnapshotGovernance {
-              type
-              snapshotType
-              spaceID
-              proposal
-            }
-            ... on ContractInteraction {
-              type
-              chainID
-              address
-              methodName
-            }
-          }
-          createdAt
-          updatedAt
-        }
         completed
+        completedGate
         createdAt
         updatedAt
       }
@@ -1529,165 +1073,15 @@ export const verifyContractInteraction = /* GraphQL */ `
   }
 `;
 export const verifySnapshot = /* GraphQL */ `
-  mutation VerifySnapshot($userID: ID!, $gateID: ID!, $keyID: ID!) {
-    verifySnapshot(userID: $userID, gateID: $gateID, keyID: $keyID) {
-      ... on TaskStatus {
+  mutation VerifySnapshot($userID: ID!, $keyID: ID!) {
+    verifySnapshot(userID: $userID, keyID: $keyID) {
+      ... on TaskAndGateResponse {
         id
         userID
-        user {
-          id
-          wallet
-          username
-          name
-          bio
-          daos_ids
-          daos {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          init
-          nonce
-          pfp
-          socials {
-            network
-            url
-          }
-          gates {
-            nextToken
-          }
-          tasks {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
         gateID
-        gate {
-          id
-          daoID
-          dao {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          name
-          description
-          categories
-          admins
-          keysNumber
-          keys {
-            nextToken
-          }
-          published
-          badge {
-            nftURL
-            ipfsURL
-            name
-          }
-          preRequisites {
-            completedGates
-          }
-          createdAt
-          updatedAt
-        }
         keyID
-        key {
-          id
-          gateID
-          gate {
-            id
-            daoID
-            name
-            description
-            categories
-            admins
-            keysNumber
-            published
-            createdAt
-            updatedAt
-          }
-          information {
-            title
-            description
-          }
-          token
-          tokenAmount
-          keys
-          unlimited
-          peopleLimit
-          task {
-            ... on Quiz {
-              type
-              title
-              description
-              passedAt
-            }
-            ... on MeetingCode {
-              type
-              code
-              caseSensitive
-            }
-            ... on TokenHold {
-              type
-              chainID
-              address
-              amount
-            }
-            ... on SelfVerify {
-              type
-            }
-            ... on SnapshotGovernance {
-              type
-              snapshotType
-              spaceID
-              proposal
-            }
-            ... on ContractInteraction {
-              type
-              chainID
-              address
-              methodName
-            }
-          }
-          createdAt
-          updatedAt
-        }
         completed
+        completedGate
         createdAt
         updatedAt
       }
@@ -1700,165 +1094,40 @@ export const verifySnapshot = /* GraphQL */ `
   }
 `;
 export const verifySelfVerify = /* GraphQL */ `
-  mutation VerifySelfVerify($userID: ID!, $gateID: ID!, $keyID: ID!) {
-    verifySelfVerify(userID: $userID, gateID: $gateID, keyID: $keyID) {
-      ... on TaskStatus {
+  mutation VerifySelfVerify($userID: ID!, $keyID: ID!) {
+    verifySelfVerify(userID: $userID, keyID: $keyID) {
+      ... on TaskAndGateResponse {
         id
         userID
-        user {
-          id
-          wallet
-          username
-          name
-          bio
-          daos_ids
-          daos {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          init
-          nonce
-          pfp
-          socials {
-            network
-            url
-          }
-          gates {
-            nextToken
-          }
-          tasks {
-            nextToken
-          }
-          createdAt
-          updatedAt
-        }
         gateID
-        gate {
-          id
-          daoID
-          dao {
-            id
-            dao
-            name
-            accomplishments
-            snapshotID
-            backgroundURL
-            youtubeURL
-            logoURL
-            categories
-            tags
-            description
-            howToJoin
-            missionAndVision
-            whatDoWeDo
-            upcomingHangouts
-            tokenAddress
-            whitelistedAddresses
-            chains
-            createdAt
-            updatedAt
-          }
-          name
-          description
-          categories
-          admins
-          keysNumber
-          keys {
-            nextToken
-          }
-          published
-          badge {
-            nftURL
-            ipfsURL
-            name
-          }
-          preRequisites {
-            completedGates
-          }
-          createdAt
-          updatedAt
-        }
         keyID
-        key {
-          id
-          gateID
-          gate {
-            id
-            daoID
-            name
-            description
-            categories
-            admins
-            keysNumber
-            published
-            createdAt
-            updatedAt
-          }
-          information {
-            title
-            description
-          }
-          token
-          tokenAmount
-          keys
-          unlimited
-          peopleLimit
-          task {
-            ... on Quiz {
-              type
-              title
-              description
-              passedAt
-            }
-            ... on MeetingCode {
-              type
-              code
-              caseSensitive
-            }
-            ... on TokenHold {
-              type
-              chainID
-              address
-              amount
-            }
-            ... on SelfVerify {
-              type
-            }
-            ... on SnapshotGovernance {
-              type
-              snapshotType
-              spaceID
-              proposal
-            }
-            ... on ContractInteraction {
-              type
-              chainID
-              address
-              methodName
-            }
-          }
-          createdAt
-          updatedAt
-        }
         completed
+        completedGate
+        createdAt
+        updatedAt
+      }
+      ... on Error {
+        keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const verifyQuiz = /* GraphQL */ `
+  mutation VerifyQuiz(
+    $userID: ID!
+    $keyID: ID!
+    $questions: [QuestionLambdaInput]!
+  ) {
+    verifyQuiz(userID: $userID, keyID: $keyID, questions: $questions) {
+      ... on TaskAndGateResponse {
+        id
+        userID
+        gateID
+        keyID
+        completed
+        completedGate
         createdAt
         updatedAt
       }

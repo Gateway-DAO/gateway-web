@@ -16,22 +16,6 @@
 	API_GATEWAY_USERTABLE_NAME
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
-	API_GATEWAY_DAOTABLE_ARN
-	API_GATEWAY_DAOTABLE_NAME
-	API_GATEWAY_GATETABLE_ARN
-	API_GATEWAY_GATETABLE_NAME
-	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
-	API_GATEWAY_GRAPHQLAPIIDOUTPUT
-	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
-	API_GATEWAY_KEYTABLE_ARN
-	API_GATEWAY_KEYTABLE_NAME
-	API_GATEWAY_TASKSTATUSTABLE_ARN
-	API_GATEWAY_TASKSTATUSTABLE_NAME
-	API_GATEWAY_USERTABLE_ARN
-	API_GATEWAY_USERTABLE_NAME
-	ENV
-	REGION
 Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
@@ -54,7 +38,7 @@ AWS.config.update({
 
 exports.handler = async (event, ctx, callback) => {
     try {
-        const { userID, keyID, gateID } = event.arguments
+        const { userID, keyID } = event.arguments
 
         // 1. get key
         const key = await getKey(keyID)
@@ -70,7 +54,7 @@ exports.handler = async (event, ctx, callback) => {
         if (!gateStatus) {
             gateStatus = await createGateStatus({
                 userID,
-                gateID,
+                gateID: key.gateID,
             })
         }
 
@@ -118,7 +102,7 @@ exports.handler = async (event, ctx, callback) => {
 				ethereum(network: ${chain()}) {
 					smartContractCalls(
 					caller: {is: $wallet}
-					${method && "smartContractMethod: {is: $method}" }
+					${method && 'smartContractMethod: {is: $method}'}
 					smartContractAddress: {is: $scaddress}
 					) {
 						smartContractMethod {
@@ -154,22 +138,29 @@ exports.handler = async (event, ctx, callback) => {
             const item = await createTaskStatus({
                 userID,
                 keyID,
-                gateID,
+                gateID: key.gateID,
                 completed: true,
             })
+
+            let completedGate = false
 
             if (!key.unlimited && key.peopleLimit > 0) {
                 await removePeopleFromKey(keyID)
             }
 
-            if (keysDone + key.keys >= gate.keysNumber) {
+            if (
+                keysDone + key.keys >= gate.keysNumber &&
+                gateStatus.status !== 'COMPLETED'
+            ) {
                 // Gate completed, update gate status
                 await markGateAsCompleted(gateStatus.id)
+                completedGate = true
             }
 
             return {
-                __typename: 'TaskStatus',
+                __typename: 'TaskAndGateResponse',
                 ...item,
+                completedGate,
             }
         }
 

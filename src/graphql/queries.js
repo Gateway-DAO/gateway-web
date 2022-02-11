@@ -1322,6 +1322,7 @@ export const getGate = /* GraphQL */ `
                             type
                             chainID
                             address
+                            amount
                         }
                         ... on SelfVerify {
                             type
@@ -3010,8 +3011,8 @@ export const getGateStatusByUserId = /* GraphQL */ `
                     createdAt
                     updatedAt
                     badge {
-                      ipfsURL
-                      name
+                        ipfsURL
+                        name
                     }
                 }
                 reward {

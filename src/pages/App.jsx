@@ -98,6 +98,8 @@ const App = (props) => {
                                     element={<AddMeetingCode />}
                                 />
                             </Route>
+
+                            <Route path="gate-success" element={<GateSuccessPage />} />
                         </Route>
 
                         <Route
@@ -125,6 +127,7 @@ const App = (props) => {
                             path="/new-community/:name"
                             element={<SubmitPage />}
                         />
+
                         <Route path="*" element={<Page404 />} />
                     </Routes>
                 </ScrollToTop>
