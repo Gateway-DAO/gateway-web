@@ -109,7 +109,7 @@ const DaoGate = (props) => {
                                         blocked={
                                             gateData.taskStatus.length > 0
                                                 ? gateData.taskStatus
-                                                      .map((ts) => ts.key.id)
+                                                      .map((ts) => ts.keyID)
                                                       .includes(key.id)
                                                 : false
                                         }

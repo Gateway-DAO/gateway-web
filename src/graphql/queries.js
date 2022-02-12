@@ -2044,6 +2044,47 @@ export const getUserByAddress = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        gate {
+                            id
+                            daoID
+                            name
+                            description
+                            categories
+                            admins
+                            keysNumber
+                            published
+                            createdAt
+                            updatedAt
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                            nextToken
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {

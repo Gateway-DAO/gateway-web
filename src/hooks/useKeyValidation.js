@@ -53,7 +53,7 @@ export const useKeyValidation = (data, gateData) => {
                                 res.data.verifyMeetingCode.__typename !==
                                 'Error'
                             ) {
-                                navigate('/key-completed', {
+                                navigate('key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
@@ -110,7 +110,7 @@ export const useKeyValidation = (data, gateData) => {
                                 res.data.verifyContractInteraction
                                     .__typename !== 'Error'
                             ) {
-                                navigate('/key-completed', {
+                                navigate('key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
@@ -171,7 +171,7 @@ export const useKeyValidation = (data, gateData) => {
                             if (
                                 res.data.verifyHoldAToken.__typename !== 'Error'
                             ) {
-                                navigate('/key-completed', {
+                                navigate('key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
@@ -238,7 +238,7 @@ export const useKeyValidation = (data, gateData) => {
                             if (
                                 res.data.verifySelfVerify.__typename !== 'Error'
                             ) {
-                                navigate('/key-completed', {
+                                navigate('key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,
@@ -293,7 +293,7 @@ export const useKeyValidation = (data, gateData) => {
                             if (
                                 res.data.verifySnapshot.__typename !== 'Error'
                             ) {
-                                navigate('/key-completed', {
+                                navigate('key-completed', {
                                     state: {
                                         key: data,
                                         gate: gateData,

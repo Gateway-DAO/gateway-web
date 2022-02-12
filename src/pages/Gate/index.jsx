@@ -28,7 +28,7 @@ const Gate = (props) => {
     const [loaded, setLoaded] = useState(false)
 
     const { data: GSData, loading: GSLoading } = useGetGateStatusByGateID(
-        gateData.id,
+        gateData?.id,
         {
             filter: {
                 status: {
@@ -37,23 +37,6 @@ const Gate = (props) => {
             },
         }
     )
-    const { data: GSUserData, loading: GSUserLoading } =
-        useGetGateStatusByUserID(userInfo?.id, {
-            filter: {
-                gateID: {
-                    eq: gateData.id,
-                },
-            },
-        })
-
-    const { data: TSData, loading: taskStatusLoading } =
-        useGetTaskStatusByUserID(userInfo ? userInfo?.id : '', {
-            filter: {
-                gateID: {
-                    eq: gateData.id,
-                },
-            },
-        })
 
     // Fetch data regarding these
     useEffect(() => {
@@ -99,10 +82,8 @@ const Gate = (props) => {
                         holders:
                             GSData?.getGateStatusByGateID?.items?.length ||
                             0,
-                        keysDone:
-                            GSUserData?.getGateStatusByUserID?.items[0]
-                                ?.keysDone || 0,
-                        taskStatus: TSData?.getTaskStatusByUserID?.items || [],
+                        keysDone: userInfo?.gates?.items.filter(obj => obj.id !== gate)[0]?.keysDone || 0,
+                        taskStatus: userInfo?.gates?.items.filter(obj => obj.id !== gate)[0]?.tasks?.items || [],
                     },
                     setGateData,
                     loaded,
