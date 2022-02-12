@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { useNavigate } from 'react-router-dom'
+
+// Styling
+import * as ThemeStyled from '../theme/style'
 
 // Web3
 import { CONNECTORS, shortenAddress } from '../utils/web3'
@@ -18,6 +20,7 @@ import {
 import { useLazyQuery, gql } from '@apollo/client'
 import Amplify, { Hub, Auth } from 'aws-amplify'
 import useGetFile from '../api/useGetFile'
+import { useModal } from './ModalContext'
 
 Amplify.configure(awsconfig)
 Auth.configure(awsconfig)
@@ -45,6 +48,44 @@ export const useAuth = () => {
 }
 
 /**
+ * The `useSignedAuth` hook returns the `userContext` object, but AWS-signed in.
+ *
+ * Structure of authentication:
+ * - can connect wallet, retrieve user info based on wallet (READ)
+ * - needs to be signed in using Cognito to change/update information (UPDATE)
+ * - if no user exists, create new one based on wallet address (CREATE)
+ *
+ * Get information:
+ * - walletConnected: checks if wallet is connected; can fetch user info
+ * - loggedIn: checks if user is connected on Cognito; can change information
+ * - signIn: for users with connected wallet & not logged in. Necessary for changing info on database
+ *
+ * @returns The user object.
+ */
+export const useSignedAuth = (deps = []) => {
+    const context = useContext(userContext)
+
+    const testers = [context.walletConnected, !context.loggedIn, ...deps]
+
+    useEffect(() => {
+        testers.every((val) => val) && context.signIn()
+    }, [context.walletConnected, context.loggedIn, ...deps])
+
+    return context
+}
+
+/**
+ * This function is used to render an error modal. It takes in an error message and renders it to the
+ * screen.
+ */
+const Error = ({ error }) => (
+    <div>
+        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
+        <p>{error}</p>
+    </div>
+)
+
+/**
  * The UserProvider component is a React component that wraps around the children components.
  * It provides the user data to the children components.
  *
@@ -68,8 +109,11 @@ export const UserProvider = ({ children }) => {
     const [loadingWallet, setLoadingWallet] = useState(false)
     const [userInfo, setUserInfo] = useState(null)
 
+    // Hooks
     const web3 = useWeb3React()
+    const { showModal } = useModal()
 
+    // Database
     const [
         getUserByAddress,
         {
@@ -208,10 +252,9 @@ export const UserProvider = ({ children }) => {
      * Signs in a user on Cognito.
      * @returns The user's information.
      */
-    const signIn = async () => {
-        try {
+    const signIn = () => {
+        const callback = async () => {
             !web3.active && (await activateWeb3())
-            setLoggingIn(true)
 
             const { data } = await getNonce(web3.account)
 
@@ -232,17 +275,19 @@ export const UserProvider = ({ children }) => {
             )
 
             if (!res.signInUserSession) {
-                setLoggingIn(false)
-                alert('An error occurred on sign in, try again later')
+                showModal(
+                    <Error error="An error occurred while signing in. Please try again later." />
+                )
             }
-
-            setLoggingIn(false)
-
-            return userInfo
-        } catch (err) {
-            console.error(err)
-            setLoggingIn(false)
         }
+
+        callback()
+            .catch((err) => {
+                showModal(
+                    <Error error="An error occurred while signing in. Please try again later." />
+                )
+                console.log(err)
+            })
     }
 
     /* If the user has their wallet connected, get the user's info from the database. */
@@ -262,7 +307,7 @@ export const UserProvider = ({ children }) => {
                 if (!!userDB.data.getUserByAddress.items.length) {
                     setUserInfo({
                         ...userDB.data.getUserByAddress.items[0],
-                        isAdmin: false
+                        isAdmin: false,
                     })
 
                     // setLoggedIn(false)
@@ -281,16 +326,18 @@ export const UserProvider = ({ children }) => {
     connected, set the walletConnected state to true. */
     useEffect(() => {
         const callback = async () => {
-            const { username, signInUserSession } = await Auth.currentAuthenticatedUser()
+            const { username, signInUserSession } =
+                await Auth.currentAuthenticatedUser()
 
             if (userInfo) {
                 if (username === userInfo.id) {
-                    setWalletConnected(true)
-                    setLoggedIn(true)
                     setUserInfo({
                         ...userInfo,
                         ...getUserGroups(signInUserSession),
                     })
+
+                    setWalletConnected(true)
+                    setLoggedIn(true)
                 } else {
                     Auth.signOut().then(() => {
                         setLoggedIn(false)
@@ -302,44 +349,6 @@ export const UserProvider = ({ children }) => {
 
         callback()
     }, [web3.account])
-
-    /* The useEffect hook is used to run a function after the component mounts.
-    
-    The callback function is an async function that will try to get the current user's username and
-    signInUserSession.
-    
-    If the username is not null, the user is logged in.
-    
-    If the username is null, the user is not logged in.
-    
-    The setUserInfo function is used to set the userInfo state to the user's information.
-    
-    The setLoggedIn function is used to set the loggedIn state to true if the user is logged in.*/
-    useEffect(() => {
-        const callback = async () => {
-            try {
-                const { username, signInUserSession } =
-                    await Auth.currentAuthenticatedUser()
-
-                if (username && signInUserSession) {
-                    const userDB = await getUser({
-                        variables: {
-                            id: username,
-                        },
-                    })
-                    setUserInfo({
-                        ...userDB.data.getUser,
-                        ...getUserGroups(signInUserSession),
-                    })
-                    setLoggedIn(true)
-                }
-            } catch (e) {
-                console.log(e)
-            }
-        }
-
-        callback()
-    }, [])
 
     /**
      * When the user signs in, get the user's information from the database and set it in the state.
@@ -362,6 +371,7 @@ export const UserProvider = ({ children }) => {
                     ...getUserGroups(data.signInUserSession),
                 })
                 setLoggedIn(true)
+                setLoggingIn(false)
                 break
             case 'signOut':
                 setLoggedIn(false)
@@ -376,22 +386,21 @@ export const UserProvider = ({ children }) => {
         return () => Hub.remove('auth', listener)
     })
 
-    return (
-        <Provider
-            value={{
-                signIn,
-                loggedIn,
-                walletConnected,
-                ...(loggedIn || walletConnected ? { userInfo } : {}),
-                loggingIn,
-                updateUserInfo,
-                userSignOut,
-                wallet: web3.wallet,
-                activateWeb3,
-                loadingWallet,
-            }}
-        >
-            {children}
-        </Provider>
+    const value = React.useMemo(
+        () => ({
+            signIn,
+            loggedIn,
+            walletConnected,
+            ...(loggedIn || walletConnected ? { userInfo } : {}),
+            loggingIn,
+            updateUserInfo,
+            userSignOut,
+            wallet: web3.wallet,
+            activateWeb3,
+            loadingWallet,
+        }),
+        [walletConnected, userInfo, web3.wallet, loadingWallet, loggedIn]
     )
+
+    return <Provider value={value}>{children}</Provider>
 }

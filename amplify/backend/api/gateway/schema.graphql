@@ -265,6 +265,11 @@ type ContractInteraction {
     methodName: String
 }
 
+type ManualTask {
+    type: TaskType
+    information: [KeyInformation]!
+}
+
 type PreRequisites {
     completedGates: [ID]
 }
@@ -286,7 +291,7 @@ enum TaskType {
     TOKEN_HOLD
     SC_INTERACTION
     SNAPSHOT
-    MANUAL
+    MANUAL_TASK
     SELF_VERIFY
     SNAPSHOT_GOVERNANCE
     CONTRACT_INTERACTION
@@ -310,6 +315,7 @@ union TaskUnion =
     | SelfVerify
     | SnapshotGovernance
     | ContractInteraction
+    | ManualTask
 
 ### TASK STATUS / GATE STATUS / ERROR ###
 
@@ -566,6 +572,23 @@ input QuestionLambdaInput {
     questionIdx: Int!
 }
 
+input CreateKeyManualTask {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
+    task: ManualTaskInput
+}
+
+input ManualTaskInput {
+    type: TaskType = "MANUAL_TASK"
+    information: [KeyInformationInput]!
+}
+
 ### CUSTOM MUTATIONS ###
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
@@ -596,6 +619,9 @@ type Mutation {
         @function(name: "addKey-${env}")
 
     createContractInteraction(input: CreateKeyContractInteraction): Key
+        @function(name: "addKey-${env}")
+
+    createManualTask(input: CreateKeyManualTask): Key
         @function(name: "addKey-${env}")
 
     ## Verify keys ##

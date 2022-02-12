@@ -266,8 +266,8 @@ export const getDao = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -1348,6 +1348,13 @@ export const getGate = /* GraphQL */ `
                             address
                             methodName
                         }
+                        ... on ManualTask {
+                            type
+                            information {
+                                title
+                                description
+                            }
+                        }
                     }
                 }
                 nextToken
@@ -1403,7 +1410,6 @@ export const listGates = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
-                holders
                 keys {
                     nextToken
                 }
@@ -1416,6 +1422,7 @@ export const listGates = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1458,7 +1465,6 @@ export const getKey = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
-                holders
                 keys {
                     nextToken
                 }
@@ -1471,6 +1477,7 @@ export const getKey = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1522,6 +1529,13 @@ export const getKey = /* GraphQL */ `
                     address
                     methodName
                 }
+                ... on ManualTask {
+                    type
+                    information {
+                        title
+                        description
+                    }
+                }
             }
             createdAt
             updatedAt
@@ -1546,8 +1560,8 @@ export const listKeys = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -1598,6 +1612,13 @@ export const listKeys = /* GraphQL */ `
                         chainID
                         address
                         methodName
+                    }
+                    ... on ManualTask {
+                        type
+                        information {
+                            title
+                            description
+                        }
                     }
                 }
                 createdAt
@@ -1688,7 +1709,6 @@ export const getGateStatus = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
-                holders
                 keys {
                     nextToken
                 }
@@ -1701,6 +1721,7 @@ export const getGateStatus = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1759,8 +1780,8 @@ export const listGateStatuss = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -1861,7 +1882,6 @@ export const getTaskStatus = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
-                holders
                 keys {
                     nextToken
                 }
@@ -1874,6 +1894,7 @@ export const getTaskStatus = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1889,8 +1910,8 @@ export const getTaskStatus = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -1942,6 +1963,13 @@ export const getTaskStatus = /* GraphQL */ `
                         address
                         methodName
                     }
+                    ... on ManualTask {
+                        type
+                        information {
+                            title
+                            description
+                        }
+                    }
                 }
                 createdAt
                 updatedAt
@@ -1984,8 +2012,8 @@ export const listTaskStatuss = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -2928,7 +2956,6 @@ export const getGatesByDaoid = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
-                holders
                 keys {
                     nextToken
                 }
@@ -2941,6 +2968,7 @@ export const getGatesByDaoid = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -2974,8 +3002,8 @@ export const getKeysByGateId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -3027,6 +3055,13 @@ export const getKeysByGateId = /* GraphQL */ `
                         address
                         methodName
                     }
+                    ... on ManualTask {
+                        type
+                        information {
+                            title
+                            description
+                        }
+                    }
                 }
                 createdAt
                 updatedAt
@@ -3075,8 +3110,8 @@ export const getGateStatusByUserId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                     badge {
@@ -3140,8 +3175,8 @@ export const getGateStatusByGateId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -3201,8 +3236,8 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -3266,8 +3301,8 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
-                    holders
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -3627,7 +3662,6 @@ export const searchGates = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
-                holders
                 keys {
                     nextToken
                 }
@@ -3640,6 +3674,7 @@ export const searchGates = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }

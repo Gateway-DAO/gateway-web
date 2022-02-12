@@ -26,14 +26,14 @@ ReactDOM.render(
     <ApolloAppSyncProvider>
         <ReduxProvider store={store}>
             <Web3ReactProvider getLibrary={getLibrary}>
-                <UserProvider>
-                    <ThemeProvider>
-                        <ModalProvider>
+                <ThemeProvider>
+                    <ModalProvider>
+                        <UserProvider>
                             <GlobalTheme />
-                            <App />
-                        </ModalProvider>
-                    </ThemeProvider>
-                </UserProvider>
+                                <App />
+                        </UserProvider>
+                    </ModalProvider>
+                </ThemeProvider>
             </Web3ReactProvider>
         </ReduxProvider>
     </ApolloAppSyncProvider>,

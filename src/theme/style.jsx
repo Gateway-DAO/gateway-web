@@ -42,4 +42,5 @@ export const MainText = styled.h1`
 
 export const H2 = styled(MainText)`
     font-size: 48px;
+    font-weight: bold;
 `
