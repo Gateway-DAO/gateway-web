@@ -193,6 +193,7 @@ type Gate
     published: Boolean
     badge: NFTInfo!
     preRequisites: PreRequisites
+    holders: Int! @function(name: "getGateHolders-${env}")
 }
 
 type Key
@@ -330,7 +331,8 @@ type GateStatus
     gateID: ID!
     gate: Gate @connection(fields: ["gateID"])
     reward: GateReward
-    tasks: [TaskStatus] @connection(keyName: "taskStatusByGateID", fields: ["gateID"])
+    tasks: [TaskStatus]
+        @connection(keyName: "taskStatusByGateID", fields: ["gateID"])
     keysDone: Int @function(name: "getCompletedKeys-${env}")
     status: GateStatusList
     createdAt: AWSDateTime
@@ -603,26 +605,21 @@ type Mutation {
         meetingCode: String!
     ): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
 
-    verifyHoldAToken(
-        userID: ID!
-        keyID: ID!
-    ): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
+    verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse
+        @function(name: "verifyHoldAToken-${env}")
 
-    verifyContractInteraction(
-        userID: ID!
-        keyID: ID!
-    ): KeyVerificationResponse
+    verifyContractInteraction(userID: ID!, keyID: ID!): KeyVerificationResponse
         @function(name: "verifyContractInteraction-${env}")
 
-    verifySnapshot(
+    verifySnapshot(userID: ID!, keyID: ID!): KeyVerificationResponse
+        @function(name: "verifySnapshot-${env}")
+
+    verifySelfVerify(userID: ID!, keyID: ID!): KeyVerificationResponse
+        @function(name: "verifySelfVerify-${env}")
+
+    verifyQuiz(
         userID: ID!
         keyID: ID!
-    ): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
-
-    verifySelfVerify(
-        userID: ID!
-        keyID: ID!
-    ): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
-
-    verifyQuiz(userID: ID!, keyID: ID!, questions: [QuestionLambdaInput]!): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
+        questions: [QuestionLambdaInput]!
+    ): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
 }

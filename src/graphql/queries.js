@@ -80,6 +80,7 @@ export const getUser = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -265,6 +266,7 @@ export const getDao = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -353,6 +355,7 @@ export const listDaos = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -446,6 +449,7 @@ export const getBounty = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -597,6 +601,7 @@ export const getTokenBenefit = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -743,6 +748,7 @@ export const getChannel = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -894,6 +900,7 @@ export const getPost = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -1266,6 +1273,7 @@ export const getGate = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -1285,6 +1293,7 @@ export const getGate = /* GraphQL */ `
             categories
             admins
             keysNumber
+            holders
             keys {
                 items {
                     id
@@ -1394,6 +1403,7 @@ export const listGates = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
+                holders
                 keys {
                     nextToken
                 }
@@ -1448,6 +1458,7 @@ export const getKey = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
+                holders
                 keys {
                     nextToken
                 }
@@ -1535,6 +1546,7 @@ export const listKeys = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -1676,6 +1688,7 @@ export const getGateStatus = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
+                holders
                 keys {
                     nextToken
                 }
@@ -1746,6 +1759,7 @@ export const listGateStatuss = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -1847,6 +1861,7 @@ export const getTaskStatus = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
+                holders
                 keys {
                     nextToken
                 }
@@ -1874,6 +1889,7 @@ export const getTaskStatus = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -1968,6 +1984,7 @@ export const listTaskStatuss = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -2051,11 +2068,17 @@ export const getUserByAddress = /* GraphQL */ `
                         gate {
                             id
                             daoID
+                            dao {
+                                name
+                                logoURL
+                                dao
+                            }
                             name
                             description
                             categories
                             admins
                             keysNumber
+                            holders
                             published
                             createdAt
                             updatedAt
@@ -2354,6 +2377,7 @@ export const getDaoById = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -2565,6 +2589,7 @@ export const getDaoByName = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -2903,6 +2928,7 @@ export const getGatesByDaoid = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
+                holders
                 keys {
                     nextToken
                 }
@@ -2948,6 +2974,7 @@ export const getKeysByGateId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -3048,6 +3075,7 @@ export const getGateStatusByUserId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -3112,6 +3140,7 @@ export const getGateStatusByGateId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -3172,6 +3201,7 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -3236,6 +3266,7 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                     categories
                     admins
                     keysNumber
+                    holders
                     published
                     createdAt
                     updatedAt
@@ -3410,6 +3441,7 @@ export const searchDaos = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -3595,6 +3627,7 @@ export const searchGates = /* GraphQL */ `
                 categories
                 admins
                 keysNumber
+                holders
                 keys {
                     nextToken
                 }

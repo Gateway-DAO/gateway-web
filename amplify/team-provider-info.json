@@ -82,6 +82,10 @@
         "getCompletedKeys": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
           "s3Key": "amplify-builds/getCompletedKeys-464b536f307633783866-build.zip"
+        },
+        "getGateHolders": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/getGateHolders-6333736a61706f466a6d-build.zip"
         }
       },
       "auth": {
