@@ -52,7 +52,7 @@ const Quiz = (props) => {
                 })
 
                 if (res.data.verifyQuiz.__typename !== 'Error') {
-                    navigate('../../key-completed', {
+                    navigate(`/gate/${state.gateData.id}/key-completed`, {
                         state: {
                             key: state,
                             gate: state.gateData,
