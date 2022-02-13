@@ -67,7 +67,6 @@ const App = (props) => {
                             <Route path="edit-gate" element={<AddNewGate />} />
                         </Route>
 
-
                         <Route path="gate/:gate" element={<Gate />}>
                             <Route index element={<DaoGate />} />
                             <Route path="quiz/:id" element={<NewQuiz />} />
@@ -86,7 +85,39 @@ const App = (props) => {
                                     path="governance"
                                     element={<AddGovernanceSnapshot />}
                                 />
-                                <Route path="sc-interaction" element={<AddContractInteraction />} />
+                                <Route
+                                    path="sc-interaction"
+                                    element={<AddContractInteraction />}
+                                />
+                                <Route
+                                    path="success"
+                                    element={<AddKeySuccess />}
+                                />
+                                <Route path="quiz" element={<KeyQuiz />} />
+
+                                <Route
+                                    path="meeting-code"
+                                    element={<AddMeetingCode />}
+                                />
+                            </Route>
+                            <Route path="edit-key" element={<AddNewKey />}>
+                                <Route index element={<AddNewKeyHome />} />
+                                <Route
+                                    path="token"
+                                    element={<AddHoldToken />}
+                                />
+                                <Route
+                                    path="manual"
+                                    element={<AddManualTask />}
+                                />
+                                <Route
+                                    path="governance"
+                                    element={<AddGovernanceSnapshot />}
+                                />
+                                <Route
+                                    path="sc-interaction"
+                                    element={<AddContractInteraction />}
+                                />
                                 <Route
                                     path="success"
                                     element={<AddKeySuccess />}
@@ -99,7 +130,10 @@ const App = (props) => {
                                 />
                             </Route>
 
-                            <Route path="gate-success" element={<GateSuccessPage />} />
+                            <Route
+                                path="gate-success"
+                                element={<GateSuccessPage />}
+                            />
                         </Route>
 
                         <Route

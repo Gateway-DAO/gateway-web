@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import * as Styled from './style'
 import useKeyValidation from '../../../../../../hooks/useKeyValidation'
-
+import { FaPencilAlt } from 'react-icons/fa'
 import { AiFillCheckCircle } from 'react-icons/ai'
+import { useGateAdmin } from '../../../../../../hooks/useAdmin'
+import { useNavigate } from 'react-router-dom'
 
 // Task Components
 import MeetingCode from './components/MeetingCode'
@@ -10,11 +12,13 @@ import Snapshot from './components/Snapshot'
 import Loader from '../../../../../../components/Loader'
 
 const KeyBox = (props) => {
+    let navigate = useNavigate()
     const [opened, setOpened] = useState(false)
     const [startBox, setStartBox] = useState(false)
     const data = props.data
     const keyValidation = useKeyValidation(data, props.gateData)
-
+    const { isAdmin } = useGateAdmin(props.gateData.admins)
+    console.log(props.data)
     const openedHandler = () => {
         setOpened((prev) => !prev)
     }
@@ -22,6 +26,11 @@ const KeyBox = (props) => {
     const startHandler = () => {
         setOpened((prev) => !prev)
         setStartBox((prev) => !prev)
+    }
+
+    const editKey = () => {
+        const link = '/gate/' + props.data.gateID + '/edit-key'
+        navigate(link)
     }
 
     const Task = () => {
@@ -47,9 +56,16 @@ const KeyBox = (props) => {
         <Styled.ThirdDiv>
             <Styled.Box opened={opened} blocked={props.blocked}>
                 <Styled.TextContainer>
-                    <Styled.BoxTitle>
-                        {data.information[0].title}
-                    </Styled.BoxTitle>
+                    <Styled.BoxHeading>
+                        <Styled.BoxTitle>
+                            {data.information[0].title}
+                        </Styled.BoxTitle>
+                        {isAdmin && (
+                            <Styled.EditContainer onClick={editKey}>
+                                <FaPencilAlt />
+                            </Styled.EditContainer>
+                        )}
+                    </Styled.BoxHeading>
                     <Styled.BoxSubtitle opened={opened}>
                         {data.information[0].description}
                     </Styled.BoxSubtitle>

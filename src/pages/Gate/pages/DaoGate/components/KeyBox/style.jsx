@@ -21,6 +21,10 @@ export const Box = styled.div`
 export const TextContainer = styled.div`
     margin-bottom: 40px;
 `
+export const BoxHeading = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
 
 export const BoxTitle = styled.div`
     font-family: Poppins;
@@ -33,6 +37,18 @@ export const BoxTitle = styled.div`
     letter-spacing: 0.05em;
     text-transform: uppercase;
 `
+
+export const EditContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 10px;
+`
+
 export const BoxSubtitle = styled.div`
     font-family: Be Vietnam;
     font-style: normal;
@@ -124,12 +140,12 @@ export const InformationDiv = styled.div`
 export const KeyRewardBox = styled.div`
     display: flex;
     flex-direction: column;
-    margin-right : 43px;
+    margin-right: 43px;
 `
 export const CompensationBox = styled.div`
     display: flex;
     flex-direction: column;
-    margin-right : 43px;
+    margin-right: 43px;
 `
 
 export const InformationBoxHeading = styled.h4`

@@ -22,8 +22,8 @@ const GateSuccessPage = (props) => {
         <Styled.Container>
             <Styled.BoxContainer>
                 <ThemeStyled.MainText>Congratulations!</ThemeStyled.MainText>
-                <Styled.Text>You have earned the <Styled.PurpleText>{state.usr.gateData.badge.name}</Styled.PurpleText> Badge from {state.usr.gateData.dao.name}</Styled.Text>
-                <Styled.NFT src={`https://gateway.pinata.cloud/ipfs/${state.usr.gateData.badge.ipfsURL}`} />
+                <Styled.Text>You have earned the <Styled.PurpleText>{state.usr?.gateData.badge.name}</Styled.PurpleText> Badge from {state.usr.gateData.dao.name}</Styled.Text>
+                <Styled.NFT src={`https://gateway.pinata.cloud/ipfs/${state.usr?.gateData.badge.ipfsURL}`} />
                 <Styled.SmallTextContainer>
                     Redirecting...
                 </Styled.SmallTextContainer>
