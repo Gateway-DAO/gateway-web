@@ -42,7 +42,7 @@ const DaoGate = (props) => {
     } else if (loaded) {
         return (
             <Styled.Wrapper>
-                <BackButtonDiv url={`/dao/${dao.name}`} published={gateData.published} id={gateData.id} daoData={dao} gateData={gateData}/>
+                <BackButtonDiv url={`/dao/${dao.name}?tab=gates`} published={gateData.published} id={gateData.id} daoData={dao} gateData={gateData}>Back to DAO Gates</BackButtonDiv>
                 <GradientSVG idCSS="circleGradient" />
                 <Styled.ContentWrapper>
                     <NftBadge nft={gateData.badge} />
@@ -109,7 +109,7 @@ const DaoGate = (props) => {
                                         blocked={
                                             gateData.taskStatus.length > 0
                                                 ? gateData.taskStatus
-                                                      .map((ts) => ts.key.id)
+                                                      .map((ts) => ts.keyID)
                                                       .includes(key.id)
                                                 : false
                                         }

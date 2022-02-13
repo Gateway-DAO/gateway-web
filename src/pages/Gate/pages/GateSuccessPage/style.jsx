@@ -1,8 +1,11 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-    background-color: #170627;
-    width: 100%;
+export const Container = styled.main`
+    margin: auto 15%;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 export const BoxContainer = styled.div`

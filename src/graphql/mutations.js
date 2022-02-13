@@ -89,6 +89,7 @@ export const createDaoWithChannels = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -440,6 +441,7 @@ export const createQuiz = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -488,6 +490,13 @@ export const createQuiz = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -542,6 +551,7 @@ export const createMeetingCode = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -590,6 +600,13 @@ export const createMeetingCode = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -644,6 +661,7 @@ export const createTokenHold = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -692,6 +710,13 @@ export const createTokenHold = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -746,6 +771,7 @@ export const createSnapshotGovernance = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -794,6 +820,13 @@ export const createSnapshotGovernance = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -848,6 +881,7 @@ export const createSelfVerify = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -896,6 +930,13 @@ export const createSelfVerify = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -950,6 +991,7 @@ export const createContractInteraction = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -998,6 +1040,123 @@ export const createContractInteraction = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createManualTask = /* GraphQL */ `
+  mutation CreateManualTask($input: CreateKeyManualTask) {
+    createManualTask(input: $input) {
+      id
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        holders
+        createdAt
+        updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      unlimited
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          title
+          description
+          questions {
+            question
+            nrOfCorrectAnswers
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+          amount
+        }
+        ... on SelfVerify {
+          type
+        }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -1492,6 +1651,7 @@ export const createDao = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -1585,6 +1745,7 @@ export const updateDao = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -1678,6 +1839,7 @@ export const deleteDao = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -2981,6 +3143,7 @@ export const createGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      holders
       createdAt
       updatedAt
     }
@@ -3064,6 +3227,7 @@ export const updateGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      holders
       createdAt
       updatedAt
     }
@@ -3147,6 +3311,7 @@ export const deleteGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      holders
       createdAt
       updatedAt
     }
@@ -3202,6 +3367,7 @@ export const createKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3250,6 +3416,13 @@ export const createKey = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -3307,6 +3480,7 @@ export const updateKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3355,6 +3529,13 @@ export const updateKey = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -3412,6 +3593,7 @@ export const deleteKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3460,6 +3642,13 @@ export const deleteKey = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -3563,6 +3752,7 @@ export const createGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3685,6 +3875,7 @@ export const updateGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3807,6 +3998,7 @@ export const deleteGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3929,6 +4121,7 @@ export const createTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3945,6 +4138,7 @@ export const createTaskStatus = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -3989,6 +4183,9 @@ export const createTaskStatus = /* GraphQL */ `
             chainID
             address
             methodName
+          }
+          ... on ManualTask {
+            type
           }
         }
         createdAt
@@ -4096,6 +4293,7 @@ export const updateTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -4112,6 +4310,7 @@ export const updateTaskStatus = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -4156,6 +4355,9 @@ export const updateTaskStatus = /* GraphQL */ `
             chainID
             address
             methodName
+          }
+          ... on ManualTask {
+            type
           }
         }
         createdAt
@@ -4263,6 +4465,7 @@ export const deleteTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -4279,6 +4482,7 @@ export const deleteTaskStatus = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -4323,6 +4527,9 @@ export const deleteTaskStatus = /* GraphQL */ `
             chainID
             address
             methodName
+          }
+          ... on ManualTask {
+            type
           }
         }
         createdAt

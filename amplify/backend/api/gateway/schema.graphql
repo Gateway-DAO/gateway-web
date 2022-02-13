@@ -193,6 +193,7 @@ type Gate
     published: Boolean
     badge: NFTInfo!
     preRequisites: PreRequisites
+    holders: Int! @function(name: "getGateHolders-${env}")
 }
 
 type Key
@@ -264,6 +265,11 @@ type ContractInteraction {
     methodName: String
 }
 
+type ManualTask {
+    type: TaskType
+    information: [KeyInformation]!
+}
+
 type PreRequisites {
     completedGates: [ID]
 }
@@ -285,7 +291,7 @@ enum TaskType {
     TOKEN_HOLD
     SC_INTERACTION
     SNAPSHOT
-    MANUAL
+    MANUAL_TASK
     SELF_VERIFY
     SNAPSHOT_GOVERNANCE
     CONTRACT_INTERACTION
@@ -309,6 +315,7 @@ union TaskUnion =
     | SelfVerify
     | SnapshotGovernance
     | ContractInteraction
+    | ManualTask
 
 ### TASK STATUS / GATE STATUS / ERROR ###
 
@@ -330,7 +337,8 @@ type GateStatus
     gateID: ID!
     gate: Gate @connection(fields: ["gateID"])
     reward: GateReward
-    tasks: [TaskStatus] @connection(keyName: "taskStatusByGateID", fields: ["gateID"])
+    tasks: [TaskStatus]
+        @connection(keyName: "taskStatusByGateID", fields: ["gateID"])
     keysDone: Int @function(name: "getCompletedKeys-${env}")
     status: GateStatusList
     createdAt: AWSDateTime
@@ -564,6 +572,23 @@ input QuestionLambdaInput {
     questionIdx: Int!
 }
 
+input CreateKeyManualTask {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
+    task: ManualTaskInput
+}
+
+input ManualTaskInput {
+    type: TaskType = "MANUAL_TASK"
+    information: [KeyInformationInput]!
+}
+
 ### CUSTOM MUTATIONS ###
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
@@ -596,6 +621,9 @@ type Mutation {
     createContractInteraction(input: CreateKeyContractInteraction): Key
         @function(name: "addKey-${env}")
 
+    createManualTask(input: CreateKeyManualTask): Key
+        @function(name: "addKey-${env}")
+
     ## Verify keys ##
     verifyMeetingCode(
         userID: ID!
@@ -603,26 +631,21 @@ type Mutation {
         meetingCode: String!
     ): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
 
-    verifyHoldAToken(
-        userID: ID!
-        keyID: ID!
-    ): KeyVerificationResponse @function(name: "verifyHoldAToken-${env}")
+    verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse
+        @function(name: "verifyHoldAToken-${env}")
 
-    verifyContractInteraction(
-        userID: ID!
-        keyID: ID!
-    ): KeyVerificationResponse
+    verifyContractInteraction(userID: ID!, keyID: ID!): KeyVerificationResponse
         @function(name: "verifyContractInteraction-${env}")
 
-    verifySnapshot(
+    verifySnapshot(userID: ID!, keyID: ID!): KeyVerificationResponse
+        @function(name: "verifySnapshot-${env}")
+
+    verifySelfVerify(userID: ID!, keyID: ID!): KeyVerificationResponse
+        @function(name: "verifySelfVerify-${env}")
+
+    verifyQuiz(
         userID: ID!
         keyID: ID!
-    ): KeyVerificationResponse @function(name: "verifySnapshot-${env}")
-
-    verifySelfVerify(
-        userID: ID!
-        keyID: ID!
-    ): KeyVerificationResponse @function(name: "verifySelfVerify-${env}")
-
-    verifyQuiz(userID: ID!, keyID: ID!, questions: [QuestionLambdaInput]!): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
+        questions: [QuestionLambdaInput]!
+    ): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
 }

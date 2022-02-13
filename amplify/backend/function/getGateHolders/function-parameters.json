@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "api": {
+      "gateway": [
+        "read"
+      ]
+    },
+    "storage": {
+      "Gate:@model(appsync)": [
+        "read"
+      ],
+      "GateStatus:@model(appsync)": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

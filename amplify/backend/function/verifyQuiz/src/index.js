@@ -28,7 +28,7 @@ const {
     getUser,
     getCompletedKeys,
     removePeopleFromKey,
-    markGateAsCompleted
+    markGateAsCompleted,
 } = require('/opt/helpers.js')
 
 AWS.config.update({
@@ -42,36 +42,41 @@ exports.handler = async (event, ctx, callback) => {
         // 1. get key
         const key = await getKey(keyID)
 
-		// 2. get gate
-		const gate = await getGate(key.gateID)
+        // 2. get gate
+        const gate = await getGate(key.gateID)
 
-		// 3. get gate status; if doesn't exist, create it
-		let gateStatus = await getGateStatus(userID, key.gateID)
-		if (!gateStatus) {
-			gateStatus = await createGateStatus({
-				userID,
-				gateID: key.gateID
-			})
-		}
+        // 3. get gate status; if doesn't exist, create it
+        let gateStatus = await getGateStatus(userID, key.gateID)
+        if (!gateStatus) {
+            gateStatus = await createGateStatus({
+                userID,
+                gateID: key.gateID,
+            })
+        }
 
-		let keysDone = await getCompletedKeys(userID, key.gateID)
+        let keysDone = await getCompletedKeys(userID, key.gateID)
 
-        // 4. 
+        // 4.
         let passed = 0
         let taskQuestions = key.task.questions
 
-        questions.forEach(q => {
+        questions.forEach((q) => {
             let qID = q.questionIdx
             let answers = q.answers
 
-            const answeredRight = taskQuestions[qID].options.every((ans, idx) => {
-                return (ans.correct && answers.includes(idx))
-            })
+            const answeredRight = taskQuestions[qID].options.every(
+                (ans, idx) => {
+                    return (
+                        (ans.correct && answers.includes(idx)) ||
+                        (!ans.correct && !answers.includes(idx))
+                    )
+                }
+            )
 
             if (answeredRight) {
                 passed += 1
             }
-        });
+        })
 
         console.log(`Passed: ${passed}/${key.task.passedAt} question(s)`)
 
@@ -87,19 +92,22 @@ exports.handler = async (event, ctx, callback) => {
             let completedGate = false
 
             if (!key.unlimited && key.peopleLimit > 0) {
-				await removePeopleFromKey(keyID)
-			}
+                await removePeopleFromKey(keyID)
+            }
 
-			if (keysDone + key.keys >= gate.keysNumber && gateStatus.status !== "COMPLETED") {
-				// Gate completed, update gate status
-				await markGateAsCompleted(gateStatus.id)
+            if (
+                keysDone + key.keys >= gate.keysNumber &&
+                gateStatus.status !== 'COMPLETED'
+            ) {
+                // Gate completed, update gate status
+                await markGateAsCompleted(gateStatus.id)
                 completedGate = true
-			}
+            }
 
             return {
                 __typename: 'TaskAndGateResponse',
                 ...item,
-                completedGate
+                completedGate,
             }
         }
 

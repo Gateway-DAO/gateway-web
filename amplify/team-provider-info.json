@@ -31,7 +31,7 @@
         },
         "gateway7887c977VerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-357569527a4162645738-build.zip"
+          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-524c7763744e5278536c-build.zip"
         },
         "gateway7887c977PreSignup": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -47,7 +47,7 @@
         },
         "addKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/addKey-32666c2b4c366331382b-build.zip"
+          "s3Key": "amplify-builds/addKey-68773937757172424a39-build.zip"
         },
         "verifyMeetingCode": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -69,7 +69,7 @@
         },
         "verifyQuiz": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyQuiz-3567647961622b58526f-build.zip"
+          "s3Key": "amplify-builds/verifyQuiz-6a5950484930504b2b52-build.zip"
         },
         "verifySnapshot": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -82,6 +82,10 @@
         "getCompletedKeys": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
           "s3Key": "amplify-builds/getCompletedKeys-464b536f307633783866-build.zip"
+        },
+        "getGateHolders": {
+          "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
+          "s3Key": "amplify-builds/getGateHolders-6333736a61706f466a6d-build.zip"
         }
       },
       "auth": {

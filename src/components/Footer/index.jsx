@@ -32,7 +32,7 @@ const Footer = (props) => {
                     </Styled.SocialBtn>
                 </Styled.SocialsBox>
                 <Styled.CopyBox>
-                    <p>Copyright © 2021 Gateway.</p>
+                    <p>Copyright © 2022 Gateway.</p>
                     <p>All rights reserved.</p>
                 </Styled.CopyBox>
             </Styled.LogoAndSocialsBox>
