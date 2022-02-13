@@ -70,8 +70,8 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
     }
     return (
         <Styled.Wrapper>
-            <Styled.Div>
-                <Styled.ButtonWrapper onClick={() => navigate(url)}>
+            <Styled.Div onClick={() => navigate(url)}>
+                <Styled.ButtonWrapper>
                     <img src={BackIcon} alt="Back" />
                 </Styled.ButtonWrapper>
                 <Styled.TextWrapper>

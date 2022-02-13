@@ -26,6 +26,8 @@ const Gate = (props) => {
     const { data: dbData, loading, error } = useGetGate(gate)
     const [gateData, setGateData] = useState(dbData?.getGate || {})
     const [loaded, setLoaded] = useState(false)
+    const [keysDone, setKeysDone] = useState(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
+    const [taskStatus, setTaskStatus] = useState(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.tasks?.items || [])
 
     // Fetch data regarding these
     useEffect(() => {
@@ -41,6 +43,13 @@ const Gate = (props) => {
     useEffect(() => {
         setLoaded(!!gateData && !loading && userInfo !== null)
     }, [gateData, loading, userInfo])
+
+    useEffect(() => {
+        if (userInfo?.gates?.items) {
+            setKeysDone(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
+            setTaskStatus(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.tasks?.items || [])
+        }
+    }, [gate, userInfo])
 
     // Subscription to updates
     useEffect(() => {
@@ -71,9 +80,9 @@ const Gate = (props) => {
                 context={{
                     gateData: {
                         ...gateData,
-                        holders: userInfo?.gates?.items.filter(obj => obj.id !== gate)[0]?.gate.holders || 0,
-                        keysDone: userInfo?.gates?.items.filter(obj => obj.id !== gate)[0]?.keysDone || 0,
-                        taskStatus: userInfo?.gates?.items.filter(obj => obj.id !== gate)[0]?.tasks?.items || [],
+                        holders: dbData?.getGate?.holders || 0,
+                        keysDone,
+                        taskStatus
                     },
                     setGateData,
                     loaded,

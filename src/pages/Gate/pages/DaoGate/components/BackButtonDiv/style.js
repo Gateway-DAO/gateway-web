@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {IoMdClose} from 'react-icons/io'
+import { IoMdClose } from 'react-icons/io'
 
 export const Wrapper = styled.div`
     display: flex;
@@ -15,42 +15,40 @@ export const Div = styled.div`
 
 export const ButtonWrapper = styled.div`
     display: flex;
-    width:${props=>props.width||"40px"};
+    width: ${(props) => props.width || '40px'};
     height: 40px;
-    
+
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 100px;
-    margin-left:${props=>props.ml|| '0'}px;
+    margin-left: ${(props) => props.ml || '0'}px;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: ${props=>props.size||"20px"};
+    font-size: ${(props) => props.size || '20px'};
     line-height: 19px;
     /* identical to box height */
 
     letter-spacing: 0.05em;
     text-transform: uppercase;
 
-    color: #E5E5E5;
-
+    color: #e5e5e5;
 `
 export const TextWrapper = styled.div`
     padding-bottom: 4px;
     margin: 0px 15px;
 `
-export const Text = styled.div`
+export const Text = styled.p`
     font-family: Be Vietnam;
+    font-size: 13px;
     font-style: normal;
-    font-weight: bold;
-    font-size: 21px;
-    line-height: 31px;
-    display: flex;
-    align-items: center;
-    color:white;
-    margin-bottom: 20px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    color: white;
 `
 export const DeleteModal = styled.div`
     position: fixed;
@@ -63,16 +61,16 @@ export const DeleteModal = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     width: 100vw;
     height: 100vh;
-    z-index : 5;
+    z-index: 5;
 `
-export const DeleteContainer= styled.div`
+export const DeleteContainer = styled.div`
     background: #170627;
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     text-align: center;
-    align-items:center;
+    align-items: center;
     justify-content: center;
     position: relative;
     max-width: calc(100% - 80px);
@@ -84,7 +82,6 @@ export const DeleteContainer= styled.div`
     padding-right: 20px;
 `
 export const CloseBtn = styled(IoMdClose)`
-
     /* Background */
     background: linear-gradient(
         88.04deg,
