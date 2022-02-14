@@ -102,6 +102,36 @@ const App = (props) => {
                                 />
                             </Route>
 
+                            <Route path="edit-key" element={<AddNewKey />}>
+                                <Route index element={<AddNewKeyHome />} />
+                                <Route
+                                    path="token"
+                                    element={<AddHoldToken />}
+                                />
+                                <Route
+                                    path="manual"
+                                    element={<AddManualTask />}
+                                />
+                                <Route
+                                    path="governance"
+                                    element={<AddGovernanceSnapshot />}
+                                />
+                                <Route
+                                    path="sc-interaction"
+                                    element={<AddContractInteraction />}
+                                />
+                                <Route
+                                    path="success"
+                                    element={<AddKeySuccess />}
+                                />
+                                <Route path="quiz" element={<KeyQuiz />} />
+
+                                <Route
+                                    path="meeting-code"
+                                    element={<AddMeetingCode />}
+                                />
+                            </Route>
+
                             <Route
                                 path="gate-success"
                                 element={<GateSuccessPage />}

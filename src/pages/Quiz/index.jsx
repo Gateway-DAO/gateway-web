@@ -22,35 +22,44 @@ import { useCreateQuiz } from '../../api/database/useCreateKey'
  */
 const CreateQuiz = () => {
     // State
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+
+    const { state } = useLocation()
+    const edit = state.taskInfo
+    // console.log(edit.passedAt)
+    // console.log(edit.questions)
+    const [title, setTitle] = useState(edit ? edit.title : '')
+    const [description, setDescription] = useState(edit ? edit.description : '')
     const [message, setMessage] = useState('Processing your Quiz')
     const [activeModal, setActiveModal] = useState('HOME')
-    const [percentage, setPercentage] = useState(100)
-    const [data, setData] = useState([
-        {
-            question: '',
-            options: [
-                {
-                    answer: '',
-                    correct: false,
-                },
-                {
-                    answer: '',
-                    correct: false,
-                },
-            ],
-            nrOfCorrectAnswers: 0,
-        },
-    ])
+    const [percentage, setPercentage] = useState(edit ? edit?.passedAt : 100)
+    const [data, setData] = useState(
+        edit
+            ? edit.questions
+            : [
+                  {
+                      question: '',
+                      options: [
+                          {
+                              answer: '',
+                              correct: false,
+                          },
+                          {
+                              answer: '',
+                              correct: false,
+                          },
+                      ],
+                      nrOfCorrectAnswers: 0,
+                  },
+              ]
+    )
     const [createdKey, setCreatedKey] = useState(false)
 
     const [loading, setLoading] = useState(false)
-    const { state } = useLocation()
 
     // Hooks
     const navigate = useNavigate()
     const { createQuiz } = useCreateQuiz()
+    // const { state } = useLocation()
 
     const ActiveModal = () => {
         switch (activeModal) {
@@ -200,7 +209,7 @@ const CreateQuiz = () => {
         <FormStyled.FormBox onSubmit={onSave}>
             <Styled.Container>
                 <ThemeStyled.SpaceBox id="space-canvas" />
-                <FormStyled.H1>Add Quiz</FormStyled.H1>
+                <FormStyled.H1>{edit ? 'Edit Quiz' : 'Add Quiz'}</FormStyled.H1>
                 <ActiveModal />
             </Styled.Container>
         </FormStyled.FormBox>

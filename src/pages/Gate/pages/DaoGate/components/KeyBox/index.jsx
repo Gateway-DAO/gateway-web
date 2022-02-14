@@ -18,7 +18,8 @@ const KeyBox = (props) => {
     const data = props.data
     const keyValidation = useKeyValidation(data, props.gateData)
     const { isAdmin } = useGateAdmin(props.gateData.admins)
-    console.log(props.data)
+    console.log(data)
+    // console.log(props.data)
     const openedHandler = () => {
         setOpened((prev) => !prev)
     }
@@ -30,7 +31,9 @@ const KeyBox = (props) => {
 
     const editKey = () => {
         const link = '/gate/' + props.data.gateID + '/edit-key'
-        navigate(link)
+        navigate(link, {
+            state: { data },
+        })
     }
 
     const Task = () => {
@@ -60,7 +63,7 @@ const KeyBox = (props) => {
                         <Styled.BoxTitle>
                             {data.information[0].title}
                         </Styled.BoxTitle>
-                        {isAdmin && (
+                        {isAdmin && !opened && (
                             <Styled.EditContainer onClick={editKey}>
                                 <FaPencilAlt />
                             </Styled.EditContainer>
