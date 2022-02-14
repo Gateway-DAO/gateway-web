@@ -7,6 +7,7 @@ import { AiFillCheckCircle } from 'react-icons/ai'
 // Task Components
 import MeetingCode from './components/MeetingCode'
 import Snapshot from './components/Snapshot'
+import ManualTask from './components/ManualTask'
 
 const KeyBox = (props) => {
     const [opened, setOpened] = useState(false)
@@ -35,7 +36,7 @@ const KeyBox = (props) => {
             case 'SNAPSHOT_GOVERNANCE':
                 return <Snapshot data={data} />
             case 'QUIZ':
-            case 'SELF_VERIFY':
+            case 'SELF_VERIFY': <ManualTask data={data}/>
             case 'SC_INTERACTION':
             default:
                 return null
