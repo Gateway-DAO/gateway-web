@@ -17,14 +17,16 @@ import space from '../../../../../../utils/canvas'
 import { v4 as uuidv4 } from 'uuid'
 import AddKeySuccess from '../AddKeySuccess'
 import { useLocation } from 'react-router-dom'
+import { ConsoleLogger } from '@aws-amplify/core'
 
 const AddNewKey = (props) => {
     const { state } = useLocation()
     const edit = state ? true : false
-
+    console.log(state.data)
     // States
+    //console.log(state.data.task.type.toLowerCase().replace(/_/g, '-'))
     const [taskLink, setTaskLink] = useState(
-        state ? state.data.task.type.toLowerCase() : ''
+        state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
     )
     const [titleDescriptionPair, setTitleDescriptionPair] = useState(
         state
@@ -198,7 +200,7 @@ const AddNewKey = (props) => {
 
         if (taskLink !== 'self-verify') {
             navigate(taskLink, {
-                state : {
+                state: {
                     gateData,
                     titleDescriptionPair,
                     token: '',
