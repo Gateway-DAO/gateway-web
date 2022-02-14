@@ -53,13 +53,13 @@ const KeyCompletedPage = (props) => {
             </Styled.Heading>
             <Styled.CircleBox>
                 <CircularProgressbarWithChildren
-                    value={state.keysDone}
+                    value={gateData.keysDone + state.key.keys}
                     minValue={0}
                     maxValue={gateData.keysNumber}
                     strokeWidth={18}
                 >
                     <Styled.CircleText>
-                        {state.keysDone} out of {gateData.keysNumber}
+                        {gateData.keysDone + state.key.keys} out of {gateData.keysNumber}
                     </Styled.CircleText>
                 </CircularProgressbarWithChildren>
             </Styled.CircleBox>

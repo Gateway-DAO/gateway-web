@@ -63,7 +63,7 @@ exports.handler = async (event, ctx, callback) => {
         // 4. check if user has interacted with the contract
         const chainID = key.task.chainID
         const scAddress = key.task.address
-        const method = key.task.method
+        const method = key.task.methodName || ""
         const wallet = user.wallet
 
         const chain = () => {
@@ -98,38 +98,42 @@ exports.handler = async (event, ctx, callback) => {
         // 4.1. connect to BitQuery
         const ENDPOINT = 'https://graphql.bitquery.io/'
         const QUERY = `
-			query getContractInteraction($wallet: String!, $scaddress: String!, $method: String!) {
-				ethereum(network: ${chain()}) {
-					smartContractCalls(
-					caller: {is: $wallet}
-					${method && 'smartContractMethod: {is: $method}'}
-					smartContractAddress: {is: $scaddress}
-					) {
-						smartContractMethod {
-							name
-						}
-					}
-				}
-			}
-		`
+            query getContractInteraction($address: String, $scAddress: String, $method: String) {
+                ethereum(network: ${chain()}) {
+                smartContractCalls(
+                    caller: {is: $address}
+                    smartContractAddress: {is: $scAddress}
+                    ${method && "smartContractMethod: {is: $method}"}
+                ) {
+                    smartContractMethod {
+                        name
+                        }
+                    }
+                }
+            }
+        `
+
         const VARIABLES = {
-            wallet: wallet,
-            scaddress: scAddress,
+            address: wallet,
+            scAddress: scAddress,
             ...(method && { method: method }),
         }
 
-        const res = await axios.post(ENDPOINT, {
+        const res = await axios({
+            url: ENDPOINT,
+            method: 'POST',
             data: {
                 query: QUERY,
                 variables: VARIABLES,
             },
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': 'BQYTFxjdFDvYNpjzU1echVkLgWLavvpK',
+                Accept: 'application/json',
+                'X-API-KEY': 'BQYhbCMXDs70kF2zYnfZD43DjNYW8vIT',
             },
         })
 
-        console.log(res.data)
+        console.log(JSON.stringify(res.data))
 
         const interactions = res.data.data.ethereum.smartContractCalls
 
