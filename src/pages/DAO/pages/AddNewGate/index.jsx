@@ -61,6 +61,7 @@ const AddGateForm = (props) => {
             name: userInfo?.name || '',
             username: userInfo?.username || '',
             pfp: userInfo?.pfp || '',
+            id: userInfo?.id || ''
         },
     ])
     //const [adminIDList, setAdminIDList] = useState(edit?state.gateData.admins:[userInfo.id]);
@@ -107,12 +108,6 @@ const AddGateForm = (props) => {
 
     const { batchMint } = useMint()
     const navigate = useNavigate()
-
-    /* Removing the file from the upload file state. */
-    const removeUploadFile = () => {
-        setUploadFile(null)
-        setNFTupdated(false)
-    }
 
     /* The addCategories function is called when the user presses the Enter key. 
     The function adds the current value of the category input to the categoryList array and clears
@@ -222,6 +217,7 @@ const AddGateForm = (props) => {
                         admins: adminList.map((admin) => admin.id),
                         keysNumber: keyRequired,
                         published: false,
+                        holders: 0,
                         preRequisites: {
                             completedGates: prerequisiteList.map(
                                 (prereq) => prereq.id

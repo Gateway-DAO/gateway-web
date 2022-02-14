@@ -63,11 +63,11 @@ const KeyBox = (props) => {
                         <Styled.BoxTitle>
                             {data.information[0].title}
                         </Styled.BoxTitle>
-                        {isAdmin && !opened && (
+                        {/* isAdmin && !opened && (
                             <Styled.EditContainer onClick={editKey}>
                                 <FaPencilAlt />
                             </Styled.EditContainer>
-                        )}
+                        )*/}
                     </Styled.BoxHeading>
                     <Styled.BoxSubtitle opened={opened}>
                         {data.information[0].description}

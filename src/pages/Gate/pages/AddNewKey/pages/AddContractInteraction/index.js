@@ -20,7 +20,7 @@ const AddContractInteraction = (props) => {
         state.taskInfo ? state.taskInfo.chainID : 1
     )
 
-    const { createContractInteraction, data, loading, error } =
+    const { createContractInteraction, loading } =
         useCreateContractInteraction()
 
     const onSubmit = async (e) => {
@@ -41,7 +41,7 @@ const AddContractInteraction = (props) => {
                         task: {
                             type: 'CONTRACT_INTERACTION',
                             chainID: chain,
-                            address: address,
+                            address,
                             methodName,
                         },
                     },

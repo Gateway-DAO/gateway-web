@@ -8,8 +8,7 @@ import Loader from '../../../../../../components/Loader'
 
 const AddHoldToken = (props) => {
     const { state } = useLocation()
-    console.log(state.taskInfo)
-    const { createTokenHold, data, loading, error } = useCreateTokenHold()
+    const { createTokenHold, loading } = useCreateTokenHold()
     const [address, setAddress] = useState(
         state.taskInfo ? state.taskInfo.address : ''
     )
