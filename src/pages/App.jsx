@@ -113,11 +113,11 @@ const App = (props) => {
                                     element={<AddManualTask />}
                                 />
                                 <Route
-                                    path="governance"
+                                    path="snapshot-governance"
                                     element={<AddGovernanceSnapshot />}
                                 />
                                 <Route
-                                    path="sc-interaction"
+                                    path="contract-interaction"
                                     element={<AddContractInteraction />}
                                 />
                                 <Route
