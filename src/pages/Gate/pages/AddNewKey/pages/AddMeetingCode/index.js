@@ -8,12 +8,12 @@ import Loader from '../../../../../../components/Loader'
 
 const AddMeetingCode = (props) => {
     // State
-    const [code, setCode] = useState(null)
+    const [code, setCode] = useState(state.taskInfo ? state.taskInfo?.code : null)
     const [createdKey, setCreatedKey] = useState(false)
     const { state } = useLocation()
     const { createMeetingCode, data, loading, error } = useCreateMeetingCode()
     const navigate = useNavigate()
-    console.log(state.taskInfo)
+    // console.log(state.taskInfo)
 
     /**
      * Creates a meeting code task.
@@ -50,11 +50,17 @@ const AddMeetingCode = (props) => {
         }
     }
 
+    const onEditSubmit = async (e) => {
+        e.preventDefault()
+    }
+
     return createdKey ? (
         <AddKeySuccess gate={state.gateData.id} />
     ) : (
-        <FormStyled.FormBox onSubmit={onSubmit}>
-            <FormStyled.H1>{state.taskInfo ? 'Edit Meeting Code' : 'Add Meeting Code'}</FormStyled.H1>
+        <FormStyled.FormBox onSubmit={state.taskInfo ? onSubmit : onEditSubmit}>
+            <FormStyled.H1>
+                {state.taskInfo ? 'Edit Meeting Code' : 'Add Meeting Code'}
+            </FormStyled.H1>
 
             <FormStyled.Fieldset>
                 <FormStyled.Label>What's the code?</FormStyled.Label>

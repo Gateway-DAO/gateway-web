@@ -105,7 +105,7 @@ const App = (props) => {
                             <Route path="edit-key" element={<AddNewKey />}>
                                 <Route index element={<AddNewKeyHome />} />
                                 <Route
-                                    path="token"
+                                    path="token-hold"
                                     element={<AddHoldToken />}
                                 />
                                 <Route

@@ -22,9 +22,9 @@ import { ConsoleLogger } from '@aws-amplify/core'
 const AddNewKey = (props) => {
     const { state } = useLocation()
     const edit = state ? true : false
-    console.log(state.data)
+    // console.log(state?.data)
     // States
-    //console.log(state.data.task.type.toLowerCase().replace(/_/g, '-'))
+    // console.log(state.data.task.type.toLowerCase().replace(/_/g, '-'))
     const [taskLink, setTaskLink] = useState(
         state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
     )
