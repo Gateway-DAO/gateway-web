@@ -7,7 +7,11 @@ import { store } from './state/store'
 import { Provider as ReduxProvider } from 'react-redux'
 import { ThemeProvider, GlobalTheme } from './theme'
 import { Web3ReactProvider } from '@web3-react/core'
-import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from '@ethersproject/providers'
+import {
+    ExternalProvider,
+    JsonRpcFetchFunc,
+    Web3Provider,
+} from '@ethersproject/providers'
 import { UserProvider } from './contexts/UserContext'
 import { ModalProvider } from './contexts/ModalContext'
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider'
@@ -18,7 +22,10 @@ import awsconfig from './aws-exports'
 
 Amplify.configure(awsconfig)
 
-function getLibrary(provider: ExternalProvider | JsonRpcFetchFunc, connector: any) {
+function getLibrary(
+    provider: ExternalProvider | JsonRpcFetchFunc,
+    connector: any
+) {
     return new Web3Provider(provider) // this will vary according to whether you use e.g. ethers or web3.js
 }
 
