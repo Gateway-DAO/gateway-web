@@ -44,7 +44,7 @@ const DAOHome = (props) => {
                 </Styled.SearchInputBox>
             </Styled.SearchTermContainer>
 
-            {loading && !loaded && (
+            {!loaded && (
                 <Styled.LoaderBox>
                     <Loader color="white" size={35} />
                 </Styled.LoaderBox>

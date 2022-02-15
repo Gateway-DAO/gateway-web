@@ -13,6 +13,7 @@ const AddMeetingCode = (props) => {
     const { state } = useLocation()
     const { createMeetingCode, data, loading, error } = useCreateMeetingCode()
     const navigate = useNavigate()
+    console.log(state.taskInfo)
 
     /**
      * Creates a meeting code task.
@@ -53,7 +54,7 @@ const AddMeetingCode = (props) => {
         <AddKeySuccess gate={state.gateData.id} />
     ) : (
         <FormStyled.FormBox onSubmit={onSubmit}>
-            <FormStyled.H1>Add Meeting Code</FormStyled.H1>
+            <FormStyled.H1>{state.taskInfo ? 'Edit Meeting Code' : 'Add Meeting Code'}</FormStyled.H1>
 
             <FormStyled.Fieldset>
                 <FormStyled.Label>What's the code?</FormStyled.Label>

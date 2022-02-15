@@ -24,48 +24,32 @@ const Gate = (props) => {
     const { userInfo } = useAuth()
 
     const { data: dbData, loading, error } = useGetGate(gate)
-    const [gateData, setGateData] = useState(dbData || {})
+    const [gateData, setGateData] = useState(dbData?.getGate || {})
     const [loaded, setLoaded] = useState(false)
-
-    const { data: GSData, loading: GSLoading } = useGetGateStatusByGateID(
-        gateData.id,
-        {
-            filter: {
-                status: {
-                    eq: 'COMPLETED',
-                },
-            },
-        }
-    )
-    const { data: GSUserData, loading: GSUserLoading } =
-        useGetGateStatusByUserID(userInfo?.id, {
-            filter: {
-                gateID: {
-                    eq: gateData.id,
-                },
-            },
-        })
-
-    const { data: TSData, loading: taskStatusLoading } =
-        useGetTaskStatusByUserID(userInfo ? userInfo?.id : '', {
-            filter: {
-                gateID: {
-                    eq: gateData.id,
-                },
-            },
-        })
+    const [keysDone, setKeysDone] = useState(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
+    const [taskStatus, setTaskStatus] = useState(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.tasks?.items.map(obj => obj.userID === userInfo.id && obj) || [])
 
     // Fetch data regarding these
     useEffect(() => {
         const handleData = async () => {
-            if (gateData && !loading && !error) {
+            if (dbData && !loading && !error) {
                 setGateData(dbData.getGate)
-                setLoaded(true)
             }
         }
 
         handleData()
     }, [gate, loading, dbData])
+
+    useEffect(() => {
+        setLoaded(!!gateData && !loading && userInfo !== null)
+    }, [gateData, loading, userInfo])
+
+    useEffect(() => {
+        if (userInfo?.gates?.items) {
+            setKeysDone(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
+            setTaskStatus(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.tasks?.items.map(obj => obj.userID === userInfo.id && obj) || [])
+        }
+    }, [gate, userInfo])
 
     // Subscription to updates
     useEffect(() => {
@@ -96,13 +80,9 @@ const Gate = (props) => {
                 context={{
                     gateData: {
                         ...gateData,
-                        holders:
-                            GSData?.getGateStatusByGateID?.items?.length ||
-                            0,
-                        keysDone:
-                            GSUserData?.getGateStatusByUserID?.items[0]
-                                ?.keysDone || 0,
-                        taskStatus: TSData?.getTaskStatusByUserID?.items || [],
+                        holders: dbData?.getGate?.holders || 0,
+                        keysDone,
+                        taskStatus
                     },
                     setGateData,
                     loaded,

@@ -40,7 +40,7 @@ const GateCard = (props) => {
      */
     const toggleGatePublished = async () => {
         try {
-            setChecked(!checked)
+            // setChecked(!checked)
             await updateGate({
                 variables: {
                     input: {
@@ -49,7 +49,7 @@ const GateCard = (props) => {
                     },
                 },
             })
-            // window.location.reload()
+            window.location.reload()
         } catch (err) {
             alert('An error ocurred')
             console.log(err)
@@ -104,7 +104,7 @@ const GateCard = (props) => {
             </Styled.CategoryList>
             <Styled.CardBody onClick={() => navigate(`/gate/${gate.id}`)}>
                 <Styled.CardTitle>{gate.name}</Styled.CardTitle>
-                <Styled.CardDesc>{gate.description}</Styled.CardDesc>
+                <Styled.CardDesc>{gate.description.length > 180 ? gate.description.slice(0, 177).concat('...') : gate.description}</Styled.CardDesc>
             </Styled.CardBody>
             <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
                 {/*

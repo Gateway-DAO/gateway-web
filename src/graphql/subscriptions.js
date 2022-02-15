@@ -342,6 +342,7 @@ export const onCreateDao = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -432,6 +433,7 @@ export const onUpdateDao = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -522,6 +524,7 @@ export const onDeleteDao = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -1777,6 +1780,7 @@ export const onCreateGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      holders
       createdAt
       updatedAt
     }
@@ -1857,6 +1861,7 @@ export const onUpdateGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      holders
       createdAt
       updatedAt
     }
@@ -1937,6 +1942,7 @@ export const onDeleteGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      holders
       createdAt
       updatedAt
     }
@@ -1989,6 +1995,7 @@ export const onCreateKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2037,6 +2044,13 @@ export const onCreateKey = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -2091,6 +2105,7 @@ export const onUpdateKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2139,6 +2154,13 @@ export const onUpdateKey = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -2193,6 +2215,7 @@ export const onDeleteKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2241,6 +2264,13 @@ export const onDeleteKey = /* GraphQL */ `
           chainID
           address
           methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
         }
       }
       createdAt
@@ -2341,6 +2371,7 @@ export const onCreateGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2460,6 +2491,7 @@ export const onUpdateGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2579,6 +2611,7 @@ export const onDeleteGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2698,6 +2731,7 @@ export const onCreateTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2714,6 +2748,7 @@ export const onCreateTaskStatus = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -2758,6 +2793,9 @@ export const onCreateTaskStatus = /* GraphQL */ `
             chainID
             address
             methodName
+          }
+          ... on ManualTask {
+            type
           }
         }
         createdAt
@@ -2862,6 +2900,7 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -2878,6 +2917,7 @@ export const onUpdateTaskStatus = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -2922,6 +2962,9 @@ export const onUpdateTaskStatus = /* GraphQL */ `
             chainID
             address
             methodName
+          }
+          ... on ManualTask {
+            type
           }
         }
         createdAt
@@ -3026,6 +3069,7 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        holders
         createdAt
         updatedAt
       }
@@ -3042,6 +3086,7 @@ export const onDeleteTaskStatus = /* GraphQL */ `
           admins
           keysNumber
           published
+          holders
           createdAt
           updatedAt
         }
@@ -3086,6 +3131,9 @@ export const onDeleteTaskStatus = /* GraphQL */ `
             chainID
             address
             methodName
+          }
+          ... on ManualTask {
+            type
           }
         }
         createdAt

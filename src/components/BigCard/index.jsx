@@ -1,5 +1,5 @@
 import * as Styled from './style'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import React, { useState, useEffect, useRef } from 'react'
 import RelatedDAOSection from './components/RelatedDAO'
 import {
@@ -40,34 +40,42 @@ import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
 
 const NewCard = (props) => {
     const web3 = useWeb3React()
-    
+
     useEffect(() => {
         if (props.tokenAddress && props.showTokenFeed) {
             const getBalance = async (tokenAddress) => {
-                const contract = new ethers.Contract(
-                    tokenAddress,
-                    ERC20_ABI,
-                    web3.library
-                )
-                const balance =
-                    (await contract.balanceOf(web3.account)) /
-                    10 ** (await contract.decimals())
-                setBalance(parseFloat(balance))
+                try {
+                    const contract = new ethers.Contract(
+                        tokenAddress,
+                        ERC20_ABI,
+                        web3.library
+                    )
+                    const balance =
+                        (await contract.balanceOf(web3.account)) /
+                        10 ** (await contract.decimals())
+                    setBalance(parseFloat(balance))
+                }
+                catch (err) {
+                    setBalance(0)
+                }
             }
 
             web3.active && web3.library && getBalance(props.tokenAddress)
         }
 
         return () => {}
-    }, [web3.active, props.id,props])
+    }, [web3.active, props.id, props])
 
     const [balance, setBalance] = useState(0)
     const { isAdmin } = useAdmin(props.whitelistedAddresses)
     const [showEditModal, setShowEditModal] = useState(false)
     const iconHover = useRef(null)
     const toggleEditModal = () => setShowEditModal(!showEditModal)
-    
-    const [activeTab, setActiveTab] = useState('profile')
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const [activeTab, setActiveTab] = useState(
+        searchParams.get('tab') || 'profile'
+    )
 
     const Modals = () => (
         <>
@@ -175,10 +183,7 @@ const NewCard = (props) => {
                     )
                 case 'solana':
                     return (
-                        <Styled.Chain
-                            ref={iconHover}
-                            id="Solana"
-                        >
+                        <Styled.Chain ref={iconHover} id="Solana">
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -188,10 +193,7 @@ const NewCard = (props) => {
                     )
                 case 'Polygon':
                     return (
-                        <Styled.Chain
-                            ref={iconHover}
-                            id="Polygon"
-                        >
+                        <Styled.Chain ref={iconHover} id="Polygon">
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -201,10 +203,7 @@ const NewCard = (props) => {
                     )
                 case 'NEAR':
                     return (
-                        <Styled.Chain
-                            ref={iconHover}
-                            id="NEAR"
-                        >
+                        <Styled.Chain ref={iconHover} id="NEAR">
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -214,10 +213,7 @@ const NewCard = (props) => {
                     )
                 case 'Avalanche':
                     return (
-                        <Styled.Chain
-                            ref={iconHover}
-                            id="Avalanche"
-                        >
+                        <Styled.Chain ref={iconHover} id="Avalanche">
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -267,7 +263,7 @@ const NewCard = (props) => {
         })
 
     const ActiveTab = () => {
-        switch (activeTab) {
+        switch (searchParams.get('tab')) {
             case 'profile':
                 return <Profile {...props} />
             case 'feed':
@@ -278,7 +274,6 @@ const NewCard = (props) => {
                 return <Gates {...props} />
             case 'Plugins':
                 return <Plugins {...props} />
-            
             default:
                 return <Profile {...props} />
         }
@@ -359,28 +354,28 @@ const NewCard = (props) => {
                 <Styled.ProfileAndFeedContainer>
                     <Styled.ProfileDiv>
                         <Styled.SelectedTab
-                            showActive={activeTab === 'profile'}
-                            onClick={() => setActiveTab('profile')}
+                            showActive={searchParams.get('tab') === 'profile' || searchParams.get('tab') === null}
+                            onClick={() => setSearchParams({ tab: 'profile' })}
                         >
                             Profile
                         </Styled.SelectedTab>
                         <Styled.SelectedTab
-                            showActive={activeTab === 'feed'}
-                            onClick={() => setActiveTab('feed')}
+                            showActive={searchParams.get('tab') === 'feed'}
+                            onClick={() => setSearchParams({ tab: 'feed' })}
                         >
                             Discussion
                         </Styled.SelectedTab>
-                        
+
                         <Styled.SelectedTab
-                            showActive={activeTab === 'gates'}
-                            onClick={() => setActiveTab('gates')}
+                            showActive={searchParams.get('tab') === 'gates'}
+                            onClick={() => setSearchParams({ tab: 'gates' })}
                         >
                             Gates
                         </Styled.SelectedTab>
-                       
+
                         <Styled.SelectedTab
-                            showActive={activeTab === 'members'}
-                            onClick={() => setActiveTab('members')}
+                            showActive={searchParams.get('tab') === 'members'}
+                            onClick={() => setSearchParams({ tab: 'members' })}
                         >
                             Members
                         </Styled.SelectedTab>

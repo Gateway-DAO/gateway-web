@@ -80,6 +80,7 @@ export const getUser = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -266,6 +267,7 @@ export const getDao = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -353,6 +355,7 @@ export const listDaos = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -446,6 +449,7 @@ export const getBounty = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -597,6 +601,7 @@ export const getTokenBenefit = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -743,6 +748,7 @@ export const getChannel = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -894,6 +900,7 @@ export const getPost = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -1266,6 +1273,7 @@ export const getGate = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -1285,6 +1293,7 @@ export const getGate = /* GraphQL */ `
             categories
             admins
             keysNumber
+            holders
             keys {
                 items {
                     id
@@ -1322,6 +1331,7 @@ export const getGate = /* GraphQL */ `
                             type
                             chainID
                             address
+                            amount
                         }
                         ... on SelfVerify {
                             type
@@ -1337,6 +1347,13 @@ export const getGate = /* GraphQL */ `
                             chainID
                             address
                             methodName
+                        }
+                        ... on ManualTask {
+                            type
+                            information {
+                                title
+                                description
+                            }
                         }
                     }
                 }
@@ -1405,6 +1422,7 @@ export const listGates = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1459,6 +1477,7 @@ export const getKey = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1510,6 +1529,13 @@ export const getKey = /* GraphQL */ `
                     address
                     methodName
                 }
+                ... on ManualTask {
+                    type
+                    information {
+                        title
+                        description
+                    }
+                }
             }
             createdAt
             updatedAt
@@ -1535,6 +1561,7 @@ export const listKeys = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -1585,6 +1612,13 @@ export const listKeys = /* GraphQL */ `
                         chainID
                         address
                         methodName
+                    }
+                    ... on ManualTask {
+                        type
+                        information {
+                            title
+                            description
+                        }
                     }
                 }
                 createdAt
@@ -1687,6 +1721,7 @@ export const getGateStatus = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1746,6 +1781,7 @@ export const listGateStatuss = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -1858,6 +1894,7 @@ export const getTaskStatus = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -1874,6 +1911,7 @@ export const getTaskStatus = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -1925,6 +1963,13 @@ export const getTaskStatus = /* GraphQL */ `
                         address
                         methodName
                     }
+                    ... on ManualTask {
+                        type
+                        information {
+                            title
+                            description
+                        }
+                    }
                 }
                 createdAt
                 updatedAt
@@ -1968,6 +2013,7 @@ export const listTaskStatuss = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -2043,6 +2089,53 @@ export const getUserByAddress = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        gate {
+                            id
+                            daoID
+                            dao {
+                                name
+                                logoURL
+                                dao
+                            }
+                            name
+                            description
+                            categories
+                            admins
+                            keysNumber
+                            holders
+                            published
+                            createdAt
+                            updatedAt
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                            nextToken
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
@@ -2312,6 +2405,7 @@ export const getDaoById = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -2523,6 +2617,7 @@ export const getDaoByName = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -2873,6 +2968,7 @@ export const getGatesByDaoid = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }
@@ -2907,6 +3003,7 @@ export const getKeysByGateId = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -2958,6 +3055,13 @@ export const getKeysByGateId = /* GraphQL */ `
                         address
                         methodName
                     }
+                    ... on ManualTask {
+                        type
+                        information {
+                            title
+                            description
+                        }
+                    }
                 }
                 createdAt
                 updatedAt
@@ -3007,11 +3111,12 @@ export const getGateStatusByUserId = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                     badge {
-                      ipfsURL
-                      name
+                        ipfsURL
+                        name
                     }
                 }
                 reward {
@@ -3071,6 +3176,7 @@ export const getGateStatusByGateId = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -3131,6 +3237,7 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -3195,6 +3302,7 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                     admins
                     keysNumber
                     published
+                    holders
                     createdAt
                     updatedAt
                 }
@@ -3368,6 +3476,7 @@ export const searchDaos = /* GraphQL */ `
                         categories
                         admins
                         keysNumber
+                        holders
                         published
                         badge {
                             nftURL
@@ -3565,6 +3674,7 @@ export const searchGates = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                holders
                 createdAt
                 updatedAt
             }

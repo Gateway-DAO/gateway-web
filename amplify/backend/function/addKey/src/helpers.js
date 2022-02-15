@@ -72,17 +72,15 @@ const createKey = async (input) => {
                 }
             }
             break
-        /*
-        case "MANUAL":
+        case "MANUAL_TASK":
             Item = {
                 ...Item,
                 task: {
-                    "__typename": "",
+                    "__typename": "ManualTask",
                     ...input.task
                 }
             }
             break
-        */
         case "SELF_VERIFY":
             Item = {
                 ...Item,

@@ -16,22 +16,6 @@
 	API_GATEWAY_USERTABLE_NAME
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
-	API_GATEWAY_DAOTABLE_ARN
-	API_GATEWAY_DAOTABLE_NAME
-	API_GATEWAY_GATETABLE_ARN
-	API_GATEWAY_GATETABLE_NAME
-	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
-	API_GATEWAY_GRAPHQLAPIIDOUTPUT
-	API_GATEWAY_GRAPHQLAPIKEYOUTPUT
-	API_GATEWAY_KEYTABLE_ARN
-	API_GATEWAY_KEYTABLE_NAME
-	API_GATEWAY_TASKSTATUSTABLE_ARN
-	API_GATEWAY_TASKSTATUSTABLE_NAME
-	API_GATEWAY_USERTABLE_ARN
-	API_GATEWAY_USERTABLE_NAME
-	ENV
-	REGION
 Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk')
@@ -54,7 +38,7 @@ AWS.config.update({
 
 exports.handler = async (event, ctx, callback) => {
     try {
-        const { userID, keyID, gateID } = event.arguments
+        const { userID, keyID } = event.arguments
 
         // 1. get key
         const key = await getKey(keyID)
@@ -70,7 +54,7 @@ exports.handler = async (event, ctx, callback) => {
         if (!gateStatus) {
             gateStatus = await createGateStatus({
                 userID,
-                gateID,
+                gateID: key.gateID,
             })
         }
 
@@ -79,7 +63,7 @@ exports.handler = async (event, ctx, callback) => {
         // 4. check if user has interacted with the contract
         const chainID = key.task.chainID
         const scAddress = key.task.address
-        const method = key.task.method
+        const method = key.task.methodName || ""
         const wallet = user.wallet
 
         const chain = () => {
@@ -114,38 +98,42 @@ exports.handler = async (event, ctx, callback) => {
         // 4.1. connect to BitQuery
         const ENDPOINT = 'https://graphql.bitquery.io/'
         const QUERY = `
-			query getContractInteraction($wallet: String!, $scaddress: String!, $method: String!) {
-				ethereum(network: ${chain()}) {
-					smartContractCalls(
-					caller: {is: $wallet}
-					${method && "smartContractMethod: {is: $method}" }
-					smartContractAddress: {is: $scaddress}
-					) {
-						smartContractMethod {
-							name
-						}
-					}
-				}
-			}
-		`
+            query getContractInteraction($address: String, $scAddress: String, $method: String) {
+                ethereum(network: ${chain()}) {
+                smartContractCalls(
+                    caller: {is: $address}
+                    smartContractAddress: {is: $scAddress}
+                    ${method && "smartContractMethod: {is: $method}"}
+                ) {
+                    smartContractMethod {
+                        name
+                        }
+                    }
+                }
+            }
+        `
+
         const VARIABLES = {
-            wallet: wallet,
-            scaddress: scAddress,
+            address: wallet,
+            scAddress: scAddress,
             ...(method && { method: method }),
         }
 
-        const res = await axios.post(ENDPOINT, {
+        const res = await axios({
+            url: ENDPOINT,
+            method: 'POST',
             data: {
                 query: QUERY,
                 variables: VARIABLES,
             },
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': 'BQYTFxjdFDvYNpjzU1echVkLgWLavvpK',
+                Accept: 'application/json',
+                'X-API-KEY': 'BQYhbCMXDs70kF2zYnfZD43DjNYW8vIT',
             },
         })
 
-        console.log(res.data)
+        console.log(JSON.stringify(res.data))
 
         const interactions = res.data.data.ethereum.smartContractCalls
 
@@ -154,22 +142,29 @@ exports.handler = async (event, ctx, callback) => {
             const item = await createTaskStatus({
                 userID,
                 keyID,
-                gateID,
+                gateID: key.gateID,
                 completed: true,
             })
+
+            let completedGate = false
 
             if (!key.unlimited && key.peopleLimit > 0) {
                 await removePeopleFromKey(keyID)
             }
 
-            if (keysDone + key.keys >= gate.keysNumber) {
+            if (
+                keysDone + key.keys >= gate.keysNumber &&
+                gateStatus.status !== 'COMPLETED'
+            ) {
                 // Gate completed, update gate status
                 await markGateAsCompleted(gateStatus.id)
+                completedGate = true
             }
 
             return {
-                __typename: 'TaskStatus',
+                __typename: 'TaskAndGateResponse',
                 ...item,
+                completedGate,
             }
         }
 

@@ -9,25 +9,24 @@ import Page from '../components/Page'
 import Page404 from './404'
 
 // DAO
-import DAOHome from '../pages/DAO/pages/Home'
+import DAOHome from './DAO/pages/Home'
 
 // Gate
-import DaoGate from '../pages/Gate/pages/DaoGate'
-import DAOsGate from './DAOsGate'
-import GateSuccessPage from './GateSuccessPage'
+import DaoGate from './Gate/pages/DaoGate'
+import GateSuccessPage from './Gate/pages/GateSuccessPage'
 
 // Keys
-import AddGovernanceSnapshot from '../pages/Gate/pages/AddNewKey/pages/AddGovernanceSnapshot'
-import AddHoldToken from '../pages/Gate/pages/AddNewKey/pages/AddHoldToken'
-import AddMeetingCode from '../pages/Gate/pages/AddNewKey/pages/AddMeetingCode'
-import AddKeySuccess from '../pages/Gate/pages/AddNewKey/pages/AddKeySuccess'
-import AddManualTask from '../pages/Gate/pages/AddNewKey/pages/AddManualTask'
-import AddNewKeyHome from '../pages/Gate/pages/AddNewKey/pages/Home'
+import AddGovernanceSnapshot from './Gate/pages/AddNewKey/pages/AddGovernanceSnapshot'
+import AddHoldToken from './Gate/pages/AddNewKey/pages/AddHoldToken'
+import AddMeetingCode from './Gate/pages/AddNewKey/pages/AddMeetingCode'
+import AddKeySuccess from './Gate/pages/AddNewKey/pages/AddKeySuccess'
+import AddManualTask from './Gate/pages/AddNewKey/pages/AddManualTask'
+import AddNewKeyHome from './Gate/pages/AddNewKey/pages/Home'
 import AddContractInteraction from './Gate/pages/AddNewKey/pages/AddContractInteraction'
-import KeyCompletedPage from './KeyCompleted'
+import KeyCompletedPage from './Gate/pages/KeyCompleted'
 
 // Profile
-import AddExperience from '../pages/AddExperience'
+import AddExperience from './AddExperience'
 import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz'
 
 const DAO = React.lazy(() => import('./DAO'))
@@ -61,13 +60,14 @@ const App = (props) => {
                             element={<AddExperience />}
                         />
 
+                        {/* DAO Routes */}
                         <Route path="dao/:id" element={<DAO />}>
                             <Route index element={<DAOHome />} />
                             <Route path="add-gate" element={<AddNewGate />} />
                             <Route path="edit-gate" element={<AddNewGate />} />
                         </Route>
 
-
+                        {/* Gate Routes */}
                         <Route path="gate/:gate" element={<Gate />}>
                             <Route index element={<DaoGate />} />
                             <Route path="quiz/:id" element={<NewQuiz />} />
@@ -86,7 +86,10 @@ const App = (props) => {
                                     path="governance"
                                     element={<AddGovernanceSnapshot />}
                                 />
-                                <Route path="sc-interaction" element={<AddContractInteraction />} />
+                                <Route
+                                    path="sc-interaction"
+                                    element={<AddContractInteraction />}
+                                />
                                 <Route
                                     path="success"
                                     element={<AddKeySuccess />}
@@ -98,12 +101,47 @@ const App = (props) => {
                                     element={<AddMeetingCode />}
                                 />
                             </Route>
-                        </Route>
 
-                        <Route
-                            path="key-completed"
-                            element={<KeyCompletedPage />}
-                        />
+                            <Route path="edit-key" element={<AddNewKey />}>
+                                <Route index element={<AddNewKeyHome />} />
+                                <Route
+                                    path="token"
+                                    element={<AddHoldToken />}
+                                />
+                                <Route
+                                    path="manual"
+                                    element={<AddManualTask />}
+                                />
+                                <Route
+                                    path="governance"
+                                    element={<AddGovernanceSnapshot />}
+                                />
+                                <Route
+                                    path="sc-interaction"
+                                    element={<AddContractInteraction />}
+                                />
+                                <Route
+                                    path="success"
+                                    element={<AddKeySuccess />}
+                                />
+                                <Route path="quiz" element={<KeyQuiz />} />
+
+                                <Route
+                                    path="meeting-code"
+                                    element={<AddMeetingCode />}
+                                />
+                            </Route>
+
+                            <Route
+                                path="gate-success"
+                                element={<GateSuccessPage />}
+                            />
+
+                            <Route
+                                path="key-completed"
+                                element={<KeyCompletedPage />}
+                            />
+                        </Route>
 
                         <Route path="/search/:query" element={<Search />} />
                         <Route path="/profile/" element={<ProfilePage />}>
@@ -125,6 +163,7 @@ const App = (props) => {
                             path="/new-community/:name"
                             element={<SubmitPage />}
                         />
+
                         <Route path="*" element={<Page404 />} />
                     </Routes>
                 </ScrollToTop>

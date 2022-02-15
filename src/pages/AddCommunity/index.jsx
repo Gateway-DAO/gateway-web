@@ -26,13 +26,13 @@ import { v4 as uuidv4 } from 'uuid'
 import normalizeUrl from 'normalize-url'
 
 const AddCommunity = () => {
-    const { userInfo, loggedIn } = useAuth()
+    const { userInfo, walletConnected } = useAuth()
     const { uploadFile } = useFileUpload()
 
     const [name, setName] = useState('')
     const [tokenAddress, setTokenAddress] = useState('')
     const [whitelistedAddresses, setWhitelistedAddresses] = useState([
-        loggedIn ? userInfo.wallet : '',
+        walletConnected ? userInfo.wallet : '',
     ])
     const [description, setDescription] = useState('')
     const [categories, setCategories] = useState([])
@@ -56,7 +56,7 @@ const AddCommunity = () => {
         useCreateDAOWithChannels()
 
     useEffect(() => {
-        if (loggedIn) {
+        if (walletConnected) {
             space(window.innerHeight, window.innerWidth)
         }
     }, [window.innerHeight, window.innerWidth])
@@ -168,7 +168,7 @@ const AddCommunity = () => {
         setWhitelistedAddresses(newList)
     }
 
-    if (!loggedIn) {
+    if (!walletConnected) {
         return <Navigate to="/sign-in" />
     }
 

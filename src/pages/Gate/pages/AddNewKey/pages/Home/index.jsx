@@ -16,21 +16,39 @@ import { useCreateSelfVerify } from '../../../../../../api/database/useCreateKey
 import space from '../../../../../../utils/canvas'
 import { v4 as uuidv4 } from 'uuid'
 import AddKeySuccess from '../AddKeySuccess'
+import { useLocation } from 'react-router-dom'
+import { ConsoleLogger } from '@aws-amplify/core'
 
 const AddNewKey = (props) => {
+    const { state } = useLocation()
+    const edit = state ? true : false
+    console.log(state.data)
     // States
-    const [taskLink, setTaskLink] = useState('')
-    const [titleDescriptionPair, setTitleDescriptionPair] = useState([
-        {
-            title: '',
-            description: '',
-        },
-    ])
-    // const [token, setToken] = useState('')
-    // const [amount, setAmount] = useState(0)
-    const [keysRewarded, setKeysRewarded] = useState(0)
-    const [peopleLimit, setPeopleLimit] = useState(0)
-    const [unlimited, setUnlimited] = useState(true)
+    //console.log(state.data.task.type.toLowerCase().replace(/_/g, '-'))
+    const [taskLink, setTaskLink] = useState(
+        state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
+    )
+    const [titleDescriptionPair, setTitleDescriptionPair] = useState(
+        state
+            ? state.data.information
+            : [
+                  {
+                      title: '',
+                      description: '',
+                  },
+              ]
+    )
+    // const [token, setToken] = useState(state ? state.data.token :'')
+    // const [amount, setAmount] = useState(state ? state.data.tokenAmount : 0)
+    const [keysRewarded, setKeysRewarded] = useState(
+        state ? state.data.keys : 0
+    )
+    const [peopleLimit, setPeopleLimit] = useState(
+        state ? state.data.peopleLimit : 0
+    )
+    const [unlimited, setUnlimited] = useState(
+        state ? state.data.unlimited : true
+    )
     const [keysDilogBox, setKeysDilogBox] = useState(false)
     const [peopleLimitDilogBox, setPeopleLimitDilogBox] = useState(false)
     const [createdKey, setCreatedKey] = useState(false)
@@ -111,7 +129,7 @@ const AddNewKey = (props) => {
     }
 
     const unlimitedClicked = () => {
-        setUnlimited(prev => !prev)
+        setUnlimited((prev) => !prev)
         unlimited && setPeopleLimit(0)
     }
 
@@ -142,7 +160,55 @@ const AddNewKey = (props) => {
                     amount: 0,
                     keysRewarded,
                     peopleLimit,
-                    unlimited
+                    unlimited,
+                },
+            })
+        } else {
+            e.preventDefault()
+
+            try {
+                await createSelfVerify({
+                    variables: {
+                        input: {
+                            id: uuidv4(),
+                            gateID: gateData.id,
+                            information: titleDescriptionPair,
+                            //token: token,
+                            //tokenAmount: amount,
+                            token: '',
+                            tokenAmount: 0,
+                            keys: keysRewarded,
+                            peopleLimit,
+                            unlimited,
+                            task: {
+                                type: 'SELF_VERIFY',
+                            },
+                        },
+                    },
+                })
+
+                setCreatedKey(true)
+            } catch (err) {
+                alert('An error occurred. Please try again later!')
+                console.log(err)
+            }
+        }
+    }
+
+    const onEditSubmit = async (e) => {
+        // e.preventDefault()
+
+        if (taskLink !== 'self-verify') {
+            navigate(taskLink, {
+                state: {
+                    gateData,
+                    titleDescriptionPair,
+                    token: '',
+                    amount: 0,
+                    keysRewarded,
+                    peopleLimit,
+                    unlimited,
+                    taskInfo: state.data.task,
                 },
             })
         } else {
@@ -182,8 +248,10 @@ const AddNewKey = (props) => {
     ) : (
         <Styled.AddNewKeyContainer>
             <Styled.SpaceBox id="space-canvas" />
-            <FormStyled.FormBox onSubmit={onSubmit}>
-                <FormStyled.H1>Add a New Key</FormStyled.H1>
+            <FormStyled.FormBox onSubmit={edit ? onEditSubmit : onSubmit}>
+                <FormStyled.H1>
+                    {edit ? 'Edit Key' : 'Add a New Key'}
+                </FormStyled.H1>
 
                 {titleDescriptionPair.map((pair, idx) => (
                     <>
@@ -273,129 +341,137 @@ const AddNewKey = (props) => {
                 </FormStyled.FieldsetRow>
                 */}
 
-                <FormStyled.FieldsetRow>
-                    <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="keysRewarded">
-                            Keys REWARDED{' '}
-                            <FormStyled.QuestionIcon
-                                onMouseEnter={keysDilogBoxFunc}
-                                onMouseLeave={keysDilogBoxFunc}
-                            >
-                                ?
-                            </FormStyled.QuestionIcon>
-                            {keysDilogBox && (
-                                <FormStyled.DescriptionDilogBox>
-                                    Keys REWARDED
-                                </FormStyled.DescriptionDilogBox>
-                            )}
-                        </FormStyled.Label>
-                        <FormStyled.Input
-                            id="keysRewarded"
-                            name="keysRewarded"
-                            onChange={(e) => setKeysRewarded(e.target.value)}
-                            placeholder="0"
-                            value={keysRewarded > 0 ? keysRewarded : ''}
-                            required
-                        />
-                    </FormStyled.Fieldset>
-
-                    <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="peopleLimit">
-                            PEOPLE LIMIT{' '}
-                            <FormStyled.QuestionIcon
-                                onMouseEnter={peopleLimitDilogBoxFunc}
-                                onMouseLeave={peopleLimitDilogBoxFunc}
-                            >
-                                ?
-                            </FormStyled.QuestionIcon>
-                            {peopleLimitDilogBox && (
-                                <FormStyled.DescriptionDilogBox>
-                                    People Limit
-                                </FormStyled.DescriptionDilogBox>
-                            )}
-                        </FormStyled.Label>
-                        <Styled.InputContainer
-                            value={!unlimited ? peopleLimit : ''}
-                        >
-                            <Styled.Input
-                                id="peopleLimit"
-                                name="peopleLimit"
-                                type="number"
-                                min="0"
-                                onChange={(e) => setPeopleLimit(e.target.value)}
-                                placeholder={unlimited ? "Unlimited" : ""}
-                                value={!unlimited ? peopleLimit : ''}
-                                required={!unlimited}
+                {!edit && (
+                    <FormStyled.FieldsetRow>
+                        <FormStyled.Fieldset>
+                            <FormStyled.Label htmlFor="keysRewarded">
+                                Keys REWARDED{' '}
+                                <FormStyled.QuestionIcon
+                                    onMouseEnter={keysDilogBoxFunc}
+                                    onMouseLeave={keysDilogBoxFunc}
+                                >
+                                    ?
+                                </FormStyled.QuestionIcon>
+                                {keysDilogBox && (
+                                    <FormStyled.DescriptionDilogBox>
+                                        Keys REWARDED
+                                    </FormStyled.DescriptionDilogBox>
+                                )}
+                            </FormStyled.Label>
+                            <FormStyled.Input
+                                id="keysRewarded"
+                                name="keysRewarded"
+                                onChange={(e) =>
+                                    setKeysRewarded(e.target.value)
+                                }
+                                placeholder="0"
+                                value={keysRewarded > 0 ? keysRewarded : ''}
+                                required
                             />
-                            <Styled.UnlimitedBoxContainer
-                                onClick={unlimitedClicked}
-                                value={unlimited}
-                            >
-                                Unlimited
-                            </Styled.UnlimitedBoxContainer>
-                        </Styled.InputContainer>
-                    </FormStyled.Fieldset>
-                </FormStyled.FieldsetRow>
+                        </FormStyled.Fieldset>
 
-                <FormStyled.Fieldset marginBottom="30px">
-                    <FormStyled.Label>Select a Task</FormStyled.Label>
-                    <FormStyled.SubText>
-                        You should select one task per key
-                    </FormStyled.SubText>
-                    <FormStyled.GridBox
-                        onChange={(e) => setTaskLink(e.target.value)}
-                    >
-                        <FormStyled.BigRadio
-                            id="task-1"
-                            name="task"
-                            value="quiz"
-                            label="Create a Quiz"
-                            checked={taskLink === 'quiz'}
-                        />
-                        <FormStyled.BigRadio
-                            id="task-2"
-                            name="task"
-                            value="meeting-code"
-                            label="Meeting Code"
-                            checked={taskLink === 'meeting-code'}
-                        />
-                        <FormStyled.BigRadio
-                            id="task-3"
-                            name="task"
-                            value="token"
-                            label="Hold a Token"
-                            checked={taskLink === 'token'}
-                        />
-                        <FormStyled.BigRadio
-                            id="task-4"
-                            name="task"
-                            value="sc-interaction"
-                            label="Contract Interaction"
-                            checked={taskLink === 'sc-interaction'}
-                        />
-                        <FormStyled.BigRadio
-                            id="task-5"
-                            name="task"
-                            value="governance"
-                            label="Snapshot Governance"
-                            checked={taskLink === 'governance'}
-                        />
-                        <FormStyled.BigRadio
-                            id="task-6"
-                            name="task"
-                            value="manual"
-                            label="Manual Task"
-                            checked={taskLink === 'manual'}
-                        />
-                        <FormStyled.BigRadio
-                            id="task-7"
-                            name="task"
-                            value="self-verify"
-                            label="Self Verify"
-                            checked={taskLink === 'self-verify'}
-                        />
-                    </FormStyled.GridBox>
-                </FormStyled.Fieldset>
+                        <FormStyled.Fieldset>
+                            <FormStyled.Label htmlFor="peopleLimit">
+                                PEOPLE LIMIT{' '}
+                                <FormStyled.QuestionIcon
+                                    onMouseEnter={peopleLimitDilogBoxFunc}
+                                    onMouseLeave={peopleLimitDilogBoxFunc}
+                                >
+                                    ?
+                                </FormStyled.QuestionIcon>
+                                {peopleLimitDilogBox && (
+                                    <FormStyled.DescriptionDilogBox>
+                                        People Limit
+                                    </FormStyled.DescriptionDilogBox>
+                                )}
+                            </FormStyled.Label>
+                            <Styled.InputContainer
+                                value={!unlimited ? peopleLimit : ''}
+                            >
+                                <Styled.Input
+                                    id="peopleLimit"
+                                    name="peopleLimit"
+                                    type="number"
+                                    min="0"
+                                    onChange={(e) =>
+                                        setPeopleLimit(e.target.value)
+                                    }
+                                    placeholder={unlimited ? 'Unlimited' : ''}
+                                    value={!unlimited ? peopleLimit : ''}
+                                    required={!unlimited}
+                                />
+                                <Styled.UnlimitedBoxContainer
+                                    onClick={unlimitedClicked}
+                                    value={unlimited}
+                                >
+                                    Unlimited
+                                </Styled.UnlimitedBoxContainer>
+                            </Styled.InputContainer>
+                        </FormStyled.Fieldset>
+                    </FormStyled.FieldsetRow>
+                )}
+
+                {!edit && (
+                    <FormStyled.Fieldset marginBottom="30px">
+                        <FormStyled.Label>Select a Task</FormStyled.Label>
+                        <FormStyled.SubText>
+                            You should select one task per key
+                        </FormStyled.SubText>
+                        <FormStyled.GridBox
+                            onChange={(e) => setTaskLink(e.target.value)}
+                        >
+                            <FormStyled.BigRadio
+                                id="task-1"
+                                name="task"
+                                value="quiz"
+                                label="Create a Quiz"
+                                checked={taskLink === 'quiz'}
+                            />
+                            <FormStyled.BigRadio
+                                id="task-2"
+                                name="task"
+                                value="meeting-code"
+                                label="Meeting Code"
+                                checked={taskLink === 'meeting-code'}
+                            />
+                            <FormStyled.BigRadio
+                                id="task-3"
+                                name="task"
+                                value="token"
+                                label="Hold a Token"
+                                checked={taskLink === 'token'}
+                            />
+                            <FormStyled.BigRadio
+                                id="task-4"
+                                name="task"
+                                value="sc-interaction"
+                                label="Contract Interaction"
+                                checked={taskLink === 'sc-interaction'}
+                            />
+                            <FormStyled.BigRadio
+                                id="task-5"
+                                name="task"
+                                value="governance"
+                                label="Snapshot Governance"
+                                checked={taskLink === 'governance'}
+                            />
+                            <FormStyled.BigRadio
+                                id="task-6"
+                                name="task"
+                                value="manual"
+                                label="Manual Task"
+                                checked={taskLink === 'manual'}
+                            />
+                            <FormStyled.BigRadio
+                                id="task-7"
+                                name="task"
+                                value="self-verify"
+                                label="Self Verify"
+                                checked={taskLink === 'self-verify'}
+                            />
+                        </FormStyled.GridBox>
+                    </FormStyled.Fieldset>
+                )}
 
                 <FormStyled.Button type="submit">
                     {loading && <Loader color="white" />}

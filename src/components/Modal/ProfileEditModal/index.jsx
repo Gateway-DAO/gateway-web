@@ -9,7 +9,7 @@ import { FaTrashAlt, FaPlus } from 'react-icons/fa'
 import Loader from '../../Loader'
 
 // Hooks
-import { useAuth } from '../../../contexts/UserContext'
+import { useSignedAuth } from '../../../contexts/UserContext'
 import { useEffect, useState } from 'react'
 import { useFileUpload } from '../../../api/useFileUpload'
 import useSearchDAO from '../../../api/database/useSearchDAO'
@@ -32,15 +32,12 @@ const ProfileEditModal = (props) => {
     const [searchQuery, setSearchQuery] = useState('')
     const [searchRes, setSearchRes] = useState([])
 
-    const { loggedIn, userInfo, updateUserInfo, signIn } = useAuth()
+    const { loggedIn, userInfo, updateUserInfo, walletConnected, signIn } = useSignedAuth([props.show])
     const { uploadFile } = useFileUpload()
 
     // Get user
     const {
-        getUser,
-        data: userData,
-        loading: userLoading,
-        error: userError,
+        getUser
     } = useLazyGetUserByUsername()
 
     // Search DAO
