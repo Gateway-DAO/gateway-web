@@ -1,15 +1,7 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-import { IoMdClose } from 'react-icons/io'
 
 export const Page = styled.main`
-    // background-color: #170627;
     min-height: 100vh;
-    // overflow-x: hidden;
-    // width: 100vw;
-    // display: flex;
-    // justify-content: space-between;
-    // flex-direction: column;
     background-color: transparent;
     height: 100%;
     position: relative;
