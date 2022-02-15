@@ -201,8 +201,8 @@ const CreateQuiz = () => {
     };
 
     const onEditSave = async (e) => {
-        e.preventDefault()
-    }
+        e.preventDefault();
+    };
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
