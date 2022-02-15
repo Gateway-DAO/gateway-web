@@ -10,6 +10,7 @@ export const getNonce = async (wallet, opts = {}) => {
     const query = await API.graphql(
         graphqlOperation(DB_GET_NONCE, { wallet, ...opts })
     );
+
     return query;
 };
 

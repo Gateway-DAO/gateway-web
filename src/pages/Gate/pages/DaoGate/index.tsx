@@ -12,7 +12,6 @@ import * as Styled from './style';
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useGateAdmin } from '../../../../hooks/useAdmin';
-import { useAuth } from '../../../../contexts/UserContext';
 
 /**
  * This is the gate page of the DAO. It shows the logo of the dao, the name of the dao, the heading,
@@ -20,12 +19,12 @@ import { useAuth } from '../../../../contexts/UserContext';
  * @param props - the props passed to the component
  * @returns A styled component that renders the component.
  */
-const DaoGate = (props) => {
-    const { gateData, loading, loaded } = useOutletContext();
+const DaoGate: React.FC = () => {
+    const { gateData, loading, loaded }: Record<string, any> =
+        useOutletContext();
     const dao = gateData.dao;
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
-    const { userInfo } = useAuth();
 
     const handleClick = () => {
         navigate('add-key');
@@ -62,7 +61,7 @@ const DaoGate = (props) => {
                             {gateData.description}
                         </Styled.Subheading>
                         <Styled.TagsDiv>
-                            {gateData.categories.map((category) => (
+                            {gateData.categories.map((category: string) => (
                                 <Styled.Tag>{category}</Styled.Tag>
                             ))}
                             • {gateData.holders} holder(s)
@@ -103,29 +102,38 @@ const DaoGate = (props) => {
                                     </Styled.StartButton>
                                 </Styled.Box>
                             )}
-                            {gateData?.keys?.items?.map((key) => {
-                                if (
-                                    !isAdmin &&
-                                    !key.unlimited &&
-                                    key.peopleLimit === 0
-                                ) {
-                                    return null;
-                                }
+                            {gateData?.keys?.items?.map(
+                                (key: Record<string, any>) => {
+                                    if (
+                                        !isAdmin &&
+                                        !key.unlimited &&
+                                        key.peopleLimit === 0
+                                    ) {
+                                        return null;
+                                    }
 
-                                return (
-                                    <KeyBox
-                                        data={key}
-                                        gateData={gateData}
-                                        blocked={
-                                            gateData.taskStatus.length > 0
-                                                ? gateData.taskStatus
-                                                      .map((ts) => ts.keyID)
-                                                      .includes(key.id)
-                                                : false
-                                        }
-                                    />
-                                );
-                            })}
+                                    return (
+                                        <KeyBox
+                                            data={key}
+                                            gateData={gateData}
+                                            blocked={
+                                                gateData.taskStatus.length > 0
+                                                    ? gateData.taskStatus
+                                                          .map(
+                                                              (
+                                                                  ts: Record<
+                                                                      string,
+                                                                      any
+                                                                  >
+                                                              ) => ts.keyID
+                                                          )
+                                                          .includes(key.id)
+                                                    : false
+                                            }
+                                        />
+                                    );
+                                }
+                            )}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
                 </Styled.ContentWrapper>
