@@ -9,12 +9,9 @@ import Loader from '../../../../../../components/Loader'
 const AddMeetingCode = (props) => {
     // State
     const { state } = useLocation()
-    const [code, setCode] = useState(
-        state.taskInfo ? state.taskInfo?.code : null
-    )
+    const [code, setCode] = useState(state.taskInfo ? state.taskInfo?.code : null)
     const [createdKey, setCreatedKey] = useState(false)
-
-    const { createMeetingCode, data, loading, error } = useCreateMeetingCode()
+    const { createMeetingCode, loading } = useCreateMeetingCode()
     const navigate = useNavigate()
     // console.log(state.taskInfo)
 
@@ -60,7 +57,7 @@ const AddMeetingCode = (props) => {
     return createdKey ? (
         <AddKeySuccess gate={state.gateData.id} />
     ) : (
-        <FormStyled.FormBox onSubmit={state.taskInfo ? onSubmit : onEditSubmit}>
+        <FormStyled.FormBox onSubmit={state.taskInfo ? onEditSubmit : onSubmit }>
             <FormStyled.H1>
                 {state.taskInfo ? 'Edit Meeting Code' : 'Add Meeting Code'}
             </FormStyled.H1>

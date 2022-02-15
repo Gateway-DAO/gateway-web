@@ -5,7 +5,6 @@ import ScrollToTop from '../components/ScrollToTop'
 
 import Home from './Home'
 import FallbackPage from './FallbackPage'
-import Page from '../components/Page'
 import Page404 from './404'
 
 // DAO
@@ -44,13 +43,13 @@ const KeyQuiz = React.lazy(() => import('./Quiz'))
 const AddNewGate = React.lazy(() => import('./DAO/pages/AddNewGate'))
 const AddLinks = React.lazy(() => import('./Gate/pages/AddLinks'))
 
-const App = (props) => {
+const App: React.FC = () => {
     return (
         <Router>
             <React.Suspense fallback={<FallbackPage />}>
                 <ScrollToTop>
                     <Routes>
-                        <Route exact path="/" element={<Home />} />
+                        <Route path="/" element={<Home />} />
                         <Route path="/about-us" element={<About />} />
                         <Route path="/what-are-daos" element={<AboutDAOs />} />
 
