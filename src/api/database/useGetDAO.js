@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { useQuery, useLazyQuery, gql } from '@apollo/client';
-import { getDao, getDaoById, getDaoByName, listDaos } from '../../graphql/queries';
+import {
+    getDao,
+    getDaoById,
+    getDaoByName,
+    listDaos,
+} from '../../graphql/queries';
 
 export const useGetDAO = (id) => {
     const { loading, called, refetch, data, error } = useQuery(gql(getDao), {
@@ -19,7 +24,9 @@ export const useGetDAO = (id) => {
 };
 
 export const useLazyGetDAOs = () => {
-    const [getDAO, { loading, called, refetch, data, error }] = useLazyQuery(gql(getDao));
+    const [getDAO, { loading, called, refetch, data, error }] = useLazyQuery(
+        gql(getDao)
+    );
 
     return useMemo(
         () => ({
@@ -34,7 +41,10 @@ export const useLazyGetDAOs = () => {
 };
 
 export const useListDAOs = (config = {}) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(listDaos), config);
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(listDaos),
+        config
+    );
 
     return useMemo(
         () => ({
@@ -45,10 +55,12 @@ export const useListDAOs = (config = {}) => {
         }),
         [called, getDao, loading, refetch, config]
     );
-}
+};
 
 export const useLazyListDAOs = () => {
-    const [listDAOs, { loading, called, refetch, data, error }] = useLazyQuery(gql(listDaos));
+    const [listDAOs, { loading, called, refetch, data, error }] = useLazyQuery(
+        gql(listDaos)
+    );
 
     return useMemo(
         () => ({
@@ -63,9 +75,12 @@ export const useLazyListDAOs = () => {
 };
 
 export const useGetDAOByName = (name) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(getDaoByName), {
-        variables: { name },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getDaoByName),
+        {
+            variables: { name },
+        }
+    );
 
     return useMemo(
         () => ({
@@ -79,9 +94,12 @@ export const useGetDAOByName = (name) => {
 };
 
 export const useGetDAOByID = (dao) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(getDaoById), {
-        variables: { dao: dao },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getDaoById),
+        {
+            variables: { dao: dao },
+        }
+    );
 
     return useMemo(
         () => ({

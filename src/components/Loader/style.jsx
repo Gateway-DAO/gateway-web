@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { AiOutlineLoading } from 'react-icons/ai'
+import styled from 'styled-components';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 export const SpinningLoader = styled(AiOutlineLoading)`
     animation: spin 1s linear infinite;
@@ -14,4 +14,4 @@ export const SpinningLoader = styled(AiOutlineLoading)`
     }
 
     margin-right: 5px;
-`
+`;

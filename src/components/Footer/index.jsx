@@ -1,34 +1,34 @@
-import { FaDiscord, FaTwitter, FaMedium } from 'react-icons/fa'
-import * as Styled from './style'
+import { FaDiscord, FaTwitter, FaMedium } from 'react-icons/fa';
+import * as Styled from './style';
 
-import logo from '../../assets/Gateway.svg'
+import logo from '../../assets/Gateway.svg';
 
 const Footer = (props) => {
     return (
         <Styled.FooterBox>
             <Styled.LogoAndSocialsBox>
                 <Styled.LogoBox>
-                    <img src={logo} alt="Gateway Logo" />
+                    <img src={logo} alt='Gateway Logo' />
                     <Styled.LogoText>GATEWAY</Styled.LogoText>
                 </Styled.LogoBox>
                 <Styled.SocialsBox>
                     <Styled.SocialBtn
-                        href="https://discord.gg/dsrjqPRfNj"
-                        target="_blank"
+                        href='https://discord.gg/dsrjqPRfNj'
+                        target='_blank'
                     >
-                        <FaDiscord color="white" size={24} />
+                        <FaDiscord color='white' size={24} />
                     </Styled.SocialBtn>
                     <Styled.SocialBtn
-                        href="https://twitter.com/tryGateway"
-                        target="_blank"
+                        href='https://twitter.com/tryGateway'
+                        target='_blank'
                     >
-                        <FaTwitter color="white" size={24} />
+                        <FaTwitter color='white' size={24} />
                     </Styled.SocialBtn>
                     <Styled.SocialBtn
-                        href="https://medium.com/@gatewaydao"
-                        target="_blank"
+                        href='https://medium.com/@gatewaydao'
+                        target='_blank'
                     >
-                        <FaMedium color="white" size={24} />
+                        <FaMedium color='white' size={24} />
                     </Styled.SocialBtn>
                 </Styled.SocialsBox>
                 <Styled.CopyBox>
@@ -69,7 +69,7 @@ const Footer = (props) => {
             </Styled.CTABox>
             */}
         </Styled.FooterBox>
-    )
-}
+    );
+};
 
-export default Footer
+export default Footer;

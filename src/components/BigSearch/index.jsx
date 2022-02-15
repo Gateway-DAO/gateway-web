@@ -1,43 +1,43 @@
-import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import * as Styled from './style'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import * as Styled from './style';
 
-import Typewriter from 'typewriter-effect'
+import Typewriter from 'typewriter-effect';
 
-import React from 'react'
+import React from 'react';
 
 const BigSearch = (props) => {
-    const [showTyping, setShowTyping] = useState(true)
-    const [searchValue, setSearchValue] = useState('')
+    const [showTyping, setShowTyping] = useState(true);
+    const [searchValue, setSearchValue] = useState('');
     const navigate = useNavigate();
     // const [placeholder, setPlaceholder] = useState("Search for ");
     const onBlurHandler = () => {
         if (searchValue.length === 0) {
-            setShowTyping(true)
+            setShowTyping(true);
         }
-    }
+    };
     const handleInput = async (e) => {
         if (e.key === 'Enter') {
             if (searchValue.length === 0) {
-                navigate(`search/all`)
+                navigate(`search/all`);
             } else {
-                navigate(`search/${e.target.value}`)
+                navigate(`search/${e.target.value}`);
             }
         }
-    }
+    };
 
     const showClickResult = async (e) => {
         if (searchValue.length === 0) {
-            navigate(`search/all`)
+            navigate(`search/all`);
         } else {
-            navigate(`search/${searchValue}`)
+            navigate(`search/${searchValue}`);
         }
-    }
+    };
 
     const updateSearchValue = (e) => {
-        setSearchValue(e.target.value)
-    }
+        setSearchValue(e.target.value);
+    };
 
     const TypewriterText = (
         <Typewriter
@@ -58,10 +58,10 @@ const BigSearch = (props) => {
                     .typeString('keyword')
                     .pauseFor(2500)
                     .deleteAll(100)
-                    .start()
+                    .start();
             }}
         />
-    )
+    );
 
     return (
         <React.Fragment>
@@ -81,7 +81,7 @@ const BigSearch = (props) => {
                         onClick={() => setShowTyping(false)}
                         onChange={updateSearchValue}
                         //value={searchValue}
-                        type="text"
+                        type='text'
                         onKeyPress={handleInput}
                     />
                 </Styled.SearchSecondary>
@@ -90,12 +90,12 @@ const BigSearch = (props) => {
                 </Styled.SearchIconDiv>
             </Styled.SearchMainDiv>
         </React.Fragment>
-    )
-}
+    );
+};
 
 const WrappedBigSearch = styled(BigSearch)`
     background-color: white;
     padding: 20px;
-`
+`;
 
-export default WrappedBigSearch
+export default WrappedBigSearch;

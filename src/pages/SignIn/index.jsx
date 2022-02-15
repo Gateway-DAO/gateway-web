@@ -1,34 +1,36 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react';
 
-import space from '../../utils/canvas'
+import space from '../../utils/canvas';
 
-import * as Styled from './style'
-import Header from '../../components/Header'
+import * as Styled from './style';
+import Header from '../../components/Header';
 
-import { useAuth } from '../../contexts/UserContext'
-import { Navigate } from 'react-router-dom'
-import Wallet from '../../components/WalletHeader'
+import { useAuth } from '../../contexts/UserContext';
+import { Navigate } from 'react-router-dom';
+import Wallet from '../../components/WalletHeader';
 
 const SignIn = () => {
-    const { walletConnected } = useAuth()
+    const { walletConnected } = useAuth();
 
     useEffect(
-        () => !walletConnected && space(window.innerHeight || 0, window.innerWidth || 0),
+        () =>
+            !walletConnected &&
+            space(window.innerHeight || 0, window.innerWidth || 0),
         [window.innerHeight, window.innerWidth]
-    )
+    );
 
     return walletConnected ? (
-        <Navigate to="/profile" />
+        <Navigate to='/profile' />
     ) : (
         <Styled.Container>
             <Header />
             <Styled.MainBox>
-                <Styled.SpaceBox id="space-canvas" />
+                <Styled.SpaceBox id='space-canvas' />
                 <Styled.MainText>Please, Sign In To Continue</Styled.MainText>
                 <Wallet />
             </Styled.MainBox>
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default SignIn
+export default SignIn;

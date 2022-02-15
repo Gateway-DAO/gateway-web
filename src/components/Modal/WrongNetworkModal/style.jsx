@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     margin: 40px 50px;
@@ -8,7 +8,7 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: flex-start;
     width: 300px;
-`
+`;
 
 export const Title = styled.h3`
     font-family: Poppins;
@@ -19,7 +19,7 @@ export const Title = styled.h3`
     letter-spacing: 0.05em;
     text-align: left;
     text-transform: uppercase;
-`
+`;
 
 export const Body = styled.p`
     font-family: Poppins;
@@ -30,4 +30,4 @@ export const Body = styled.p`
     letter-spacing: 0.05em;
     text-align: left;
     margin-top: 15px;
-`
+`;

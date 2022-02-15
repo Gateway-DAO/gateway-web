@@ -1,16 +1,16 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 export const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`
+`;
 export const ImageOverlapDiv = styled.div`
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 75px;
-`
+`;
 export const ImageOverLap = styled.div`
     position: absolute;
     width: 30px;
@@ -21,7 +21,7 @@ export const ImageOverLap = styled.div`
     background-position: center;
     background-size: cover;
     z-index: ${(props) => props.zind};
-`
+`;
 
 export const PfpText = styled.div`
     width: 107px;
@@ -38,4 +38,4 @@ export const PfpText = styled.div`
     letter-spacing: 0.05em;
 
     color: #170627;
-`
+`;

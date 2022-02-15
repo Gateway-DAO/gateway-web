@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Header from '../../components/Header'
-import space from '../../utils/canvas'
-import * as Styled from './style'
-import { FormStyled } from '../../components/Form'
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/Header';
+import space from '../../utils/canvas';
+import * as Styled from './style';
+import { FormStyled } from '../../components/Form';
 
 const SubmitPage = (): JSX.Element => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
-    )
+    );
 
     const backToHome = () => {
-        navigate('/')
-    }
+        navigate('/');
+    };
 
     return (
         <Styled.Page>
             <Header />
-            <Styled.SpaceBox id="space-canvas" />
+            <Styled.SpaceBox id='space-canvas' />
             <Styled.Container>
                 <Styled.Heading>
                     We're Building Communities Together
@@ -29,8 +29,8 @@ const SubmitPage = (): JSX.Element => {
                     Thank you, your DAO was successfully added
                 </Styled.Text>
                 <FormStyled.Button
-                    id="submit_msg"
-                    type="button"
+                    id='submit_msg'
+                    type='button'
                     onClick={backToHome}
                 >
                     Back To Home
@@ -38,7 +38,7 @@ const SubmitPage = (): JSX.Element => {
             </Styled.Container>
             {/* <Footer /> */}
         </Styled.Page>
-    )
-}
+    );
+};
 
-export default SubmitPage
+export default SubmitPage;

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-export const Wrapper = styled.div``
+import styled from 'styled-components';
+export const Wrapper = styled.div``;
 
 export const GatesContainer = styled.div`
     display: grid;
@@ -9,11 +9,9 @@ export const GatesContainer = styled.div`
     margin: 0 30px;
     margin-top: 60px;
 
-    
     @media only screen and (max-width: 1700px) {
         grid-template-columns: repeat(3, 1fr);
     }
-   
 
     @media only screen and (max-width: 1170px) {
         grid-template-columns: repeat(2, 1fr);
@@ -26,5 +24,4 @@ export const GatesContainer = styled.div`
     @media only screen and (max-width: 480px) {
         margin-top: 60px;
     }
-`
-
+`;

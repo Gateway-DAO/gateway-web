@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
-    position:relative;
-    border: 1px solid #E5E5E5;
+    position: relative;
+    border: 1px solid #e5e5e5;
     box-sizing: border-box;
     border-radius: 5px;
-    margin-right:20px;
-    padding:10px 30px;
-`
+    margin-right: 20px;
+    padding: 10px 30px;
+`;
 export const Text = styled.div`
     font-family: Be Vietnam;
     font-style: normal;
@@ -19,8 +19,8 @@ export const Text = styled.div`
     text-align: center;
     letter-spacing: 0.05em;
     text-transform: capitalize;
-    color: #FFFFFF;
-`
+    color: #ffffff;
+`;
 export const Cross = styled.div`
     cursor: pointer;
     position: absolute;
@@ -38,4 +38,4 @@ export const Cross = styled.div`
     z-index: 10;
     font-weight: 500;
     color: #ffffff;
-`
+`;

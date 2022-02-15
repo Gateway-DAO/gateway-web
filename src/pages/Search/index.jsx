@@ -1,53 +1,53 @@
-import * as Styled from './style'
+import * as Styled from './style';
 
 // Hooks
-import { useParams, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { useSearchDAO } from '../../api/database/useSearchDAO'
-import { useDAOLength } from '../../api/database/useDAOLength'
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useSearchDAO } from '../../api/database/useSearchDAO';
+import { useDAOLength } from '../../api/database/useDAOLength';
 
 // Components
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import DAOTab from './component/DAOs'
-import UserTab from './component/Users'
-import SearchSuggestions from './component/SearchSuggestions'
-import { Navigate } from 'react-router-dom'
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import DAOTab from './component/DAOs';
+import UserTab from './component/Users';
+import SearchSuggestions from './component/SearchSuggestions';
+import { Navigate } from 'react-router-dom';
 
 const Search = (props) => {
-    const [selectionTab, setSelectionTab] = useState('DAOs')
-    const { query } = useParams()
-    const [inputVal, setInputVal] = useState(query || '')
-    const navigate = useNavigate()
-    const [hits, setHits] = useState([])
-    const [toggle, setToggle] = useState(false)
+    const [selectionTab, setSelectionTab] = useState('DAOs');
+    const { query } = useParams();
+    const [inputVal, setInputVal] = useState(query || '');
+    const navigate = useNavigate();
+    const [hits, setHits] = useState([]);
+    const [toggle, setToggle] = useState(false);
 
     // const { searchDAO, data, loading, error } = useLazySearchDAO()
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            console.log(searchData)
-            setToggle(false)
-            navigate(`/search/${e.target.value}`)
+            console.log(searchData);
+            setToggle(false);
+            navigate(`/search/${e.target.value}`);
         }
-    }
+    };
     const handelSearchAll = () => {
         if (!inputVal) {
-            navigate(`/search/all`)
+            navigate(`/search/all`);
         } else {
-            navigate(`/search/${inputVal}`)
+            navigate(`/search/${inputVal}`);
         }
-    }
+    };
 
     const ActiveTab = () => {
         switch (selectionTab) {
             case 'DAOs':
-                return <DAOTab />
+                return <DAOTab />;
             case 'Users':
-                return <UserTab query={query} />
+                return <UserTab query={query} />;
             default:
-                return <DAOTab />
+                return <DAOTab />;
         }
-    }
+    };
 
     const {
         data: searchData,
@@ -70,9 +70,9 @@ const Search = (props) => {
                 ],
             },
         },
-    })
+    });
 
-    const { data: daoLength } = useDAOLength()
+    const { data: daoLength } = useDAOLength();
 
     // useEffect(() => {
     //     setHits(!searchLoading ? searchData.searchDAOs.items : [])
@@ -81,15 +81,15 @@ const Search = (props) => {
     // }, [searchData, searchLoading,inputVal])
 
     if (searchError) {
-        return <Navigate to="/404" />
+        return <Navigate to='/404' />;
     }
 
     const typing = async (val) => {
-        setInputVal(val)
-        await setHits(!searchLoading ? searchData.searchDAOs.items : [])
-        console.log(hits)
-        setToggle(true)
-    }
+        setInputVal(val);
+        await setHits(!searchLoading ? searchData.searchDAOs.items : []);
+        console.log(hits);
+        setToggle(true);
+    };
 
     return (
         <Styled.Container>
@@ -122,7 +122,7 @@ const Search = (props) => {
                         <Styled.SearchInput
                             //    onKeyDown={resumeTyping}
                             //    onKeyUp={pauseTyping}
-                            type="input"
+                            type='input'
                             value={inputVal}
                             onChange={(e) => typing(e.target.value)}
                             onKeyPress={handleEnter}
@@ -134,7 +134,7 @@ const Search = (props) => {
                                 {hits
                                     .filter((item, idx) => idx < 5)
                                     .map((val) => {
-                                        return <SearchSuggestions hits={val} />
+                                        return <SearchSuggestions hits={val} />;
                                     })}
                                 {!searchLoading && (
                                     <Styled.SearchMoreButton
@@ -154,7 +154,7 @@ const Search = (props) => {
             <ActiveTab />
             <Footer />
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default Search
+export default Search;

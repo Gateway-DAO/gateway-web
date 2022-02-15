@@ -1,11 +1,11 @@
-import { useMemo } from 'react'
-import { useMutation, gql } from '@apollo/client'
-import { updateDao as DAO_UPDATE } from '../../graphql/mutations'
+import { useMemo } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { updateDao as DAO_UPDATE } from '../../graphql/mutations';
 
 export const useUpdateDAO = () => {
     const [updateDAO, { loading, called, data, error }] = useMutation(
         gql(DAO_UPDATE)
-    )
+    );
 
     return useMemo(
         () => ({
@@ -15,7 +15,7 @@ export const useUpdateDAO = () => {
             loading,
         }),
         [called, updateDAO, loading, DAO_UPDATE, error]
-    )
-}
+    );
+};
 
-export default useUpdateDAO
+export default useUpdateDAO;

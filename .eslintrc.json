@@ -1,7 +1,11 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "commonjs": true, // CommonJS global variables and CommonJS scoping.Allows require, exports and module.
+        "es6": true, // Enable all ECMAScript 6 features except for modules.
+        "jest": true, // Jest global variables like `it` etc.
+        "node": true // Defines things like process.env when generating through node
     },
     "extends": [
         "eslint:recommended",
@@ -16,10 +20,23 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": ["react", "@typescript-eslint", "prettier"],
+    "plugins": ["react", "@typescript-eslint", "prettier", "unused-imports", "react-hooks"],
     "rules": {
-        "prettier/prettier": ["error", { "endOfLine": "auto" }],
+        "prettier/prettier": [
+            "error",
+            { "endOfLine": "auto", "singleQuote": true }
+        ],
         "arrow-body-style": "off",
-        "prefer-arrow-callback": "off"
+        "prefer-arrow-callback": "off",
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/jsx-key": "off",
+        "react/no-unescaped-entities": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+		"unused-imports/no-unused-imports": "error",
+		"unused-imports/no-unused-vars": [
+			"warn",
+			{ "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+		]
     }
 }

@@ -1,11 +1,11 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     display: flex;
     align-items: center;
     margin: 20px 15px;
     cursor: pointer;
-`
+`;
 
 export const ProfilePicture = styled.div`
     width: 30px;
@@ -15,7 +15,7 @@ export const ProfilePicture = styled.div`
     background-position: center;
     border-radius: 100%;
     margin-right: 10px;
-`
+`;
 
 export const Name = styled.p`
     font-family: Be Vietnam;
@@ -27,8 +27,8 @@ export const Name = styled.p`
     align-items: center;
 
     color: #e5e5e5;
-`
+`;
 
 export const Username = styled(Name)`
     color: purple;
-`
+`;

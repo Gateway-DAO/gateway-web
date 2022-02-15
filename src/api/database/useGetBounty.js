@@ -1,11 +1,14 @@
 import { useMemo } from 'react';
 import { useQuery, useLazyQuery, gql } from '@apollo/client';
-import { getBounty as GET_BOUNTY, getBountyByDaoid, listBountys } from '../../graphql/queries';
+import { getBounty as GET_BOUNTY, listBountys } from '../../graphql/queries';
 
 export const useGetBounty = (id) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(GET_BOUNTY), {
-        variables: { id },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(GET_BOUNTY),
+        {
+            variables: { id },
+        }
+    );
 
     return useMemo(
         () => ({
@@ -19,7 +22,9 @@ export const useGetBounty = (id) => {
 };
 
 export const useLazyGetBounty = () => {
-    const [getBounty, { loading, called, refetch, data, error }] = useLazyQuery(gql(GET_BOUNTY));
+    const [getBounty, { loading, called, refetch, data, error }] = useLazyQuery(
+        gql(GET_BOUNTY)
+    );
 
     return useMemo(
         () => ({
@@ -34,7 +39,10 @@ export const useLazyGetBounty = () => {
 };
 
 export const useListBounties = (config = {}) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(listBountys), config);
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(listBountys),
+        config
+    );
 
     return useMemo(
         () => ({
@@ -45,10 +53,11 @@ export const useListBounties = (config = {}) => {
         }),
         [called, listBountys, loading, refetch, config]
     );
-}
+};
 
 export const useLazyListBounties = () => {
-    const [listBounties, { loading, called, refetch, data, error }] = useLazyQuery(gql(listBountys));
+    const [listBounties, { loading, called, refetch, data, error }] =
+        useLazyQuery(gql(listBountys));
 
     return useMemo(
         () => ({

@@ -1,20 +1,20 @@
-import { useParams, Navigate, Outlet } from 'react-router-dom'
+import { useParams, Navigate, Outlet } from 'react-router-dom';
 
-import { useGetDAOByID } from '../../api/database/useGetDAO'
+import { useGetDAOByID } from '../../api/database/useGetDAO';
 
 // Components
-import Page from '../../components/Page'
-import { useState, useEffect } from 'react'
-import { getTokenFromAddress } from '../../api/coingecko'
-import React from 'react'
+import Page from '../../components/Page';
+import { useState, useEffect } from 'react';
+import { getTokenFromAddress } from '../../api/coingecko';
+import React from 'react';
 
 // AWS
-import { API, graphqlOperation } from 'aws-amplify'
-import { gql } from '@apollo/client'
-import { onUpdateDao } from '../../graphql/subscriptions'
+import { API, graphqlOperation } from 'aws-amplify';
+import { gql } from '@apollo/client';
+import { onUpdateDao } from '../../graphql/subscriptions';
 
 const DAO = (props) => {
-    const { id } = useParams()
+    const { id } = useParams();
     const [daoData, setDaoData] = useState({
         tokenAddress: '',
         socials: {},
@@ -25,19 +25,19 @@ const DAO = (props) => {
         tags: [],
         tokenBenefits: [],
         whitelistedAddresses: [],
-    })
-    const { data: dbData, loading, error } = useGetDAOByID(id)
-    const [loaded, setLoaded] = useState(false)
+    });
+    const { data: dbData, loading, error } = useGetDAOByID(id);
+    const [loaded, setLoaded] = useState(false);
 
     // Get CoinGecko data
-    const getCGData = async (address) => await getTokenFromAddress(address)
+    const getCGData = async (address) => await getTokenFromAddress(address);
 
     // In case the DAO's token address gets changed
     useEffect(() => {
         const fetchTokenInfo = async () => {
             const cgData = daoData?.tokenAddress
                 ? await getCGData(daoData?.tokenAddress)
-                : {}
+                : {};
 
             const tokenData =
                 daoData.tokenAddress && cgData.market_data
@@ -62,13 +62,13 @@ const DAO = (props) => {
                       }
                     : {
                           showTokenFeed: false,
-                      }
+                      };
 
-            setDaoData({ ...daoData, ...tokenData })
-        }
+            setDaoData({ ...daoData, ...tokenData });
+        };
 
-        daoData && daoData.tokenAddress && fetchTokenInfo()
-    }, [daoData.tokenAddress])
+        daoData && daoData.tokenAddress && fetchTokenInfo();
+    }, [daoData.tokenAddress]);
 
     // Fetch data regarding these
     useEffect(() => {
@@ -76,9 +76,9 @@ const DAO = (props) => {
             if (daoData && !loading && !error) {
                 const cgData = dbData.tokenAddress
                     ? await getCGData(dbData.tokenAddress).catch((e) => {
-                          console.log(e)
+                          console.log(e);
                       })
-                    : {}
+                    : {};
 
                 const tokenData =
                     dbData.tokenAddress && cgData.symbol
@@ -104,21 +104,21 @@ const DAO = (props) => {
                           }
                         : {
                               showTokenFeed: false,
-                          }
+                          };
 
                 // Organize presentable data
                 const data = {
                     ...dbData,
                     ...tokenData,
-                }
+                };
 
-                setDaoData(data)
-                setLoaded(true)
+                setDaoData(data);
+                setLoaded(true);
             }
-        }
+        };
 
-        handleData()
-    }, [id, loading])
+        handleData();
+    }, [id, loading]);
 
     // Subscription to updates
     useEffect(() => {
@@ -126,35 +126,37 @@ const DAO = (props) => {
             graphqlOperation(gql(onUpdateDao))
         ).subscribe({
             next: (data) => {
-                let dao = data.value.data.onUpdateDAO
-                console.log("New thing")
-                console.log(dao)
+                let dao = data.value.data.onUpdateDAO;
+                console.log('New thing');
+                console.log(dao);
 
                 if (dao.id === daoData.id) {
-                    console.log('onUpdateDao')
-                    setDaoData({ ...daoData, ...dao })
+                    console.log('onUpdateDao');
+                    setDaoData({ ...daoData, ...dao });
                 }
             },
-        })
+        });
 
-        return () => subscription.unsubscribe()
-    })
+        return () => subscription.unsubscribe();
+    });
 
     if (error) {
-        console.error(error)
-        return <Navigate to="/404" />
+        console.error(error);
+        return <Navigate to='/404' />;
     }
 
     return (
         <Page>
-            <Outlet context={{
-                daoData,
-                setDaoData,
-                loaded,
-                loading
-            }}/>
+            <Outlet
+                context={{
+                    daoData,
+                    setDaoData,
+                    loaded,
+                    loading,
+                }}
+            />
         </Page>
-    )
-}
+    );
+};
 
-export default DAO
+export default DAO;

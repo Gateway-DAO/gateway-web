@@ -1,15 +1,15 @@
 projects:
-  gateway:
-    schemaPath: amplify/backend/api/gateway/build/schema.graphql
-    includes:
-      - src/graphql/**/*.js
-    excludes:
-      - ./amplify/**
-    extensions:
-      amplify:
-        codeGenTarget: javascript
-        generatedFileName: ''
-        docsFilePath: src/graphql
+    gateway:
+        schemaPath: amplify/backend/api/gateway/build/schema.graphql
+        includes:
+            - src/graphql/**/*.ts
+        excludes:
+            - ./amplify/**
+        extensions:
+            amplify:
+                codeGenTarget: typescript
+                generatedFileName: src/graphql/API.ts
+                docsFilePath: src/graphql
 extensions:
-  amplify:
-    version: 3
+    amplify:
+        version: 3

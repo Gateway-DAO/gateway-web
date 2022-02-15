@@ -1,9 +1,9 @@
 // Libraries/components
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Styling
-import * as Styled from './style'
+import * as Styled from './style';
 
 // Icons
 import {
@@ -13,74 +13,72 @@ import {
     FaGithub,
     FaTelegram,
     FaLink,
-    FaPencilAlt,
-} from 'react-icons/fa'
-import { BsChatTextFill } from 'react-icons/bs'
-import { FiGlobe } from 'react-icons/fi'
+} from 'react-icons/fa';
+import { BsChatTextFill } from 'react-icons/bs';
+import { FiGlobe } from 'react-icons/fi';
 
 // Hooks
-import { useState, useEffect } from 'react'
-import { useAuth } from '../../../../contexts/UserContext'
-import { FormStyled } from '../../../../components/Form'
-import EditIcon from '../../../../theme/icons/Edit'
+import { useAuth } from '../../../../contexts/UserContext';
+import { FormStyled } from '../../../../components/Form';
+import EditIcon from '../../../../theme/icons/Edit';
 
 const BioBox = (props) => {
-    const { walletConnected, userInfo } = useAuth()
+    const { walletConnected, userInfo } = useAuth();
 
     const socials = props.socials
         ? props.socials.map((social) => {
               switch (social.network) {
                   case 'discord':
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <FaDiscord size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
                   case 'twitter':
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <FaTwitter size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
                   case 'website':
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <FiGlobe size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
                   case 'medium':
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <FaMedium size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
                   case 'github':
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <FaGithub size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
                   case 'telegram':
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <FaTelegram size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
                   case 'chat':
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <BsChatTextFill size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
                   default:
                       return (
-                          <Styled.SocialLink href={social.url} target="_blank">
+                          <Styled.SocialLink href={social.url} target='_blank'>
                               <FaLink size={20} />
                           </Styled.SocialLink>
-                      )
+                      );
               }
           })
-        : []
+        : [];
 
     return (
         <Styled.Container>
@@ -106,7 +104,7 @@ const BioBox = (props) => {
                 </Styled.MembershipBox>
             </div>
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default BioBox
+export default BioBox;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.main`
     background-color: #170627;
@@ -7,7 +7,7 @@ export const Container = styled.main`
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-`
+`;
 
 export const TextBox = styled.div`
     flex: 1;
@@ -15,7 +15,7 @@ export const TextBox = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-`
+`;
 
 export const MainText = styled.h2`
     font-family: Poppins;
@@ -27,8 +27,8 @@ export const MainText = styled.h2`
 
     letter-spacing: -0.015em;
 
-    color: #E5E5E5;
-`
+    color: #e5e5e5;
+`;
 
 export const SmallText = styled.p`
     font-family: Poppins;
@@ -41,5 +41,5 @@ export const SmallText = styled.p`
     text-align: center;
     letter-spacing: -0.015em;
 
-    color: #E5E5E5;
-`
+    color: #e5e5e5;
+`;

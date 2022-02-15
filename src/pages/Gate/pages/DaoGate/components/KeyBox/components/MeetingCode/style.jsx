@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-export const Container = styled.div``
+export const Container = styled.div``;
 
 export const WarningInfo = styled.div`
     font-family: Be Vietnam;
@@ -11,4 +11,4 @@ export const WarningInfo = styled.div`
     /* or 212% */
 
     color: #fdaa0f;
-`
+`;

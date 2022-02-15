@@ -1,26 +1,25 @@
 // Styling
-import * as Styled from './style'
-import * as SearchStyled from '../../style'
+import * as Styled from './style';
+import * as SearchStyled from '../../style';
 
 // Components
-import UserCard from '../../../../components/UserCard'
-import Loader from '../../../../components/Loader'
-import Pagination from '../Pagination'
+import UserCard from '../../../../components/UserCard';
+import Loader from '../../../../components/Loader';
+import Pagination from '../Pagination';
 
 // Hooks
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useSearchUsers } from '../../../../api/database/useSearchUser'
-import useUserLength from '../../../../api/database/useUserLength'
+import { useEffect, useState } from 'react';
+import { useSearchUsers } from '../../../../api/database/useSearchUser';
+import useUserLength from '../../../../api/database/useUserLength';
 
 const UserTab = ({ query }) => {
-    const [hits, setHits] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [hits, setHits] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const [pageCount, setPageCount] = useState(0)
-    const [pageNumber, setPageNumber] = useState(0)
-    const resultPerPage = 8
-    let from = pageNumber * 8
+    const [pageCount, setPageCount] = useState(0);
+    const [pageNumber, setPageNumber] = useState(0);
+    const resultPerPage = 8;
+    let from = pageNumber * 8;
     const {
         data: listData,
         loading: listLoading,
@@ -32,7 +31,7 @@ const UserTab = ({ query }) => {
             from: from,
             filter: { init: { eq: true } },
         },
-    })
+    });
 
     const {
         data: searchData,
@@ -53,7 +52,7 @@ const UserTab = ({ query }) => {
                 ],
             },
         },
-    })
+    });
 
     const {
         data: lengthData,
@@ -72,34 +71,36 @@ const UserTab = ({ query }) => {
                 ],
             },
         },
-    })
+    });
 
     useEffect(() => {
         if (query.toLowerCase() === 'all') {
-            setHits(!listLoading ? listData.searchUsers.items : [])
-            setPageCount(Math.ceil(listData?.searchUsers.total / resultPerPage))
+            setHits(!listLoading ? listData.searchUsers.items : []);
+            setPageCount(
+                Math.ceil(listData?.searchUsers.total / resultPerPage)
+            );
         } else {
-            setHits(!searchLoading ? searchData.searchUsers.items : [])
-            console.log('fdsfdfds')
+            setHits(!searchLoading ? searchData.searchUsers.items : []);
+            console.log('fdsfdfds');
 
-            console.log(lengthData)
+            console.log(lengthData);
             setPageCount(
                 Math.ceil(lengthData?.searchUsers.items.length / resultPerPage)
-            )
+            );
         }
-    }, [query, searchLoading, listLoading, pageNumber, lengthDataLoading])
+    }, [query, searchLoading, listLoading, pageNumber, lengthDataLoading]);
 
     const searchOrListLoading =
-        query.toLowerCase() === 'all' ? listLoading : searchLoading
+        query.toLowerCase() === 'all' ? listLoading : searchLoading;
     const searchOrListCalled =
-        query.toLowerCase() === 'all' ? listCalled : searchCalled
+        query.toLowerCase() === 'all' ? listCalled : searchCalled;
 
     if (searchOrListLoading) {
         return (
             <SearchStyled.LoaderBox>
-                <Loader color="white" size={35} />
+                <Loader color='white' size={35} />
             </SearchStyled.LoaderBox>
-        )
+        );
     }
 
     if (!hits.length && !searchOrListLoading && searchOrListCalled) {
@@ -112,7 +113,7 @@ const UserTab = ({ query }) => {
                     We couldn't find what you're looking for. Try again later!
                 </SearchStyled.SmallText>
             </SearchStyled.TextBox>
-        )
+        );
     }
 
     return (
@@ -130,7 +131,7 @@ const UserTab = ({ query }) => {
             </Styled.UserCardBox>
             <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
         </>
-    )
-}
+    );
+};
 
-export default UserTab
+export default UserTab;

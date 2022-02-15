@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { AiOutlineLoading } from 'react-icons/ai'
+import styled from 'styled-components';
+import { AiOutlineLoading } from 'react-icons/ai';
 
 export const ConnectToWallet = styled.a`
     border-radius: 20px;
@@ -8,7 +8,7 @@ export const ConnectToWallet = styled.a`
 
     ${(props) =>
         props.wrong
-            ?   `background-color: #FF003D;
+            ? `background-color: #FF003D;
                 border: 1px solid #EE787B;`
             : `background-image: linear-gradient(#170627, #170627),
                 linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
@@ -19,7 +19,7 @@ export const ConnectToWallet = styled.a`
     &:hover {
         cursor: pointer;
     }
-`
+`;
 
 export const ConnectText = styled.p`
     font-family: Poppins;
@@ -49,7 +49,7 @@ export const ConnectText = styled.p`
         margin: 6px 12px;
         font-size: 9px;
     }
-`
+`;
 
 export const SpinningLoader = styled(AiOutlineLoading)`
     animation: spin 1s linear infinite;
@@ -64,4 +64,4 @@ export const SpinningLoader = styled(AiOutlineLoading)`
     }
 
     margin-right: 5px;
-`
+`;

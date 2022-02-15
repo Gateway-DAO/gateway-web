@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const ThirdDiv = styled.div`
     padding-top: 30px;
     color: white;
-`
+`;
 export const Box = styled.div`
     color: ${(props) => (props.opened ? 'black' : 'white')};
     display: flex;
@@ -16,15 +16,15 @@ export const Box = styled.div`
     padding: 30px 25px;
     background-color: ${(props) => (props.opened ? 'white' : 'transparent')};
     transition: 0.2s;
-`
+`;
 
 export const TextContainer = styled.div`
     margin-bottom: 40px;
-`
+`;
 export const BoxHeading = styled.div`
     display: flex;
     justify-content: space-between;
-`
+`;
 
 export const BoxTitle = styled.div`
     font-family: Poppins;
@@ -36,7 +36,7 @@ export const BoxTitle = styled.div`
 
     letter-spacing: 0.05em;
     text-transform: uppercase;
-`
+`;
 
 export const EditContainer = styled.div`
     display: flex;
@@ -47,7 +47,7 @@ export const EditContainer = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     font-size: 10px;
-`
+`;
 
 export const BoxSubtitle = styled.div`
     font-family: Be Vietnam;
@@ -58,23 +58,23 @@ export const BoxSubtitle = styled.div`
     /* or 144% */
 
     color: ${(props) => (props.opened ? '#170627' : '#e5e5e5')};
-`
+`;
 export const BottonBox = styled.div`
     display: flex;
     justify-content: space-between;
-`
+`;
 export const ActionButton = styled.div`
     display: flex;
-`
+`;
 
 const DetailsButton = `
     background: linear-gradient(88.53deg, #EE787B 2.77%, #E153F2 51.87%, #495BE0 98.96%);
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
-`
+`;
 
 const CompletedButton = `
     border: 1px solid #27D5A2;
-`
+`;
 
 export const StartButton = styled.div`
     display: flex;
@@ -107,7 +107,7 @@ export const StartButton = styled.div`
     }
 
     margin-right: 20px;
-`
+`;
 export const StartButtonTwo = styled.div`
     min-width: 150px;
     // margin-top: 10px;
@@ -124,29 +124,29 @@ export const StartButtonTwo = styled.div`
         cursor: pointer;
     }
     margin-right: 20px;
-`
+`;
 
 export const ButtonText = styled.p`
     font-size: 14px;
     margin: 12px 50px;
     display: flex;
     align-items: center;
-`
+`;
 
 export const InformationDiv = styled.div`
     display: flex;
     /* margin-left: 451px; */
-`
+`;
 export const KeyRewardBox = styled.div`
     display: flex;
     flex-direction: column;
     margin-right: 43px;
-`
+`;
 export const CompensationBox = styled.div`
     display: flex;
     flex-direction: column;
     margin-right: 43px;
-`
+`;
 
 export const InformationBoxHeading = styled.h4`
     font-family: Poppins;
@@ -158,7 +158,7 @@ export const InformationBoxHeading = styled.h4`
     text-transform: uppercase;
 
     color: #ffffff;
-`
+`;
 
 export const InformationBoxInfoText = styled.p`
     font-family: Be Vietnam;
@@ -169,4 +169,4 @@ export const InformationBoxInfoText = styled.p`
     /* or 144% */
 
     color: #a5a5a5;
-`
+`;

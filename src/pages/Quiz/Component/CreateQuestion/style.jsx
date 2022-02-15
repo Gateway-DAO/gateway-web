@@ -1,10 +1,10 @@
-import styled from 'styled-components'
-import { FormStyled } from '../../../../components/Form'
+import styled from 'styled-components';
+import { FormStyled } from '../../../../components/Form';
 
 export const AnswerBox = styled.div`
     display: flex;
     margin: 10px 0;
-`
+`;
 
 export const IconBox = styled.div`
     color: ${(props) => (props.color ? props.color : `white`)};
@@ -22,7 +22,7 @@ export const IconBox = styled.div`
     margin-right: ${(props) => props.mr};
     margin-left: ${(props) => props.ml};
     cursor: pointer;
-`
+`;
 
 export const AnswerInput = styled(FormStyled.Input)`
     box-sizing: border-box;
@@ -39,7 +39,7 @@ export const AnswerInput = styled(FormStyled.Input)`
     width: 100%;
     height: 40px;
     margin: 0;
-`
+`;
 
 export const AddQuestionBox = styled.div`
     display: flex;
@@ -51,7 +51,7 @@ export const AddQuestionBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: left;
-`
+`;
 
 export const Circle = styled.div`
     display: flex;
@@ -66,7 +66,7 @@ export const Circle = styled.div`
     width: 40px;
     margin-right: 10px;
     cursor: pointer;
-`
+`;
 
 export const AddOptionText = styled.div`
     width: 100%;
@@ -85,4 +85,4 @@ export const AddOptionText = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
     cursor: pointer;
-`
+`;

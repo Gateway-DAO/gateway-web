@@ -1,43 +1,43 @@
-import React, { useState } from 'react'
-import * as Styled from './style'
+import React, { useState } from 'react';
+import * as Styled from './style';
 
 //Icons
-import BackIcon from '../../../../../../assets/icons/BackIcon.svg'
-import ShareIcon from '../../../../../../assets/icons/share.svg'
-import { MdModeEditOutline } from 'react-icons/md'
-import { FaTrashAlt } from 'react-icons/fa'
+import BackIcon from '../../../../../../assets/icons/BackIcon.svg';
+import ShareIcon from '../../../../../../assets/icons/share.svg';
+import { MdModeEditOutline } from 'react-icons/md';
+import { FaTrashAlt } from 'react-icons/fa';
 
 //Hooks
-import { useNavigate } from 'react-router-dom'
-import useUpdateGate from '../../../../../../api/database/useUpdateGate'
-import useDeleteGate from '../../../../../../api/database/useDeleteGate'
-import { useGateAdmin } from '../../../../../../hooks/useAdmin'
+import { useNavigate } from 'react-router-dom';
+import useUpdateGate from '../../../../../../api/database/useUpdateGate';
+import useDeleteGate from '../../../../../../api/database/useDeleteGate';
+import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 //import'./BackButton.css';
 
 const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
-    const gateData = props.gateData
+    const gateData = props.gateData;
 
     //States
-    const [published, setPublished] = useState(props.published)
-    const [showDelete, setShowDelete] = useState(false)
+    const [published, setPublished] = useState(props.published);
+    const [showDelete, setShowDelete] = useState(false);
 
     //Hooks
-    const { updateGate } = useUpdateGate()
-    const navigate = useNavigate()
-    const { isAdmin } = useGateAdmin(gateData.admins)
-    const { deleteGate, data, loading } = useDeleteGate()
+    const { updateGate } = useUpdateGate();
+    const navigate = useNavigate();
+    const { isAdmin } = useGateAdmin(gateData.admins);
+    const { deleteGate, data, loading } = useDeleteGate();
 
     const editGate = () => {
-        const link = '/dao/' + props.daoData.dao + '/edit-gate'
+        const link = '/dao/' + props.daoData.dao + '/edit-gate';
         navigate(link, {
             state: { gateData },
-        })
-    }
+        });
+    };
 
     //Publish gates
     const publishGate = async () => {
         try {
-            setPublished(!published)
+            setPublished(!published);
             await updateGate({
                 variables: {
                     input: {
@@ -45,18 +45,18 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
                         published: !published,
                     },
                 },
-            })
+            });
 
-            window.location.reload()
+            window.location.reload();
         } catch (e) {
-            alert('We are facing some issue')
-            console.log(e)
+            alert('We are facing some issue');
+            console.log(e);
         }
-    }
+    };
 
     const showDeleteModal = () => {
-        setShowDelete(!showDelete)
-    }
+        setShowDelete(!showDelete);
+    };
     const deleteGateFunc = async () => {
         const { data } = await deleteGate({
             variables: {
@@ -64,14 +64,14 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
                     id: props.id,
                 },
             },
-        })
-        navigate(url)
-    }
+        });
+        navigate(url);
+    };
     return (
         <Styled.Wrapper>
             <Styled.Div onClick={() => navigate(url)}>
                 <Styled.ButtonWrapper>
-                    <img src={BackIcon} alt="Back" />
+                    <img src={BackIcon} alt='Back' />
                 </Styled.ButtonWrapper>
                 <Styled.TextWrapper>
                     <Styled.Text>{children}</Styled.Text>
@@ -83,15 +83,15 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
                     <>
                         <Styled.ButtonWrapper
                             onClick={publishGate}
-                            width="182px"
-                            size="13px"
+                            width='182px'
+                            size='13px'
                         >
                             {published ? 'Unpublish' : 'Publish'}
                         </Styled.ButtonWrapper>
-                        <Styled.ButtonWrapper onClick={editGate} ml="20">
+                        <Styled.ButtonWrapper onClick={editGate} ml='20'>
                             <MdModeEditOutline />
                         </Styled.ButtonWrapper>
-                        <Styled.ButtonWrapper onClick={showDeleteModal} ml="20">
+                        <Styled.ButtonWrapper onClick={showDeleteModal} ml='20'>
                             <FaTrashAlt />
                         </Styled.ButtonWrapper>
                         {showDelete && (
@@ -99,7 +99,7 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
                                 <Styled.DeleteContainer>
                                     <Styled.CloseBtn
                                         size={24}
-                                        color="white"
+                                        color='white'
                                         onClick={showDeleteModal}
                                     />
                                     <Styled.TextWrapper>
@@ -109,8 +109,8 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
                                         </Styled.Text>
                                     </Styled.TextWrapper>
                                     <Styled.ButtonWrapper
-                                        width="182px"
-                                        size="13px"
+                                        width='182px'
+                                        size='13px'
                                         onClick={deleteGateFunc}
                                     >
                                         Delete
@@ -124,13 +124,13 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
                     onClick={() =>
                         navigator.clipboard.writeText(window.location.href)
                     }
-                    ml="20"
+                    ml='20'
                 >
-                    <img src={ShareIcon} alt="Share Icon" />
+                    <img src={ShareIcon} alt='Share Icon' />
                 </Styled.ButtonWrapper>
             </Styled.Div>
         </Styled.Wrapper>
-    )
-}
+    );
+};
 
-export default BackButton
+export default BackButton;

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react';
 
 // Styling
-import { FormStyled } from '../../../../../../../../components/Form'
 
 // Hooks
 // import useVerifyQuiz from '../../../../../../../../api/database/keys/useVerifyQuiz'
-import { useAuth } from '../../../../../../../../contexts/UserContext'
+import { useAuth } from '../../../../../../../../contexts/UserContext';
 
 const Quiz = ({
     data,
@@ -14,7 +13,7 @@ const Quiz = ({
     questionIdx,
     setQuestionIdx,
 }) => {
-    const { userInfo } = useAuth()
+    const { userInfo } = useAuth();
     // const { verifyQuiz } = useVerifyQuiz()
 
     return (
@@ -24,7 +23,7 @@ const Quiz = ({
                 advance to the next task.
             </p>
         </>
-    )
-}
+    );
+};
 
-export default React.memo(Quiz)
+export default React.memo(Quiz);

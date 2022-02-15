@@ -1,34 +1,32 @@
-import * as Styled from './style'
-import { BsEmojiSmile } from 'react-icons/bs'
-import { FiImage } from 'react-icons/fi'
-import Picker from 'emoji-picker-react'
-import { useState, useEffect, useRef } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-import { useAuth } from '../../../../../../contexts/UserContext'
-import useCreatePost from '../../../../../../api/database/useCreatePost'
-
+import * as Styled from './style';
+import { BsEmojiSmile } from 'react-icons/bs';
+import Picker from 'emoji-picker-react';
+import { useState, useEffect, useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useAuth } from '../../../../../../contexts/UserContext';
+import useCreatePost from '../../../../../../api/database/useCreatePost';
 
 const MakePost = (props) => {
     const { loggedIn, userInfo } = useAuth();
-    const [commentMessage, setCommentMessage] = useState('')
-    const [commentImage, setCommentImage] = useState('')
-    const [user, setUser] = useState({ name: '', username: '' })
-    const [showEmojiBox, setEmojiBox] = useState(false)
-    const { createPost, data, error, loading } = useCreatePost()
-    
+    const [commentMessage, setCommentMessage] = useState('');
+    const [commentImage, setCommentImage] = useState('');
+    const [user, setUser] = useState({ name: '', username: '' });
+    const [showEmojiBox, setEmojiBox] = useState(false);
+    const { createPost, data, error, loading } = useCreatePost();
+
     useEffect(() => {
         setUser(loggedIn ? userInfo : null);
-    }, [loggedIn])
+    }, [loggedIn]);
 
-    const ref = useRef(null)
+    const ref = useRef(null);
     const onEmojiClick = (event, emojiObject) => {
-        const cursor = ref.current.selectionStart
+        const cursor = ref.current.selectionStart;
         const text =
             commentMessage.slice(0, cursor) +
             emojiObject.emoji +
-            commentMessage.slice(cursor)
-        setCommentMessage(text)
-    }
+            commentMessage.slice(cursor);
+        setCommentMessage(text);
+    };
 
     const submitPost = async () => {
         const data = {
@@ -40,19 +38,21 @@ const MakePost = (props) => {
             upvotes: [userInfo.id],
             downvotes: [],
             createdAt: new Date().toISOString(),
-        }
+        };
         try {
-            await createPost({ variables: {
-                input: data
-            }})
+            await createPost({
+                variables: {
+                    input: data,
+                },
+            });
 
-            console.log("Deu")
+            console.log('Deu');
 
-            setCommentMessage('')
+            setCommentMessage('');
         } catch (err) {
-            console.log(`Post failed: ${err}`)
+            console.log(`Post failed: ${err}`);
         }
-    }
+    };
 
     return loggedIn && user?.init ? (
         <Styled.PostContainer>
@@ -64,7 +64,9 @@ const MakePost = (props) => {
                         Post as
                         <Styled.PostByName>{user.name}</Styled.PostByName>
                         <Styled.PostByUsername>
-                            <Styled.UserLink to="/profile/">@{user.username}</Styled.UserLink>
+                            <Styled.UserLink to='/profile/'>
+                                @{user.username}
+                            </Styled.UserLink>
                         </Styled.PostByUsername>
                     </Styled.PostByInfo>
                 </Styled.ProfileBioContainer>
@@ -73,7 +75,7 @@ const MakePost = (props) => {
                 onChange={(e) => setCommentMessage(e.target.value)}
                 onClick={(e) => setEmojiBox(false)}
                 value={commentMessage}
-                placeholder="What are your thoughts?"
+                placeholder='What are your thoughts?'
                 rows={3}
                 ref={ref}
             />
@@ -93,12 +95,10 @@ const MakePost = (props) => {
                         <FiImage />
                     </Styled.ActivityTextContainer> */}
                 </Styled.ActivityContainer>
-                <Styled.PostButton onClick={submitPost}>
-                    POST
-                </Styled.PostButton>
+                <Styled.PostButton onClick={submitPost}>POST</Styled.PostButton>
             </Styled.ActivityBox>
         </Styled.PostContainer>
     ) : null;
-}
+};
 
-export default MakePost
+export default MakePost;

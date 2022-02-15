@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
-import { FormStyled } from '../../../../../../components/Form'
-import { useLocation } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
-import { useCreateTokenHold } from '../../../../../../api/database/useCreateKey'
-import AddKeySuccess from '../AddKeySuccess'
-import Loader from '../../../../../../components/Loader'
+import React, { useState } from 'react';
+import { FormStyled } from '../../../../../../components/Form';
+import { useLocation } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { useCreateTokenHold } from '../../../../../../api/database/useCreateKey';
+import AddKeySuccess from '../AddKeySuccess';
+import Loader from '../../../../../../components/Loader';
 
 const AddHoldToken = (props) => {
-    const { state } = useLocation()
-    const { createTokenHold, loading } = useCreateTokenHold()
+    const { state } = useLocation();
+    const { createTokenHold, loading } = useCreateTokenHold();
     const [address, setAddress] = useState(
         state.taskInfo ? state.taskInfo.address : ''
-    )
+    );
     const [amount, setAmount] = useState(
         state.taskInfo ? state.taskInfo.amount : 0
-    )
-    const [createdKey, setCreatedKey] = useState(false)
+    );
+    const [createdKey, setCreatedKey] = useState(false);
 
     const onSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         try {
             await createTokenHold({
@@ -40,18 +40,18 @@ const AddHoldToken = (props) => {
                         },
                     },
                 },
-            })
+            });
 
-            setCreatedKey(true)
+            setCreatedKey(true);
         } catch (err) {
-            alert('An error occurred. Please try again later!')
-            console.log(err)
+            alert('An error occurred. Please try again later!');
+            console.log(err);
         }
-    }
+    };
 
     const onEditSubmit = async (e) => {
-        e.preventDefault()
-    }
+        e.preventDefault();
+    };
 
     return createdKey ? (
         <AddKeySuccess gate={state.gateData.id} />
@@ -63,8 +63,8 @@ const AddHoldToken = (props) => {
             <FormStyled.Fieldset>
                 <FormStyled.Label>Token Address</FormStyled.Label>
                 <FormStyled.Input
-                    title="Token"
-                    placeholder="Token Address"
+                    title='Token'
+                    placeholder='Token Address'
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     required
@@ -74,19 +74,19 @@ const AddHoldToken = (props) => {
             <FormStyled.Fieldset>
                 <FormStyled.Label>Amount Required</FormStyled.Label>
                 <FormStyled.Input
-                    placeholder="Minimum amount to hold"
+                    placeholder='Minimum amount to hold'
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     required
                 />
             </FormStyled.Fieldset>
 
-            <FormStyled.Button type="submit">
-                {loading && <Loader color="white" />}
+            <FormStyled.Button type='submit'>
+                {loading && <Loader color='white' />}
                 Submit
             </FormStyled.Button>
         </FormStyled.FormBox>
-    )
-}
+    );
+};
 
-export default AddHoldToken
+export default AddHoldToken;

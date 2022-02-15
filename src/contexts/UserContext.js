@@ -1,32 +1,29 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 // Styling
-import * as ThemeStyled from '../theme/style'
+import * as ThemeStyled from '../theme/style';
 
 // Web3
-import { CONNECTORS, shortenAddress } from '../utils/web3'
-import { useWeb3React } from '@web3-react/core'
-import useUpdateUser from '../api/database/useUpdateUser'
-import useCreateUser from '../api/database/useCreateUser'
+import { CONNECTORS, shortenAddress } from '../utils/web3';
+import { useWeb3React } from '@web3-react/core';
+import useUpdateUser from '../api/database/useUpdateUser';
+import useCreateUser from '../api/database/useCreateUser';
 
 // AWS/GraphQL
-import awsconfig from '../aws-exports'
-import { getNonce } from '../api/database/getNonce'
-import {
-    getUser as getUserQuery,
-    getUserByAddress as getUserByAddressQuery,
-} from '../graphql/queries'
-import { useLazyQuery, gql } from '@apollo/client'
-import Amplify, { Hub, Auth } from 'aws-amplify'
-import useGetFile from '../api/useGetFile'
-import { useModal } from './ModalContext'
+import awsconfig from '../aws-exports';
+import { getNonce } from '../api/database/getNonce';
+import { getUserByAddress as getUserByAddressQuery } from '../graphql/queries';
+import { useLazyQuery, gql } from '@apollo/client';
+import Amplify, { Hub, Auth } from 'aws-amplify';
+import useGetFile from '../api/useGetFile';
+import { useModal } from './ModalContext';
 
-Amplify.configure(awsconfig)
-Auth.configure(awsconfig)
+Amplify.configure(awsconfig);
+Auth.configure(awsconfig);
 
-export const userContext = createContext({})
-const { Provider } = userContext
+export const userContext = createContext({});
+const { Provider } = userContext;
 
 /**
  * The `useAuth` hook returns the `userContext` object.
@@ -44,8 +41,8 @@ const { Provider } = userContext
  * @returns The user object.
  */
 export const useAuth = () => {
-    return useContext(userContext)
-}
+    return useContext(userContext);
+};
 
 /**
  * The `useSignedAuth` hook returns the `userContext` object, but AWS-signed in.
@@ -63,16 +60,16 @@ export const useAuth = () => {
  * @returns The user object.
  */
 export const useSignedAuth = (deps = []) => {
-    const context = useContext(userContext)
+    const context = useContext(userContext);
 
-    const testers = [context.walletConnected, !context.loggedIn, ...deps]
+    const testers = [context.walletConnected, !context.loggedIn, ...deps];
 
     useEffect(() => {
-        testers.every((val) => val) && context.signIn()
-    }, [context.walletConnected, context.loggedIn, ...deps])
+        testers.every((val) => val) && context.signIn();
+    }, [context.walletConnected, context.loggedIn, ...deps]);
 
-    return context
-}
+    return context;
+};
 
 /**
  * This function is used to render an error modal. It takes in an error message and renders it to the
@@ -83,7 +80,7 @@ const Error = ({ error }) => (
         <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
         <p>{error}</p>
     </div>
-)
+);
 
 /**
  * The UserProvider component is a React component that wraps around the children components.
@@ -103,15 +100,15 @@ const Error = ({ error }) => (
  */
 export const UserProvider = ({ children }) => {
     /* State */
-    const [loggedIn, setLoggedIn] = useState(false)
-    const [walletConnected, setWalletConnected] = useState(false)
-    const [loggingIn, setLoggingIn] = useState(false)
-    const [loadingWallet, setLoadingWallet] = useState(false)
-    const [userInfo, setUserInfo] = useState(null)
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [walletConnected, setWalletConnected] = useState(false);
+    const [loggingIn, setLoggingIn] = useState(false);
+    const [loadingWallet, setLoadingWallet] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
 
     // Hooks
-    const web3 = useWeb3React()
-    const { showModal } = useModal()
+    const web3 = useWeb3React();
+    const { showModal } = useModal();
 
     // Database
     const [
@@ -127,23 +124,23 @@ export const UserProvider = ({ children }) => {
         variables: {
             wallet: web3.account,
         },
-    })
+    });
 
     const {
         updateUser,
         data: userUpdateData,
         error: userUpdateError,
         loading: userUpdateLoading,
-    } = useUpdateUser()
+    } = useUpdateUser();
 
     const {
         createUser,
         data: userCreateData,
         error: userCreateError,
         loading: userCreateLoading,
-    } = useCreateUser()
+    } = useCreateUser();
 
-    const { getFile } = useGetFile()
+    const { getFile } = useGetFile();
 
     /**
      * Activates Metamask/injected wallet provider.
@@ -151,13 +148,13 @@ export const UserProvider = ({ children }) => {
      */
     const activateWeb3 = async () => {
         try {
-            setLoadingWallet(true)
-            await web3.activate(CONNECTORS.Injected)
-            setLoadingWallet(false)
+            setLoadingWallet(true);
+            await web3.activate(CONNECTORS.Injected);
+            setLoadingWallet(false);
         } catch (err) {
-            console.log(`Error connecting to wallet: ${err}`)
+            console.log(`Error connecting to wallet: ${err}`);
         }
-    }
+    };
 
     /**
      * With the `signInUserSession` property, checks if loggedIn user is admin.
@@ -165,29 +162,29 @@ export const UserProvider = ({ children }) => {
      * @returns The object containing the `isAdmin` property.
      */
     const getUserGroups = (signInUserSession) => {
-        const rval = {}
+        const rval = {};
 
         if (
             (
                 signInUserSession.idToken.payload['cognito:groups'] || []
             ).includes('Admin')
         ) {
-            rval.isAdmin = true
+            rval.isAdmin = true;
         }
 
-        return rval
-    }
+        return rval;
+    };
 
     /**
      * Signs a user out of the platform, on Cognito.
      * @returns None
      */
     const userSignOut = async () => {
-        await Auth.signOut()
-        setLoggedIn(false)
-        setLoggingIn(false)
-        setUserInfo(null)
-    }
+        await Auth.signOut();
+        setLoggedIn(false);
+        setLoggingIn(false);
+        setUserInfo(null);
+    };
 
     /**
      * Update the user's info.
@@ -199,10 +196,10 @@ export const UserProvider = ({ children }) => {
             variables: {
                 input: { ...info, id: userInfo.id },
             },
-        })
+        });
 
-        setUserInfo(user.data.updateUser)
-    }
+        setUserInfo(user.data.updateUser);
+    };
 
     /**
      * Created a new user.
@@ -211,7 +208,7 @@ export const UserProvider = ({ children }) => {
      */
     const createNewUser = async (info = { variables: { input: {} } }) => {
         if (web3.active && !!web3.account) {
-            const id = uuidv4()
+            const id = uuidv4();
 
             await Auth.signUp({
                 username: id,
@@ -219,7 +216,7 @@ export const UserProvider = ({ children }) => {
                 attributes: {
                     email: 'no-reply@mygateway.xyz',
                 },
-            })
+            });
 
             const user = await createUser({
                 ...info,
@@ -235,13 +232,13 @@ export const UserProvider = ({ children }) => {
                         ...(info.variables.input || {}),
                     },
                 },
-            })
+            });
 
-            setUserInfo(user.data.createUser)
+            setUserInfo(user.data.createUser);
 
-            return user.data.createUser
+            return user.data.createUser;
         }
-    }
+    };
 
     /**
      * Signs in a user on Cognito.
@@ -249,17 +246,17 @@ export const UserProvider = ({ children }) => {
      */
     const signIn = () => {
         const callback = async () => {
-            !web3.active && (await activateWeb3())
+            !web3.active && (await activateWeb3());
 
-            const { data } = await getNonce(web3.account)
+            const { data } = await getNonce(web3.account);
 
-            const signer = web3.library.getSigner()
+            const signer = web3.library.getSigner();
 
             const signature = await signer.signMessage(
                 data.getAuthenticationNonce.nonce
-            )
+            );
 
-            const user = await Auth.signIn(data.getAuthenticationNonce.userId)
+            const user = await Auth.signIn(data.getAuthenticationNonce.userId);
             const res = await Auth.sendCustomChallengeAnswer(
                 user,
                 JSON.stringify({
@@ -267,23 +264,22 @@ export const UserProvider = ({ children }) => {
                     publicAddress: web3.account,
                     nonce: data.getAuthenticationNonce.nonce,
                 })
-            )
+            );
 
             if (!res.signInUserSession) {
                 showModal(
-                    <Error error="An error occurred while signing in. Please try again later." />
-                )
+                    <Error error='An error occurred while signing in. Please try again later.' />
+                );
             }
-        }
+        };
 
-        callback()
-            .catch((err) => {
-                showModal(
-                    <Error error="An error occurred while signing in. Please try again later." />
-                )
-                console.log(err)
-            })
-    }
+        callback().catch((err) => {
+            showModal(
+                <Error error='An error occurred while signing in. Please try again later.' />
+            );
+            console.log(err);
+        });
+    };
 
     /* If the user has their wallet connected, get the user's info from the database. */
     useEffect(() => {
@@ -301,28 +297,28 @@ export const UserProvider = ({ children }) => {
                           variables: {
                               wallet: web3.account,
                           },
-                      })
+                      });
 
                 if (userDB.data.getUserByAddress.items.length > 0) {
                     setUserInfo({
                         ...userDB.data.getUserByAddress.items[0],
                         isAdmin: false,
-                    })
+                    });
 
                     userInfo_INTERNAL = {
                         ...userDB.data.getUserByAddress.items[0],
                         isAdmin: false,
-                    }
+                    };
                 } else {
-                    userInfo_INTERNAL = await createNewUser()
+                    userInfo_INTERNAL = await createNewUser();
                 }
 
-                setWalletConnected(true)
+                setWalletConnected(true);
 
                 // 2. check Cognito
                 const { username, signInUserSession } =
-                await Auth.currentAuthenticatedUser()
-            
+                    await Auth.currentAuthenticatedUser();
+
                 if (username) {
                     // Cognito has credentials
                     if (username === userInfo_INTERNAL?.id) {
@@ -330,20 +326,20 @@ export const UserProvider = ({ children }) => {
                         setUserInfo({
                             ...userInfo_INTERNAL,
                             ...getUserGroups(signInUserSession),
-                        })
-    
-                        setLoggedIn(true)
+                        });
+
+                        setLoggedIn(true);
                     } else {
                         // If the Cognito session doesn't match the current user, clean Cognito
-                        await Auth.signOut()
-                        setLoggedIn(false)
+                        await Auth.signOut();
+                        setLoggedIn(false);
                     }
                 }
             }
-        }
+        };
 
-        callback()
-    }, [web3.account, web3.active])
+        callback();
+    }, [web3.account, web3.active]);
 
     /**
      * When the user signs in, get the user's information from the database and set it in the state.
@@ -351,7 +347,7 @@ export const UserProvider = ({ children }) => {
      * @returns None
      */
     const listener = async ({ payload: { event, data } }) => {
-        console.log('event', event)
+        console.log('event', event);
         switch (event) {
             case 'signIn':
                 /*
@@ -364,22 +360,22 @@ export const UserProvider = ({ children }) => {
                 setUserInfo({
                     ...userInfo,
                     ...getUserGroups(data.signInUserSession),
-                })
-                setLoggedIn(true)
-                setLoggingIn(false)
-                break
+                });
+                setLoggedIn(true);
+                setLoggingIn(false);
+                break;
             case 'signOut':
-                setLoggedIn(false)
-                setLoggingIn(false)
-                break
+                setLoggedIn(false);
+                setLoggingIn(false);
+                break;
             default:
         }
-    }
+    };
 
     useEffect(() => {
-        Hub.listen('auth', listener)
-        return () => Hub.remove('auth', listener)
-    })
+        Hub.listen('auth', listener);
+        return () => Hub.remove('auth', listener);
+    });
 
     const value = React.useMemo(
         () => ({
@@ -395,7 +391,7 @@ export const UserProvider = ({ children }) => {
             loadingWallet,
         }),
         [walletConnected, userInfo, web3.wallet, loadingWallet, loggedIn]
-    )
+    );
 
-    return <Provider value={value}>{children}</Provider>
-}
+    return <Provider value={value}>{children}</Provider>;
+};

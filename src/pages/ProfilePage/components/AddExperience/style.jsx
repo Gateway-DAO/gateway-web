@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const BoxContainer = styled.div`
     display: flex;
@@ -11,14 +11,14 @@ export const BoxContainer = styled.div`
     border-radius: 20px;
     padding-top: 40px;
     padding-bottom: 40px;
-`
+`;
 
 export const NFTContainer = styled.div`
     display: flex;
     justify-content: space-around;
     width: 100%;
     flex-wrap: wrap;
-`
+`;
 
 export const BoxText = styled.h3`
     font-family: Be Vietnam;
@@ -30,7 +30,7 @@ export const BoxText = styled.h3`
     align-items: center;
 
     color: #ffffff;
-`
+`;
 
 export const ButtonBox = styled(Link)`
     margin-top: 33px;
@@ -43,8 +43,8 @@ export const ButtonBox = styled(Link)`
     background-origin: border-box;
     background-clip: content-box, border-box;
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
-    text-decoration:none;
-`
+    text-decoration: none;
+`;
 
 export const ButtonText = styled.p`
     font-family: Poppins;
@@ -55,15 +55,15 @@ export const ButtonText = styled.p`
     text-align: center;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    padding : 10px 15px;
+    padding: 10px 15px;
 
     color: #e5e5e5;
-`
+`;
 
 export const NFT = styled.img`
     width: 250px;
     border-radius: 15px;
-`
+`;
 
 export const NFTBox = styled.div`
     background: #170627;
@@ -78,4 +78,4 @@ export const NFTBox = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-`
+`;

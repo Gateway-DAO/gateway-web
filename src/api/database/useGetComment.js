@@ -3,9 +3,12 @@ import { useQuery, gql } from '@apollo/client';
 import { getComment } from '../../graphql/queries';
 
 export const useGetComment = (id) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(getComment), {
-        variables: { id },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getComment),
+        {
+            variables: { id },
+        }
+    );
 
     return useMemo(
         () => ({

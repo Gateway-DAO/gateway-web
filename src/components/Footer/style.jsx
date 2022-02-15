@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const FooterBox = styled.footer`
     display: grid;
@@ -22,26 +22,26 @@ export const FooterBox = styled.footer`
     @media only screen and (max-width: 768px) {
         padding: 40px 0;
     }
-`
+`;
 
-export const LogoAndSocialsBox = styled.div``
+export const LogoAndSocialsBox = styled.div``;
 
 export const LogoBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-`
+`;
 
 export const SocialsBox = styled.div`
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
-`
+`;
 
 export const SocialBtn = styled.a`
     margin-right: 15px;
-`
+`;
 
 export const LogoText = styled.h1`
     font-family: Poppins;
@@ -56,7 +56,7 @@ export const LogoText = styled.h1`
     color: #e5e5e5;
 
     margin-left: 20px;
-`
+`;
 
 export const CopyBox = styled.div`
     font-family: Be Vietnam;
@@ -73,12 +73,12 @@ export const CopyBox = styled.div`
     @media only screen and (max-width: 768px) {
         font-size: 12px;
     }
-`
+`;
 
 export const LinkColumn = styled.div`
     display: flex;
     flex-direction: column;
-`
+`;
 
 export const ColItem = styled(Link)`
     font-family: Be Vietnam;
@@ -94,13 +94,13 @@ export const ColItem = styled(Link)`
     color: ${(props) => (props.title ? 'white' : 'rgba(255, 255, 255, 0.5)')};
 
     text-decoration: none;
-`
+`;
 
 export const CTABox = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-`
+`;
 
 export const CTAText = styled.h3`
     background: linear-gradient(
@@ -125,7 +125,7 @@ export const CTAText = styled.h3`
     /* or 108% */
 
     letter-spacing: -0.015em;
-`
+`;
 
 export const CTABtn = styled.a`
     background: #170627;
@@ -147,4 +147,4 @@ export const CTABtn = styled.a`
     text-align: center;
 
     color: #e5e5e5;
-`
+`;

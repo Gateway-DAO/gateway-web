@@ -1,29 +1,29 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 export const Wrapper = styled.div`
     background: #170627;
-`
+`;
 
 export const LoaderBox = styled.div`
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-`
+`;
 
 export const ContentWrapper = styled.div`
     padding: 20px 40px 40px 40px;
     display: flex;
-`
+`;
 
 export const MainContent = styled.div`
     padding: 20px 0px 0px 40px;
     width: 100%;
-`
+`;
 
 export const FirstDiv = styled.div`
     display: flex;
     align-items: center;
-`
+`;
 
 export const SmallLogo = styled.div`
     height: 20px;
@@ -32,7 +32,7 @@ export const SmallLogo = styled.div`
     background-image: url('${(props) => props.src}');
     background-position: center;
     background-size: cover;
-`
+`;
 
 export const SmallText = styled.div`
     color: white;
@@ -43,7 +43,7 @@ export const SmallText = styled.div`
     font-weight: 700;
 
     text-align: left;
-`
+`;
 
 export const HeadingDiv = styled.div`
     font-family: Poppins;
@@ -64,7 +64,7 @@ export const HeadingDiv = styled.div`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;
 
 export const Subheading = styled.div`
     color: white;
@@ -75,7 +75,7 @@ export const Subheading = styled.div`
     line-height: 26px;
     letter-spacing: 0em;
     text-align: left;
-`
+`;
 
 export const TagsDiv = styled.div`
     display: flex;
@@ -88,7 +88,7 @@ export const TagsDiv = styled.div`
     font-weight: 400;
     line-height: 20px;
     letter-spacing: 0.05em;
-`
+`;
 
 export const Tag = styled.div`
     color: white;
@@ -97,20 +97,20 @@ export const Tag = styled.div`
     padding: 3px 10px;
     margin-right: 15px;
     text-align: center;
-`
+`;
 
 export const HeaderLine = styled.div`
     margin: 40px 0px 20px 0px;
     width: 100%;
     height: 2px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-`
+`;
 
 export const SecondDiv = styled.div`
     margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
-`
+`;
 
 export const SecondDivName = styled.div`
     font-family: Be Vietnam;
@@ -121,13 +121,13 @@ export const SecondDivName = styled.div`
     letter-spacing: 0em;
     text-align: left;
     color: rgba(255, 0, 184, 1);
-`
+`;
 
 export const AnotherDiv = styled.div`
     display: flex;
     color: white;
     align-items: center;
-`
+`;
 
 export const CircleBox = styled.div`
     height: 50px;
@@ -136,12 +136,12 @@ export const CircleBox = styled.div`
     & .CircularProgressbar .CircularProgressbar-path {
         stroke: url(#circleGradient);
     }
-`
+`;
 
 export const ProgressInfoDiv = styled.div`
     margin-left: 10px;
     margin-right: 20px;
-`
+`;
 
 export const ProgressInfoDivOne = styled.div`
     color: white;
@@ -152,7 +152,7 @@ export const ProgressInfoDivOne = styled.div`
     line-height: 21px;
     letter-spacing: -0.03em;
     text-align: left;
-`
+`;
 
 export const ProgressInfoDivTwo = styled.div`
     font-family: Be Vietnam;
@@ -162,12 +162,12 @@ export const ProgressInfoDivTwo = styled.div`
     line-height: 21px;
     letter-spacing: -0.03em;
     text-align: left;
-`
+`;
 
 export const ThirdDiv = styled.div`
     padding-top: 30px;
     color: white;
-`
+`;
 
 export const Box = styled.div`
     display: flex;
@@ -179,7 +179,7 @@ export const Box = styled.div`
     border-radius: 20px;
     align-items: center;
     justify-content: center;
-`
+`;
 
 export const BigText = styled.div`
     font-family: Poppins;
@@ -189,7 +189,7 @@ export const BigText = styled.div`
     line-height: 64px;
     letter-spacing: -0.015em;
     text-align: left;
-`
+`;
 
 export const StartButton = styled.div`
     margin-top: 10px;
@@ -211,9 +211,9 @@ export const StartButton = styled.div`
     &:hover {
         cursor: pointer;
     }
-`
+`;
 
 export const ButtonText = styled.p`
     padding: 5px 30px 8px 30px;
     font-size: 14px;
-`
+`;

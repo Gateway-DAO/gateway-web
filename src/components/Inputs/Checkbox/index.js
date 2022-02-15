@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const CheckboxContainer = styled.div`
     display: inline-block;
     vertical-align: middle;
-`
+`;
 
 export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
     border: 0;
@@ -17,7 +17,7 @@ export const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
     white-space: nowrap;
     width: 1px;
     background-color: white;
-`
+`;
 
 export const Label = styled.label`
     color: white;
@@ -31,8 +31,8 @@ export const Label = styled.label`
     visibility: ${(props) => (props.checked ? 'visible' : 'hidden')};
     pointer-events: none;
     filter: invert();
-    padding-left:3px ;
-`
+    padding-left: 3px;
+`;
 
 const StyledCheckbox = styled.div`
     display: inline-block;
@@ -48,7 +48,7 @@ const StyledCheckbox = styled.div`
     transition: 0.2s;
     background-color: transparent;
     margin: 0px 15px 0px 2px;
-`
+`;
 
 export const CheckboxComponent = ({ className, checked, ...props }) => (
     <CheckboxContainer className={className}>
@@ -56,5 +56,5 @@ export const CheckboxComponent = ({ className, checked, ...props }) => (
         <Label htmlFor={HiddenCheckbox} checked={checked} />
         <StyledCheckbox checked={checked} />
     </CheckboxContainer>
-)
-export default CheckboxComponent
+);
+export default CheckboxComponent;

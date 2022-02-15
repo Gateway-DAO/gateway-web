@@ -1,7 +1,7 @@
-import { FiSearch } from "react-icons/fi"
+import { FiSearch } from 'react-icons/fi';
 import style from 'styled-components';
 
-export const MainPage= style.div`
+export const MainPage = style.div`
     // background-color: #170627;
     min-height: 100vh;
     // overflow-x: hidden;
@@ -23,19 +23,19 @@ export const MainPage= style.div`
         height: 100%;
         width: 100%;
     }
-`
+`;
 export const Wrapper = style.div`
     padding: 0 3%; 
-`
-export const Top= style.div`
+`;
+export const Top = style.div`
     display: flex;
     justify-content:space-between;
     align-items: center;
-`
-export const LeftText= style.div`
+`;
+export const LeftText = style.div`
     text-align: left;
-`
-export const Heading= style.div`
+`;
+export const Heading = style.div`
     font-family: Poppins;
     font-style: normal;
     font-weight: 700;
@@ -61,8 +61,8 @@ export const Heading= style.div`
     -moz-text-fill-color: transparent;
 
     // grid-column: 1/4;
-`
-export const Para= style.div`
+`;
+export const Para = style.div`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
@@ -74,8 +74,8 @@ export const Para= style.div`
     align-items: center;
 
     color: #E5E5E5;
-`
-export const RightSearch= style.div`
+`;
+export const RightSearch = style.div`
     // margin-right: 40px;
     // padding-left: 30px;
     background: #FFFFFF;
@@ -96,18 +96,18 @@ export const RightSearch= style.div`
     @media only screen and (max-width: 480px) {
         width: 60%;
     }
-`
-export const SearchBar= style.input`
+`;
+export const SearchBar = style.input`
 border: none;
 outline: none;
 flex: 1;
 padding: 10px;
 border-radius: 100px;
-`
+`;
 export const WrappedFiSearch = style(FiSearch)`
     font-size: 20px;
     padding-right: 20px;
-`
+`;
 
 export const CardCategoryTitleDev = style.div`
     margin-top:5%;
@@ -115,7 +115,7 @@ export const CardCategoryTitleDev = style.div`
     display:flex;
     justify-content: space-between;
     align-items: center;
-`
+`;
 export const CategryTitle = style.div`
 
     font-family: Be Vietnam;
@@ -129,7 +129,7 @@ export const CategryTitle = style.div`
     align-items: center;
 
     color: #E5E5E5;
-`
+`;
 export const AddButton = style.div`
     border: 1px solid #A5A5A5;
     box-sizing: border-box;
@@ -139,7 +139,7 @@ export const AddButton = style.div`
     display:flex;
     justify-content: center;
     align-items: center;
-`
+`;
 export const ButtonText = style.div`
     font-family: Poppins;
     font-style: normal;
@@ -154,4 +154,4 @@ export const ButtonText = style.div`
 
     color: #E5E5E5;
 
-`
+`;

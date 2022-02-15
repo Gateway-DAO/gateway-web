@@ -1,5 +1,4 @@
-import { ethers } from 'ethers'
-import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core';
 
 let abi = [
     {
@@ -877,12 +876,12 @@ let abi = [
         stateMutability: 'view',
         type: 'function',
     },
-]
+];
 
-const NFT_ADDRESS = '0xc60b028B4e0e5fD0E48Ed15F2D7607c6729de26B'
+const NFT_ADDRESS = '0xc60b028B4e0e5fD0E48Ed15F2D7607c6729de26B';
 
 export const useGetNFTs = () => {
-    const { account, library } = useWeb3React()
+    const { account, library } = useWeb3React();
 
     const getNFTs = async (address, tokenURI) => {
         const get = async () => {
@@ -894,48 +893,47 @@ export const useGetNFTs = () => {
                             'MlQjjtrJx3EqRdpKKxKOYeCFzeFArHvc97szEyUuDba2qbbRKCUi0OB9uNytyDm9',
                     },
                 }
-            )
-            const json = await res.json()
+            );
+            const json = await res.json();
 
             let nfts = json.result.map(async (nft) => {
                 if (nft.token_uri) {
-                    if (!nft.token_uri.startsWith("http")) {
+                    if (!nft.token_uri.startsWith('http')) {
                         const res2 = await fetch(
                             `https://gateway-clay.ceramic.network/api/v0/streams/${nft.token_uri}`
-                        )
+                        );
 
-                        const json2 = await res2.json()
-    
+                        const json2 = await res2.json();
+
                         return {
                             ...nft,
                             metadata: json2.state.metadata,
-                        }
-                    }
-                    else {
-                        const res3 = await fetch(nft.token_uri)
-                        const json3 = await res3.json()
-    
+                        };
+                    } else {
+                        const res3 = await fetch(nft.token_uri);
+                        const json3 = await res3.json();
+
                         return {
                             ...nft,
                             metadata: {
                                 ...json3,
-                                image: `https://gateway.pinata.cloud/ipfs/${json3.image}`
+                                image: `https://gateway.pinata.cloud/ipfs/${json3.image}`,
                             },
-                        }
+                        };
                     }
                 }
-            })
+            });
 
-            return nfts
-        }
+            return nfts;
+        };
 
-        const data = await get()
-        return (await Promise.all(data)).filter(nft => nft !== undefined)
-    }
+        const data = await get();
+        return (await Promise.all(data)).filter((nft) => nft !== undefined);
+    };
 
     return {
         getNFTs,
-    }
-}
+    };
+};
 
-export default useGetNFTs
+export default useGetNFTs;

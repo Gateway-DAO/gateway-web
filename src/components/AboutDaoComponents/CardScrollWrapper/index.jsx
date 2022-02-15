@@ -1,51 +1,50 @@
-import { useEffect, useRef, useState } from 'react'
-import Card from '../../Card'
+import { useEffect, useRef, useState } from 'react';
+import Card from '../../Card';
 
-import * as Styled from './style'
+import * as Styled from './style';
 const CardScrollWrapper = (props) => {
-    const [isScrolling, setIsScrolling] = useState(false)
-    const cardRef = useRef(null)
+    const [isScrolling, setIsScrolling] = useState(false);
+    const cardRef = useRef(null);
 
     //Scroll Logic
-    let mouseDown = false
-    let startX, scrollLeft
+    let mouseDown = false;
+    let startX, scrollLeft;
 
     let startDragging = function (e) {
-        mouseDown = true
-        startX = e.pageX - cardRef.current.offsetLeft
-        scrollLeft = cardRef.current.scrollLeft
-    }
+        mouseDown = true;
+        startX = e.pageX - cardRef.current.offsetLeft;
+        scrollLeft = cardRef.current.scrollLeft;
+    };
 
     let stopDragging = function (event) {
-        mouseDown = false
-    }
+        mouseDown = false;
+    };
     useEffect(() => {
         cardRef.current.addEventListener('mousemove', (e) => {
-            e.preventDefault()
+            e.preventDefault();
             if (!mouseDown) {
-                return
+                return;
             }
-            const x = e.pageX - cardRef.current.offsetLeft
-            const scroll = x - startX
-            cardRef.current.scrollLeft = scrollLeft - scroll
-        })
+            const x = e.pageX - cardRef.current.offsetLeft;
+            const scroll = x - startX;
+            cardRef.current.scrollLeft = scrollLeft - scroll;
+        });
 
         cardRef.current.addEventListener('mousedown', () =>
             setIsScrolling(false)
-        )
+        );
         cardRef.current.addEventListener('mousemove', () =>
             setIsScrolling(true)
-        )
+        );
 
         // Add the event listeners
-        cardRef.current.addEventListener('mousedown', startDragging, false)
-        cardRef.current.addEventListener('mouseup', stopDragging, false)
-        cardRef.current.addEventListener('mouseleave', stopDragging, false)
-    }, [])
+        cardRef.current.addEventListener('mousedown', startDragging, false);
+        cardRef.current.addEventListener('mouseup', stopDragging, false);
+        cardRef.current.addEventListener('mouseleave', stopDragging, false);
+    }, []);
 
- 
     return (
-        <Styled.CardBox className="full" ref={cardRef}>
+        <Styled.CardBox className='full' ref={cardRef}>
             {props.cards.map((card) => {
                 return (
                     <Card
@@ -57,10 +56,10 @@ const CardScrollWrapper = (props) => {
                         isScrolling={isScrolling}
                         categories={card.categories}
                     />
-                )
+                );
             })}
         </Styled.CardBox>
-    )
-}
+    );
+};
 
-export default CardScrollWrapper
+export default CardScrollWrapper;

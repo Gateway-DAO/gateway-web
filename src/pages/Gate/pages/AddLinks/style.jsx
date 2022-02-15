@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     margin: 20px 0;
-`
+`;
 
 export const Box = styled.div`
     display: flex;
@@ -10,7 +10,7 @@ export const Box = styled.div`
     align-items: center;
     justify-content: center;
     margin: 20px 0px;
-`
+`;
 
 export const HeadingContainer = styled.h1`
     font-family: Poppins;
@@ -34,21 +34,21 @@ export const HeadingContainer = styled.h1`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;
 
 export const LinksContainer = styled.div`
     margin-top: 60px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-`
+`;
 
 export const LinksElements = styled.div`
     display: grid;
     grid-template-columns: 122px 1fr 50px;
     margin-top: 10px;
     grid-gap: 10px;
-`
+`;
 
 export const NameContainer = styled.div`
     display: flex;
@@ -69,7 +69,7 @@ export const NameContainer = styled.div`
     text-transform: capitalize;
 
     color: rgba(255, 255, 255, 0.6);
-`
+`;
 
 export const Input = styled.input`
     width: 390px;
@@ -92,7 +92,7 @@ export const Input = styled.input`
     padding: 10px;
 
     color: rgba(255, 255, 255, 0.6);
-`
+`;
 
 export const TrashContainer = styled.div`
     display: flex;
@@ -100,7 +100,7 @@ export const TrashContainer = styled.div`
     justify-content: center;
     padding: 10px;
     color: white;
-`
+`;
 
 export const SaveButton = styled.div`
     background: #170627;
@@ -124,4 +124,4 @@ export const SaveButton = styled.div`
 
     color: #e5e5e5;
     margin-top: 81px;
-`
+`;

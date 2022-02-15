@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const RelatedContainer = styled.section`
     display: flex;
@@ -11,7 +11,7 @@ export const RelatedContainer = styled.section`
     justify-content: center;
     flex-direction: column;
     margin-bottom: 20px;
-`
+`;
 
 export const BoxContainer = styled.div`
     display: flex;
@@ -19,7 +19,7 @@ export const BoxContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     align-content: center;
-`
+`;
 
 export const MediumText = styled.h4`
     background: linear-gradient(
@@ -53,7 +53,7 @@ export const MediumText = styled.h4`
         font-size: 30px;
         line-height: 38px;
     }
-`
+`;
 export const CardContainer = styled.div`
     margin-bottom: 25px;
     @media only screen and (max-width: 768px) {
@@ -67,7 +67,7 @@ export const CardContainer = styled.div`
     @media only screen and (max-width: 350px) {
         width: 100%;
     }
-`
+`;
 
 export const StyledShowAllButton = styled(Link)`
     display: flex;
@@ -78,9 +78,9 @@ export const StyledShowAllButton = styled(Link)`
     font-size: 18px;
     line-height: 31px;
     color: #e5e5e5;
-`
+`;
 export const NoRelatedDao = styled.div`
     color: white;
     font-size: 20px;
     font-family: Be Vietnam;
-`
+`;

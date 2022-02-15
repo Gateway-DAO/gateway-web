@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const DragArea = styled.div`
     width: 100%;
@@ -14,7 +14,7 @@ export const DragArea = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
     margin-top: 15px;
-`
+`;
 
 export const Header = styled.div`
     width: 100%;
@@ -29,11 +29,11 @@ export const Header = styled.div`
     text-align: center;
     color: ${(props) =>
         props.hover ? ' rgba(255, 255, 255, 1)' : ' rgba(255, 255, 255, 0.2)'};
-`
+`;
 
 export const Span = styled.span`
     color: #fe02b9;
-`
+`;
 
 export const Background = styled.div`
     position: relative;
@@ -47,7 +47,7 @@ export const Background = styled.div`
     border: 1px solid #7e3bdc;
     box-sizing: border-box;
     border-radius: 4px;
-`
+`;
 
 export const Cross = styled.div`
     cursor: pointer;
@@ -66,4 +66,4 @@ export const Cross = styled.div`
     z-index: 10;
     font-weight: 500;
     color: #ffffff;
-`
+`;

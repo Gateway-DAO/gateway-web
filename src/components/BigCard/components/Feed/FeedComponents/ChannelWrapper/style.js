@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const FeedMessageContainer = styled.div`
     display: grid;
     grid-column: 3 / 5;
     grid-row: 1fr auto;
-`
+`;
 
 export const OtherPostButton = styled.button`
     width: 100%;
@@ -27,4 +27,4 @@ export const OtherPostButton = styled.button`
     margin-top: 15px;
 
     cursor: pointer;
-`
+`;

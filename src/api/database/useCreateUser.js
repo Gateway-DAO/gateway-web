@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
-import { useMutation, gql } from '@apollo/client'
-import { createUser as USER_CREATE } from '../../graphql/mutations'
+import { useMemo } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { createUser as USER_CREATE } from '../../graphql/mutations';
 
 /**
  * The `useCreateUser` hook acts as a mutation interface for creating users..
@@ -9,7 +9,7 @@ import { createUser as USER_CREATE } from '../../graphql/mutations'
 export const useCreateUser = () => {
     const [createUser, { loading, called, data, error }] = useMutation(
         gql(USER_CREATE)
-    )
+    );
 
     return useMemo(
         () => ({
@@ -19,7 +19,7 @@ export const useCreateUser = () => {
             loading,
         }),
         [called, createUser, loading, USER_CREATE, error]
-    )
-}
+    );
+};
 
-export default useCreateUser
+export default useCreateUser;

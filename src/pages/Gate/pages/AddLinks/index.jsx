@@ -1,20 +1,19 @@
-import * as Styled from './style'
-import BackButton from '../../../../components/BackButton'
-import { FormStyled } from '../../../../components/Form'
-import { FaTrashAlt } from 'react-icons/fa'
-import { useState } from 'react'
-import { set } from 'date-fns'
+import * as Styled from './style';
+import BackButton from '../../../../components/BackButton';
+import { FormStyled } from '../../../../components/Form';
+import { FaTrashAlt } from 'react-icons/fa';
+import { useState } from 'react';
 
 const AddLinks = () => {
-    const [daoDeck, setDaoDeck] = useState('')
-    const [brandAssest, setBrandAssest] = useState('')
-    const [faq, setFAQ] = useState('')
+    const [daoDeck, setDaoDeck] = useState('');
+    const [brandAssest, setBrandAssest] = useState('');
+    const [faq, setFAQ] = useState('');
 
     const onSave = () => {
-        setDaoDeck('')
-        setBrandAssest('')
-        setFAQ('')
-    }
+        setDaoDeck('');
+        setBrandAssest('');
+        setFAQ('');
+    };
 
     return (
         <Styled.Container>
@@ -23,13 +22,13 @@ const AddLinks = () => {
                 <Styled.HeadingContainer>Add Links</Styled.HeadingContainer>
                 <Styled.LinksContainer>
                     <Styled.LinksElements>
-                        <FormStyled.Label htmlFor="name">Name</FormStyled.Label>
-                        <FormStyled.Label htmlFor="link">Link</FormStyled.Label>
+                        <FormStyled.Label htmlFor='name'>Name</FormStyled.Label>
+                        <FormStyled.Label htmlFor='link'>Link</FormStyled.Label>
                     </Styled.LinksElements>
                     <Styled.LinksElements>
                         <Styled.NameContainer>DAO Deck</Styled.NameContainer>
                         <Styled.Input
-                            placeholder="enter your link over here"
+                            placeholder='enter your link over here'
                             onChange={(e) => setDaoDeck(e.target.value)}
                             value={daoDeck}
                         />
@@ -42,7 +41,7 @@ const AddLinks = () => {
                             Brand Assets
                         </Styled.NameContainer>
                         <Styled.Input
-                            placeholder="enter your link over here"
+                            placeholder='enter your link over here'
                             onChange={(e) => setBrandAssest(e.target.value)}
                             value={brandAssest}
                         />
@@ -53,7 +52,7 @@ const AddLinks = () => {
                     <Styled.LinksElements>
                         <Styled.NameContainer>FAQ </Styled.NameContainer>
                         <Styled.Input
-                            placeholder="enter your link over here"
+                            placeholder='enter your link over here'
                             onChange={(e) => setFAQ(e.target.value)}
                             value={faq}
                         />
@@ -65,7 +64,7 @@ const AddLinks = () => {
                 <Styled.SaveButton onClick={onSave}>SAVE</Styled.SaveButton>
             </Styled.Box>
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default AddLinks
+export default AddLinks;

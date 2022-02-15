@@ -1,5 +1,4 @@
-import styled from 'styled-components'
-
+import styled from 'styled-components';
 
 export const StyledPaginateContainer = styled.div`
     .pageactive {
@@ -52,13 +51,11 @@ export const StyledPaginateContainer = styled.div`
         background-image: none;
         box-shadow: none;
     }
-`
+`;
 
 export const PaginationContainer = styled.div`
     margin-top: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-`
-
-
+`;

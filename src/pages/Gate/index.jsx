@@ -1,55 +1,67 @@
-import { useParams, Navigate, Outlet } from 'react-router-dom'
+import { useParams, Navigate, Outlet } from 'react-router-dom';
 
 // Hooks
-import { useGetGate } from '../../api/database/useGetGate'
-import { useAuth } from '../../contexts/UserContext'
-import { onUpdateGate } from '../../graphql/subscriptions'
-import {
-    useGetGateStatusByGateID,
-    useGetGateStatusByUserID,
-} from '../../api/database/useGetGateStatus'
-import { useGetTaskStatusByUserID } from '../../api/database/useGetTaskStatus'
+import { useGetGate } from '../../api/database/useGetGate';
+import { useAuth } from '../../contexts/UserContext';
+import { onUpdateGate } from '../../graphql/subscriptions';
 
 // Components
-import Page from '../../components/Page'
-import { useState, useEffect } from 'react'
-import React from 'react'
+import Page from '../../components/Page';
+import { useState, useEffect } from 'react';
+import React from 'react';
 
 // AWS
-import { API, graphqlOperation } from 'aws-amplify'
-import { gql } from '@apollo/client'
+import { API, graphqlOperation } from 'aws-amplify';
+import { gql } from '@apollo/client';
 
 const Gate = (props) => {
-    const { gate } = useParams()
-    const { userInfo } = useAuth()
+    const { gate } = useParams();
+    const { userInfo } = useAuth();
 
-    const { data: dbData, loading, error } = useGetGate(gate)
-    const [gateData, setGateData] = useState(dbData?.getGate || {})
-    const [loaded, setLoaded] = useState(false)
-    const [keysDone, setKeysDone] = useState(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
-    const [taskStatus, setTaskStatus] = useState(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0].tasks?.items?.filter(obj => obj.userID === userInfo.id) || [])
+    const { data: dbData, loading, error } = useGetGate(gate);
+    const [gateData, setGateData] = useState(dbData?.getGate || {});
+    const [loaded, setLoaded] = useState(false);
+    const [keysDone, setKeysDone] = useState(
+        userInfo?.gates?.items?.map((obj) => obj.gateID === gate && obj)[0]
+            ?.keysDone || 0
+    );
+    const [taskStatus, setTaskStatus] = useState(
+        userInfo?.gates?.items
+            ?.map((obj) => obj.gateID === gate && obj)[0]
+            .tasks?.items?.filter((obj) => obj.userID === userInfo.id) || []
+    );
 
     // Fetch data regarding these
     useEffect(() => {
         const handleData = async () => {
             if (dbData && !loading && !error) {
-                setGateData(dbData.getGate)
+                setGateData(dbData.getGate);
             }
-        }
+        };
 
-        handleData()
-    }, [gate, loading, dbData])
+        handleData();
+    }, [gate, loading, dbData]);
 
     useEffect(() => {
-        setLoaded(!!gateData && !loading && userInfo !== null)
-    }, [gateData, loading, userInfo])
+        setLoaded(!!gateData && !loading && userInfo !== null);
+    }, [gateData, loading, userInfo]);
 
     useEffect(() => {
         if (userInfo?.gates?.items) {
-            setKeysDone(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
-            setTaskStatus(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0].tasks?.items?.filter(obj => obj.userID === userInfo.id) || [])
+            setKeysDone(
+                userInfo?.gates?.items?.map(
+                    (obj) => obj.gateID === gate && obj
+                )[0]?.keysDone || 0
+            );
+            setTaskStatus(
+                userInfo?.gates?.items
+                    ?.map((obj) => obj.gateID === gate && obj)[0]
+                    .tasks?.items?.filter(
+                        (obj) => obj.userID === userInfo.id
+                    ) || []
+            );
         }
-    }, [gate, userInfo])
+    }, [gate, userInfo]);
 
     // Subscription to updates
     useEffect(() => {
@@ -57,21 +69,21 @@ const Gate = (props) => {
             graphqlOperation(gql(onUpdateGate))
         ).subscribe({
             next: (data) => {
-                let gate = data.value.data.onUpdateGate
+                let gate = data.value.data.onUpdateGate;
 
                 if (gate.id === gateData.id) {
-                    console.log('onUpdateGate')
-                    setGateData({ ...gateData, ...gate })
+                    console.log('onUpdateGate');
+                    setGateData({ ...gateData, ...gate });
                 }
             },
-        })
+        });
 
-        return () => subscription.unsubscribe()
-    })
+        return () => subscription.unsubscribe();
+    });
 
     if (error) {
-        console.error(error)
-        return <Navigate to="/404" />
+        console.error(error);
+        return <Navigate to='/404' />;
     }
 
     return (
@@ -82,7 +94,7 @@ const Gate = (props) => {
                         ...gateData,
                         holders: dbData?.getGate?.holders || 0,
                         keysDone,
-                        taskStatus
+                        taskStatus,
                     },
                     setGateData,
                     loaded,
@@ -90,7 +102,7 @@ const Gate = (props) => {
                 }}
             />
         </Page>
-    )
-}
+    );
+};
 
-export default Gate
+export default Gate;

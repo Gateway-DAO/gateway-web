@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 // export const CardBox = styled.div`
 //     display: grid;
@@ -55,7 +55,7 @@ export const CardBox = styled.section`
     grid-column-gap: 20px;
     // grid-row-gap: 20px;
     // grid-template-rows: repeat(1, 1fr);
-    // grid-auto-rows: 0; 
+    // grid-auto-rows: 0;
     // overflow-y: hidden;
     // grid-auto-flow: column;
     // margin: 60px 40px;
@@ -79,5 +79,4 @@ export const CardBox = styled.section`
     @media only screen and (max-width: 480px) {
         margin-top: 60px;
     }
-
-`
+`;

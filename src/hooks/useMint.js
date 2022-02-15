@@ -1,5 +1,5 @@
-import { ethers } from 'ethers'
-import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers';
+import { useWeb3React } from '@web3-react/core';
 
 let abi = [
     {
@@ -877,35 +877,43 @@ let abi = [
         stateMutability: 'view',
         type: 'function',
     },
-]
+];
 
-const NFT_ADDRESS = "0xc60b028B4e0e5fD0E48Ed15F2D7607c6729de26B"
+const NFT_ADDRESS = '0xc60b028B4e0e5fD0E48Ed15F2D7607c6729de26B';
 
 export const useMint = () => {
-    const { account, library } = useWeb3React()
+    const { account, library } = useWeb3React();
 
-    const mintNFT = async (tokenURI = "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk") => {
+    const mintNFT = async (
+        tokenURI = 'k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk'
+    ) => {
         try {
-            const provider = await library.getSigner()
-            const contract = new ethers.Contract(NFT_ADDRESS, abi, provider)
-            await contract.mint(account, tokenURI)
+            const provider = await library.getSigner();
+            const contract = new ethers.Contract(NFT_ADDRESS, abi, provider);
+            await contract.mint(account, tokenURI);
+        } catch (err) {
+            alert('An error occurred!');
+            console.log(err);
         }
-        catch (err) {
-            alert("An error occurred!")
-            console.log(err)
-        }
-    }
+    };
 
-    const batchMint = async (addresses, tokenURI = "k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk") => {
-        const provider = await library.getSigner()
-        const contract = new ethers.Contract(NFT_ADDRESS, abi, provider)
-        await contract.batch_mint(addresses, addresses.map(() => tokenURI), addresses.length)
-    }
+    const batchMint = async (
+        addresses,
+        tokenURI = 'k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk'
+    ) => {
+        const provider = await library.getSigner();
+        const contract = new ethers.Contract(NFT_ADDRESS, abi, provider);
+        await contract.batch_mint(
+            addresses,
+            addresses.map(() => tokenURI),
+            addresses.length
+        );
+    };
 
     return {
         mintNFT,
-        batchMint
-    }
-}
+        batchMint,
+    };
+};
 
-export default useMint
+export default useMint;

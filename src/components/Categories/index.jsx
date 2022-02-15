@@ -1,36 +1,43 @@
 // Components
-import Card from '../Card'
-import Loader from '../Loader'
+import Card from '../Card';
+import Loader from '../Loader';
 
 // Styling
-import * as Styled from './style'
+import * as Styled from './style';
 
 // Hooks
-import { useEffect, useRef, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { useListDAOs } from '../../api/database/useGetDAO'
-import { useSearchDAO } from '../../api/database/useSearchDAO'
+import { useEffect, useRef, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useListDAOs } from '../../api/database/useGetDAO';
+import { useSearchDAO } from '../../api/database/useSearchDAO';
 
-const DUMMY_CATEGORIES = ['Trending', 'DeFi', 'Investment', 'Media', 'Social', 'DeSci']
-const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '', '']
+const DUMMY_CATEGORIES = [
+    'Trending',
+    'DeFi',
+    'Investment',
+    'Media',
+    'Social',
+    'DeSci',
+];
+const DUMMY_CATEGORIES_EMOJI = ['🔥', '', '', '', '', ''];
 
 const Categories = (props) => {
-    const [numberOfCards, setNumberOfCards] = useState(3)
-    const [categories, setCategories] = useState(DUMMY_CATEGORIES)
+    const [numberOfCards, setNumberOfCards] = useState(3);
+    const [categories, setCategories] = useState(DUMMY_CATEGORIES);
     const [categoriesEmoji, setCategoriesEmoji] = useState(
         DUMMY_CATEGORIES_EMOJI
-    )
-    const [totalCards, setTotalCards] = useState(0)
-    const [activeCategory, setActiveCategory] = useState(0)
-    const [cards, setCards] = useState([])
-    const cardRef = useRef(null)
-    const [isScrolling, setIsScrolling] = useState(false)
+    );
+    const [totalCards, setTotalCards] = useState(0);
+    const [activeCategory, setActiveCategory] = useState(0);
+    const [cards, setCards] = useState([]);
+    const cardRef = useRef(null);
+    const [isScrolling, setIsScrolling] = useState(false);
 
     const {
         data: DAOData,
         loading: DAOLoading,
         error: DAOError,
-    } = useListDAOs()
+    } = useListDAOs();
     const {
         data: searchData,
         loading: searchLoading,
@@ -44,20 +51,20 @@ const Categories = (props) => {
                 },
             },
         },
-    })
+    });
 
     // Fetch cards from DB
     useEffect(() => {
         // alert(`Category: ${DUMMY_CATEGORIES[activeCategory]}\nDAOLoading: ${DAOLoading}\nsearchLoading: ${searchLoading}\nDAOData: ${!!DAOData}\nsearchData: ${!!searchData}`)
 
         if (activeCategory === 0) {
-            setTotalCards(!DAOLoading ? DAOData.listDAOs.items.length : 0)
-            setCards(!DAOLoading ? DAOData.listDAOs.items : [])
+            setTotalCards(!DAOLoading ? DAOData.listDAOs.items.length : 0);
+            setCards(!DAOLoading ? DAOData.listDAOs.items : []);
         } else {
-            setTotalCards(!searchLoading ? searchData.searchDAOs.total : 0)
-            setCards(!searchLoading ? searchData.searchDAOs.items : [])
+            setTotalCards(!searchLoading ? searchData.searchDAOs.total : 0);
+            setCards(!searchLoading ? searchData.searchDAOs.items : []);
         }
-    }, [activeCategory, DAOLoading, searchLoading, searchData])
+    }, [activeCategory, DAOLoading, searchLoading, searchData]);
 
     /*
     let mouseDown = false
@@ -102,20 +109,20 @@ const Categories = (props) => {
     */
 
     useEffect(() => {
-        let size = window.innerWidth
+        let size = window.innerWidth;
         if (size < 735) {
-            setNumberOfCards(1)
+            setNumberOfCards(1);
         } else if (size < 900) {
-            setNumberOfCards(1)
+            setNumberOfCards(1);
         } else if (size < 2000) {
-            setNumberOfCards(3)
+            setNumberOfCards(3);
         } else {
-            setNumberOfCards(3)
+            setNumberOfCards(3);
         }
-    }, [])
+    }, []);
 
     //Activate gradient on active category if y page offset is bigger than 0.2 height of page
-    const [activeGradient, setActiveGradient] = useState(true)
+    const [activeGradient, setActiveGradient] = useState(true);
 
     /*
     const activateGradient = () => {
@@ -136,12 +143,12 @@ const Categories = (props) => {
     const navigate = useNavigate();
     const traverse = (e) => {
         if (activeCategory === 0) {
-            navigate(`/search/all`)
-        } else navigate(`/search/${DUMMY_CATEGORIES[activeCategory]}`)
-    }
+            navigate(`/search/all`);
+        } else navigate(`/search/${DUMMY_CATEGORIES[activeCategory]}`);
+    };
 
     if (searchError || DAOError) {
-        return <Navigate to="/404" />
+        return <Navigate to='/404' />;
     }
 
     return (
@@ -162,15 +169,15 @@ const Categories = (props) => {
                         {cat}
                     </Styled.Category>
                 ))}
-                <Styled.AllButton to="/search/all">All</Styled.AllButton>
+                <Styled.AllButton to='/search/all'>All</Styled.AllButton>
             </Styled.CategoriesContainer>
 
             {searchLoading || DAOLoading ? (
                 <Styled.LoaderBox>
-                    <Loader color="white" size={35} />
+                    <Loader color='white' size={35} />
                 </Styled.LoaderBox>
             ) : (
-                <Styled.CardBox className="full" ref={cardRef}>
+                <Styled.CardBox className='full' ref={cardRef}>
                     {cards
                         .filter((item, idx) => idx < numberOfCards)
                         .map((card) => {
@@ -189,7 +196,7 @@ const Categories = (props) => {
                                     bannerURL={card.backgroundURL}
                                     isScrolling={isScrolling}
                                 />
-                            )
+                            );
                         })}
                     {totalCards > 3 && (
                         <Styled.MoreCard onClick={traverse}>
@@ -201,7 +208,7 @@ const Categories = (props) => {
                 </Styled.CardBox>
             )}
         </Styled.Box>
-    )
-}
+    );
+};
 
-export default Categories
+export default Categories;

@@ -1,19 +1,19 @@
-import * as Styled from './style'
-import { useEffect, useState } from 'react'
+import * as Styled from './style';
+import { useEffect, useState } from 'react';
 import {
     upVoteDecrease,
     upVoteIncrease,
     downVoteDecrease,
     downVoteIncrease,
-} from '../Handlers'
-import MakeComment from '../MakeComment'
-import CommentCard from '../CommentCard'
-import { BsArrowDownCircle, BsArrowUpCircle } from 'react-icons/bs'
-import { MdDelete } from 'react-icons/md'
-import { formatDistance } from 'date-fns'
+} from '../Handlers';
+import MakeComment from '../MakeComment';
+import CommentCard from '../CommentCard';
+import { BsArrowDownCircle, BsArrowUpCircle } from 'react-icons/bs';
+import { MdDelete } from 'react-icons/md';
+import { formatDistance } from 'date-fns';
 
-import { useAuth } from '../../../../../../contexts/UserContext'
-import { useDeletePost } from '../../../../../../api/database/useDeletePost'
+import { useAuth } from '../../../../../../contexts/UserContext';
+import { useDeletePost } from '../../../../../../api/database/useDeletePost';
 
 const PostCard = (props) => {
     let options = {
@@ -22,54 +22,57 @@ const PostCard = (props) => {
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-    }
-    const { loggedIn, userInfo } = useAuth()
-    
-    const post = props.post
-    const [comments, setComments] = useState(post.comments.items)
-    const user = props.post.user
+    };
+    const { loggedIn, userInfo } = useAuth();
 
-    const [showCommentBox, setShowCommentBox] = useState(false)
-    const id = props.post.id
+    const post = props.post;
+    const [comments, setComments] = useState(post.comments.items);
+    const user = props.post.user;
 
-    const [upvotes, setUpvotes] = useState(props.post.upvotes || [])
-    const [downvotes, setDownvotes] = useState(props.post.downvotes || [])
+    const [showCommentBox, setShowCommentBox] = useState(false);
+    const id = props.post.id;
+
+    const [upvotes, setUpvotes] = useState(props.post.upvotes || []);
+    const [downvotes, setDownvotes] = useState(props.post.downvotes || []);
 
     // Voting status
-    const [upvoted, setUpvoted] = useState(null)
-    const [downvoted, setDownvoted] = useState(null)
+    const [upvoted, setUpvoted] = useState(null);
+    const [downvoted, setDownvoted] = useState(null);
 
     // Hooks
-    const { deletePost, data, loading } = useDeletePost()
+    const { deletePost, data, loading } = useDeletePost();
 
-    useEffect(() => {       
-        setUpvotes(post.upvotes)
-        setDownvotes(post.downvotes)
+    useEffect(() => {
+        setUpvotes(post.upvotes);
+        setDownvotes(post.downvotes);
 
         if (loggedIn) {
             if (upvotes.includes(userInfo.id)) {
-                setUpvoted(true)
-                setDownvoted(false)
+                setUpvoted(true);
+                setDownvoted(false);
             }
             if (downvotes.includes(userInfo.id)) {
-                setDownvoted(true)
-                setUpvoted(false)
+                setDownvoted(true);
+                setUpvoted(false);
             }
         }
-    }, [id, loggedIn])
+    }, [id, loggedIn]);
 
     const upVoteHandler = async () => {
         if (upvotes.includes(userInfo.id)) {
             // Unvote
 
             // "Fake" real-time update
-            setUpvotes(upvotes.filter(user => user !== userInfo.id))
-            setUpvoted(false)
-            setDownvoted(false)
+            setUpvotes(upvotes.filter((user) => user !== userInfo.id));
+            setUpvoted(false);
+            setDownvoted(false);
 
             // Actual update
-            const { upvotes: newUpvotes } = await upVoteDecrease(post.id, userInfo.id)
-            setUpvotes(newUpvotes)
+            const { upvotes: newUpvotes } = await upVoteDecrease(
+                post.id,
+                userInfo.id
+            );
+            setUpvotes(newUpvotes);
         } else {
             // Upvote
 
@@ -78,37 +81,46 @@ const PostCard = (props) => {
             // Check if this is downvoted
             if (downvotes.includes(userInfo.id)) {
                 wasDownvoted = true;
-                setDownvoted(false)
-                setDownvotes(downvotes.filter(user => user !== userInfo.id))
+                setDownvoted(false);
+                setDownvotes(downvotes.filter((user) => user !== userInfo.id));
             }
 
             // "Fake" real-time update
-            setUpvotes([...upvotes, userInfo.id])
-            setUpvoted(true)
-            setDownvoted(false)
+            setUpvotes([...upvotes, userInfo.id]);
+            setUpvoted(true);
+            setDownvoted(false);
 
             // Actual update
-            const { upvotes: newUpvotes } = await upVoteIncrease(post.id, userInfo.id)
-            setUpvotes(newUpvotes)
+            const { upvotes: newUpvotes } = await upVoteIncrease(
+                post.id,
+                userInfo.id
+            );
+            setUpvotes(newUpvotes);
 
             if (wasDownvoted) {
-                const { downvotes: newDownvotes } = await downVoteDecrease(post.id, userInfo.id)
-                setDownvotes(newDownvotes)
+                const { downvotes: newDownvotes } = await downVoteDecrease(
+                    post.id,
+                    userInfo.id
+                );
+                setDownvotes(newDownvotes);
             }
         }
-    }
+    };
 
     const downVoteHandler = async () => {
         if (downvotes.includes(userInfo.id)) {
             // Unvote
 
             // "Fake" real-time update
-            setDownvoted(false)
-            setUpvoted(false)
-            setDownvotes(downvotes.filter(user => user !== userInfo.id))
+            setDownvoted(false);
+            setUpvoted(false);
+            setDownvotes(downvotes.filter((user) => user !== userInfo.id));
 
-            const { downvotes: newDownvotes } = await downVoteDecrease(post.id, userInfo.id)
-            setDownvotes(newDownvotes)
+            const { downvotes: newDownvotes } = await downVoteDecrease(
+                post.id,
+                userInfo.id
+            );
+            setDownvotes(newDownvotes);
         } else {
             // Downvote
 
@@ -117,45 +129,51 @@ const PostCard = (props) => {
             // Check if this is upvoted
             if (upvotes.includes(userInfo.id)) {
                 // "Fake" real-time update
-                wasUpvoted = true
-                setUpvotes(upvotes.filter(user => user !== userInfo.id))
-                setUpvoted(false)
+                wasUpvoted = true;
+                setUpvotes(upvotes.filter((user) => user !== userInfo.id));
+                setUpvoted(false);
             }
 
             // "Fake" real-time update
-            setDownvoted(true)
-            setUpvoted(false)
-            setDownvotes([...downvotes, userInfo.id])
+            setDownvoted(true);
+            setUpvoted(false);
+            setDownvotes([...downvotes, userInfo.id]);
 
             // Actual update
-            const { downvotes: newDownvotes } = await downVoteIncrease(post.id, userInfo.id)
-            setDownvotes(newDownvotes)
+            const { downvotes: newDownvotes } = await downVoteIncrease(
+                post.id,
+                userInfo.id
+            );
+            setDownvotes(newDownvotes);
 
             if (wasUpvoted) {
-                const { upvotes: newUpvotes } = await upVoteDecrease(post.id, userInfo.id)
-                setUpvotes(newUpvotes)
+                const { upvotes: newUpvotes } = await upVoteDecrease(
+                    post.id,
+                    userInfo.id
+                );
+                setUpvotes(newUpvotes);
             }
         }
-    }
+    };
 
-    const commentDoneHandler = comment => {
-        setComments([comment, ...comments])
+    const commentDoneHandler = (comment) => {
+        setComments([comment, ...comments]);
         // setShowCommentBox(false)
-    }
+    };
 
     const showCommentBoxHandler = () => {
-        setShowCommentBox((prev) => !prev)
-    }
+        setShowCommentBox((prev) => !prev);
+    };
 
     const deleteThisPost = async () => {
         const { data } = await deletePost({
             variables: {
                 input: {
-                    id
-                }
-            }
-        })
-    }
+                    id,
+                },
+            },
+        });
+    };
 
     return (
         <Styled.PostContainer>
@@ -171,15 +189,23 @@ const PostCard = (props) => {
                                     {user.name}
                                 </Styled.PostByName>
                                 <Styled.PostByUsername>
-                                    <Styled.UserLink to={`/profile/${user.username}`}>@{user.username}</Styled.UserLink>
+                                    <Styled.UserLink
+                                        to={`/profile/${user.username}`}
+                                    >
+                                        @{user.username}
+                                    </Styled.UserLink>
                                 </Styled.PostByUsername>
                             </Styled.PostByInfo>
                         </Styled.ProfileBioContainer>
                         <Styled.PostTime>
-                            {formatDistance(new Date(post.createdAt), new Date(), { addSuffix: true })}
+                            {formatDistance(
+                                new Date(post.createdAt),
+                                new Date(),
+                                { addSuffix: true }
+                            )}
                             {loggedIn && userInfo.id === post.userID && (
                                 <MdDelete
-                                    color="#db3b45"
+                                    color='#db3b45'
                                     size={20}
                                     style={{
                                         paddingLeft: '10px',
@@ -198,7 +224,7 @@ const PostCard = (props) => {
                             color={upvoted && '#45e850'}
                             onClick={loggedIn && upVoteHandler}
                             size={20}
-                            style={{ marginRight: 10, cursor: "pointer" }}
+                            style={{ marginRight: 10, cursor: 'pointer' }}
                         />
                         <Styled.VoteContainer>
                             {upvotes.length - downvotes.length || 'Vote'}
@@ -207,7 +233,11 @@ const PostCard = (props) => {
                             color={downvoted && '#e84576'}
                             onClick={loggedIn && downVoteHandler}
                             size={20}
-                            style={{ marginLeft: 10, marginRight: 25, cursor: "pointer" }}
+                            style={{
+                                marginLeft: 10,
+                                marginRight: 25,
+                                cursor: 'pointer',
+                            }}
                         />
                         <Styled.ActivityTextContainer>
                             <span
@@ -249,7 +279,7 @@ const PostCard = (props) => {
                 </div>
             )}
         </Styled.PostContainer>
-    )
-}
+    );
+};
 
-export default PostCard
+export default PostCard;

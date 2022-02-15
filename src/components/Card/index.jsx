@@ -1,30 +1,30 @@
-import { useNavigate } from 'react-router-dom'
-import parser from 'html-react-parser'
+import { useNavigate } from 'react-router-dom';
+import parser from 'html-react-parser';
 
-import * as Styled from './style'
+import * as Styled from './style';
 
 const CardInfo = (props) => (
     <div>
         <Styled.CardInfoTitle>{props.title}</Styled.CardInfoTitle>
         <Styled.CardInfoValue>{props.value}</Styled.CardInfoValue>
     </div>
-)
+);
 
 const Card = (props) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const traverse = (e) => {
         // if(!props.isScrolling) {
         //   navigate(`/dao/${props.id}`)
         // }
-        navigate(`/dao/${props.id}`)
-    }
+        navigate(`/dao/${props.id}`);
+    };
 
-    let desc = parser(props.description)
-    
+    let desc = parser(props.description);
+
     if (desc.length > 200) {
-        desc = desc.slice(0, 197)
-        desc = desc.concat('...')
+        desc = desc.slice(0, 197);
+        desc = desc.concat('...');
     }
     return (
         <Styled.CardBox>
@@ -52,7 +52,7 @@ const Card = (props) => {
         </Styled.CardInfoBox>
       */}
         </Styled.CardBox>
-    )
-}
+    );
+};
 
-export default Card
+export default Card;

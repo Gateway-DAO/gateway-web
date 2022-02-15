@@ -1,11 +1,18 @@
 import { useMemo } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { getTaskStatus, getTaskStatusByGateId, getTaskStatusByUserId } from '../../graphql/queries';
+import {
+    getTaskStatus,
+    getTaskStatusByGateId,
+    getTaskStatusByUserId,
+} from '../../graphql/queries';
 
 export const useGetTaskStatus = (id, options = {}) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(getTaskStatus), {
-        variables: { ...options, id },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getTaskStatus),
+        {
+            variables: { ...options, id },
+        }
+    );
 
     return useMemo(
         () => ({
@@ -19,12 +26,15 @@ export const useGetTaskStatus = (id, options = {}) => {
 };
 
 export const useGetTaskStatusByUserID = (id, options = {}) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(getTaskStatusByUserId), {
-        variables: {
-            ...options,
-            userID: id
-        },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getTaskStatusByUserId),
+        {
+            variables: {
+                ...options,
+                userID: id,
+            },
+        }
+    );
 
     return useMemo(
         () => ({
@@ -38,12 +48,15 @@ export const useGetTaskStatusByUserID = (id, options = {}) => {
 };
 
 export const useGetTaskStatusByGateID = (id, options = {}) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(getTaskStatusByGateId), {
-        variables: {
-            ...options,
-            gateID: id
-        },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getTaskStatusByGateId),
+        {
+            variables: {
+                ...options,
+                gateID: id,
+            },
+        }
+    );
 
     return useMemo(
         () => ({

@@ -1,14 +1,14 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 // Styling
-import * as Styled from './style'
-import { FormStyled } from '../../../../components/Form'
+import * as Styled from './style';
+import { FormStyled } from '../../../../components/Form';
 
 // Icons
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import { AiOutlineCheck } from 'react-icons/ai'
-import { FaTrashAlt } from 'react-icons/fa'
-import { IoMdAdd } from 'react-icons/io'
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { AiOutlineCheck } from 'react-icons/ai';
+import { FaTrashAlt } from 'react-icons/fa';
+import { IoMdAdd } from 'react-icons/io';
 
 const CreateQuestion = ({ data, setData, setActiveModal }) => {
     const [questions, setQuestions] = useState(
@@ -28,7 +28,7 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                 nrOfCorrectAnswers: 0,
             },
         ]
-    )
+    );
 
     /**
      * It adds a new question to the list of questions.
@@ -50,32 +50,32 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                 ],
                 nrOfCorrectAnswers: 0,
             },
-        ])
-    }
+        ]);
+    };
 
     /**
      * It removes the question from the array of questions.
      */
     const deleteQuestion = (questionNumber) => {
-        setQuestions(questions.filter((v, idx) => idx !== questionNumber))
-    }
-    
+        setQuestions(questions.filter((v, idx) => idx !== questionNumber));
+    };
+
     /**
      * This function is used to update the question text in the questions array
      */
     const editQuestion = (e, index) => {
-        const changeValue = e.target.value
+        const changeValue = e.target.value;
         const helper = questions.map((values, idx) => {
             if (idx === index) {
                 return {
                     ...values,
                     question: changeValue,
-                }
+                };
             }
-            return values
-        })
-        setQuestions(helper)
-    }
+            return values;
+        });
+        setQuestions(helper);
+    };
 
     /**
      * It adds an option to the question at the specified index.
@@ -83,32 +83,35 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
     const addOption = (index) => {
         const addingOption = questions.map((value, idx) => {
             if (idx === index) {
-                value.options.push({ answer: '', correct: false })
+                value.options.push({ answer: '', correct: false });
             }
-            return value
-        })
+            return value;
+        });
 
-        setQuestions(addingOption)
-    }
+        setQuestions(addingOption);
+    };
 
     /**
      * This function is used to update the answer of a question option
      */
     const editOption = (event, index, optionIndex) => {
-        const changedValue = event.target.value
+        const changedValue = event.target.value;
         const helper = questions.map((value, idx) => {
             if (idx === index) {
-                let arr = value.options
-                arr[optionIndex] = { ...arr[optionIndex], answer: changedValue }
+                let arr = value.options;
+                arr[optionIndex] = {
+                    ...arr[optionIndex],
+                    answer: changedValue,
+                };
                 return {
                     ...value,
                     options: arr,
-                }
+                };
             }
-            return value
-        })
-        setQuestions(helper)
-    }
+            return value;
+        });
+        setQuestions(helper);
+    };
 
     /**
      * This function deletes an option from a question
@@ -117,15 +120,15 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
         const del = questions.map((value, idx) => {
             if (idx === questionNumber) {
                 if (value.options.length > 2) {
-                    value.options.splice(optionNumber, 1)
+                    value.options.splice(optionNumber, 1);
                 } else {
-                    alert('Each question must has atleast 2 options')
+                    alert('Each question must has atleast 2 options');
                 }
             }
-            return value
-        })
-        setQuestions(del)
-    }
+            return value;
+        });
+        setQuestions(del);
+    };
 
     /**
      * * If the option is correct, then set the correct value to false and decrease the number of
@@ -136,43 +139,43 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
     const addCorrectAnswer = (questionNumber, optionNumber) => {
         const add = questions.map((value, idx) => {
             if (idx === questionNumber) {
-                let arr = value.options
+                let arr = value.options;
                 if (value.options.at(optionNumber).correct) {
-                    arr[optionNumber].correct = false
-                    value.nrOfCorrectAnswers = value.nrOfCorrectAnswers - 1
+                    arr[optionNumber].correct = false;
+                    value.nrOfCorrectAnswers = value.nrOfCorrectAnswers - 1;
                 } else {
-                    arr[optionNumber].correct = true
-                    value.nrOfCorrectAnswers = value.nrOfCorrectAnswers + 1
+                    arr[optionNumber].correct = true;
+                    value.nrOfCorrectAnswers = value.nrOfCorrectAnswers + 1;
                 }
                 return {
                     ...value,
                     options: arr,
-                }
+                };
             }
-            return value
-        })
-        setQuestions(add)
-        console.log(questions)
-    }
+            return value;
+        });
+        setQuestions(add);
+        console.log(questions);
+    };
 
     /**
      * It checks to see if the answer is correct and returns a color based on that.
      */
     const checkToggle = (answer, idx, color) => {
         if (answer) {
-            return '#72B841'
+            return '#72B841';
         } else {
-            return color
+            return color;
         }
-    }
+    };
 
     /**
      * It sends the quiz to the next phase.
      */
     const saveQuiz = () => {
-        setData(questions)
-        setActiveModal('PERCENTAGE_PAGE')
-    }
+        setData(questions);
+        setActiveModal('PERCENTAGE_PAGE');
+    };
 
     return (
         <>
@@ -184,10 +187,10 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                         </FormStyled.Label>
                         <FormStyled.Input
                             onChange={(e) => editQuestion(e, index)}
-                            type="text"
+                            type='text'
                             id={`question-${index}`}
-                            name="question"
-                            placeholder="i.e. What is our token name?"
+                            name='question'
+                            placeholder='i.e. What is our token name?'
                             value={question.question}
                             required
                         />
@@ -197,7 +200,7 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                         <FormStyled.Label>QUIZ OPTIONS</FormStyled.Label>
                         {question.options.map((ele, idx) => (
                             <Styled.AnswerBox>
-                                <Styled.IconBox mr="10px">
+                                <Styled.IconBox mr='10px'>
                                     <BsThreeDotsVertical />
                                 </Styled.IconBox>
                                 <Styled.AnswerInput
@@ -208,7 +211,7 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                                     required
                                 />
                                 <Styled.IconBox
-                                    ml="10px"
+                                    ml='10px'
                                     id={`iconBox-${idx}`}
                                     color={() =>
                                         checkToggle(ele.correct, idx, 'white')
@@ -225,7 +228,7 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                                     <AiOutlineCheck />
                                 </Styled.IconBox>
                                 <Styled.IconBox
-                                    ml="10px"
+                                    ml='10px'
                                     onClick={
                                         question.options.length > 2
                                             ? () => deleteOption(index, idx)
@@ -248,8 +251,8 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                         ))}
                         <Styled.AnswerBox>
                             <Styled.IconBox
-                                mr="10px"
-                                border="#A5A5A5"
+                                mr='10px'
+                                border='#A5A5A5'
                                 onClick={() =>
                                     addOption(index, question.options.length)
                                 }
@@ -272,7 +275,7 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                             <FormStyled.IconButton>
                                 <FaTrashAlt />
                             </FormStyled.IconButton>
-                            <FormStyled.TextLabel marginLeft="10px">
+                            <FormStyled.TextLabel marginLeft='10px'>
                                 Delete Section
                             </FormStyled.TextLabel>
                         </FormStyled.DeleteWrapper>
@@ -287,7 +290,7 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
             </Styled.AddQuestionBox>
             <FormStyled.Button onClick={saveQuiz}>Next</FormStyled.Button>
         </>
-    )
-}
+    );
+};
 
-export default CreateQuestion
+export default CreateQuestion;

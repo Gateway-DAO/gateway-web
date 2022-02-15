@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const HeaderDiv = styled.header`
     width: 100vw;
@@ -21,13 +21,13 @@ export const HeaderDiv = styled.header`
         width: 94%; /* or 100px */
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-`
+`;
 
 export const Box = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-`
+`;
 
 export const LogoBox = styled.div`
     display: flex;
@@ -37,20 +37,20 @@ export const LogoBox = styled.div`
     top: 25px;
     left: 50px;
     text-decoration: none;
-`
+`;
 
 export const Logo = styled(Link)`
     display: flex;
     flex-direction: row;
     align-items: center;
     text-decoration: none;
-`
+`;
 
 export const WalletBox = styled(Box)`
     position: absolute;
     top: 25px;
     right: 45px;
-`
+`;
 
 export const LogoText = styled.h1`
     font-family: Poppins;
@@ -65,7 +65,7 @@ export const LogoText = styled.h1`
     color: #e5e5e5;
 
     margin-left: 20px;
-`
+`;
 
 export const Text = styled.p`
     color: ${(props) => props.color};
@@ -91,8 +91,8 @@ export const Text = styled.p`
         margin-right: 10px;
         display: none;
     }
-`
+`;
 
 export const OptionLink = styled(Link)`
     text-decoration: none;
-`
+`;

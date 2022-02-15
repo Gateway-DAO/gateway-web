@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
 import { useQuery, useLazyQuery, gql } from '@apollo/client';
-import { getTokenBenefit as GET_TB, listTokenBenefits as LIST_TB } from '../../graphql/queries';
+import {
+    getTokenBenefit as GET_TB,
+    listTokenBenefits as LIST_TB,
+} from '../../graphql/queries';
 
 export const useGetTokenBenefit = (id) => {
     const { loading, called, refetch, data, error } = useQuery(gql(GET_TB), {
@@ -19,7 +22,8 @@ export const useGetTokenBenefit = (id) => {
 };
 
 export const useLazyGetTokenBenefit = () => {
-    const [getTokenBenefit, { loading, called, refetch, data, error }] = useLazyQuery(gql(GET_TB));
+    const [getTokenBenefit, { loading, called, refetch, data, error }] =
+        useLazyQuery(gql(GET_TB));
 
     return useMemo(
         () => ({
@@ -34,7 +38,10 @@ export const useLazyGetTokenBenefit = () => {
 };
 
 export const useListTokenBenefits = (config = {}) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(LIST_TB), config);
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(LIST_TB),
+        config
+    );
 
     return useMemo(
         () => ({
@@ -45,10 +52,11 @@ export const useListTokenBenefits = (config = {}) => {
         }),
         [called, LIST_TB, loading, refetch, config]
     );
-}
+};
 
 export const useLazyListTokenBenefits = () => {
-    const [listTokenBenefits, { loading, called, refetch, data, error }] = useLazyQuery(gql(LIST_TB));
+    const [listTokenBenefits, { loading, called, refetch, data, error }] =
+        useLazyQuery(gql(LIST_TB));
 
     return useMemo(
         () => ({

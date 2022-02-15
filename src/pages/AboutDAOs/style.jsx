@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const PageContainer = styled.main`
     background-color: transparent;
@@ -14,13 +14,13 @@ export const PageContainer = styled.main`
         height: 100%;
         width: 100%;
     }
-`
+`;
 export const MainWrapper = styled.div`
     display: flex;
     color: white;
     width: 100%;
     justify-content: center;
-`
+`;
 export const CenterWrapper = styled.div`
     color: white;
     width: 55%;
@@ -36,11 +36,11 @@ export const CenterWrapper = styled.div`
     @media only screen and (max-width: 350px) {
         width: 95%;
     }
-`
+`;
 
 export const WhiteImage = styled.div`
     margin-bottom: 25px;
-`
+`;
 export const ParagraphContainer = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
@@ -50,20 +50,20 @@ export const ParagraphContainer = styled.p`
     color: #e5e5e5;
     margin-bottom: 25px;
     margin-top: 25px;
-`
+`;
 
 export const MediumTextContainer = styled.div`
     display: flex;
-`
+`;
 
 export const BoldText = styled.span`
     font-weight: bold;
-`
+`;
 
 export const BoldHeading = styled.p`
     font-weight: bold;
     margin-bottom: 25px;
-`
+`;
 export const MediumText = styled.h4`
     background: linear-gradient(
         88.04deg,
@@ -97,7 +97,7 @@ export const MediumText = styled.h4`
     @media only screen and (max-width: 350px) {
         font-size: 30px;
     }
-`
+`;
 
 export const CardContainer = styled.div`
     margin-left: 20%;
@@ -113,4 +113,4 @@ export const CardContainer = styled.div`
     @media only screen and (max-width: 350px) {
         width: 100%;
     }
-`
+`;

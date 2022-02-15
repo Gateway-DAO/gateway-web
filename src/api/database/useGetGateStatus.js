@@ -1,6 +1,10 @@
-import { useMemo } from 'react'
-import { useQuery, gql } from '@apollo/client'
-import { getGateStatus, getGateStatusByUserId, getGateStatusByGateId } from '../../graphql/queries'
+import { useMemo } from 'react';
+import { useQuery, gql } from '@apollo/client';
+import {
+    getGateStatus,
+    getGateStatusByUserId,
+    getGateStatusByGateId,
+} from '../../graphql/queries';
 
 export const useGetGateStatus = (id, options = {}) => {
     const { loading, called, refetch, data, error } = useQuery(
@@ -8,7 +12,7 @@ export const useGetGateStatus = (id, options = {}) => {
         {
             variables: { ...options, id },
         }
-    )
+    );
 
     return useMemo(
         () => ({
@@ -18,8 +22,8 @@ export const useGetGateStatus = (id, options = {}) => {
             error,
         }),
         [called, getGateStatus, loading, refetch, id]
-    )
-}
+    );
+};
 
 export const useGetGateStatusByUserID = (id, options = {}) => {
     const { loading, called, refetch, data, error } = useQuery(
@@ -30,7 +34,7 @@ export const useGetGateStatusByUserID = (id, options = {}) => {
                 userID: id,
             },
         }
-    )
+    );
 
     return useMemo(
         () => ({
@@ -40,8 +44,8 @@ export const useGetGateStatusByUserID = (id, options = {}) => {
             error,
         }),
         [called, getGateStatusByUserId, loading, refetch, id]
-    )
-}
+    );
+};
 
 export const useGetGateStatusByGateID = (id, options = {}) => {
     const { loading, called, refetch, data, error } = useQuery(
@@ -52,7 +56,7 @@ export const useGetGateStatusByGateID = (id, options = {}) => {
                 gateID: id,
             },
         }
-    )
+    );
 
     return useMemo(
         () => ({
@@ -62,7 +66,7 @@ export const useGetGateStatusByGateID = (id, options = {}) => {
             error,
         }),
         [called, getGateStatusByGateId, loading, refetch, id]
-    )
-}
+    );
+};
 
-export default useGetGateStatus
+export default useGetGateStatus;

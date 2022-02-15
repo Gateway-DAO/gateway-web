@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     margin: 40px 140px;
@@ -8,7 +8,7 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 45vw;
-`
+`;
 
 export const Fieldset = styled.fieldset`
     width: 130%;
@@ -16,4 +16,4 @@ export const Fieldset = styled.fieldset`
     overflow-y: scroll;
     max-width: 100%;
     // height:80vh;
-`
+`;

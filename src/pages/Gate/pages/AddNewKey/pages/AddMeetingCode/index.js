@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { FormStyled } from '../../../../../../components/Form'
-import { useCreateMeetingCode } from '../../../../../../api/database/useCreateKey'
-import { v4 as uuidv4 } from 'uuid'
-import AddKeySuccess from '../AddKeySuccess'
-import Loader from '../../../../../../components/Loader'
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FormStyled } from '../../../../../../components/Form';
+import { useCreateMeetingCode } from '../../../../../../api/database/useCreateKey';
+import { v4 as uuidv4 } from 'uuid';
+import AddKeySuccess from '../AddKeySuccess';
+import Loader from '../../../../../../components/Loader';
 
 const AddMeetingCode = (props) => {
     // State
-    const { state } = useLocation()
-    const [code, setCode] = useState(state.taskInfo ? state.taskInfo?.code : null)
-    const [createdKey, setCreatedKey] = useState(false)
-    const { createMeetingCode, loading } = useCreateMeetingCode()
-    const navigate = useNavigate()
+    const { state } = useLocation();
+    const [code, setCode] = useState(
+        state.taskInfo ? state.taskInfo?.code : null
+    );
+    const [createdKey, setCreatedKey] = useState(false);
+    const { createMeetingCode, loading } = useCreateMeetingCode();
+    const navigate = useNavigate();
     // console.log(state.taskInfo)
 
     /**
@@ -20,7 +22,7 @@ const AddMeetingCode = (props) => {
      * @param e - event
      */
     const onSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         try {
             await createMeetingCode({
@@ -41,23 +43,23 @@ const AddMeetingCode = (props) => {
                         },
                     },
                 },
-            })
+            });
 
-            setCreatedKey(true)
+            setCreatedKey(true);
         } catch (err) {
-            alert('An error occurred. Please try again later!')
-            console.log(err)
+            alert('An error occurred. Please try again later!');
+            console.log(err);
         }
-    }
+    };
 
     const onEditSubmit = async (e) => {
-        e.preventDefault()
-    }
+        e.preventDefault();
+    };
 
     return createdKey ? (
         <AddKeySuccess gate={state.gateData.id} />
     ) : (
-        <FormStyled.FormBox onSubmit={state.taskInfo ? onEditSubmit : onSubmit }>
+        <FormStyled.FormBox onSubmit={state.taskInfo ? onEditSubmit : onSubmit}>
             <FormStyled.H1>
                 {state.taskInfo ? 'Edit Meeting Code' : 'Add Meeting Code'}
             </FormStyled.H1>
@@ -67,17 +69,17 @@ const AddMeetingCode = (props) => {
                 <FormStyled.Input
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    placeholder="Input the meeting code here"
+                    placeholder='Input the meeting code here'
                     required
                 />
             </FormStyled.Fieldset>
 
-            <FormStyled.Button type="submit">
-                {loading && <Loader color="white" />}
+            <FormStyled.Button type='submit'>
+                {loading && <Loader color='white' />}
                 Submit
             </FormStyled.Button>
         </FormStyled.FormBox>
-    )
-}
+    );
+};
 
-export default AddMeetingCode
+export default AddMeetingCode;

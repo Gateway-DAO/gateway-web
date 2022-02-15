@@ -1,7 +1,8 @@
-import * as Styled from './style'
-import { Link, useSearchParams } from 'react-router-dom'
-import React, { useState, useEffect, useRef } from 'react'
-import RelatedDAOSection from './components/RelatedDAO'
+/* eslint-disable @typescript-eslint/no-empty-function */
+import * as Styled from './style';
+import { Link, useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import RelatedDAOSection from './components/RelatedDAO';
 import {
     FaDiscord,
     FaTwitter,
@@ -10,36 +11,36 @@ import {
     FaTelegram,
     FaLink,
     FaPencilAlt,
-} from 'react-icons/fa'
-import { FiGlobe } from 'react-icons/fi'
-import { BsChatTextFill } from 'react-icons/bs'
-import useAdmin from '../../hooks/useAdmin'
+} from 'react-icons/fa';
+import { FiGlobe } from 'react-icons/fi';
+import { BsChatTextFill } from 'react-icons/bs';
+import useAdmin from '../../hooks/useAdmin';
 
 //components
-import Plugins from './components/Plugins'
-import Members from './components/Members'
-import Profile from './components/Profiles'
-import Feed from './components/Feed'
-import Gates from './components/Gates'
-import EditCardModal from '../Modal/EditCardModal'
+import Plugins from './components/Plugins';
+import Members from './components/Members';
+import Profile from './components/Profiles';
+import Feed from './components/Feed';
+import Gates from './components/Gates';
+import EditCardModal from '../Modal/EditCardModal';
 
 // Web3
-import { ethers } from 'ethers'
-import ERC20_ABI from '../../utils/abis/ERC20.json'
-import { useWeb3React } from '@web3-react/core'
+import { ethers } from 'ethers';
+import ERC20_ABI from '../../utils/abis/ERC20.json';
+import { useWeb3React } from '@web3-react/core';
 
 // Assets
-import avalanche from '../../assets/avalanche-avax-logo.png'
-import binance from '../../assets/binance-coin-bnb-logo.png'
-import btc from '../../assets/BTC_Logo.png'
-import ethereum from '../../assets/Ethereum-icon-purple.png'
-import near from '../../assets/near-protocol-near-logo.png'
-import polygon from '../../assets/polygon-matic-logo.png'
-import solana from '../../assets/solana-sol-logo.png'
-import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg'
+import avalanche from '../../assets/avalanche-avax-logo.png';
+import binance from '../../assets/binance-coin-bnb-logo.png';
+import btc from '../../assets/BTC_Logo.png';
+import ethereum from '../../assets/Ethereum-icon-purple.png';
+import near from '../../assets/near-protocol-near-logo.png';
+import polygon from '../../assets/polygon-matic-logo.png';
+import solana from '../../assets/solana-sol-logo.png';
+import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg';
 
 const NewCard = (props) => {
-    const web3 = useWeb3React()
+    const web3 = useWeb3React();
 
     useEffect(() => {
         if (props.tokenAddress && props.showTokenFeed) {
@@ -49,33 +50,32 @@ const NewCard = (props) => {
                         tokenAddress,
                         ERC20_ABI,
                         web3.library
-                    )
+                    );
                     const balance =
                         (await contract.balanceOf(web3.account)) /
-                        10 ** (await contract.decimals())
-                    setBalance(parseFloat(balance))
+                        10 ** (await contract.decimals());
+                    setBalance(parseFloat(balance));
+                } catch (err) {
+                    setBalance(0);
                 }
-                catch (err) {
-                    setBalance(0)
-                }
-            }
+            };
 
-            web3.active && web3.library && getBalance(props.tokenAddress)
+            web3.active && web3.library && getBalance(props.tokenAddress);
         }
 
-        return () => {}
-    }, [web3.active, props.id, props])
+        return () => {};
+    }, [web3.active, props.id, props]);
 
-    const [balance, setBalance] = useState(0)
-    const { isAdmin } = useAdmin(props.whitelistedAddresses)
-    const [showEditModal, setShowEditModal] = useState(false)
-    const iconHover = useRef(null)
-    const toggleEditModal = () => setShowEditModal(!showEditModal)
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [balance, setBalance] = useState(0);
+    const { isAdmin } = useAdmin(props.whitelistedAddresses);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const iconHover = useRef(null);
+    const toggleEditModal = () => setShowEditModal(!showEditModal);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [activeTab, setActiveTab] = useState(
         searchParams.get('tab') || 'profile'
-    )
+    );
 
     const Modals = () => (
         <>
@@ -86,60 +86,60 @@ const NewCard = (props) => {
                 changeDAOData: props.changeDAOData,
             })}
         </>
-    )
+    );
 
-    const removeHover = () => {}
+    const removeHover = () => {};
 
     const socials = props.socials.map((social) => {
         switch (social.network) {
             case 'discord':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={social.url} target="_blank">
+                        <Styled.SocialLink href={social.url} target='_blank'>
                             <FaDiscord />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
             case 'twitter':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={social.url} target="_blank">
+                        <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTwitter size={20} />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
             case 'website':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={social.url} target="_blank">
+                        <Styled.SocialLink href={social.url} target='_blank'>
                             <FiGlobe />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
             case 'medium':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={social.url} target="_blank">
+                        <Styled.SocialLink href={social.url} target='_blank'>
                             <FaMedium />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
             case 'github':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={social.url} target="_blank">
+                        <Styled.SocialLink href={social.url} target='_blank'>
                             <FaGithub />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
             case 'telegram':
                 return (
                     <Styled.Social>
-                        <Styled.SocialLink href={social.url} target="_blank">
+                        <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTelegram />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
             case 'chat':
                 return (
                     <Styled.Social>
@@ -147,7 +147,7 @@ const NewCard = (props) => {
                             <BsChatTextFill />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
             default:
                 return (
                     <Styled.Social>
@@ -155,9 +155,9 @@ const NewCard = (props) => {
                             <FaLink />
                         </Styled.SocialLink>
                     </Styled.Social>
-                )
+                );
         }
-    })
+    });
 
     const chains =
         props.chains &&
@@ -167,7 +167,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain
                             ref={iconHover}
-                            id="Ethereum"
+                            id='Ethereum'
                             onMouseLeave={removeHover}
                         >
                             <Styled.ChainLink
@@ -175,56 +175,56 @@ const NewCard = (props) => {
                             >
                                 <img
                                     src={ethereum}
-                                    width="22px"
-                                    height="22px"
+                                    width='22px'
+                                    height='22px'
                                 />
                             </Styled.ChainLink>
                         </Styled.Chain>
-                    )
+                    );
                 case 'solana':
                     return (
-                        <Styled.Chain ref={iconHover} id="Solana">
+                        <Styled.Chain ref={iconHover} id='Solana'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
-                                <img src={solana} width="22px" height="22px" />
+                                <img src={solana} width='22px' height='22px' />
                             </Styled.ChainLink>
                         </Styled.Chain>
-                    )
+                    );
                 case 'Polygon':
                     return (
-                        <Styled.Chain ref={iconHover} id="Polygon">
+                        <Styled.Chain ref={iconHover} id='Polygon'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
-                                <img src={polygon} width="22px" height="22px" />
+                                <img src={polygon} width='22px' height='22px' />
                             </Styled.ChainLink>
                         </Styled.Chain>
-                    )
+                    );
                 case 'NEAR':
                     return (
-                        <Styled.Chain ref={iconHover} id="NEAR">
+                        <Styled.Chain ref={iconHover} id='NEAR'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
-                                <img src={near} width="22px" height="22px" />
+                                <img src={near} width='22px' height='22px' />
                             </Styled.ChainLink>
                         </Styled.Chain>
-                    )
+                    );
                 case 'Avalanche':
                     return (
-                        <Styled.Chain ref={iconHover} id="Avalanche">
+                        <Styled.Chain ref={iconHover} id='Avalanche'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
                                 <img
                                     src={avalanche}
-                                    width="22px"
-                                    height="22px"
+                                    width='22px'
+                                    height='22px'
                                 />
                             </Styled.ChainLink>
                         </Styled.Chain>
-                    )
+                    );
                 case 'Binance':
                     return (
                         <Styled.Chain>
@@ -233,14 +233,14 @@ const NewCard = (props) => {
                             >
                                 <img
                                     src={binance}
-                                    width="22px"
-                                    height="22px"
+                                    width='22px'
+                                    height='22px'
                                     ref={iconHover}
-                                    id="Binance"
+                                    id='Binance'
                                 />
                             </Styled.ChainLink>
                         </Styled.Chain>
-                    )
+                    );
                 case 'Bitcoin':
                     return (
                         <Styled.Chain ref={iconHover}>
@@ -249,35 +249,35 @@ const NewCard = (props) => {
                             >
                                 <img
                                     src={btc}
-                                    width="22px"
-                                    height="22px"
+                                    width='22px'
+                                    height='22px'
                                     ref={iconHover}
-                                    id="Bitcoin"
+                                    id='Bitcoin'
                                 />
                             </Styled.ChainLink>
                         </Styled.Chain>
-                    )
+                    );
                 default:
-                    return ''
+                    return '';
             }
-        })
+        });
 
     const ActiveTab = () => {
         switch (searchParams.get('tab')) {
             case 'profile':
-                return <Profile {...props} />
+                return <Profile {...props} />;
             case 'feed':
-                return <Feed {...props} />
+                return <Feed {...props} />;
             case 'members':
-                return <Members daoName={props.name} />
+                return <Members daoName={props.name} />;
             case 'gates':
-                return <Gates {...props} />
+                return <Gates {...props} />;
             case 'Plugins':
-                return <Plugins {...props} />
+                return <Plugins {...props} />;
             default:
-                return <Profile {...props} />
+                return <Profile {...props} />;
         }
-    }
+    };
 
     return (
         <>
@@ -325,7 +325,7 @@ const NewCard = (props) => {
                                                 >
                                                     <img
                                                         src={METAMASK_FOX}
-                                                        alt="meta mask icon"
+                                                        alt='meta mask icon'
                                                     />
                                                 </span>
                                             </Styled.TokenText>
@@ -346,7 +346,7 @@ const NewCard = (props) => {
                                             title={dao}
                                         />
                                     </Link>
-                                )
+                                );
                             })}
                         </Styled.SubDaoContainer>
                     )}
@@ -354,7 +354,10 @@ const NewCard = (props) => {
                 <Styled.ProfileAndFeedContainer>
                     <Styled.ProfileDiv>
                         <Styled.SelectedTab
-                            showActive={searchParams.get('tab') === 'profile' || searchParams.get('tab') === null}
+                            showActive={
+                                searchParams.get('tab') === 'profile' ||
+                                searchParams.get('tab') === null
+                            }
                             onClick={() => setSearchParams({ tab: 'profile' })}
                         >
                             Profile
@@ -401,7 +404,7 @@ const NewCard = (props) => {
                 />
             </Styled.DaoWrapper>
         </>
-    )
-}
+    );
+};
 
-export default NewCard
+export default NewCard;

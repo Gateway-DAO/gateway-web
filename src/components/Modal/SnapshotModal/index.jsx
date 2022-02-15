@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import * as styled from './styles'
-import Snapshot from './Snapshot'
+import React, { useEffect, useState } from 'react';
+import * as styled from './styles';
+import Snapshot from './Snapshot';
 
 const SnapshotModal = ({ id }) => {
-    const [snapshot, setSnapshot] = useState([])
-    let link = `https://snapshot.org/#/${id}`
+    const [snapshot, setSnapshot] = useState([]);
+    let link = `https://snapshot.org/#/${id}`;
 
     useEffect(() => {
-      const handler = async () => setSnapshot(await SnapshotAPI(id));
+        const handler = async () => setSnapshot(await SnapshotAPI(id));
 
-      handler()
-    }, [])
+        handler();
+    }, []);
 
     return (
         <div>
@@ -24,8 +24,8 @@ const SnapshotModal = ({ id }) => {
                 )}
             </styled.ButtonDiv>
         </div>
-    )
-}
+    );
+};
 
 const SnapshotAPI = async (id) => {
     const Query = `
@@ -47,7 +47,7 @@ const SnapshotAPI = async (id) => {
           author
         }
       }
-    `
+    `;
 
     const res = await fetch('https://hub.snapshot.org/graphql', {
         method: 'POST',
@@ -56,13 +56,13 @@ const SnapshotAPI = async (id) => {
             query: Query,
             variables: { name: id },
         }),
-    })
+    });
 
-    const json = await res.json()
+    const json = await res.json();
 
-    const data = json.data.proposals
+    const data = json.data.proposals;
 
-    return data
-}
+    return data;
+};
 
-export default SnapshotModal
+export default SnapshotModal;

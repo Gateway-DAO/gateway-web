@@ -1,5 +1,4 @@
-import { MdRunCircle } from 'react-icons/md'
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     margin: 40px 140px;
@@ -9,7 +8,7 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 500px;
-`
+`;
 export const ChannelNumber = styled.div`
     font-family: Poppins;
     font-style: normal;
@@ -32,16 +31,16 @@ export const ChannelNumber = styled.div`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;
 
 export const Underline = styled.div`
     width: 100%;
-   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom:20px;
-`
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+`;
 
 export const AddChannelButton = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-`
+`;

@@ -1,11 +1,11 @@
-import { useMemo } from 'react'
-import { useMutation, gql } from '@apollo/client'
-import { updateGate as GATE_UPDATE } from '../../graphql/mutations'
+import { useMemo } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { updateGate as GATE_UPDATE } from '../../graphql/mutations';
 
 export const useUpdateGate = () => {
     const [updateGate, { loading, called, data, error }] = useMutation(
         gql(GATE_UPDATE)
-    )
+    );
 
     return useMemo(
         () => ({
@@ -15,7 +15,7 @@ export const useUpdateGate = () => {
             loading,
         }),
         [called, updateGate, loading, GATE_UPDATE, error]
-    )
-}
+    );
+};
 
-export default useUpdateGate
+export default useUpdateGate;

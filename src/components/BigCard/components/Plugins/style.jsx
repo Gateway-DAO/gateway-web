@@ -1,12 +1,11 @@
-import styled from 'styled-components'
-
+import styled from 'styled-components';
 
 export const Container = styled.div`
     display: flex;
     margin-top: 43px;
     width: 100vh;
     height: 60vh;
-`
+`;
 
 export const PluginBox = styled.div`
     display: flex;
@@ -20,7 +19,7 @@ export const PluginBox = styled.div`
     box-sizing: border-box;
     border-radius: 5px;
     margin: 10px;
-`
+`;
 
 export const ImageContainer = styled.img`
     width: 80px;
@@ -28,7 +27,7 @@ export const ImageContainer = styled.img`
     margin-top: 36px;
     color: white;
     border-radius: 50%;
-`
+`;
 
 export const ConnectButton = styled.div`
     background: #170627;
@@ -36,7 +35,7 @@ export const ConnectButton = styled.div`
     box-sizing: border-box;
     border-radius: 20px;
     margin-top: 12px;
-`
+`;
 
 export const ButtonText = styled.h4`
     font-family: Poppins;
@@ -51,7 +50,7 @@ export const ButtonText = styled.h4`
 
     color: #e5e5e5;
     padding: 10px 70px;
-`
+`;
 
 export const PluginName = styled.h3`
     font-family: Be Vietnam;
@@ -67,4 +66,4 @@ export const PluginName = styled.h3`
 
     color: #e5e5e5;
     margin-top: 12px;
-`
+`;

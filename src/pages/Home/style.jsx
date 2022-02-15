@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import CTA_BG from '../../assets/Landing CTA Background.png'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import CTA_BG from '../../assets/Landing CTA Background.png';
+import { Link } from 'react-router-dom';
 
 export const HomeContainer = styled.main`
     background-color: transparent;
@@ -17,7 +17,7 @@ export const HomeContainer = styled.main`
         height: 100%;
         width: 100%;
     }
-`
+`;
 
 export const BigText = styled.h1`
     font-family: Poppins;
@@ -65,7 +65,7 @@ export const BigText = styled.h1`
     @media only screen and (max-width: 310px) {
         font-size: 40px;
     }
-`
+`;
 
 export const MediumText = styled.h2`
     background: linear-gradient(
@@ -107,20 +107,20 @@ export const MediumText = styled.h2`
         line-height: 38px;
         margin: 0 20px;
     }
-`
+`;
 
 export const MainBox = styled.section`
     margin: 100px 0;
-`
+`;
 
 export const SpaceBox = styled.canvas`
     position: absolute;
     top: 90px;
-    left:0;
-    right:0;
-    right:0;
+    left: 0;
+    right: 0;
+    right: 0;
     z-index: -1;
-`
+`;
 
 export const CTABox = styled.section`
     margin: 125px 0 50px 0;
@@ -140,7 +140,7 @@ export const CTABox = styled.section`
     @media only screen and (max-width: 768px) {
         margin: 100px 0 50px 0;
     }
-`
+`;
 
 export const CTAButton = styled.a`
     background: linear-gradient(
@@ -158,7 +158,7 @@ export const CTAButton = styled.a`
     &:hover {
         cursor: pointer;
     }
-`
+`;
 
 export const CTAButtonText = styled.p`
     font-family: Poppins;
@@ -172,7 +172,7 @@ export const CTAButtonText = styled.p`
     text-transform: uppercase;
 
     color: #e5e5e5;
-`
+`;
 
 // englighten me section styling
 
@@ -192,25 +192,25 @@ export const EMSBox = styled.section`
     @media only screen and (max-width: 768px) {
         margin: 100px 0 50px 0;
     }
-`
+`;
 
 export const EMSImageContainer = styled.div`
     display: flex;
     width: 50%;
     justify-content: center;
     align-items: center;
-`
+`;
 
 export const EMSContentContainer = styled.div`
     display: flex;
     width: 40%;
     align-items: flex-start;
     flex-direction: column;
-`
+`;
 
 export const EMSMediumText = styled(MediumText)`
     text-align: left;
-`
+`;
 
 export const EMSButton = styled(Link)`
     background: linear-gradient(
@@ -228,4 +228,4 @@ export const EMSButton = styled(Link)`
     &:hover {
         cursor: pointer;
     }
-`
+`;

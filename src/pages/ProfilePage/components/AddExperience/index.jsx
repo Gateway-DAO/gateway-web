@@ -1,12 +1,11 @@
-import * as Styled from './style'
-import { useWeb3React } from '@web3-react/core'
-import { ethers } from 'ethers'
-import useGetNFTs from '../../../../hooks/useGetNFTs'
-import { useEffect, useState } from 'react'
-import useMint from '../../../../hooks/useMint'
-import { useAuth } from '../../../../contexts/UserContext'
-import { useGetGateStatusByUserID } from '../../../../api/database/useGetGateStatus'
-import { uploadMetadataToIPFS } from '../../../../api/IPFSFileUpload'
+import * as Styled from './style';
+import { useWeb3React } from '@web3-react/core';
+import useGetNFTs from '../../../../hooks/useGetNFTs';
+import { useEffect, useState } from 'react';
+import useMint from '../../../../hooks/useMint';
+import { useAuth } from '../../../../contexts/UserContext';
+import { useGetGateStatusByUserID } from '../../../../api/database/useGetGateStatus';
+import { uploadMetadataToIPFS } from '../../../../api/IPFSFileUpload';
 
 let t_ABI = [
     {
@@ -868,14 +867,14 @@ let t_ABI = [
         stateMutability: 'view',
         type: 'function',
     },
-]
+];
 
 const AddExperience = () => {
-    const { library, account } = useWeb3React()
-    const { userInfo } = useAuth()
-    const { mintNFT } = useMint()
-    const { getNFTs } = useGetNFTs()
-    const [nfts, setNFTs] = useState([])
+    const { library, account } = useWeb3React();
+    const { userInfo } = useAuth();
+    const { mintNFT } = useMint();
+    const { getNFTs } = useGetNFTs();
+    const [nfts, setNFTs] = useState([]);
 
     const { data } = useGetGateStatusByUserID(userInfo?.id, {
         filter: {
@@ -883,26 +882,26 @@ const AddExperience = () => {
                 eq: 'COMPLETED',
             },
         },
-    })
+    });
 
     const mintHandler = async (gs) => {
         const obj = {
             title: gs.gate.name,
             image: gs.gate.badge.ipfsURL,
             description: gs.gate.description,
-        }
+        };
 
-        const hash = await uploadMetadataToIPFS(obj)
+        const hash = await uploadMetadataToIPFS(obj);
 
-        mintNFT(`https://gateway.pinata.cloud/ipfs/${hash}`)
-    }
+        mintNFT(`https://gateway.pinata.cloud/ipfs/${hash}`);
+    };
 
     useEffect(() => {
         getNFTs().then((nfts) => {
-            console.log(nfts)
-            setNFTs(nfts)
-        })
-    }, [])
+            console.log(nfts);
+            setNFTs(nfts);
+        });
+    }, []);
 
     return (
         <Styled.BoxContainer>
@@ -918,7 +917,7 @@ const AddExperience = () => {
             <Styled.NFTContainer>
                 {nfts &&
                     nfts.map((nft) => {
-                        if (!!nft.metadata.image) {
+                        if (nft.metadata.image) {
                             return (
                                 <Styled.NFTBox>
                                     <Styled.NFT
@@ -929,25 +928,25 @@ const AddExperience = () => {
                                         {nft.metadata.title}
                                     </Styled.ButtonText>
                                 </Styled.NFTBox>
-                            )
+                            );
                         }
 
-                        return null
+                        return null;
                     })}
             </Styled.NFTContainer>
 
             {data?.getGateStatusByUserID &&
                 data?.getGateStatusByUserID?.items?.map((gs) => {
                     return (
-                        <Styled.ButtonBox to="" onClick={() => mintHandler(gs)}>
+                        <Styled.ButtonBox to='' onClick={() => mintHandler(gs)}>
                             <Styled.ButtonText>
                                 Mint badge - {gs.gate.badge.name}
                             </Styled.ButtonText>
                         </Styled.ButtonBox>
-                    )
+                    );
                 })}
         </Styled.BoxContainer>
-    )
-}
+    );
+};
 
-export default AddExperience
+export default AddExperience;

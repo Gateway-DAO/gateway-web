@@ -1,17 +1,17 @@
-import styled from 'styled-components'
-import { IoMdClose } from 'react-icons/io'
+import styled from 'styled-components';
+import { IoMdClose } from 'react-icons/io';
 
 export const Wrapper = styled.div`
     display: flex;
     margin: 20px 40px;
     align-items: center;
     justify-content: space-between;
-`
+`;
 export const Div = styled.div`
     display: flex;
     align-items: center;
     position: relative;
-`
+`;
 
 export const ButtonWrapper = styled.div`
     display: flex;
@@ -35,11 +35,11 @@ export const ButtonWrapper = styled.div`
     text-transform: uppercase;
 
     color: #e5e5e5;
-`
+`;
 export const TextWrapper = styled.div`
     padding-bottom: 4px;
     margin: 0px 15px;
-`
+`;
 export const Text = styled.p`
     font-family: Be Vietnam;
     font-size: 13px;
@@ -49,7 +49,7 @@ export const Text = styled.p`
     letter-spacing: 0.05em;
     text-align: left;
     color: white;
-`
+`;
 export const DeleteModal = styled.div`
     position: fixed;
     top: 0;
@@ -62,7 +62,7 @@ export const DeleteModal = styled.div`
     width: 100vw;
     height: 100vh;
     z-index: 5;
-`
+`;
 export const DeleteContainer = styled.div`
     background: #170627;
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
@@ -80,7 +80,7 @@ export const DeleteContainer = styled.div`
 
     padding-left: 20px;
     padding-right: 20px;
-`
+`;
 export const CloseBtn = styled(IoMdClose)`
     /* Background */
     background: linear-gradient(
@@ -100,4 +100,4 @@ export const CloseBtn = styled(IoMdClose)`
     right: 15px;
 
     cursor: pointer;
-`
+`;

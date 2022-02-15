@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const ActiveAns = `
     background: #220A38;
     border: 1px solid #7E3BDC;
-`
+`;
 
 const activeStyling = `
     background-image: linear-gradient(#170627, #170627),
@@ -12,7 +12,7 @@ const activeStyling = `
     background-clip: content-box, border-box;
     box-shadow: 0px 3px 8px rgba(255, 0, 184, 0.1);
     border: double 1px transparent;
-`
+`;
 
 export const QuestionNOText = styled.h3`
     font-family: Poppins;
@@ -28,11 +28,11 @@ export const QuestionNOText = styled.h3`
     color: #a5a5a5;
 
     margin-bottom: 10px;
-`
+`;
 
 export const QuestionBox = styled.div`
     margin-top: 44px;
-`
+`;
 
 export const QuestionText = styled.h2`
     font-family: Be Vietnam;
@@ -44,20 +44,20 @@ export const QuestionText = styled.h2`
     align-items: center;
 
     color: #e5e5e5;
-`
+`;
 
 export const AnswerContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 41px;
-`
+`;
 
 export const Answers = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 12px;
     cursor: pointer;
-`
+`;
 export const Option = styled.span`
     box-sizing: border-box;
     border: 1px solid #e5e5e5;
@@ -76,7 +76,7 @@ export const Option = styled.span`
     justify-content: center;
 
     ${(props) => (props.active ? ActiveAns : '')}
-`
+`;
 
 export const OptionAnswer = styled.div`
     width: 339px; // TODO: remove absolute width
@@ -97,7 +97,7 @@ export const OptionAnswer = styled.div`
     display: flex;
     align-items: center;
     padding-left: 11px;
-`
+`;
 
 export const ActionButton = styled.div`
     display: flex;
@@ -119,4 +119,4 @@ export const ActionButton = styled.div`
     margin-top: 90px;
     ${(props) => (props.active ? activeStyling : ' ')}
     cursor: pointer;
-`
+`;

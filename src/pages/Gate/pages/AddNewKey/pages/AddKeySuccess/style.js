@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.main`
     margin: auto 15%;
@@ -6,7 +6,7 @@ export const Container = styled.main`
     display: flex;
     flex-direction: column;
     align-items: center;
-`
+`;
 
 export const Heading = styled.h1`
     font-family: Poppins;
@@ -31,7 +31,7 @@ export const Heading = styled.h1`
     -moz-text-fill-color: transparent;
 
     margin-bottom: 40px;
-`
+`;
 
 export const RedirectText = styled.p`
     font-family: Be Vietnam;
@@ -42,4 +42,4 @@ export const RedirectText = styled.p`
     letter-spacing: 0.05em;
     text-align: center;
     color: #fff;
-`
+`;

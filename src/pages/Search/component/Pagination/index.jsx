@@ -1,12 +1,10 @@
-import * as Styled from './style'
-import { useState } from 'react'
-import ReactPaginate from 'react-paginate'
+import * as Styled from './style';
+import ReactPaginate from 'react-paginate';
 
-const Pagination = ({pageCount , setPageNumber}) => {
-  
+const Pagination = ({ pageCount, setPageNumber }) => {
     const changePage = ({ selected }) => {
-        setPageNumber(selected)
-    }
+        setPageNumber(selected);
+    };
 
     return (
         <Styled.PaginationContainer>
@@ -27,7 +25,7 @@ const Pagination = ({pageCount , setPageNumber}) => {
                 />
             </Styled.StyledPaginateContainer>
         </Styled.PaginationContainer>
-    )
-}
+    );
+};
 
-export default Pagination
+export default Pagination;

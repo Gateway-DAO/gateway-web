@@ -1,39 +1,38 @@
-import React, { useState } from 'react'
-import * as Styled from './style'
-import useKeyValidation from '../../../../../../hooks/useKeyValidation'
-import { FaPencilAlt } from 'react-icons/fa'
-import { AiFillCheckCircle } from 'react-icons/ai'
-import { useGateAdmin } from '../../../../../../hooks/useAdmin'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import * as Styled from './style';
+import useKeyValidation from '../../../../../../hooks/useKeyValidation';
+import { AiFillCheckCircle } from 'react-icons/ai';
+import { useGateAdmin } from '../../../../../../hooks/useAdmin';
+import { useNavigate } from 'react-router-dom';
 
 // Task Components
-import MeetingCode from './components/MeetingCode'
-import Snapshot from './components/Snapshot'
-import Loader from '../../../../../../components/Loader'
+import MeetingCode from './components/MeetingCode';
+import Snapshot from './components/Snapshot';
+import Loader from '../../../../../../components/Loader';
 
 const KeyBox = (props) => {
-    let navigate = useNavigate()
-    const [opened, setOpened] = useState(false)
-    const [startBox, setStartBox] = useState(false)
-    const data = props.data
-    const keyValidation = useKeyValidation(data, props.gateData)
-    const { isAdmin } = useGateAdmin(props.gateData.admins)
-    
+    let navigate = useNavigate();
+    const [opened, setOpened] = useState(false);
+    const [startBox, setStartBox] = useState(false);
+    const data = props.data;
+    const keyValidation = useKeyValidation(data, props.gateData);
+    const { isAdmin } = useGateAdmin(props.gateData.admins);
+
     const openedHandler = () => {
-        setOpened((prev) => !prev)
-    }
+        setOpened((prev) => !prev);
+    };
 
     const startHandler = () => {
-        setOpened((prev) => !prev)
-        setStartBox((prev) => !prev)
-    }
+        setOpened((prev) => !prev);
+        setStartBox((prev) => !prev);
+    };
 
     const editKey = () => {
-        const link = '/gate/' + props.data.gateID + '/edit-key'
+        const link = '/gate/' + props.data.gateID + '/edit-key';
         navigate(link, {
             state: { data },
-        })
-    }
+        });
+    };
 
     const Task = () => {
         switch (data.task.type) {
@@ -43,16 +42,16 @@ const KeyBox = (props) => {
                         data={data}
                         setInfo={(info) => keyValidation.setInfo(info)}
                     />
-                )
+                );
             case 'SNAPSHOT_GOVERNANCE':
-                return <Snapshot data={data} />
+                return <Snapshot data={data} />;
             case 'QUIZ':
             case 'SELF_VERIFY':
             case 'SC_INTERACTION':
             default:
-                return null
+                return null;
         }
-    }
+    };
 
     return (
         <Styled.ThirdDiv>
@@ -103,11 +102,11 @@ const KeyBox = (props) => {
                         >
                             <Styled.ButtonText>
                                 {keyValidation.loading && (
-                                    <Loader color="white" />
+                                    <Loader color='white' />
                                 )}
                                 {props.blocked && (
                                     <AiFillCheckCircle
-                                        color="#27D5A2"
+                                        color='#27D5A2'
                                         size={24}
                                         style={{ marginRight: 10 }}
                                     />
@@ -154,7 +153,7 @@ const KeyBox = (props) => {
                 </Styled.BottonBox>
             </Styled.Box>
         </Styled.ThirdDiv>
-    )
-}
+    );
+};
 
-export default React.memo(KeyBox)
+export default React.memo(KeyBox);

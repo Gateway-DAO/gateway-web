@@ -1,8 +1,13 @@
-import * as Styled from './style'
-import { useEffect, useState } from 'react'
+import * as Styled from './style';
+import { useEffect, useState } from 'react';
 
-const QuestionAndAnswer = ({ question, questionIdx, totalQuestions, setAnswer }) => {
-    const [answerList, setAnswerList] = useState([])
+const QuestionAndAnswer = ({
+    question,
+    questionIdx,
+    totalQuestions,
+    setAnswer,
+}) => {
+    const [answerList, setAnswerList] = useState([]);
 
     /**
      * Given an event and a selection, add the selection to the answer list if it's not already in the
@@ -12,29 +17,29 @@ const QuestionAndAnswer = ({ question, questionIdx, totalQuestions, setAnswer })
         let val;
 
         if (answerList.includes(selection)) {
-            val = answerList.filter((value) => value !== selection)
+            val = answerList.filter((value) => value !== selection);
         } else {
-            val = [...answerList, selection]
+            val = [...answerList, selection];
         }
 
-        setAnswerList(val)
+        setAnswerList(val);
 
         setAnswer({
             questionIdx,
-            answers: val
-        })
-    }
+            answers: val,
+        });
+    };
 
     useEffect(() => {
-        setAnswerList([])
-    }, [questionIdx])
+        setAnswerList([]);
+    }, [questionIdx]);
 
     return (
         <Styled.QuestionBox>
-            <Styled.QuestionNOText>Question {questionIdx + 1} OF {totalQuestions}</Styled.QuestionNOText>
-            <Styled.QuestionText>
-                {question.question}
-            </Styled.QuestionText>
+            <Styled.QuestionNOText>
+                Question {questionIdx + 1} OF {totalQuestions}
+            </Styled.QuestionNOText>
+            <Styled.QuestionText>{question.question}</Styled.QuestionText>
             <Styled.AnswerContainer>
                 {question.options.map((opt, idx) => (
                     <Styled.Answers onClick={(e) => handleAnswer(idx)}>
@@ -48,7 +53,7 @@ const QuestionAndAnswer = ({ question, questionIdx, totalQuestions, setAnswer })
                 ))}
             </Styled.AnswerContainer>
         </Styled.QuestionBox>
-    )
-}
+    );
+};
 
-export default QuestionAndAnswer
+export default QuestionAndAnswer;

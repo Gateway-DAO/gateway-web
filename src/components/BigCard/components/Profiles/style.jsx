@@ -1,7 +1,6 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import Collapsible from 'react-collapsible'
-import { FiArrowUpRight } from 'react-icons/fi'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { FiArrowUpRight } from 'react-icons/fi';
 
 export const Container = styled.main`
     margin-top: 40px;
@@ -11,13 +10,13 @@ export const Container = styled.main`
     @media only screen and (max-width: 945px) {
         padding-top: 60px;
     }
-`
+`;
 
 export const DAOContainer = styled.div`
     grid-column: 2 / 3;
     display: grid;
     grid-template-rows: 1fr auto;
-`
+`;
 
 export const DivideContainer = styled.div`
     display: grid;
@@ -28,13 +27,13 @@ export const DivideContainer = styled.div`
         display: flex;
         flex-direction: column;
     }
-`
+`;
 
 export const ColumnOne = styled.div`
     grid-column: ${(props) => (props.fullWidth ? '1 / 9' : '1 / span 5')};
     // grid-column: 1 / span 5;
     margin-bottom: 60px;
-`
+`;
 
 export const Description = styled.div`
     font-family: Be Vietnam;
@@ -59,7 +58,7 @@ export const Description = styled.div`
     @media only screen and (max-width: 300px) {
         font-size: 10px;
     }
-`
+`;
 
 export const MemberContainer = styled.div`
     border: 2px solid;
@@ -75,7 +74,7 @@ export const MemberContainer = styled.div`
     padding: 10px;
     display: flex;
     flex-direction: row;
-`
+`;
 
 export const Text = styled.p`
     font-family: Be Vietnam;
@@ -96,7 +95,7 @@ export const Text = styled.p`
     @media only screen and (max-width: 300px) {
         font-size: 10px;
     }
-`
+`;
 
 export const SubText = styled.h4`
     background: linear-gradient(
@@ -131,7 +130,7 @@ export const SubText = styled.h4`
     @media only screen and (max-width: 300px) {
         font-size: 10px;
     }
-`
+`;
 
 // categories section
 
@@ -142,7 +141,7 @@ export const CategoryList = styled.ul`
         flex-direction: column;
         text-align: center;
     }
-`
+`;
 
 export const Category = styled.li`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -159,7 +158,7 @@ export const Category = styled.li`
 
     letter-spacing: 0.05em;
 
-    color: #E5E5E5;
+    color: #e5e5e5;
 
     padding: 2px 6px;
     margin-right: 10px;
@@ -167,12 +166,12 @@ export const Category = styled.li`
     @media only screen and (max-width: 380px) {
         margin: 5px;
     }
-`
+`;
 
 export const CategoryLink = styled(Link)`
     text-decoration: none;
     color: #170627;
-`
+`;
 
 // social handle of Daos
 
@@ -192,7 +191,7 @@ export const SocialsList = styled.ul`
         align-items: center;
         flex-wrap: wrap;
     }
-`
+`;
 
 export const Social = styled.li`
     display: flex;
@@ -207,7 +206,7 @@ export const Social = styled.li`
     @media only screen and (max-width: 980px) {
         flex-direction: column;
     }
-`
+`;
 
 export const SocialLink = styled.a`
     font-family: Be Vietnam;
@@ -224,14 +223,14 @@ export const SocialLink = styled.a`
     text-decoration: none;
 
     margin-left: 5px;
-`
+`;
 
 export const YoutubeVideoContainer = styled.div`
     margin: auto;
     padding: 5px;
     width: 100%;
     margin-bottom: 50px;
-`
+`;
 
 export const ColumnTwo = styled.div`
     grid-column: 7 / span 2;
@@ -254,7 +253,7 @@ export const ColumnTwo = styled.div`
         justify-content: center;
         margin: 0 -20px;
     }
-`
+`;
 
 //  modal seciton starts from here
 
@@ -262,7 +261,7 @@ export const ColumnTwo = styled.div`
 
 export const DivContainer = styled.div`
     margin-top: 10px;
-`
+`;
 
 export const Button = styled.a`
     background: #180b27;
@@ -290,13 +289,13 @@ export const Button = styled.a`
     &:hover {
         cursor: pointer;
     }
-`
+`;
 
 export const CollapsibleChildren = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-`
+`;
 
 // second column  styling
 
@@ -313,26 +312,26 @@ export const LinkTo = styled(Button)`
     letter-spacing: 0.05em;
 
     color: ${(props) => props.color || '#170627'};
-`
+`;
 
 export const PastWeekContainer = styled.div`
     display: flex;
     flex-direction: row;
-`
+`;
 
 export const PercentageText = styled(Text)`
     margin-right: 5px;
-`
+`;
 
 export const PriceContainer = styled.div`
     display: flex;
     flex-direction: row;
-`
+`;
 
 export const ShareColumn = styled.div`
     display: flex;
     flex-direction: column;
-`
+`;
 
 export const ExplorerLink = (props) => (
     <a
@@ -343,7 +342,7 @@ export const ExplorerLink = (props) => (
         {props.children}
         <FiArrowUpRight />
     </a>
-)
+);
 
 export const StyledExplorerLink = styled(ExplorerLink)`
     font-family: Be Vietnam;
@@ -356,16 +355,16 @@ export const StyledExplorerLink = styled(ExplorerLink)`
     letter-spacing: 0.05em;
 
     color: #170627;
-`
+`;
 
 export const StyledExplorerLinkRight = styled(StyledExplorerLink)`
     text-align: right;
     color: #e5e5e5;
-`
+`;
 
 export const SubDAOContainer = styled.div`
     margin-top: 20px;
-`
+`;
 
 export const SubDAOImg = styled.img`
     border: 1px solid #e5e5e5;
@@ -373,12 +372,12 @@ export const SubDAOImg = styled.img`
     margin-bottom: 20px;
     width: 50px;
     background-color: white;
-`
+`;
 
 export const TextRight = styled(Text)`
     text-align: right;
     color: #e5e5e5;
-`
+`;
 
 export const Title = styled.h1`
     font-family: Be Vietnam;
@@ -396,19 +395,19 @@ export const Title = styled.h1`
     @media only screen and (max-width: 300px) {
         font-size: 14px;
     }
-`
+`;
 
 export const TokenFeed = styled.div`
     padding-bottom: 20px;
     display: flex;
     flex-direction: column;
-`
+`;
 
 export const TokenFeedData = styled.div`
     margin-top: 35px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-`
+`;
 
 export const TokenName = styled.h2`
     font-family: Be Vietnam;
@@ -421,7 +420,7 @@ export const TokenName = styled.h2`
     letter-spacing: 0.05em;
 
     color: #e5e5e5;
-`
+`;
 
 export const TokenPrice = styled.h3`
     font-family: Be Vietnam;
@@ -434,7 +433,7 @@ export const TokenPrice = styled.h3`
     letter-spacing: 0.05em;
 
     color: #e5e5e5;
-`
+`;
 
 export const TradeButton = styled(Button)`
     margin-top: 48px;
@@ -448,6 +447,6 @@ export const TradeButton = styled(Button)`
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: #e5e5e5;
-`
+`;
 
 // export const AboutDAOInfo = styled

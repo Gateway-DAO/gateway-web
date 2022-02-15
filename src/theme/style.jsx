@@ -1,15 +1,15 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 /** CONTAINERS **/
 
 export const SpaceBox = styled.canvas`
     position: absolute;
     top: 90px;
-    left:0;
-    right:0;
-    right:0;
+    left: 0;
+    right: 0;
+    right: 0;
     z-index: -1;
-`
+`;
 
 /** TEXT **/
 
@@ -38,9 +38,9 @@ export const MainText = styled.h1`
     -moz-text-fill-color: transparent;
 
     width: 100%;
-`
+`;
 
 export const H2 = styled(MainText)`
     font-size: 48px;
     font-weight: bold;
-`
+`;

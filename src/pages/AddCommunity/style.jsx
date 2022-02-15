@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Page = styled.main`
     min-height: 100vh;
@@ -16,7 +16,7 @@ export const Page = styled.main`
         height: 100%;
         width: 100%;
     }
-`
+`;
 
 export const Container = styled.div`
     display: flex;
@@ -29,7 +29,7 @@ export const Container = styled.div`
     // display: grid;
     // grid-template-columns: 3fr 6fr 3fr;
     margin: 50px 0;
-`
+`;
 
 export const Heading = styled.h1`
     font-family: Poppins;
@@ -58,16 +58,16 @@ export const Heading = styled.h1`
     grid-column: 1/4;
 
     margin-bottom: 50px;
-`
+`;
 export const SpaceBox = styled.canvas`
     position: absolute;
     top: 90px;
     z-index: -1;
-`
+`;
 
 export const Text = styled.p`
     margin: 50px auto;
     color: white;
     font-family: Poppins;
     font-style: normal;
-`
+`;

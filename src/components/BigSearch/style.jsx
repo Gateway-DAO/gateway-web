@@ -1,6 +1,5 @@
-import styled from 'styled-components'
-import { FiSearch } from 'react-icons/fi'
-
+import styled from 'styled-components';
+import { FiSearch } from 'react-icons/fi';
 
 export const SearchMainDiv = styled.div`
     display: flex;
@@ -27,7 +26,7 @@ export const SearchMainDiv = styled.div`
     @media only screen and (max-width: 300px) {
         height: 35px;
     }
-`
+`;
 export const SearchSecondary = styled.div`
     position: relative;
     width: 60%;
@@ -50,7 +49,7 @@ export const SearchSecondary = styled.div`
     @media only screen and (max-width: 300px) {
         height: 35px;
     }
-`
+`;
 
 export const TypewriterDiv = styled.div`
     position: absolute;
@@ -60,7 +59,7 @@ export const TypewriterDiv = styled.div`
     height: 100%;
     border-radius: 100px 0 0 100px;
     background-color: white;
-`
+`;
 export const TypewriterText = styled.div`
     font-family: 'Poppins', sans-serif !important;
     display: flex;
@@ -96,7 +95,7 @@ export const TypewriterText = styled.div`
     @media only screen and (max-width: 300px) {
         font-size: 15px;
     }
-`
+`;
 
 export const InputBox = styled.input`
     position: absolute;
@@ -139,7 +138,7 @@ export const InputBox = styled.input`
     @media only screen and (max-width: 300px) {
         font-size: 20px;
     }
-`
+`;
 
 export const SearchIconDiv = styled.div`
     display: flex;
@@ -148,8 +147,8 @@ export const SearchIconDiv = styled.div`
     justify-content: center;
     background-color: white;
     border-radius: 0px 100px 100px 0px;
-    cursor:pointer;
-`
+    cursor: pointer;
+`;
 
 export const WrappedFiSearch = styled(FiSearch)`
     padding-right: 35px;
@@ -175,4 +174,4 @@ export const WrappedFiSearch = styled(FiSearch)`
     @media only screen and (max-width: 300px) {
         font-size: 20px;
     }
-`
+`;

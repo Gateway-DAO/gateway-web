@@ -1,2 +1,2 @@
-export {default as ImageUpload} from "./components/ImageUpload";
-export * as FormStyled from "./style"
+export { default as ImageUpload } from './components/ImageUpload';
+export * as FormStyled from './style';
