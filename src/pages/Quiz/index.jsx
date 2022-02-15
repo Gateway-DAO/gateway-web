@@ -200,6 +200,10 @@ const CreateQuiz = () => {
         }, 5000);
     };
 
+    const onEditSave = async (e) => {
+        e.preventDefault()
+    }
+
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
@@ -208,7 +212,7 @@ const CreateQuiz = () => {
     return createdKey ? (
         <AddKeySuccess gate={state.gateData.id} />
     ) : (
-        <FormStyled.FormBox onSubmit={onSave}>
+        <FormStyled.FormBox onSubmit={edit ? onEditSave : onSave}>
             <Styled.Container>
                 <ThemeStyled.SpaceBox id='space-canvas' />
                 <FormStyled.H1>{edit ? 'Edit Quiz' : 'Add Quiz'}</FormStyled.H1>
