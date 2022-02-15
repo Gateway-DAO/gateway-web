@@ -3,8 +3,12 @@ import BackButton from '../../../../components/BackButton';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import * as Styled from './style';
 
-const AddNewKey = (props) => {
-    const { gateData } = useOutletContext();
+/**
+ * It renders the Outlet component with the gateData context.
+ * @returns The `AddNewKey` component is being returned.
+ */
+const AddNewKey = () => {
+    const { gateData }: Record<string, any> = useOutletContext();
 
     return (
         <Styled.Container>

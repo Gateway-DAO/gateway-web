@@ -4,6 +4,7 @@ import useKeyValidation from '../../../../../../hooks/useKeyValidation';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
+// import { FaPencilAlt } from 'react-icons/fa';
 
 // Task Components
 import MeetingCode from './components/MeetingCode';
@@ -65,7 +66,7 @@ const KeyBox = (props) => {
                             <Styled.EditContainer onClick={editKey}>
                                 <FaPencilAlt />
                             </Styled.EditContainer>
-                        )*/}
+                        ) */}
                     </Styled.BoxHeading>
                     <Styled.BoxSubtitle opened={opened}>
                         {data.information[0].description}

@@ -28,8 +28,9 @@ const Gate = () => {
         ).length > 0
             ? userInfo?.gates?.items
                   ?.filter((obj: Record<string, any>) => obj.gateID !== gate)[0]
-                  .tasks?.items?.filter(
-                      (obj: Record<string, any>) => obj.userID === userInfo.id
+                  .tasks?.items?.map(
+                      (obj: Record<string, any>) =>
+                          obj.userID === userInfo.id && obj
                   )
             : []
     );
@@ -50,27 +51,31 @@ const Gate = () => {
     }, [gateData, loading, userInfo]);
 
     useEffect(() => {
-        if (userInfo?.gates?.items) {
-            setKeysDone(
-                userInfo?.gates?.items?.map(
-                    (obj: Record<string, any>) => obj.gateID === gate && obj
-                )[0]?.keysDone || 0
-            );
-            setTaskStatus(
-                userInfo?.gates?.items?.filter(
-                    (obj: Record<string, any>) => obj.gateID !== gate
-                ).length > 0
-                    ? userInfo?.gates?.items
-                          ?.filter(
-                              (obj: Record<string, any>) => obj.gateID !== gate
-                          )[0]
-                          .tasks?.items?.filter(
-                              (obj: Record<string, any>) =>
-                                  obj.userID === userInfo.id
-                          )
-                    : []
-            );
-        }
+        console.log(
+            userInfo?.gates?.items?.filter(
+                (obj: Record<string, any>) => obj.gateID === gate
+            )[0]
+        );
+        setKeysDone(
+            userInfo?.gates?.items?.filter(
+                (obj: Record<string, any>) => obj.gateID === gate
+            )[0]?.keysDone || 0
+        );
+        setTaskStatus(
+            userInfo?.gates?.items?.filter(
+                (obj: Record<string, any>) => obj.gateID === gate && obj
+            ).length > 0
+                ? userInfo?.gates?.items
+                      ?.filter(
+                          (obj: Record<string, any>) =>
+                              obj.gateID === gate && obj
+                      )[0]
+                      .tasks?.items?.filter(
+                          (obj: Record<string, any>) =>
+                              obj.userID === userInfo.id
+                      )
+                : []
+        );
     }, [gate, userInfo]);
 
     if (error) {
