@@ -26,8 +26,8 @@ const Gate = (props) => {
     const { data: dbData, loading, error } = useGetGate(gate)
     const [gateData, setGateData] = useState(dbData?.getGate || {})
     const [loaded, setLoaded] = useState(false)
-    const [keysDone, setKeysDone] = useState(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
-    const [taskStatus, setTaskStatus] = useState(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.tasks?.items.map(obj => obj.userID === userInfo.id && obj) || [])
+    const [keysDone, setKeysDone] = useState(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
+    const [taskStatus, setTaskStatus] = useState(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0].tasks?.items?.filter(obj => obj.userID === userInfo.id) || [])
 
     // Fetch data regarding these
     useEffect(() => {
@@ -46,8 +46,8 @@ const Gate = (props) => {
 
     useEffect(() => {
         if (userInfo?.gates?.items) {
-            setKeysDone(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
-            setTaskStatus(userInfo?.gates?.items.map(obj => obj.gateID === gate && obj)[0]?.tasks?.items.map(obj => obj.userID === userInfo.id && obj) || [])
+            setKeysDone(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0]?.keysDone || 0)
+            setTaskStatus(userInfo?.gates?.items?.map(obj => obj.gateID === gate && obj)[0].tasks?.items?.filter(obj => obj.userID === userInfo.id) || [])
         }
     }, [gate, userInfo])
 

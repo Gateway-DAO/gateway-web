@@ -440,7 +440,7 @@ const AddGateForm = (props) => {
                             htmlFor="ProfileImage"
                             label="Upload Badge or NFT"
                             setImage={setUploadFile}
-                            defaultImageURL={state.gateData.badge.ipfsURL}
+                            defaultImageURL={`https://gateway.pinata.cloud/ipfs/${state.gateData.badge.ipfsURL}`}
                         />
                     ) : (
                         <ImageUpload

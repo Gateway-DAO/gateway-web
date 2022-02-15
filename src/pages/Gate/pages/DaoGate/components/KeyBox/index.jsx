@@ -18,8 +18,7 @@ const KeyBox = (props) => {
     const data = props.data
     const keyValidation = useKeyValidation(data, props.gateData)
     const { isAdmin } = useGateAdmin(props.gateData.admins)
-    console.log(data)
-    // console.log(props.data)
+    
     const openedHandler = () => {
         setOpened((prev) => !prev)
     }
