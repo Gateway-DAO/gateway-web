@@ -8,9 +8,12 @@ import Loader from '../../../../../../components/Loader'
 
 const AddMeetingCode = (props) => {
     // State
-    const [code, setCode] = useState(state.taskInfo ? state.taskInfo?.code : null)
-    const [createdKey, setCreatedKey] = useState(false)
     const { state } = useLocation()
+    const [code, setCode] = useState(
+        state.taskInfo ? state.taskInfo?.code : null
+    )
+    const [createdKey, setCreatedKey] = useState(false)
+
     const { createMeetingCode, data, loading, error } = useCreateMeetingCode()
     const navigate = useNavigate()
     // console.log(state.taskInfo)
