@@ -129,13 +129,6 @@ export const UserProvider = ({ children }) => {
         },
     })
 
-    const [getUser, { data: userData, loading: userLoading }] = useLazyQuery(
-        gql(getUserQuery),
-        {
-            fetchPolicy: 'no-cache',
-        }
-    )
-
     const {
         updateUser,
         data: userUpdateData,
@@ -238,13 +231,15 @@ export const UserProvider = ({ children }) => {
                         name: shortenAddress(web3.account),
                         init: false,
                         nonce: Math.round(Math.random() * 1000000),
-                        pfp: await getFile('public/logo.png'),
+                        pfp: await getFile('logo.png'),
                         ...(info.variables.input || {}),
                     },
                 },
             })
 
             setUserInfo(user.data.createUser)
+
+            return user.data.createUser
         }
     }
 
@@ -293,7 +288,11 @@ export const UserProvider = ({ children }) => {
     /* If the user has their wallet connected, get the user's info from the database. */
     useEffect(() => {
         const callback = async () => {
+            // Since state update is asynchrounous, let's keep track of the current value using an internal variable
+            let userInfo_INTERNAL = userInfo;
+
             if (web3.active && web3.account) {
+                // 1. fetch/create user based on the wallet
                 const userDB = userBACalled
                     ? await refetch({
                           wallet: web3.account,
@@ -304,51 +303,47 @@ export const UserProvider = ({ children }) => {
                           },
                       })
 
-                if (!!userDB.data.getUserByAddress.items.length) {
+                if (userDB.data.getUserByAddress.items.length > 0) {
                     setUserInfo({
                         ...userDB.data.getUserByAddress.items[0],
                         isAdmin: false,
                     })
 
-                    // setLoggedIn(false)
+                    userInfo_INTERNAL = {
+                        ...userDB.data.getUserByAddress.items[0],
+                        isAdmin: false,
+                    }
                 } else {
-                    await createNewUser()
+                    userInfo_INTERNAL = await createNewUser()
                 }
 
                 setWalletConnected(true)
+
+                // 2. check Cognito
+                const { username, signInUserSession } =
+                await Auth.currentAuthenticatedUser()
+            
+                if (username) {
+                    // Cognito has credentials
+                    if (username === userInfo_INTERNAL?.id) {
+                        // If the Cognito session matches current user, mark them as logged in
+                        setUserInfo({
+                            ...userInfo_INTERNAL,
+                            ...getUserGroups(signInUserSession),
+                        })
+    
+                        setLoggedIn(true)
+                    } else {
+                        // If the Cognito session doesn't match the current user, clean Cognito
+                        await Auth.signOut()
+                        setLoggedIn(false)
+                    }
+                }
             }
         }
 
         callback()
     }, [web3.account, web3.active])
-
-    /* If the user is logged in, check if the user's wallet is connected. If the user's wallet is
-    connected, set the walletConnected state to true. */
-    useEffect(() => {
-        const callback = async () => {
-            const { username, signInUserSession } =
-                await Auth.currentAuthenticatedUser()
-
-            if (userInfo) {
-                if (username === userInfo.id) {
-                    setUserInfo({
-                        ...userInfo,
-                        ...getUserGroups(signInUserSession),
-                    })
-
-                    setWalletConnected(true)
-                    setLoggedIn(true)
-                } else {
-                    Auth.signOut().then(() => {
-                        setLoggedIn(false)
-                        setLoggingIn(false)
-                    })
-                }
-            }
-        }
-
-        callback()
-    }, [web3.account])
 
     /**
      * When the user signs in, get the user's information from the database and set it in the state.

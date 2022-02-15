@@ -5,7 +5,7 @@ import space from '../../utils/canvas'
 import * as Styled from './style'
 import { FormStyled } from '../../components/Form'
 
-const SubmitPage = ({ name }) => {
+const SubmitPage = (): JSX.Element => {
     const navigate = useNavigate()
 
     useEffect(
@@ -26,7 +26,7 @@ const SubmitPage = ({ name }) => {
                     We're Building Communities Together
                 </Styled.Heading>
                 <Styled.Text>
-                    Thank you, your DAO was successfully added1
+                    Thank you, your DAO was successfully added
                 </Styled.Text>
                 <FormStyled.Button
                     id="submit_msg"

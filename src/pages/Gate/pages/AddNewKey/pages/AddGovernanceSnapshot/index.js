@@ -12,14 +12,15 @@ import AddKeySuccess from '../AddKeySuccess'
 import Loader from '../../../../../../components/Loader'
 
 const AddGovernanceSnapshot = (props) => {
+    const { state } = useLocation()
     // States
-    const [active, setShowActive] = useState(null)
-    const [proposal, setProposal] = useState(null)
-    const [spaceID, setSpaceID] = useState(null)
+    const [active, setShowActive] = useState(state.taskInfo ? state.taskInfo.snapshotType.toLowerCase() : null)
+    const [proposal, setProposal] = useState(state.taskInfo ? state.taskInfo.proposal : null)
+    const [spaceID, setSpaceID] = useState(state.taskInfo ? state.taskInfo.spaceID : null)
     const [createdKey, setCreatedKey] = useState(false)
 
     // Hooks
-    const { state } = useLocation()
+    
     const { createSnapshot, loading } = useCreateSnapshot()
 
     const onSubmit = async (e) => {
@@ -55,9 +56,13 @@ const AddGovernanceSnapshot = (props) => {
         }
     }
 
+    const onEditSubmit = async (e) => {
+        e.preventDefault()
+    }
+
     return createdKey ? <AddKeySuccess gate={state.gateData.id} /> : (
-        <FormStyled.FormBox onSubmit={onSubmit}>
-            <FormStyled.H1>Add Snapshot Governance</FormStyled.H1>
+        <FormStyled.FormBox onSubmit={state.taskInfo ?  onEditSubmit : onSubmit}>
+            <FormStyled.H1>{state.taskInfo ? 'Edit Snapshot Governance' : 'Add Snapshot Governance'}</FormStyled.H1>
             <FormStyled.Fieldset>
                 <FormStyled.GridBox
                     cols="2"

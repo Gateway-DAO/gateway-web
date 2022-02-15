@@ -7,16 +7,25 @@ import AddKeySuccess from '../AddKeySuccess'
 import Loader from '../../../../../../components/Loader'
 
 const AddContractInteraction = (props) => {
-    const [address, setAddress] = useState("")
-    const [methodName, setMethodName] = useState("")
-    const [createdKey, setCreatedKey] = useState(false)
-    const [chain, setChain] = useState(1)
     const { state } = useLocation()
-    const { createContractInteraction, data, loading, error } = useCreateContractInteraction()
+    console.log(state.taskInfo)
+    const [address, setAddress] = useState(
+        state.taskInfo ? state.taskInfo.address : ''
+    )
+    const [methodName, setMethodName] = useState(
+        state.taskInfo ? state.taskInfo.methodName : ''
+    )
+    const [createdKey, setCreatedKey] = useState(false)
+    const [chain, setChain] = useState(
+        state.taskInfo ? state.taskInfo.chainID : 1
+    )
+
+    const { createContractInteraction, loading } =
+        useCreateContractInteraction()
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        
+
         try {
             await createContractInteraction({
                 variables: {
@@ -30,30 +39,39 @@ const AddContractInteraction = (props) => {
                         peopleLimit: state.peopleLimit,
                         unlimited: state.unlimited,
                         task: {
-                            type: "CONTRACT_INTERACTION",
+                            type: 'CONTRACT_INTERACTION',
                             chainID: chain,
-                            address: address,
-                            methodName
-                        }
-                    }
-                }
+                            address,
+                            methodName,
+                        },
+                    },
+                },
             })
 
             setCreatedKey(true)
-        }
-        catch (err) {
-            alert("An error occurred. Please try again later!")
+        } catch (err) {
+            alert('An error occurred. Please try again later!')
             console.log(err)
         }
     }
 
-    return createdKey ? <AddKeySuccess gate={state.gateData.id} /> : (
-        <FormStyled.FormBox onSubmit={onSubmit}>
-            <FormStyled.H1>Add Contract Interaction</FormStyled.H1>
+    const onEditSubmit = async (e) => {
+        e.preventDefault()
+    }
+
+    return createdKey ? (
+        <AddKeySuccess gate={state.gateData.id} />
+    ) : (
+        <FormStyled.FormBox onSubmit={state.taskInfo ? onEditSubmit : onSubmit}>
+            <FormStyled.H1>
+                {state.taskInfo
+                    ? 'Edit Contract Interaction'
+                    : 'Add Contract Interaction'}
+            </FormStyled.H1>
 
             <FormStyled.Fieldset>
                 <FormStyled.Label>Chain</FormStyled.Label>
-                <FormStyled.Select onChange={e => setChain(e.target.value)}>
+                <FormStyled.Select onChange={(e) => setChain(e.target.value)}>
                     <option value={1}>Ethereum</option>
                     <option value={42220}>Celo</option>
                     <option value={56}>Binance Smart Chain</option>
@@ -64,12 +82,23 @@ const AddContractInteraction = (props) => {
 
             <FormStyled.Fieldset>
                 <FormStyled.Label>Contract Address</FormStyled.Label>
-                <FormStyled.Input title="Token" placeholder="Token Address" value={address} onChange={e => setAddress(e.target.value)} required />
+                <FormStyled.Input
+                    title="Token"
+                    placeholder="Token Address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    required
+                />
             </FormStyled.Fieldset>
 
             <FormStyled.Fieldset>
                 <FormStyled.Label>Method Name</FormStyled.Label>
-                <FormStyled.Input placeholder="Smart Contract Method Name. Ex: swapETHForToken" value={methodName} onChange={e => setMethodName(e.target.value)} required />
+                <FormStyled.Input
+                    placeholder="Smart Contract Method Name. Ex: swapETHForToken"
+                    value={methodName}
+                    onChange={(e) => setMethodName(e.target.value)}
+                    required
+                />
             </FormStyled.Fieldset>
 
             <FormStyled.Button type="submit">
