@@ -99,7 +99,14 @@ export const FormBox = styled.form`
     margin: 50px 0;
 `;
 
-export const Fieldset = styled.fieldset`
+interface IMarginProps {
+    marginY?: string | number;
+    marginBottom?: string | number;
+    marginTop?: string | number;
+    marginLeft?: string | number;
+}
+
+export const Fieldset = styled.fieldset<IMarginProps>`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -107,7 +114,7 @@ export const Fieldset = styled.fieldset`
     margin-bottom: ${(props) => props.marginBottom || '30px'};
 `;
 
-export const FieldsetRow = styled.fieldset`
+export const FieldsetRow = styled.fieldset<IMarginProps>`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -115,7 +122,7 @@ export const FieldsetRow = styled.fieldset`
     margin-bottom: ${(props) => props.marginBottom || '30px'};
 `;
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<IMarginProps>`
     display: flex;
     align-self: flex-start;
     align-items: center;
@@ -131,7 +138,10 @@ export const DeleteWrapper = styled(Wrapper)`
     cursor: pointer;
 `;
 
-export const GridBox = styled.div`
+export const GridBox = styled.div<{
+    gap?: string | number;
+    cols?: string | number;
+}>`
     display: grid;
     grid-template-columns: repeat(${(props) => props.cols || '3'}, 1fr);
     grid-column-gap: ${(props) => props.gap || '10px'};
@@ -155,12 +165,7 @@ export const Label = styled.label`
     color: ${(props) => props.color || '#ffffff'};
 `;
 
-export const TextLabel = styled.div`
-    // position: absolute;
-    // width: 547px;
-    // height: 38px;
-    // left: 435px;
-    // top: 602px;
+export const TextLabel = styled.div<IMarginProps>`
     margin-left: ${(props) => props.marginLeft || '0px'};
     font-family: Be Vietnam;
     font-style: normal;
@@ -175,7 +180,7 @@ export const TextLabel = styled.div`
     color: #e5e5e5;
 `;
 
-export const Textarea = styled.textarea`
+export const Textarea = styled.textarea<{ height?: string | number }>`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
@@ -227,7 +232,12 @@ export const IconButton = styled(Button)`
     margin-top: 0;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{
+    white?: boolean;
+    valid?: boolean;
+    value: unknown;
+    name?: string;
+}>`
     ${(props) => (props.white ? InputWhite : InputDefault)}
 
     font-family: Be Vietnam;
@@ -290,7 +300,7 @@ const SearchInput = styled.input`
     outline: none;
 `;
 
-const CheckboxContainer = styled.div`
+const CheckboxContainer = styled.div<{ checked: boolean }>`
     position: relative;
     display: flex;
     align-items: center;

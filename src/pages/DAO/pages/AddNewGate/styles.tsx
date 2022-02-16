@@ -98,27 +98,6 @@ export const Label = styled.label`
     color: #ffffff;
 `;
 
-export const Textarea = styled.textarea`
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.05em;
-    width: 100%;
-    height: ${(props) => props.height || '250px'};
-    color: #e5e5e5;
-    background: #170627;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 12px;
-    margin: 12px 0;
-    resize: vertical;
-`;
-
 export const Button = styled.button`
     background: #170627;
     border: 1px solid #a5a5a5;
@@ -145,33 +124,6 @@ export const IconButton = styled(Button)`
     padding: 10px;
 `;
 
-export const Fieldset = styled.fieldset`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: ${(props) => props.marginY || '10px'} 0;
-    ${(props) =>
-        props.marginBottom ? 'margin-bottom: ' + props.marginBottom : ''}
-`;
-
-export const Input = styled.input`
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 10px;
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.05em;
-    background: #170627;
-    color: #e5e5e5;
-    margin: 12px 0;
-    width: 100%;
-`;
 export const InputSmall = styled(FormStyled.Input)`
     width: 108px;
     height: 40px;
@@ -207,39 +159,10 @@ export const Text = styled.p`
     font-family: Poppins;
     font-style: normal;
 `;
-export const DragArea = styled.div`
-    width: 100%;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #170627;
-    border: ${(props) =>
-        props.hover
-            ? '1px solid rgba(255, 255, 255, 0.2)'
-            : '1px dashed rgba(255, 255, 255, 0.2)'};
-    box-sizing: border-box;
-    margin: 10px 0;
-    border-radius: 5px;
-`;
-export const DragAreaText = styled.div`
-    width: 100%;
-    height: 32px;
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 26px;
-    /* or 162% */
-
-    text-align: center;
-    color: ${(props) =>
-        props.hover ? ' rgba(255, 255, 255, 1)' : ' rgba(255, 255, 255, 0.2)'};
-`;
 export const Span = styled.span`
     color: #fe02b9;
 `;
-export const Background = styled.div`
+export const Background = styled.div<{ image: string }>`
     position: relative;
     width: 337px;
     height: 256px;
@@ -312,7 +235,14 @@ export const SearchBox = styled.div`
     border-radius: 5px;
 `;
 
-export const IconBox = styled.div`
+interface IIconBoxProps {
+    color?: string;
+    border?: string;
+    mr?: string | number;
+    ml?: string | number;
+}
+
+export const IconBox = styled.div<IIconBoxProps>`
     color: ${(props) => (props.color ? props.color : `white`)};
     display: flex;
     justify-content: center;

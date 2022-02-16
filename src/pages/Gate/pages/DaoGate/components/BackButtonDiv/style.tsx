@@ -1,6 +1,15 @@
 import styled from 'styled-components';
 import { IoMdClose } from 'react-icons/io';
 
+/* This is a type definition for the `ButtonWrapper` component. It is used to define the properties
+that the component can accept. */
+interface IButtonWrapperProps {
+    ml?: string | number;
+    width?: string | number;
+    size?: string | number;
+    onClick?(): void;
+}
+
 export const Wrapper = styled.div`
     display: flex;
     margin: 20px 40px;
@@ -13,7 +22,7 @@ export const Div = styled.div`
     position: relative;
 `;
 
-export const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div<IButtonWrapperProps>`
     display: flex;
     width: ${(props) => props.width || '40px'};
     height: 40px;

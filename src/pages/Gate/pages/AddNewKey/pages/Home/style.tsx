@@ -37,7 +37,7 @@ export const AddNewKeyContainer = styled.div`
     }
 `;
 
-export const InputContainer = styled.div`
+export const InputContainer = styled.div<{ value?: unknown }>`
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
@@ -68,7 +68,7 @@ export const Input = styled.input`
     ${(props) => (props.value ? FilledLimitBox : '')}
 `;
 
-export const UnlimitedBoxContainer = styled.div`
+export const UnlimitedBoxContainer = styled.div<{ value?: boolean }>`
     margin: 6px 10px;
     padding: 5px;
     border: 1px solid rgba(255, 255, 255, 0.2);

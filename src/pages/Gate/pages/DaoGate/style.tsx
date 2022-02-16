@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+
+interface ISmallLogoProps {
+    src: string;
+}
+
 export const Wrapper = styled.div`
     background: #170627;
 `;
@@ -25,7 +30,7 @@ export const FirstDiv = styled.div`
     align-items: center;
 `;
 
-export const SmallLogo = styled.div`
+export const SmallLogo = styled.div<ISmallLogoProps>`
     height: 20px;
     width: 20px;
     border-radius: 100%;

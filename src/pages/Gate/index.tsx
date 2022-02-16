@@ -3,31 +3,36 @@ import { useParams, Navigate, Outlet } from 'react-router-dom';
 // Hooks
 import { useGetGate } from '../../api/database/useGetGate';
 import { useAuth } from '../../contexts/UserContext';
-import { onUpdateGate } from '../../graphql/subscriptions';
 
 // Components
 import Page from '../../components/Page';
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-// AWS
-import { API, graphqlOperation } from 'aws-amplify';
-import { gql } from '@apollo/client';
-
-const Gate = (props) => {
+const Gate = () => {
     const { gate } = useParams();
-    const { userInfo } = useAuth();
+    const { userInfo }: Record<string, any> = useAuth();
+
     const { data: dbData, loading, error } = useGetGate(gate);
     const [gateData, setGateData] = useState(dbData?.getGate || {});
     const [loaded, setLoaded] = useState(false);
     const [keysDone, setKeysDone] = useState(
-        userInfo?.gates?.items?.map((obj) => obj.gateID === gate && obj)[0]
-            ?.keysDone || 0
+        userInfo?.gates?.items?.map(
+            (obj: Record<string, any>) =>
+                (obj.gateID === gate && obj?.keysDone) || 0
+        )
     );
     const [taskStatus, setTaskStatus] = useState(
-        userInfo?.gates?.items
-            ?.map((obj) => obj.gateID === gate && obj)[0]
-            ?.tasks?.items?.filter((obj) => obj.userID === userInfo.id) || []
+        userInfo?.gates?.items?.filter(
+            (obj: Record<string, any>) => obj.gateID !== gate
+        ).length > 0
+            ? userInfo?.gates?.items
+                  ?.filter((obj: Record<string, any>) => obj.gateID !== gate)[0]
+                  .tasks?.items?.map(
+                      (obj: Record<string, any>) =>
+                          obj.userID === userInfo.id && obj
+                  )
+            : []
     );
 
     // Fetch data regarding these
@@ -46,39 +51,32 @@ const Gate = (props) => {
     }, [gateData, loading, userInfo]);
 
     useEffect(() => {
-        if (userInfo?.gates?.items) {
-            setKeysDone(
-                userInfo?.gates?.items?.map(
-                    (obj) => obj.gateID === gate && obj
-                )[0]?.keysDone || 0
-            );
-            setTaskStatus(
-                userInfo?.gates?.items
-                    ?.map((obj) => obj.gateID === gate && obj)[0]
-                    ?.tasks?.items?.filter(
-                        (obj) => obj.userID === userInfo.id
-                    ) || []
-            );
-        }
+        console.log(
+            userInfo?.gates?.items?.filter(
+                (obj: Record<string, any>) => obj.gateID === gate
+            )[0]
+        );
+        setKeysDone(
+            userInfo?.gates?.items?.filter(
+                (obj: Record<string, any>) => obj.gateID === gate
+            )[0]?.keysDone || 0
+        );
+        setTaskStatus(
+            userInfo?.gates?.items?.filter(
+                (obj: Record<string, any>) => obj.gateID === gate && obj
+            ).length > 0
+                ? userInfo?.gates?.items
+                      ?.filter(
+                          (obj: Record<string, any>) =>
+                              obj.gateID === gate && obj
+                      )[0]
+                      .tasks?.items?.filter(
+                          (obj: Record<string, any>) =>
+                              obj.userID === userInfo.id
+                      )
+                : []
+        );
     }, [gate, userInfo]);
-
-    // Subscription to updates
-    useEffect(() => {
-        const subscription = API.graphql(
-            graphqlOperation(gql(onUpdateGate))
-        ).subscribe({
-            next: (data) => {
-                let gate = data.value.data.onUpdateGate;
-
-                if (gate.id === gateData.id) {
-                    console.log('onUpdateGate');
-                    setGateData({ ...gateData, ...gate });
-                }
-            },
-        });
-
-        return () => subscription.unsubscribe();
-    });
 
     if (error) {
         console.error(error);

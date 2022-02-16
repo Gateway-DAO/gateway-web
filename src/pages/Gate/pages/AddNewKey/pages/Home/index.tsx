@@ -18,16 +18,17 @@ import { v4 as uuidv4 } from 'uuid';
 import AddKeySuccess from '../AddKeySuccess';
 import { useLocation } from 'react-router-dom';
 
-const AddNewKey = (props) => {
-    const { state } = useLocation();
+const AddNewKey = () => {
+    const { state }: Record<string, any> = useLocation();
     const edit = state ? true : false;
-    // console.log(state?.data)
+
     // States
-    // console.log(state.data.task.type.toLowerCase().replace(/_/g, '-'))
-    const [taskLink, setTaskLink] = useState(
+    const [taskLink, setTaskLink] = useState<string>(
         state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
     );
-    const [titleDescriptionPair, setTitleDescriptionPair] = useState(
+    const [titleDescriptionPair, setTitleDescriptionPair] = useState<
+        Array<Record<string, string>>
+    >(
         state
             ? state.data.information
             : [
@@ -39,24 +40,25 @@ const AddNewKey = (props) => {
     );
     // const [token, setToken] = useState(state ? state.data.token :'')
     // const [amount, setAmount] = useState(state ? state.data.tokenAmount : 0)
-    const [keysRewarded, setKeysRewarded] = useState(
+    const [keysRewarded, setKeysRewarded] = useState<number>(
         state ? state.data.keys : 0
     );
-    const [peopleLimit, setPeopleLimit] = useState(
+    const [peopleLimit, setPeopleLimit] = useState<number>(
         state ? state.data.peopleLimit : 0
     );
-    const [unlimited, setUnlimited] = useState(
+    const [unlimited, setUnlimited] = useState<boolean>(
         state ? state.data.unlimited : true
     );
-    const [keysDilogBox, setKeysDilogBox] = useState(false);
-    const [peopleLimitDilogBox, setPeopleLimitDilogBox] = useState(false);
-    const [createdKey, setCreatedKey] = useState(false);
+    const [keysDilogBox, setKeysDilogBox] = useState<boolean>(false);
+    const [peopleLimitDilogBox, setPeopleLimitDilogBox] =
+        useState<boolean>(false);
+    const [createdKey, setCreatedKey] = useState<boolean>(false);
 
-    const { gateData } = useOutletContext();
+    const { gateData }: Record<string, any> = useOutletContext();
 
     // Hooks
     const navigate = useNavigate();
-    const { createSelfVerify, data, loading, error } = useCreateSelfVerify();
+    const { createSelfVerify, loading } = useCreateSelfVerify();
 
     /**
      * Updates a title on the titleDescriptionPair array.
@@ -361,7 +363,11 @@ const AddNewKey = (props) => {
                                 id='keysRewarded'
                                 name='keysRewarded'
                                 onChange={(e) =>
-                                    setKeysRewarded(e.target.value)
+                                    setKeysRewarded(
+                                        parseInt(
+                                            (e.target as HTMLInputElement).value
+                                        )
+                                    )
                                 }
                                 placeholder='0'
                                 value={keysRewarded > 0 ? keysRewarded : ''}
@@ -393,7 +399,12 @@ const AddNewKey = (props) => {
                                     type='number'
                                     min='0'
                                     onChange={(e) =>
-                                        setPeopleLimit(e.target.value)
+                                        setPeopleLimit(
+                                            parseInt(
+                                                (e.target as HTMLInputElement)
+                                                    .value
+                                            )
+                                        )
                                     }
                                     placeholder={unlimited ? 'Unlimited' : ''}
                                     value={!unlimited ? peopleLimit : ''}
@@ -417,7 +428,11 @@ const AddNewKey = (props) => {
                             You should select one task per key
                         </FormStyled.SubText>
                         <FormStyled.GridBox
-                            onChange={(e) => setTaskLink(e.target.value)}
+                            onChange={(e) =>
+                                setTaskLink(
+                                    (e.target as HTMLInputElement).value
+                                )
+                            }
                         >
                             <FormStyled.BigRadio
                                 id='task-1'

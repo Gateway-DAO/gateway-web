@@ -8,13 +8,26 @@ import { MdModeEditOutline } from 'react-icons/md';
 import { FaTrashAlt } from 'react-icons/fa';
 
 //Hooks
-import { useNavigate } from 'react-router-dom';
+import { To, useNavigate } from 'react-router-dom';
 import useUpdateGate from '../../../../../../api/database/useUpdateGate';
 import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 //import'./BackButton.css';
 
-const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
+interface Props {
+    id: string;
+    url?: number | string;
+    children: string | React.ReactNode;
+    gateData: Record<string, any>;
+    daoData: Record<string, any>;
+    published: boolean;
+}
+
+const BackButton: React.FC<Props> = ({
+    url = -1,
+    children = 'Go Back',
+    ...props
+}) => {
     const gateData = props.gateData;
 
     //States
@@ -65,11 +78,11 @@ const BackButton = ({ url = -1, children = 'Go Back', ...props }) => {
                 },
             },
         });
-        navigate(url);
+        navigate(url as To);
     };
     return (
         <Styled.Wrapper>
-            <Styled.Div onClick={() => navigate(url)}>
+            <Styled.Div onClick={() => navigate(url as To)}>
                 <Styled.ButtonWrapper>
                     <img src={BackIcon} alt='Back' />
                 </Styled.ButtonWrapper>

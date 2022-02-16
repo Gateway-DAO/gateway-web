@@ -317,6 +317,29 @@ union TaskUnion =
     | ContractInteraction
     | ManualTask
 
+### MANUAL TASK SUBMISSION ###
+
+type ManualTaskSubmission @model @key(
+        name: "manualTaskSubmissionByUserID"
+        fields: ["userID"]
+        queryField: "getManualTaskSubmissionByUserID"
+    )
+
+    @key(
+        name: "manualTaskSubmissionByKeyID"
+        fields: ["keyID"]
+        queryField: "getManualTaskSubmissionByKeyID"
+    ) {
+        userID: ID!
+        user: User @connection(fields: ["userID"])
+        keyID: ID!
+        key: Key @connection(fields: ["keyID"])
+        submissionURL: AWSURL
+        discordID: String
+        wallet: String
+        comment: String
+}
+
 ### TASK STATUS / GATE STATUS / ERROR ###
 
 type GateStatus
