@@ -1,11 +1,9 @@
-import * as Styled from './style'
-import { useState } from 'react'
-import { BoldText } from '../../../../../pages/About/style'
-import { useNavigate } from 'react-router-dom'
-import useAdmin from '../../../../../hooks/useAdmin'
+import * as Styled from './style';
+import { useNavigate } from 'react-router-dom';
+import useAdmin from '../../../../../hooks/useAdmin';
 
 const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
-    const { isAdmin } = useAdmin(whitelisted)
+    const { isAdmin } = useAdmin(whitelisted);
     console.log(whitelisted);
     const categories = [
         'All',
@@ -13,12 +11,12 @@ const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
         'Design',
         'Development',
         'Educational',
-    ]
+    ];
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const addGate = () => {
-        navigate('add-gate')
-    }
+        navigate('add-gate');
+    };
 
     return (
         <Styled.Wrapper>
@@ -47,7 +45,7 @@ const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
                 </Styled.WhitelistButtonDiv>
             )}
         </Styled.Wrapper>
-    )
-}
+    );
+};
 
-export default Subcategories
+export default Subcategories;

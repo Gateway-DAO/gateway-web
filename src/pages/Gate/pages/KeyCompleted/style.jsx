@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.main`
     margin: auto 15%;
@@ -6,11 +6,11 @@ export const Container = styled.main`
     display: flex;
     flex-direction: column;
     align-items: center;
-`
+`;
 
 export const CircleBox = styled.div`
-    background: #220A38;
-    border: 1px solid #7E3BDC;
+    background: #220a38;
+    border: 1px solid #7e3bdc;
     box-sizing: border-box;
     border-radius: 5px;
 
@@ -23,7 +23,7 @@ export const CircleBox = styled.div`
     & .CircularProgressbar .CircularProgressbar-path {
         stroke: url(#circleGradient);
     }
-`
+`;
 
 export const Heading = styled.h1`
     font-family: Poppins;
@@ -48,7 +48,7 @@ export const Heading = styled.h1`
     -moz-text-fill-color: transparent;
 
     margin-bottom: 70px;
-`
+`;
 
 export const CircleText = styled.p`
     font-family: Be Vietnam;
@@ -60,7 +60,7 @@ export const CircleText = styled.p`
     text-align: center;
 
     color: white;
-`
+`;
 
 export const RedirectText = styled.p`
     font-family: Be Vietnam;
@@ -70,5 +70,5 @@ export const RedirectText = styled.p`
     line-height: 20px;
     letter-spacing: 0.05em;
     text-align: center;
-    color: #FFF;
-`
+    color: #fff;
+`;

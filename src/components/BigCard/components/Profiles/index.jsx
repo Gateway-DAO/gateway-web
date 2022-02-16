@@ -1,79 +1,82 @@
-import * as Styled from './style'
-import { useState, useEffect } from 'react'
-import React from 'react'
-import parser from 'html-react-parser'
+import * as Styled from './style';
+import { useState } from 'react';
+import React from 'react';
+import parser from 'html-react-parser';
 
-import useAdmin from '../../../../hooks/useAdmin'
+import useAdmin from '../../../../hooks/useAdmin';
 
 // Modals
-import BountyModal from '../../../Modal/BountyModal'
-import TokenBenefitModal from '../../../Modal/TokenBenefitModal'
-import HowtoJoinModal from '../../../Modal/HowtoJoinModal'
-import FAQModal from '../../../Modal/FAQModal'
-import WDWDModal from '../../../Modal/WDWDModal'
-import UHModal from '../../../Modal/UHModal'
-import AccomplishmentModal from '../../../Modal/AccomplishmentModal'
-import MVModal from '../../../Modal/MVModal'
-import EditCardModal from '../../../Modal/EditCardModal'
-import ShowBountyModal from '../../../Modal/ShowBountyModal'
-import SnapshotModal from '../../../Modal/SnapshotModal'
+import BountyModal from '../../../Modal/BountyModal';
+import TokenBenefitModal from '../../../Modal/TokenBenefitModal';
+import HowtoJoinModal from '../../../Modal/HowtoJoinModal';
+import FAQModal from '../../../Modal/FAQModal';
+import WDWDModal from '../../../Modal/WDWDModal';
+import UHModal from '../../../Modal/UHModal';
+import AccomplishmentModal from '../../../Modal/AccomplishmentModal';
+import MVModal from '../../../Modal/MVModal';
+import EditCardModal from '../../../Modal/EditCardModal';
+import ShowBountyModal from '../../../Modal/ShowBountyModal';
+import SnapshotModal from '../../../Modal/SnapshotModal';
 //  styling
-import Collapsible from '../../../Collapsible'
+import Collapsible from '../../../Collapsible';
 
 // card
-import FAQCard from '../../../FAQCard'
-import WDWDCard from '../../../WDWDCard'
-import TokenBenefitCard from '../../../TokenBenefitCard'
-import HTJCard from '../../../HTJCard'
-import BountyCard from '../../../BountyCard'
+import FAQCard from '../../../FAQCard';
+import WDWDCard from '../../../WDWDCard';
+import TokenBenefitCard from '../../../TokenBenefitCard';
+import HTJCard from '../../../HTJCard';
+import BountyCard from '../../../BountyCard';
 
 // column second import
-import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
-import { shortenAddress } from '../../../../utils/web3'
-import { ytVideoID } from '../../../../utils/functions'
+import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri';
+import { shortenAddress } from '../../../../utils/web3';
+import { ytVideoID } from '../../../../utils/functions';
 
 const Profile = (props) => {
-    const { isAdmin } = useAdmin(props.whitelistedAddresses)
+    const { isAdmin } = useAdmin(props.whitelistedAddresses);
 
-    const [bounties, setBounties] = useState(props.bounties.items || [])
-    const [benefits, setBenefits] = useState(props.tokenBenefits.items || [])
-    const [HTJ, setHTJ] = useState(props.howToJoin || '')
-    const [WDWD, setWDWD] = useState(props.whatDoWeDo || '')
-    const [UH, setUH] = useState(props.upcomingHangouts || '')
-    const [MV, setMV] = useState(props.missionAndVision || '')
-    const [ACC, setACC] = useState(props.accomplishments || '')
-    const [FAQ, setFAQ] = useState(props.FAQ || [])
+    const [bounties, setBounties] = useState(props.bounties.items || []);
+    const [benefits, setBenefits] = useState(props.tokenBenefits.items || []);
+    const [HTJ, setHTJ] = useState(props.howToJoin || '');
+    const [WDWD, setWDWD] = useState(props.whatDoWeDo || '');
+    const [UH, setUH] = useState(props.upcomingHangouts || '');
+    const [MV, setMV] = useState(props.missionAndVision || '');
+    const [ACC, setACC] = useState(props.accomplishments || '');
+    const [FAQ, setFAQ] = useState(props.FAQ || []);
 
     // Show modals
-    const [showBountyModal, setShowBountyModal] = useState(false)
+    const [showBountyModal, setShowBountyModal] = useState(false);
     const [showBountyInfo, setShowBountyInfo] = useState({
         bounty: bounties ? bounties[0] : {},
         show: false,
-    })
-    const [showTBModal, setShowTBModal] = useState(false)
-    const [showHTJModal, setShowHTJModal] = useState(false)
-    const [showFAQModal, setShowFAQModal] = useState(false)
-    const [showWDWDModal, setShowWDWDModal] = useState(false)
-    const [showUHModal, setShowUHModal] = useState(false)
+    });
+    const [showTBModal, setShowTBModal] = useState(false);
+    const [showHTJModal, setShowHTJModal] = useState(false);
+    const [showFAQModal, setShowFAQModal] = useState(false);
+    const [showWDWDModal, setShowWDWDModal] = useState(false);
+    const [showUHModal, setShowUHModal] = useState(false);
     const [showAccomplishmentModal, setShowAccomplishmentModal] =
-        useState(false)
-    const [showMVModal, setShowMVModal] = useState(false)
-    const [showEditModal, setShowEditModal] = useState(false)
+        useState(false);
+    const [showMVModal, setShowMVModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
-    let youtubeID = props.youtubeURL ? ytVideoID(props.youtubeURL) : null
+    let youtubeID = props.youtubeURL ? ytVideoID(props.youtubeURL) : null;
 
-    const toggleBountyModal = () => setShowBountyModal(!showBountyModal)
+    const toggleBountyModal = () => setShowBountyModal(!showBountyModal);
     const toggleBountyInfoModal = (idx) =>
-        setShowBountyInfo({ bounty: bounties[idx], show: !showBountyInfo.show })
-    const toggleTBModal = () => setShowTBModal(!showTBModal)
-    const toggleHTJModal = () => setShowHTJModal(!showHTJModal)
-    const toggleFAQModal = () => setShowFAQModal(!showFAQModal)
-    const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal)
-    const toggleUHModal = () => setShowUHModal(!showUHModal)
+        setShowBountyInfo({
+            bounty: bounties[idx],
+            show: !showBountyInfo.show,
+        });
+    const toggleTBModal = () => setShowTBModal(!showTBModal);
+    const toggleHTJModal = () => setShowHTJModal(!showHTJModal);
+    const toggleFAQModal = () => setShowFAQModal(!showFAQModal);
+    const toggleWDWDModal = () => setShowWDWDModal(!showWDWDModal);
+    const toggleUHModal = () => setShowUHModal(!showUHModal);
     const toggleAccomplishmentModal = () =>
-        setShowAccomplishmentModal(!showAccomplishmentModal)
-    const toggleMVModal = () => setShowMVModal(!showMVModal)
-    const toggleEditModal = () => setShowEditModal(!showEditModal)
+        setShowAccomplishmentModal(!showAccomplishmentModal);
+    const toggleMVModal = () => setShowMVModal(!showMVModal);
+    const toggleEditModal = () => setShowEditModal(!showEditModal);
 
     const Modals = () => (
         <>
@@ -149,7 +152,7 @@ const Profile = (props) => {
                 changeDAOData: props.changeDAOData,
             })}
         </>
-    )
+    );
 
     return (
         <Styled.Container>
@@ -161,20 +164,20 @@ const Profile = (props) => {
                             {parser(props.description)}
                         </Styled.Description>
                         <Styled.DivContainer>
-                            {(props.youtubeURL && youtubeID) && (
+                            {props.youtubeURL && youtubeID && (
                                 <Styled.YoutubeVideoContainer>
                                     <iframe
-                                        width="90%"
-                                        height="520"
+                                        width='90%'
+                                        height='520'
                                         src={`https://www.youtube-nocookie.com/embed/${youtubeID}`}
-                                        title="YouTube video player"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen
+                                        title='YouTube video player'
+                                        frameBorder='0'
+                                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                                        allowFullScreen
                                     ></iframe>
                                 </Styled.YoutubeVideoContainer>
                             )}
-                            <Collapsible title="What Do We Do?">
+                            <Collapsible title='What Do We Do?'>
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button
@@ -187,7 +190,7 @@ const Profile = (props) => {
                                     {WDWD && <WDWDCard data={WDWD} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            <Collapsible title="Mission and Vision">
+                            <Collapsible title='Mission and Vision'>
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button onClick={toggleMVModal}>
@@ -198,7 +201,7 @@ const Profile = (props) => {
                                     {MV && <WDWDCard data={MV} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            <Collapsible title="Accomplishments">
+                            <Collapsible title='Accomplishments'>
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button
@@ -211,7 +214,7 @@ const Profile = (props) => {
                                     {ACC && <WDWDCard data={ACC} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            <Collapsible title="Frequently Asked Questions">
+                            <Collapsible title='Frequently Asked Questions'>
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button onClick={toggleFAQModal}>
@@ -223,7 +226,7 @@ const Profile = (props) => {
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             {props.tokenAddress && (
-                                <Collapsible title="Token Benefits/Utility">
+                                <Collapsible title='Token Benefits/Utility'>
                                     <Styled.CollapsibleChildren>
                                         {isAdmin && (
                                             <Styled.Button
@@ -245,12 +248,12 @@ const Profile = (props) => {
                                                         }
                                                         admin={isAdmin}
                                                     />
-                                                )
+                                                );
                                             })}
                                     </Styled.CollapsibleChildren>
                                 </Collapsible>
                             )}
-                            <Collapsible title="Upcoming Hangouts">
+                            <Collapsible title='Upcoming Hangouts'>
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button onClick={toggleUHModal}>
@@ -261,7 +264,7 @@ const Profile = (props) => {
                                     {UH && <WDWDCard data={UH} />}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            <Collapsible title="How To Contribute?">
+                            <Collapsible title='How To Contribute?'>
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button onClick={toggleHTJModal}>
@@ -273,7 +276,7 @@ const Profile = (props) => {
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
 
-                            <Collapsible title="Bounties">
+                            <Collapsible title='Bounties'>
                                 <Styled.CollapsibleChildren>
                                     {isAdmin && (
                                         <Styled.Button
@@ -298,16 +301,16 @@ const Profile = (props) => {
                                                         toggleBountyInfoModal
                                                     }
                                                 />
-                                            )
+                                            );
                                         })}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
-                            <Collapsible title="Governance Proposals">
+                            <Collapsible title='Governance Proposals'>
                                 <SnapshotModal id={props.snapshotID} />
                             </Collapsible>
                         </Styled.DivContainer>
                     </Styled.ColumnOne>
-                    {props.tokenAddress && props.showTokenFeed &&(
+                    {props.tokenAddress && props.showTokenFeed && (
                         <Styled.ColumnTwo>
                             <Styled.TokenFeed>
                                 <Styled.TokenName>
@@ -340,7 +343,7 @@ const Profile = (props) => {
                                         )}
                                         %
                                     </Styled.PercentageText>
-                                    <Styled.Text color="#A5A5A5">
+                                    <Styled.Text color='#A5A5A5'>
                                         24h
                                     </Styled.Text>
                                 </Styled.PriceContainer>
@@ -365,7 +368,7 @@ const Profile = (props) => {
                                         )}
                                         %
                                     </Styled.PercentageText>
-                                    <Styled.Text color="#A5A5A5">
+                                    <Styled.Text color='#A5A5A5'>
                                         Past Week
                                     </Styled.Text>
                                 </Styled.PastWeekContainer>
@@ -429,7 +432,7 @@ const Profile = (props) => {
                                 </Styled.TokenFeedData>
                                 <Styled.TradeButton
                                     href={`https://app.uniswap.org/#/swap?outputCurrency=${props.tokenAddress}&exactField=output`}
-                                    target="_blank"
+                                    target='_blank'
                                 >
                                     TRADE
                                 </Styled.TradeButton>
@@ -439,7 +442,7 @@ const Profile = (props) => {
                 </Styled.DivideContainer>
             </Styled.DAOContainer>
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default Profile
+export default Profile;

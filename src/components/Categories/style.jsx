@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Box = styled.div`
     display: grid;
@@ -12,13 +12,13 @@ export const Box = styled.div`
     & > .full {
         grid-column: 1 / -1;
     }
-`
+`;
 
 export const CategoriesContainer = styled.ul`
     text-color: white;
     display: flex;
     flex-wrap: wrap;
-`
+`;
 
 export const Category = styled.li`
     display: inline;
@@ -126,7 +126,7 @@ export const Category = styled.li`
             text-fill-color: transparent;
         }
     }
-`
+`;
 
 export const CategoryEmoji = styled.p`
     display: inline;
@@ -135,7 +135,7 @@ export const CategoryEmoji = styled.p`
     /* Background - turning off gradeint for emojis*/
     -webkit-text-fill-color: white;
     -moz-text-fill-color: white;
-`
+`;
 
 export const AllButton = styled(Link)`
     text-decoration: none;
@@ -175,7 +175,7 @@ export const AllButton = styled(Link)`
         line-height: 18px;
         margin-right: 18px;
     }
-`
+`;
 
 // export const CardBox = styled.div`
 //     display: flex;
@@ -239,7 +239,7 @@ export const LoaderBox = styled.section`
     align-items: center;
     justify-content: center;
     margin: 60px 40px;
-`
+`;
 
 export const CardBox = styled.section`
     display: grid;
@@ -270,7 +270,7 @@ export const CardBox = styled.section`
     @media only screen and (max-width: 480px) {
         margin-top: 60px;
     }
-`
+`;
 
 export const MoreCard = styled.div`
     background-color: transparent;
@@ -299,7 +299,7 @@ export const MoreCard = styled.div`
     @media only screen and (max-width: 300px) {
       min-width: 200px;
       max-width: 200px;
-`
+`;
 export const More = styled.div`
     position: absolute;
     width: 54px;
@@ -310,7 +310,7 @@ export const More = styled.div`
     border: 1px solid rgba(229, 229, 229, 0.5);
     box-sizing: border-box;
     text-align: center;
-`
+`;
 export const MoreSymbol = styled.div`
     position: absolute;
     width: 22px;
@@ -327,7 +327,7 @@ export const MoreSymbol = styled.div`
     // display: flex;
     // align-items: center;
     // justify-content:center;
-`
+`;
 export const MoreText = styled.div`
     background: linear-gradient(
         88.04deg,
@@ -343,4 +343,4 @@ export const MoreText = styled.div`
     font-weight: bold;
     font-size: 21px;
     line-height: 80px;
-`
+`;

@@ -1,11 +1,13 @@
-import React, { useMemo } from "react";
+import { useMemo } from 'react';
 
 // AWS/Amplify
-import { gql, useMutation } from "@apollo/client";
-import { getAuthenticationNonce as DB_GET_NONCE } from "../../graphql/mutations";
+import { gql, useMutation } from '@apollo/client';
+import { getAuthenticationNonce as DB_GET_NONCE } from '../../graphql/mutations';
 
 export const useLazyGetNonce = () => {
-    const [getNonce, { loading, called, refetch, data, error }] = useMutation(gql(DB_GET_NONCE));
+    const [getNonce, { loading, called, refetch, data, error }] = useMutation(
+        gql(DB_GET_NONCE)
+    );
 
     return useMemo(
         () => ({
@@ -19,4 +21,4 @@ export const useLazyGetNonce = () => {
     );
 };
 
-export default useLazyGetNonce
+export default useLazyGetNonce;

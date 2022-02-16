@@ -1,5 +1,5 @@
-import * as Styled from './style'
-import { formatDistance } from 'date-fns'
+import * as Styled from './style';
+import { formatDistance } from 'date-fns';
 
 const CommentCard = (props) => {
     let options = {
@@ -8,10 +8,10 @@ const CommentCard = (props) => {
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-    }
+    };
 
-    const user = props.comment.user
-    
+    const user = props.comment.user;
+
     return (
         <Styled.PostContainer>
             <div>
@@ -23,12 +23,20 @@ const CommentCard = (props) => {
                             Commented by
                             <Styled.PostByName>{user?.name}</Styled.PostByName>
                             <Styled.PostByUsername>
-                                <Styled.UserLink to={`/profile/${user?.username}`}>@{user?.username}</Styled.UserLink>
+                                <Styled.UserLink
+                                    to={`/profile/${user?.username}`}
+                                >
+                                    @{user?.username}
+                                </Styled.UserLink>
                             </Styled.PostByUsername>
                         </Styled.PostByInfo>
                     </Styled.ProfileBioContainer>
                     <Styled.PostTime>
-                        {formatDistance(new Date(props.comment.createdAt), new Date(), { addSuffix: true })}
+                        {formatDistance(
+                            new Date(props.comment.createdAt),
+                            new Date(),
+                            { addSuffix: true }
+                        )}
                     </Styled.PostTime>
                 </Styled.PostHeaderInfo>
                 <Styled.MessageContainer>
@@ -36,7 +44,7 @@ const CommentCard = (props) => {
                 </Styled.MessageContainer>
             </div>
         </Styled.PostContainer>
-    )
-}
+    );
+};
 
-export default CommentCard
+export default CommentCard;

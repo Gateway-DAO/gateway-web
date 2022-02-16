@@ -1,81 +1,81 @@
-import React, { useRef, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 // Styling
-import * as Styled from './styles'
-import { FormStyled } from '../../../../components/Form'
+import * as Styled from './styles';
+import { FormStyled } from '../../../../components/Form';
 
 // Components
-import SearchedItem from './Components/SearhedItem'
-import SearchedAdmin from './Components/SearchedAdmin'
-import SearchRes from './Components/SearchRes'
-import SearchResGate from './Components/SearchResGate'
-import { ImageUpload } from '../../../../components/Form'
+import SearchedItem from './Components/SearhedItem';
+import SearchedAdmin from './Components/SearchedAdmin';
+import SearchRes from './Components/SearchRes';
+import SearchResGate from './Components/SearchResGate';
+import { ImageUpload } from '../../../../components/Form';
 
 // Hooks
-import { useCreateGate } from '../../../../api/database/useCreateGate'
-import { useNavigate, useOutletContext, useLocation } from 'react-router-dom'
-import { useAuth } from '../../../../contexts/UserContext'
-import useMint from '../../../../hooks/useMint'
-import useSearchUsers from '../../../../api/database/useSearchUser'
-import useSearchGates from '../../../../api/database/useSearchGates'
+import { useCreateGate } from '../../../../api/database/useCreateGate';
+import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../../contexts/UserContext';
+import useMint from '../../../../hooks/useMint';
+import useSearchUsers from '../../../../api/database/useSearchUser';
+import useSearchGates from '../../../../api/database/useSearchGates';
 
 // Icons
-import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 
 // Utils
-import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload'
-import FormData from 'form-data'
-import Loader from '../../../../components/Loader'
-import { useEffect } from 'react'
-import useUpdateGate from '../../../../api/database/useUpdateGate'
+import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload';
+import FormData from 'form-data';
+import Loader from '../../../../components/Loader';
+import { useEffect } from 'react';
+import useUpdateGate from '../../../../api/database/useUpdateGate';
 
 /* This is a React component that will render the form to add a gate. */
 const AddGateForm = (props) => {
-    const { userInfo } = useAuth()
-    const { state } = useLocation()
-    const edit = state ? true : false
+    const { userInfo } = useAuth();
+    const { state } = useLocation();
+    const edit = state ? true : false;
     // State
-    const [title, setTitle] = useState(edit ? state.gateData.name : '')
+    const [title, setTitle] = useState(edit ? state.gateData.name : '');
     const [description, setDescription] = useState(
         edit ? state.gateData.description : ''
-    )
-    const [retroactiveEarners, setRetroactiveEarners] = useState([''])
-    const [uploadFile, setUploadFile] = useState(null)
-    const [category, setCategory] = useState('')
+    );
+    const [retroactiveEarners, setRetroactiveEarners] = useState(['']);
+    const [uploadFile, setUploadFile] = useState(null);
+    const [category, setCategory] = useState('');
     const [categoryList, setCategoryList] = useState(
         edit ? state.gateData.categories : []
-    )
-    const [prerequisite, setPrerequisite] = useState('')
-    const [prerequisiteList, setPrerequisiteList] = useState([])
+    );
+    const [prerequisite, setPrerequisite] = useState('');
+    const [prerequisiteList, setPrerequisiteList] = useState([]);
     const [keyRequired, setKeyRequired] = useState(
         edit ? state.gateData.keysNumber : 0
-    )
+    );
     const [badgeName, setBadgeName] = useState(
         edit ? state.gateData.badge.name : ''
-    )
-    const [admin, setAdmin] = useState('')
-    const [adminQuery, setAdminQuery] = useState('')
+    );
+    const [admin, setAdmin] = useState('');
+    const [adminQuery, setAdminQuery] = useState('');
     const [adminList, setAdminList] = useState([
         {
             name: userInfo?.name || '',
             username: userInfo?.username || '',
             pfp: userInfo?.pfp || '',
-            id: userInfo?.id || ''
+            id: userInfo?.id || '',
         },
-    ])
+    ]);
     //const [adminIDList, setAdminIDList] = useState(edit?state.gateData.admins:[userInfo.id]);
-    const [updateLoading, setUpdateeLoading] = useState(false)
-    const [adminSearch, setAdminSearch] = useState([])
-    const [NFTupdated, setNFTupdated] = useState(edit)
-    const [prereqsSearch, setPrereqsSearch] = useState([])
+    const [updateLoading, setUpdateeLoading] = useState(false);
+    const [adminSearch, setAdminSearch] = useState([]);
+    const [NFTupdated, setNFTupdated] = useState(edit);
+    const [prereqsSearch, setPrereqsSearch] = useState([]);
 
     // Hooks
     // const {state} = useLocation()
 
-    const { daoData } = useOutletContext()
-    const { createGate, loading, data, error } = useCreateGate()
-    const { updateGate } = useUpdateGate()
+    const { daoData } = useOutletContext();
+    const { createGate, loading, data, error } = useCreateGate();
+    const { updateGate } = useUpdateGate();
     const { data: searchUserData, loading: searchUserLoading } = useSearchUsers(
         {
             variables: {
@@ -88,7 +88,7 @@ const AddGateForm = (props) => {
                 },
             },
         }
-    )
+    );
 
     const { data: searchGateData, loading: searchGateLoading } = useSearchGates(
         {
@@ -104,98 +104,98 @@ const AddGateForm = (props) => {
                 },
             },
         }
-    )
+    );
 
-    const { batchMint } = useMint()
-    const navigate = useNavigate()
+    const { batchMint } = useMint();
+    const navigate = useNavigate();
 
     /* The addCategories function is called when the user presses the Enter key. 
     The function adds the current value of the category input to the categoryList array and clears
     the input. */
     const addCategories = (e) => {
         if (e.key === 'Enter') {
-            setCategoryList([...categoryList, category])
-            setCategory('')
+            setCategoryList([...categoryList, category]);
+            setCategory('');
         }
-    }
+    };
 
     /**
      * It removes the category from the list of categories.
      */
     const removeCategories = (id) => {
-        setCategoryList(categoryList.filter((value, i) => i !== id))
-    }
+        setCategoryList(categoryList.filter((value, i) => i !== id));
+    };
 
     /**
      * It adds a prerequisite to the list of prerequisites.
      */
     const addPrerequisite = (gate) => {
-        setPrerequisiteList((prev) => [...prev, gate])
-        setPrereqsSearch((prev) => prev.filter((obj) => obj.id !== gate.id))
-    }
+        setPrerequisiteList((prev) => [...prev, gate]);
+        setPrereqsSearch((prev) => prev.filter((obj) => obj.id !== gate.id));
+    };
 
     /**
      * Given an id, remove the prerequisite with that id from the prerequisite list
      */
     const removePrerequisite = (id) => {
-        setPrerequisiteList((prev) => prev.filter((gate) => gate.id !== id))
-    }
+        setPrerequisiteList((prev) => prev.filter((gate) => gate.id !== id));
+    };
 
     /**
      * It adds an admin to the list of admins.
      */
     const addAdmin = (admin) => {
-        setAdminList([...adminList, admin])
-        setAdminSearch((prev) => prev.filter((adm) => adm.id !== admin.id))
-    }
+        setAdminList([...adminList, admin]);
+        setAdminSearch((prev) => prev.filter((adm) => adm.id !== admin.id));
+    };
 
     /**
      * It removes the admin from the list of admins.
      */
     const removeAdmin = (id) => {
-        setAdminList((prev) => prev.filter((adm) => adm.id !== id))
-    }
+        setAdminList((prev) => prev.filter((adm) => adm.id !== id));
+    };
 
     const updateRetroactiveEarner = (e, idx) => {
-        console.log(idx)
+        console.log(idx);
         const add = retroactiveEarners.map((value, i) => {
             if (idx === i) {
-                return e
+                return e;
             }
-            return value
-        })
+            return value;
+        });
 
-        setRetroactiveEarners(add)
-    }
+        setRetroactiveEarners(add);
+    };
 
     /* The removeRetroactiveEarner function is called when the user clicks the remove button. It
     removes the retroactive earner at the index of the button that was clicked. */
     const removeRetroactiveEarner = (idx) => {
         if (retroactiveEarners.length === 1) {
-            alert('You have to put at least one retroactive earner')
-            return false
+            alert('You have to put at least one retroactive earner');
+            return false;
         }
         setRetroactiveEarners(
             retroactiveEarners.filter((value, i) => i !== idx)
-        )
-    }
+        );
+    };
 
     /* We create a new gate with the variables we've defined. */
     const onSave = async (e) => {
-        setUpdateeLoading(true)
+        setUpdateeLoading(true);
         try {
-            e.preventDefault()
+            e.preventDefault();
 
             if (!uploadFile) {
-                alert('Please upload an NFT')
-                return false
+                alert('Please upload an NFT');
+                return false;
             }
 
-            const form = new FormData()
-            form.append('file', uploadFile, 'image.png')
+            const form = new FormData();
+            form.append('file', uploadFile, 'image.png');
 
-            const hash = await uploadFileToIPFS(form)
-            const gateID = uuidv4()
+            const hash = await uploadFileToIPFS(form);
+            const gateID = uuidv4();
 
             /*
             if (!!retroactiveEarners) {
@@ -229,25 +229,25 @@ const AddGateForm = (props) => {
                         },
                     },
                 },
-            })
+            });
 
-            navigate(`/gate/${gateID}`)
+            navigate(`/gate/${gateID}`);
         } catch (err) {
-            alert('An error occurred. Please try again later!')
-            console.log(err)
-            setUpdateeLoading(false)
+            alert('An error occurred. Please try again later!');
+            console.log(err);
+            setUpdateeLoading(false);
         }
-        setUpdateeLoading(false)
-    }
+        setUpdateeLoading(false);
+    };
 
     const onEdit = async (e) => {
-        setUpdateeLoading(true)
-        e.preventDefault()
+        setUpdateeLoading(true);
+        e.preventDefault();
         if (uploadFile && NFTupdated) {
             try {
-                const form = new FormData()
-                form.append('file', uploadFile, 'image.png')
-                const hash = await uploadFileToIPFS(form)
+                const form = new FormData();
+                form.append('file', uploadFile, 'image.png');
+                const hash = await uploadFileToIPFS(form);
                 await updateGate({
                     variables: {
                         input: {
@@ -265,17 +265,17 @@ const AddGateForm = (props) => {
                             },
                         },
                     },
-                })
-                navigate(`/gate/${state.gateData.id}`)
+                });
+                navigate(`/gate/${state.gateData.id}`);
             } catch (e) {
-                alert('We are facing issues please try again later')
-                console.log(e)
+                alert('We are facing issues please try again later');
+                console.log(e);
             }
         } else {
             try {
                 if (!NFTupdated) {
-                    alert('Please Enter the NFT')
-                    return false
+                    alert('Please Enter the NFT');
+                    return false;
                 }
                 await updateGate({
                     variables: {
@@ -294,63 +294,63 @@ const AddGateForm = (props) => {
                             },
                         },
                     },
-                })
-                navigate(`/gate/${state.gateData.id}`)
+                });
+                navigate(`/gate/${state.gateData.id}`);
             } catch (e) {
-                alert('We are facing issues please try again later')
-                console.log(e)
+                alert('We are facing issues please try again later');
+                console.log(e);
             }
         }
-        setUpdateeLoading(false)
-    }
+        setUpdateeLoading(false);
+    };
 
     useEffect(() => {
         const clear = setTimeout(() => {
             if (!admin) {
-                setAdminSearch([])
+                setAdminSearch([]);
             }
 
-            !!admin && admin !== adminQuery && setAdminQuery(admin)
+            !!admin && admin !== adminQuery && setAdminQuery(admin);
 
             if (!!searchUserData && !searchUserLoading) {
-                const query = searchUserData.searchUsers.items
+                const query = searchUserData.searchUsers.items;
                 const results = query.slice(0, 5).map((user) => {
                     return {
                         name: user.name,
                         username: user.username,
                         id: user.id,
                         pfp: user.pfp,
-                    }
-                })
-                setAdminSearch(results)
+                    };
+                });
+                setAdminSearch(results);
             }
-        }, 2000)
+        }, 2000);
 
-        return () => clearTimeout(clear)
-    }, [admin])
+        return () => clearTimeout(clear);
+    }, [admin]);
 
     useEffect(() => {
         const clear = setTimeout(() => {
             if (!prerequisite) {
-                setPrereqsSearch([])
+                setPrereqsSearch([]);
             }
 
             // !!admin && admin !== adminQuery && setAdminQuery(admin)
 
             if (!!searchGateData && !searchGateLoading) {
-                const query = searchGateData.searchGates.items
+                const query = searchGateData.searchGates.items;
                 const results = query.slice(0, 5).map((gate) => {
                     return {
                         name: gate.name,
                         id: gate.id,
-                    }
-                })
-                setPrereqsSearch(results)
+                    };
+                });
+                setPrereqsSearch(results);
             }
-        }, 2000)
+        }, 2000);
 
-        return () => clearTimeout(clear)
-    }, [prerequisite])
+        return () => clearTimeout(clear);
+    }, [prerequisite]);
 
     return (
         <Styled.Page>
@@ -358,7 +358,7 @@ const AddGateForm = (props) => {
                 onSubmit={edit ? onEdit : onSave}
                 onKeyPress={(event) => {
                     if (event.which === 13 /* Enter */) {
-                        event.preventDefault()
+                        event.preventDefault();
                     }
                 }}
             >
@@ -366,55 +366,55 @@ const AddGateForm = (props) => {
                     {edit ? `Edit Gate` : `Create a New Gate`}
                 </Styled.Header>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="title">
+                    <FormStyled.Label htmlFor='title'>
                         Gate Title
                     </FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
-                        type="text"
-                        id="title"
-                        name="title"
-                        placeholder="This will be the title of your Gate"
+                        type='text'
+                        id='title'
+                        name='title'
+                        placeholder='This will be the title of your Gate'
                         value={title}
                         required
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="description">
+                    <FormStyled.Label htmlFor='description'>
                         Description
                     </FormStyled.Label>
                     <FormStyled.Textarea
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}
-                        name="description"
-                        placeholder="This will be the description of your Gate. We reccommend maximum of 2 lines."
+                        name='description'
+                        placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
                         required
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="title">
+                    <FormStyled.Label htmlFor='title'>
                         KEYS REQUIRED
                     </FormStyled.Label>
                     <Styled.InputSmall
                         onChange={(e) => setKeyRequired(e.target.value)}
-                        type="number"
-                        id="keyReq"
-                        name="keyReq"
-                        placeholder="0"
+                        type='number'
+                        id='keyReq'
+                        name='keyReq'
+                        placeholder='0'
                         value={keyRequired}
                         required
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="title">
+                    <FormStyled.Label htmlFor='title'>
                         Category
                     </FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setCategory(e.target.value)}
-                        type="text"
-                        id="category"
-                        name="category"
-                        placeholder="Search your Category"
+                        type='text'
+                        id='category'
+                        name='category'
+                        placeholder='Search your Category'
                         onKeyPress={addCategories}
                         value={category}
                     />
@@ -428,7 +428,7 @@ const AddGateForm = (props) => {
                                         id={id}
                                         remove={removeCategories}
                                     />
-                                )
+                                );
                             })}
                         </Styled.CategoryList>
                     )}
@@ -437,15 +437,15 @@ const AddGateForm = (props) => {
                 <FormStyled.Fieldset>
                     {edit ? (
                         <ImageUpload
-                            htmlFor="ProfileImage"
-                            label="Upload Badge or NFT"
+                            htmlFor='ProfileImage'
+                            label='Upload Badge or NFT'
                             setImage={setUploadFile}
                             defaultImageURL={`https://gateway.pinata.cloud/ipfs/${state.gateData.badge.ipfsURL}`}
                         />
                     ) : (
                         <ImageUpload
-                            htmlFor="ProfileImage"
-                            label="Upload Badge or NFT"
+                            htmlFor='ProfileImage'
+                            label='Upload Badge or NFT'
                             setImage={setUploadFile}
                         />
                     )}
@@ -456,29 +456,29 @@ const AddGateForm = (props) => {
                     </Styled.AllowedFileType>
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="title">
+                    <FormStyled.Label htmlFor='title'>
                         BADGE/NFT Name
                     </FormStyled.Label>
                     <Styled.Input
                         onChange={(e) => setBadgeName(e.target.value)}
-                        type="text"
-                        id="badgeName"
-                        name="badgeName"
-                        placeholder="Insert the name here"
+                        type='text'
+                        id='badgeName'
+                        name='badgeName'
+                        placeholder='Insert the name here'
                         value={badgeName}
                         required
                     />
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="title">
+                    <FormStyled.Label htmlFor='title'>
                         Admin Privileges
                     </FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setAdmin(e.target.value)}
-                        type="text"
-                        id="admin"
-                        name="admin"
-                        placeholder="Search for admins"
+                        type='text'
+                        id='admin'
+                        name='admin'
+                        placeholder='Search for admins'
                         value={admin}
                     />
 
@@ -496,7 +496,7 @@ const AddGateForm = (props) => {
 
                     {searchUserLoading ? (
                         <Styled.CentralizedLoader>
-                            <Loader color="white" size={32} />
+                            <Loader color='white' size={32} />
                         </Styled.CentralizedLoader>
                     ) : (
                         adminSearch.length > 0 && (
@@ -513,7 +513,7 @@ const AddGateForm = (props) => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="retroactiveLearner">
+                    <FormStyled.Label htmlFor='retroactiveLearner'>
                         RETROACTIVE EARNER
                     </FormStyled.Label>
                     {retroactiveEarners.map((retroactiveEarner, idx) => {
@@ -521,9 +521,9 @@ const AddGateForm = (props) => {
                             <FormStyled.InputWrapper>
                                 <FormStyled.Input
                                     id={`retroactiveEarners-${idx}`}
-                                    type="text"
+                                    type='text'
                                     value={retroactiveEarner}
-                                    placeholder="Enter wallet/ens address"
+                                    placeholder='Enter wallet/ens address'
                                     onChange={(e) =>
                                         updateRetroactiveEarner(
                                             e.target.value,
@@ -533,7 +533,7 @@ const AddGateForm = (props) => {
                                     name={retroactiveEarners}
                                 />
                                 <Styled.IconBox
-                                    ml="10px"
+                                    ml='10px'
                                     onClick={
                                         retroactiveEarners.length > 1
                                             ? () => removeRetroactiveEarner(idx)
@@ -553,12 +553,12 @@ const AddGateForm = (props) => {
                                     )}
                                 </Styled.IconBox>
                             </FormStyled.InputWrapper>
-                        )
+                        );
                     })}
                     <FormStyled.IconButton
                         onClick={(e) => {
-                            e.preventDefault()
-                            setRetroactiveEarners([...retroactiveEarners, ''])
+                            e.preventDefault();
+                            setRetroactiveEarners([...retroactiveEarners, '']);
                         }}
                         style={{
                             width: 'fit-content',
@@ -569,15 +569,15 @@ const AddGateForm = (props) => {
                     </FormStyled.IconButton>
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="title">
+                    <FormStyled.Label htmlFor='title'>
                         Prerequisite
                     </FormStyled.Label>
                     <Styled.Input
                         onChange={(e) => setPrerequisite(e.target.value)}
-                        type="text"
-                        id="prerequisite"
-                        name="prerequisite"
-                        placeholder="Search"
+                        type='text'
+                        id='prerequisite'
+                        name='prerequisite'
+                        placeholder='Search'
                         value={prerequisite}
                     />
                     {prerequisiteList.length > 0 && (
@@ -589,14 +589,14 @@ const AddGateForm = (props) => {
                                         id={prerequisite.id}
                                         remove={removePrerequisite}
                                     />
-                                )
+                                );
                             })}
                         </Styled.CategoryList>
                     )}
 
                     {searchGateLoading ? (
                         <Styled.CentralizedLoader>
-                            <Loader color="white" size={32} />
+                            <Loader color='white' size={32} />
                         </Styled.CentralizedLoader>
                     ) : (
                         prereqsSearch.length > 0 && (
@@ -612,12 +612,12 @@ const AddGateForm = (props) => {
                     )}
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button type="submit">
-                    {updateLoading && <Loader color="white" />}
+                <FormStyled.Button type='submit'>
+                    {updateLoading && <Loader color='white' />}
                     Submit
                 </FormStyled.Button>
             </Styled.Container>
         </Styled.Page>
-    )
-}
-export default AddGateForm
+    );
+};
+export default AddGateForm;

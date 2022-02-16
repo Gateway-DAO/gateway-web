@@ -1,11 +1,9 @@
-import { useState } from 'react'
-
 // Styling
-import * as Styled from './style'
-import { FormStyled } from '../../../../components/Form'
+import * as Styled from './style';
+import { FormStyled } from '../../../../components/Form';
 
 // Components
-import Loader from '../../../../components/Loader'
+import Loader from '../../../../components/Loader';
 
 const Percentage = ({ percentage, setPercentage, loading }) => {
     return (
@@ -28,8 +26,8 @@ const Percentage = ({ percentage, setPercentage, loading }) => {
                         25%
                     </Styled.Block>
                     <Styled.Block
-                        onClick={() => setPercentage(0.50)}
-                        checked={percentage === 0.50}
+                        onClick={() => setPercentage(0.5)}
+                        checked={percentage === 0.5}
                     >
                         50%
                     </Styled.Block>
@@ -40,20 +38,20 @@ const Percentage = ({ percentage, setPercentage, loading }) => {
                         75%
                     </Styled.Block>
                     <Styled.Block
-                        onClick={() => setPercentage(1.00)}
-                        checked={percentage === 1.00}
+                        onClick={() => setPercentage(1.0)}
+                        checked={percentage === 1.0}
                     >
                         100%
                     </Styled.Block>
                 </Styled.Array>
             </FormStyled.Fieldset>
 
-            <FormStyled.Button type="submit">
-                {loading && <Loader color="white" />}
+            <FormStyled.Button type='submit'>
+                {loading && <Loader color='white' />}
                 Submit
             </FormStyled.Button>
         </>
-    )
-}
+    );
+};
 
-export default Percentage
+export default Percentage;

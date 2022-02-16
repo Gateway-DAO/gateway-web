@@ -115,6 +115,6 @@ const texts = {
         'We’ve got a long way to go before DAOs have proven real traction at scale, but this snapshot should show that some of the world’s brightest minds are committed to making that happen.',
         'In the meantime, keep shipping and remember… when in doubt - Just DAO It.',
     ],
-}
+};
 
-export default texts
+export default texts;

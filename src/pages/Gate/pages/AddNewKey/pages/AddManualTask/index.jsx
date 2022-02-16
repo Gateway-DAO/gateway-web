@@ -1,11 +1,11 @@
 // Styling
-import { FormStyled } from '../../../../../../components/Form'
+import { FormStyled } from '../../../../../../components/Form';
 
 // Components
-import { FaTrashAlt, FaPlus } from 'react-icons/fa'
+import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 
 // Hooks
-import { useState } from 'react'
+import { useState } from 'react';
 
 const AddManualTask = (props) => {
     const [infoBlocks, setInfoBlocks] = useState([
@@ -13,54 +13,54 @@ const AddManualTask = (props) => {
             title: '',
             description: '',
         },
-    ])
+    ]);
 
     /**
      * Updates a title on the infoBlocks array.
      * @returns None
      */
     const updateTitle = (e, idx) => {
-        e.preventDefault()
-        const newValue = e.target.value
+        e.preventDefault();
+        const newValue = e.target.value;
 
         const add = infoBlocks.map((value, i) => {
             if (idx === i) {
                 return {
                     ...value,
                     title: newValue,
-                }
+                };
             }
-            return value
-        })
-        setInfoBlocks(add)
-    }
+            return value;
+        });
+        setInfoBlocks(add);
+    };
 
     /**
      * Updates a description on the infoBlocks array.
      * @returns None
      */
     const updateDescription = (e, idx) => {
-        e.preventDefault()
-        const newValue = e.target.value
+        e.preventDefault();
+        const newValue = e.target.value;
 
         const add = infoBlocks.map((value, i) => {
             if (idx === i) {
                 return {
                     ...value,
                     description: newValue,
-                }
+                };
             }
-            return value
-        })
-        setInfoBlocks(add)
-    }
+            return value;
+        });
+        setInfoBlocks(add);
+    };
 
     /**
      * Add a new title/description pair to the infoBlocks array.
      * @returns None
      */
     const addTitleDescription = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         setInfoBlocks([
             ...infoBlocks,
@@ -68,18 +68,18 @@ const AddManualTask = (props) => {
                 title: '',
                 description: '',
             },
-        ])
-    }
+        ]);
+    };
 
     /**
      * Deletes a pair on the infoBlocks array.
      * @returns None
      */
     const deletePair = (e, idx) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        setInfoBlocks(infoBlocks.filter((data, i) => i !== idx))
-    }
+        setInfoBlocks(infoBlocks.filter((data, i) => i !== idx));
+    };
 
     return (
         <FormStyled.FormBox>
@@ -92,16 +92,16 @@ const AddManualTask = (props) => {
                         <FormStyled.Input
                             value={info.title}
                             onChange={(e) => updateTitle(e, idx)}
-                            placeholder="This will be the title of your Gate"
+                            placeholder='This will be the title of your Gate'
                         />
                     </FormStyled.Fieldset>
 
                     <FormStyled.Fieldset>
                         <FormStyled.Label>Description</FormStyled.Label>
                         <FormStyled.Textarea
-                            title="Description"
-                            row="5"
-                            placeholder="This will be the description of your Gate. We reccommend maximum of 2 lines."
+                            title='Description'
+                            row='5'
+                            placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
                             value={info.description}
                             onChange={(e) => updateDescription(e, idx)}
                         />
@@ -114,7 +114,7 @@ const AddManualTask = (props) => {
                             <FormStyled.IconButton>
                                 <FaTrashAlt />
                             </FormStyled.IconButton>
-                            <FormStyled.TextLabel marginLeft="10px">
+                            <FormStyled.TextLabel marginLeft='10px'>
                                 Delete Section
                             </FormStyled.TextLabel>
                         </FormStyled.DeleteWrapper>
@@ -130,14 +130,14 @@ const AddManualTask = (props) => {
                 >
                     <FaPlus />
                 </FormStyled.IconButton>
-                <FormStyled.TextLabel marginLeft="10px">
+                <FormStyled.TextLabel marginLeft='10px'>
                     Add another title and description
                 </FormStyled.TextLabel>
             </FormStyled.AddWrapper>
 
-            <FormStyled.Button type="submit">Submit</FormStyled.Button>
+            <FormStyled.Button type='submit'>Submit</FormStyled.Button>
         </FormStyled.FormBox>
-    )
-}
+    );
+};
 
-export default AddManualTask
+export default AddManualTask;

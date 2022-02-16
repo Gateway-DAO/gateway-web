@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { FormStyled } from '../../../../components/Form'
+import styled from 'styled-components';
+import { FormStyled } from '../../../../components/Form';
 
 export const Page = styled.div`
     // background-color: #170627;
@@ -23,7 +23,7 @@ export const Page = styled.div`
         height: 100%;
         width: 100%;
     }
-`
+`;
 
 export const Container = styled.form`
     display: flex;
@@ -33,13 +33,13 @@ export const Container = styled.form`
     align-items: center;
     padding: 0 20%;
     margin: 50px 0;
-`
+`;
 
 export const CentralizedLoader = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-`
+`;
 
 export const GridBox = styled.div`
     display: grid;
@@ -47,7 +47,7 @@ export const GridBox = styled.div`
     grid-column-gap: 10px;
     grid-row-gap: 30px;
     margin: 10px 0;
-`
+`;
 export const description = styled.label`
     font-family: Poppins;
     font-style: normal;
@@ -60,7 +60,7 @@ export const description = styled.label`
     text-transform: uppercase;
 
     color: #ffffff;
-`
+`;
 export const Header = styled.h1`
     font-family: Poppins;
     font-style: normal;
@@ -83,7 +83,7 @@ export const Header = styled.h1`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;
 export const Label = styled.label`
     font-family: Poppins;
     font-style: normal;
@@ -96,7 +96,7 @@ export const Label = styled.label`
     text-transform: uppercase;
 
     color: #ffffff;
-`
+`;
 
 export const Textarea = styled.textarea`
     font-family: Be Vietnam;
@@ -117,7 +117,7 @@ export const Textarea = styled.textarea`
     padding: 12px;
     margin: 12px 0;
     resize: vertical;
-`
+`;
 
 export const Button = styled.button`
     background: #170627;
@@ -138,12 +138,12 @@ export const Button = styled.button`
     margin-top: 15px;
 
     cursor: pointer;
-`
+`;
 
 export const IconButton = styled(Button)`
     display: flex;
     padding: 10px;
-`
+`;
 
 export const Fieldset = styled.fieldset`
     width: 100%;
@@ -152,7 +152,7 @@ export const Fieldset = styled.fieldset`
     margin: ${(props) => props.marginY || '10px'} 0;
     ${(props) =>
         props.marginBottom ? 'margin-bottom: ' + props.marginBottom : ''}
-`
+`;
 
 export const Input = styled.input`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -171,7 +171,7 @@ export const Input = styled.input`
     color: #e5e5e5;
     margin: 12px 0;
     width: 100%;
-`
+`;
 export const InputSmall = styled(FormStyled.Input)`
     width: 108px;
     height: 40px;
@@ -188,7 +188,7 @@ export const InputSmall = styled(FormStyled.Input)`
     letter-spacing: 0.05em;
     color: #e5e5e5;
     margin: 12px 0;
-`
+`;
 export const AllowedFileType = styled.div`
     font-family: Be Vietnam;
     font-style: normal;
@@ -199,14 +199,14 @@ export const AllowedFileType = styled.div`
     text-transform: capitalize;
 
     color: rgba(229, 229, 229, 0.6);
-`
+`;
 
 export const Text = styled.p`
     margin: 50px auto;
     color: white;
     font-family: Poppins;
     font-style: normal;
-`
+`;
 export const DragArea = styled.div`
     width: 100%;
     height: 200px;
@@ -221,7 +221,7 @@ export const DragArea = styled.div`
     box-sizing: border-box;
     margin: 10px 0;
     border-radius: 5px;
-`
+`;
 export const DragAreaText = styled.div`
     width: 100%;
     height: 32px;
@@ -235,10 +235,10 @@ export const DragAreaText = styled.div`
     text-align: center;
     color: ${(props) =>
         props.hover ? ' rgba(255, 255, 255, 1)' : ' rgba(255, 255, 255, 0.2)'};
-`
+`;
 export const Span = styled.span`
     color: #fe02b9;
-`
+`;
 export const Background = styled.div`
     position: relative;
     width: 337px;
@@ -251,7 +251,7 @@ export const Background = styled.div`
     border: 1px solid #7e3bdc;
     box-sizing: border-box;
     border-radius: 4px;
-`
+`;
 export const Cross = styled.div`
     cursor: pointer;
     position: absolute;
@@ -269,7 +269,7 @@ export const Cross = styled.div`
     z-index: 10;
     font-weight: 500;
     color: #ffffff;
-`
+`;
 export const Image = styled.img`
     position: absolute;
     width: 100%;
@@ -280,20 +280,20 @@ export const Image = styled.img`
     left: 0;
     right: 0;
     z-index: -1;
-`
+`;
 export const CategoryList = styled.div`
     margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
-`
+`;
 
 export const SearchIconTop = styled.div`
     width: 17px;
     height: 17px;
     border: 2px solid #e5e5e5;
     box-sizing: border-box;
-`
+`;
 export const StyledIconBottom = styled.div`
     position: absolute;
     width: 6.79px;
@@ -301,7 +301,7 @@ export const StyledIconBottom = styled.div`
 
     border: 2px solid #e5e5e5;
     transform: rotate(136.63deg);
-`
+`;
 
 export const SearchBox = styled.div`
     position: relative;
@@ -310,7 +310,7 @@ export const SearchBox = styled.div`
     border: 1px solid #7e3bdc;
     box-sizing: border-box;
     border-radius: 5px;
-`
+`;
 
 export const IconBox = styled.div`
     color: ${(props) => (props.color ? props.color : `white`)};
@@ -328,4 +328,4 @@ export const IconBox = styled.div`
     margin-right: ${(props) => props.mr};
     margin-left: ${(props) => props.ml};
     cursor: pointer;
-`
+`;

@@ -1,14 +1,14 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
     font-family: Be Vietnam;
     display: flex;
     justify-content: space-between;
     padding-top: 30px;
-`
+`;
 export const Categories = styled.div`
     display: flex;
-`
+`;
 export const Category = styled.div`
     cursor: pointer;
     color: ${(props) =>
@@ -20,7 +20,7 @@ export const Category = styled.div`
     letter-spacing: 0.05em;
     text-align: left;
     margin-right: 20px;
-`
+`;
 
 export const Text = styled.p`
     font-family: Be Vietnam;
@@ -33,17 +33,17 @@ export const Text = styled.p`
     letter-spacing: 0.05em;
     color: #e5e5e5;
     margin-right: 10px;
-`
+`;
 
 export const BoldText2 = styled(Text)`
     margin-left: 5px;
     font-weight: bold;
-`
+`;
 
 export const WhitelistButtonDiv = styled.div`
     display: flex;
     align-items: center;
-`
+`;
 
 export const WhitelistButton = styled.div`
     color: white;
@@ -57,7 +57,7 @@ export const WhitelistButton = styled.div`
     &:hover {
         cursor: pointer;
     }
-`
+`;
 export const ButtonText = styled.p`
     font-family: Poppins;
     font-style: normal;
@@ -69,4 +69,4 @@ export const ButtonText = styled.p`
     text-transform: uppercase;
     color: #e5e5e5;
     padding: 10px 15px;
-`
+`;

@@ -1,40 +1,40 @@
 // Libraries
-import React from "react"
+import React from 'react';
 
 // Components
-import BigCard from "../../../../components/BigCard"
-import BackButton from '../../../../components/BackButton'
-import Loader from '../../../../components/Loader'
+import BigCard from '../../../../components/BigCard';
+import BackButton from '../../../../components/BackButton';
+import Loader from '../../../../components/Loader';
 
 // Styling
-import * as Styled from "../../style"
+import * as Styled from '../../style';
 
 // Hooks
-import { useNavigate, useOutletContext } from "react-router-dom"
-import { useState } from "react"
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useState } from 'react';
 
 const DAOHome = (props) => {
     // State
-    const [inputVal, setInputVal] = useState('')
-    const { daoData, setDaoData, loaded, loading } = useOutletContext()
+    const [inputVal, setInputVal] = useState('');
+    const { daoData, setDaoData, loaded, loading } = useOutletContext();
 
     // Hooks
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            navigate(`/search/${e.target.value}`)
+            navigate(`/search/${e.target.value}`);
         }
-    }
+    };
 
     return (
         <>
             <Styled.SearchTermContainer>
-                <BackButton url="/search/all">Go Back</BackButton>
+                <BackButton url='/search/all'>Go Back</BackButton>
                 <Styled.SearchInputBox>
                     <Styled.SearchInput
-                        type="text"
-                        placeholder="Search DAO"
+                        type='text'
+                        placeholder='Search DAO'
                         value={inputVal}
                         onChange={(e) => setInputVal(e.target.value)}
                         onKeyPress={handleEnter}
@@ -46,7 +46,7 @@ const DAOHome = (props) => {
 
             {!loaded && (
                 <Styled.LoaderBox>
-                    <Loader color="white" size={35} />
+                    <Loader color='white' size={35} />
                 </Styled.LoaderBox>
             )}
 
@@ -57,7 +57,7 @@ const DAOHome = (props) => {
                         setDaoData({ ...daoData, ...data }),
                 })}
         </>
-    )
-}
+    );
+};
 
-export default DAOHome
+export default DAOHome;

@@ -33,7 +33,6 @@
     "date-fns": "^2.28.0",
     "draft-js": "^0.11.7",
     "emoji-picker-react": "^3.4.8",
-    "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
@@ -81,21 +80,21 @@
     "yarn": "^1.22.15",
     "yup": "^0.32.11"
   },
+  "devDependencies": {
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "react-error-overlay": "6.0.9"
+  },
   "scripts": {
     "start": "cross-env CI= react-scripts start",
     "build": "cross-env CI= react-scripts build",
     "test": "cross-env CI= react-scripts test",
-    "deploy": "cross-env CI= yarn build && firebase deploy",
-    "deploy-dev": "cross-env CI= yarn build && firebase deploy --only hosting:dev",
     "dev": "cross-env REACT_APP_NODE_ENV=dev yarn start",
-    "firebase-dev": "cross-env REACT_APP_NODE_ENV=dev firebase emulators:start --import ./functions/database --export-on-exit",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "npm run lint -- --fix"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   },
   "browserslist": {
     "production": [

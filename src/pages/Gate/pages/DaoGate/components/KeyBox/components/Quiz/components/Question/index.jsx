@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react';
 
 // Styling
-import * as Styled from './style'
+import * as Styled from './style';
 
 const Question = ({
     idx,
@@ -34,7 +34,7 @@ const Question = ({
                 ))}
             </Styled.AnswerContainer>
         </div>
-    )
-}
+    );
+};
 
-export default Question
+export default Question;

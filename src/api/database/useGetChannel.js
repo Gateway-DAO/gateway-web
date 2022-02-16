@@ -1,11 +1,18 @@
 import { useMemo } from 'react';
 import { useQuery, useLazyQuery, gql } from '@apollo/client';
-import { getChannel as GET_CHANNEL, getChannelByDAOID, listChannels as LIST_CHANNELS } from '../../graphql/queries';
+import {
+    getChannel as GET_CHANNEL,
+    getChannelByDAOID,
+    listChannels as LIST_CHANNELS,
+} from '../../graphql/queries';
 
 export const useGetChannel = (id) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(GET_CHANNEL), {
-        variables: { id },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(GET_CHANNEL),
+        {
+            variables: { id },
+        }
+    );
 
     return useMemo(
         () => ({
@@ -19,7 +26,8 @@ export const useGetChannel = (id) => {
 };
 
 export const useLazyGetChannels = () => {
-    const [getChannel, { loading, called, refetch, data, error }] = useLazyQuery(gql(GET_CHANNEL));
+    const [getChannel, { loading, called, refetch, data, error }] =
+        useLazyQuery(gql(GET_CHANNEL));
 
     return useMemo(
         () => ({
@@ -34,7 +42,8 @@ export const useLazyGetChannels = () => {
 };
 
 export const useLazyListChannels = () => {
-    const [listChannels, { loading, called, refetch, data, error }] = useLazyQuery(gql(LIST_CHANNELS));
+    const [listChannels, { loading, called, refetch, data, error }] =
+        useLazyQuery(gql(LIST_CHANNELS));
 
     return useMemo(
         () => ({
@@ -49,9 +58,12 @@ export const useLazyListChannels = () => {
 };
 
 export const useGetChannelByDAOID = (dao) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(getChannelByDAOID), {
-        variables: { dao },
-    });
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(getChannelByDAOID),
+        {
+            variables: { dao },
+        }
+    );
 
     return useMemo(
         () => ({

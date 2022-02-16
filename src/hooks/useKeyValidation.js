@@ -1,36 +1,37 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+/* eslint-disable @typescript-eslint/no-empty-function */
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
     useVerifyMeetingCode,
     useVerifyContractInteraction,
     useVerifyHoldAToken,
     useVerifySelfVerify,
     useVerifySnapshot,
-} from '../api/database/useVerifyKeys'
-import { useModal } from '../contexts/ModalContext'
-import { useAuth } from '../contexts/UserContext'
-import * as ThemeStyled from '../theme/style'
+} from '../api/database/useVerifyKeys';
+import { useModal } from '../contexts/ModalContext';
+import { useAuth } from '../contexts/UserContext';
+import * as ThemeStyled from '../theme/style';
 
 export const useKeyValidation = (data, gateData) => {
     // State
-    const taskInformation = useRef(null)
-    const [loading, setLoading] = useState(false)
+    const taskInformation = useRef(null);
+    const [loading, setLoading] = useState(false);
     const [buttonBehavior, setButtonBehavior] = useState({
         title: 'Finish Task',
         onClick: () => {},
-    })
+    });
 
     // Hooks
-    const { userInfo } = useAuth()
-    const { showModal } = useModal()
-    const navigate = useNavigate()
+    const { userInfo } = useAuth();
+    const { showModal } = useModal();
+    const navigate = useNavigate();
 
     // Validation mutations
-    const { verifyMeetingCode } = useVerifyMeetingCode()
-    const { verifyContractInteraction } = useVerifyContractInteraction()
-    const { verifyHoldAToken } = useVerifyHoldAToken()
-    const { verifySelfVerify } = useVerifySelfVerify()
-    const { verifySnapshot } = useVerifySnapshot()
+    const { verifyMeetingCode } = useVerifyMeetingCode();
+    const { verifyContractInteraction } = useVerifyContractInteraction();
+    const { verifyHoldAToken } = useVerifyHoldAToken();
+    const { verifySelfVerify } = useVerifySelfVerify();
+    const { verifySnapshot } = useVerifySnapshot();
 
     useEffect(() => {
         switch (data?.task?.type) {
@@ -39,7 +40,7 @@ export const useKeyValidation = (data, gateData) => {
                     ...prev,
                     onClick: async () => {
                         try {
-                            setLoading(true)
+                            setLoading(true);
                             const res = await verifyMeetingCode({
                                 variables: {
                                     userID: userInfo.id,
@@ -47,7 +48,7 @@ export const useKeyValidation = (data, gateData) => {
                                     gateID: gateData.id,
                                     meetingCode: taskInformation.current,
                                 },
-                            })
+                            });
 
                             if (
                                 res.data.verifyMeetingCode.__typename !==
@@ -58,9 +59,11 @@ export const useKeyValidation = (data, gateData) => {
                                         key: data,
                                         gate: gateData,
                                         keysDone: gateData.keysDone + data.keys,
-                                        completedGate: res.data.verifyMeetingCode.completedGate
+                                        completedGate:
+                                            res.data.verifyMeetingCode
+                                                .completedGate,
                                     },
-                                })
+                                });
                             } else {
                                 const Error = () => (
                                     <div>
@@ -69,13 +72,13 @@ export const useKeyValidation = (data, gateData) => {
                                         </ThemeStyled.H2>
                                         <p>{res.data.verifyMeetingCode.msg}</p>
                                     </div>
-                                )
-                                showModal(<Error />)
+                                );
+                                showModal(<Error />);
                             }
 
-                            setLoading(false)
+                            setLoading(false);
                         } catch (err) {
-                            setLoading(false)
+                            setLoading(false);
                             const Error = () => (
                                 <div>
                                     <ThemeStyled.H2>
@@ -85,26 +88,26 @@ export const useKeyValidation = (data, gateData) => {
                                         {err.msg || 'Please try again later!'}
                                     </p>
                                 </div>
-                            )
-                            showModal(<Error />)
+                            );
+                            showModal(<Error />);
                         }
                     },
-                }))
-                break
+                }));
+                break;
             case 'CONTRACT_INTERACTION':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
                         try {
-                            setLoading(true)
-                            console.log(userInfo)
+                            setLoading(true);
+                            console.log(userInfo);
                             const res = await verifyContractInteraction({
                                 variables: {
                                     userID: userInfo?.id,
                                     keyID: data?.id,
                                     gateID: gateData?.id,
                                 },
-                            })
+                            });
 
                             if (
                                 res.data.verifyContractInteraction
@@ -115,9 +118,11 @@ export const useKeyValidation = (data, gateData) => {
                                         key: data,
                                         gate: gateData,
                                         keysDone: gateData.keysDone + data.keys,
-                                        completedGate: res.data.verifyContractInteraction.completedGate
+                                        completedGate:
+                                            res.data.verifyContractInteraction
+                                                .completedGate,
                                     },
-                                })
+                                });
                             } else {
                                 const Error = () => (
                                     <div>
@@ -132,13 +137,13 @@ export const useKeyValidation = (data, gateData) => {
                                             }
                                         </p>
                                     </div>
-                                )
-                                showModal(<Error />)
+                                );
+                                showModal(<Error />);
                             }
 
-                            setLoading(false)
+                            setLoading(false);
                         } catch (err) {
-                            setLoading(false)
+                            setLoading(false);
                             const Error = () => (
                                 <div>
                                     <ThemeStyled.H2>
@@ -148,25 +153,25 @@ export const useKeyValidation = (data, gateData) => {
                                         {err.msg || 'Please try again later!'}
                                     </p>
                                 </div>
-                            )
-                            showModal(<Error />)
+                            );
+                            showModal(<Error />);
                         }
                     },
-                }))
-                break
+                }));
+                break;
             case 'TOKEN_HOLD':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
                         try {
-                            setLoading(true)
+                            setLoading(true);
                             const res = await verifyHoldAToken({
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
-                            })
+                            });
 
                             if (
                                 res.data.verifyHoldAToken.__typename !== 'Error'
@@ -176,9 +181,11 @@ export const useKeyValidation = (data, gateData) => {
                                         key: data,
                                         gate: gateData,
                                         keysDone: gateData.keysDone + data.keys,
-                                        completedGate: res.data.verifyHoldAToken.completedGate
+                                        completedGate:
+                                            res.data.verifyHoldAToken
+                                                .completedGate,
                                     },
-                                })
+                                });
                             } else {
                                 const Error = () => (
                                     <div>
@@ -187,13 +194,13 @@ export const useKeyValidation = (data, gateData) => {
                                         </ThemeStyled.H2>
                                         <p>{res.data.verifyHoldAToken.msg}</p>
                                     </div>
-                                )
-                                showModal(<Error />)
+                                );
+                                showModal(<Error />);
                             }
 
-                            setLoading(false)
+                            setLoading(false);
                         } catch (err) {
-                            setLoading(false)
+                            setLoading(false);
                             const Error = () => (
                                 <div>
                                     <ThemeStyled.H2>
@@ -203,12 +210,12 @@ export const useKeyValidation = (data, gateData) => {
                                         {err.msg || 'Please try again later!'}
                                     </p>
                                 </div>
-                            )
-                            showModal(<Error />)
+                            );
+                            showModal(<Error />);
                         }
                     },
-                }))
-                break
+                }));
+                break;
             case 'QUIZ':
                 setButtonBehavior({
                     title: 'Start Quiz',
@@ -219,21 +226,21 @@ export const useKeyValidation = (data, gateData) => {
                                 ...data,
                             },
                         }),
-                })
-                break
+                });
+                break;
             case 'SELF_VERIFY':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
                         try {
-                            setLoading(true)
+                            setLoading(true);
                             const res = await verifySelfVerify({
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
-                            })
+                            });
 
                             if (
                                 res.data.verifySelfVerify.__typename !== 'Error'
@@ -243,9 +250,11 @@ export const useKeyValidation = (data, gateData) => {
                                         key: data,
                                         gate: gateData,
                                         keysDone: gateData.keysDone + data.keys,
-                                        completedGate: res.data.verifySelfVerify.completedGate
+                                        completedGate:
+                                            res.data.verifySelfVerify
+                                                .completedGate,
                                     },
-                                })
+                                });
                             } else {
                                 const Error = () => (
                                     <div>
@@ -254,13 +263,13 @@ export const useKeyValidation = (data, gateData) => {
                                         </ThemeStyled.H2>
                                         <p>{res.data.verifySelfVerify.msg}</p>
                                     </div>
-                                )
-                                showModal(<Error />)
+                                );
+                                showModal(<Error />);
                             }
 
-                            setLoading(false)
+                            setLoading(false);
                         } catch (err) {
-                            setLoading(false)
+                            setLoading(false);
                             const Error = () => (
                                 <div>
                                     <ThemeStyled.H2>
@@ -270,25 +279,25 @@ export const useKeyValidation = (data, gateData) => {
                                         {err.msg || 'Please try again later!'}
                                     </p>
                                 </div>
-                            )
-                            showModal(<Error />)
+                            );
+                            showModal(<Error />);
                         }
                     },
-                }))
-                break
+                }));
+                break;
             case 'SNAPSHOT_GOVERNANCE':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
                         try {
-                            setLoading(true)
+                            setLoading(true);
                             const res = await verifySnapshot({
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
                                     gateID: gateData.id,
                                 },
-                            })
+                            });
 
                             if (
                                 res.data.verifySnapshot.__typename !== 'Error'
@@ -298,9 +307,11 @@ export const useKeyValidation = (data, gateData) => {
                                         key: data,
                                         gate: gateData,
                                         keysDone: gateData.keysDone + data.keys,
-                                        completedGate: res.data.verifySnapshot.completedGate
+                                        completedGate:
+                                            res.data.verifySnapshot
+                                                .completedGate,
                                     },
-                                })
+                                });
                             } else {
                                 const Error = () => (
                                     <div>
@@ -309,13 +320,13 @@ export const useKeyValidation = (data, gateData) => {
                                         </ThemeStyled.H2>
                                         <p>{res.data.verifySnapshot.msg}</p>
                                     </div>
-                                )
-                                showModal(<Error />)
+                                );
+                                showModal(<Error />);
                             }
 
-                            setLoading(false)
+                            setLoading(false);
                         } catch (err) {
-                            setLoading(false)
+                            setLoading(false);
                             const Error = () => (
                                 <div>
                                     <ThemeStyled.H2>
@@ -325,23 +336,26 @@ export const useKeyValidation = (data, gateData) => {
                                         {err.msg || 'Please try again later!'}
                                     </p>
                                 </div>
-                            )
-                            showModal(<Error />)
+                            );
+                            showModal(<Error />);
                         }
                     },
-                }))
-                break
+                }));
+                break;
             default:
-                setButtonBehavior((prev) => ({ ...prev }))
+                setButtonBehavior((prev) => ({ ...prev }));
         }
-    }, [data?.task?.type, userInfo?.id])
+    }, [data?.task?.type, userInfo?.id]);
 
-    return useMemo(() => ({
-        taskInformation: taskInformation.current,
-        setInfo: (value) => (taskInformation.current = value),
-        buttonBehavior,
-        loading,
-    }), [taskInformation, buttonBehavior, loading])
-}
+    return useMemo(
+        () => ({
+            taskInformation: taskInformation.current,
+            setInfo: (value) => (taskInformation.current = value),
+            buttonBehavior,
+            loading,
+        }),
+        [taskInformation, buttonBehavior, loading]
+    );
+};
 
-export default useKeyValidation
+export default useKeyValidation;

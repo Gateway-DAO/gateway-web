@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { FaTimes } from 'react-icons/fa'
+import styled from 'styled-components';
+import { FaTimes } from 'react-icons/fa';
 
 export const Container = styled.div`
     margin: 40px 140px;
@@ -9,47 +9,47 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     width: 500px;
-`
+`;
 
 export const Underline = styled.div`
     width: 100%;
-   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom:20px;
-`
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+`;
 
 export const MembershipBox = styled.div`
     display: flex;
     margin-top: 10px;
     flex-wrap: wrap;
-`
+`;
 
 export const MembershipIcon = styled.div`
     position: relative;
     margin-right: 16px;
     margin-top: 10px;
-`
+`;
 
 export const MembershipImg = styled.div`
     position: relative;
     width: 54px;
     height: 54px;
-    background: url(${props => props.src || ""});
+    background: url(${(props) => props.src || ''});
     background-position: center;
     background-size: cover;
     border-radius: 100%;
     background-color: white;
-`
+`;
 
 export const MembershipRemove = styled(FaTimes)`
     position: absolute;
-    background: #7E3BDC;
-    color: #E5E5E5;
+    background: #7e3bdc;
+    color: #e5e5e5;
     border-radius: 100%;
     padding: 2px;
     cursor: pointer;
     right: 1px;
     top: -2px;
-`
+`;
 
 export const SearchBox = styled.ul`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -68,10 +68,11 @@ export const SearchBox = styled.ul`
     color: #e5e5e5;
     margin: 12px 0;
     width: 100%;
-`
+`;
 
 export const SearchItem = styled.li`
     padding: 15px 0;
-    ${props => props.divider && "border-top: 1px solid rgba(255, 255, 255, 0.2);"}
+    ${(props) =>
+        props.divider && 'border-top: 1px solid rgba(255, 255, 255, 0.2);'}
     cursor: pointer;
-`
+`;

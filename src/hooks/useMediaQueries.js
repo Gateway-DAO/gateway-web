@@ -1,4 +1,4 @@
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from 'react-responsive';
 
 const useMediaQueries = () => {
     return {
@@ -6,7 +6,7 @@ const useMediaQueries = () => {
         sm: useMediaQuery({ query: '(min-width: 768px)' }),
         md: useMediaQuery({ query: '(min-width: 992px)' }),
         lg: useMediaQuery({ query: '(min-width: 1200px)' }),
-    }
-}
+    };
+};
 
 export default useMediaQueries;

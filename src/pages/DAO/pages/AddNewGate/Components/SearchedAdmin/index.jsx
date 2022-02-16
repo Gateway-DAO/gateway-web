@@ -1,5 +1,5 @@
-import React from 'react'
-import * as Styled from './style'
+import React from 'react';
+import * as Styled from './style';
 
 const SearchedAdmin = ({ val, id, removeAdmin }) => {
     return (
@@ -8,7 +8,7 @@ const SearchedAdmin = ({ val, id, removeAdmin }) => {
             <Styled.Text>{val.name}</Styled.Text>
             <Styled.Cross onClick={(e) => removeAdmin(id)}>+</Styled.Cross>
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default SearchedAdmin
+export default SearchedAdmin;

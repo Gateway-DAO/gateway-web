@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { useState } from 'react'
+import styled from 'styled-components';
+import { useState } from 'react';
 
 const InputDefault = `
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -7,35 +7,35 @@ const InputDefault = `
     border-radius: 5px;
     background: #170627;
     color: #e5e5e5;
-`
+`;
 
 const InputWhite = `
     border: 1px solid #170627;
     box-sizing: border-box;
     border-radius: 5px;
     color: #170627;
-`
+`;
 
 const FilledInput = `
     background: #220A38;
     border: 1px solid #7E3BDC;
     box-sizing: border-box;
     border-radius: 5px;
-`
+`;
 
 const InvalidInput = `
     border: 1px solid #FF003D;
     background: rgba(255, 0, 61, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
-`
+`;
 
 /** TEXT **/
 export const H1 = styled.h1`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 96px;
+    font-size: ${(props) => (props.size ? props.size : `96px`)};
     line-height: 120px;
     /* identical to box height, or 187% */
     text-align: center;
@@ -54,11 +54,12 @@ export const H1 = styled.h1`
     -moz-text-fill-color: transparent;
 
     margin-bottom: 40px;
-`
+`;
 
 export const H2 = styled(H1)`
     font-size: 48px;
-`
+    margin-bottom: ${(props) => props.mb || `40px`};
+`;
 
 export const Text = styled.p`
     font-family: Be Vietnam;
@@ -71,7 +72,7 @@ export const Text = styled.p`
     letter-spacing: 0.05em;
 
     color: #ffffff;
-`
+`;
 
 export const SubText = styled.p`
     font-family: Be Vietnam;
@@ -84,7 +85,7 @@ export const SubText = styled.p`
     letter-spacing: 0.05em;
 
     color: rgba(229, 229, 229, 0.6);
-`
+`;
 
 /** CONTAINERS **/
 export const FormBox = styled.form`
@@ -96,7 +97,7 @@ export const FormBox = styled.form`
     align-items: center;
     padding: 0 20%;
     margin: 50px 0;
-`
+`;
 
 export const Fieldset = styled.fieldset`
     width: 100%;
@@ -104,7 +105,7 @@ export const Fieldset = styled.fieldset`
     flex-direction: column;
     margin: ${(props) => props.marginY || '10px'} 0;
     margin-bottom: ${(props) => props.marginBottom || '30px'};
-`
+`;
 
 export const FieldsetRow = styled.fieldset`
     width: 100%;
@@ -112,7 +113,7 @@ export const FieldsetRow = styled.fieldset`
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 20px;
     margin-bottom: ${(props) => props.marginBottom || '30px'};
-`
+`;
 
 export const Wrapper = styled.div`
     display: flex;
@@ -120,15 +121,15 @@ export const Wrapper = styled.div`
     align-items: center;
     margin-top: ${(props) => props.marginTop || '0'};
     margin-bottom: ${(props) => props.marginBottom || '30px'};
-`
+`;
 
 export const AddWrapper = styled(Wrapper)`
     cursor: pointer;
-`
+`;
 
 export const DeleteWrapper = styled(Wrapper)`
     cursor: pointer;
-`
+`;
 
 export const GridBox = styled.div`
     display: grid;
@@ -136,7 +137,7 @@ export const GridBox = styled.div`
     grid-column-gap: ${(props) => props.gap || '10px'};
     grid-row-gap: ${(props) => props.gap || '10px'};
     margin: 15px 0;
-`
+`;
 
 /** FORM ELEMENTS **/
 export const Label = styled.label`
@@ -152,7 +153,7 @@ export const Label = styled.label`
     display: flex;
     align-items: center;
     color: ${(props) => props.color || '#ffffff'};
-`
+`;
 
 export const TextLabel = styled.div`
     // position: absolute;
@@ -172,7 +173,7 @@ export const TextLabel = styled.div`
     align-items: center;
 
     color: #e5e5e5;
-`
+`;
 
 export const Textarea = styled.textarea`
     font-family: Be Vietnam;
@@ -196,7 +197,7 @@ export const Textarea = styled.textarea`
     outline: none;
 
     ${(props) => (props.value ? FilledInput : '')}
-`
+`;
 
 export const Button = styled.button`
     background: #170627;
@@ -215,15 +216,16 @@ export const Button = styled.button`
     padding: 9px 65px;
     color: #e5e5e5;
     margin-top: 15px;
+    margin-bottom: ${(props) => props.mb || `0px`};
 
     cursor: pointer;
-`
+`;
 
 export const IconButton = styled(Button)`
     display: flex;
     padding: 10px;
     margin-top: 0;
-`
+`;
 
 export const Input = styled.input`
     ${(props) => (props.white ? InputWhite : InputDefault)}
@@ -243,7 +245,7 @@ export const Input = styled.input`
 
     ${(props) => (!!props.value && !props.white ? FilledInput : '')}
     ${(props) => (props.valid === false ? InvalidInput : '')}
-`
+`;
 
 export const SmallInput = styled.input`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -264,8 +266,8 @@ export const SmallInput = styled.input`
     margin: 15px 0;
     outline: none;
 
-    ${(props) => (!!props.value ? FilledInput : '')}
-`
+    ${(props) => (props.value ? FilledInput : '')}
+`;
 
 const SearchInput = styled.input`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -286,7 +288,7 @@ const SearchInput = styled.input`
     margin: 15px 0;
     width: 100%;
     outline: none;
-`
+`;
 
 const CheckboxContainer = styled.div`
     position: relative;
@@ -308,12 +310,12 @@ const CheckboxContainer = styled.div`
         props.checked
             ? `background: #220A38;border: 1px solid #7E3BDC;`
             : `background: #170627;border: 1px solid rgba(255, 255, 255, 0.2);`}
-`
+`;
 
 const BigCheckboxContainer = styled(CheckboxContainer)`
     padding: 50px 0;
     // cursor: pointer;
-`
+`;
 
 const CheckboxInput = styled.input`
     position: absolute;
@@ -322,7 +324,7 @@ const CheckboxInput = styled.input`
     z-index: 50;
     cursor: pointer;
     opacity: 0;
-`
+`;
 
 const CheckboxLabel = styled.label`
     position: absolute;
@@ -336,21 +338,21 @@ const CheckboxLabel = styled.label`
     text-transform: capitalize;
 
     color: rgba(255, 255, 255, 0.6);
-`
+`;
 
 export const Checkbox = (props) => {
-    const [checked, setChecked] = useState(props.checked)
+    const [checked, setChecked] = useState(props.checked);
 
     const toggleChecked = (e) => {
-        setChecked(e.target.checked)
-        props.onChange(e)
-    }
+        setChecked(e.target.checked);
+        props.onChange(e);
+    };
 
     return (
         <CheckboxContainer checked={checked}>
             <CheckboxInput
                 checked={checked}
-                type="checkbox"
+                type='checkbox'
                 id={props.id}
                 name={props.name}
                 value={props.value}
@@ -358,14 +360,14 @@ export const Checkbox = (props) => {
             />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </CheckboxContainer>
-    )
-}
+    );
+};
 
 export const LockedCheckbox = (props) => {
     return (
         <CheckboxContainer checked={props.checked}>
             <CheckboxInput
-                type="checkbox"
+                type='checkbox'
                 id={props.id}
                 name={props.name}
                 value={props.value}
@@ -373,41 +375,41 @@ export const LockedCheckbox = (props) => {
             />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </CheckboxContainer>
-    )
-}
+    );
+};
 
 export const Radio = (props) => {
     return (
         <CheckboxContainer checked={props.checked}>
             <CheckboxInput
-                type="radio"
+                type='radio'
                 id={props.id}
                 name={props.name}
                 value={props.value}
             />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </CheckboxContainer>
-    )
-}
+    );
+};
 
 export const BigRadio = (props) => {
     return (
         <BigCheckboxContainer checked={props.checked}>
             <CheckboxInput
-                type="radio"
+                type='radio'
                 id={props.id}
                 name={props.name}
                 value={props.value}
             />
             <CheckboxLabel>{props.label}</CheckboxLabel>
         </BigCheckboxContainer>
-    )
-}
+    );
+};
 
 export const InputWrapper = styled.div`
     display: flex;
     align-items: center;
-`
+`;
 
 export const Select = styled.select`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -426,7 +428,7 @@ export const Select = styled.select`
     color: #e5e5e5;
     margin: 15px 0;
     ${'' /* width: 100%; */}
-`
+`;
 
 export const QuestionIcon = styled.span`
     width: 15px;
@@ -447,7 +449,7 @@ export const QuestionIcon = styled.span`
     border: 1px solid #a5a5a5;
     box-sizing: border-box;
     border-radius: 100%;
-`
+`;
 
 export const DeleteIcon = styled.div`
     width: 36px;
@@ -459,7 +461,7 @@ export const DeleteIcon = styled.div`
     align-items: center;
     justify-content: center;
     margin-right: 10px;
-`
+`;
 
 export const DeleteContent = styled.div`
     width: 119px;
@@ -476,7 +478,7 @@ export const DeleteContent = styled.div`
     align-items: center;
 
     color: #e5e5e5;
-`
+`;
 export const DescriptionDilogBox = styled.div`
     position: absolute;
     padding: 2px 0px 2px 6px;
@@ -498,4 +500,4 @@ export const DescriptionDilogBox = styled.div`
     border: 1px solid #7e3bdc;
     color: rgba(255, 255, 255, 0.6);
     border-radius: 10px;
-`
+`;

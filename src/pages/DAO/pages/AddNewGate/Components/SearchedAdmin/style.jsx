@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     position: relative;
@@ -9,7 +9,7 @@ export const Container = styled.div`
     padding: 10px 30px;
     margin-bottom: 15px;
     display: flex;
-`
+`;
 
 export const ProfilePicture = styled.div`
     width: 30px;
@@ -19,7 +19,7 @@ export const ProfilePicture = styled.div`
     background-position: center;
     border-radius: 100%;
     margin-right: 10px;
-`
+`;
 
 export const Text = styled.div`
     font-family: Be Vietnam;
@@ -33,7 +33,7 @@ export const Text = styled.div`
     letter-spacing: 0.05em;
     text-transform: capitalize;
     color: #ffffff;
-`
+`;
 
 export const Cross = styled.div`
     cursor: pointer;
@@ -52,4 +52,4 @@ export const Cross = styled.div`
     z-index: 10;
     font-weight: 500;
     color: #ffffff;
-`
+`;

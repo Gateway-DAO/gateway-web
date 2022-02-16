@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const DropDownContainer = styled.div`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
@@ -12,7 +12,7 @@ export const DropDownContainer = styled.div`
     top: 60px;
     width: 200px;
     border: double 1px transparent;
-    
+
     background-image: linear-gradient(#170627, #170627),
         linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
     background-origin: border-box;
@@ -21,11 +21,11 @@ export const DropDownContainer = styled.div`
     &:hover {
         cursor: pointer;
     }
-`
+`;
 
 export const ItemsContainer = styled.div`
     margin: 10px 0;
-`
+`;
 
 export const ItemTextContainer = styled.h3`
     font-family: Be Vietnam;
@@ -37,9 +37,9 @@ export const ItemTextContainer = styled.h3`
     letter-spacing: 0.05em;
     text-transform: capitalize;
     color: rgba(255, 255, 255, 0.6);
-`
+`;
 export const BorderLine = styled.p`
     margin: 0 20px;
     margin-top: 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-`
+`;

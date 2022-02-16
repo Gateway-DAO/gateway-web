@@ -1,13 +1,13 @@
-import { useQuery, gql } from '@apollo/client'
-import { useMemo } from 'react'
+import { useQuery, gql } from '@apollo/client';
+import { useMemo } from 'react';
 
-import { getNumber } from '../../graphql/queries'
+import { getNumber } from '../../graphql/queries';
 
 export const useDAOLength = (config = {}) => {
     const { loading, called, refetch, data, error } = useQuery(
         gql(getNumber),
         config
-    )
+    );
 
     return useMemo(
         () => ({
@@ -16,8 +16,8 @@ export const useDAOLength = (config = {}) => {
             refetch,
             error,
         }),
-        [called, getNumber, loading, refetch , config]
-    )
-}
+        [called, getNumber, loading, refetch, config]
+    );
+};
 
-export default useDAOLength
+export default useDAOLength;

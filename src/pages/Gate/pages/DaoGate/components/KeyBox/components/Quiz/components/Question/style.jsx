@@ -1,22 +1,22 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const ActiveAns = `
     background: rgba(39, 213, 162, 0.2);
     border: 1px solid #27D5A2;
-`
+`;
 
 // Containers
 export const AnswerContainer = styled.div`
     display: flex;
     flex-direction: column;
-`
+`;
 
 export const Answer = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 12px;
     cursor: pointer;
-`
+`;
 
 // Buttons
 export const Option = styled.span`
@@ -37,7 +37,7 @@ export const Option = styled.span`
     justify-content: center;
 
     ${(props) => (props.active ? ActiveAns : '')}
-`
+`;
 
 export const OptionAnswer = styled.div`
     width: 339px; // TODO: remove absolute width
@@ -57,7 +57,7 @@ export const OptionAnswer = styled.div`
     display: flex;
     align-items: center;
     padding-left: 11px;
-`
+`;
 
 // Text
 export const QuestionNOText = styled.h3`
@@ -74,7 +74,7 @@ export const QuestionNOText = styled.h3`
     color: #a5a5a5;
 
     margin-bottom: 10px;
-`
+`;
 
 export const QuestionText = styled.h2`
     font-family: Poppins;
@@ -87,4 +87,4 @@ export const QuestionText = styled.h2`
 
     // TODO: check if this is the actual margin
     margin-bottom: 15px;
-`
+`;

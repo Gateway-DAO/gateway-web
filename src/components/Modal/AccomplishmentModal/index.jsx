@@ -1,31 +1,35 @@
-import Modal from "../index";
-import * as Styled from "./style";
-import * as ModalStyled from "../style";
-import { FormStyled } from "../../Form"
-import { useState } from "react";
-import RichEditor from "../../RichTextEditor";
-import { useUpdateDAO } from "../../../api/database/useUpdateDAO";
-import { Navigate } from "react-router-dom";
+import Modal from '../index';
+import * as Styled from './style';
+import * as ModalStyled from '../style';
+import { FormStyled } from '../../Form';
+import { useState } from 'react';
+import RichEditor from '../../RichTextEditor';
+import { useUpdateDAO } from '../../../api/database/useUpdateDAO';
+import { Navigate } from 'react-router-dom';
 
-const AccomplishmentModal = props => {
+const AccomplishmentModal = (props) => {
     const [accomplish, setAccomplish] = useState(props.data);
     const { updateDAO, data, error, loading } = useUpdateDAO();
 
     const submitToDB = async () => {
-        await updateDAO({ variables: {
-            input: {
-                id: props.id,
-                accomplishments: accomplish
-            }
-        } })
+        await updateDAO({
+            variables: {
+                input: {
+                    id: props.id,
+                    accomplishments: accomplish,
+                },
+            },
+        });
 
-        props.set(accomplish)
-        props.toggle()
+        props.set(accomplish);
+        props.toggle();
 
-        window.location.reload()
+        window.location.reload();
+    };
+
+    if (error) {
+        return <Navigate to='/404' />;
     }
-
-    if (error) { return <Navigate to="/404" /> }
 
     return (
         <Modal show={props.show} toggle={props.toggle}>
@@ -33,14 +37,22 @@ const AccomplishmentModal = props => {
                 <ModalStyled.Header>Accomplishments</ModalStyled.Header>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="information">Information</FormStyled.Label>
+                    <FormStyled.Label htmlFor='information'>
+                        Information
+                    </FormStyled.Label>
                     <RichEditor set={setAccomplish} value={accomplish} />
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button id="submit_msg" type="button" onClick={submitToDB}>Submit</FormStyled.Button>
+                <FormStyled.Button
+                    id='submit_msg'
+                    type='button'
+                    onClick={submitToDB}
+                >
+                    Submit
+                </FormStyled.Button>
             </Styled.Container>
         </Modal>
-    )
-}
+    );
+};
 
-export default AccomplishmentModal
+export default AccomplishmentModal;

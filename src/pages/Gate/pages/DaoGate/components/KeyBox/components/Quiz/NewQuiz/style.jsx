@@ -1,21 +1,19 @@
-import styled from 'styled-components'
-
-
+import styled from 'styled-components';
 
 export const Container = styled.div`
     margin: 20px 0;
-`
+`;
 
 export const Box = styled.div`
     display: flex;
     flex-direction: column;
     margin: 20px 25vw;
-`
+`;
 
 export const DaosContainer = styled.div`
     display: flex;
     flex-direction: row;
-`
+`;
 
 export const ImageConstainer = styled.img`
     width: 24px;
@@ -23,7 +21,7 @@ export const ImageConstainer = styled.img`
     border-radius: 50%;
     background-color: white;
     margin: 5px;
-`
+`;
 export const DaoTextBox = styled.h3`
     margin: 5px;
     font-family: Be Vietnam;
@@ -35,7 +33,7 @@ export const DaoTextBox = styled.h3`
     align-items: center;
 
     color: #e5e5e5;
-`
+`;
 export const HeadingContainer = styled.h1`
     font-family: Poppins;
     font-style: normal;
@@ -57,4 +55,4 @@ export const HeadingContainer = styled.h1`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;

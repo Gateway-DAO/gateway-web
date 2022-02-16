@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { FiSearch } from 'react-icons/fi'
+import styled from 'styled-components';
+import { FiSearch } from 'react-icons/fi';
 
 export const Container = styled.main`
     background-color: #170627;
@@ -9,14 +9,14 @@ export const Container = styled.main`
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-`
+`;
 
 export const LoaderBox = styled.div`
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-`
+`;
 
 export const SearchTermContainer = styled.div`
     margin-top: 25px;
@@ -31,14 +31,14 @@ export const SearchTermContainer = styled.div`
         flex-direction: column-reverse;
         align-items: center;
     }
-`
+`;
 
 export const BackButtonContainer = styled.div`
     padding: 0 30px;
     margin-left: 20px;
     display: flex;
     align-items: center;
-`
+`;
 
 export const Button = styled.a`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -65,7 +65,7 @@ export const Button = styled.a`
     &:hover {
         cursor: pointer;
     }
-`
+`;
 
 export const BackHomeButton = styled(Button)`
     width: 40px;
@@ -75,7 +75,7 @@ export const BackHomeButton = styled(Button)`
         width: 35px;
         height: 35px;
     }
-`
+`;
 
 export const BackHomeButtonText = styled.a`
     font-size: 30px;
@@ -87,7 +87,7 @@ export const BackHomeButtonText = styled.a`
         left: 7.5px;
         font-size: 15px;
     }
-`
+`;
 
 export const BackButtonText = styled.p`
     font-family: Be Vietnam;
@@ -101,7 +101,7 @@ export const BackButtonText = styled.p`
     letter-spacing: 0.05em;
 
     color: #e5e5e5;
-`
+`;
 export const SearchInputBox = styled.div`
     margin-right: 40px;
     padding-left: 30px;
@@ -123,7 +123,7 @@ export const SearchInputBox = styled.div`
     @media only screen and (max-width: 480px) {
         width: 60%;
     }
-`
+`;
 
 export const SearchInput = styled.input`
     border: none;
@@ -132,9 +132,9 @@ export const SearchInput = styled.input`
     outline: none;
     flex: 1;
     padding: 12px 0;
-`
+`;
 
 export const WrappedFiSearch = styled(FiSearch)`
     font-size: 20px;
     padding-right: 20px;
-`
+`;

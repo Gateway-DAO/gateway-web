@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const GateCardBox = styled.div`
     background-color: white;
@@ -36,7 +36,7 @@ export const GateCardBox = styled.div`
         min-width: 200px;
         max-width: 200px;
     }
-`
+`;
 export const GateBanner = styled.div`
     position: relative;
     border-top-right-radius: 20px;
@@ -45,13 +45,13 @@ export const GateBanner = styled.div`
     background-position: center;
     background-size: cover;
     grid-row: 1 / span 3;
-`
+`;
 
 export const EditContainer = styled.div`
     position: absolute;
     top: 15px;
     right: 15px;
-`
+`;
 
 export const NFTBadgeContainer = styled.div`
     position: absolute;
@@ -59,7 +59,7 @@ export const NFTBadgeContainer = styled.div`
     left: 15px;
     display: flex;
     flex-direction: column;
-`
+`;
 export const SimpleText = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
@@ -73,7 +73,7 @@ export const SimpleText = styled.p`
     letter-spacing: 0.05em;
 
     color: #170627;
-`
+`;
 
 export const GuildName = styled.h3`
     font-family: Poppins;
@@ -97,13 +97,13 @@ export const GuildName = styled.h3`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;
 
 export const PeopleInvolved = styled.div`
     position: absolute;
     bottom: 15px;
     right: 15px;
-`
+`;
 
 export const CategoryList = styled.ul`
     //margin-top: -15px;
@@ -118,7 +118,7 @@ export const CategoryList = styled.ul`
         justify-content: center;
         text-align: left;
     }
-`
+`;
 
 export const Category = styled.li`
     border: 1px solid #170627;
@@ -143,18 +143,18 @@ export const Category = styled.li`
     @media only screen and (max-width: 380px) {
         margin: 5px;
     }
-`
+`;
 
 export const CategoryLink = styled(Link)`
     text-decoration: none;
     color: #170627;
-`
+`;
 
 export const CardBody = styled.div`
     margin-top: -10px;
     grid-row: 5 / span 2;
     margin: 0 25px;
-`
+`;
 
 export const CardTitle = styled.h1`
     font-family: 'Be Vietnam';
@@ -165,7 +165,7 @@ export const CardTitle = styled.h1`
     letter-spacing: 0em;
     text-align: left;
     color: #170627;
-`
+`;
 
 export const CardDesc = styled.div`
     font-family: 'Be Vietnam', sans-serif;
@@ -183,7 +183,7 @@ export const CardDesc = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-`
+`;
 export const InfoContainer = styled.div`
     display: flex;
     justify-content: space-between;
@@ -191,13 +191,13 @@ export const InfoContainer = styled.div`
     border-bottom: 1px solid #e5e5e5;
     margin: 0 25px;
     padding-bottom: 15px;
-`
+`;
 export const InfoBox = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
     text-align: left;
-`
+`;
 
 export const MediumHeading = styled.h3`
     font-family: Poppins;
@@ -210,7 +210,7 @@ export const MediumHeading = styled.h3`
     letter-spacing: -0.015em;
 
     color: #000000;
-`
+`;
 
 export const SmallText = styled.p`
     font-family: Be Vietnam;
@@ -221,13 +221,13 @@ export const SmallText = styled.p`
     /* or 129% */
 
     color: #111827;
-`
+`;
 export const KeyBox = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
     position: relative;
-`
+`;
 
 export const Circle = styled.div`
     width: 16px;
@@ -237,14 +237,14 @@ export const Circle = styled.div`
     & .CircularProgressbar .CircularProgressbar-path {
         stroke: url(#circleGradient);
     }
-`
+`;
 
 export const ActivityBox = styled.div`
     display: flex;
 
     align-items: center;
     margin: 15px;
-`
+`;
 export const ActionButton = styled.div`
     background: #ffffff;
     border: 1px solid #a5a5a5;
@@ -256,7 +256,7 @@ export const ActionButton = styled.div`
     justify-content: center;
     align-items: center;
     margin-right: 5px;
-`
+`;
 
 export const ButtonText = styled.h3`
     font-family: Poppins;
@@ -271,13 +271,13 @@ export const ButtonText = styled.h3`
     text-transform: uppercase;
 
     color: #170627;
-`
+`;
 
 export const PublishContainer = styled.div`
     display: flex;
     align-items: center;
     margin-left: 30px;
-`
+`;
 
 export const PublishText = styled.span`
     font-family: Poppins;
@@ -293,4 +293,4 @@ export const PublishText = styled.span`
 
     color: #170627;
     margin-right: 5px;
-`
+`;

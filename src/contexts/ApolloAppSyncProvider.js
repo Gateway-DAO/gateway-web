@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 // Apollo Settings
 import {
@@ -6,12 +6,12 @@ import {
     ApolloProvider,
     InMemoryCache,
     ApolloLink,
-} from '@apollo/client/'
+} from '@apollo/client/';
 
 // AppSync
-import { createAuthLink } from 'aws-appsync-auth-link'
-import { createHttpLink } from 'apollo-link-http'
-import AppSyncConfig from '../aws-exports'
+import { createAuthLink } from 'aws-appsync-auth-link';
+import { createHttpLink } from 'apollo-link-http';
+import AppSyncConfig from '../aws-exports';
 
 const client = new ApolloClient({
     link: ApolloLink.from([
@@ -36,10 +36,10 @@ const client = new ApolloClient({
             errorPolicy: 'all',
         },
     },
-})
+});
 
 const ApolloAppSyncProvider = ({ children }) => (
     <ApolloProvider client={client}>{children}</ApolloProvider>
-)
+);
 
-export default ApolloAppSyncProvider
+export default ApolloAppSyncProvider;

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     background: #180b27;
@@ -49,8 +49,8 @@ export const Container = styled.div`
         list-style-type: circle;
         list-style-position: inside;
     }
-`
+`;
 
 export const BoldText = styled(Text)`
     font-weight: bold;
-`
+`;

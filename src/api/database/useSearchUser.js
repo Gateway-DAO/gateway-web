@@ -3,11 +3,14 @@ import { useQuery, useLazyQuery, gql } from '@apollo/client';
 import { searchUsers as SEARCH_USERS } from '../../graphql/queries';
 
 export const useSearchUsers = (config = {}) => {
-    const { loading, called, refetch, data, error } = useQuery(gql(SEARCH_USERS), config);
+    const { loading, called, refetch, data, error } = useQuery(
+        gql(SEARCH_USERS),
+        config
+    );
 
     return useMemo(
         () => ({
-            data, 
+            data,
             loading: loading || (!called && loading === false),
             called,
             refetch,
@@ -18,7 +21,8 @@ export const useSearchUsers = (config = {}) => {
 };
 
 export const useLazySearchUsers = () => {
-    const [searchUsers, { loading, called, refetch, data, error }] = useLazyQuery(gql(SEARCH_USERS));
+    const [searchUsers, { loading, called, refetch, data, error }] =
+        useLazyQuery(gql(SEARCH_USERS));
 
     return useMemo(
         () => ({

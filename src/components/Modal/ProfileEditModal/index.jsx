@@ -1,44 +1,43 @@
 // Styling
-import * as Styled from './style'
-import * as ModalStyled from '../style'
-import { FormStyled } from '../../Form'
+import * as Styled from './style';
+import * as ModalStyled from '../style';
+import { FormStyled } from '../../Form';
 
 // Components
-import Modal from '../index'
-import { FaTrashAlt, FaPlus } from 'react-icons/fa'
-import Loader from '../../Loader'
+import Modal from '../index';
+import { FaTrashAlt, FaPlus } from 'react-icons/fa';
+import Loader from '../../Loader';
 
 // Hooks
-import { useSignedAuth } from '../../../contexts/UserContext'
-import { useEffect, useState } from 'react'
-import { useFileUpload } from '../../../api/useFileUpload'
-import useSearchDAO from '../../../api/database/useSearchDAO'
-import { useLazyGetUserByUsername } from '../../../api/database/useGetUser'
-import { ImageUpload } from '../../Form'
+import { useSignedAuth } from '../../../contexts/UserContext';
+import { useEffect, useState } from 'react';
+import { useFileUpload } from '../../../api/useFileUpload';
+import useSearchDAO from '../../../api/database/useSearchDAO';
+import { useLazyGetUserByUsername } from '../../../api/database/useGetUser';
+import { ImageUpload } from '../../Form';
 
 const ProfileEditModal = (props) => {
-    const [name, setName] = useState(props.name || '')
-    const [username, setUsername] = useState(props.username || '')
-    const [bio, setBio] = useState(props.bio || '')
+    const [name, setName] = useState(props.name || '');
+    const [username, setUsername] = useState(props.username || '');
+    const [bio, setBio] = useState(props.bio || '');
     const [socials, setSocials] = useState(
         props.socials || [{ network: 'any-0', url: '' }]
-    )
-    const [membership, setMembership] = useState(props.membership || [])
-    const [pfp, setPfp] = useState(props.pfpURL || '')
-    const [updateLoading, setUpdateLoading] = useState(false)
-    const [validUsername, setValidUsername] = useState(true)
+    );
+    const [membership, setMembership] = useState(props.membership || []);
+    const [pfp, setPfp] = useState(props.pfpURL || '');
+    const [updateLoading, setUpdateLoading] = useState(false);
+    const [validUsername, setValidUsername] = useState(true);
 
-    const [searchTerm, setSearchTerm] = useState('')
-    const [searchQuery, setSearchQuery] = useState('')
-    const [searchRes, setSearchRes] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchRes, setSearchRes] = useState([]);
 
-    const { loggedIn, userInfo, updateUserInfo, walletConnected, signIn } = useSignedAuth([props.show])
-    const { uploadFile } = useFileUpload()
+    const { loggedIn, userInfo, updateUserInfo, walletConnected, signIn } =
+        useSignedAuth([props.show]);
+    const { uploadFile } = useFileUpload();
 
     // Get user
-    const {
-        getUser
-    } = useLazyGetUserByUsername()
+    const { getUser } = useLazyGetUserByUsername();
 
     // Search DAO
     const {
@@ -55,20 +54,20 @@ const ProfileEditModal = (props) => {
                 ],
             },
         },
-    })
+    });
 
     const uploadPfp = async () => {
-        const file = pfp
+        const file = pfp;
         return await uploadFile(
             `users/${userInfo.id}/profile.${file.name.split('.').pop()}`,
             file
-        )
-    }
+        );
+    };
 
     const onSave = async () => {
         try {
-            setUpdateLoading(true)
-            const pfpURL = pfp ? await uploadPfp() : props.pfp
+            setUpdateLoading(true);
+            const pfpURL = pfp ? await uploadPfp() : props.pfp;
             await updateUserInfo({
                 name,
                 username,
@@ -76,60 +75,60 @@ const ProfileEditModal = (props) => {
                 socials: socials
                     .filter((social) => social.url !== '')
                     .map((social) => {
-                        return { network: social.network, url: social.url }
+                        return { network: social.network, url: social.url };
                     }),
                 daos_ids: membership.map((dao) => dao.dao),
                 pfp: pfpURL,
-            })
+            });
         } catch (err) {
-            alert('An error occurred. Please try again later!')
-            console.log(err)
+            alert('An error occurred. Please try again later!');
+            console.log(err);
         }
 
-        setUpdateLoading(false)
-        props.toggle(!props.show)
-    }
+        setUpdateLoading(false);
+        props.toggle(!props.show);
+    };
 
     useEffect(() => {
         const clear = setTimeout(() => {
             !!searchTerm &&
                 searchTerm !== searchQuery &&
-                setSearchQuery(searchTerm)
+                setSearchQuery(searchTerm);
 
             if (!!searchData && !searchLoading) {
-                const query = searchData.searchDAOs.items
+                const query = searchData.searchDAOs.items;
                 const results = query
                     .map((dao) => {
                         const obj = {
                             name: dao.name,
                             dao: dao.dao,
                             logoURL: dao.logoURL,
-                        }
+                        };
 
                         if (!membership.includes(obj)) {
-                            return obj
+                            return obj;
                         }
 
-                        return null
+                        return null;
                     })
-                    .slice(0, 5)
-                setSearchRes(results)
+                    .slice(0, 5);
+                setSearchRes(results);
             }
-        }, 1000)
+        }, 1000);
 
-        return () => clearTimeout(clear)
-    }, [searchTerm, searchLoading, searchData])
+        return () => clearTimeout(clear);
+    }, [searchTerm, searchLoading, searchData]);
 
     // Handlers
     const changeSocial = (idx, e) => {
-        e.preventDefault()
-        let copy = [...socials]
-        copy[idx].url = e.target.value
-        setSocials(copy)
-    }
+        e.preventDefault();
+        let copy = [...socials];
+        copy[idx].url = e.target.value;
+        setSocials(copy);
+    };
 
     const deleteSocial = (idx) =>
-        setSocials(socials.filter((social, i) => i !== idx))
+        setSocials(socials.filter((social, i) => i !== idx));
 
     const changeSocialName = (idx, newName) => {
         let copy = socials.map((social, i) => {
@@ -137,29 +136,29 @@ const ProfileEditModal = (props) => {
                 return {
                     ...social,
                     network: newName,
-                }
+                };
             }
 
-            return social
-        })
-        setSocials(copy)
-    }
+            return social;
+        });
+        setSocials(copy);
+    };
 
     const addDAO = (dao) => {
-        !membership.includes(dao) && setMembership([...membership, dao])
-        setSearchRes(searchRes.filter((res) => res.name !== dao.name))
-    }
+        !membership.includes(dao) && setMembership([...membership, dao]);
+        setSearchRes(searchRes.filter((res) => res.name !== dao.name));
+    };
 
     const removeDAO = (name) => {
-        const new_membership = membership.filter((dao) => dao.name !== name)
-        setMembership(new_membership)
+        const new_membership = membership.filter((dao) => dao.name !== name);
+        setMembership(new_membership);
         searchRes.length != 5 &&
             !searchRes.includes(searchRes.filter((dao) => dao.name === name)) &&
             setSearchRes([
                 ...searchRes,
                 membership.filter((dao) => dao.name === name)[0],
-            ])
-    }
+            ]);
+    };
 
     useEffect(() => {
         const unsub = setTimeout(() => {
@@ -170,14 +169,14 @@ const ProfileEditModal = (props) => {
                     },
                 }).then(({ data }) =>
                     setValidUsername(!data.getUserByUsername.items.length)
-                )
+                );
             } else {
-                setValidUsername(true)
+                setValidUsername(true);
             }
-        }, 2000)
+        }, 2000);
 
-        return () => clearTimeout(unsub)
-    }, [username])
+        return () => clearTimeout(unsub);
+    }, [username]);
 
     return (
         <Modal show={props.show} toggle={props.toggle}>
@@ -187,29 +186,29 @@ const ProfileEditModal = (props) => {
                 {loggedIn ? (
                     <>
                         <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor="name">
+                            <FormStyled.Label htmlFor='name'>
                                 Display Name
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setName(e.target.value)}
-                                type="text"
-                                id="name"
-                                name="name"
-                                placeholder="Change your name"
+                                type='text'
+                                id='name'
+                                name='name'
+                                placeholder='Change your name'
                                 value={name}
                             />
                         </FormStyled.Fieldset>
 
                         <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor="username">
+                            <FormStyled.Label htmlFor='username'>
                                 Username
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setUsername(e.target.value)}
-                                type="text"
-                                id="username"
-                                name="username"
-                                placeholder="Change your username"
+                                type='text'
+                                id='username'
+                                name='username'
+                                placeholder='Change your username'
                                 value={username}
                                 valid={validUsername}
                                 required
@@ -222,25 +221,25 @@ const ProfileEditModal = (props) => {
                         </FormStyled.Fieldset>
 
                         <ImageUpload
-                            htmlFor="pfp"
-                            label="Profile Picture"
+                            htmlFor='pfp'
+                            label='Profile Picture'
                             defaultImageURL={props.pfp}
                             setImage={setPfp}
                         />
 
                         <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor="bio">
+                            <FormStyled.Label htmlFor='bio'>
                                 Bio
                             </FormStyled.Label>
                             <FormStyled.Textarea
-                                height="100px"
-                                id="Bio"
+                                height='100px'
+                                id='Bio'
                                 onChange={(e) => setBio(e.target.value)}
                                 value={bio}
                             ></FormStyled.Textarea>
                         </FormStyled.Fieldset>
                         <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor="socials">
+                            <FormStyled.Label htmlFor='socials'>
                                 Socials
                             </FormStyled.Label>
                             {socials.map((social, idx) => {
@@ -256,7 +255,7 @@ const ProfileEditModal = (props) => {
                                             }
                                         >
                                             <option
-                                                value="twitter"
+                                                value='twitter'
                                                 selected={
                                                     social.network === 'twitter'
                                                 }
@@ -270,7 +269,7 @@ const ProfileEditModal = (props) => {
                                                 Twitter
                                             </option>
                                             <option
-                                                value="telegram"
+                                                value='telegram'
                                                 selected={
                                                     social.network ===
                                                     'telegram'
@@ -285,7 +284,7 @@ const ProfileEditModal = (props) => {
                                                 Telegram
                                             </option>
                                             <option
-                                                value="medium"
+                                                value='medium'
                                                 selected={
                                                     social.network === 'medium'
                                                 }
@@ -299,7 +298,7 @@ const ProfileEditModal = (props) => {
                                                 Medium
                                             </option>
                                             <option
-                                                value="github"
+                                                value='github'
                                                 selected={
                                                     social.network === 'github'
                                                 }
@@ -313,7 +312,7 @@ const ProfileEditModal = (props) => {
                                                 Github
                                             </option>
                                             <option
-                                                value="discord"
+                                                value='discord'
                                                 selected={
                                                     social.network === 'discord'
                                                 }
@@ -327,7 +326,7 @@ const ProfileEditModal = (props) => {
                                                 Discord
                                             </option>
                                             <option
-                                                value="website"
+                                                value='website'
                                                 selected={
                                                     social.network === 'website'
                                                 }
@@ -341,7 +340,7 @@ const ProfileEditModal = (props) => {
                                                 Website
                                             </option>
                                             <option
-                                                value="chat"
+                                                value='chat'
                                                 selected={
                                                     social.network === 'chat'
                                                 }
@@ -355,7 +354,7 @@ const ProfileEditModal = (props) => {
                                                 Chat
                                             </option>
                                             <option
-                                                value="other"
+                                                value='other'
                                                 selected={social.network.startsWith(
                                                     'any'
                                                 )}
@@ -365,7 +364,7 @@ const ProfileEditModal = (props) => {
                                         </FormStyled.Select>
                                         <FormStyled.Input
                                             id={`social-${social.network}`}
-                                            type="text"
+                                            type='text'
                                             onChange={(e) =>
                                                 changeSocial(idx, e)
                                             }
@@ -378,7 +377,7 @@ const ProfileEditModal = (props) => {
                                             <FaTrashAlt />
                                         </FormStyled.IconButton>
                                     </FormStyled.InputWrapper>
-                                )
+                                );
                             })}
                             <FormStyled.IconButton
                                 onClick={() =>
@@ -400,7 +399,7 @@ const ProfileEditModal = (props) => {
                         </FormStyled.Fieldset>
 
                         <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor="membership">
+                            <FormStyled.Label htmlFor='membership'>
                                 Membership
                             </FormStyled.Label>
                             <Styled.MembershipBox>
@@ -419,17 +418,17 @@ const ProfileEditModal = (props) => {
                                                     }
                                                 />
                                             </Styled.MembershipIcon>
-                                        )
+                                        );
                                     })}
                             </Styled.MembershipBox>
                         </FormStyled.Fieldset>
 
                         <FormStyled.Fieldset>
                             <FormStyled.Input
-                                id="dao-search"
-                                name="dao-search"
-                                type="text"
-                                placeholder="Search by DAO name"
+                                id='dao-search'
+                                name='dao-search'
+                                type='text'
+                                placeholder='Search by DAO name'
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                             {!!searchRes.length && (
@@ -447,20 +446,22 @@ const ProfileEditModal = (props) => {
                         </FormStyled.Fieldset>
 
                         <FormStyled.Button
-                            id="submit_msg"
-                            type="button"
+                            id='submit_msg'
+                            type='button'
                             onClick={onSave}
                         >
-                            {updateLoading && <Loader color="white" />}
+                            {updateLoading && <Loader color='white' />}
                             Save Changes
                         </FormStyled.Button>
                     </>
                 ) : (
-                    <FormStyled.Text>Please authorize Metamask to access your account.</FormStyled.Text>
+                    <FormStyled.Text>
+                        Please authorize Metamask to access your account.
+                    </FormStyled.Text>
                 )}
             </Styled.Container>
         </Modal>
-    )
-}
+    );
+};
 
-export default ProfileEditModal
+export default ProfileEditModal;

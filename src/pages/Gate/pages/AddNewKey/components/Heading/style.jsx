@@ -1,9 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
     margin: 5px auto 50px auto;
-    
-`
+`;
 export const Text = styled.h1`
     text-align: center;
     padding: 0;
@@ -25,5 +24,4 @@ export const Text = styled.h1`
     /* line-height: 64px; */
     /* or 100% */
     letter-spacing: -0.015em;
-`
-
+`;

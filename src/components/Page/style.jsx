@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.main`
     min-height: 100vh;
@@ -17,4 +17,4 @@ export const Container = styled.main`
         height: 100%;
         width: 100%;
     }
-`
+`;

@@ -1,33 +1,35 @@
-import * as Styled from './style'
-import CTA_BG from '../../../../../../assets/Gateway.svg'
-import { BsEmojiSmile } from 'react-icons/bs'
-import { FiImage } from 'react-icons/fi'
-import Picker from 'emoji-picker-react'
-import { useState, useRef } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-import { useAuth } from '../../../../../../contexts/UserContext'
-import { useEffect } from 'react'
-import { useCreateComment } from '../../../../../../api/database/useCreateComment'
+import * as Styled from './style';
+import { BsEmojiSmile } from 'react-icons/bs';
+import Picker from 'emoji-picker-react';
+import { useState, useRef } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useAuth } from '../../../../../../contexts/UserContext';
+import { useCreateComment } from '../../../../../../api/database/useCreateComment';
 
 const MakeComment = (props) => {
-    const { loggedIn, userInfo } = useAuth()
-    const [commentMessage, setCommentMessage] = useState('')
-    const [commentImage, setCommentImage] = useState('')
+    const { loggedIn, userInfo } = useAuth();
+    const [commentMessage, setCommentMessage] = useState('');
+    const [commentImage, setCommentImage] = useState('');
 
-    const [chosenEmoji, setChosenEmoji] = useState(null)
-    const [showEmojiBox, setEmojiBox] = useState(false)
+    const [chosenEmoji, setChosenEmoji] = useState(null);
+    const [showEmojiBox, setEmojiBox] = useState(false);
 
-    const { createComment, data: commentData, error, loading } = useCreateComment()
+    const {
+        createComment,
+        data: commentData,
+        error,
+        loading,
+    } = useCreateComment();
 
-    const ref = useRef(null)
+    const ref = useRef(null);
     const onEmojiClick = (event, emojiObject) => {
-        const cursor = ref.current.selectionStart
+        const cursor = ref.current.selectionStart;
         const text =
             commentMessage.slice(0, cursor) +
             emojiObject.emoji +
-            commentMessage.slice(cursor)
-        setCommentMessage(text)
-    }
+            commentMessage.slice(cursor);
+        setCommentMessage(text);
+    };
 
     const submitComment = async () => {
         const data = {
@@ -38,20 +40,22 @@ const MakeComment = (props) => {
             upvotes: [],
             downvotes: [],
             createdAt: new Date().toISOString(),
-        }
+        };
 
         try {
-            const { data: resData } = await createComment({ variables: {
-                input: data
-            }})
+            const { data: resData } = await createComment({
+                variables: {
+                    input: data,
+                },
+            });
 
-            props.commentDone(resData.createComment)
+            props.commentDone(resData.createComment);
 
-            setCommentMessage('')
+            setCommentMessage('');
         } catch (err) {
-            console.log(`Post failed: ${err}`)
+            console.log(`Post failed: ${err}`);
         }
-    }
+    };
 
     return loggedIn ? (
         <Styled.PostContainer>
@@ -68,14 +72,14 @@ const MakeComment = (props) => {
                     </Styled.PostByInfo>
                 </Styled.ProfileBioContainer>
             </Styled.PostHeaderInfo>
-                <Styled.InputMessage
-                    onChange={(e) => setCommentMessage(e.target.value)}
-                    onClick={(e) => setEmojiBox(false)}
-                    value={commentMessage}
-                    placeholder="What are your thoughts?"
-                    rows={3}
-                    ref={ref}
-                />
+            <Styled.InputMessage
+                onChange={(e) => setCommentMessage(e.target.value)}
+                onClick={(e) => setEmojiBox(false)}
+                value={commentMessage}
+                placeholder='What are your thoughts?'
+                rows={3}
+                ref={ref}
+            />
             <Styled.ActivityBox>
                 <Styled.ActivityContainer>
                     <Styled.ActivityEmojiContainer>
@@ -97,7 +101,7 @@ const MakeComment = (props) => {
                 </Styled.PostButton>
             </Styled.ActivityBox>
         </Styled.PostContainer>
-    ) : null
-}
+    ) : null;
+};
 
-export default MakeComment
+export default MakeComment;

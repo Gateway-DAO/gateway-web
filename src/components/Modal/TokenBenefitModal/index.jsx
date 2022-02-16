@@ -1,20 +1,20 @@
-import Modal from '../index'
-import * as Styled from './style'
-import * as ModalStyled from '../style'
-import { FormStyled } from '../../Form'
-import { useState } from 'react'
-import RichEditor from '../../RichTextEditor'
-import { useCreateTokenBenefit } from '../../../api/database/useCreateTokenBenefit'
-import { Navigate } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import Modal from '../index';
+import * as Styled from './style';
+import * as ModalStyled from '../style';
+import { FormStyled } from '../../Form';
+import { useState } from 'react';
+import RichEditor from '../../RichTextEditor';
+import { useCreateTokenBenefit } from '../../../api/database/useCreateTokenBenefit';
+import { Navigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 const TokenBenefitModal = (props) => {
-    const [title, setTitle] = useState(null)
-    const [description, setDescription] = useState(null)
-    const [token, setToken] = useState(null)
-    const [amount, setAmount] = useState(null)
+    const [title, setTitle] = useState(null);
+    const [description, setDescription] = useState(null);
+    const [token, setToken] = useState(null);
+    const [amount, setAmount] = useState(null);
 
-    const { createTokenBenefit, error } = useCreateTokenBenefit()
+    const { createTokenBenefit, error } = useCreateTokenBenefit();
 
     const submitToDB = async () => {
         const newTB = {
@@ -24,22 +24,22 @@ const TokenBenefitModal = (props) => {
             description,
             token,
             amount,
-        }
+        };
 
         await createTokenBenefit({
             variables: {
                 input: newTB,
             },
-        })
+        });
 
-        props.set([...props.data, newTB])
-        props.toggle()
+        props.set([...props.data, newTB]);
+        props.toggle();
 
-        window.location.reload()
-    }
+        window.location.reload();
+    };
 
     if (error) {
-        return <Navigate to="/404" />
+        return <Navigate to='/404' />;
     }
 
     return (
@@ -48,56 +48,56 @@ const TokenBenefitModal = (props) => {
                 <ModalStyled.Header>Add Token Benefits</ModalStyled.Header>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="title">Title</FormStyled.Label>
+                    <FormStyled.Label htmlFor='title'>Title</FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
                         value={title}
-                        type="text"
-                        id="title"
-                        name="title"
-                        placeholder="Discord Access"
+                        type='text'
+                        id='title'
+                        name='title'
+                        placeholder='Discord Access'
                     />
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="description">
+                    <FormStyled.Label htmlFor='description'>
                         Description
                     </FormStyled.Label>
                     <RichEditor set={setDescription} value={description} />
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="token">Token</FormStyled.Label>
+                    <FormStyled.Label htmlFor='token'>Token</FormStyled.Label>
                     <FormStyled.Input
-                        id="token"
-                        placeholder="Ex: GATE"
+                        id='token'
+                        placeholder='Ex: GATE'
                         onChange={(e) => setToken(e.target.value)}
                         value={token}
                     />
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor="amount">
+                    <FormStyled.Label htmlFor='amount'>
                         Token Amount Required
                     </FormStyled.Label>
                     <FormStyled.Input
-                        id="amount"
-                        placeholder="Ex: 25"
+                        id='amount'
+                        placeholder='Ex: 25'
                         onChange={(e) => setAmount(e.target.value)}
                         value={amount}
                     />
                 </FormStyled.Fieldset>
 
                 <FormStyled.Button
-                    id="submit_msg"
-                    type="button"
+                    id='submit_msg'
+                    type='button'
                     onClick={submitToDB}
                 >
                     Submit
                 </FormStyled.Button>
             </Styled.Container>
         </Modal>
-    )
-}
+    );
+};
 
-export default TokenBenefitModal
+export default TokenBenefitModal;

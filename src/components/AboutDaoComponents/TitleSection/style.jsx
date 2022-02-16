@@ -1,26 +1,26 @@
-import styled from 'styled-components'
-import CTA_BG from '../../../assets/bubbles-new.png'
-import base from '../../../assets/about-dao-images/base.png'
-import sparkles from '../../../assets/about-dao-images/sparkles.png'
-import dots from '../../../assets/about-dao-images/dots.png'
-import stars from '../../../assets/about-dao-images/stars.png'
-import lb1 from '../../../assets/about-dao-images/lb1.png'
-import lb2 from '../../../assets/about-dao-images/lb2.png'
-import lb3 from '../../../assets/about-dao-images/lb3.png'
-import rb1 from '../../../assets/about-dao-images/rb1.png'
-import rb2 from '../../../assets/about-dao-images/rb2.png'
-import { keyframes } from 'styled-components'
+import styled from 'styled-components';
+import CTA_BG from '../../../assets/bubbles-new.png';
+import base from '../../../assets/about-dao-images/base.png';
+import sparkles from '../../../assets/about-dao-images/sparkles.png';
+import dots from '../../../assets/about-dao-images/dots.png';
+import stars from '../../../assets/about-dao-images/stars.png';
+import lb1 from '../../../assets/about-dao-images/lb1.png';
+import lb2 from '../../../assets/about-dao-images/lb2.png';
+import lb3 from '../../../assets/about-dao-images/lb3.png';
+import rb1 from '../../../assets/about-dao-images/rb1.png';
+import rb2 from '../../../assets/about-dao-images/rb2.png';
+import { keyframes } from 'styled-components';
 
 const OpacityOne = keyframes`
  0% { opacity:1 }
  50% {opacity:0.3}
  100% { opacity:1 }
-`
+`;
 const OpacityTwo = keyframes`
  0% { opacity:1 }
  50% { opacity:0.5 }
  100% { opacity:1}
-`
+`;
 const FloatOne = keyframes`
 0% {
 	transform: translatey(0px);
@@ -31,7 +31,7 @@ const FloatOne = keyframes`
 100% {
 	transform: translatey(0px);
 }
-`
+`;
 
 export const MainWrapper = styled.div`
     position: relative;
@@ -40,7 +40,7 @@ export const MainWrapper = styled.div`
     width: 100vw;
     align-items: center;
     justify-content: center;
-`
+`;
 
 export const Base = styled.div`
     position: absolute;
@@ -52,7 +52,7 @@ export const Base = styled.div`
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-`
+`;
 export const Sparkles = styled.div`
     position: absolute;
     top: auto;
@@ -67,7 +67,7 @@ export const Sparkles = styled.div`
     animation-duration: 3s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 export const Dots = styled.div`
     position: absolute;
     top: auto;
@@ -82,7 +82,7 @@ export const Dots = styled.div`
     animation-duration: 5s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 export const Stars = styled.div`
     position: absolute;
     top: auto;
@@ -97,7 +97,7 @@ export const Stars = styled.div`
     animation-duration: 5s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 export const LbOne = styled.div`
     position: absolute;
     top: auto;
@@ -112,7 +112,7 @@ export const LbOne = styled.div`
     animation-duration: 5s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 export const LbTwo = styled.div`
     position: absolute;
     top: auto;
@@ -127,7 +127,7 @@ export const LbTwo = styled.div`
     animation-duration: 4s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 export const LbThree = styled.div`
     position: absolute;
     top: auto;
@@ -142,7 +142,7 @@ export const LbThree = styled.div`
     animation-duration: 3s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 export const RbOne = styled.div`
     position: absolute;
     top: auto;
@@ -157,7 +157,7 @@ export const RbOne = styled.div`
     animation-duration: 5s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 export const RbTwo = styled.div`
     position: absolute;
     top: auto;
@@ -172,7 +172,7 @@ export const RbTwo = styled.div`
     animation-duration: 3s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 
 export const BubbleImageContainer = styled.div`
     display: flex;
@@ -186,7 +186,7 @@ export const BubbleImageContainer = styled.div`
     animation-duration: 6s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
-`
+`;
 
 export const HeadingText = styled.h2`
     background: linear-gradient(
@@ -229,4 +229,4 @@ export const HeadingText = styled.h2`
         line-height: 38px;
         margin: 0 20px;
     }
-`
+`;

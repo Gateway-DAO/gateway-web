@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
-import Card from "../index"
- 
-import * as Styled from './style'
+import { useEffect, useRef, useState } from 'react';
+import Card from '../index';
+
+import * as Styled from './style';
 
 const CardsScrollWrapper = (props) => {
     // const [isScrolling, setIsScrolling] = useState(false)
-    const cardRef = useRef(null)
+    const cardRef = useRef(null);
     const [numberOfCards, setNumberOfCards] = useState(3);
     //Scroll Logic
     // let mouseDown = false
@@ -46,37 +46,39 @@ const CardsScrollWrapper = (props) => {
     //     cardRef.current.addEventListener('mouseup', stopDragging, false)
     //     cardRef.current.addEventListener('mouseleave', stopDragging, false)
     // }, [])
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         let size = window.innerWidth;
-        if(size<735){
+        if (size < 735) {
             setNumberOfCards(1);
-        }else if(size<900){
+        } else if (size < 900) {
             setNumberOfCards(3);
-        }else if(size<2000){
+        } else if (size < 2000) {
             setNumberOfCards(4);
-        }else{
+        } else {
             setNumberOfCards(4);
         }
-    },[])
-   
-    return (
-        <Styled.CardBox className="full" ref={cardRef}>
-            {props.cards.filter((item, idx) => idx < numberOfCards).map((card) => {
-                return (
-                    <Card
-                        id={card.dao}
-                        title={card.name}
-                        description={card.description}
-                        logoURL={card.logoURL}
-                        bannerURL={card.backgroundURL}
-                        // isScrolling={isScrolling}
-                        categories={card.categories}
-                    />
-                )
-            })}
-        </Styled.CardBox>
-    )
-}
+    }, []);
 
-export default CardsScrollWrapper
+    return (
+        <Styled.CardBox className='full' ref={cardRef}>
+            {props.cards
+                .filter((item, idx) => idx < numberOfCards)
+                .map((card) => {
+                    return (
+                        <Card
+                            id={card.dao}
+                            title={card.name}
+                            description={card.description}
+                            logoURL={card.logoURL}
+                            bannerURL={card.backgroundURL}
+                            // isScrolling={isScrolling}
+                            categories={card.categories}
+                        />
+                    );
+                })}
+        </Styled.CardBox>
+    );
+};
+
+export default CardsScrollWrapper;

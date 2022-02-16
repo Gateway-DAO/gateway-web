@@ -1,10 +1,10 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext } from 'react';
 
 // Components
-import Modal from '../components/Modal'
+import Modal from '../components/Modal';
 
 // Styling
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const ModalBox = styled.div`
     display: flex;
@@ -23,29 +23,29 @@ const ModalBox = styled.div`
         letter-spacing: 0em;
         text-align: center;
     }
-`
+`;
 
-export const ModalContext = createContext({})
-const { Provider } = ModalContext
+export const ModalContext = createContext({});
+const { Provider } = ModalContext;
 
 export const useModal = () => {
-    return useContext(ModalContext)
-}
+    return useContext(ModalContext);
+};
 
 export const ModalProvider = ({ children }) => {
     // State
-    const [show, setShow] = useState(false)
-    const [modalElements, setModalElements] = useState(null)
+    const [show, setShow] = useState(false);
+    const [modalElements, setModalElements] = useState(null);
 
     const showModal = (children, config = {}) => {
-        setModalElements(children)
-        setShow(true)
-    }
+        setModalElements(children);
+        setShow(true);
+    };
 
     const discardModal = () => {
-        setShow(false)
-        setModalElements(null)
-    }
+        setShow(false);
+        setModalElements(null);
+    };
 
     return (
         <Provider
@@ -59,5 +59,5 @@ export const ModalProvider = ({ children }) => {
             </Modal>
             {children}
         </Provider>
-    )
-}
+    );
+};

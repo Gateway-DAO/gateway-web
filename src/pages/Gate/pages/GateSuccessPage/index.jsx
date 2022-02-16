@@ -1,41 +1,41 @@
-import * as Styled from './style'
-import * as ThemeStyled from '../../../../theme/style'
+import * as Styled from './style';
+import * as ThemeStyled from '../../../../theme/style';
 
 // Hooks
-import { useOutletContext } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useOutletContext } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // Components
 
 // Utils
-import space from '../../../../utils/canvas'
-import Loader from '../../../../components/Loader'
+import space from '../../../../utils/canvas';
+import Loader from '../../../../components/Loader';
 
 const GateSuccessPage = (props) => {
-    const { gateData, loaded } = useOutletContext()
+    const { gateData, loaded } = useOutletContext();
 
     useEffect(() => {
         if (gateData === undefined) {
-            window.location.href = `/gate/${gateData.id}/`
+            window.location.href = `/gate/${gateData.id}/`;
         }
 
         if (loaded) {
             const clear = setTimeout(() => {
-                window.location.href = `/gate/${gateData.id}/`
-            }, 6000)
-    
-            return () => clearTimeout(clear)
+                window.location.href = `/gate/${gateData.id}/`;
+            }, 6000);
+
+            return () => clearTimeout(clear);
         }
-    }, [loaded])
+    }, [loaded]);
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
-    )
+    );
 
     return (
         <Styled.Container>
-            <ThemeStyled.SpaceBox id="space-canvas" />
+            <ThemeStyled.SpaceBox id='space-canvas' />
             {loaded ? (
                 <>
                     <ThemeStyled.MainText>
@@ -59,7 +59,7 @@ const GateSuccessPage = (props) => {
                 <Loader />
             )}
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default GateSuccessPage
+export default GateSuccessPage;

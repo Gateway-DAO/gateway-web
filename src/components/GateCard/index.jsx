@@ -1,39 +1,38 @@
 // Styling
-import * as Styled from './style'
-import 'react-circular-progressbar/dist/styles.css'
+import * as Styled from './style';
+import 'react-circular-progressbar/dist/styles.css';
 
 // Components
-import EditIcon from '../../theme/icons/Edit'
-import PfpBox from '../PfpBox'
-import Switch from 'react-switch'
-import { CircularProgressbar } from 'react-circular-progressbar'
+import EditIcon from '../../theme/icons/Edit';
+import Switch from 'react-switch';
+import { CircularProgressbar } from 'react-circular-progressbar';
 
 // Hooks
-import { useEffect, useState } from 'react'
-import useAdmin from '../../hooks/useAdmin'
-import { useNavigate } from 'react-router-dom'
-import useUpdateGate from '../../api/database/useUpdateGate'
-import { useGetGateStatusByUserID } from '../../api/database/useGetGateStatus'
-import { useAuth } from '../../contexts/UserContext'
+import { useState } from 'react';
+import useAdmin from '../../hooks/useAdmin';
+import { useNavigate } from 'react-router-dom';
+import useUpdateGate from '../../api/database/useUpdateGate';
+import { useGetGateStatusByUserID } from '../../api/database/useGetGateStatus';
+import { useAuth } from '../../contexts/UserContext';
 
 /* This is a card that displays information about a gate. */
 const GateCard = (props) => {
     // State
-    const gate = props.gate
-    const [checked, setChecked] = useState(props.published)
+    const gate = props.gate;
+    const [checked, setChecked] = useState(props.published);
 
     // Hooks
-    const { isAdmin } = useAdmin(gate.admins || [])
-    const { userInfo } = useAuth()
-    const navigate = useNavigate()
-    const { updateGate } = useUpdateGate()
+    const { isAdmin } = useAdmin(gate.admins || []);
+    const { userInfo } = useAuth();
+    const navigate = useNavigate();
+    const { updateGate } = useUpdateGate();
     const { data } = useGetGateStatusByUserID(userInfo?.id, {
         filter: {
             gateID: {
                 eq: gate.id,
             },
         },
-    })
+    });
 
     /**
      * It toggles the published state of the gate.
@@ -48,13 +47,13 @@ const GateCard = (props) => {
                         published: !checked,
                     },
                 },
-            })
-            window.location.reload()
+            });
+            window.location.reload();
         } catch (err) {
-            alert('An error ocurred')
-            console.log(err)
+            alert('An error ocurred');
+            console.log(err);
         }
-    }
+    };
 
     /**
      * It returns the text for the button based on the status of the gate.
@@ -63,13 +62,13 @@ const GateCard = (props) => {
     const getButtonText = () => {
         switch (data?.getGateStatusByUserID?.items[0]?.status) {
             case 'IN_PROGRESS':
-                return 'In Progress'
+                return 'In Progress';
             case 'COMPLETED':
-                return 'Done'
+                return 'Done';
             default:
-                return 'Start'
+                return 'Start';
         }
-    }
+    };
 
     return (
         <Styled.GateCardBox>
@@ -96,7 +95,7 @@ const GateCard = (props) => {
             <Styled.CategoryList>
                 {gate.categories.map((category) => (
                     <Styled.Category>
-                        <Styled.CategoryLink to="/">
+                        <Styled.CategoryLink to='/'>
                             {category}
                         </Styled.CategoryLink>
                     </Styled.Category>
@@ -104,7 +103,11 @@ const GateCard = (props) => {
             </Styled.CategoryList>
             <Styled.CardBody onClick={() => navigate(`/gate/${gate.id}`)}>
                 <Styled.CardTitle>{gate.name}</Styled.CardTitle>
-                <Styled.CardDesc>{gate.description.length > 180 ? gate.description.slice(0, 177).concat('...') : gate.description}</Styled.CardDesc>
+                <Styled.CardDesc>
+                    {gate.description.length > 180
+                        ? gate.description.slice(0, 177).concat('...')
+                        : gate.description}
+                </Styled.CardDesc>
             </Styled.CardBody>
             <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
                 {/*
@@ -152,24 +155,24 @@ const GateCard = (props) => {
                         <Switch
                             checked={checked}
                             onChange={toggleGatePublished}
-                            offColor="#FF003D"
-                            onColor="#27D5A2"
-                            onHandleColor="#FFFFFF"
+                            offColor='#FF003D'
+                            onColor='#27D5A2'
+                            onHandleColor='#FFFFFF'
                             handleDiameter={20}
                             uncheckedIcon={false}
                             checkedIcon={false}
-                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                            boxShadow='0px 1px 5px rgba(0, 0, 0, 0.6)'
+                            activeBoxShadow='0px 0px 1px 10px rgba(0, 0, 0, 0.2)'
                             height={18}
                             width={44}
-                            className="react-switch"
-                            id="material-switch"
+                            className='react-switch'
+                            id='material-switch'
                         />
                     </Styled.PublishContainer>
                 )}
             </Styled.ActivityBox>
         </Styled.GateCardBox>
-    )
-}
+    );
+};
 
-export default GateCard
+export default GateCard;

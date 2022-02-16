@@ -1,13 +1,13 @@
-import React from 'react'
-import * as Styled from './style'
-import Header from '../../components/Header'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import * as Styled from './style';
+import Header from '../../components/Header';
+import { useNavigate } from 'react-router-dom';
 
 const DAOsGate = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const addGate = () => {
-        navigate('/add-gate')
-    }
+        navigate('/add-gate');
+    };
     return (
         <Styled.MainPage>
             <Header />
@@ -33,7 +33,7 @@ const DAOsGate = () => {
                 </Styled.CardCategoryTitleDev>
             </Styled.Wrapper>
         </Styled.MainPage>
-    )
-}
+    );
+};
 
-export default DAOsGate
+export default DAOsGate;

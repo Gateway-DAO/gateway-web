@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { IoMdClose } from 'react-icons/io'
+import styled from 'styled-components';
+import { IoMdClose } from 'react-icons/io';
 
 export const Wrapper = styled.div`
     position: fixed;
@@ -12,8 +12,8 @@ export const Wrapper = styled.div`
     background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
-    z-index : 5;
-`
+    z-index: 5;
+`;
 
 export const Container = styled.div`
     background: #170627;
@@ -24,7 +24,7 @@ export const Container = styled.div`
     position: relative;
     max-width: calc(100% - 80px);
     max-height: calc(100% - 80px);
-`
+`;
 
 export const ChildrenWrapper = styled.div`
     overflow-y: auto;
@@ -39,9 +39,9 @@ export const ChildrenWrapper = styled.div`
         background: transparent;
     }
     &::-webkit-scrollbar-track:hover {
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
-  }
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1);
+    }
     &::-webkit-scrollbar-thumb {
         border-radius: 10px;
         background: rgba(255, 255, 255, 0.2);
@@ -52,7 +52,7 @@ export const ChildrenWrapper = styled.div`
     &::-webkit-scrollbar-thumb:active {
         background: rgba(255, 255, 255, 0.9);
     }
-`
+`;
 
 export const CloseBtn = styled(IoMdClose)`
     /* Background */
@@ -71,7 +71,7 @@ export const CloseBtn = styled(IoMdClose)`
     position: absolute;
     top: 15px;
     right: 15px;
-`
+`;
 
 export const Header = styled.h1`
     font-family: Poppins;
@@ -94,4 +94,4 @@ export const Header = styled.h1`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;

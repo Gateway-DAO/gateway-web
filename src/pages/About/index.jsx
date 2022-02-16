@@ -1,10 +1,10 @@
-import React from 'react'
-import * as Styled from './style'
-import rocket from '../../assets/About_spaceship.png'
-import eye from '../../assets/About_eye.png'
-import Header from '../../components/Header/index'
-import Footer from '../../components/Footer/index'
-import wwdInage from '../../assets/What_we_do_image.png'
+import React from 'react';
+import * as Styled from './style';
+import rocket from '../../assets/About_spaceship.png';
+import eye from '../../assets/About_eye.png';
+import Header from '../../components/Header/index';
+import Footer from '../../components/Footer/index';
+import wwdInage from '../../assets/What_we_do_image.png';
 // wwd--->What we do
 const About = () => {
     return (
@@ -41,7 +41,7 @@ const About = () => {
                             <br />
                             <span>
                                 For more information on DAOs{' '}
-                                <Styled.ReadMore href="/what-are-DAOs">
+                                <Styled.ReadMore href='/what-are-DAOs'>
                                     click here
                                 </Styled.ReadMore>
                             </span>
@@ -75,7 +75,7 @@ const About = () => {
             </Styled.MainContainer>
             <Footer />
         </Styled.AboutContainer>
-    )
-}
+    );
+};
 
-export default About
+export default About;

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const CardBox = styled.div`
     background-color: white;
@@ -36,7 +36,7 @@ export const CardBox = styled.div`
         min-width: 200px;
         max-width: 200px;
     }
-`
+`;
 
 export const CardBanner = styled.div`
     position: relative;
@@ -46,7 +46,7 @@ export const CardBanner = styled.div`
     background-position: center;
     background-size: cover;
     grid-row: 1 / span 2;
-`
+`;
 
 export const CardLogo = styled.div`
     position: absolute;
@@ -56,16 +56,16 @@ export const CardLogo = styled.div`
     top: 15px;
     left: 15px;
     background-color: white;
-    background: url(${props => props.src || ""});
+    background: url(${(props) => props.src || ''});
     background-size: cover;
     background-position: center;
-`
+`;
 
 export const CardBody = styled.div`
     grid-row: 3 / span 2;
     padding: 15px;
     margin-bottom: 15px;
-`
+`;
 
 export const CardTitle = styled.h1`
     font-family: 'Be Vietnam';
@@ -76,7 +76,7 @@ export const CardTitle = styled.h1`
     letter-spacing: 0em;
     text-align: left;
     color: #170627;
-`
+`;
 
 export const CategoryList = styled.ul`
     margin-top: 25px;
@@ -92,7 +92,7 @@ export const CategoryList = styled.ul`
         justify-content: center;
         text-align: left;
     }
-`
+`;
 
 export const Category = styled.li`
     border: 1px solid #170627;
@@ -117,12 +117,12 @@ export const Category = styled.li`
     @media only screen and (max-width: 380px) {
         margin: 5px;
     }
-`
+`;
 
 export const CategoryLink = styled(Link)`
     text-decoration: none;
     color: #170627;
-`
+`;
 
 export const CardDesc = styled.div`
     font-family: 'Be Vietnam', sans-serif;
@@ -140,7 +140,7 @@ export const CardDesc = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-`
+`;
 
 export const CardInfoBox = styled.div`
     border-top: 1px solid rgba(229, 229, 229, 0.5);
@@ -151,7 +151,7 @@ export const CardInfoBox = styled.div`
     padding: 0 15px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
-`
+`;
 
 export const CardInfoTitle = styled.h2`
     font-family: 'Be Vietnam', sans-serif;
@@ -164,7 +164,7 @@ export const CardInfoTitle = styled.h2`
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
-`
+`;
 
 export const CardInfoValue = styled.p`
     font-family: 'Be Vietnam', sans-serif;
@@ -177,4 +177,4 @@ export const CardInfoValue = styled.p`
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
-`
+`;

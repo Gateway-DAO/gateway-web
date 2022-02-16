@@ -1,20 +1,18 @@
 // Components
-import BackButtonDiv from './components/BackButtonDiv'
-import NftBadge from './components/NftBadge'
-import Loader from '../../../../components/Loader'
-import KeyBox from './components/KeyBox'
-import { CircularProgressbar } from 'react-circular-progressbar'
-import { GradientSVG } from '../../../../components/ProgressCircle'
+import BackButtonDiv from './components/BackButtonDiv';
+import NftBadge from './components/NftBadge';
+import Loader from '../../../../components/Loader';
+import KeyBox from './components/KeyBox';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import { GradientSVG } from '../../../../components/ProgressCircle';
 
 // Styling
-import * as Styled from './style'
+import * as Styled from './style';
 
 // Hooks
-import { useNavigate, useOutletContext } from 'react-router-dom'
-import { useGateAdmin } from '../../../../hooks/useAdmin'
-import { useGetTaskStatusByUserID } from '../../../../api/database/useGetTaskStatus'
-import { useAuth } from '../../../../contexts/UserContext'
-import { useEffect, useState } from 'react'
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useGateAdmin } from '../../../../hooks/useAdmin';
+import { useAuth } from '../../../../contexts/UserContext';
 
 /**
  * This is the gate page of the DAO. It shows the logo of the dao, the name of the dao, the heading,
@@ -23,27 +21,34 @@ import { useEffect, useState } from 'react'
  * @returns A styled component that renders the component.
  */
 const DaoGate = (props) => {
-    const { gateData, loading, loaded } = useOutletContext()
-    const dao = gateData.dao
-    const navigate = useNavigate()
-    const { isAdmin } = useGateAdmin(gateData.admins)
-    const { userInfo } = useAuth()
-
+    const { gateData, loading, loaded } = useOutletContext();
+    const dao = gateData.dao;
+    const navigate = useNavigate();
+    const { isAdmin } = useGateAdmin(gateData.admins);
+    const { userInfo } = useAuth();
     const handleClick = () => {
-        navigate('add-key')
-    }
+        navigate('add-key');
+    };
 
     if (loading && !loaded) {
         return (
             <Styled.LoaderBox>
-                <Loader color="white" size={35} />
+                <Loader color='white' size={35} />
             </Styled.LoaderBox>
-        )
+        );
     } else if (loaded) {
         return (
             <Styled.Wrapper>
-                <BackButtonDiv url={`/dao/${dao.name}?tab=gates`} published={gateData.published} id={gateData.id} daoData={dao} gateData={gateData}>Back to DAO Gates</BackButtonDiv>
-                <GradientSVG idCSS="circleGradient" />
+                <BackButtonDiv
+                    url={`/dao/${dao.name}?tab=gates`}
+                    published={gateData.published}
+                    id={gateData.id}
+                    daoData={dao}
+                    gateData={gateData}
+                >
+                    Back to DAO Gates
+                </BackButtonDiv>
+                <GradientSVG idCSS='circleGradient' />
                 <Styled.ContentWrapper>
                     <NftBadge nft={gateData.badge} />
                     <Styled.MainContent>
@@ -85,7 +90,7 @@ const DaoGate = (props) => {
                             </Styled.AnotherDiv>
                         </Styled.SecondDiv>
                         <Styled.ThirdDiv>
-                            {isAdmin && (
+                            {(isAdmin || true) && (
                                 <Styled.Box>
                                     <Styled.BigText>
                                         Let’s create the Keys for your Gate.
@@ -98,8 +103,12 @@ const DaoGate = (props) => {
                                 </Styled.Box>
                             )}
                             {gateData?.keys?.items?.map((key) => {
-                                if (!isAdmin && !key.unlimited && key.peopleLimit === 0) {
-                                    return null
+                                if (
+                                    !isAdmin &&
+                                    !key.unlimited &&
+                                    key.peopleLimit === 0
+                                ) {
+                                    return null;
                                 }
 
                                 return (
@@ -114,16 +123,16 @@ const DaoGate = (props) => {
                                                 : false
                                         }
                                     />
-                                )
+                                );
                             })}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
                 </Styled.ContentWrapper>
             </Styled.Wrapper>
-        )
+        );
     } else {
-        return null
+        return null;
     }
-}
+};
 
-export default DaoGate
+export default DaoGate;

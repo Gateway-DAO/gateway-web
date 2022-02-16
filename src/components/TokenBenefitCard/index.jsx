@@ -1,14 +1,14 @@
-import * as Styled from './style'
-import parser from 'html-react-parser'
-import { useDeleteTokenBenefit } from '../../api/database/useDeleteTokenBenefit'
+import * as Styled from './style';
+import parser from 'html-react-parser';
+import { useDeleteTokenBenefit } from '../../api/database/useDeleteTokenBenefit';
 
 const TokenBenefitCard = (props) => {
-    const benefit = props.tbs[props.idx]
+    const benefit = props.tbs[props.idx];
 
-    const { deleteTokenBenefit } = useDeleteTokenBenefit()
+    const { deleteTokenBenefit } = useDeleteTokenBenefit();
 
     const deleteBenefit = async (e) => {
-        e.stopPropagation()
+        e.stopPropagation();
 
         await deleteTokenBenefit({
             variables: {
@@ -16,10 +16,10 @@ const TokenBenefitCard = (props) => {
                     id: benefit.id,
                 },
             },
-        })
+        });
 
-        props.set(props.tbs.filter((obj) => benefit.id !== obj.id))
-    }
+        props.set(props.tbs.filter((obj) => benefit.id !== obj.id));
+    };
 
     return (
         <Styled.Container>
@@ -40,7 +40,7 @@ const TokenBenefitCard = (props) => {
                 <Styled.TrashBtn onClick={deleteBenefit} size={14} />
             )}
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default TokenBenefitCard
+export default TokenBenefitCard;

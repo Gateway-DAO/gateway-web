@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { FiSearch } from 'react-icons/fi'
+import styled from 'styled-components';
+import { FiSearch } from 'react-icons/fi';
 
 export const Container = styled.main`
     background-color: #170627;
@@ -8,18 +8,18 @@ export const Container = styled.main`
     margin: 0 auto;
     display: flex;
     flex-flow: column;
-`
+`;
 
 export const LoaderBox = styled.div`
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-`
+`;
 
 export const TextBox = styled(LoaderBox)`
     flex-flow: column;
-`
+`;
 
 export const MainText = styled.h2`
     font-family: Poppins;
@@ -31,8 +31,8 @@ export const MainText = styled.h2`
 
     letter-spacing: -0.015em;
 
-    color: #E5E5E5;
-`
+    color: #e5e5e5;
+`;
 
 export const SmallText = styled.p`
     font-family: Poppins;
@@ -45,8 +45,8 @@ export const SmallText = styled.p`
     text-align: center;
     letter-spacing: -0.015em;
 
-    color: #E5E5E5;
-`
+    color: #e5e5e5;
+`;
 
 export const CardBox = styled.section`
     display: grid;
@@ -73,7 +73,7 @@ export const CardBox = styled.section`
     @media only screen and (max-width: 480px) {
         margin-top: 60px;
     }
-`
+`;
 
 export const CardContainer = styled.div`
     width: 80%;
@@ -81,7 +81,7 @@ export const CardContainer = styled.div`
     @media only screen and (max-width: 945px) {
         padding-top: 75px;
     }
-`
+`;
 
 // export const SearhTermContainer = styled.div`
 //     text-color: white;
@@ -113,21 +113,21 @@ export const Nav = styled.div`
     display: flex;
     align-items: center;
     text-transform: capitalize;
-    
+
     @media only screen and (max-width: 945px) {
         margin-top: 25px;
         margin-bottom: -25px;
         flex-direction: column-reverse;
         align-items: center;
     }
-`
+`;
 
 export const SearchTermContainer = styled.div`
     display: flex;
     align-items: center;
     flex: 1;
     margin-right: auto;
-`
+`;
 
 export const SearchIcon = styled.span`
     font-family: Poppins;
@@ -137,7 +137,7 @@ export const SearchIcon = styled.span`
     line-height: 24px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-`
+`;
 
 export const SearchTerm = styled.p`
     margin-left: 10px;
@@ -167,12 +167,12 @@ export const SearchTerm = styled.p`
         padding: 30px 0;
         margin-left: 0px;
     }
-`
+`;
 
 export const DAOAndUserSelectionContainer = styled.div`
     display: flex;
     flex-direction: row;
-`
+`;
 
 export const SelectContainer = styled.div`
     position: relative;
@@ -190,7 +190,7 @@ export const SelectContainer = styled.div`
     cursor: pointer;
     background: ${(props) =>
         props.active ? 'rgba(229, 229, 229, 0.2)' : 'inherit'}; ;
-`
+`;
 
 export const SelectContainerText = styled.div`
     font-family: Be Vietnam;
@@ -200,14 +200,14 @@ export const SelectContainerText = styled.div`
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
-`
+`;
 
 export const LeftNav = styled.div`
     display: flex;
     flex: 1;
     margin-left: auto;
     justify-content: flex-end;
-`
+`;
 
 export const SearchInputBox = styled.div`
     padding-left: 30px;
@@ -228,7 +228,7 @@ export const SearchInputBox = styled.div`
     @media only screen and (max-width: 480px) {
         width: 60%;
     }
-`
+`;
 
 export const SearchInput = styled.input`
     border: none;
@@ -236,28 +236,28 @@ export const SearchInput = styled.input`
     flex: 1;
     padding: 10px 0;
     border-radius: 100px;
-`
+`;
 
 export const WrappedFiSearch = styled(FiSearch)`
     font-size: 20px;
     padding-right: 20px;
-`
+`;
 
 export const SearchSuggestionBox = styled.ul`
-    position:absolute;
-    z-index:50;
-    left:0;
-    top:50px;
-    right:0;
-    max-height:270px;
-    min-height:40px;
+    position: absolute;
+    z-index: 50;
+    left: 0;
+    top: 50px;
+    right: 0;
+    max-height: 270px;
+    min-height: 40px;
     // width: 20%;
     // height: 268px;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     // padding-top:10px;
@@ -271,23 +271,23 @@ export const SearchSuggestionBox = styled.ul`
     @media only screen and (max-width: 480px) {
         width: 60%;
     }
-`
+`;
 export const SearchMoreButton = styled.div`
-font-family: Be Vietnam;
+    font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.05em;
     text-transform: capitalize;
-    color:black;
+    color: black;
     height: 70px;
-    width:100%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     // padding-left:40px;
-    cursor:pointer;
-    border-top: ${props => props.inputVal ? "1px solid #E5E5E5;" : "none"}
-`
+    cursor: pointer;
+    border-top: ${(props) => (props.inputVal ? '1px solid #E5E5E5;' : 'none')};
+`;

@@ -1,12 +1,12 @@
-import * as Styled from './style'
-import { useEffect, useState } from 'react'
+import * as Styled from './style';
+import { useEffect, useState } from 'react';
 
-import UserCard from '../../../UserCard'
-import { useLazySearchUsers } from '../../../../api/database/useSearchUser'
+import UserCard from '../../../UserCard';
+import { useLazySearchUsers } from '../../../../api/database/useSearchUser';
 
 const Members = (props) => {
-    const [hits, setHits] = useState([])
-    const { searchUsers, data, loading, error } = useLazySearchUsers()
+    const [hits, setHits] = useState([]);
+    const { searchUsers, data, loading, error } = useLazySearchUsers();
 
     useEffect(() => {
         const handler = async () => {
@@ -18,14 +18,14 @@ const Members = (props) => {
                         },
                     },
                 },
-            })
+            });
 
-            setHits(users.data.searchUsers.items)
-            console.log(users.data.searchUsers.items)
-        }
+            setHits(users.data.searchUsers.items);
+            console.log(users.data.searchUsers.items);
+        };
 
-        handler()
-    }, [])
+        handler();
+    }, []);
 
     return (
         <Styled.UserCardBox>
@@ -39,7 +39,7 @@ const Members = (props) => {
                 />
             ))}
         </Styled.UserCardBox>
-    )
-}
+    );
+};
 
-export default Members
+export default Members;

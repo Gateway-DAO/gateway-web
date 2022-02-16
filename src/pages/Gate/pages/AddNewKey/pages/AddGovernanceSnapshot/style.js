@@ -1,14 +1,14 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.div`
     background: #170627;
-`
+`;
 export const MarginWrapper = styled.div`
     margin: auto 20rem;
-`
+`;
 export const MarginWrapperSecondary = styled.div`
     padding: 0 50px;
-`
+`;
 export const TaskBox = styled.div`
     display: flex;
     height: 80px;
@@ -18,20 +18,22 @@ export const TaskBox = styled.div`
     font-size: 150%;
     justify-content: center;
     border: ${(props) =>
-        props.active ? '1px solid #7E3BDC' : '1px solid rgba(255, 255, 255, 0.1)'};
+        props.active
+            ? '1px solid #7E3BDC'
+            : '1px solid rgba(255, 255, 255, 0.1)'};
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
     background: ${(props) => (props.active ? '#220A38' : 'none')};
-`
+`;
 
 export const TasksBox = styled.div`
     display: flex;
     color: #444;
     align-self: center;
-    justify-content:space-between;
-    margin-bottom:40px;
-`
+    justify-content: space-between;
+    margin-bottom: 40px;
+`;
 export const TaskBoxText = styled.div`
     display: flex;
     align-items: center;
@@ -45,4 +47,4 @@ export const TaskBoxText = styled.div`
     text-transform: uppercase;
     color: rgba(165, 165, 165, 1);
     padding: 0px 20px;
-`
+`;

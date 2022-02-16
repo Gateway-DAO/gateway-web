@@ -1,13 +1,20 @@
-import { createGlobalStyle, ThemeProvider as StyledComponentsThemeProvider } from "styled-components";
+import {
+    createGlobalStyle,
+    ThemeProvider as StyledComponentsThemeProvider,
+} from 'styled-components';
 
 const theme = {
     //shadows
-    shadow: '#2F80ED'
-}
+    shadow: '#2F80ED',
+};
 
 export const ThemeProvider = ({ children }) => {
-    return <StyledComponentsThemeProvider theme={theme}>{children}</StyledComponentsThemeProvider>
-}
+    return (
+        <StyledComponentsThemeProvider theme={theme}>
+            {children}
+        </StyledComponentsThemeProvider>
+    );
+};
 
 export const GlobalTheme = createGlobalStyle`
     html, body, div, span, applet, object, iframe,
@@ -53,4 +60,4 @@ export const GlobalTheme = createGlobalStyle`
         border-collapse: collapse;
         border-spacing: 0;
     }
-`
+`;

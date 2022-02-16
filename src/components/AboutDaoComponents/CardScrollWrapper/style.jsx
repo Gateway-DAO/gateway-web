@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const CardBox = styled.div`
     display: grid;
@@ -47,4 +47,4 @@ export const CardBox = styled.div`
     @media only screen and (max-width: 300px) {
         grid-auto-columns: calc(100% - 20px * 2);
     }
-`
+`;

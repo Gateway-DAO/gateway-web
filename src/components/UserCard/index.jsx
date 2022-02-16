@@ -1,15 +1,15 @@
-import * as Styled from './style'
-import DaosProfile from './component/DaosProfile'
-import { useNavigate } from 'react-router-dom'
+import * as Styled from './style';
+import DaosProfile from './component/DaosProfile';
+import { useNavigate } from 'react-router-dom';
 
 const UserCard = (props) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const traverse = (e) => {
-        navigate(`/profile/${props.username}`)
-    }
+        navigate(`/profile/${props.username}`);
+    };
 
-    let daos = props.daos
+    let daos = props.daos;
     return (
         <Styled.BoxContainer>
             <Styled.UserCardBox src={props.pfp} onClick={traverse} />
@@ -29,7 +29,7 @@ const UserCard = (props) => {
                 </Styled.DaosProfileContainer>
             </Styled.UserInfo>
         </Styled.BoxContainer>
-    )
-}
+    );
+};
 
-export default UserCard
+export default UserCard;

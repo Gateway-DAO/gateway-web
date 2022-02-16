@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const UserCardBox = styled.section`
     display: grid;
@@ -25,4 +25,4 @@ export const UserCardBox = styled.section`
     @media only screen and (max-width: 480px) {
         margin-top: 60px;
     }
-`
+`;

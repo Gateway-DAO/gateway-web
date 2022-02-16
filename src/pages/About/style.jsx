@@ -1,31 +1,31 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const AboutContainer = styled.div`
     width: 100vw;
 
     background: #170627;
-`
+`;
 export const MainContainer = styled.div`
     padding: 5% 10% 0 10%;
     // margin-bottom: 5%;
-`
+`;
 export const Container = styled.div`
     // padding-top:10%;
     padding-bottom: 10%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-`
+`;
 
 export const AboutImage = styled.div`
     margin-right: 10%;
-`
+`;
 export const TextContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-`
+`;
 export const Heading = styled.h2`
     align-self: start;
     background: linear-gradient(
@@ -49,7 +49,7 @@ export const Heading = styled.h2`
     /* identical to box height, or 178% */
 
     letter-spacing: -0.015em;
-`
+`;
 export const Description = styled.p`
     font-family: Be Vietnam;
     font-style: normal;
@@ -58,34 +58,34 @@ export const Description = styled.p`
     align-items: center;
 
     color: #e5e5e5;
-`
+`;
 export const BoldText = styled.span`
     font-weight: bold;
-`
+`;
 
 export const AboutImg = styled.img`
     width: 35vw;
     height: 30vw;
 
     // border: 1px solid blue;
-`
+`;
 export const MissionImg = styled.img`
     width: 35vw;
     height: 34vw;
 
     // border: 1px solid blue;
-`
+`;
 export const WWDImg = styled.img`
     width: 48vw;
     height: 28vw;
     margin: -50px;
     // border: 1px solid blue;
-`
+`;
 
 export const ReadMore = styled.a`
     text-decoration: none;
     color: #ff00b8;
-`
+`;
 export const MissionImage = styled.div`
     // position: absolute;
     // width: 447.61px;
@@ -94,7 +94,7 @@ export const MissionImage = styled.div`
     // top: 733px;
     // overflow-x: hidden;
     margin-left: 7%;
-`
+`;
 export const Box = styled.div`
     height: 280px;
     // margin-top: 5%;
@@ -110,7 +110,7 @@ export const Box = styled.div`
     align-items: center;
     text-align: center;
     color: #0075ff;
-`
+`;
 
 export const WWDFrame = styled.div`
     position: absolute;
@@ -118,16 +118,16 @@ export const WWDFrame = styled.div`
     height: 2546px;
     left: 0px;
     top: 0px;
-`
+`;
 export const WWDImage = styled.div`
     padding: 0;
     margin: 0;
     flex: 0;
-`
+`;
 export const FooterContainer = styled.div`
     position: absolute;
     width: 1361px;
     // height: 248px;
     left: 39px;
     top: 2232px;
-`
+`;

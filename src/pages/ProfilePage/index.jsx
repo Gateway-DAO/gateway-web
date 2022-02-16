@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import * as Styled from './style'
-import { useParams, useNavigate, Navigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/UserContext'
-import AddExperience from './components/AddExperience'
+import React, { useEffect, useState } from 'react';
+import * as Styled from './style';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/UserContext';
+import AddExperience from './components/AddExperience';
 
 // Components
-import Header from '../../components/Header'
-import Footer from '../../components/Footer'
-import Loader from '../../components/Loader'
-import ProfileEditModal from '../../components/Modal/ProfileEditModal'
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import Loader from '../../components/Loader';
+import ProfileEditModal from '../../components/Modal/ProfileEditModal';
 
 // Sub-components
-import BioBox from './components/BioBox'
-import ProfileBox from './components/ProfileBox'
+import BioBox from './components/BioBox';
+import ProfileBox from './components/ProfileBox';
 
 // Database
-import { useQuery, gql } from '@apollo/client'
-import { getUserByUsername as USER_QUERY } from '../../graphql/queries'
+import { useQuery, gql } from '@apollo/client';
+import { getUserByUsername as USER_QUERY } from '../../graphql/queries';
 
 const RAW_USER = {
     bio: '',
@@ -24,23 +24,23 @@ const RAW_USER = {
     username: '',
     socials: [],
     daos: [],
-}
+};
 
 const ProfilePage = () => {
     // State
-    const [activeTab, setActiveTab] = useState('experience')
-    const [showEditModal, setShowEditModal] = useState(false)
+    const [activeTab, setActiveTab] = useState('experience');
+    const [showEditModal, setShowEditModal] = useState(false);
 
     // Hooks
-    const { searchTerm } = useParams()
-    const navigate = useNavigate()
+    const { searchTerm } = useParams();
+    const navigate = useNavigate();
     const {
         userInfo: authUser = { username: '' },
         loggedIn,
         loading,
-        walletConnected
-    } = useAuth()
-    const [userInfo, setUserInfo] = useState(RAW_USER)
+        walletConnected,
+    } = useAuth();
+    const [userInfo, setUserInfo] = useState(RAW_USER);
 
     const {
         data,
@@ -50,43 +50,44 @@ const ProfilePage = () => {
         variables: {
             username: searchTerm,
         },
-    })
+    });
 
-    const toggleEditModal = () => setShowEditModal(!showEditModal)
+    const toggleEditModal = () => setShowEditModal(!showEditModal);
 
     useEffect(() => {
         if (searchTerm) {
             try {
                 setUserInfo(
                     !userLoading ? data.getUserByUsername.items[0] : RAW_USER
-                )
+                );
             } catch (err) {
-                navigate('/404')
+                navigate('/404');
             }
         } else {
             if (walletConnected && !loading) {
-                setUserInfo(authUser)
+                setUserInfo(authUser);
             } else if (!walletConnected && !loading) {
-                navigate('/sign-in')
+                navigate('/sign-in');
             }
         }
 
-        return () => {}
-    }, [searchTerm, authUser, userLoading, loading])
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        return () => {};
+    }, [searchTerm, authUser, userLoading, loading]);
 
     const Tab = () => {
-        let component
+        let component;
 
         switch (activeTab) {
             case 'experience':
-                component = <AddExperience />
-                break
+                component = <AddExperience />;
+                break;
             default:
-                component = null
+                component = null;
         }
 
-        return component
-    }
+        return component;
+    };
 
     const Modals = (props) => (
         <>
@@ -98,26 +99,26 @@ const ProfilePage = () => {
                         name: dao.name,
                         dao: dao.dao,
                         logoURL: dao.logoURL,
-                    }
+                    };
                 })}
                 {...props}
             />
         </>
-    )
+    );
 
     if (error) {
-        return <Navigate to="/404" />
+        return <Navigate to='/404' />;
     }
 
-    return (!searchTerm && !walletConnected) ? (
-        <Navigate to="/create-profile" />
+    return !searchTerm && !walletConnected ? (
+        <Navigate to='/create-profile' />
     ) : (
         <Styled.Container>
             <Modals {...userInfo} />
             <Header style={{ alignSelf: 'flex-start' }} />
             {loading || userLoading ? (
                 <Styled.LoaderBox>
-                    <Loader color="white" size={30} />
+                    <Loader color='white' size={30} />
                 </Styled.LoaderBox>
             ) : (
                 <Styled.MainBox>
@@ -129,7 +130,10 @@ const ProfilePage = () => {
                     </Styled.LeftSidebar>
 
                     <Styled.UserInfo>
-                        {React.createElement(BioBox, { ...userInfo, toggleEditModal })}
+                        {React.createElement(BioBox, {
+                            ...userInfo,
+                            toggleEditModal,
+                        })}
 
                         <Styled.FeedContainer>
                             {/*
@@ -151,7 +155,6 @@ const ProfilePage = () => {
                             <Tab />
                             {/* loggedIn && authUser.id === userInfo.id && */}
                         </Styled.FeedContainer>
-
                     </Styled.UserInfo>
 
                     {/*
@@ -163,7 +166,7 @@ const ProfilePage = () => {
             )}
             <Footer />
         </Styled.Container>
-    )
-}
+    );
+};
 
-export default ProfilePage
+export default ProfilePage;

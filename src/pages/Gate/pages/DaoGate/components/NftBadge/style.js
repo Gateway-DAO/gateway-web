@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const CardWrapper = styled.div`
     min-width: 300px;
-`
+`;
 export const CardBox = styled.div`
     background-color: white;
     border-radius: 20px;
@@ -11,7 +11,7 @@ export const CardBox = styled.div`
     grid-template-rows: repeat(5, 1fr);
     // With the card bottom => height: 30em;
     height: 350px;
-`
+`;
 
 export const CardBanner = styled.div`
     position: relative;
@@ -21,13 +21,13 @@ export const CardBanner = styled.div`
     background-position: center;
     background-size: cover;
     height: 260px;
-`
+`;
 
 export const CardBody = styled.div`
     grid-row: 3 / span 2;
     padding: 0px 20px;
     /* margin-bottom: 15px; */
-`
+`;
 
 export const CardBadge = styled.h1`
     font-family: 'Be Vietnam';
@@ -37,7 +37,7 @@ export const CardBadge = styled.h1`
     line-height: 20px;
     letter-spacing: 0.05em;
     text-align: left;
-`
+`;
 export const CardBadgeText = styled.h1`
     height: 100%;
     font-family: Poppins;
@@ -57,4 +57,4 @@ export const CardBadgeText = styled.h1`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-`
+`;

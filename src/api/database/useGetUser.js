@@ -1,16 +1,16 @@
-import { useMemo } from 'react'
-import { useQuery, gql, useLazyQuery } from '@apollo/client'
+import { useMemo } from 'react';
+import { useQuery, gql, useLazyQuery } from '@apollo/client';
 import {
     getUser,
     getUserByAddress,
     getUserByUsername,
     listUsers as LIST_USERS,
-} from '../../graphql/queries'
+} from '../../graphql/queries';
 
 export const useGetUser = (id) => {
     const { loading, called, refetch, data, error } = useQuery(gql(getUser), {
         variables: { id },
-    })
+    });
 
     return useMemo(
         () => ({
@@ -21,8 +21,8 @@ export const useGetUser = (id) => {
             error,
         }),
         [called, getUser, loading, refetch, id]
-    )
-}
+    );
+};
 
 export const useGetUserByAddress = (wallet) => {
     const { loading, called, refetch, data, error } = useQuery(
@@ -30,7 +30,7 @@ export const useGetUserByAddress = (wallet) => {
         {
             variables: { wallet },
         }
-    )
+    );
 
     return useMemo(
         () => ({
@@ -41,8 +41,8 @@ export const useGetUserByAddress = (wallet) => {
             error,
         }),
         [called, getUserByAddress, loading, refetch, wallet]
-    )
-}
+    );
+};
 
 export const useGetUserByUsername = (username) => {
     const { loading, called, refetch, data, error } = useQuery(
@@ -50,7 +50,7 @@ export const useGetUserByUsername = (username) => {
         {
             variables: { username },
         }
-    )
+    );
 
     return useMemo(
         () => ({
@@ -61,13 +61,13 @@ export const useGetUserByUsername = (username) => {
             error,
         }),
         [called, getUserByUsername, loading, refetch, username]
-    )
-}
+    );
+};
 
 export const useLazyGetUserByUsername = () => {
     const [getUser, { loading, called, refetch, data, error }] = useLazyQuery(
         gql(getUserByUsername)
-    )
+    );
 
     return useMemo(
         () => ({
@@ -79,14 +79,14 @@ export const useLazyGetUserByUsername = () => {
             error,
         }),
         [called, getUser, getUserByUsername, loading, refetch]
-    )
-}
+    );
+};
 
 export const useListUsers = (config = {}) => {
     const { loading, called, refetch, data, error } = useQuery(
         gql(LIST_USERS),
         config
-    )
+    );
 
     return useMemo(
         () => ({
@@ -97,13 +97,13 @@ export const useListUsers = (config = {}) => {
             error,
         }),
         [called, LIST_USERS, loading, refetch, config]
-    )
-}
+    );
+};
 
 export const useLazyListUsers = () => {
     const [listUsers, { loading, called, refetch, data, error }] = useLazyQuery(
         gql(LIST_USERS)
-    )
+    );
 
     return useMemo(
         () => ({
@@ -115,7 +115,7 @@ export const useLazyListUsers = () => {
             error,
         }),
         [called, LIST_USERS, loading, refetch]
-    )
-}
+    );
+};
 
-export default useGetUser
+export default useGetUser;

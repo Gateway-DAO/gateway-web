@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -11,11 +11,11 @@ export const Container = styled.div`
     justify-content: flex-start;
 
     padding: 20px;
-`
+`;
 
 export const Image = styled.img`
     width: 150px;
-`
+`;
 
 export const BadgeTitle = styled.h3`
     font-family: Be Vietnam;
@@ -27,5 +27,5 @@ export const BadgeTitle = styled.h3`
     align-items: center;
     text-align: center;
 
-    color: #FFFFFF;
-`
+    color: #ffffff;
+`;
