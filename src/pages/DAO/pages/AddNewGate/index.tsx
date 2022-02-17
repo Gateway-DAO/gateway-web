@@ -424,7 +424,7 @@ const AddGateForm = () => {
                 </Styled.Header>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='title'>
-                        Gate Title
+                        Gate Title*
                     </FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
@@ -438,7 +438,7 @@ const AddGateForm = () => {
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='description'>
-                        Description
+                        Description*
                     </FormStyled.Label>
                     <FormStyled.Textarea
                         onChange={(e) => setDescription(e.target.value)}
@@ -450,7 +450,7 @@ const AddGateForm = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label>Type of NFT</FormStyled.Label>
+                    <FormStyled.Label>Type of NFT*</FormStyled.Label>
                     <FormStyled.GridBox
                         cols={2}
                         onChange={(e) =>
@@ -506,7 +506,7 @@ const AddGateForm = () => {
                         {wantPreReqs === 'yes' && (
                             <FormStyled.Fieldset>
                                 <FormStyled.Label htmlFor='title'>
-                                    KEYS REQUIRED
+                                    KEYS REQUIRED*
                                 </FormStyled.Label>
                                 <Styled.InputSmall
                                     onChange={(e) =>
@@ -523,7 +523,7 @@ const AddGateForm = () => {
                         )}
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='title'>
-                                Category
+                                Category*
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setCategory(e.target.value)}
@@ -659,14 +659,14 @@ const AddGateForm = () => {
                             {edit ? (
                                 <ImageUpload
                                     htmlFor='ProfileImage'
-                                    label='Upload Badge or NFT'
+                                    label='Upload Badge or NFT*'
                                     setImage={setUploadFile}
                                     defaultImageURL={`https://gateway.pinata.cloud/ipfs/${state.gateData.badge.ipfsURL}`}
                                 />
                             ) : (
                                 <ImageUpload
                                     htmlFor='ProfileImage'
-                                    label='Upload Badge or NFT'
+                                    label='Upload Badge or NFT*'
                                     setImage={setUploadFile}
                                 />
                             )}
@@ -679,7 +679,7 @@ const AddGateForm = () => {
 
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='title'>
-                                BADGE/NFT Name
+                                BADGE/NFT Name*
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setBadgeName(e.target.value)}
@@ -693,7 +693,7 @@ const AddGateForm = () => {
                         </FormStyled.Fieldset>
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='title'>
-                                Admin Privileges
+                                Admin Privileges*
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setAdmin(e.target.value)}
