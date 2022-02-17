@@ -16,7 +16,12 @@ import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 
+// Analytics
+import ReactGA from 'react-ga';
+
 Amplify.configure(awsconfig);
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
 
 function getLibrary(provider, connector) {
     return new Web3Provider(provider); // this will vary according to whether you use e.g. ethers or web3.js
