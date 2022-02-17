@@ -35,7 +35,7 @@ export const H1 = styled.h1`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 96px;
+    font-size: ${(props) => (props.size ? props.size : `96px`)};
     line-height: 120px;
     /* identical to box height, or 187% */
     text-align: center;
@@ -58,6 +58,7 @@ export const H1 = styled.h1`
 
 export const H2 = styled(H1)`
     font-size: 48px;
+    margin-bottom: ${(props) => props.mb || `40px`};
 `;
 
 export const Text = styled.p`
@@ -220,6 +221,7 @@ export const Button = styled.button`
     padding: 9px 65px;
     color: #e5e5e5;
     margin-top: 15px;
+    margin-bottom: ${(props) => props.mb || `0px`};
 
     cursor: pointer;
 `;

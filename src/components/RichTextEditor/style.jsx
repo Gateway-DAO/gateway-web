@@ -17,7 +17,6 @@ export const RichEditor = styled.div`
     & .ql-editor {
         min-height: 200px;
     }
-
     & .ql-toolbar,
     .ql-container,
     .ql-snow {

@@ -25,7 +25,6 @@ const DaoGate: React.FC = () => {
     const dao = gateData.dao;
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
-
     const handleClick = () => {
         navigate('add-key');
     };

@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 // Task Components
 import MeetingCode from './components/MeetingCode';
 import Snapshot from './components/Snapshot';
+import ManualTask from './components/ManualTask';
 import Loader from '../../../../../../components/Loader';
 
 const KeyBox = (props) => {
@@ -18,7 +19,12 @@ const KeyBox = (props) => {
     const data = props.data;
     const keyValidation = useKeyValidation(data, props.gateData);
     const { isAdmin } = useGateAdmin(props.gateData.admins);
-
+    const testData = [
+        { title: 'its a title', description: 'Its a description' },
+        { title: 'its a title', description: 'Its a description' },
+        { title: 'its a title', description: 'Its a description' },
+        { title: 'its a title', description: 'Its a description' },
+    ];
     const openedHandler = () => {
         setOpened((prev) => !prev);
     };
@@ -46,9 +52,23 @@ const KeyBox = (props) => {
                 );
             case 'SNAPSHOT_GOVERNANCE':
                 return <Snapshot data={data} />;
+            case 'MANUAL_TASK':
+                return (
+                    <ManualTask
+                        data={testData}
+                        start={startBox}
+                        show={opened}
+                        setStart={setStartBox}
+                        setOpened={setOpened}
+                        keyValidation={keyValidation}
+                    />
+                );
             case 'QUIZ':
+                break;
             case 'SELF_VERIFY':
+                break;
             case 'SC_INTERACTION':
+                break;
             default:
                 return null;
         }

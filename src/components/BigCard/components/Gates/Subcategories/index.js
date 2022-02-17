@@ -2,9 +2,9 @@ import * as Styled from './style';
 import { useNavigate } from 'react-router-dom';
 import useAdmin from '../../../../../hooks/useAdmin';
 
-const Subcategories = ({ admins, activeCategory, setActiveCategory }) => {
-    const { isAdmin } = useAdmin(admins);
-
+const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
+    const { isAdmin } = useAdmin(whitelisted);
+    console.log(whitelisted);
     const categories = [
         'All',
         'Governance',

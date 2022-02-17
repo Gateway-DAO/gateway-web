@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './pages/App';
+import App from './pages/App.tsx';
 import { store } from './state/store';
 
 /* Providers */
