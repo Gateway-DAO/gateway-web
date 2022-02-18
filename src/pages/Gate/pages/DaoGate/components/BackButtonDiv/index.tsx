@@ -12,14 +12,19 @@ import { To, useNavigate } from 'react-router-dom';
 import useUpdateGate from '../../../../../../api/database/useUpdateGate';
 import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
-//import'./BackButton.css';
 
+// Types
+import { DAO, Gate } from '../../../../../../graphql/API';
+import { MutationFunctionOptions } from '@apollo/client';
+
+/* A type definition for the GateData interface. It is used to make sure that the data that is passed
+to the component is of the correct type. */
 interface Props {
     id: string;
     url?: number | string;
     children: string | React.ReactNode;
-    gateData: Record<string, any>;
-    daoData: Record<string, any>;
+    gateData: Gate;
+    daoData: DAO;
     published: boolean;
 }
 
@@ -28,18 +33,24 @@ const BackButton: React.FC<Props> = ({
     children = 'Go Back',
     ...props
 }) => {
-    const gateData = props.gateData;
+    const gateData: Gate = props.gateData;
 
     //States
-    const [published, setPublished] = useState(props.published);
-    const [showDelete, setShowDelete] = useState(false);
+    const [published, setPublished] = useState<boolean>(props.published);
+    const [showDelete, setShowDelete] = useState<boolean>(false);
 
     //Hooks
-    const { updateGate } = useUpdateGate();
+    const {
+        updateGate,
+    }: { updateGate(options: MutationFunctionOptions): Promise<any> } =
+        useUpdateGate();
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
-    const { deleteGate, data, loading } = useDeleteGate();
+    const { deleteGate } = useDeleteGate();
 
+    /**
+     * It navigates to the edit-gate page.
+     */
     const editGate = () => {
         const link = '/dao/' + props.daoData.dao + '/edit-gate';
         navigate(link, {
@@ -47,8 +58,10 @@ const BackButton: React.FC<Props> = ({
         });
     };
 
-    //Publish gates
-    const publishGate = async () => {
+    /**
+     * It updates the published state of the gate.
+     */
+    const handleUpdate = async () => {
         try {
             setPublished(!published);
             await updateGate({
@@ -59,17 +72,22 @@ const BackButton: React.FC<Props> = ({
                     },
                 },
             });
-
-            window.location.reload();
         } catch (e) {
-            alert('We are facing some issue');
+            alert('We are facing some issues. Please try again later.');
             console.log(e);
         }
     };
 
+    /**
+     * It toggles the showDelete state between true and false.
+     */
     const showDeleteModal = () => {
         setShowDelete(!showDelete);
     };
+
+    /**
+     * It deletes a gate.
+     */
     const deleteGateFunc = async () => {
         const { data } = await deleteGate({
             variables: {
@@ -80,6 +98,7 @@ const BackButton: React.FC<Props> = ({
         });
         navigate(url as To);
     };
+
     return (
         <Styled.Wrapper>
             <Styled.Div onClick={() => navigate(url as To)}>
@@ -95,7 +114,7 @@ const BackButton: React.FC<Props> = ({
                 {isAdmin && (
                     <>
                         <Styled.ButtonWrapper
-                            onClick={publishGate}
+                            onClick={handleUpdate}
                             width='182px'
                             size='13px'
                         >

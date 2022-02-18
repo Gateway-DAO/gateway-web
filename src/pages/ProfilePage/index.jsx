@@ -15,7 +15,7 @@ import BioBox from './components/BioBox';
 import ProfileBox from './components/ProfileBox';
 
 // Database
-import { useQuery, gql } from '@apollo/client';
+import { useLazyQuery, gql } from '@apollo/client';
 import { getUserByUsername as USER_QUERY } from '../../graphql/queries';
 
 const RAW_USER = {
@@ -42,34 +42,40 @@ const ProfilePage = () => {
     } = useAuth();
     const [userInfo, setUserInfo] = useState(RAW_USER);
 
-    const {
-        data,
-        loading: userLoading,
-        error,
-    } = useQuery(gql(USER_QUERY), {
-        variables: {
-            username: searchTerm,
-        },
-    });
+    const [getLazyUser, { data, loading: userLoading, error }] = useLazyQuery(
+        gql(USER_QUERY)
+    );
 
     const toggleEditModal = () => setShowEditModal(!showEditModal);
 
     useEffect(() => {
-        if (searchTerm) {
-            try {
-                setUserInfo(
-                    !userLoading ? data.getUserByUsername.items[0] : RAW_USER
-                );
-            } catch (err) {
-                navigate('/404');
+        const callback = async () => {
+            if (searchTerm) {
+                try {
+                    await getLazyUser({
+                        variables: {
+                            username: searchTerm,
+                        },
+                    });
+
+                    setUserInfo(
+                        !userLoading
+                            ? data.getUserByUsername.items[0]
+                            : RAW_USER
+                    );
+                } catch (err) {
+                    navigate('/404');
+                }
+            } else {
+                if (walletConnected && !loading) {
+                    setUserInfo(authUser);
+                } else if (!walletConnected && !loading) {
+                    navigate('/sign-in');
+                }
             }
-        } else {
-            if (walletConnected && !loading) {
-                setUserInfo(authUser);
-            } else if (!walletConnected && !loading) {
-                navigate('/sign-in');
-            }
-        }
+        };
+
+        callback();
 
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         return () => {};
@@ -107,6 +113,7 @@ const ProfilePage = () => {
     );
 
     if (error) {
+        console.log(error);
         return <Navigate to='/404' />;
     }
 

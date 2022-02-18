@@ -13,6 +13,17 @@ import * as Styled from './style';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useGateAdmin } from '../../../../hooks/useAdmin';
 
+// Types
+import { DAO, Gate, Key, TaskStatus } from '../../../../graphql/API';
+
+/* This is a type definition for the GateData interface. It is used to make sure that the data that is
+passed to the component is of the correct type. */
+interface GateData extends Gate {
+    holders: number;
+    keysDone: number;
+    taskStatus: TaskStatus[];
+}
+
 /**
  * This is the gate page of the DAO. It shows the logo of the dao, the name of the dao, the heading,
  * the subheading, the tags, the header line, the second div, the third div and the start button.
@@ -20,9 +31,13 @@ import { useGateAdmin } from '../../../../hooks/useAdmin';
  * @returns A styled component that renders the component.
  */
 const DaoGate: React.FC = () => {
-    const { gateData, loading, loaded }: Record<string, any> =
+    const {
+        gateData,
+        loading,
+        loaded,
+    }: { gateData: GateData; loading: boolean; loaded: boolean } =
         useOutletContext();
-    const dao = gateData.dao;
+    const dao: DAO = gateData.dao;
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
     const handleClick = () => {
@@ -101,38 +116,32 @@ const DaoGate: React.FC = () => {
                                     </Styled.StartButton>
                                 </Styled.Box>
                             )}
-                            {gateData?.keys?.items?.map(
-                                (key: Record<string, any>) => {
-                                    if (
-                                        !isAdmin &&
-                                        !key.unlimited &&
-                                        key.peopleLimit === 0
-                                    ) {
-                                        return null;
-                                    }
-
-                                    return (
-                                        <KeyBox
-                                            data={key}
-                                            gateData={gateData}
-                                            blocked={
-                                                gateData.taskStatus.length > 0
-                                                    ? gateData.taskStatus
-                                                          .map(
-                                                              (
-                                                                  ts: Record<
-                                                                      string,
-                                                                      any
-                                                                  >
-                                                              ) => ts.keyID
-                                                          )
-                                                          .includes(key.id)
-                                                    : false
-                                            }
-                                        />
-                                    );
+                            {gateData?.keys?.items?.map((key: Key) => {
+                                if (
+                                    !isAdmin &&
+                                    !key.unlimited &&
+                                    key.peopleLimit === 0
+                                ) {
+                                    return null;
                                 }
-                            )}
+
+                                return (
+                                    <KeyBox
+                                        data={key}
+                                        gateData={gateData}
+                                        blocked={
+                                            gateData.taskStatus.length > 0
+                                                ? gateData.taskStatus
+                                                      .map(
+                                                          (ts: TaskStatus) =>
+                                                              ts.keyID
+                                                      )
+                                                      .includes(key.id)
+                                                : false
+                                        }
+                                    />
+                                );
+                            })}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
                 </Styled.ContentWrapper>
