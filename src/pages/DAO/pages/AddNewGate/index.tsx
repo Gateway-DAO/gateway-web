@@ -17,8 +17,6 @@ import { useCreateGate } from '../../../../api/database/useCreateGate';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../../contexts/UserContext';
 import useMint from '../../../../hooks/useMint';
-import useSearchUsers from '../../../../api/database/useSearchUser';
-import useSearchGates from '../../../../api/database/useSearchGates';
 
 // Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
@@ -29,6 +27,8 @@ import FormData from 'form-data';
 import Loader from '../../../../components/Loader';
 import { useEffect } from 'react';
 import useUpdateGate from '../../../../api/database/useUpdateGate';
+import { gql, useLazyQuery } from '@apollo/client';
+import { searchGates, searchUsers } from '../../../../graphql/queries';
 
 /* Defining a type for the admin object. */
 interface IAdmin {
@@ -116,35 +116,47 @@ const AddGateForm = () => {
     const { daoData }: Record<string, any> = useOutletContext();
     const { createGate } = useCreateGate();
     const { updateGate } = useUpdateGate();
-    const { data: searchUserData, loading: searchUserLoading } = useSearchUsers(
+    const [
+        searchByUsers,
         {
-            variables: {
-                filter: {
-                    or: [
-                        { name: { wildcard: `*${admin.toLowerCase()}*` } },
-                        { username: { wildcard: `*${admin.toLowerCase()}*` } },
-                        { bio: { wildcard: `*${admin.toLowerCase()}*` } },
-                    ],
-                },
+            data: searchUserData,
+            loading: searchUserLoading,
+            refetch: searchUserRefetch,
+            called: searchUserCalled,
+        },
+    ] = useLazyQuery(gql(searchUsers), {
+        variables: {
+            filter: {
+                or: [
+                    { name: { wildcard: `*${admin.toLowerCase()}*` } },
+                    { username: { wildcard: `*${admin.toLowerCase()}*` } },
+                    { bio: { wildcard: `*${admin.toLowerCase()}*` } },
+                ],
             },
-        }
-    );
+        },
+    });
 
-    const { data: searchGateData, loading: searchGateLoading } = useSearchGates(
+    const [
+        searchByGates,
         {
-            variables: {
-                filter: {
-                    or: [
-                        {
-                            name: {
-                                wildcard: `*${prerequisite.toLowerCase()}*`,
-                            },
+            data: searchGateData,
+            loading: searchGateLoading,
+            refetch: searchGateRefetch,
+            called: searchGateCalled,
+        },
+    ] = useLazyQuery(gql(searchGates), {
+        variables: {
+            filter: {
+                or: [
+                    {
+                        name: {
+                            wildcard: `*${prerequisite.toLowerCase()}*`,
                         },
-                    ],
-                },
+                    },
+                ],
             },
-        }
-    );
+        },
+    });
 
     const { batchMint } = useMint();
     const navigate = useNavigate();
@@ -270,7 +282,11 @@ const AddGateForm = () => {
         );
     };
 
-    /* We create a new gate with the variables we've defined. */
+    /**
+     * It creates a new gate.
+     * @param e - React.FormEvent
+     * @returns The `createGate` mutation returns a `Gate` object.
+     */
     const onSave = async (e: React.FormEvent) => {
         setUpdateeLoading(true);
         try {
@@ -286,15 +302,6 @@ const AddGateForm = () => {
 
             const hash = await uploadFileToIPFS(form);
             const gateID = uuidv4();
-
-            /*
-            if (!!retroactiveEarners) {
-                const batch = await batchMint(
-                    retroactiveEarners.map((re) => re.length > 0 && re),
-                    'k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk'
-                )
-            }
-            */
 
             await createGate({
                 variables: {
@@ -339,6 +346,11 @@ const AddGateForm = () => {
         setUpdateeLoading(false);
     };
 
+    /**
+     * It updates the gate.
+     * @param e - The event object.
+     * @returns The return value is the `updateGate` mutation.
+     */
     const onEdit = async (e) => {
         setUpdateeLoading(true);
         e.preventDefault();
@@ -405,51 +417,47 @@ const AddGateForm = () => {
 
     useEffect(() => {
         const clear = setTimeout(() => {
-            if (!admin) {
-                setAdminSearch([]);
-            }
-
-            !!admin && admin !== adminQuery && setAdminQuery(admin);
-
-            if (!!searchUserData && !searchUserLoading) {
-                const query = searchUserData.searchUsers.items;
-                const results = query.slice(0, 5).map((user) => {
-                    return {
-                        name: user.name,
-                        username: user.username,
-                        id: user.id,
-                        pfp: user.pfp,
-                    };
-                });
-                setAdminSearch(results);
-            }
+            searchByUsers();
         }, 2000);
 
         return () => clearTimeout(clear);
     }, [admin]);
 
     useEffect(() => {
+        if (searchUserCalled && !!searchUserData) {
+            const query = searchUserData.searchUsers.items;
+            const results = query.slice(0, 5).map((user) => {
+                return {
+                    name: user.name,
+                    username: user.username,
+                    id: user.id,
+                    pfp: user.pfp,
+                };
+            });
+            setAdminSearch(results);
+        }
+    }, [searchUserData]);
+
+    useEffect(() => {
         const clear = setTimeout(() => {
-            if (!prerequisite) {
-                setPrereqsSearch([]);
-            }
-
-            // !!admin && admin !== adminQuery && setAdminQuery(admin)
-
-            if (!!searchGateData && !searchGateLoading) {
-                const query = searchGateData.searchGates.items;
-                const results = query.slice(0, 5).map((gate) => {
-                    return {
-                        name: gate.name,
-                        id: gate.id,
-                    };
-                });
-                setPrereqsSearch(results);
-            }
+            searchByGates();
         }, 2000);
 
         return () => clearTimeout(clear);
-    }, [prerequisite]);
+    }, [admin]);
+
+    useEffect(() => {
+        if (searchGateCalled && !!searchGateData) {
+            const query = searchGateData.searchGates.items;
+            const results = query.slice(0, 5).map((gate) => {
+                return {
+                    name: gate.name,
+                    id: gate.id,
+                };
+            });
+            setPrereqsSearch(results);
+        }
+    }, [searchGateData]);
 
     return (
         <Styled.Page>

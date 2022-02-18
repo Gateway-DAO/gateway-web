@@ -21,9 +21,7 @@ const Gates = (props) => {
             <Styled.GatesContainer>
                 {gates.map((gate) => {
                     if (isAdmin) {
-                        return (
-                            <GateCard gate={gate} published={gate.published} />
-                        );
+                        return <GateCard gate={gate} />;
                     }
 
                     if (!isAdmin && gate.published) {

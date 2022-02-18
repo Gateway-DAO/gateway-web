@@ -11,25 +11,28 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { useState } from 'react';
 import useAdmin from '../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
-import useUpdateGate from '../../api/database/useUpdateGate';
-import { useGetGateStatusByUserID } from '../../api/database/useGetGateStatus';
 import { useAuth } from '../../contexts/UserContext';
+import { getGateStatusByUserId } from '../../graphql/queries';
+import { useQuery, gql, useMutation } from '@apollo/client';
+import { updateGate } from '../../graphql/mutations';
 
 /* This is a card that displays information about a gate. */
-const GateCard = (props) => {
+const GateCard = ({ gate }) => {
     // State
-    const gate = props.gate;
-    const [checked, setChecked] = useState(props.published);
+    const [checked, setChecked] = useState(gate.published);
 
     // Hooks
     const { isAdmin } = useAdmin(gate.admins || []);
     const { userInfo } = useAuth();
     const navigate = useNavigate();
-    const { updateGate } = useUpdateGate();
-    const { data } = useGetGateStatusByUserID(userInfo?.id, {
-        filter: {
-            gateID: {
-                eq: gate.id,
+    const [update] = useMutation(gql(updateGate));
+    const { data } = useQuery(gql(getGateStatusByUserId), {
+        variables: {
+            userID: userInfo?.id,
+            filter: {
+                gateID: {
+                    eq: gate.id,
+                },
             },
         },
     });
@@ -39,8 +42,8 @@ const GateCard = (props) => {
      */
     const toggleGatePublished = async () => {
         try {
-            // setChecked(!checked)
-            await updateGate({
+            setChecked(!checked);
+            await update({
                 variables: {
                     input: {
                         id: gate.id,
@@ -48,7 +51,6 @@ const GateCard = (props) => {
                     },
                 },
             });
-            window.location.reload();
         } catch (err) {
             alert('An error ocurred');
             console.log(err);
@@ -126,14 +128,14 @@ const GateCard = (props) => {
                                         ?.keysDone || 0
                                 }
                                 minValue={0}
-                                maxValue={props.gate.keysNumber}
+                                maxValue={gate.keysNumber}
                                 strokeWidth={20}
                             />
                         </Styled.Circle>
                         <Styled.SmallText>
                             {data?.getGateStatusByUserID?.items[0]?.keysDone ||
                                 0}{' '}
-                            of {props.gate.keysNumber}
+                            of {gate.keysNumber}
                         </Styled.SmallText>
                     </Styled.KeyBox>
                 </Styled.InfoBox>
