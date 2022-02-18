@@ -14,7 +14,7 @@ export const useUpdateDAO = () => {
             error,
             loading,
         }),
-        [called, updateDAO, loading, DAO_UPDATE, error]
+        [called, loading, DAO_UPDATE, error]
     );
 };
 

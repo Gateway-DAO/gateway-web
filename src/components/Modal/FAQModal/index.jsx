@@ -1,15 +1,23 @@
-import Modal from '../index';
+import React, { useState } from 'react';
+
+// Styling
 import * as Styled from './style';
 import * as ModalStyled from '../style';
 import { FormStyled } from '../../Form';
-import { useState } from 'react';
-import { FaTrashAlt, FaPlus } from 'react-icons/fa';
-import { useUpdateDAO } from '../../../api/database/useUpdateDAO';
+
+// Components
 import { Navigate } from 'react-router-dom';
+import Modal from '../index';
+import { FaTrashAlt, FaPlus } from 'react-icons/fa';
+
+// API
+import { useMutation, gql } from '@apollo/client';
+import { updateDao } from '../../../graphql/mutations';
+import Loader from '../../Loader';
 
 const FAQModal = (props) => {
     const [FAQ, setFAQ] = useState(props.data);
-    const { updateDAO, data, error, loading } = useUpdateDAO();
+    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
 
     const submitToDB = async () => {
         await updateDAO({
@@ -23,8 +31,6 @@ const FAQModal = (props) => {
 
         props.set(FAQ);
         props.toggle();
-
-        window.location.reload();
     };
 
     const deletePair = (idx) => {
@@ -115,6 +121,7 @@ const FAQModal = (props) => {
                         type='button'
                         onClick={submitToDB}
                     >
+                        {loading && <Loader color='white' />}
                         Submit
                     </FormStyled.Button>
                 </FormStyled.InputWrapper>

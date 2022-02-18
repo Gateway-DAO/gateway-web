@@ -9,6 +9,7 @@ import { useCreateBounty } from '../../../api/database/useCreateBounty';
 import { Navigate } from 'react-router-dom';
 import normalizeUrl from 'normalize-url';
 import { v4 as uuidv4 } from 'uuid';
+import Loader from '../../Loader';
 
 const BountyModal = (props) => {
     const [headline, setHeadline] = useState(null);
@@ -20,7 +21,7 @@ const BountyModal = (props) => {
     const [links, setLinks] = useState(['']);
     const [endDate, setEndDate] = useState(null);
 
-    const { createBounty, error } = useCreateBounty();
+    const { createBounty, error, loading } = useCreateBounty();
 
     const submitToDB = async () => {
         let parsedCategories = [];
@@ -37,8 +38,10 @@ const BountyModal = (props) => {
             categories: parsedCategories,
             reward,
             directions,
-            links: links.map((link) =>
-                normalizeUrl(link, { defaultProtocol: 'https:' })
+            links: links.filter(
+                (link) =>
+                    link.length > 0 &&
+                    normalizeUrl(link, { defaultProtocol: 'https:' })
             ),
             endDate: new Date(endDate).toISOString(),
             postDate: currentDate,
@@ -52,8 +55,6 @@ const BountyModal = (props) => {
 
         props.set([...props.data, newBounty]);
         props.toggle();
-
-        window.location.reload();
     };
 
     const toggleCheckbox = (e) => {
@@ -274,6 +275,7 @@ const BountyModal = (props) => {
                     type='button'
                     onClick={submitToDB}
                 >
+                    {loading && <Loader color='white' />}
                     Submit
                 </FormStyled.Button>
             </Styled.Container>

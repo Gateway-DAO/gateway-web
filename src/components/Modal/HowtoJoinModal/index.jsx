@@ -1,15 +1,23 @@
-import Modal from '../index';
+import React, { useState } from 'react';
+
+// Styling
 import * as Styled from './style';
 import * as ModalStyled from '../style';
 import { FormStyled } from '../../Form';
-import { useState } from 'react';
-import { FaTrashAlt, FaPlus } from 'react-icons/fa';
+
+// Components
 import { Navigate } from 'react-router-dom';
-import { useUpdateDAO } from '../../../api/database/useUpdateDAO';
+import Modal from '../index';
+import Loader from '../../Loader';
+import { FaTrashAlt, FaPlus } from 'react-icons/fa';
+
+// API
+import { useMutation, gql } from '@apollo/client';
+import { updateDao } from '../../../graphql/mutations';
 
 const HowtoJoinModal = (props) => {
     const [inputs, setInputs] = useState(props.data);
-    const { updateDAO, data, error, loading } = useUpdateDAO();
+    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
 
     const submitToDB = async () => {
         const newHTJ = inputs
@@ -29,8 +37,6 @@ const HowtoJoinModal = (props) => {
 
         props.set(newHTJ);
         props.toggle();
-
-        window.location.reload();
     };
 
     const deleteInput = (idx) => {
@@ -95,6 +101,7 @@ const HowtoJoinModal = (props) => {
                         type='button'
                         onClick={submitToDB}
                     >
+                        {loading && <Loader color='white' />}
                         Submit
                     </FormStyled.Button>
                 </FormStyled.InputWrapper>
