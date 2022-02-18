@@ -2,6 +2,20 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const fetchFromCeramic = /* GraphQL */ `
+    query FetchFromCeramic($streamID: String!, $node: AWSURL) {
+        fetchFromCeramic(streamID: $streamID, node: $node) {
+            ... on FetchCeramic {
+                streamID
+                data
+            }
+            ... on CeramicError {
+                error
+                msg
+            }
+        }
+    }
+`;
 export const getUser = /* GraphQL */ `
     query GetUser($id: ID!) {
         getUser(id: $id) {
@@ -79,10 +93,15 @@ export const getUser = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -265,10 +284,15 @@ export const getDao = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -354,10 +378,15 @@ export const listDaos = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -448,10 +477,15 @@ export const getBounty = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -600,10 +634,15 @@ export const getTokenBenefit = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -747,10 +786,15 @@ export const getChannel = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -899,10 +943,15 @@ export const getPost = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -1272,10 +1321,15 @@ export const getGate = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -1292,9 +1346,11 @@ export const getGate = /* GraphQL */ `
             name
             description
             categories
+            skills
+            knowledge
+            attitudes
             admins
             keysNumber
-            holders
             keys {
                 items {
                     id
@@ -1369,7 +1425,9 @@ export const getGate = /* GraphQL */ `
             preRequisites {
                 completedGates
             }
+            retroactiveEarners
             holders
+            nftType
             createdAt
             updatedAt
         }
@@ -1410,6 +1468,9 @@ export const listGates = /* GraphQL */ `
                 name
                 description
                 categories
+                skills
+                knowledge
+                attitudes
                 admins
                 keysNumber
                 keys {
@@ -1424,7 +1485,9 @@ export const listGates = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                retroactiveEarners
                 holders
+                nftType
                 createdAt
                 updatedAt
             }
@@ -1465,6 +1528,9 @@ export const getKey = /* GraphQL */ `
                 name
                 description
                 categories
+                skills
+                knowledge
+                attitudes
                 admins
                 keysNumber
                 keys {
@@ -1479,7 +1545,9 @@ export const getKey = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                retroactiveEarners
                 holders
+                nftType
                 createdAt
                 updatedAt
             }
@@ -1560,10 +1628,15 @@ export const listKeys = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -1690,10 +1763,15 @@ export const getManualTaskSubmission = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -1884,6 +1962,9 @@ export const getGateStatus = /* GraphQL */ `
                 name
                 description
                 categories
+                skills
+                knowledge
+                attitudes
                 admins
                 keysNumber
                 keys {
@@ -1898,7 +1979,9 @@ export const getGateStatus = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                retroactiveEarners
                 holders
+                nftType
                 createdAt
                 updatedAt
             }
@@ -1955,10 +2038,15 @@ export const listGateStatuss = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -2057,6 +2145,9 @@ export const getTaskStatus = /* GraphQL */ `
                 name
                 description
                 categories
+                skills
+                knowledge
+                attitudes
                 admins
                 keysNumber
                 keys {
@@ -2071,7 +2162,9 @@ export const getTaskStatus = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                retroactiveEarners
                 holders
+                nftType
                 createdAt
                 updatedAt
             }
@@ -2085,10 +2178,15 @@ export const getTaskStatus = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -2187,10 +2285,15 @@ export const listTaskStatuss = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -2287,6 +2390,11 @@ export const getUserByAddress = /* GraphQL */ `
                             published
                             createdAt
                             updatedAt
+                            skills
+                            knowledge
+                            attitudes
+                            retroactiveEarners
+                            nftType
                             badge {
                                 ipfsURL
                                 name
@@ -2580,10 +2688,15 @@ export const getDaoById = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -2792,10 +2905,15 @@ export const getDaoByName = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -3131,6 +3249,9 @@ export const getGatesByDaoid = /* GraphQL */ `
                 name
                 description
                 categories
+                skills
+                knowledge
+                attitudes
                 admins
                 keysNumber
                 keys {
@@ -3145,7 +3266,9 @@ export const getGatesByDaoid = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                retroactiveEarners
                 holders
+                nftType
                 createdAt
                 updatedAt
             }
@@ -3177,10 +3300,15 @@ export const getKeysByGateId = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -3393,10 +3521,15 @@ export const getGateStatusByUserId = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                     badge {
@@ -3458,10 +3591,15 @@ export const getGateStatusByGateId = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -3519,10 +3657,15 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -3584,10 +3727,15 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                     name
                     description
                     categories
+                    skills
+                    knowledge
+                    attitudes
                     admins
                     keysNumber
                     published
+                    retroactiveEarners
                     holders
+                    nftType
                     createdAt
                     updatedAt
                 }
@@ -3759,10 +3907,15 @@ export const searchDaos = /* GraphQL */ `
                         name
                         description
                         categories
+                        skills
+                        knowledge
+                        attitudes
                         admins
                         keysNumber
-                        holders
                         published
+                        retroactiveEarners
+                        holders
+                        nftType
                         badge {
                             nftURL
                             ipfsURL
@@ -3945,6 +4098,9 @@ export const searchGates = /* GraphQL */ `
                 name
                 description
                 categories
+                skills
+                knowledge
+                attitudes
                 admins
                 keysNumber
                 keys {
@@ -3959,7 +4115,9 @@ export const searchGates = /* GraphQL */ `
                 preRequisites {
                     completedGates
                 }
+                retroactiveEarners
                 holders
+                nftType
                 createdAt
                 updatedAt
             }

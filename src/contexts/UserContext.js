@@ -18,6 +18,7 @@ import { useLazyQuery, gql } from '@apollo/client';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
+import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -108,6 +109,7 @@ export const UserProvider = ({ children }) => {
 
     // Hooks
     const web3 = useWeb3React();
+    const threeID = use3ID();
     const { showModal } = useModal();
 
     // Database

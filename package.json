@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@3id/connect": "^0.2.5",
     "@apollo/client": "^3.5.6",
     "@aws-amplify/core": "^4.3.11",
+    "@ceramicnetwork/3id-did-resolver": "^1.4.16",
+    "@ceramicnetwork/http-client": "^1.5.7",
     "@draft-js-plugins/emoji": "^4.5.5",
     "@draft-js-plugins/image": "^4.1.2",
     "@metamask/eth-sig-util": "^4.0.0",
@@ -26,6 +29,7 @@
     "browser-image-compression": "^1.0.17",
     "cross-env": "^7.0.3",
     "date-fns": "^2.28.0",
+    "dids": "^2.4.3",
     "draft-js": "^0.11.7",
     "emoji-picker-react": "^3.4.8",
     "eslint-config-prettier": "^8.3.0",
@@ -39,6 +43,7 @@
     "graphql-algolia-transformer": "^1.5.0",
     "html-react-parser": "^1.4.0",
     "jwt-decode": "^3.1.2",
+    "key-did-resolver": "^1.4.4",
     "moralis": "^0.0.138",
     "normalize-url": "^7.0.2",
     "prettier": "^2.5.1",
@@ -94,7 +99,8 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "resolutions": {
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "did-jwt": "5.1.0"
   },
   "browserslist": {
     "production": [

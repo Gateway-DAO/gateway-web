@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "api": {
+      "gateway": [
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
