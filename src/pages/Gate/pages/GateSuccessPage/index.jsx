@@ -22,7 +22,7 @@ const GateSuccessPage = (props) => {
         if (loaded) {
             const clear = setTimeout(() => {
                 window.location.href = `/gate/${gateData.id}/`;
-            }, 6000);
+            }, 3000);
 
             return () => clearTimeout(clear);
         }

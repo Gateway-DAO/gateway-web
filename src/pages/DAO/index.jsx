@@ -1,18 +1,27 @@
 import { useParams, Navigate, Outlet } from 'react-router-dom';
 
-import { useGetDAOByID } from '../../api/database/useGetDAO';
+// import { useGetDAOByID } from '../../api/database/useGetDAO';
 
 // Components
 import Page from '../../components/Page';
 import { useState, useEffect } from 'react';
 import { getTokenFromAddress } from '../../api/coingecko';
 import React from 'react';
+import { gql, useQuery } from '@apollo/client';
+import { getDaoById } from '../../graphql/queries';
 
 // AWS
+/*
 import { API, graphqlOperation } from 'aws-amplify';
 import { gql } from '@apollo/client';
 import { onUpdateDao } from '../../graphql/subscriptions';
+*/
 
+/**
+ * It fetches data from the DAO's GraphQL API and renders the appropriate page
+ * @param props - The props passed to the component.
+ * @returns The `Outlet` component is being returned.
+ */
 const DAO = (props) => {
     const { id } = useParams();
     const [daoData, setDaoData] = useState({
@@ -26,7 +35,16 @@ const DAO = (props) => {
         tokenBenefits: [],
         whitelistedAddresses: [],
     });
-    const { data: dbData, loading, error } = useGetDAOByID(id);
+    const {
+        data: dbData,
+        loading,
+        error,
+        called,
+    } = useQuery(gql(getDaoById), {
+        variables: {
+            dao: id,
+        },
+    });
     const [loaded, setLoaded] = useState(false);
 
     // Get CoinGecko data
@@ -81,7 +99,7 @@ const DAO = (props) => {
                     : {};
 
                 const tokenData =
-                    dbData.tokenAddress && cgData.symbol
+                    dbData.getDAOById.items[0].tokenAddress && cgData.symbol
                         ? {
                               symbol: cgData.symbol,
                               ranking: cgData.market_cap_rank,
@@ -108,7 +126,7 @@ const DAO = (props) => {
 
                 // Organize presentable data
                 const data = {
-                    ...dbData,
+                    ...dbData.getDAOById.items[0],
                     ...tokenData,
                 };
 
@@ -120,7 +138,16 @@ const DAO = (props) => {
         handleData();
     }, [id, loading]);
 
-    // Subscription to updates
+    useEffect(() => {
+        called &&
+            dbData &&
+            setDaoData({
+                ...daoData,
+                ...dbData.getDAOById.items[0],
+            });
+    }, [dbData, called]);
+
+    /*
     useEffect(() => {
         const subscription = API.graphql(
             graphqlOperation(gql(onUpdateDao))
@@ -139,6 +166,7 @@ const DAO = (props) => {
 
         return () => subscription.unsubscribe();
     });
+    */
 
     if (error) {
         console.error(error);

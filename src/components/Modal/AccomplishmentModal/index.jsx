@@ -1,15 +1,23 @@
-import Modal from '../index';
+import React, { useState } from 'react';
+
+// Styling
 import * as Styled from './style';
 import * as ModalStyled from '../style';
 import { FormStyled } from '../../Form';
-import { useState } from 'react';
-import RichEditor from '../../RichTextEditor';
-import { useUpdateDAO } from '../../../api/database/useUpdateDAO';
+
+// Components
 import { Navigate } from 'react-router-dom';
+import Modal from '../index';
+import Loader from '../../Loader';
+import RichEditor from '../../RichTextEditor';
+
+// API
+import { useMutation, gql } from '@apollo/client';
+import { updateDao } from '../../../graphql/mutations';
 
 const AccomplishmentModal = (props) => {
     const [accomplish, setAccomplish] = useState(props.data);
-    const { updateDAO, data, error, loading } = useUpdateDAO();
+    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
 
     const submitToDB = async () => {
         await updateDAO({
@@ -23,8 +31,6 @@ const AccomplishmentModal = (props) => {
 
         props.set(accomplish);
         props.toggle();
-
-        window.location.reload();
     };
 
     if (error) {
@@ -48,6 +54,7 @@ const AccomplishmentModal = (props) => {
                     type='button'
                     onClick={submitToDB}
                 >
+                    {loading && <Loader color='white' />}
                     Submit
                 </FormStyled.Button>
             </Styled.Container>

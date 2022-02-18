@@ -17,8 +17,6 @@ import { useCreateGate } from '../../../../api/database/useCreateGate';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../../contexts/UserContext';
 import useMint from '../../../../hooks/useMint';
-import useSearchUsers from '../../../../api/database/useSearchUser';
-import useSearchGates from '../../../../api/database/useSearchGates';
 
 // Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
@@ -29,6 +27,34 @@ import FormData from 'form-data';
 import Loader from '../../../../components/Loader';
 import { useEffect } from 'react';
 import useUpdateGate from '../../../../api/database/useUpdateGate';
+import { gql, useLazyQuery } from '@apollo/client';
+import { searchGates, searchUsers } from '../../../../graphql/queries';
+
+/* Defining a type for the admin object. */
+interface IAdmin {
+    name: string;
+    username: string;
+    pfp: string;
+    id: string;
+}
+
+/* Defining a type called IPrerequisite. */
+interface IPrerequisite {
+    name: string;
+    id: string;
+}
+
+/* Creating a type that can be used to represent a NFT. */
+enum NFT {
+    CONTRIBUTOR = 'Contributor',
+    REWARD = 'Reward',
+}
+
+/* Creating a YesNo enum with two values, YES and NO. */
+enum YesNo {
+    YES = 'Yes',
+    NO = 'No',
+}
 
 /* This is a React component that will render the form to add a gate. */
 const AddGateForm = () => {
@@ -36,33 +62,37 @@ const AddGateForm = () => {
     const { state }: Record<string, any> = useLocation();
     const edit = state ? true : false;
     // State
-    const [title, setTitle] = useState(edit ? state.gateData.name : '');
-    const [description, setDescription] = useState(
+    const [title, setTitle] = useState<string>(edit ? state.gateData.name : '');
+    const [description, setDescription] = useState<string>(
         edit ? state.gateData.description : ''
     );
-    const [retroactiveEarners, setRetroactiveEarners] = useState(['']);
+    const [retroactiveEarners, setRetroactiveEarners] = useState<string[]>([
+        '',
+    ]);
     const [uploadFile, setUploadFile] = useState(null);
-    const [category, setCategory] = useState('');
-    const [categoryList, setCategoryList] = useState(
+    const [category, setCategory] = useState<string>('');
+    const [categoryList, setCategoryList] = useState<(string | null)[]>(
         edit ? state.gateData.categories : []
     );
-    const [skill, setSkill] = useState(null);
-    const [skillList, setSkillList] = useState([]);
-    const [knowledge, setKnowledge] = useState(null);
-    const [knowledgeList, setKnowledgeList] = useState([]);
-    const [attitude, setAttitude] = useState(null);
-    const [attitudeList, setAttitudeList] = useState([]);
-    const [prerequisite, setPrerequisite] = useState('');
-    const [prerequisiteList, setPrerequisiteList] = useState([]);
-    const [keyRequired, setKeyRequired] = useState(
+    const [skill, setSkill] = useState<string>(null);
+    const [skillList, setSkillList] = useState<(string | null)[]>([]);
+    const [knowledge, setKnowledge] = useState<string>(null);
+    const [knowledgeList, setKnowledgeList] = useState<(string | null)[]>([]);
+    const [attitude, setAttitude] = useState<string>(null);
+    const [attitudeList, setAttitudeList] = useState<(string | null)[]>([]);
+    const [prerequisite, setPrerequisite] = useState<string>('');
+    const [prerequisiteList, setPrerequisiteList] = useState<
+        (IPrerequisite | null)[]
+    >([]);
+    const [keyRequired, setKeyRequired] = useState<number>(
         edit ? state.gateData.keysNumber : 0
     );
-    const [badgeName, setBadgeName] = useState(
+    const [badgeName, setBadgeName] = useState<string>(
         edit ? state.gateData.badge.name : ''
     );
-    const [admin, setAdmin] = useState('');
-    const [adminQuery, setAdminQuery] = useState('');
-    const [adminList, setAdminList] = useState([
+    const [admin, setAdmin] = useState<string>('');
+    const [adminQuery, setAdminQuery] = useState<string>('');
+    const [adminList, setAdminList] = useState<IAdmin[]>([
         {
             name: userInfo?.name || '',
             username: userInfo?.username || '',
@@ -71,46 +101,62 @@ const AddGateForm = () => {
         },
     ]);
     //const [adminIDList, setAdminIDList] = useState(edit?state.gateData.admins:[userInfo.id]);
-    const [updateLoading, setUpdateeLoading] = useState(false);
+    const [updateLoading, setUpdateeLoading] = useState<boolean>(false);
     const [adminSearch, setAdminSearch] = useState([]);
-    const [NFTupdated, setNFTupdated] = useState(edit);
+    const [NFTupdated, setNFTupdated] = useState<boolean>(edit);
     const [prereqsSearch, setPrereqsSearch] = useState([]);
-    const [NFTType, setNFTType] = useState(edit ? 'Reward' : null);
-    const [wantPreReqs, setWantPreReqs] = useState(edit ? 'yes' : null);
+    const [NFTType, setNFTType] = useState<NFT | null>(
+        edit ? NFT.REWARD : null
+    );
+    const [wantPreReqs, setWantPreReqs] = useState<YesNo | null>(
+        edit ? YesNo.YES : null
+    );
 
     // Hooks
     const { daoData }: Record<string, any> = useOutletContext();
     const { createGate } = useCreateGate();
     const { updateGate } = useUpdateGate();
-    const { data: searchUserData, loading: searchUserLoading } = useSearchUsers(
+    const [
+        searchByUsers,
         {
-            variables: {
-                filter: {
-                    or: [
-                        { name: { wildcard: `*${admin.toLowerCase()}*` } },
-                        { username: { wildcard: `*${admin.toLowerCase()}*` } },
-                        { bio: { wildcard: `*${admin.toLowerCase()}*` } },
-                    ],
-                },
+            data: searchUserData,
+            loading: searchUserLoading,
+            refetch: searchUserRefetch,
+            called: searchUserCalled,
+        },
+    ] = useLazyQuery(gql(searchUsers), {
+        variables: {
+            filter: {
+                or: [
+                    { name: { wildcard: `*${admin.toLowerCase()}*` } },
+                    { username: { wildcard: `*${admin.toLowerCase()}*` } },
+                    { bio: { wildcard: `*${admin.toLowerCase()}*` } },
+                ],
             },
-        }
-    );
+        },
+    });
 
-    const { data: searchGateData, loading: searchGateLoading } = useSearchGates(
+    const [
+        searchByGates,
         {
-            variables: {
-                filter: {
-                    or: [
-                        {
-                            name: {
-                                wildcard: `*${prerequisite.toLowerCase()}*`,
-                            },
+            data: searchGateData,
+            loading: searchGateLoading,
+            refetch: searchGateRefetch,
+            called: searchGateCalled,
+        },
+    ] = useLazyQuery(gql(searchGates), {
+        variables: {
+            filter: {
+                or: [
+                    {
+                        name: {
+                            wildcard: `*${prerequisite.toLowerCase()}*`,
                         },
-                    ],
-                },
+                    },
+                ],
             },
-        }
-    );
+        },
+    });
 
     const { batchMint } = useMint();
     const navigate = useNavigate();
@@ -118,7 +164,7 @@ const AddGateForm = () => {
     /* The addCategories function is called when the user presses the Enter key. 
     The function adds the current value of the category input to the categoryList array and clears
     the input. */
-    const addCategories = (e) => {
+    const addCategories = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             setCategoryList([...categoryList, category]);
             setCategory('');
@@ -128,14 +174,14 @@ const AddGateForm = () => {
     /**
      * It removes the category from the list of categories.
      */
-    const removeCategories = (id) => {
+    const removeCategories = (id: number) => {
         setCategoryList(categoryList.filter((value, i) => i !== id));
     };
 
     /* The addSkills function is called when the user presses the Enter key. 
     The function adds the current value of the skill input to the skillList array and clears
     the input. */
-    const addSkills = (e) => {
+    const addSkills = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             setSkillList([...skillList, skill]);
             setSkill('');
@@ -145,14 +191,14 @@ const AddGateForm = () => {
     /**
      * It removes the skill from the list of skills.
      */
-    const removeSkills = (id) => {
+    const removeSkills = (id: number) => {
         setSkillList(skillList.filter((value, i) => i !== id));
     };
 
     /* The addKnowledge function is called when the user presses the Enter key. 
     The function adds the current value of the knowledge input to the knowledgeList array and clears
     the input. */
-    const addKnowledge = (e) => {
+    const addKnowledge = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             setKnowledgeList([...knowledgeList, knowledge]);
             setKnowledge('');
@@ -162,14 +208,14 @@ const AddGateForm = () => {
     /**
      * It removes the category from the list of knowledge.
      */
-    const removeKnowledge = (id) => {
+    const removeKnowledge = (id: number) => {
         setKnowledgeList(knowledgeList.filter((value, i) => i !== id));
     };
 
     /* The addAttitude function is called when the user presses the Enter key. 
     The function adds the current value of the attitude input to the attitudeList array and clears
     the input. */
-    const addAttitude = (e) => {
+    const addAttitude = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
             setAttitudeList([...attitudeList, attitude]);
             setAttitude('');
@@ -179,14 +225,14 @@ const AddGateForm = () => {
     /**
      * It removes the attitude from the list of attitudes.
      */
-    const removeAttitude = (id) => {
+    const removeAttitude = (id: number) => {
         setAttitudeList(attitudeList.filter((value, i) => i !== id));
     };
 
     /**
      * It adds a prerequisite to the list of prerequisites.
      */
-    const addPrerequisite = (gate) => {
+    const addPrerequisite = (gate: IPrerequisite) => {
         setPrerequisiteList((prev) => [...prev, gate]);
         setPrereqsSearch((prev) => prev.filter((obj) => obj.id !== gate.id));
     };
@@ -194,14 +240,14 @@ const AddGateForm = () => {
     /**
      * Given an id, remove the prerequisite with that id from the prerequisite list
      */
-    const removePrerequisite = (id) => {
+    const removePrerequisite = (id: string) => {
         setPrerequisiteList((prev) => prev.filter((gate) => gate.id !== id));
     };
 
     /**
      * It adds an admin to the list of admins.
      */
-    const addAdmin = (admin) => {
+    const addAdmin = (admin: IAdmin) => {
         setAdminList([...adminList, admin]);
         setAdminSearch((prev) => prev.filter((adm) => adm.id !== admin.id));
     };
@@ -209,15 +255,14 @@ const AddGateForm = () => {
     /**
      * It removes the admin from the list of admins.
      */
-    const removeAdmin = (id) => {
+    const removeAdmin = (id: string) => {
         setAdminList((prev) => prev.filter((adm) => adm.id !== id));
     };
 
-    const updateRetroactiveEarner = (e, idx) => {
-        console.log(idx);
+    const updateRetroactiveEarner = (e: React.ChangeEvent, idx: number) => {
         const add = retroactiveEarners.map((value, i) => {
             if (idx === i) {
-                return e;
+                return (e.target as HTMLInputElement).value;
             }
             return value;
         });
@@ -227,7 +272,7 @@ const AddGateForm = () => {
 
     /* The removeRetroactiveEarner function is called when the user clicks the remove button. It
     removes the retroactive earner at the index of the button that was clicked. */
-    const removeRetroactiveEarner = (idx) => {
+    const removeRetroactiveEarner = (idx: number) => {
         if (retroactiveEarners.length === 1) {
             alert('You have to put at least one retroactive earner');
             return false;
@@ -237,8 +282,12 @@ const AddGateForm = () => {
         );
     };
 
-    /* We create a new gate with the variables we've defined. */
-    const onSave = async (e) => {
+    /**
+     * It creates a new gate.
+     * @param e - React.FormEvent
+     * @returns The `createGate` mutation returns a `Gate` object.
+     */
+    const onSave = async (e: React.FormEvent) => {
         setUpdateeLoading(true);
         try {
             e.preventDefault();
@@ -254,15 +303,6 @@ const AddGateForm = () => {
             const hash = await uploadFileToIPFS(form);
             const gateID = uuidv4();
 
-            /*
-            if (!!retroactiveEarners) {
-                const batch = await batchMint(
-                    retroactiveEarners.map((re) => re.length > 0 && re),
-                    'k2t6wyfsu4pg1h5v2ive5e8xnw823zyl548fswjx0zu4qx30jw5mzkfry7k2tk'
-                )
-            }
-            */
-
             await createGate({
                 variables: {
                     input: {
@@ -272,9 +312,18 @@ const AddGateForm = () => {
                         description,
                         categories: categoryList,
                         admins: adminList.map((admin) => admin.id),
-                        keysNumber: keyRequired,
+                        ...(wantPreReqs && { keysNumber: keyRequired }),
+                        nftType: (NFTType as string).toUpperCase(),
+                        ...(skillList.length > 0 && { skills: skillList }),
+                        ...(attitudeList.length > 0 && {
+                            attitudes: attitudeList,
+                        }),
+                        ...(knowledgeList.length > 0 && {
+                            knowledge: knowledgeList,
+                        }),
                         published: false,
                         holders: 0,
+                        retroactiveEarners,
                         preRequisites: {
                             completedGates: prerequisiteList.map(
                                 (prereq) => prereq.id
@@ -297,6 +346,11 @@ const AddGateForm = () => {
         setUpdateeLoading(false);
     };
 
+    /**
+     * It updates the gate.
+     * @param e - The event object.
+     * @returns The return value is the `updateGate` mutation.
+     */
     const onEdit = async (e) => {
         setUpdateeLoading(true);
         e.preventDefault();
@@ -363,51 +417,47 @@ const AddGateForm = () => {
 
     useEffect(() => {
         const clear = setTimeout(() => {
-            if (!admin) {
-                setAdminSearch([]);
-            }
-
-            !!admin && admin !== adminQuery && setAdminQuery(admin);
-
-            if (!!searchUserData && !searchUserLoading) {
-                const query = searchUserData.searchUsers.items;
-                const results = query.slice(0, 5).map((user) => {
-                    return {
-                        name: user.name,
-                        username: user.username,
-                        id: user.id,
-                        pfp: user.pfp,
-                    };
-                });
-                setAdminSearch(results);
-            }
+            searchByUsers();
         }, 2000);
 
         return () => clearTimeout(clear);
     }, [admin]);
 
     useEffect(() => {
+        if (searchUserCalled && !!searchUserData) {
+            const query = searchUserData.searchUsers.items;
+            const results = query.slice(0, 5).map((user) => {
+                return {
+                    name: user.name,
+                    username: user.username,
+                    id: user.id,
+                    pfp: user.pfp,
+                };
+            });
+            setAdminSearch(results);
+        }
+    }, [searchUserData]);
+
+    useEffect(() => {
         const clear = setTimeout(() => {
-            if (!prerequisite) {
-                setPrereqsSearch([]);
-            }
-
-            // !!admin && admin !== adminQuery && setAdminQuery(admin)
-
-            if (!!searchGateData && !searchGateLoading) {
-                const query = searchGateData.searchGates.items;
-                const results = query.slice(0, 5).map((gate) => {
-                    return {
-                        name: gate.name,
-                        id: gate.id,
-                    };
-                });
-                setPrereqsSearch(results);
-            }
+            searchByGates();
         }, 2000);
 
         return () => clearTimeout(clear);
-    }, [prerequisite]);
+    }, [admin]);
+
+    useEffect(() => {
+        if (searchGateCalled && !!searchGateData) {
+            const query = searchGateData.searchGates.items;
+            const results = query.slice(0, 5).map((gate) => {
+                return {
+                    name: gate.name,
+                    id: gate.id,
+                };
+            });
+            setPrereqsSearch(results);
+        }
+    }, [searchGateData]);
 
     return (
         <Styled.Page>
@@ -424,7 +474,7 @@ const AddGateForm = () => {
                 </Styled.Header>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='title'>
-                        Gate Title
+                        Gate Title*
                     </FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setTitle(e.target.value)}
@@ -438,7 +488,7 @@ const AddGateForm = () => {
                 </FormStyled.Fieldset>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='description'>
-                        Description
+                        Description*
                     </FormStyled.Label>
                     <FormStyled.Textarea
                         onChange={(e) => setDescription(e.target.value)}
@@ -450,11 +500,13 @@ const AddGateForm = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label>Type of NFT</FormStyled.Label>
+                    <FormStyled.Label>Type of NFT*</FormStyled.Label>
                     <FormStyled.GridBox
                         cols={2}
                         onChange={(e) =>
-                            setNFTType((e.target as HTMLInputElement).value)
+                            setNFTType(
+                                (e.target as HTMLInputElement).value as NFT
+                            )
                         }
                     >
                         <FormStyled.Radio
@@ -481,32 +533,34 @@ const AddGateForm = () => {
                     <FormStyled.GridBox
                         cols={2}
                         onChange={(e) =>
-                            setWantPreReqs((e.target as HTMLInputElement).value)
+                            setWantPreReqs(
+                                (e.target as HTMLInputElement).value as YesNo
+                            )
                         }
                     >
                         <FormStyled.Radio
                             id='wantPreReqs-1'
                             name='wantPreReqs'
-                            value='yes'
+                            value='Yes'
                             label='Yes'
-                            checked={wantPreReqs === 'yes'}
+                            checked={wantPreReqs === YesNo.YES}
                         />
                         <FormStyled.Radio
                             id='wantPreReqs-2'
                             name='wantPreReqs'
-                            value='no'
+                            value='No'
                             label='No'
-                            checked={wantPreReqs === 'no'}
+                            checked={wantPreReqs === YesNo.NO}
                         />
                     </FormStyled.GridBox>
                 </FormStyled.Fieldset>
 
                 {NFTType && wantPreReqs && (
                     <>
-                        {wantPreReqs === 'yes' && (
+                        {wantPreReqs === YesNo.YES && (
                             <FormStyled.Fieldset>
                                 <FormStyled.Label htmlFor='title'>
-                                    KEYS REQUIRED
+                                    KEYS REQUIRED*
                                 </FormStyled.Label>
                                 <Styled.InputSmall
                                     onChange={(e) =>
@@ -523,7 +577,7 @@ const AddGateForm = () => {
                         )}
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='title'>
-                                Category
+                                Category*
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setCategory(e.target.value)}
@@ -659,14 +713,14 @@ const AddGateForm = () => {
                             {edit ? (
                                 <ImageUpload
                                     htmlFor='ProfileImage'
-                                    label='Upload Badge or NFT'
+                                    label='Upload Badge or NFT*'
                                     setImage={setUploadFile}
                                     defaultImageURL={`https://gateway.pinata.cloud/ipfs/${state.gateData.badge.ipfsURL}`}
                                 />
                             ) : (
                                 <ImageUpload
                                     htmlFor='ProfileImage'
-                                    label='Upload Badge or NFT'
+                                    label='Upload Badge or NFT*'
                                     setImage={setUploadFile}
                                 />
                             )}
@@ -679,7 +733,7 @@ const AddGateForm = () => {
 
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='title'>
-                                BADGE/NFT Name
+                                BADGE/NFT Name*
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setBadgeName(e.target.value)}
@@ -693,7 +747,7 @@ const AddGateForm = () => {
                         </FormStyled.Fieldset>
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='title'>
-                                Admin Privileges
+                                Admin Privileges*
                             </FormStyled.Label>
                             <FormStyled.Input
                                 onChange={(e) => setAdmin(e.target.value)}
@@ -736,7 +790,7 @@ const AddGateForm = () => {
 
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='retroactiveLearner'>
-                                {wantPreReqs === 'yes' ? 'RETROACTIVE' : ''}{' '}
+                                {wantPreReqs === YesNo.YES ? 'RETROACTIVE' : ''}{' '}
                                 EARNER
                             </FormStyled.Label>
                             {retroactiveEarners.map(

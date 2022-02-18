@@ -1,7 +1,11 @@
 import { useAuth } from '../contexts/UserContext';
 
-export const useAdmin = (addressOrList) => {
-    const { userInfo, loggedIn } = useAuth();
+interface Permissions {
+    readonly isAdmin: boolean;
+}
+
+export const useAdmin = (addressOrList: string | string[]): Permissions => {
+    const { userInfo, loggedIn }: Record<string, any> = useAuth();
 
     let isAdmin = false;
 
@@ -20,8 +24,8 @@ export const useAdmin = (addressOrList) => {
     };
 };
 
-export const useGateAdmin = (addressOrList) => {
-    const { userInfo, loggedIn, walletConnected } = useAuth();
+export const useGateAdmin = (addressOrList: string | string[]): Permissions => {
+    const { userInfo, loggedIn }: Record<string, any> = useAuth();
 
     let isAdmin = false;
 

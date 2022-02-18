@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useParams, Navigate, Outlet } from 'react-router-dom';
 
 // Hooks
-import { useGetGate } from '../../api/database/useGetGate';
+import { gql, useQuery } from '@apollo/client';
 import { useAuth } from '../../contexts/UserContext';
 
 // Components
@@ -9,11 +10,28 @@ import Page from '../../components/Page';
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-const Gate = () => {
+// API
+import { getGate } from '../../graphql/queries';
+
+/**
+ * This function is responsible for rendering the page
+ * @returns The gate page is being returned.
+ */
+const Gate: React.FC = () => {
     const { gate } = useParams();
     const { userInfo }: Record<string, any> = useAuth();
 
-    const { data: dbData, loading, error } = useGetGate(gate);
+    /* This is a query to the database. It is a GraphQL query that is being made to the database. */
+    const {
+        data: dbData,
+        loading,
+        error,
+    } = useQuery(gql(getGate), {
+        variables: {
+            id: gate,
+        },
+    });
+
     const [gateData, setGateData] = useState(dbData?.getGate || {});
     const [loaded, setLoaded] = useState(false);
     const [keysDone, setKeysDone] = useState(
@@ -46,16 +64,14 @@ const Gate = () => {
         handleData();
     }, [gate, loading, dbData]);
 
+    /* This is a React Hook that is being used to check if the data has been loaded. If the data has
+    been loaded, then the `loaded` state is set to `true`. */
     useEffect(() => {
         setLoaded(!!gateData && !loading && userInfo !== null);
     }, [gateData, loading, userInfo]);
 
+    /* Fetching the data from the database. */
     useEffect(() => {
-        console.log(
-            userInfo?.gates?.items?.filter(
-                (obj: Record<string, any>) => obj.gateID === gate
-            )[0]
-        );
         setKeysDone(
             userInfo?.gates?.items?.filter(
                 (obj: Record<string, any>) => obj.gateID === gate
@@ -78,6 +94,8 @@ const Gate = () => {
         );
     }, [gate, userInfo]);
 
+    /* This is a catch-all error handler. If there is an error, it will be logged to the console and
+    the user will be redirected to the 404 page. */
     if (error) {
         console.error(error);
         return <Navigate to='/404' />;

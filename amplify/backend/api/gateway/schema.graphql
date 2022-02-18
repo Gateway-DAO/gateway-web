@@ -187,13 +187,18 @@ type Gate
     name: String!
     description: String!
     categories: [String!]
+    skills: [String!]
+    knowledge: [String!]
+    attitudes: [String!]
     admins: [ID]!
-    keysNumber: Int!
+    keysNumber: Int
     keys: [Key] @connection(keyName: "keyByGateID", fields: ["id"])
     published: Boolean
     badge: NFTInfo!
     preRequisites: PreRequisites
+    retroactiveEarners: [String!]
     holders: Int! @function(name: "getGateHolders-${env}")
+    nftType: NFTType
 }
 
 type Key
@@ -308,6 +313,11 @@ enum SnapshotType {
     PROPOSAL
 }
 
+enum NFTType {
+    CONTRIBUTOR
+    REWARD
+}
+
 union TaskUnion =
       Quiz
     | MeetingCode
@@ -392,7 +402,7 @@ type TaskStatus
     gate: Gate @connection(fields: ["gateID"])
     keyID: ID!
     key: Key @connection(fields: ["keyID"])
-    completed: Boolean
+    completed: CompletedState
     createdAt: AWSDateTime
     updatedAt: AWSDateTime
 }
@@ -422,6 +432,12 @@ enum ErrorType {
     WRONG_TASK
 }
 
+enum CompletedState {
+    DONE
+    IN_REVIEW # for manual task
+    NOT_DONE
+}
+
 ### KEY VERIFICATION RESPONSE ###
 
 type TaskAndGateResponse {
@@ -436,6 +452,27 @@ type TaskAndGateResponse {
 }
 
 union KeyVerificationResponse = TaskAndGateResponse | Error
+
+### CERAMIC ###
+
+type FetchCeramic {
+    streamID: String!
+    data: AWSJSON!
+}
+
+type StreamCeramic {
+    streamed: Boolean!
+    streamID: String!
+    data: AWSJSON!
+}
+
+type CeramicError {
+    error: Boolean!
+    msg: String!
+}
+
+union FetchCeramicResponse = FetchCeramic | CeramicError
+union StreamCeramicResponse = StreamCeramic | CeramicError
 
 ### INPUTS ###
 
@@ -612,6 +649,11 @@ input ManualTaskInput {
     information: [KeyInformationInput]!
 }
 
+### CUSTOM QUERIES ###
+type Query {
+    fetchFromCeramic(streamID: String!, node: AWSURL): FetchCeramicResponse @function(name: "ceramic-${env}")
+}
+
 ### CUSTOM MUTATIONS ###
 type Mutation {
     getAuthenticationNonce(wallet: String!): Authentication
@@ -671,4 +713,7 @@ type Mutation {
         keyID: ID!
         questions: [QuestionLambdaInput]!
     ): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
+
+    ## Ceramic ##
+    # streamToCeramic(data: AWSJSON!,  node: AWSURL): StreamCeramicResponse @function(name: "ceramic-${env}")
 }

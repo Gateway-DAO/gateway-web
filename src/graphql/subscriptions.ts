@@ -340,10 +340,15 @@ export const onCreateDao = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -431,10 +436,15 @@ export const onUpdateDao = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -522,10 +532,15 @@ export const onDeleteDao = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -1756,6 +1771,9 @@ export const onCreateGate = /* GraphQL */ `
       name
       description
       categories
+      skills
+      knowledge
+      attitudes
       admins
       keysNumber
       keys {
@@ -1781,7 +1799,9 @@ export const onCreateGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      retroactiveEarners
       holders
+      nftType
       createdAt
       updatedAt
     }
@@ -1837,6 +1857,9 @@ export const onUpdateGate = /* GraphQL */ `
       name
       description
       categories
+      skills
+      knowledge
+      attitudes
       admins
       keysNumber
       keys {
@@ -1862,7 +1885,9 @@ export const onUpdateGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      retroactiveEarners
       holders
+      nftType
       createdAt
       updatedAt
     }
@@ -1918,6 +1943,9 @@ export const onDeleteGate = /* GraphQL */ `
       name
       description
       categories
+      skills
+      knowledge
+      attitudes
       admins
       keysNumber
       keys {
@@ -1943,7 +1971,9 @@ export const onDeleteGate = /* GraphQL */ `
       preRequisites {
         completedGates
       }
+      retroactiveEarners
       holders
+      nftType
       createdAt
       updatedAt
     }
@@ -1982,6 +2012,9 @@ export const onCreateKey = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -1996,7 +2029,9 @@ export const onCreateKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -2092,6 +2127,9 @@ export const onUpdateKey = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -2106,7 +2144,9 @@ export const onUpdateKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -2202,6 +2242,9 @@ export const onDeleteKey = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -2216,7 +2259,9 @@ export const onDeleteKey = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -2339,10 +2384,15 @@ export const onCreateManualTaskSubmission = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -2464,10 +2514,15 @@ export const onUpdateManualTaskSubmission = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -2589,10 +2644,15 @@ export const onDeleteManualTaskSubmission = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -2733,6 +2793,9 @@ export const onCreateGateStatus = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -2747,7 +2810,9 @@ export const onCreateGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -2853,6 +2918,9 @@ export const onUpdateGateStatus = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -2867,7 +2935,9 @@ export const onUpdateGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -2973,6 +3043,9 @@ export const onDeleteGateStatus = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -2987,7 +3060,9 @@ export const onDeleteGateStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -3093,6 +3168,9 @@ export const onCreateTaskStatus = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -3107,7 +3185,9 @@ export const onCreateTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -3121,10 +3201,15 @@ export const onCreateTaskStatus = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -3262,6 +3347,9 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -3276,7 +3364,9 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -3290,10 +3380,15 @@ export const onUpdateTaskStatus = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }
@@ -3431,6 +3526,9 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         name
         description
         categories
+        skills
+        knowledge
+        attitudes
         admins
         keysNumber
         keys {
@@ -3445,7 +3543,9 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         preRequisites {
           completedGates
         }
+        retroactiveEarners
         holders
+        nftType
         createdAt
         updatedAt
       }
@@ -3459,10 +3559,15 @@ export const onDeleteTaskStatus = /* GraphQL */ `
           name
           description
           categories
+          skills
+          knowledge
+          attitudes
           admins
           keysNumber
           published
+          retroactiveEarners
           holders
+          nftType
           createdAt
           updatedAt
         }

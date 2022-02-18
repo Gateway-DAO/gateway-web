@@ -7,6 +7,7 @@ import RichEditor from '../../RichTextEditor';
 import { useCreateTokenBenefit } from '../../../api/database/useCreateTokenBenefit';
 import { Navigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import Loader from '../../Loader';
 
 const TokenBenefitModal = (props) => {
     const [title, setTitle] = useState(null);
@@ -14,7 +15,7 @@ const TokenBenefitModal = (props) => {
     const [token, setToken] = useState(null);
     const [amount, setAmount] = useState(null);
 
-    const { createTokenBenefit, error } = useCreateTokenBenefit();
+    const { createTokenBenefit, error, loading } = useCreateTokenBenefit();
 
     const submitToDB = async () => {
         const newTB = {
@@ -34,8 +35,6 @@ const TokenBenefitModal = (props) => {
 
         props.set([...props.data, newTB]);
         props.toggle();
-
-        window.location.reload();
     };
 
     if (error) {
@@ -93,6 +92,7 @@ const TokenBenefitModal = (props) => {
                     type='button'
                     onClick={submitToDB}
                 >
+                    {loading && <Loader color='white' />}
                     Submit
                 </FormStyled.Button>
             </Styled.Container>
