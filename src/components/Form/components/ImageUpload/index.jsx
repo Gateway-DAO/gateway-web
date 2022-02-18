@@ -1,4 +1,4 @@
-import * as FormStyled from '../../style.tsx';
+import * as FormStyled from '../../style';
 import * as Styled from './style';
 import { useState, useRef, useEffect } from 'react';
 
