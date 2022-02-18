@@ -144,6 +144,7 @@ const BackButton: React.FC<Props> = ({
                                         width='182px'
                                         size='13px'
                                         onClick={deleteGateFunc}
+                                        style={{ marginTop: '35px' }}
                                     >
                                         Delete
                                     </Styled.ButtonWrapper>
