@@ -15,12 +15,14 @@ import { useGateAdmin } from '../../../../hooks/useAdmin';
 
 // Types
 import { DAO, Gate, Key, TaskStatus } from '../../../../graphql/API';
+import { useEffect } from 'react';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
 interface GateData extends Gate {
     holders: number;
     keysDone: number;
+    keysNumber: number;
     taskStatus: TaskStatus[];
 }
 
@@ -30,6 +32,7 @@ interface GateData extends Gate {
  * @param props - the props passed to the component
  * @returns A styled component that renders the component.
  */
+
 const DaoGate: React.FC = () => {
     const {
         gateData,
@@ -40,6 +43,18 @@ const DaoGate: React.FC = () => {
     const dao: DAO = gateData.dao;
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
+
+    useEffect(() => {
+        console.log('Component mounted');
+        if (gateData.keysDone == gateData.keysNumber + 1000) {
+            console.log(gateData.keysDone);
+            navigate('gate-success');
+        }
+        return () => {
+            console.log('Component will be unmount');
+        };
+    }, []);
+
     const handleClick = () => {
         navigate('add-key');
     };
@@ -80,6 +95,41 @@ const DaoGate: React.FC = () => {
                             ))}
                             • {gateData.holders} holder(s)
                         </Styled.TagsDiv>
+                        <Styled.AdditionalInfoBox>
+                            <Styled.AdminsBox>
+                                <Styled.BoldTextHeading>
+                                    ADMINS
+                                </Styled.BoldTextHeading>
+                                <Styled.ContentContainer>
+                                    <Styled.PfpAdmin />
+                                    <Styled.PfpAdmin />
+                                </Styled.ContentContainer>
+                            </Styled.AdminsBox>
+                            <Styled.PreRequisiteBox>
+                                <Styled.BoldTextHeading>
+                                    PRE REQUISITE
+                                </Styled.BoldTextHeading>
+                                <Styled.ContentContainer>
+                                    <Styled.InfoText>
+                                        Gateway.DAO.Verification ⬈
+                                    </Styled.InfoText>
+                                </Styled.ContentContainer>
+                            </Styled.PreRequisiteBox>
+                            <Styled.LinksContainer>
+                                <Styled.BoldTextHeading>
+                                    LINKS
+                                </Styled.BoldTextHeading>
+                                <Styled.ContentContainer>
+                                    <Styled.InfoText>
+                                        DAO Deck ⬈
+                                    </Styled.InfoText>
+                                    <Styled.InfoText>
+                                        Brand Assets ⬈
+                                    </Styled.InfoText>
+                                    <Styled.InfoText>FAQ ⬈</Styled.InfoText>
+                                </Styled.ContentContainer>
+                            </Styled.LinksContainer>
+                        </Styled.AdditionalInfoBox>
                         <Styled.HeaderLine />
                         <Styled.SecondDiv>
                             <Styled.SecondDivName>Keys</Styled.SecondDivName>
