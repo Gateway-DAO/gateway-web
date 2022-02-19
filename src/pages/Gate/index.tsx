@@ -11,7 +11,8 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 
 // API
-import { getGate } from '../../graphql/queries';
+import { getGate, listUsers } from '../../graphql/queries';
+import { User } from '../../graphql/API';
 
 /**
  * This function is responsible for rendering the page
@@ -29,6 +30,25 @@ const Gate: React.FC = () => {
     } = useQuery(gql(getGate), {
         variables: {
             id: gate,
+        },
+    });
+
+    const {
+        data: adminsData,
+        loading: adminsLoading,
+        error: adminsError,
+    } = useQuery(gql(listUsers), {
+        variables: {
+            filter: {
+                ...(dbData &&
+                    dbData?.getGate.admins.length > 0 && {
+                        or: dbData?.getGate.admins.map((admin) => ({
+                            id: {
+                                eq: admin,
+                            },
+                        })),
+                    }),
+            },
         },
     });
 
@@ -52,6 +72,7 @@ const Gate: React.FC = () => {
                   )
             : []
     );
+    const [admins, setAdmins] = useState<User[]>(adminsData?.listUsers.items);
 
     // Fetch data regarding these
     useEffect(() => {
@@ -94,6 +115,10 @@ const Gate: React.FC = () => {
         );
     }, [gate, userInfo]);
 
+    useEffect(() => {
+        adminsData && setAdmins(adminsData?.listUsers.items);
+    }, [gate, adminsData]);
+
     /* This is a catch-all error handler. If there is an error, it will be logged to the console and
     the user will be redirected to the 404 page. */
     if (error) {
@@ -110,6 +135,7 @@ const Gate: React.FC = () => {
                         holders: dbData?.getGate?.holders || 0,
                         keysDone,
                         taskStatus,
+                        adminList: admins || [],
                     },
                     setGateData,
                     loaded,

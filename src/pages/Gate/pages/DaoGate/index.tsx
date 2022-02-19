@@ -5,6 +5,7 @@ import Loader from '../../../../components/Loader';
 import KeyBox from './components/KeyBox';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { GradientSVG } from '../../../../components/ProgressCircle';
+import { Link, Navigate } from 'react-router-dom';
 
 // Styling
 import * as Styled from './style';
@@ -14,8 +15,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useGateAdmin } from '../../../../hooks/useAdmin';
 
 // Types
-import { DAO, Gate, Key, TaskStatus } from '../../../../graphql/API';
-import { useEffect } from 'react';
+import { DAO, Gate, Key, TaskStatus, User } from '../../../../graphql/API';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -24,6 +24,7 @@ interface GateData extends Gate {
     keysDone: number;
     keysNumber: number;
     taskStatus: TaskStatus[];
+    adminList: User[];
 }
 
 /**
@@ -44,17 +45,6 @@ const DaoGate: React.FC = () => {
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
 
-    useEffect(() => {
-        console.log('Component mounted');
-        if (gateData.keysDone == gateData.keysNumber + 1000) {
-            console.log(gateData.keysDone);
-            navigate('gate-success');
-        }
-        return () => {
-            console.log('Component will be unmount');
-        };
-    }, []);
-
     const handleClick = () => {
         navigate('add-key');
     };
@@ -66,6 +56,10 @@ const DaoGate: React.FC = () => {
             </Styled.LoaderBox>
         );
     } else if (loaded) {
+        if (!isAdmin && !gateData.published) {
+            return <Navigate to='/404' />;
+        }
+
         return (
             <Styled.Wrapper>
                 <BackButtonDiv
@@ -101,32 +95,59 @@ const DaoGate: React.FC = () => {
                                     ADMINS
                                 </Styled.BoldTextHeading>
                                 <Styled.ContentContainer>
-                                    <Styled.PfpAdmin />
-                                    <Styled.PfpAdmin />
+                                    {gateData.adminList.map((admin) => {
+                                        return (
+                                            <Link
+                                                to={`/profile/${admin.username}`}
+                                            >
+                                                <Styled.PfpAdmin
+                                                    src={admin.pfp}
+                                                />
+                                            </Link>
+                                        );
+                                    })}
                                 </Styled.ContentContainer>
                             </Styled.AdminsBox>
-                            <Styled.PreRequisiteBox>
-                                <Styled.BoldTextHeading>
-                                    PRE REQUISITE
-                                </Styled.BoldTextHeading>
-                                <Styled.ContentContainer>
-                                    <Styled.InfoText>
-                                        Gateway.DAO.Verification ⬈
-                                    </Styled.InfoText>
-                                </Styled.ContentContainer>
-                            </Styled.PreRequisiteBox>
+                            {gateData.preRequisites.completedGates.length >
+                                0 && (
+                                <Styled.PreRequisiteBox>
+                                    <Styled.BoldTextHeading>
+                                        PRE REQUISITE
+                                    </Styled.BoldTextHeading>
+                                    <Styled.ContentContainer>
+                                        {gateData.preRequisites.completedGates.map(
+                                            (gateID) => (
+                                                <Styled.InsideLink
+                                                    to={`/gate/${gateID}`}
+                                                >
+                                                    Gateway.DAO.Verification ⬈
+                                                </Styled.InsideLink>
+                                            )
+                                        )}
+                                    </Styled.ContentContainer>
+                                </Styled.PreRequisiteBox>
+                            )}
                             <Styled.LinksContainer>
                                 <Styled.BoldTextHeading>
                                     LINKS
                                 </Styled.BoldTextHeading>
                                 <Styled.ContentContainer>
-                                    <Styled.InfoText>
-                                        DAO Deck ⬈
-                                    </Styled.InfoText>
-                                    <Styled.InfoText>
-                                        Brand Assets ⬈
-                                    </Styled.InfoText>
-                                    <Styled.InfoText>FAQ ⬈</Styled.InfoText>
+                                    {gateData.links.length > 0 ? (
+                                        gateData.links.map((link) => {
+                                            return (
+                                                <Styled.OutsideLink
+                                                    href={link.link}
+                                                    target='_blank'
+                                                >
+                                                    {link.name} ⬈
+                                                </Styled.OutsideLink>
+                                            );
+                                        })
+                                    ) : (
+                                        <Styled.InsideLink to='add-links'>
+                                            Add Links ⬈
+                                        </Styled.InsideLink>
+                                    )}
                                 </Styled.ContentContainer>
                             </Styled.LinksContainer>
                         </Styled.AdditionalInfoBox>

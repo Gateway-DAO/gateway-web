@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface ISmallLogoProps {
@@ -115,12 +116,21 @@ export const ContentContainer = styled.div`
     justify-content: left;
 `;
 
-export const PfpAdmin = styled.img`
+interface IPfpAdmin {
+    src?: string;
+}
+
+export const PfpAdmin = styled.div<IPfpAdmin>`
     width: 36px;
     height: 36px;
     border-radius: 50%;
     background-color: white;
     margin-right: 7px;
+
+    background: url(${(props) => props.src || ''});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 `;
 
 export const BoldTextHeading = styled.h3`
@@ -137,7 +147,7 @@ export const BoldTextHeading = styled.h3`
     color: #ffffff;
 `;
 
-export const InfoText = styled.p`
+const InfoTextStyling = `
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
@@ -148,6 +158,16 @@ export const InfoText = styled.p`
     margin-right: 30px;
 
     color: #e5e5e5;
+
+    text-decoration: none;
+`;
+
+export const OutsideLink = styled.a`
+    ${InfoTextStyling}
+`;
+
+export const InsideLink = styled(Link)`
+    ${InfoTextStyling}
 `;
 
 export const PreRequisiteBox = styled.div`
