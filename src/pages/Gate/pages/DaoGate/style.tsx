@@ -95,6 +95,71 @@ export const TagsDiv = styled.div`
     letter-spacing: 0.05em;
 `;
 
+export const AdditionalInfoBox = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr;
+    margin-top: 38px;
+`;
+
+export const AdminsBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+`;
+
+export const ContentContainer = styled.div`
+    margin-top: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+`;
+
+export const PfpAdmin = styled.img`
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: white;
+    margin-right: 7px;
+`;
+
+export const BoldTextHeading = styled.h3`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #ffffff;
+`;
+
+export const InfoText = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    margin-right: 30px;
+
+    color: #e5e5e5;
+`;
+
+export const PreRequisiteBox = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const LinksContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 export const Tag = styled.div`
     color: white;
     border: 1px solid white;
