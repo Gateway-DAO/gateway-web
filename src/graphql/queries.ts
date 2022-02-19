@@ -1426,6 +1426,10 @@ export const getGate = /* GraphQL */ `
                 completedGates
             }
             retroactiveEarners
+            links {
+                name
+                link
+            }
             holders
             nftType
             createdAt
@@ -1486,6 +1490,10 @@ export const listGates = /* GraphQL */ `
                     completedGates
                 }
                 retroactiveEarners
+                links {
+                    name
+                    link
+                }
                 holders
                 nftType
                 createdAt
@@ -1546,6 +1554,10 @@ export const getKey = /* GraphQL */ `
                     completedGates
                 }
                 retroactiveEarners
+                links {
+                    name
+                    link
+                }
                 holders
                 nftType
                 createdAt
@@ -1980,6 +1992,10 @@ export const getGateStatus = /* GraphQL */ `
                     completedGates
                 }
                 retroactiveEarners
+                links {
+                    name
+                    link
+                }
                 holders
                 nftType
                 createdAt
@@ -2163,6 +2179,10 @@ export const getTaskStatus = /* GraphQL */ `
                     completedGates
                 }
                 retroactiveEarners
+                links {
+                    name
+                    link
+                }
                 holders
                 nftType
                 createdAt
@@ -3267,6 +3287,10 @@ export const getGatesByDaoid = /* GraphQL */ `
                     completedGates
                 }
                 retroactiveEarners
+                links {
+                    name
+                    link
+                }
                 holders
                 nftType
                 createdAt
@@ -4116,6 +4140,10 @@ export const searchGates = /* GraphQL */ `
                     completedGates
                 }
                 retroactiveEarners
+                links {
+                    name
+                    link
+                }
                 holders
                 nftType
                 createdAt

@@ -10040,7 +10040,7 @@ dicer@^0.3.0:
   dependencies:
     streamsearch "^1.1.0"
 
-did-jwt@5.1.0, did-jwt@^5.6.1:
+did-jwt@5.1.0, did-jwt@^5.0.1, did-jwt@^5.6.1:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-5.1.0.tgz#893da17345ca120d61a4d2bdbd1dc105158dff26"
   integrity sha512-m1D10Q8LloBAfGjg3hlaACIBxS+lI8btUXIFEUeebTv9fvr+droANsMIeFZ6ozrec6yXQRTNpoaDQxyO2j8mgQ==
@@ -14135,6 +14135,17 @@ keccak@^3.0.0:
     node-addon-api "^2.0.0"
     node-gyp-build "^4.2.0"
     readable-stream "^3.6.0"
+
+key-did-provider-ed25519@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/key-did-provider-ed25519/-/key-did-provider-ed25519-1.1.0.tgz#4c8bb9581352457faa0593d46e77dad9aa16f3ba"
+  integrity sha512-kSxpmqYvTCXKTiApgVep3kTqEpUyRMQktaS3R1TD1Y1GbjFLG1RKShQ5qZRK7Z7Gar15Ym3tk3kMjYg76Xe6zQ==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.1"
+    did-jwt "^5.0.1"
+    fast-json-stable-stringify "^2.1.0"
+    rpc-utils "^0.3.4"
+    uint8arrays "^2.1.5"
 
 key-did-resolver@^1.4.4:
   version "1.4.4"

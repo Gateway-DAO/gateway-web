@@ -9,6 +9,10 @@
   },
   "dependencies": {
     "@ceramicnetwork/http-client": "^1.5.7",
-    "aws-sdk": "^2.1076.0"
+    "aws-sdk": "^2.1076.0",
+    "key-did-provider-ed25519": "^1.1.0"
+  },
+  "resolutions": {
+    "did-jwt": "5.1.0"
   }
 }

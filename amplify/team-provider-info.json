@@ -55,7 +55,7 @@
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion6c8500e3-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion1d944f8e-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -89,7 +89,8 @@
         },
         "ceramic": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/ceramic-6a656974526b74307357-build.zip"
+          "s3Key": "amplify-builds/ceramic-464d6448314577355a64-build.zip",
+          "secretsPathAmplifyAppId": "d1eyfltl5g67m"
         }
       },
       "auth": {

@@ -64,11 +64,8 @@ const KeyBox = (props) => {
                     />
                 );
             case 'QUIZ':
-                break;
             case 'SELF_VERIFY':
-                break;
             case 'SC_INTERACTION':
-                break;
             default:
                 return null;
         }
