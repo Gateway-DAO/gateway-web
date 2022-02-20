@@ -21,6 +21,7 @@ export const CardBanner = styled.div`
     background-position: center;
     background-size: cover;
     height: 260px;
+    width: 300px;
     object-fit: cover;
 `;
 
