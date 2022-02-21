@@ -7,6 +7,7 @@ import { FormStyled } from '../../../../../../components/Form';
 // Components
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 import Loader from '../../../../../../components/Loader';
+import RichTextEditor from '../../../../../../components/RichTextEditor';
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom';
@@ -27,7 +28,7 @@ const AddNewKey = () => {
         state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
     );
     const [titleDescriptionPair, setTitleDescriptionPair] = useState<
-        Array<Record<string, string>>
+        Array<Record<string, any>>
     >(
         state
             ? state.data.information
@@ -271,6 +272,10 @@ const AddNewKey = () => {
                         </FormStyled.Fieldset>
                         <FormStyled.Fieldset marginBottom='0px'>
                             <FormStyled.Label>Description*</FormStyled.Label>
+                            <RichTextEditor
+                                value={pair.description}
+                                set={updateDescription}
+                            />
                             <FormStyled.Textarea
                                 id={`description-${idx}`}
                                 onChange={(e) => updateDescription(e, idx)}

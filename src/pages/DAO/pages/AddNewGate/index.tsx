@@ -29,6 +29,7 @@ import { useEffect } from 'react';
 import useUpdateGate from '../../../../api/database/useUpdateGate';
 import { gql, useLazyQuery } from '@apollo/client';
 import { searchGates, searchUsers } from '../../../../graphql/queries';
+// import RichTextEditor from '../../../../components/RichTextEditor';
 
 /* Defining a type for the admin object. */
 interface IAdmin {
@@ -63,7 +64,7 @@ const AddGateForm = () => {
     const edit = state ? true : false;
     // State
     const [title, setTitle] = useState<string>(edit ? state.gateData.name : '');
-    const [description, setDescription] = useState<string>(
+    const [description, setDescription] = useState<any>(
         edit ? state.gateData.description : ''
     );
     const [retroactiveEarners, setRetroactiveEarners] = useState<string[]>([
@@ -259,10 +260,10 @@ const AddGateForm = () => {
         setAdminList((prev) => prev.filter((adm) => adm.id !== id));
     };
 
-    const updateRetroactiveEarner = (e: React.ChangeEvent, idx: number) => {
+    const updateRetroactiveEarner = (e: string, idx: number) => {
         const add = retroactiveEarners.map((value, i) => {
             if (idx === i) {
-                return (e.target as HTMLInputElement).value;
+                return e;
             }
             return value;
         });
@@ -463,11 +464,11 @@ const AddGateForm = () => {
         <Styled.Page>
             <Styled.Container
                 onSubmit={edit ? onEdit : onSave}
-                onKeyPress={(event) => {
-                    if (event.which === 13 /* Enter */) {
-                        event.preventDefault();
-                    }
-                }}
+                // onKeyPress={(event) => {
+                //     if (event.which === 13 /* Enter */) {
+                //         event.preventDefault();
+                //     }
+                // }}
             >
                 <Styled.Header>
                     {edit ? `Edit Gate` : `Create a New Gate`}
@@ -490,6 +491,7 @@ const AddGateForm = () => {
                     <FormStyled.Label htmlFor='description'>
                         Description*
                     </FormStyled.Label>
+                    {/* <RichTextEditor value={description} set={setDescription} /> */}
                     <FormStyled.Textarea
                         onChange={(e) => setDescription(e.target.value)}
                         value={description}

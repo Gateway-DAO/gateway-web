@@ -104,7 +104,7 @@ const DaoGate: React.FC = () => {
                             </Styled.AnotherDiv>
                         </Styled.SecondDiv>
                         <Styled.ThirdDiv>
-                            {isAdmin && (
+                            {true && (
                                 <Styled.Box>
                                     <Styled.BigText>
                                         Let’s create the Keys for your Gate.

@@ -22,7 +22,7 @@ const RichEditor = ({ value, set }) => {
         <Styled.RichEditor>
             <ReactQuill
                 value={value}
-                onChange={set}
+                onChange={(val) => set(val)}
                 modules={{
                     imageResize: {
                         // parchment: Quill.import('parchment'),

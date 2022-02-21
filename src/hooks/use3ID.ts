@@ -28,7 +28,7 @@ const authenticateWithEthereum = async (ethereumProvider, account: string) => {
         },
     });
 
-    // Authenticate the DID using the 3ID provider from 3ID Connect, this will trigger the
+    // Authenticate the DID using the 3ID provider yarn from 3ID Connect, this will trigger the
     // authentication flow using 3ID Connect and the Ethereum provider
     await did.authenticate();
 
