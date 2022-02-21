@@ -160,6 +160,8 @@ const InfoTextStyling = `
     color: #e5e5e5;
 
     text-decoration: none;
+
+    display: inline-block;
 `;
 
 export const OutsideLink = styled.a`

@@ -11,14 +11,14 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 
 // API
-import { getGate, listUsers } from '../../graphql/queries';
-import { User } from '../../graphql/API';
+import { getGate, listGates, listUsers } from '../../graphql/queries';
+import { Gate, User } from '../../graphql/API';
 
 /**
  * This function is responsible for rendering the page
  * @returns The gate page is being returned.
  */
-const Gate: React.FC = () => {
+const GatePage: React.FC = () => {
     const { gate } = useParams();
     const { userInfo }: Record<string, any> = useAuth();
 
@@ -52,6 +52,27 @@ const Gate: React.FC = () => {
         },
     });
 
+    const {
+        data: preRequisitesData,
+        loading: preRequisitesLoading,
+        error: preRequisitesError,
+    } = useQuery(gql(listGates), {
+        variables: {
+            filter: {
+                ...(dbData &&
+                    dbData?.getGate.preRequisites.completedGates.length > 0 && {
+                        or: dbData?.getGate.preRequisites.completedGates.map(
+                            (gateID) => ({
+                                id: {
+                                    eq: gateID,
+                                },
+                            })
+                        ),
+                    }),
+            },
+        },
+    });
+
     const [gateData, setGateData] = useState(dbData?.getGate || {});
     const [loaded, setLoaded] = useState(false);
     const [keysDone, setKeysDone] = useState(
@@ -73,6 +94,9 @@ const Gate: React.FC = () => {
             : []
     );
     const [admins, setAdmins] = useState<User[]>(adminsData?.listUsers.items);
+    const [preRequisites, setPreRequisites] = useState<Gate[]>(
+        preRequisitesData?.listGates.items
+    );
 
     // Fetch data regarding these
     useEffect(() => {
@@ -119,6 +143,11 @@ const Gate: React.FC = () => {
         adminsData && setAdmins(adminsData?.listUsers.items);
     }, [gate, adminsData]);
 
+    useEffect(() => {
+        preRequisitesData &&
+            setPreRequisites(preRequisitesData?.listGates.items);
+    }, [gate, preRequisitesData]);
+
     /* This is a catch-all error handler. If there is an error, it will be logged to the console and
     the user will be redirected to the 404 page. */
     if (error) {
@@ -136,6 +165,7 @@ const Gate: React.FC = () => {
                         keysDone,
                         taskStatus,
                         adminList: admins || [],
+                        preRequisitesList: preRequisites || [],
                     },
                     setGateData,
                     loaded,
@@ -146,4 +176,4 @@ const Gate: React.FC = () => {
     );
 };
 
-export default Gate;
+export default GatePage;

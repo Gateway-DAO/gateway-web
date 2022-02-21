@@ -25,6 +25,7 @@ interface GateData extends Gate {
     keysNumber: number;
     taskStatus: TaskStatus[];
     adminList: User[];
+    preRequisitesList: Gate[];
 }
 
 /**
@@ -108,19 +109,18 @@ const DaoGate: React.FC = () => {
                                     })}
                                 </Styled.ContentContainer>
                             </Styled.AdminsBox>
-                            {gateData.preRequisites.completedGates.length >
-                                0 && (
+                            {gateData.preRequisitesList.length > 0 && (
                                 <Styled.PreRequisiteBox>
                                     <Styled.BoldTextHeading>
                                         PRE REQUISITE
                                     </Styled.BoldTextHeading>
                                     <Styled.ContentContainer>
-                                        {gateData.preRequisites.completedGates.map(
-                                            (gateID) => (
+                                        {gateData.preRequisitesList.map(
+                                            (gate) => (
                                                 <Styled.InsideLink
-                                                    to={`/gate/${gateID}`}
+                                                    to={`/gate/${gate.id}`}
                                                 >
-                                                    Gateway.DAO.Verification ⬈
+                                                    {gate.badge.name} ⬈
                                                 </Styled.InsideLink>
                                             )
                                         )}
