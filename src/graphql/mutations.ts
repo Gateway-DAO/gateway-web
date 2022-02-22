@@ -451,6 +451,10 @@ export const createQuiz = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -566,6 +570,10 @@ export const createMeetingCode = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -681,6 +689,10 @@ export const createTokenHold = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -796,6 +808,10 @@ export const createSnapshotGovernance = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -911,6 +927,10 @@ export const createSelfVerify = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -1026,6 +1046,10 @@ export const createContractInteraction = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -1141,6 +1165,10 @@ export const createManualTask = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -1333,6 +1361,21 @@ export const verifyQuiz = /* GraphQL */ `
       }
       ... on Error {
         keyID
+        error
+        msg
+      }
+    }
+  }
+`;
+export const streamToCeramic = /* GraphQL */ `
+  mutation StreamToCeramic($data: AWSJSON!, $node: AWSURL) {
+    streamToCeramic(data: $data, node: $node) {
+      ... on StreamCeramic {
+        streamed
+        streamID
+        data
+      }
+      ... on CeramicError {
         error
         msg
       }
@@ -3203,6 +3246,10 @@ export const createGate = /* GraphQL */ `
         completedGates
       }
       retroactiveEarners
+      links {
+        name
+        link
+      }
       holders
       nftType
       createdAt
@@ -3292,6 +3339,10 @@ export const updateGate = /* GraphQL */ `
         completedGates
       }
       retroactiveEarners
+      links {
+        name
+        link
+      }
       holders
       nftType
       createdAt
@@ -3381,6 +3432,10 @@ export const deleteGate = /* GraphQL */ `
         completedGates
       }
       retroactiveEarners
+      links {
+        name
+        link
+      }
       holders
       nftType
       createdAt
@@ -3442,6 +3497,10 @@ export const createKey = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -3560,6 +3619,10 @@ export const updateKey = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -3678,6 +3741,10 @@ export const deleteKey = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -4241,6 +4308,10 @@ export const createGateStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -4369,6 +4440,10 @@ export const updateGateStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -4497,6 +4572,10 @@ export const deleteGateStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -4625,6 +4704,10 @@ export const createTaskStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -4807,6 +4890,10 @@ export const updateTaskStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -4989,6 +5076,10 @@ export const deleteTaskStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt

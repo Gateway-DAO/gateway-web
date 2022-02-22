@@ -3,7 +3,7 @@ import * as Styled from './style';
 // Hooks
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useSearchDAO } from '../../api/database/useSearchDAO';
+import { useQuery, gql } from '@apollo/client';
 import { useDAOLength } from '../../api/database/useDAOLength';
 
 // Components
@@ -13,6 +13,9 @@ import DAOTab from './component/DAOs';
 import UserTab from './component/Users';
 import SearchSuggestions from './component/SearchSuggestions';
 import { Navigate } from 'react-router-dom';
+
+// API
+import { searchDaos } from '../../graphql/queries';
 
 const Search = (props) => {
     const [selectionTab, setSelectionTab] = useState('DAOs');
@@ -54,7 +57,7 @@ const Search = (props) => {
         loading: searchLoading,
         error: searchError,
         called: searchCalled,
-    } = useSearchDAO({
+    } = useQuery(gql(searchDaos), {
         variables: {
             filter: {
                 or: [

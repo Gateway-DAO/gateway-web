@@ -215,6 +215,7 @@ export type Gate = {
   badge?: NFTInfo,
   preRequisites?: PreRequisites,
   retroactiveEarners?: Array< string > | null,
+  links?:  Array<Link | null >,
   holders?: number,
   nftType?: NFTType | null,
   createdAt?: string,
@@ -345,6 +346,12 @@ export type NFTInfo = {
 export type PreRequisites = {
   __typename: "PreRequisites",
   completedGates?: Array< string | null > | null,
+};
+
+export type Link = {
+  __typename: "Link",
+  name?: string,
+  link?: string,
 };
 
 export enum NFTType {
@@ -607,6 +614,22 @@ export enum ErrorType {
 export type QuestionLambdaInput = {
   answers: Array< number | null >,
   questionIdx: number,
+};
+
+export type StreamCeramicResponse = StreamCeramic | CeramicError
+
+
+export type StreamCeramic = {
+  __typename: "StreamCeramic",
+  streamed?: boolean,
+  streamID?: string,
+  data?: string,
+};
+
+export type CeramicError = {
+  __typename: "CeramicError",
+  error?: boolean,
+  msg?: string,
 };
 
 export type CreateUserInput = {
@@ -1010,6 +1033,7 @@ export type CreateGateInput = {
   badge: NFTInfoInput,
   preRequisites?: PreRequisitesInput | null,
   retroactiveEarners?: Array< string > | null,
+  links: Array< LinkInput | null >,
   holders: number,
   nftType?: NFTType | null,
 };
@@ -1022,6 +1046,11 @@ export type NFTInfoInput = {
 
 export type PreRequisitesInput = {
   completedGates?: Array< string | null > | null,
+};
+
+export type LinkInput = {
+  name: string,
+  link: string,
 };
 
 export type ModelGateConditionInput = {
@@ -1063,6 +1092,7 @@ export type UpdateGateInput = {
   badge?: NFTInfoInput | null,
   preRequisites?: PreRequisitesInput | null,
   retroactiveEarners?: Array< string > | null,
+  links?: Array< LinkInput | null > | null,
   holders?: number | null,
   nftType?: NFTType | null,
 };
@@ -1256,12 +1286,6 @@ export type FetchCeramic = {
   __typename: "FetchCeramic",
   streamID?: string,
   data?: string,
-};
-
-export type CeramicError = {
-  __typename: "CeramicError",
-  error?: boolean,
-  msg?: string,
 };
 
 export type ModelUserFilterInput = {
@@ -2233,6 +2257,11 @@ export type CreateQuizMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -2360,6 +2389,11 @@ export type CreateMeetingCodeMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -2487,6 +2521,11 @@ export type CreateTokenHoldMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -2614,6 +2653,11 @@ export type CreateSnapshotGovernanceMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -2741,6 +2785,11 @@ export type CreateSelfVerifyMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -2868,6 +2917,11 @@ export type CreateContractInteractionMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -2995,6 +3049,11 @@ export type CreateManualTaskMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -3210,6 +3269,25 @@ export type VerifyQuizMutation = {
       keyID: string,
       error: ErrorType,
       msg?: string | null,
+    }
+  ) | null,
+};
+
+export type StreamToCeramicMutationVariables = {
+  data?: string,
+  node?: string | null,
+};
+
+export type StreamToCeramicMutation = {
+  streamToCeramic: ( {
+      __typename: "StreamCeramic",
+      streamed: boolean,
+      streamID: string,
+      data: string,
+    } | {
+      __typename: "CeramicError",
+      error: boolean,
+      msg: string,
     }
   ) | null,
 };
@@ -5334,6 +5412,11 @@ export type CreateGateMutation = {
       completedGates?: Array< string | null > | null,
     } | null,
     retroactiveEarners?: Array< string > | null,
+    links:  Array< {
+      __typename: "Link",
+      name: string,
+      link: string,
+    } | null >,
     holders: number,
     nftType?: NFTType | null,
     createdAt: string,
@@ -5436,6 +5519,11 @@ export type UpdateGateMutation = {
       completedGates?: Array< string | null > | null,
     } | null,
     retroactiveEarners?: Array< string > | null,
+    links:  Array< {
+      __typename: "Link",
+      name: string,
+      link: string,
+    } | null >,
     holders: number,
     nftType?: NFTType | null,
     createdAt: string,
@@ -5538,6 +5626,11 @@ export type DeleteGateMutation = {
       completedGates?: Array< string | null > | null,
     } | null,
     retroactiveEarners?: Array< string > | null,
+    links:  Array< {
+      __typename: "Link",
+      name: string,
+      link: string,
+    } | null >,
     holders: number,
     nftType?: NFTType | null,
     createdAt: string,
@@ -5606,6 +5699,11 @@ export type CreateKeyMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -5734,6 +5832,11 @@ export type UpdateKeyMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -5862,6 +5965,11 @@ export type DeleteKeyMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -6470,6 +6578,11 @@ export type CreateGateStatusMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -6613,6 +6726,11 @@ export type UpdateGateStatusMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -6756,6 +6874,11 @@ export type DeleteGateStatusMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -6899,6 +7022,11 @@ export type CreateTaskStatusMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -7096,6 +7224,11 @@ export type UpdateTaskStatusMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -7293,6 +7426,11 @@ export type DeleteTaskStatusMutation = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -8542,6 +8680,11 @@ export type GetGateQuery = {
       completedGates?: Array< string | null > | null,
     } | null,
     retroactiveEarners?: Array< string > | null,
+    links:  Array< {
+      __typename: "Link",
+      name: string,
+      link: string,
+    } | null >,
     holders: number,
     nftType?: NFTType | null,
     createdAt: string,
@@ -8609,6 +8752,11 @@ export type ListGatesQuery = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -8678,6 +8826,11 @@ export type GetKeyQuery = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -9135,6 +9288,11 @@ export type GetGateStatusQuery = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -9342,6 +9500,11 @@ export type GetTaskStatusQuery = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -10084,6 +10247,11 @@ export type GetGatesByDaoidQuery = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -10831,6 +10999,11 @@ export type SearchGatesQuery = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -12851,6 +13024,11 @@ export type OnCreateGateSubscription = {
       completedGates?: Array< string | null > | null,
     } | null,
     retroactiveEarners?: Array< string > | null,
+    links:  Array< {
+      __typename: "Link",
+      name: string,
+      link: string,
+    } | null >,
     holders: number,
     nftType?: NFTType | null,
     createdAt: string,
@@ -12948,6 +13126,11 @@ export type OnUpdateGateSubscription = {
       completedGates?: Array< string | null > | null,
     } | null,
     retroactiveEarners?: Array< string > | null,
+    links:  Array< {
+      __typename: "Link",
+      name: string,
+      link: string,
+    } | null >,
     holders: number,
     nftType?: NFTType | null,
     createdAt: string,
@@ -13045,6 +13228,11 @@ export type OnDeleteGateSubscription = {
       completedGates?: Array< string | null > | null,
     } | null,
     retroactiveEarners?: Array< string > | null,
+    links:  Array< {
+      __typename: "Link",
+      name: string,
+      link: string,
+    } | null >,
     holders: number,
     nftType?: NFTType | null,
     createdAt: string,
@@ -13108,6 +13296,11 @@ export type OnCreateKeySubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -13231,6 +13424,11 @@ export type OnUpdateKeySubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -13354,6 +13552,11 @@ export type OnDeleteKeySubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -13942,6 +14145,11 @@ export type OnCreateGateStatusSubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -14080,6 +14288,11 @@ export type OnUpdateGateStatusSubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -14218,6 +14431,11 @@ export type OnDeleteGateStatusSubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -14356,6 +14574,11 @@ export type OnCreateTaskStatusSubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -14548,6 +14771,11 @@ export type OnUpdateTaskStatusSubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,
@@ -14740,6 +14968,11 @@ export type OnDeleteTaskStatusSubscription = {
         completedGates?: Array< string | null > | null,
       } | null,
       retroactiveEarners?: Array< string > | null,
+      links:  Array< {
+        __typename: "Link",
+        name: string,
+        link: string,
+      } | null >,
       holders: number,
       nftType?: NFTType | null,
       createdAt: string,

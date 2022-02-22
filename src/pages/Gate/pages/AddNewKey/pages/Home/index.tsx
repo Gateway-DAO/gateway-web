@@ -86,8 +86,8 @@ const AddNewKey = () => {
      * @returns None
      */
     const updateDescription = (e, idx) => {
-        e.preventDefault();
-        const newValue = e.target.value;
+        // e.preventDefault();
+        const newValue = e;
 
         const add = titleDescriptionPair.map((value, i) => {
             if (idx === i) {
@@ -275,15 +275,16 @@ const AddNewKey = () => {
                             <RichTextEditor
                                 value={pair.description}
                                 set={updateDescription}
+                                idx={idx}
                             />
-                            <FormStyled.Textarea
+                            {/* <FormStyled.Textarea
                                 id={`description-${idx}`}
                                 onChange={(e) => updateDescription(e, idx)}
                                 value={pair.description}
                                 height='120px'
                                 placeholder='This will be the description of your Key. We reccommend maximum of 2 lines.'
                                 required
-                            />
+                            /> */}
                         </FormStyled.Fieldset>
 
                         {titleDescriptionPair.length > 1 && (

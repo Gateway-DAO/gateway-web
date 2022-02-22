@@ -197,6 +197,7 @@ type Gate
     badge: NFTInfo!
     preRequisites: PreRequisites
     retroactiveEarners: [String!]
+    links: [Link]!
     holders: Int! @function(name: "getGateHolders-${env}")
     nftType: NFTType
 }
@@ -218,6 +219,11 @@ type Key
     unlimited: Boolean!
     peopleLimit: Int!
     task: TaskUnion
+}
+
+type Link {
+    name: String!
+    link: AWSURL!
 }
 
 type Quiz {
@@ -715,5 +721,5 @@ type Mutation {
     ): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
 
     ## Ceramic ##
-    # streamToCeramic(data: AWSJSON!,  node: AWSURL): StreamCeramicResponse @function(name: "ceramic-${env}")
+    streamToCeramic(data: AWSJSON!,  node: AWSURL): StreamCeramicResponse @function(name: "ceramic-${env}")
 }

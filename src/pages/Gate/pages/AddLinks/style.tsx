@@ -4,14 +4,6 @@ export const Container = styled.div`
     margin: 20px 0;
 `;
 
-export const Box = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 0px;
-`;
-
 export const HeadingContainer = styled.h1`
     font-family: Poppins;
     font-style: normal;
@@ -39,13 +31,21 @@ export const HeadingContainer = styled.h1`
 export const LinksContainer = styled.div`
     margin-top: 60px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
+`;
+
+export const LinksHeader = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 2fr 0.5fr;
+    margin-top: 10px;
+    grid-gap: 10px;
+    width: 100%;
 `;
 
 export const LinksElements = styled.div`
     display: grid;
-    grid-template-columns: 122px 1fr 50px;
+    grid-template-columns: 1fr 2fr 0.5fr;
     margin-top: 10px;
     grid-gap: 10px;
 `;
@@ -71,57 +71,18 @@ export const NameContainer = styled.div`
     color: rgba(255, 255, 255, 0.6);
 `;
 
-export const Input = styled.input`
-    width: 390px;
-    height: 40px;
-    background: #170627;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
-    border-radius: 5px;
-    outline: none;
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-    text-align: center;
-    letter-spacing: 0.05em;
-    text-transform: lowercase;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-
-    color: rgba(255, 255, 255, 0.6);
-`;
-
 export const TrashContainer = styled.div`
     display: flex;
-    align-item: center;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     padding: 10px;
     color: white;
 `;
 
-export const SaveButton = styled.div`
-    background: #170627;
-    border: 1px solid #a5a5a5;
-    box-sizing: border-box;
-    border-radius: 20px;
-    width: 210px;
-    height: 40px;
+export const AddContainer = styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 19px;
-    /* identical to box height */
-
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-
-    color: #e5e5e5;
-    margin-top: 81px;
+    margin: 20px 0;
 `;

@@ -4,6 +4,7 @@ import useKeyValidation from '../../../../../../hooks/useKeyValidation';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
+import parser from 'html-react-parser';
 // import { FaPencilAlt } from 'react-icons/fa';
 
 // Task Components
@@ -64,11 +65,8 @@ const KeyBox = (props) => {
                     />
                 );
             case 'QUIZ':
-                break;
             case 'SELF_VERIFY':
-                break;
             case 'SC_INTERACTION':
-                break;
             default:
                 return null;
         }
@@ -89,7 +87,7 @@ const KeyBox = (props) => {
                         ) */}
                     </Styled.BoxHeading>
                     <Styled.BoxSubtitle opened={opened}>
-                        {data.information[0].description}
+                        {parser(data.information[0].description)}
                     </Styled.BoxSubtitle>
                 </Styled.TextContainer>
                 {opened && (
@@ -98,7 +96,7 @@ const KeyBox = (props) => {
                             <>
                                 <Styled.BoxTitle>{key.title}</Styled.BoxTitle>
                                 <Styled.BoxSubtitle opened={opened}>
-                                    {key.description}
+                                    {parser(key.description)}
                                 </Styled.BoxSubtitle>
                             </>
                         ))}

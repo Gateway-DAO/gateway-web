@@ -324,6 +324,7 @@ const AddGateForm = () => {
                         }),
                         published: false,
                         holders: 0,
+                        links: [],
                         retroactiveEarners,
                         preRequisites: {
                             completedGates: prerequisiteList.map(

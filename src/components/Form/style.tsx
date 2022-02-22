@@ -232,12 +232,13 @@ export const IconButton = styled(Button)`
     margin-top: 0;
 `;
 
-export const Input = styled.input<{
+interface IInput extends React.InputHTMLAttributes<HTMLInputElement> {
     white?: boolean;
     valid?: boolean;
-    value: unknown;
     name?: string;
-}>`
+}
+
+export const Input = styled.input<IInput>`
     ${(props) => (props.white ? InputWhite : InputDefault)}
 
     font-family: Be Vietnam;

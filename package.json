@@ -43,6 +43,7 @@
     "graphql-algolia-transformer": "^1.5.0",
     "html-react-parser": "^1.4.0",
     "jwt-decode": "^3.1.2",
+    "key-did-provider-ed25519": "^1.1.0",
     "key-did-resolver": "^1.4.4",
     "moralis": "^0.0.138",
     "normalize-url": "^7.0.2",

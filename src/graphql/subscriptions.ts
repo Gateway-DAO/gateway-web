@@ -1800,6 +1800,10 @@ export const onCreateGate = /* GraphQL */ `
         completedGates
       }
       retroactiveEarners
+      links {
+        name
+        link
+      }
       holders
       nftType
       createdAt
@@ -1886,6 +1890,10 @@ export const onUpdateGate = /* GraphQL */ `
         completedGates
       }
       retroactiveEarners
+      links {
+        name
+        link
+      }
       holders
       nftType
       createdAt
@@ -1972,6 +1980,10 @@ export const onDeleteGate = /* GraphQL */ `
         completedGates
       }
       retroactiveEarners
+      links {
+        name
+        link
+      }
       holders
       nftType
       createdAt
@@ -2030,6 +2042,10 @@ export const onCreateKey = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -2145,6 +2161,10 @@ export const onUpdateKey = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -2260,6 +2280,10 @@ export const onDeleteKey = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -2811,6 +2835,10 @@ export const onCreateGateStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -2936,6 +2964,10 @@ export const onUpdateGateStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -3061,6 +3093,10 @@ export const onDeleteGateStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -3186,6 +3222,10 @@ export const onCreateTaskStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -3365,6 +3405,10 @@ export const onUpdateTaskStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
@@ -3544,6 +3588,10 @@ export const onDeleteTaskStatus = /* GraphQL */ `
           completedGates
         }
         retroactiveEarners
+        links {
+          name
+          link
+        }
         holders
         nftType
         createdAt
