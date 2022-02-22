@@ -1382,6 +1382,44 @@ export const streamToCeramic = /* GraphQL */ `
     }
   }
 `;
+export const generateSignature = /* GraphQL */ `
+  mutation GenerateSignature($message: String!) {
+    generateSignature(message: $message) {
+      ... on Signature {
+        message
+        messageHash
+        v
+        r
+        s
+        signature
+        nonce
+      }
+      ... on SignatureError {
+        error
+        msg
+      }
+    }
+  }
+`;
+export const generatedNonceSignature = /* GraphQL */ `
+  mutation GeneratedNonceSignature {
+    generatedNonceSignature {
+      ... on Signature {
+        message
+        messageHash
+        v
+        r
+        s
+        signature
+        nonce
+      }
+      ... on SignatureError {
+        error
+        msg
+      }
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
