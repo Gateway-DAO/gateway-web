@@ -632,6 +632,26 @@ export type CeramicError = {
   msg?: string,
 };
 
+export type SignatureResponse = Signature | SignatureError
+
+
+export type Signature = {
+  __typename: "Signature",
+  message?: string,
+  messageHash?: string,
+  v?: string,
+  r?: string,
+  s?: string,
+  signature?: string,
+  nonce?: string | null,
+};
+
+export type SignatureError = {
+  __typename: "SignatureError",
+  error?: boolean,
+  msg?: string,
+};
+
 export type CreateUserInput = {
   id?: string | null,
   wallet: string,
@@ -3286,6 +3306,46 @@ export type StreamToCeramicMutation = {
       data: string,
     } | {
       __typename: "CeramicError",
+      error: boolean,
+      msg: string,
+    }
+  ) | null,
+};
+
+export type GenerateSignatureMutationVariables = {
+  message?: string,
+};
+
+export type GenerateSignatureMutation = {
+  generateSignature: ( {
+      __typename: "Signature",
+      message: string,
+      messageHash: string,
+      v: string,
+      r: string,
+      s: string,
+      signature: string,
+      nonce?: string | null,
+    } | {
+      __typename: "SignatureError",
+      error: boolean,
+      msg: string,
+    }
+  ) | null,
+};
+
+export type GeneratedNonceSignatureMutation = {
+  generatedNonceSignature: ( {
+      __typename: "Signature",
+      message: string,
+      messageHash: string,
+      v: string,
+      r: string,
+      s: string,
+      signature: string,
+      nonce?: string | null,
+    } | {
+      __typename: "SignatureError",
       error: boolean,
       msg: string,
     }

@@ -480,6 +480,25 @@ type CeramicError {
 union FetchCeramicResponse = FetchCeramic | CeramicError
 union StreamCeramicResponse = StreamCeramic | CeramicError
 
+### SIGNATURES ###
+
+type Signature {
+    message: String!
+    messageHash: String!
+    v: String!
+    r: String!
+    s: String!
+    signature: String!
+    nonce: String
+}
+
+type SignatureError {
+    error: Boolean!
+    msg: String!
+}
+
+union SignatureResponse = Signature | SignatureError
+
 ### INPUTS ###
 
 input CreateNewDAO {
@@ -722,4 +741,8 @@ type Mutation {
 
     ## Ceramic ##
     streamToCeramic(data: AWSJSON!,  node: AWSURL): StreamCeramicResponse @function(name: "ceramic-${env}")
+
+    ## Signatures ##
+    generateSignature(message: String!): SignatureResponse @function(name: "generateSignature-${env}")
+    generatedNonceSignature: SignatureResponse @function(name: "generateSignature-${env}")
 }

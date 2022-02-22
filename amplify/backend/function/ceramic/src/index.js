@@ -12,6 +12,20 @@ const { Parameters } = await (new aws.SSM())
 
 Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
 */
+/*
+Use the following code to retrieve configured secrets from SSM:
+
+const aws = require('aws-sdk');
+
+const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["privateKey"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  })
+  .promise();
+
+Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
+*/
 /* Amplify Params - DO NOT EDIT
 	API_GATEWAY_GRAPHQLAPIENDPOINTOUTPUT
 	API_GATEWAY_GRAPHQLAPIIDOUTPUT
@@ -58,40 +72,26 @@ AWS.config.update({
     region: 'us-east-1',
 });
 
-const API_GATEWAY_GRAPHQL = process.env.API_GATEWAY_GRAPHQLAPIIDOUTPUT;
-
-const docClient = new AWS.DynamoDB.DocumentClient();
-const SSM = new AWS.SSM();
-
 const resolvers = {
     Mutation: {
         streamToCeramic: async (ctx) => {
             try {
-                const { data, node } = ctx.source;
+                const { data, node } = ctx.arguments;
 
                 const ceramic = new CeramicClient(
-                    node || 'http://ceramic-node.mygateway.xyz:7007'
+                    node || 'https://ceramic-clay.3boxlabs.com'
                 );
 
-                let privateKey = '';
-
-                SSM.getParameter(
-                    {
-                        Name: 'privateKey',
+                const { Parameters } = await new AWS.SSM()
+                    .getParameters({
+                        Names: ['privateKey'].map(
+                            (secretName) => process.env[secretName]
+                        ),
                         WithDecryption: true,
-                    },
-                    (err, data) => {
-                        if (err) {
-                            return {
-                                __typename: 'CeramicError',
-                                error: true,
-                                msg: err,
-                            };
-                        } else {
-                            seed = data.Parameter.Value;
-                        }
-                    }
-                );
+                    })
+                    .promise();
+
+                const privateKey = Parameters[0].Value;
 
                 const seed = strToUint8Array(privateKey);
                 await authenticateCeramic(seed, ceramic);
@@ -102,7 +102,7 @@ const resolvers = {
                 return {
                     __typename: 'StreamCeramic',
                     streamed: true,
-                    streamID: doc.id,
+                    streamID: doc.id.toString(),
                     data: doc.content,
                 };
             } catch (err) {
@@ -116,12 +116,12 @@ const resolvers = {
     },
     Query: {
         fetchFromCeramic: async (ctx) => {
-            const { streamID, node } = ctx.source;
+            const { streamID, node } = ctx.arguments;
 
             try {
                 // Initialize Ceramic client
                 const ceramic = new CeramicClient(
-                    node || 'http://ceramic-node.mygateway.xyz:7007'
+                    node || 'https://ceramic-clay.3boxlabs.com'
                 );
 
                 // Fetch data from Ceramic by StreamID
@@ -129,7 +129,7 @@ const resolvers = {
 
                 const obj = {
                     __typename: 'FetchCeramic',
-                    streamID: stream.id,
+                    streamID: stream.id.toString(),
                     data: stream.content,
                 };
 
