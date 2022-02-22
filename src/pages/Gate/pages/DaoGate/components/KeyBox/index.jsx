@@ -89,21 +89,23 @@ const KeyBox = (props) => {
                     <Styled.BoxSubtitle opened={opened}>
                         {parser(data.information[0].description)}
                     </Styled.BoxSubtitle>
+                    {opened ? (
+                        <>
+                            {data.information.slice(1).map((key) => (
+                                <>
+                                    {parser(`<br /><br />`)}
+                                    <Styled.BoxTitle>
+                                        {key.title}
+                                    </Styled.BoxTitle>
+                                    <Styled.BoxSubtitle opened={opened}>
+                                        {parser(key.description)}
+                                    </Styled.BoxSubtitle>
+                                </>
+                            ))}
+                            {startBox && <Task />}
+                        </>
+                    ) : null}
                 </Styled.TextContainer>
-                {opened && (
-                    <Styled.TextContainer>
-                        {data.information.slice(1).map((key) => (
-                            <>
-                                <Styled.BoxTitle>{key.title}</Styled.BoxTitle>
-                                <Styled.BoxSubtitle opened={opened}>
-                                    {parser(key.description)}
-                                </Styled.BoxSubtitle>
-                            </>
-                        ))}
-
-                        {startBox && <Task />}
-                    </Styled.TextContainer>
-                )}
                 <Styled.BottonBox>
                     <Styled.ActionButton>
                         <Styled.StartButton
