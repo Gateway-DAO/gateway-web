@@ -152,19 +152,24 @@ const AddNewKey = () => {
      */
     const onSubmit = async (e) => {
         // e.preventDefault()
-
         if (taskLink !== 'self-verify') {
-            navigate(taskLink, {
-                state: {
-                    gateData,
-                    titleDescriptionPair,
-                    token: '',
-                    amount: 0,
-                    keysRewarded,
-                    peopleLimit,
-                    unlimited,
-                },
-            });
+            if (taskLink === '') {
+                alert('Please Select a Task');
+                e.preventDefault();
+                return false;
+            } else {
+                navigate(taskLink, {
+                    state: {
+                        gateData,
+                        titleDescriptionPair,
+                        token: '',
+                        amount: 0,
+                        keysRewarded,
+                        peopleLimit,
+                        unlimited,
+                    },
+                });
+            }
         } else {
             e.preventDefault();
 
@@ -352,7 +357,7 @@ const AddNewKey = () => {
                     <FormStyled.FieldsetRow>
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='keysRewarded'>
-                                Keys REWARDED{' '}
+                                Keys REWARDED*{' '}
                                 <FormStyled.QuestionIcon
                                     onMouseEnter={keysDilogBoxFunc}
                                     onMouseLeave={keysDilogBoxFunc}
@@ -361,7 +366,8 @@ const AddNewKey = () => {
                                 </FormStyled.QuestionIcon>
                                 {keysDilogBox && (
                                     <FormStyled.DescriptionDilogBox>
-                                        Keys REWARDED
+                                        Enter the number of keys user gets on
+                                        successfully compleating a task.
                                     </FormStyled.DescriptionDilogBox>
                                 )}
                             </FormStyled.Label>
@@ -383,7 +389,7 @@ const AddNewKey = () => {
 
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='peopleLimit'>
-                                PEOPLE LIMIT{' '}
+                                PEOPLE LIMIT*{' '}
                                 <FormStyled.QuestionIcon
                                     onMouseEnter={peopleLimitDilogBoxFunc}
                                     onMouseLeave={peopleLimitDilogBoxFunc}
@@ -392,7 +398,7 @@ const AddNewKey = () => {
                                 </FormStyled.QuestionIcon>
                                 {peopleLimitDilogBox && (
                                     <FormStyled.DescriptionDilogBox>
-                                        People Limit
+                                        Number of people can work on this task
                                     </FormStyled.DescriptionDilogBox>
                                 )}
                             </FormStyled.Label>
@@ -429,7 +435,7 @@ const AddNewKey = () => {
 
                 {!edit && (
                     <FormStyled.Fieldset marginBottom='30px'>
-                        <FormStyled.Label>Select a Task</FormStyled.Label>
+                        <FormStyled.Label>Select a Task*</FormStyled.Label>
                         <FormStyled.SubText>
                             You should select one task per key
                         </FormStyled.SubText>

@@ -6,8 +6,14 @@ const QuestionAndAnswer = ({
     questionIdx,
     totalQuestions,
     setAnswer,
+    setClickAble,
 }) => {
     const [answerList, setAnswerList] = useState([]);
+    if (answerList.length > 0) {
+        setClickAble(true);
+    } else {
+        setClickAble(false);
+    }
 
     /**
      * Given an event and a selection, add the selection to the answer list if it's not already in the
@@ -23,6 +29,12 @@ const QuestionAndAnswer = ({
         }
 
         setAnswerList(val);
+
+        if (answerList.length > 0) {
+            setClickAble(true);
+        } else {
+            setClickAble(false);
+        }
 
         setAnswer({
             questionIdx,
