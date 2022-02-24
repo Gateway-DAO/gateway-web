@@ -32,8 +32,10 @@ const CreateQuiz = () => {
         edit ? edit.description : ''
     );
     const [message, setMessage] = useState('Processing your Quiz');
+    const [showMessage, setShowMessage] = useState(false);
     const [activeModal, setActiveModal] = useState('HOME');
     const [percentage, setPercentage] = useState(edit ? edit?.passedAt : 100);
+    const [optionsPerQuestion, setOptionsPerQuestion] = useState([0]);
     const [data, setData] = useState(
         edit
             ? edit.questions
@@ -73,6 +75,7 @@ const CreateQuiz = () => {
                         description={description}
                         setDescription={setDescription}
                         setActiveModal={setActiveModal}
+                        setShowMessage={setShowMessage}
                     />
                 );
             case 'CREATE_QUIZ':
@@ -81,6 +84,9 @@ const CreateQuiz = () => {
                         data={data}
                         setData={setData}
                         setActiveModal={setActiveModal}
+                        setShowMessage={setShowMessage}
+                        setOptionsPerQuestion={setOptionsPerQuestion}
+                        initialClont={optionsPerQuestion}
                     />
                 );
             case 'PERCENTAGE_PAGE':
@@ -89,6 +95,7 @@ const CreateQuiz = () => {
                         percentage={percentage}
                         setPercentage={setPercentage}
                         loading={loading}
+                        setShowMessage={setShowMessage}
                     />
                 );
             default:
@@ -103,14 +110,15 @@ const CreateQuiz = () => {
     const onSave = async (e) => {
         e.preventDefault();
         setLoading(true);
-
+        console.log(optionsPerQuestion);
         try {
             if (title.length === 0 || description.length === 0) {
                 setMessage('Please enter title and description');
                 setTimeout(() => {
                     setLoading(false);
-                    setMessage('Processing your Quiz');
+                    setMessage('Please enter title and description');
                     setActiveModal('HOME');
+                    setShowMessage(true);
                 }, 5000);
 
                 return false;
@@ -119,8 +127,9 @@ const CreateQuiz = () => {
                 setMessage('Please enter at least one question');
                 setTimeout(() => {
                     setLoading(false);
-                    setMessage('Processing your Quiz');
+                    setMessage('Please enter at least one question');
                     setActiveModal('CREATE_QUIZ');
+                    setShowMessage(true);
                 }, 5000);
                 return false;
             }
@@ -154,13 +163,23 @@ const CreateQuiz = () => {
                     validData = false;
                     return false;
                 }
+                if (optionsPerQuestion[idx] !== value.options.length) {
+                    setMessage(
+                        `In question ${idx + 1} there is a empty option`
+                    );
+                    console.log(optionsPerQuestion);
+                    console.log(value.options.length);
+                    validData = false;
+                    return false;
+                }
             });
 
             if (!validData) {
                 setTimeout(() => {
                     setLoading(false);
-                    setMessage('Processing your Quiz');
+                    // setMessage('Processing your Quiz');
                     setActiveModal('CREATE_QUIZ');
+                    setShowMessage(true);
                 }, 5000);
                 return false;
             }
@@ -214,6 +233,9 @@ const CreateQuiz = () => {
     ) : (
         <FormStyled.FormBox onSubmit={edit ? onEditSave : onSave}>
             <Styled.Container>
+                {showMessage && (
+                    <Styled.ErrorMessage>{message}</Styled.ErrorMessage>
+                )}
                 <ThemeStyled.SpaceBox id='space-canvas' />
                 <FormStyled.H1>{edit ? 'Edit Quiz' : 'Add Quiz'}</FormStyled.H1>
                 <ActiveModal />
