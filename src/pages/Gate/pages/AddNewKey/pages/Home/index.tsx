@@ -7,6 +7,7 @@ import { FormStyled } from '../../../../../../components/Form';
 // Components
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 import Loader from '../../../../../../components/Loader';
+import RichTextEditor from '../../../../../../components/RichTextEditor';
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom';
@@ -27,7 +28,7 @@ const AddNewKey = () => {
         state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
     );
     const [titleDescriptionPair, setTitleDescriptionPair] = useState<
-        Array<Record<string, string>>
+        Array<Record<string, any>>
     >(
         state
             ? state.data.information
@@ -85,8 +86,8 @@ const AddNewKey = () => {
      * @returns None
      */
     const updateDescription = (e, idx) => {
-        e.preventDefault();
-        const newValue = e.target.value;
+        // e.preventDefault();
+        const newValue = e;
 
         const add = titleDescriptionPair.map((value, i) => {
             if (idx === i) {
@@ -151,19 +152,24 @@ const AddNewKey = () => {
      */
     const onSubmit = async (e) => {
         // e.preventDefault()
-
         if (taskLink !== 'self-verify') {
-            navigate(taskLink, {
-                state: {
-                    gateData,
-                    titleDescriptionPair,
-                    token: '',
-                    amount: 0,
-                    keysRewarded,
-                    peopleLimit,
-                    unlimited,
-                },
-            });
+            if (taskLink === '') {
+                alert('Please Select a Task');
+                e.preventDefault();
+                return false;
+            } else {
+                navigate(taskLink, {
+                    state: {
+                        gateData,
+                        titleDescriptionPair,
+                        token: '',
+                        amount: 0,
+                        keysRewarded,
+                        peopleLimit,
+                        unlimited,
+                    },
+                });
+            }
         } else {
             e.preventDefault();
 
@@ -271,14 +277,19 @@ const AddNewKey = () => {
                         </FormStyled.Fieldset>
                         <FormStyled.Fieldset marginBottom='0px'>
                             <FormStyled.Label>Description*</FormStyled.Label>
-                            <FormStyled.Textarea
+                            <RichTextEditor
+                                value={pair.description}
+                                set={updateDescription}
+                                idx={idx}
+                            />
+                            {/* <FormStyled.Textarea
                                 id={`description-${idx}`}
                                 onChange={(e) => updateDescription(e, idx)}
                                 value={pair.description}
                                 height='120px'
                                 placeholder='This will be the description of your Key. We reccommend maximum of 2 lines.'
                                 required
-                            />
+                            /> */}
                         </FormStyled.Fieldset>
 
                         {titleDescriptionPair.length > 1 && (
@@ -346,7 +357,7 @@ const AddNewKey = () => {
                     <FormStyled.FieldsetRow>
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='keysRewarded'>
-                                Keys REWARDED{' '}
+                                Keys REWARDED*{' '}
                                 <FormStyled.QuestionIcon
                                     onMouseEnter={keysDilogBoxFunc}
                                     onMouseLeave={keysDilogBoxFunc}
@@ -355,7 +366,8 @@ const AddNewKey = () => {
                                 </FormStyled.QuestionIcon>
                                 {keysDilogBox && (
                                     <FormStyled.DescriptionDilogBox>
-                                        Keys REWARDED
+                                        Enter the number of keys user gets on
+                                        successfully compleating a task.
                                     </FormStyled.DescriptionDilogBox>
                                 )}
                             </FormStyled.Label>
@@ -377,7 +389,7 @@ const AddNewKey = () => {
 
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='peopleLimit'>
-                                PEOPLE LIMIT{' '}
+                                PEOPLE LIMIT*{' '}
                                 <FormStyled.QuestionIcon
                                     onMouseEnter={peopleLimitDilogBoxFunc}
                                     onMouseLeave={peopleLimitDilogBoxFunc}
@@ -386,7 +398,7 @@ const AddNewKey = () => {
                                 </FormStyled.QuestionIcon>
                                 {peopleLimitDilogBox && (
                                     <FormStyled.DescriptionDilogBox>
-                                        People Limit
+                                        Number of people can work on this task
                                     </FormStyled.DescriptionDilogBox>
                                 )}
                             </FormStyled.Label>
@@ -423,7 +435,7 @@ const AddNewKey = () => {
 
                 {!edit && (
                     <FormStyled.Fieldset marginBottom='30px'>
-                        <FormStyled.Label>Select a Task</FormStyled.Label>
+                        <FormStyled.Label>Select a Task*</FormStyled.Label>
                         <FormStyled.SubText>
                             You should select one task per key
                         </FormStyled.SubText>

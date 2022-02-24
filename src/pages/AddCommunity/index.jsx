@@ -186,7 +186,7 @@ const AddCommunity = () => {
                 <Styled.Heading>Add your Community</Styled.Heading>
 
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor='name'>Name</FormStyled.Label>
+                    <FormStyled.Label htmlFor='name'>Name*</FormStyled.Label>
                     <FormStyled.Input
                         onChange={(e) => setName(e.target.value)}
                         type='text'
@@ -211,7 +211,7 @@ const AddCommunity = () => {
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='description'>
-                        Description
+                        Description*
                     </FormStyled.Label>
                     <FormStyled.Textarea
                         onChange={(e) => setDescription(e.target.value)}
@@ -220,7 +220,7 @@ const AddCommunity = () => {
                 </FormStyled.Fieldset>
 
                 <FormStyled.Fieldset marginBottom='30px'>
-                    <FormStyled.Label>Categories</FormStyled.Label>
+                    <FormStyled.Label>Categories*</FormStyled.Label>
                     <FormStyled.GridBox>
                         <FormStyled.Checkbox
                             id='category-1'
@@ -537,7 +537,7 @@ const AddCommunity = () => {
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='tokenAddress'>
-                        Token Address
+                        Token Address*
                     </FormStyled.Label>
                     <FormStyled.Input
                         id='tokenAddress'

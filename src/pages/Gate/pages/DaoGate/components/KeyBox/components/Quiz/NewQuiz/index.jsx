@@ -21,6 +21,7 @@ const Quiz = (props) => {
     const [answers, setAnswers] = useState([]);
     const [questionIdx, setQuestionIdx] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [clickAble, setClickAble] = useState(false);
 
     // Hooks
     const { verifyQuiz } = useVerifyQuiz();
@@ -85,13 +86,21 @@ const Quiz = (props) => {
 
         if (props.type.toLowerCase() === 'next') {
             return (
-                <ActionButton onClick={onNext} active={props.active}>
+                <ActionButton
+                    onClick={clickAble ? onNext : null}
+                    active={props.active}
+                    clickable={clickAble}
+                >
                     Next
                 </ActionButton>
             );
         } else if (props.type.toLowerCase() === 'finish') {
             return (
-                <ActionButton onClick={onFinish} active={props.active}>
+                <ActionButton
+                    onClick={clickAble ? onFinish : null}
+                    active={props.active}
+                    clickable={clickAble}
+                >
                     {loading && <Loader color='white' />}
                     Finish
                 </ActionButton>
@@ -124,6 +133,7 @@ const Quiz = (props) => {
                             answer,
                         ])
                     }
+                    setClickAble={setClickAble}
                 />
                 <DynamicButton
                     type={

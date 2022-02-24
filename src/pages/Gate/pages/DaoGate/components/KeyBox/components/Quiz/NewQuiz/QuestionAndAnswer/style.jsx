@@ -112,11 +112,13 @@ export const ActionButton = styled.div`
     color: white;
     width: 210px;
     height: 40px;
-    border: 1px solid #a5a5a5;
+    border: ${(props) =>
+        props.clickable ? '1px solid #a5a5a5' : '1px solid #4a4a4a'};
     box-sizing: border-box;
     filter: drop-shadow(0px 6px 15px rgba(255, 0, 184, 0.3));
     border-radius: 20px;
     margin-top: 90px;
     ${(props) => (props.active ? activeStyling : ' ')}
     cursor: pointer;
+    color: ${(props) => (props.clickable ? '#a5a5a5' : '#4a4a4a')};
 `;
