@@ -58,6 +58,7 @@ export type DAO = {
   chains?: Array< string | null > | null,
   channels?: ModelChannelConnection,
   gates?: ModelGateConnection,
+  nftContracts?: NFTContracts,
   createdAt?: string | null,
   updatedAt?: string | null,
 };
@@ -425,6 +426,12 @@ export type ModelGateConnection = {
   nextToken?: string | null,
 };
 
+export type NFTContracts = {
+  __typename: "NFTContracts",
+  reward?: string | null,
+  contributor?: string | null,
+};
+
 export enum VoteType {
   UPVOTE = "UPVOTE",
   DOWNVOTE = "DOWNVOTE",
@@ -779,6 +786,7 @@ export type CreateDAOInput = {
   whitelistedAddresses?: Array< string > | null,
   socials?: Array< SocialInput | null > | null,
   chains?: Array< string | null > | null,
+  nftContracts?: NFTContractsInput | null,
   createdAt?: string | null,
   updatedAt?: string | null,
 };
@@ -786,6 +794,11 @@ export type CreateDAOInput = {
 export type FAQInput = {
   question: string,
   answer: string,
+};
+
+export type NFTContractsInput = {
+  reward?: string | null,
+  contributor?: string | null,
 };
 
 export type ModelDAOConditionInput = {
@@ -834,6 +847,7 @@ export type UpdateDAOInput = {
   whitelistedAddresses?: Array< string > | null,
   socials?: Array< SocialInput | null > | null,
   chains?: Array< string | null > | null,
+  nftContracts?: NFTContractsInput | null,
   createdAt?: string | null,
   updatedAt?: string | null,
 };
@@ -1872,6 +1886,11 @@ export type CreateDaoWithChannelsMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
+    } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -1933,6 +1952,11 @@ export type VotePostMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -2103,6 +2127,11 @@ export type UnvotePostMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -3412,6 +3441,11 @@ export type CreateUserMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null > | null,
@@ -3516,6 +3550,11 @@ export type UpdateUserMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null > | null,
@@ -3619,6 +3658,11 @@ export type DeleteUserMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -3770,6 +3814,11 @@ export type CreateDaoMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
+    } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -3880,6 +3929,11 @@ export type UpdateDaoMutation = {
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
+    } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
     } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -3992,6 +4046,11 @@ export type DeleteDaoMutation = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
+    } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -4052,6 +4111,11 @@ export type CreateBountyMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -4126,6 +4190,11 @@ export type UpdateBountyMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -4198,6 +4267,11 @@ export type DeleteBountyMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -4272,6 +4346,11 @@ export type CreateTokenBenefitMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -4339,6 +4418,11 @@ export type UpdateTokenBenefitMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -4408,6 +4492,11 @@ export type DeleteTokenBenefitMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -4476,6 +4565,11 @@ export type CreateChannelMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -4558,6 +4652,11 @@ export type UpdateChannelMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -4639,6 +4738,11 @@ export type DeleteChannelMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -4718,6 +4822,11 @@ export type CreatePostMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -4888,6 +4997,11 @@ export type UpdatePostMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -5056,6 +5170,11 @@ export type DeletePostMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -5433,6 +5552,11 @@ export type CreateGateMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -5540,6 +5664,11 @@ export type UpdateGateMutation = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -5646,6 +5775,11 @@ export type DeleteGateMutation = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -7653,6 +7787,11 @@ export type GetUserQuery = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null > | null,
@@ -7865,6 +8004,11 @@ export type GetDaoQuery = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
+    } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -7924,6 +8068,11 @@ export type ListDaOsQuery = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -7986,6 +8135,11 @@ export type GetBountyQuery = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -8111,6 +8265,11 @@ export type GetTokenBenefitQuery = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -8225,6 +8384,11 @@ export type GetChannelQuery = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -8352,6 +8516,11 @@ export type GetPostQuery = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -8700,6 +8869,11 @@ export type GetGateQuery = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -9905,6 +10079,11 @@ export type GetDaoByIdQuery = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null >,
@@ -9968,6 +10147,11 @@ export type GetDaoByNameQuery = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -10912,6 +11096,11 @@ export type SearchDaOsQuery = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null >,
@@ -11129,6 +11318,11 @@ export type OnCreateUserSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null > | null,
@@ -11228,6 +11422,11 @@ export type OnUpdateUserSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null > | null,
@@ -11326,6 +11525,11 @@ export type OnDeleteUserSubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -11472,6 +11676,11 @@ export type OnCreateDaoSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
+    } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -11577,6 +11786,11 @@ export type OnUpdateDaoSubscription = {
         updatedAt: string,
       } | null >,
       nextToken?: string | null,
+    } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
     } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
@@ -11684,6 +11898,11 @@ export type OnDeleteDaoSubscription = {
       } | null >,
       nextToken?: string | null,
     } | null,
+    nftContracts?:  {
+      __typename: "NFTContracts",
+      reward?: string | null,
+      contributor?: string | null,
+    } | null,
     createdAt?: string | null,
     updatedAt?: string | null,
   } | null,
@@ -11739,6 +11958,11 @@ export type OnCreateBountySubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -11808,6 +12032,11 @@ export type OnUpdateBountySubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -11875,6 +12104,11 @@ export type OnDeleteBountySubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -11944,6 +12178,11 @@ export type OnCreateTokenBenefitSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -12006,6 +12245,11 @@ export type OnUpdateTokenBenefitSubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -12070,6 +12314,11 @@ export type OnDeleteTokenBenefitSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -12133,6 +12382,11 @@ export type OnCreateChannelSubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -12210,6 +12464,11 @@ export type OnUpdateChannelSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -12286,6 +12545,11 @@ export type OnDeleteChannelSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -12360,6 +12624,11 @@ export type OnCreatePostSubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -12525,6 +12794,11 @@ export type OnUpdatePostSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -12688,6 +12962,11 @@ export type OnDeletePostSubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
@@ -13045,6 +13324,11 @@ export type OnCreateGateSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -13147,6 +13431,11 @@ export type OnUpdateGateSubscription = {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
       } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
+      } | null,
       createdAt?: string | null,
       updatedAt?: string | null,
     } | null,
@@ -13248,6 +13537,11 @@ export type OnDeleteGateSubscription = {
       gates?:  {
         __typename: "ModelGateConnection",
         nextToken?: string | null,
+      } | null,
+      nftContracts?:  {
+        __typename: "NFTContracts",
+        reward?: string | null,
+        contributor?: string | null,
       } | null,
       createdAt?: string | null,
       updatedAt?: string | null,

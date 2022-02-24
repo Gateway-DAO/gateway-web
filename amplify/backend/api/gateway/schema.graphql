@@ -61,6 +61,7 @@ type DAO
     chains: [String]
     channels: [Channel] @connection(keyName: "channelByDAO", fields: ["id"])
     gates: [Gate] @connection(keyName: "gateByDAO", fields: ["id"])
+    nftContracts: NFTContracts
     createdAt: AWSDateTime
     updatedAt: AWSDateTime
 }
@@ -110,6 +111,11 @@ type TokenBenefit
 type Social {
     network: String!
     url: String!
+}
+
+type NFTContracts {
+    reward: String
+    contributor: String
 }
 
 type Channel

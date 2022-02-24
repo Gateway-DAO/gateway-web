@@ -112,6 +112,10 @@ export const getUser = /* GraphQL */ `
                     }
                     nextToken
                 }
+                nftContracts {
+                    reward
+                    contributor
+                }
                 createdAt
                 updatedAt
             }
@@ -298,6 +302,10 @@ export const getDao = /* GraphQL */ `
                 }
                 nextToken
             }
+            nftContracts {
+                reward
+                contributor
+            }
             createdAt
             updatedAt
         }
@@ -397,6 +405,10 @@ export const listDaos = /* GraphQL */ `
                     }
                     nextToken
                 }
+                nftContracts {
+                    reward
+                    contributor
+                }
                 createdAt
                 updatedAt
             }
@@ -495,6 +507,10 @@ export const getBounty = /* GraphQL */ `
                         updatedAt
                     }
                     nextToken
+                }
+                nftContracts {
+                    reward
+                    contributor
                 }
                 createdAt
                 updatedAt
@@ -653,6 +669,10 @@ export const getTokenBenefit = /* GraphQL */ `
                     }
                     nextToken
                 }
+                nftContracts {
+                    reward
+                    contributor
+                }
                 createdAt
                 updatedAt
             }
@@ -804,6 +824,10 @@ export const getChannel = /* GraphQL */ `
                         updatedAt
                     }
                     nextToken
+                }
+                nftContracts {
+                    reward
+                    contributor
                 }
                 createdAt
                 updatedAt
@@ -961,6 +985,10 @@ export const getPost = /* GraphQL */ `
                         updatedAt
                     }
                     nextToken
+                }
+                nftContracts {
+                    reward
+                    contributor
                 }
                 createdAt
                 updatedAt
@@ -1339,6 +1367,10 @@ export const getGate = /* GraphQL */ `
                         updatedAt
                     }
                     nextToken
+                }
+                nftContracts {
+                    reward
+                    contributor
                 }
                 createdAt
                 updatedAt
@@ -2727,6 +2759,10 @@ export const getDaoById = /* GraphQL */ `
                     }
                     nextToken
                 }
+                nftContracts {
+                    reward
+                    contributor
+                }
                 createdAt
                 updatedAt
             }
@@ -2943,6 +2979,10 @@ export const getDaoByName = /* GraphQL */ `
                         updatedAt
                     }
                     nextToken
+                }
+                nftContracts {
+                    reward
+                    contributor
                 }
                 createdAt
                 updatedAt
@@ -3949,6 +3989,10 @@ export const searchDaos = /* GraphQL */ `
                         updatedAt
                     }
                     nextToken
+                }
+                nftContracts {
+                    reward
+                    contributor
                 }
                 createdAt
                 updatedAt
