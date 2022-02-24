@@ -32,10 +32,16 @@ const ImageUpload = (props) => {
                     onDrop={(e) => {
                         e.preventDefault();
                         e.persist();
-                        setImage(e.dataTransfer.files[0]);
-                        setImageURL(
-                            URL.createObjectURL(e.dataTransfer.files[0])
-                        );
+                        if (
+                            e.dataTransfer.files[0] &&
+                            e.dataTransfer.files[0]['type'].split('/')[0] ===
+                                'image'
+                        ) {
+                            setImage(e.dataTransfer.files[0]);
+                            setImageURL(
+                                URL.createObjectURL(e.dataTransfer.files[0])
+                            );
+                        }
                         setOver(false);
                     }}
                     onDragOver={(e) => {

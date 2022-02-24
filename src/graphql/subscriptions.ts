@@ -50,6 +50,10 @@ export const onCreateUser = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -137,6 +141,10 @@ export const onUpdateUser = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -223,6 +231,10 @@ export const onDeleteUser = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
@@ -354,6 +366,10 @@ export const onCreateDao = /* GraphQL */ `
         }
         nextToken
       }
+      nftContracts {
+        reward
+        contributor
+      }
       createdAt
       updatedAt
     }
@@ -449,6 +465,10 @@ export const onUpdateDao = /* GraphQL */ `
           updatedAt
         }
         nextToken
+      }
+      nftContracts {
+        reward
+        contributor
       }
       createdAt
       updatedAt
@@ -546,6 +566,10 @@ export const onDeleteDao = /* GraphQL */ `
         }
         nextToken
       }
+      nftContracts {
+        reward
+        contributor
+      }
       createdAt
       updatedAt
     }
@@ -594,6 +618,10 @@ export const onCreateBounty = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
@@ -656,6 +684,10 @@ export const onUpdateBounty = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -716,6 +748,10 @@ export const onDeleteBounty = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
@@ -778,6 +814,10 @@ export const onCreateTokenBenefit = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -833,6 +873,10 @@ export const onUpdateTokenBenefit = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
@@ -890,6 +934,10 @@ export const onDeleteTokenBenefit = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -946,6 +994,10 @@ export const onCreateChannel = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
@@ -1014,6 +1066,10 @@ export const onUpdateChannel = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -1081,6 +1137,10 @@ export const onDeleteChannel = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -1146,6 +1206,10 @@ export const onCreatePost = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
@@ -1294,6 +1358,10 @@ export const onUpdatePost = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -1440,6 +1508,10 @@ export const onDeletePost = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
@@ -1765,6 +1837,10 @@ export const onCreateGate = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -1855,6 +1931,10 @@ export const onUpdateGate = /* GraphQL */ `
         gates {
           nextToken
         }
+        nftContracts {
+          reward
+          contributor
+        }
         createdAt
         updatedAt
       }
@@ -1944,6 +2024,10 @@ export const onDeleteGate = /* GraphQL */ `
         }
         gates {
           nextToken
+        }
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt

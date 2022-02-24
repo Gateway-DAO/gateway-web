@@ -26,10 +26,38 @@ import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload';
 import FormData from 'form-data';
 import Loader from '../../../../components/Loader';
 import { useEffect } from 'react';
+
+// API
 import useUpdateGate from '../../../../api/database/useUpdateGate';
-import { gql, useLazyQuery } from '@apollo/client';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { searchGates, searchUsers } from '../../../../graphql/queries';
-// import RichTextEditor from '../../../../components/RichTextEditor';
+import {
+    generatedNonceSignature,
+    updateDao,
+} from '../../../../graphql/mutations';
+import {
+    DAO,
+    Gate,
+    Signature,
+    TaskStatus,
+    User,
+} from '../../../../graphql/API';
+
+// Web3
+import { ContractReceipt, ethers } from 'ethers';
+import { abi } from '../../../../utils/abis/Router.json';
+import { useWeb3React } from '@web3-react/core';
+
+/* This is a type definition for the GateData interface. It is used to make sure that the data that is
+passed to the component is of the correct type. */
+interface GateData extends Gate {
+    holders: number;
+    keysDone: number;
+    keysNumber: number;
+    taskStatus: TaskStatus[];
+    adminList: User[];
+    preRequisitesList: Gate[];
+}
 
 /* Defining a type for the admin object. */
 interface IAdmin {
@@ -37,6 +65,7 @@ interface IAdmin {
     username: string;
     pfp: string;
     id: string;
+    wallet: string;
 }
 
 /* Defining a type called IPrerequisite. */
@@ -61,11 +90,13 @@ enum YesNo {
 const AddGateForm = () => {
     const { userInfo }: Record<string, any> = useAuth();
     const { state }: Record<string, any> = useLocation();
+    const gateData: GateData | null = state.gateData;
     const edit = state ? true : false;
+
     // State
-    const [title, setTitle] = useState<string>(edit ? state.gateData.name : '');
-    const [description, setDescription] = useState<any>(
-        edit ? state.gateData.description : ''
+    const [title, setTitle] = useState<string>(edit ? gateData.name : '');
+    const [description, setDescription] = useState<string>(
+        edit ? gateData.description : ''
     );
     const [retroactiveEarners, setRetroactiveEarners] = useState<string[]>([
         '',
@@ -73,7 +104,7 @@ const AddGateForm = () => {
     const [uploadFile, setUploadFile] = useState(null);
     const [category, setCategory] = useState<string>('');
     const [categoryList, setCategoryList] = useState<(string | null)[]>(
-        edit ? state.gateData.categories : []
+        edit ? gateData.categories : []
     );
     const [skill, setSkill] = useState<string>(null);
     const [skillList, setSkillList] = useState<(string | null)[]>([]);
@@ -86,37 +117,54 @@ const AddGateForm = () => {
         (IPrerequisite | null)[]
     >([]);
     const [keyRequired, setKeyRequired] = useState<number>(
-        edit ? state.gateData.keysNumber : 0
+        edit ? gateData.keysNumber : 0
     );
     const [badgeName, setBadgeName] = useState<string>(
-        edit ? state.gateData.badge.name : ''
+        edit ? gateData.badge.name : ''
     );
     const [admin, setAdmin] = useState<string>('');
-    const [adminQuery, setAdminQuery] = useState<string>('');
-    const [adminList, setAdminList] = useState<IAdmin[]>([
-        {
-            name: userInfo?.name || '',
-            username: userInfo?.username || '',
-            pfp: userInfo?.pfp || '',
-            id: userInfo?.id || '',
-        },
-    ]);
-    //const [adminIDList, setAdminIDList] = useState(edit?state.gateData.admins:[userInfo.id]);
+    const [adminList, setAdminList] = useState<IAdmin[]>(
+        edit
+            ? gateData.adminList.map((admin) => ({
+                  name: admin?.name || '',
+                  username: admin?.username || '',
+                  pfp: admin?.pfp || '',
+                  id: admin?.id || '',
+                  wallet: admin?.wallet || '',
+              }))
+            : [
+                  {
+                      name: userInfo?.name || '',
+                      username: userInfo?.username || '',
+                      pfp: userInfo?.pfp || '',
+                      id: userInfo?.id || '',
+                      wallet: userInfo?.wallet || '',
+                  },
+              ]
+    );
+    //const [adminIDList, setAdminIDList] = useState(edit?gateData.admins:[userInfo.id]);
     const [updateLoading, setUpdateeLoading] = useState<boolean>(false);
     const [adminSearch, setAdminSearch] = useState([]);
     const [NFTupdated, setNFTupdated] = useState<boolean>(edit);
     const [prereqsSearch, setPrereqsSearch] = useState([]);
     const [NFTType, setNFTType] = useState<NFT | null>(
-        edit ? NFT.REWARD : null
+        edit
+            ? (((gateData.nftType as string).charAt(0).toUpperCase() +
+                  (gateData.nftType as string)
+                      .substring(1)
+                      .toLowerCase()) as NFT)
+            : null
     );
     const [wantPreReqs, setWantPreReqs] = useState<YesNo | null>(
         edit ? YesNo.YES : null
     );
 
     // Hooks
-    const { daoData }: Record<string, any> = useOutletContext();
+    const { daoData }: { daoData: DAO } = useOutletContext();
     const { createGate } = useCreateGate();
     const { updateGate } = useUpdateGate();
+    const [updateDAO] = useMutation(gql(updateDao));
+    const [generateSign] = useMutation(gql(generatedNonceSignature));
     const [
         searchByUsers,
         {
@@ -161,6 +209,7 @@ const AddGateForm = () => {
 
     const { batchMint } = useMint();
     const navigate = useNavigate();
+    const { library, account } = useWeb3React();
 
     /* The addCategories function is called when the user presses the Enter key. 
     The function adds the current value of the category input to the categoryList array and clears
@@ -304,6 +353,56 @@ const AddGateForm = () => {
             const hash = await uploadFileToIPFS(form);
             const gateID = uuidv4();
 
+            if (!daoData.nftContracts[(NFTType as string).toLowerCase()]) {
+                // Get minting authorization
+                const { data: signData } = await generateSign();
+
+                const signature: Signature = signData.generatedNonceSignature;
+
+                const contract = new ethers.Contract(
+                    '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+                    abi,
+                    library.getSigner()
+                );
+
+                const deployTx = await contract.deployNFT(
+                    badgeName,
+                    'GATENFT',
+                    '',
+                    adminList.map((admin) => admin.wallet),
+                    true,
+                    signature.signature,
+                    signature.nonce,
+                    (NFTType as string) == 'Reward' ? 0 : 1
+                );
+
+                const contractReceipt: ContractReceipt = await deployTx.wait();
+                const event = contractReceipt.events?.find(
+                    (event) =>
+                        event.event ===
+                        `Mint${
+                            (gateData.nftType as string)
+                                .charAt(0)
+                                .toUpperCase() +
+                            (gateData.nftType as string)
+                                .substring(1)
+                                .toLowerCase()
+                        }NFT`
+                );
+                const nftAddr = event?.args?.['_address'];
+
+                await updateDAO({
+                    variables: {
+                        input: {
+                            id: daoData.id,
+                            nftContracts: {
+                                [(NFTType as string).toLowerCase()]: nftAddr,
+                            },
+                        },
+                    },
+                });
+            }
+
             await createGate({
                 variables: {
                     input: {
@@ -361,17 +460,77 @@ const AddGateForm = () => {
                 const form = new FormData();
                 form.append('file', uploadFile, 'image.png');
                 const hash = await uploadFileToIPFS(form);
+
+                if (
+                    daoData?.nftContracts == null
+                        ? true
+                        : !daoData?.nftContracts[
+                              (NFTType as string).toLowerCase()
+                          ]
+                ) {
+                    // Get minting authorization
+                    const { data: signData } = await generateSign();
+
+                    const signature: Signature =
+                        signData.generatedNonceSignature;
+
+                    const contract = new ethers.Contract(
+                        '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+                        abi,
+                        library.getSigner()
+                    );
+
+                    const deployTx = await contract.deployNFT(
+                        badgeName,
+                        'GATENFT',
+                        '',
+                        adminList.map((admin) => admin.wallet),
+                        true,
+                        signature.signature,
+                        signature.nonce,
+                        (NFTType as string) == 'Reward' ? 0 : 1
+                    );
+
+                    const contractReceipt: ContractReceipt =
+                        await deployTx.wait();
+                    const event = contractReceipt.events?.find(
+                        (event) =>
+                            event.event ===
+                            `Mint${
+                                (gateData.nftType as string)
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                (gateData.nftType as string)
+                                    .substring(1)
+                                    .toLowerCase()
+                            }NFT`
+                    );
+                    const nftAddr = event?.args?.['_address'];
+
+                    await updateDAO({
+                        variables: {
+                            input: {
+                                id: daoData.id,
+                                nftContracts: {
+                                    [(NFTType as string).toLowerCase()]:
+                                        nftAddr,
+                                },
+                            },
+                        },
+                    });
+                }
+
                 await updateGate({
                     variables: {
                         input: {
-                            id: state.gateData.id,
-                            daoID: daoData.daoID,
+                            id: gateData.id,
+                            daoID: daoData.id,
                             name: title,
                             description,
                             categories: categoryList,
                             admins: adminList.map((admin) => admin.id),
                             keysNumber: keyRequired,
-                            published: state.gateData.published,
+                            published: gateData.published,
                             badge: {
                                 name: badgeName,
                                 ipfsURL: hash,
@@ -379,7 +538,7 @@ const AddGateForm = () => {
                         },
                     },
                 });
-                navigate(`/gate/${state.gateData.id}`);
+                navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
                 console.log(e);
@@ -390,25 +549,85 @@ const AddGateForm = () => {
                     alert('Please Enter the NFT');
                     return false;
                 }
+
+                if (
+                    daoData?.nftContracts == null
+                        ? true
+                        : !daoData?.nftContracts[
+                              (NFTType as string).toLowerCase()
+                          ]
+                ) {
+                    // Get minting authorization
+                    const { data: signData } = await generateSign();
+
+                    const signature: Signature =
+                        signData.generatedNonceSignature;
+
+                    const contract = new ethers.Contract(
+                        '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+                        abi,
+                        library.getSigner()
+                    );
+
+                    const deployTx = await contract.deployNFT(
+                        badgeName,
+                        'GATENFT',
+                        '',
+                        adminList.map((admin) => admin.wallet),
+                        true,
+                        signature.signature,
+                        signature.nonce,
+                        (NFTType as string) == 'Reward' ? 0 : 1
+                    );
+
+                    const contractReceipt: ContractReceipt =
+                        await deployTx.wait();
+                    const event = contractReceipt.events?.find(
+                        (event) =>
+                            event.event ===
+                            `Mint${
+                                (gateData.nftType as string)
+                                    .charAt(0)
+                                    .toUpperCase() +
+                                (gateData.nftType as string)
+                                    .substring(1)
+                                    .toLowerCase()
+                            }NFT`
+                    );
+                    const nftAddr = event?.args?.['_address'];
+
+                    await updateDAO({
+                        variables: {
+                            input: {
+                                id: daoData.id,
+                                nftContracts: {
+                                    [(NFTType as string).toLowerCase()]:
+                                        nftAddr,
+                                },
+                            },
+                        },
+                    });
+                }
+
                 await updateGate({
                     variables: {
                         input: {
-                            id: state.gateData.id,
-                            daoID: daoData.daoID,
+                            id: gateData.id,
+                            daoID: daoData.id,
                             name: title,
                             description,
                             categories: categoryList,
                             admins: adminList.map((admin) => admin.id),
                             keysNumber: keyRequired,
-                            published: state.gateData.published,
+                            published: gateData.published,
                             badge: {
                                 name: badgeName,
-                                ipfsURL: state.gateData.badge.ipfsURL,
+                                ipfsURL: gateData.badge.ipfsURL,
                             },
                         },
                     },
                 });
-                navigate(`/gate/${state.gateData.id}`);
+                navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
                 console.log(e);
@@ -428,12 +647,13 @@ const AddGateForm = () => {
     useEffect(() => {
         if (searchUserCalled && !!searchUserData) {
             const query = searchUserData.searchUsers.items;
-            const results = query.slice(0, 5).map((user) => {
+            const results = query.slice(0, 5).map((user: User) => {
                 return {
                     name: user.name,
                     username: user.username,
                     id: user.id,
                     pfp: user.pfp,
+                    wallet: user.wallet,
                 };
             });
             setAdminSearch(results);
@@ -718,7 +938,7 @@ const AddGateForm = () => {
                                     htmlFor='ProfileImage'
                                     label='Upload Badge or NFT*'
                                     setImage={setUploadFile}
-                                    defaultImageURL={`https://gateway.pinata.cloud/ipfs/${state.gateData.badge.ipfsURL}`}
+                                    defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
                                 />
                             ) : (
                                 <ImageUpload
