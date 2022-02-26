@@ -61,7 +61,7 @@ const AddHoldToken = (props) => {
                 {state.taskInfo ? 'Edit Hold A Token' : 'Add Hold A Token'}
             </FormStyled.H1>
             <FormStyled.Fieldset>
-                <FormStyled.Label>Token Address</FormStyled.Label>
+                <FormStyled.Label>Token Address*</FormStyled.Label>
                 <FormStyled.Input
                     title='Token'
                     placeholder='Token Address'
@@ -72,7 +72,7 @@ const AddHoldToken = (props) => {
             </FormStyled.Fieldset>
 
             <FormStyled.Fieldset>
-                <FormStyled.Label>Amount Required</FormStyled.Label>
+                <FormStyled.Label>Amount Required*</FormStyled.Label>
                 <FormStyled.Input
                     placeholder='Minimum amount to hold'
                     value={amount}

@@ -56,7 +56,7 @@ export const Description = styled.p`
     font-size: 21px;
     line-height: 31px;
     align-items: center;
-
+    text-align: justify;
     color: #e5e5e5;
 `;
 export const BoldText = styled.span`

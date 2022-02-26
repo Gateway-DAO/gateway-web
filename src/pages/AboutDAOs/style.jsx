@@ -40,6 +40,7 @@ export const CenterWrapper = styled.div`
 
 export const WhiteImage = styled.div`
     margin-bottom: 25px;
+    cursor: pointer;
 `;
 export const ParagraphContainer = styled.p`
     font-family: Be Vietnam;

@@ -44,3 +44,8 @@ export const H2 = styled(MainText)`
     font-size: 48px;
     font-weight: bold;
 `;
+
+// Modal Image
+export const Image = styled.div`
+    margin-bottom: 25px;
+`;

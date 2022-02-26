@@ -18,7 +18,7 @@ const TitleSection = () => {
                 <MainStyled.MediumText>
                     Join us to build the
                     <br />
-                    future of communities
+                    FUTURE OF COMMUNITIES
                 </MainStyled.MediumText>
                 <MainStyled.CTAButton
                     href='https://discord.gg/PdjE2TfMZj'

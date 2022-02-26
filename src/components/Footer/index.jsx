@@ -1,4 +1,4 @@
-import { FaDiscord, FaTwitter, FaMedium } from 'react-icons/fa';
+import { FaDiscord, FaTwitter, FaMedium, FaLinkedin } from 'react-icons/fa';
 import * as Styled from './style';
 
 import logo from '../../assets/Gateway.svg';
@@ -29,6 +29,12 @@ const Footer = (props) => {
                         target='_blank'
                     >
                         <FaMedium color='white' size={24} />
+                    </Styled.SocialBtn>
+                    <Styled.SocialBtn
+                        href='https://www.linkedin.com/company/mygateway'
+                        target='_blank'
+                    >
+                        <FaLinkedin color='white' size={24} />
                     </Styled.SocialBtn>
                 </Styled.SocialsBox>
                 <Styled.CopyBox>
