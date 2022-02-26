@@ -29,7 +29,6 @@ const KeyBox = (props) => {
     const openedHandler = () => {
         setOpened((prev) => !prev);
     };
-
     const startHandler = () => {
         setOpened((prev) => !prev);
         setStartBox((prev) => !prev);
@@ -108,37 +107,44 @@ const KeyBox = (props) => {
                 </Styled.TextContainer>
                 <Styled.BottonBox>
                     <Styled.ActionButton>
-                        <Styled.StartButton
-                            opened={opened}
-                            blocked={props.blocked}
-                            onClick={
-                                !props.blocked
-                                    ? !opened
-                                        ? startHandler
-                                        : !keyValidation.loading
-                                        ? keyValidation.buttonBehavior.onClick
+                        {!isAdmin ? (
+                            <Styled.StartButton
+                                opened={opened}
+                                blocked={props.blocked}
+                                onClick={
+                                    !props.blocked
+                                        ? !opened
+                                            ? startHandler
+                                            : !keyValidation.loading
+                                            ? keyValidation.buttonBehavior
+                                                  .onClick
+                                            : null
                                         : null
-                                    : null
-                            }
-                        >
-                            <Styled.ButtonText>
-                                {keyValidation.loading && (
-                                    <Loader color='white' />
-                                )}
-                                {props.blocked && (
-                                    <AiFillCheckCircle
-                                        color='#27D5A2'
-                                        size={24}
-                                        style={{ marginRight: 10 }}
-                                    />
-                                )}
-                                {props.blocked
-                                    ? 'Completed'
-                                    : startBox
-                                    ? keyValidation.buttonBehavior.title
-                                    : 'Start'}
-                            </Styled.ButtonText>
-                        </Styled.StartButton>
+                                }
+                            >
+                                <Styled.ButtonText>
+                                    {keyValidation.loading && (
+                                        <Loader color='white' />
+                                    )}
+                                    {props.blocked && (
+                                        <AiFillCheckCircle
+                                            color='#27D5A2'
+                                            size={24}
+                                            style={{ marginRight: 10 }}
+                                        />
+                                    )}
+                                    {props.blocked
+                                        ? 'Completed'
+                                        : startBox
+                                        ? keyValidation.buttonBehavior.title
+                                        : 'Start'}
+                                </Styled.ButtonText>
+                            </Styled.StartButton>
+                        ) : (
+                            <Styled.EditButton onClick={editKey}>
+                                <Styled.ButtonText>Edit</Styled.ButtonText>
+                            </Styled.EditButton>
+                        )}
                         {(data.information.length > 1 || opened) && (
                             <Styled.StartButtonTwo
                                 onClick={

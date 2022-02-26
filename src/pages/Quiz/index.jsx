@@ -116,7 +116,7 @@ const CreateQuiz = () => {
                 setMessage('Please enter title and description');
                 setTimeout(() => {
                     setLoading(false);
-                    setMessage('Please enter title and description');
+                    setMessage('Processing your Quiz');
                     setActiveModal('HOME');
                     setShowMessage(true);
                 }, 5000);
@@ -127,7 +127,7 @@ const CreateQuiz = () => {
                 setMessage('Please enter at least one question');
                 setTimeout(() => {
                     setLoading(false);
-                    setMessage('Please enter at least one question');
+                    setMessage('Processing your Quiz');
                     setActiveModal('CREATE_QUIZ');
                     setShowMessage(true);
                 }, 5000);
@@ -177,7 +177,7 @@ const CreateQuiz = () => {
             if (!validData) {
                 setTimeout(() => {
                     setLoading(false);
-                    // setMessage('Processing your Quiz');
+                    setMessage('Processing your Quiz');
                     setActiveModal('CREATE_QUIZ');
                     setShowMessage(true);
                 }, 5000);

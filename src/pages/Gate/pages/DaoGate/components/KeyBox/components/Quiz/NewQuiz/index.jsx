@@ -67,6 +67,9 @@ const Quiz = (props) => {
                             <p>{res.data.verifyQuiz.msg}</p>
                         </div>
                     );
+                    setTimeout(() => {
+                        navigate(`/gate/${state.gateData.id}`);
+                    }, 5000);
                     showModal(<Error />);
                 }
 
