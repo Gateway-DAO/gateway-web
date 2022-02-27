@@ -52,7 +52,7 @@ const About = () => {
                     </Styled.MissionImage>
                 </Styled.Container>
                 <Styled.Box>
-                    Gateway’s mission is to be the leading platform for DAO
+                    Gateway’s vision is to be the leading platform for DAO
                     discovery, onboarding, and interaction. We aspire to make
                     everyone, regardless of their experience, comfortable and
                     excited to find their Web3 community.

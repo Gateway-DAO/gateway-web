@@ -11,6 +11,7 @@ const Home = (props) => {
         props.setTitle(title);
         props.setDescription(description);
         props.setActiveModal('CREATE_QUIZ');
+        props.setShowMessage(false);
     };
     return (
         <>

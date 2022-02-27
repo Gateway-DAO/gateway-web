@@ -70,7 +70,7 @@ const AddContractInteraction = (props) => {
             </FormStyled.H1>
 
             <FormStyled.Fieldset>
-                <FormStyled.Label>Chain</FormStyled.Label>
+                <FormStyled.Label>Chain*</FormStyled.Label>
                 <FormStyled.Select onChange={(e) => setChain(e.target.value)}>
                     <option value={1}>Ethereum</option>
                     <option value={42220}>Celo</option>
@@ -81,7 +81,7 @@ const AddContractInteraction = (props) => {
             </FormStyled.Fieldset>
 
             <FormStyled.Fieldset>
-                <FormStyled.Label>Contract Address</FormStyled.Label>
+                <FormStyled.Label>Contract Address*</FormStyled.Label>
                 <FormStyled.Input
                     title='Token'
                     placeholder='Token Address'
@@ -92,7 +92,7 @@ const AddContractInteraction = (props) => {
             </FormStyled.Fieldset>
 
             <FormStyled.Fieldset>
-                <FormStyled.Label>Method Name</FormStyled.Label>
+                <FormStyled.Label>Method Name*</FormStyled.Label>
                 <FormStyled.Input
                     placeholder='Smart Contract Method Name. Ex: swapETHForToken'
                     value={methodName}

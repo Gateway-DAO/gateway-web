@@ -194,7 +194,28 @@ export const StartButtonTwo = styled.div`
     }
     margin-right: 20px;
 `;
-
+export const EditButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Poppins;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+    border: solid 1px transparent;
+    background-image: linear-gradient(#170627, #170627),
+        linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    &:hover {
+        cursor: pointer;
+    }
+    margin-right: 20px;
+`;
 export const ButtonText = styled.p`
     font-size: 14px;
     margin: 12px 50px;

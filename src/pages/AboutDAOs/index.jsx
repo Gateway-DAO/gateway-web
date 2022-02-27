@@ -11,14 +11,17 @@ import whiteboard from '../../assets/about-dao-whiteboard.png';
 
 // Styling
 import * as Styled from './style';
+import * as Theam from '../../theme/style';
 
 // Hooks
 import { useListDAOs } from '../../api/database/useGetDAO';
 import React, { useState, useEffect } from 'react';
+import { useModal } from '../../contexts/ModalContext';
 
 const AboutDAOS = (props) => {
     const { data, error, loading } = useListDAOs();
     const [cards, setCards] = useState([]);
+    const { showModal } = useModal();
 
     const typeOfDao = (type) => {
         console.log(`Type: ${type}`);
@@ -32,6 +35,20 @@ const AboutDAOS = (props) => {
     useEffect(() => {
         setCards(loading ? [] : data.listDAOs.items);
     }, [data]);
+
+    const setModal = () => {
+        console.log('Here');
+        const Modal = () => (
+            <Theam.Image>
+                <img
+                    style={{ objectFit: 'cover', width: '100%' }}
+                    src={whiteboard}
+                    alt='whiteboard.jpg'
+                />
+            </Theam.Image>
+        );
+        showModal(<Modal />);
+    };
 
     return (
         <Styled.PageContainer>
@@ -69,7 +86,7 @@ const AboutDAOS = (props) => {
                             {text.subtext}
                         </Styled.ParagraphContainer>
                     ))}
-                    <Styled.WhiteImage>
+                    <Styled.WhiteImage onClick={setModal}>
                         <img
                             style={{ objectFit: 'cover', width: '100%' }}
                             src={whiteboard}

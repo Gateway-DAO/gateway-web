@@ -10,7 +10,15 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import { FaTrashAlt } from 'react-icons/fa';
 import { IoMdAdd } from 'react-icons/io';
 
-const CreateQuestion = ({ data, setData, setActiveModal }) => {
+const CreateQuestion = ({
+    data,
+    setData,
+    setActiveModal,
+    setShowMessage,
+    setOptionsPerQuestion,
+    initialClont,
+}) => {
+    const [optionCount, setOptionCount] = useState(initialClont);
     const [questions, setQuestions] = useState(
         data || [
             {
@@ -51,6 +59,7 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
                 nrOfCorrectAnswers: 0,
             },
         ]);
+        setOptionCount([...optionCount, 0]);
     };
 
     /**
@@ -99,6 +108,21 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
         const helper = questions.map((value, idx) => {
             if (idx === index) {
                 let arr = value.options;
+                if (arr[optionIndex].answer === '') {
+                    setOptionCount(
+                        optionCount.map((op, i) => {
+                            // if (op > 0) {
+                            //     return op;
+                            // }
+                            if (i === index && changedValue !== '') {
+                                return op + 1;
+                            } else if (i === index && changedValue === '') {
+                                return op - 1;
+                            }
+                            return op;
+                        })
+                    );
+                }
                 arr[optionIndex] = {
                     ...arr[optionIndex],
                     answer: changedValue,
@@ -175,6 +199,8 @@ const CreateQuestion = ({ data, setData, setActiveModal }) => {
     const saveQuiz = () => {
         setData(questions);
         setActiveModal('PERCENTAGE_PAGE');
+        setShowMessage(false);
+        setOptionsPerQuestion(optionCount);
     };
 
     return (

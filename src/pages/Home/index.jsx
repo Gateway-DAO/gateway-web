@@ -35,7 +35,7 @@ const Home = (props) => {
                 </Styled.EMSImageContainer>
                 <Styled.EMSContentContainer>
                     <Styled.EMSMediumText>
-                        Don't know what a DAO is? Perfect.
+                        Don't know what a DAO is?
                     </Styled.EMSMediumText>
                     <Styled.EMSButton to='/what-are-DAOs'>
                         <Styled.CTAButtonText>

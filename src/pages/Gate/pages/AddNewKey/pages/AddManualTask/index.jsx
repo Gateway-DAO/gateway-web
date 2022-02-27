@@ -88,7 +88,7 @@ const AddManualTask = (props) => {
             {infoBlocks.map((info, idx) => (
                 <>
                     <FormStyled.Fieldset>
-                        <FormStyled.Label>Title</FormStyled.Label>
+                        <FormStyled.Label>Title*</FormStyled.Label>
                         <FormStyled.Input
                             value={info.title}
                             onChange={(e) => updateTitle(e, idx)}
@@ -97,7 +97,7 @@ const AddManualTask = (props) => {
                     </FormStyled.Fieldset>
 
                     <FormStyled.Fieldset>
-                        <FormStyled.Label>Description</FormStyled.Label>
+                        <FormStyled.Label>Description*</FormStyled.Label>
                         <FormStyled.Textarea
                             title='Description'
                             row='5'

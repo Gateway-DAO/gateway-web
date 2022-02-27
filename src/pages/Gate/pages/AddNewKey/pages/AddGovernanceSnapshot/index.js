@@ -98,22 +98,24 @@ const AddGovernanceSnapshot = (props) => {
 
             {active === 'vote' && (
                 <FormStyled.Fieldset>
-                    <FormStyled.Label>Specific Proposal</FormStyled.Label>
+                    <FormStyled.Label>Specific Proposal*</FormStyled.Label>
                     <FormStyled.Input
                         value={proposal}
                         onChange={(e) => setProposal(e.target.value)}
                         placeholder='Input Snapshot Number'
+                        required
                     />
                 </FormStyled.Fieldset>
             )}
 
             {(active === 'vote' || active === 'proposal') && (
                 <FormStyled.Fieldset>
-                    <FormStyled.Label>Space ID</FormStyled.Label>
+                    <FormStyled.Label>Space ID*</FormStyled.Label>
                     <FormStyled.Input
                         value={spaceID}
                         onChange={(e) => setSpaceID(e.target.value)}
                         placeholder='Use an existing ENS name'
+                        required
                     />
                 </FormStyled.Fieldset>
             )}
