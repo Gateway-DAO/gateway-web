@@ -1,5 +1,4 @@
 // Styling
-import * as Styled from './style';
 import { FormStyled } from '../../../../components/Form';
 
 // Components
@@ -12,38 +11,46 @@ const Percentage = ({ percentage, setPercentage, loading }) => {
                 <FormStyled.Label>
                     Percentage necessary to pass the Quiz?
                 </FormStyled.Label>
-                <Styled.Array>
-                    <Styled.Block
-                        onClick={() => setPercentage(0)}
+                <FormStyled.GridBox
+                    cols={5}
+                    onChange={(e) => setPercentage(e.target.value)}
+                >
+                    <FormStyled.Radio
+                        id='percentage-1'
+                        name='percentage'
+                        value={0}
+                        label='0%'
                         checked={percentage === 0}
-                    >
-                        0%
-                    </Styled.Block>
-                    <Styled.Block
-                        onClick={() => setPercentage(0.25)}
+                    />
+                    <FormStyled.Radio
+                        id='percentage-1'
+                        name='percentage'
+                        value={0.25}
+                        label='25%'
                         checked={percentage === 0.25}
-                    >
-                        25%
-                    </Styled.Block>
-                    <Styled.Block
-                        onClick={() => setPercentage(0.5)}
+                    />
+                    <FormStyled.Radio
+                        id='percentage-1'
+                        name='percentage'
+                        value={0.5}
+                        label='50%'
                         checked={percentage === 0.5}
-                    >
-                        50%
-                    </Styled.Block>
-                    <Styled.Block
-                        onClick={() => setPercentage(0.75)}
+                    />
+                    <FormStyled.Radio
+                        id='percentage-1'
+                        name='percentage'
+                        value={0.75}
+                        label='75%'
                         checked={percentage === 0.75}
-                    >
-                        75%
-                    </Styled.Block>
-                    <Styled.Block
-                        onClick={() => setPercentage(1.0)}
-                        checked={percentage === 1.0}
-                    >
-                        100%
-                    </Styled.Block>
-                </Styled.Array>
+                    />
+                    <FormStyled.Radio
+                        id='percentage-1'
+                        name='percentage'
+                        value={1}
+                        label='100%'
+                        checked={percentage === 1}
+                    />
+                </FormStyled.GridBox>
             </FormStyled.Fieldset>
 
             <FormStyled.Button type='submit'>

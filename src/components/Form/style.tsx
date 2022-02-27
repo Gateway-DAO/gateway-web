@@ -184,7 +184,7 @@ export const Textarea = styled.textarea<{ height?: string | number }>`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 18px;
     display: flex;
     align-items: center;
@@ -244,7 +244,7 @@ export const Input = styled.input<IInput>`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 18px;
     display: flex;
     align-items: center;
@@ -267,7 +267,7 @@ export const SmallInput = styled.input`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 18px;
     display: flex;
     align-items: center;
@@ -289,7 +289,7 @@ const SearchInput = styled.input`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 18px;
     display: flex;
     align-items: center;
@@ -313,13 +313,25 @@ const CheckboxContainer = styled.div<{ checked: boolean }>`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
     padding: 20px 0;
+
     &:hover {
         background: #220a38;
         border: 1px solid #7e3bdc;
     }
+
+    &:hover label {
+        color: white;
+    }
+
     ${(props) =>
         props.checked
-            ? `background: #220A38;border: 1px solid #7E3BDC;`
+            ? ` background: #220A38;
+                border: 1px solid #7E3BDC;
+                
+                & label {
+                    color: white;
+                }
+                `
             : `background: #170627;border: 1px solid rgba(255, 255, 255, 0.2);`}
 `;
 
@@ -340,15 +352,17 @@ const CheckboxInput = styled.input`
 const CheckboxLabel = styled.label`
     position: absolute;
 
-    font-family: Be Vietnam;
+    font-family: Poppins;
     font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.05em;
-    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
 
-    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #a5a5a5;
 `;
 
 export const Checkbox = (props) => {

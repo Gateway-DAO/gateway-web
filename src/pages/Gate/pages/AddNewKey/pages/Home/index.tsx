@@ -16,8 +16,9 @@ import { useCreateSelfVerify } from '../../../../../../api/database/useCreateKey
 // Utils
 import space from '../../../../../../utils/canvas';
 import { v4 as uuidv4 } from 'uuid';
-import AddKeySuccess from '../AddKeySuccess';
+import KeySuccess from '../AddKeySuccess';
 import { useLocation } from 'react-router-dom';
+import { KeyInformationInput } from '../../../../../../graphql/API';
 
 const AddNewKey = () => {
     const { state }: Record<string, any> = useLocation();
@@ -28,10 +29,13 @@ const AddNewKey = () => {
         state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
     );
     const [titleDescriptionPair, setTitleDescriptionPair] = useState<
-        Array<Record<string, any>>
+        KeyInformationInput[]
     >(
         state
-            ? state.data.information
+            ? state.data.information.map((pair) => ({
+                  title: pair.title,
+                  description: pair.description,
+              }))
             : [
                   {
                       title: '',
@@ -48,7 +52,7 @@ const AddNewKey = () => {
         state ? state.data.peopleLimit : 0
     );
     const [unlimited, setUnlimited] = useState<boolean>(
-        state ? state.data.unlimited : true
+        state ? state.data.unlimited : false
     );
     const [keysDilogBox, setKeysDilogBox] = useState<boolean>(false);
     const [peopleLimitDilogBox, setPeopleLimitDilogBox] =
@@ -251,7 +255,7 @@ const AddNewKey = () => {
     };
 
     return createdKey ? (
-        <AddKeySuccess gate={gateData.id} />
+        <KeySuccess edit={!!edit} gate={gateData.id} />
     ) : (
         <Styled.AddNewKeyContainer>
             <Styled.SpaceBox id='space-canvas' />
@@ -278,18 +282,17 @@ const AddNewKey = () => {
                         <FormStyled.Fieldset marginBottom='0px'>
                             <FormStyled.Label>Description*</FormStyled.Label>
                             <RichTextEditor
+                                toolbar={[
+                                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                                    [{ list: 'ordered' }, { list: 'bullet' }],
+                                    ['bold', 'italic', 'underline'],
+                                    [{ color: [] }],
+                                    ['emoji'],
+                                ]}
                                 value={pair.description}
                                 set={updateDescription}
                                 idx={idx}
                             />
-                            {/* <FormStyled.Textarea
-                                id={`description-${idx}`}
-                                onChange={(e) => updateDescription(e, idx)}
-                                value={pair.description}
-                                height='120px'
-                                placeholder='This will be the description of your Key. We reccommend maximum of 2 lines.'
-                                required
-                            /> */}
                         </FormStyled.Fieldset>
 
                         {titleDescriptionPair.length > 1 && (

@@ -71,6 +71,10 @@ const App: React.FC = () => {
                             <Route index element={<DaoGate />} />
                             <Route path='quiz/:id' element={<NewQuiz />} />
                             <Route path='add-links' element={<AddLinks />} />
+                            <Route
+                                path='edit-links'
+                                element={<AddLinks edit />}
+                            />
                             <Route path='add-key' element={<AddNewKey />}>
                                 <Route index element={<AddNewKeyHome />} />
                                 <Route

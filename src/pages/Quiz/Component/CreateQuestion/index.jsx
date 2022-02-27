@@ -302,7 +302,7 @@ const CreateQuestion = ({
                                 <FaTrashAlt />
                             </FormStyled.IconButton>
                             <FormStyled.TextLabel marginLeft='10px'>
-                                Delete Section
+                                Delete Question
                             </FormStyled.TextLabel>
                         </FormStyled.DeleteWrapper>
                     )}
@@ -312,9 +312,11 @@ const CreateQuestion = ({
                 <Styled.Circle onClick={AddQuestionHandler}>
                     <IoMdAdd style={{ color: 'white' }} />
                 </Styled.Circle>
-                Add Questions
+                Add Another Question
             </Styled.AddQuestionBox>
-            <FormStyled.Button onClick={saveQuiz}>Next</FormStyled.Button>
+            <FormStyled.Button onClick={saveQuiz}>
+                Finish Quiz
+            </FormStyled.Button>
         </>
     );
 };

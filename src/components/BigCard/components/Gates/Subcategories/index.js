@@ -20,7 +20,7 @@ const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
 
     return (
         <Styled.Wrapper>
-            <Styled.Categories>
+            {/*<Styled.Categories>
                 {categories.map((category) => (
                     <Styled.Category
                         onClick={() => setActiveCategory(category)}
@@ -29,7 +29,7 @@ const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
                         {category}
                     </Styled.Category>
                 ))}
-            </Styled.Categories>
+                </Styled.Categories>*/}
             {true && (
                 <Styled.WhitelistButtonDiv>
                     <Styled.Text>

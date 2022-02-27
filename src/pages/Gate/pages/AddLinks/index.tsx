@@ -26,20 +26,31 @@ interface GateData extends Gate {
     taskStatus: TaskStatus[];
 }
 
+interface IProps {
+    edit?: boolean;
+}
+
 /**
  * This function is responsible for adding links to the website
  * @returns The return is a styled container with a box inside it. The box contains a heading
  * container, a links container and a save button.
  */
-const AddLinks: React.FC = () => {
+const LinksPage: React.FC<IProps> = ({ edit = false }) => {
     // State
-    const [links, setLinks] = useState<Link[]>([
-        {
-            name: '',
-            link: '',
-        },
-    ]);
     const { gateData }: { gateData: GateData } = useOutletContext();
+    const [links, setLinks] = useState<Link[]>(
+        edit
+            ? gateData.links.map((link) => ({
+                  name: link.name,
+                  link: link.link,
+              }))
+            : [
+                  {
+                      name: '',
+                      link: '',
+                  },
+              ]
+    );
 
     // Hooks
     const [update, { loading }] = useMutation(gql(updateGate));
@@ -111,7 +122,9 @@ const AddLinks: React.FC = () => {
         <Styled.Container>
             <BackButton>Back to Gate</BackButton>
             <FormStyled.FormBox onSubmit={onSubmit}>
-                <Styled.HeadingContainer>Add Links</Styled.HeadingContainer>
+                <Styled.HeadingContainer>
+                    {edit ? 'Edit' : 'Add'} Links
+                </Styled.HeadingContainer>
                 <Styled.LinksContainer>
                     <Styled.LinksHeader>
                         <FormStyled.Label>Name</FormStyled.Label>
@@ -169,4 +182,4 @@ const AddLinks: React.FC = () => {
     );
 };
 
-export default AddLinks;
+export default LinksPage;

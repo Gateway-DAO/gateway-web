@@ -5,13 +5,33 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import parser from 'html-react-parser';
-// import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt } from 'react-icons/fa';
 
 // Task Components
 import MeetingCode from './components/MeetingCode';
 import Snapshot from './components/Snapshot';
 import ManualTask from './components/ManualTask';
 import Loader from '../../../../../../components/Loader';
+
+const parsedKeyName = (name) => {
+    switch (name) {
+        case 'MEETING_CODE':
+            return 'Meeting Code';
+        case 'SNAPSHOT_GOVERNANCE':
+            return 'Snapshot Governance';
+        case 'MANUAL_TASK':
+            return 'Manual';
+        case 'QUIZ':
+            return 'Quiz';
+        case 'SELF_VERIFY':
+            return 'Self Verify';
+        case 'SC_INTERACTION':
+        case 'CONTRACT_INTERACTION':
+            return 'Contract Interaction';
+        default:
+            return null;
+    }
+};
 
 const KeyBox = (props) => {
     let navigate = useNavigate();
@@ -20,20 +40,25 @@ const KeyBox = (props) => {
     const data = props.data;
     const keyValidation = useKeyValidation(data, props.gateData);
     const { isAdmin } = useGateAdmin(props.gateData.admins);
-    const testData = [
-        { title: 'its a title', description: 'Its a description' },
-        { title: 'its a title', description: 'Its a description' },
-        { title: 'its a title', description: 'Its a description' },
-        { title: 'its a title', description: 'Its a description' },
-    ];
+
+    /**
+     * When the button is clicked, the opened state is toggled
+     */
     const openedHandler = () => {
         setOpened((prev) => !prev);
     };
+
+    /**
+     * This function is used to toggle the start box on and off.
+     */
     const startHandler = () => {
         setOpened((prev) => !prev);
         setStartBox((prev) => !prev);
     };
 
+    /**
+     * Navigates to the edit key page for the given gate.
+     */
     const editKey = () => {
         const link = '/gate/' + props.data.gateID + '/edit-key';
         navigate(link, {
@@ -41,6 +66,10 @@ const KeyBox = (props) => {
         });
     };
 
+    /**
+     * It returns the correct component based on the task type.
+     * @returns The Task component is being returned.
+     */
     const Task = () => {
         switch (data.task.type) {
             case 'MEETING_CODE':
@@ -55,7 +84,7 @@ const KeyBox = (props) => {
             case 'MANUAL_TASK':
                 return (
                     <ManualTask
-                        data={testData}
+                        data={data}
                         start={startBox}
                         show={opened}
                         setStart={setStartBox}
@@ -79,11 +108,11 @@ const KeyBox = (props) => {
                         <Styled.BoxTitle>
                             {data.information[0].title}
                         </Styled.BoxTitle>
-                        {/* isAdmin && !opened && (
+                        {isAdmin && !opened && (
                             <Styled.EditContainer onClick={editKey}>
                                 <FaPencilAlt />
                             </Styled.EditContainer>
-                        ) */}
+                        )}
                     </Styled.BoxHeading>
                     <Styled.BoxSubtitle opened={opened}>
                         {parser(data.information[0].description)}
@@ -92,7 +121,8 @@ const KeyBox = (props) => {
                         <>
                             {data.information.slice(1).map((key) => (
                                 <>
-                                    {parser(`<br /><br />`)}
+                                    <br />
+                                    <br />
                                     <Styled.BoxTitle>
                                         {key.title}
                                     </Styled.BoxTitle>
@@ -107,44 +137,37 @@ const KeyBox = (props) => {
                 </Styled.TextContainer>
                 <Styled.BottonBox>
                     <Styled.ActionButton>
-                        {!isAdmin ? (
-                            <Styled.StartButton
-                                opened={opened}
-                                blocked={props.blocked}
-                                onClick={
-                                    !props.blocked
-                                        ? !opened
-                                            ? startHandler
-                                            : !keyValidation.loading
-                                            ? keyValidation.buttonBehavior
-                                                  .onClick
-                                            : null
+                        <Styled.StartButton
+                            opened={opened}
+                            blocked={props.blocked}
+                            onClick={
+                                !props.blocked
+                                    ? !opened
+                                        ? startHandler
+                                        : !keyValidation.loading
+                                        ? keyValidation.buttonBehavior.onClick
                                         : null
-                                }
-                            >
-                                <Styled.ButtonText>
-                                    {keyValidation.loading && (
-                                        <Loader color='white' />
-                                    )}
-                                    {props.blocked && (
-                                        <AiFillCheckCircle
-                                            color='#27D5A2'
-                                            size={24}
-                                            style={{ marginRight: 10 }}
-                                        />
-                                    )}
-                                    {props.blocked
-                                        ? 'Completed'
-                                        : startBox
-                                        ? keyValidation.buttonBehavior.title
-                                        : 'Start'}
-                                </Styled.ButtonText>
-                            </Styled.StartButton>
-                        ) : (
-                            <Styled.EditButton onClick={editKey}>
-                                <Styled.ButtonText>Edit</Styled.ButtonText>
-                            </Styled.EditButton>
-                        )}
+                                    : null
+                            }
+                        >
+                            <Styled.ButtonText>
+                                {keyValidation.loading && (
+                                    <Loader color='white' />
+                                )}
+                                {props.blocked && (
+                                    <AiFillCheckCircle
+                                        color='#27D5A2'
+                                        size={24}
+                                        style={{ marginRight: 10 }}
+                                    />
+                                )}
+                                {props.blocked
+                                    ? 'Completed'
+                                    : startBox
+                                    ? keyValidation.buttonBehavior.title
+                                    : 'Start'}
+                            </Styled.ButtonText>
+                        </Styled.StartButton>
                         {(data.information.length > 1 || opened) && (
                             <Styled.StartButtonTwo
                                 onClick={
@@ -167,14 +190,14 @@ const KeyBox = (props) => {
                                     {data.keys}
                                 </Styled.InformationBoxInfoText>
                             </Styled.KeyRewardBox>
-                            {/* <Styled.CompensationBox>
+                            <Styled.CompensationBox>
                                 <Styled.InformationBoxHeading>
-                                    Compensation
+                                    Key Type
                                 </Styled.InformationBoxHeading>
                                 <Styled.InformationBoxInfoText>
-                                    100 $BANK
+                                    {parsedKeyName(data.task.type)}
                                 </Styled.InformationBoxInfoText>
-                            </Styled.CompensationBox> */}
+                            </Styled.CompensationBox>
                         </Styled.InformationDiv>
                     )}
                 </Styled.BottonBox>

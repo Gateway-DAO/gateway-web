@@ -132,7 +132,7 @@ const DaoGate: React.FC = () => {
                                     LINKS
                                 </Styled.BoldTextHeading>
                                 <Styled.ContentContainer>
-                                    {gateData.links.length > 0 ? (
+                                    {gateData.links.length > 0 &&
                                         gateData.links.map((link) => {
                                             return (
                                                 <Styled.OutsideLink
@@ -142,10 +142,19 @@ const DaoGate: React.FC = () => {
                                                     {link.name} ⬈
                                                 </Styled.OutsideLink>
                                             );
-                                        })
-                                    ) : (
-                                        <Styled.InsideLink to='add-links'>
-                                            Add Links ⬈
+                                        })}
+                                    {isAdmin && (
+                                        <Styled.InsideLink
+                                            to={`${
+                                                gateData.links.length > 0
+                                                    ? 'edit'
+                                                    : 'add'
+                                            }-links`}
+                                        >
+                                            {gateData.links.length > 0
+                                                ? 'Edit'
+                                                : 'Add'}{' '}
+                                            Links ⬈
                                         </Styled.InsideLink>
                                     )}
                                 </Styled.ContentContainer>

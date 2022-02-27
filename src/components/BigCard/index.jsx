@@ -2,7 +2,6 @@
 import * as Styled from './style';
 import { Link, useSearchParams } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
-import RelatedDAOSection from './components/RelatedDAO';
 import {
     FaDiscord,
     FaTwitter,
@@ -398,10 +397,6 @@ const NewCard = (props) => {
                     <Feed cardName={props.id} />
                 ) : <Onboarding/>} */}
                 <ActiveTab />
-                <RelatedDAOSection
-                    categories={props.categories}
-                    name={props.name}
-                />
             </Styled.DaoWrapper>
         </>
     );
