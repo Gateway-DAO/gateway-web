@@ -89,13 +89,13 @@
         },
         "ceramic": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/ceramic-38466772735054546644-build.zip",
+          "s3Key": "amplify-builds/ceramic-494b7a6e47414a373241-build.zip",
           "secretsPathAmplifyAppId": "d1eyfltl5g67m"
         },
         "generateSignature": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/generateSignature-33455479437a582f5049-build.zip"
+          "s3Key": "amplify-builds/generateSignature-3269416a5448584d5850-build.zip"
         }
       },
       "auth": {

@@ -3823,6 +3823,76 @@ export const getTaskStatusByGateId = /* GraphQL */ `
         }
     }
 `;
+export const getTaskStatusByKeyId = /* GraphQL */ `
+    query GetTaskStatusByKeyId(
+        $keyID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelTaskStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getTaskStatusByKeyID(
+            keyID: $keyID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    skills
+                    knowledge
+                    attitudes
+                    admins
+                    keysNumber
+                    published
+                    retroactiveEarners
+                    holders
+                    nftType
+                    createdAt
+                    updatedAt
+                }
+                keyID
+                key {
+                    id
+                    gateID
+                    token
+                    tokenAmount
+                    keys
+                    unlimited
+                    peopleLimit
+                    createdAt
+                    updatedAt
+                }
+                completed
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`;
 export const searchUsers = /* GraphQL */ `
     query SearchUsers(
         $filter: SearchableUserFilterInput

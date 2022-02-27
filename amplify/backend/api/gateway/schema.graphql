@@ -406,6 +406,11 @@ type TaskStatus
         name: "taskStatusByGateID"
         fields: ["gateID"]
         queryField: "getTaskStatusByGateID"
+    )
+    @key(
+        name: "taskStatusByKeyID"
+        fields: ["keyID"]
+        queryField: "getTaskStatusByKeyID"
     ) {
     id: ID!
     userID: ID!
@@ -490,12 +495,7 @@ union StreamCeramicResponse = StreamCeramic | CeramicError
 
 type Signature {
     message: String!
-    messageHash: String!
-    v: String!
-    r: String!
-    s: String!
     signature: String!
-    nonce: String
 }
 
 type SignatureError {

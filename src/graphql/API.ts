@@ -645,12 +645,7 @@ export type SignatureResponse = Signature | SignatureError
 export type Signature = {
   __typename: "Signature",
   message?: string,
-  messageHash?: string,
-  v?: string,
-  r?: string,
-  s?: string,
   signature?: string,
-  nonce?: string | null,
 };
 
 export type SignatureError = {
@@ -3349,12 +3344,7 @@ export type GenerateSignatureMutation = {
   generateSignature: ( {
       __typename: "Signature",
       message: string,
-      messageHash: string,
-      v: string,
-      r: string,
-      s: string,
       signature: string,
-      nonce?: string | null,
     } | {
       __typename: "SignatureError",
       error: boolean,
@@ -3367,12 +3357,7 @@ export type GeneratedNonceSignatureMutation = {
   generatedNonceSignature: ( {
       __typename: "Signature",
       message: string,
-      messageHash: string,
-      v: string,
-      r: string,
-      s: string,
       signature: string,
-      nonce?: string | null,
     } | {
       __typename: "SignatureError",
       error: boolean,
@@ -10913,6 +10898,76 @@ export type GetTaskStatusByGateIdQueryVariables = {
 
 export type GetTaskStatusByGateIdQuery = {
   getTaskStatusByGateID?:  {
+    __typename: "ModelTaskStatusConnection",
+    items:  Array< {
+      __typename: "TaskStatus",
+      id: string,
+      userID: string,
+      user?:  {
+        __typename: "User",
+        id: string,
+        wallet: string,
+        username?: string | null,
+        name?: string | null,
+        bio?: string | null,
+        daos_ids?: Array< string | null > | null,
+        init?: boolean | null,
+        nonce: number,
+        pfp?: string | null,
+        createdAt?: string | null,
+        updatedAt: string,
+      } | null,
+      gateID: string,
+      gate?:  {
+        __typename: "Gate",
+        id: string,
+        daoID: string,
+        name: string,
+        description: string,
+        categories?: Array< string > | null,
+        skills?: Array< string > | null,
+        knowledge?: Array< string > | null,
+        attitudes?: Array< string > | null,
+        admins: Array< string | null >,
+        keysNumber?: number | null,
+        published?: boolean | null,
+        retroactiveEarners?: Array< string > | null,
+        holders: number,
+        nftType?: NFTType | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      keyID: string,
+      key?:  {
+        __typename: "Key",
+        id: string,
+        gateID: string,
+        token?: string | null,
+        tokenAmount?: number | null,
+        keys: number,
+        unlimited: boolean,
+        peopleLimit: number,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      completed?: CompletedState | null,
+      createdAt?: string | null,
+      updatedAt?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetTaskStatusByKeyIdQueryVariables = {
+  keyID?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTaskStatusFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type GetTaskStatusByKeyIdQuery = {
+  getTaskStatusByKeyID?:  {
     __typename: "ModelTaskStatusConnection",
     items:  Array< {
       __typename: "TaskStatus",

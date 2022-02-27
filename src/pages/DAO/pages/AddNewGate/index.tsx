@@ -47,6 +47,7 @@ import {
 import { ContractReceipt, ethers } from 'ethers';
 import { abi } from '../../../../utils/abis/Router.json';
 import { useWeb3React } from '@web3-react/core';
+import { ROUTER_ADDRESS } from '../../../../utils/web3';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -90,8 +91,8 @@ enum YesNo {
 const AddGateForm = () => {
     const { userInfo }: Record<string, any> = useAuth();
     const { state }: Record<string, any> = useLocation();
-    const gateData: GateData | null = state.gateData;
     const edit = state ? true : false;
+    const gateData: GateData | null = edit ? state.gateData : null;
 
     // State
     const [title, setTitle] = useState<string>(edit ? gateData.name : '');
@@ -209,7 +210,7 @@ const AddGateForm = () => {
 
     const { batchMint } = useMint();
     const navigate = useNavigate();
-    const { library, account } = useWeb3React();
+    const { library, chainId } = useWeb3React();
 
     /* The addCategories function is called when the user presses the Enter key. 
     The function adds the current value of the category input to the categoryList array and clears
@@ -332,6 +333,59 @@ const AddGateForm = () => {
         );
     };
 
+    const deployContract = async () => {
+        if (!daoData.nftContracts[(NFTType as string).toLowerCase()]) {
+            // Get minting authorization
+            const { data: signData } = await generateSign();
+
+            const signature: Signature = signData.generatedNonceSignature;
+
+            const signer = await library.getSigner();
+
+            const contract = new ethers.Contract(
+                ROUTER_ADDRESS[chainId],
+                abi,
+                signer
+            );
+
+            console.log(signature);
+
+            const deployTx = await contract.deployNFT(
+                badgeName,
+                'GATENFT',
+                '',
+                adminList.map((admin) => admin.wallet),
+                true,
+                signature.signature,
+                signature.message,
+                (NFTType as string) == 'Reward' ? 0 : 1
+            );
+
+            const contractReceipt: ContractReceipt = await deployTx.wait();
+
+            console.log(contractReceipt);
+
+            const event = contractReceipt.events?.find(
+                (event) => event.event === `Mint${NFTType}NFT`
+            );
+
+            const nftAddr = event?.args?.['_address'];
+
+            console.log(nftAddr);
+
+            await updateDAO({
+                variables: {
+                    input: {
+                        id: daoData.id,
+                        nftContracts: {
+                            [(NFTType as string).toLowerCase()]: nftAddr,
+                        },
+                    },
+                },
+            });
+        }
+    };
+
     /**
      * It creates a new gate.
      * @param e - React.FormEvent
@@ -353,55 +407,7 @@ const AddGateForm = () => {
             const hash = await uploadFileToIPFS(form);
             const gateID = uuidv4();
 
-            if (!daoData.nftContracts[(NFTType as string).toLowerCase()]) {
-                // Get minting authorization
-                const { data: signData } = await generateSign();
-
-                const signature: Signature = signData.generatedNonceSignature;
-
-                const contract = new ethers.Contract(
-                    '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-                    abi,
-                    library.getSigner()
-                );
-
-                const deployTx = await contract.deployNFT(
-                    badgeName,
-                    'GATENFT',
-                    '',
-                    adminList.map((admin) => admin.wallet),
-                    true,
-                    signature.signature,
-                    signature.nonce,
-                    (NFTType as string) == 'Reward' ? 0 : 1
-                );
-
-                const contractReceipt: ContractReceipt = await deployTx.wait();
-                const event = contractReceipt.events?.find(
-                    (event) =>
-                        event.event ===
-                        `Mint${
-                            (gateData.nftType as string)
-                                .charAt(0)
-                                .toUpperCase() +
-                            (gateData.nftType as string)
-                                .substring(1)
-                                .toLowerCase()
-                        }NFT`
-                );
-                const nftAddr = event?.args?.['_address'];
-
-                await updateDAO({
-                    variables: {
-                        input: {
-                            id: daoData.id,
-                            nftContracts: {
-                                [(NFTType as string).toLowerCase()]: nftAddr,
-                            },
-                        },
-                    },
-                });
-            }
+            await deployContract();
 
             await createGate({
                 variables: {
@@ -461,64 +467,7 @@ const AddGateForm = () => {
                 form.append('file', uploadFile, 'image.png');
                 const hash = await uploadFileToIPFS(form);
 
-                if (
-                    daoData?.nftContracts == null
-                        ? true
-                        : !daoData?.nftContracts[
-                              (NFTType as string).toLowerCase()
-                          ]
-                ) {
-                    // Get minting authorization
-                    const { data: signData } = await generateSign();
-
-                    const signature: Signature =
-                        signData.generatedNonceSignature;
-
-                    const contract = new ethers.Contract(
-                        '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-                        abi,
-                        library.getSigner()
-                    );
-
-                    const deployTx = await contract.deployNFT(
-                        badgeName,
-                        'GATENFT',
-                        '',
-                        adminList.map((admin) => admin.wallet),
-                        true,
-                        signature.signature,
-                        signature.nonce,
-                        (NFTType as string) == 'Reward' ? 0 : 1
-                    );
-
-                    const contractReceipt: ContractReceipt =
-                        await deployTx.wait();
-                    const event = contractReceipt.events?.find(
-                        (event) =>
-                            event.event ===
-                            `Mint${
-                                (gateData.nftType as string)
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                (gateData.nftType as string)
-                                    .substring(1)
-                                    .toLowerCase()
-                            }NFT`
-                    );
-                    const nftAddr = event?.args?.['_address'];
-
-                    await updateDAO({
-                        variables: {
-                            input: {
-                                id: daoData.id,
-                                nftContracts: {
-                                    [(NFTType as string).toLowerCase()]:
-                                        nftAddr,
-                                },
-                            },
-                        },
-                    });
-                }
+                await deployContract();
 
                 await updateGate({
                     variables: {
@@ -550,64 +499,7 @@ const AddGateForm = () => {
                     return false;
                 }
 
-                if (
-                    daoData?.nftContracts == null
-                        ? true
-                        : !daoData?.nftContracts[
-                              (NFTType as string).toLowerCase()
-                          ]
-                ) {
-                    // Get minting authorization
-                    const { data: signData } = await generateSign();
-
-                    const signature: Signature =
-                        signData.generatedNonceSignature;
-
-                    const contract = new ethers.Contract(
-                        '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-                        abi,
-                        library.getSigner()
-                    );
-
-                    const deployTx = await contract.deployNFT(
-                        badgeName,
-                        'GATENFT',
-                        '',
-                        adminList.map((admin) => admin.wallet),
-                        true,
-                        signature.signature,
-                        signature.nonce,
-                        (NFTType as string) == 'Reward' ? 0 : 1
-                    );
-
-                    const contractReceipt: ContractReceipt =
-                        await deployTx.wait();
-                    const event = contractReceipt.events?.find(
-                        (event) =>
-                            event.event ===
-                            `Mint${
-                                (gateData.nftType as string)
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                (gateData.nftType as string)
-                                    .substring(1)
-                                    .toLowerCase()
-                            }NFT`
-                    );
-                    const nftAddr = event?.args?.['_address'];
-
-                    await updateDAO({
-                        variables: {
-                            input: {
-                                id: daoData.id,
-                                nftContracts: {
-                                    [(NFTType as string).toLowerCase()]:
-                                        nftAddr,
-                                },
-                            },
-                        },
-                    });
-                }
+                await deployContract();
 
                 await updateGate({
                     variables: {

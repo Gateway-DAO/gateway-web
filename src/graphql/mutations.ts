@@ -1399,12 +1399,7 @@ export const generateSignature = /* GraphQL */ `
     generateSignature(message: $message) {
       ... on Signature {
         message
-        messageHash
-        v
-        r
-        s
         signature
-        nonce
       }
       ... on SignatureError {
         error
@@ -1418,12 +1413,7 @@ export const generatedNonceSignature = /* GraphQL */ `
     generatedNonceSignature {
       ... on Signature {
         message
-        messageHash
-        v
-        r
-        s
         signature
-        nonce
       }
       ... on SignatureError {
         error
