@@ -48,6 +48,7 @@ import { ContractReceipt, ethers } from 'ethers';
 import { abi } from '../../../../utils/abis/Router.json';
 import { useWeb3React } from '@web3-react/core';
 import { ROUTER_ADDRESS } from '../../../../utils/web3';
+import BackButton from '../../../../components/BackButton';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -575,14 +576,15 @@ const AddGateForm = () => {
 
     return (
         <Styled.Page>
-            <Styled.Container
-                onSubmit={edit ? onEdit : onSave}
-                // onKeyPress={(event) => {
-                //     if (event.which === 13 /* Enter */) {
-                //         event.preventDefault();
-                //     }
-                // }}
+            <BackButton
+                url={`/dao/${daoData.dao}`}
+                style={{
+                    marginTop: '20px',
+                }}
             >
+                Back to Onboarding
+            </BackButton>
+            <Styled.Container onSubmit={edit ? onEdit : onSave}>
                 <Styled.Header>
                     {edit ? `Edit Gate` : `Create a New Gate`}
                 </Styled.Header>
@@ -840,8 +842,8 @@ const AddGateForm = () => {
                                 />
                             )}
                             <Styled.AllowedFileType>
-                                <p>Image, Video, Audio, or 3D Model</p>
-                                <p>File supported: JPG, PNG, GIF, SVG, WEBM,</p>
+                                <p>Image files only.</p>
+                                <p>File supported: JPG, PNG, GIF, SVG, WEBM</p>
                                 <p>Max size: 100 MB</p>
                             </Styled.AllowedFileType>
                         </FormStyled.Fieldset>

@@ -452,7 +452,8 @@ export const Select = styled.select`
     background: #170627;
     color: #e5e5e5;
     margin: 15px 0;
-    ${'' /* width: 100%; */}
+
+    ${(props) => (props.valid === false ? InvalidInput : '')}
 `;
 
 export const QuestionIcon = styled.span`

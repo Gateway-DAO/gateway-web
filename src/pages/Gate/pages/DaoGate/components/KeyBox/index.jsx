@@ -25,6 +25,8 @@ const parsedKeyName = (name) => {
             return 'Quiz';
         case 'SELF_VERIFY':
             return 'Self Verify';
+        case 'TOKEN_HOLD':
+            return 'Hold A Token';
         case 'SC_INTERACTION':
         case 'CONTRACT_INTERACTION':
             return 'Contract Interaction';

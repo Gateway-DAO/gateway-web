@@ -11,59 +11,40 @@ import RichTextEditor from '../../../../../../components/RichTextEditor';
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { useCreateSelfVerify } from '../../../../../../api/database/useCreateKey';
 
 // Utils
 import space from '../../../../../../utils/canvas';
-import { v4 as uuidv4 } from 'uuid';
-import KeySuccess from '../AddKeySuccess';
-import { useLocation } from 'react-router-dom';
-import { KeyInformationInput } from '../../../../../../graphql/API';
+import { Gate } from '../../../../../../graphql/API';
+import { FormikContextType } from 'formik';
+
+/* Defining a type called Key. */
+interface Key {
+    taskLink: string;
+    titleDescriptionPair: { title: string; description: string }[];
+    keysRewarded: number;
+    peopleLimit: number;
+    unlimited: boolean;
+}
 
 const AddNewKey = () => {
-    const { state }: Record<string, any> = useLocation();
-    const edit = state ? true : false;
-
-    // States
-    const [taskLink, setTaskLink] = useState<string>(
-        state ? state.data.task.type.toLowerCase().replace(/_/g, '-') : ''
-    );
-    const [titleDescriptionPair, setTitleDescriptionPair] = useState<
-        KeyInformationInput[]
-    >(
-        state
-            ? state.data.information.map((pair) => ({
-                  title: pair.title,
-                  description: pair.description,
-              }))
-            : [
-                  {
-                      title: '',
-                      description: '',
-                  },
-              ]
-    );
-    // const [token, setToken] = useState(state ? state.data.token :'')
-    // const [amount, setAmount] = useState(state ? state.data.tokenAmount : 0)
-    const [keysRewarded, setKeysRewarded] = useState<number>(
-        state ? state.data.keys : 0
-    );
-    const [peopleLimit, setPeopleLimit] = useState<number>(
-        state ? state.data.peopleLimit : 0
-    );
-    const [unlimited, setUnlimited] = useState<boolean>(
-        state ? state.data.unlimited : false
-    );
     const [keysDilogBox, setKeysDilogBox] = useState<boolean>(false);
     const [peopleLimitDilogBox, setPeopleLimitDilogBox] =
         useState<boolean>(false);
-    const [createdKey, setCreatedKey] = useState<boolean>(false);
 
-    const { gateData }: Record<string, any> = useOutletContext();
+    const {
+        gateData,
+        formik,
+        edit,
+        loading,
+    }: {
+        gateData: Gate;
+        formik: FormikContextType<Key>;
+        edit: boolean;
+        loading: boolean;
+    } = useOutletContext();
 
     // Hooks
     const navigate = useNavigate();
-    const { createSelfVerify, loading } = useCreateSelfVerify();
 
     /**
      * Updates a title on the titleDescriptionPair array.
@@ -73,7 +54,7 @@ const AddNewKey = () => {
         e.preventDefault();
         const newValue = e.target.value;
 
-        const add = titleDescriptionPair.map((value, i) => {
+        const add = formik.values.titleDescriptionPair.map((value, i) => {
             if (idx === i) {
                 return {
                     ...value,
@@ -82,7 +63,7 @@ const AddNewKey = () => {
             }
             return value;
         });
-        setTitleDescriptionPair(add);
+        formik.setFieldValue('titleDescriptionPair', add);
     };
 
     /**
@@ -93,7 +74,7 @@ const AddNewKey = () => {
         // e.preventDefault();
         const newValue = e;
 
-        const add = titleDescriptionPair.map((value, i) => {
+        const add = formik.values.titleDescriptionPair.map((value, i) => {
             if (idx === i) {
                 return {
                     ...value,
@@ -102,7 +83,8 @@ const AddNewKey = () => {
             }
             return value;
         });
-        setTitleDescriptionPair(add);
+
+        formik.setFieldValue('titleDescriptionPair', add);
     };
 
     /**
@@ -112,13 +94,14 @@ const AddNewKey = () => {
     const addTitleDescription = (e) => {
         e.preventDefault();
 
-        setTitleDescriptionPair([
-            ...titleDescriptionPair,
+        formik.setFieldValue('titleDescriptionPair', [
+            ...formik.values.titleDescriptionPair,
             {
                 title: '',
                 description: '',
             },
         ]);
+
         window.scrollBy(0, 30);
     };
 
@@ -129,22 +112,19 @@ const AddNewKey = () => {
     const deletePair = (e, idx) => {
         e.preventDefault();
 
-        setTitleDescriptionPair(
-            titleDescriptionPair.filter((data, i) => i !== idx)
+        formik.setFieldValue(
+            'titleDescriptionPair',
+            formik.values.titleDescriptionPair.filter((data, i) => i !== idx)
         );
     };
 
     const unlimitedClicked = () => {
-        setUnlimited((prev) => !prev);
-        unlimited && setPeopleLimit(0);
+        formik.setFieldValue('unlimited', !formik.values.unlimited);
+        if (formik.values.unlimited) {
+            formik.setFieldValue('peopleLimit', 0);
+        }
     };
 
-    const keysDilogBoxFunc = () => {
-        setKeysDilogBox(!keysDilogBox);
-    };
-    const peopleLimitDilogBoxFunc = () => {
-        setPeopleLimitDilogBox(!peopleLimitDilogBox);
-    };
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
@@ -154,117 +134,25 @@ const AddNewKey = () => {
      * Navigates to the next step of the task or, if it is a self verify task, adds a new key.
      * @returns None
      */
-    const onSubmit = async (e) => {
-        // e.preventDefault()
-        if (taskLink !== 'self-verify') {
-            if (taskLink === '') {
-                alert('Please Select a Task');
-                e.preventDefault();
-                return false;
-            } else {
-                navigate(taskLink, {
-                    state: {
-                        gateData,
-                        titleDescriptionPair,
-                        token: '',
-                        amount: 0,
-                        keysRewarded,
-                        peopleLimit,
-                        unlimited,
-                    },
-                });
-            }
-        } else {
-            e.preventDefault();
+    const submit = async (e) => {
+        e.preventDefault();
 
-            try {
-                await createSelfVerify({
-                    variables: {
-                        input: {
-                            id: uuidv4(),
-                            gateID: gateData.id,
-                            information: titleDescriptionPair,
-                            //token: token,
-                            //tokenAmount: amount,
-                            token: '',
-                            tokenAmount: 0,
-                            keys: keysRewarded,
-                            peopleLimit,
-                            unlimited,
-                            task: {
-                                type: 'SELF_VERIFY',
-                            },
-                        },
-                    },
-                });
+        formik.values.taskLink !== 'self-verify'
+            ? navigate(formik.values.taskLink)
+            : formik.submitForm();
 
-                setCreatedKey(true);
-            } catch (err) {
-                alert('An error occurred. Please try again later!');
-                console.log(err);
-            }
-        }
+        return false;
     };
 
-    const onEditSubmit = async (e) => {
-        // e.preventDefault()
-
-        if (taskLink !== 'self-verify') {
-            navigate(taskLink, {
-                state: {
-                    gateData,
-                    titleDescriptionPair,
-                    token: '',
-                    amount: 0,
-                    keysRewarded,
-                    peopleLimit,
-                    unlimited,
-                    taskInfo: state.data.task,
-                },
-            });
-        } else {
-            e.preventDefault();
-
-            try {
-                await createSelfVerify({
-                    variables: {
-                        input: {
-                            id: uuidv4(),
-                            gateID: gateData.id,
-                            information: titleDescriptionPair,
-                            //token: token,
-                            //tokenAmount: amount,
-                            token: '',
-                            tokenAmount: 0,
-                            keys: keysRewarded,
-                            peopleLimit,
-                            unlimited,
-                            task: {
-                                type: 'SELF_VERIFY',
-                            },
-                        },
-                    },
-                });
-
-                setCreatedKey(true);
-            } catch (err) {
-                alert('An error occurred. Please try again later!');
-                console.log(err);
-            }
-        }
-    };
-
-    return createdKey ? (
-        <KeySuccess edit={!!edit} gate={gateData.id} />
-    ) : (
+    return (
         <Styled.AddNewKeyContainer>
             <Styled.SpaceBox id='space-canvas' />
-            <FormStyled.FormBox onSubmit={edit ? onEditSubmit : onSubmit}>
+            <FormStyled.FormBox action='' onSubmit={submit}>
                 <FormStyled.H1>
                     {edit ? 'Edit Key' : 'Add a New Key'}
                 </FormStyled.H1>
 
-                {titleDescriptionPair.map((pair, idx) => (
+                {formik.values.titleDescriptionPair.map((pair, idx) => (
                     <>
                         <FormStyled.Fieldset marginBottom='0px'>
                             <FormStyled.Label htmlFor='title'>
@@ -295,7 +183,7 @@ const AddNewKey = () => {
                             />
                         </FormStyled.Fieldset>
 
-                        {titleDescriptionPair.length > 1 && (
+                        {formik.values.titleDescriptionPair.length > 1 && (
                             <FormStyled.DeleteWrapper
                                 onClick={(e) => deletePair(e, idx)}
                             >
@@ -361,6 +249,7 @@ const AddNewKey = () => {
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='keysRewarded'>
                                 Keys REWARDED*{' '}
+                                {/*
                                 <FormStyled.QuestionIcon
                                     onMouseEnter={keysDilogBoxFunc}
                                     onMouseLeave={keysDilogBoxFunc}
@@ -373,19 +262,18 @@ const AddNewKey = () => {
                                         successfully compleating a task.
                                     </FormStyled.DescriptionDilogBox>
                                 )}
+                                */}
                             </FormStyled.Label>
                             <FormStyled.Input
                                 id='keysRewarded'
                                 name='keysRewarded'
-                                onChange={(e) =>
-                                    setKeysRewarded(
-                                        parseInt(
-                                            (e.target as HTMLInputElement).value
-                                        )
-                                    )
-                                }
+                                onChange={formik.handleChange}
                                 placeholder='0'
-                                value={keysRewarded > 0 ? keysRewarded : ''}
+                                value={
+                                    formik.values.keysRewarded > 0
+                                        ? formik.values.keysRewarded
+                                        : ''
+                                }
                                 required
                             />
                         </FormStyled.Fieldset>
@@ -393,6 +281,7 @@ const AddNewKey = () => {
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='peopleLimit'>
                                 PEOPLE LIMIT*{' '}
+                                {/*
                                 <FormStyled.QuestionIcon
                                     onMouseEnter={peopleLimitDilogBoxFunc}
                                     onMouseLeave={peopleLimitDilogBoxFunc}
@@ -404,30 +293,36 @@ const AddNewKey = () => {
                                         Number of people can work on this task
                                     </FormStyled.DescriptionDilogBox>
                                 )}
+                                */}
                             </FormStyled.Label>
                             <Styled.InputContainer
-                                value={!unlimited ? peopleLimit : ''}
+                                value={
+                                    !formik.values.unlimited
+                                        ? formik.values.peopleLimit
+                                        : ''
+                                }
                             >
                                 <Styled.Input
                                     id='peopleLimit'
                                     name='peopleLimit'
                                     type='number'
                                     min='0'
-                                    onChange={(e) =>
-                                        setPeopleLimit(
-                                            parseInt(
-                                                (e.target as HTMLInputElement)
-                                                    .value
-                                            )
-                                        )
+                                    onChange={formik.handleChange}
+                                    placeholder={
+                                        formik.values.unlimited
+                                            ? 'Unlimited'
+                                            : ''
                                     }
-                                    placeholder={unlimited ? 'Unlimited' : ''}
-                                    value={!unlimited ? peopleLimit : ''}
-                                    required={!unlimited}
+                                    value={
+                                        !formik.values.unlimited
+                                            ? formik.values.peopleLimit
+                                            : ''
+                                    }
+                                    required={!formik.values.unlimited}
                                 />
                                 <Styled.UnlimitedBoxContainer
                                     onClick={unlimitedClicked}
-                                    value={unlimited}
+                                    value={formik.values.unlimited}
                                 >
                                     Unlimited
                                 </Styled.UnlimitedBoxContainer>
@@ -444,7 +339,8 @@ const AddNewKey = () => {
                         </FormStyled.SubText>
                         <FormStyled.GridBox
                             onChange={(e) =>
-                                setTaskLink(
+                                formik.setFieldValue(
+                                    'taskLink',
                                     (e.target as HTMLInputElement).value
                                 )
                             }
@@ -454,56 +350,66 @@ const AddNewKey = () => {
                                 name='task'
                                 value='quiz'
                                 label='Create a Quiz'
-                                checked={taskLink === 'quiz'}
+                                checked={formik.values.taskLink === 'quiz'}
                             />
                             <FormStyled.BigRadio
                                 id='task-2'
                                 name='task'
                                 value='meeting-code'
                                 label='Meeting Code'
-                                checked={taskLink === 'meeting-code'}
+                                checked={
+                                    formik.values.taskLink === 'meeting-code'
+                                }
                             />
                             <FormStyled.BigRadio
                                 id='task-3'
                                 name='task'
                                 value='token'
                                 label='Hold a Token'
-                                checked={taskLink === 'token'}
+                                checked={formik.values.taskLink === 'token'}
                             />
                             <FormStyled.BigRadio
                                 id='task-4'
                                 name='task'
                                 value='sc-interaction'
                                 label='Contract Interaction'
-                                checked={taskLink === 'sc-interaction'}
+                                checked={
+                                    formik.values.taskLink === 'sc-interaction'
+                                }
                             />
                             <FormStyled.BigRadio
                                 id='task-5'
                                 name='task'
                                 value='governance'
                                 label='Snapshot Governance'
-                                checked={taskLink === 'governance'}
+                                checked={
+                                    formik.values.taskLink === 'governance'
+                                }
                             />
+                            <FormStyled.BigRadio
+                                id='task-6'
+                                name='task'
+                                value='self-verify'
+                                label='Self Verify'
+                                checked={
+                                    formik.values.taskLink === 'self-verify'
+                                }
+                            />
+                            {/*
                             <FormStyled.BigRadio
                                 id='task-6'
                                 name='task'
                                 value='manual'
                                 label='Manual Task'
-                                checked={taskLink === 'manual'}
+                                checked={formik.values.taskLink === 'manual'}
                             />
-                            <FormStyled.BigRadio
-                                id='task-7'
-                                name='task'
-                                value='self-verify'
-                                label='Self Verify'
-                                checked={taskLink === 'self-verify'}
-                            />
+                            */}
                         </FormStyled.GridBox>
                     </FormStyled.Fieldset>
                 )}
 
                 <FormStyled.Button type='submit'>
-                    {loading && <Loader color='white' />}
+                    {formik.isSubmitting && <Loader color='white' />}
                     Next
                 </FormStyled.Button>
             </FormStyled.FormBox>
