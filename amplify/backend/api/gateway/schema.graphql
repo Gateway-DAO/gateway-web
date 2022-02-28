@@ -447,6 +447,7 @@ enum ErrorType {
     NO_PROPOSAL # for snapshot proposal
     NO_VOTE # for snapshot proposal
     WRONG_TASK
+    NO_MORE_SLOTS
 }
 
 enum CompletedState {

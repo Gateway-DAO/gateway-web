@@ -43,6 +43,15 @@ exports.handler = async (event, ctx, callback) => {
         // 1. get key
         const key = await getKey(keyID)
 
+        if (key.peopleLimit <= 0 && !key.unlimited) {
+            return {
+                __typename: 'Error',
+                keyID,
+                error: 'NO_MORE_SLOTS',
+                msg: "This task can no longer be completed.",
+            }
+        }
+
         // 2. get gate
         const gate = await getGate(key.gateID)
 
@@ -98,7 +107,7 @@ exports.handler = async (event, ctx, callback) => {
         // 4.1. connect to BitQuery
         const ENDPOINT = 'https://graphql.bitquery.io/'
         const QUERY = `
-            query getContractInteraction($address: String, $scAddress: String, $method: String) {
+            query getContractInteraction($address: String, $scAddress: String${method && ", $method: String"}) {
                 ethereum(network: ${chain()}) {
                 smartContractCalls(
                     caller: {is: $address}
@@ -176,8 +185,6 @@ exports.handler = async (event, ctx, callback) => {
         }
     } catch (error) {
         const { keyID } = event.arguments
-
-        console.log(error)
 
         return {
             __typename: 'Error',

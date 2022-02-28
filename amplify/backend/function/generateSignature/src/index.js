@@ -31,12 +31,8 @@ const generateSignature = async (message) => {
 
     const signer = new ethers.Wallet(PRIVATE);
 
-    const nonce = "56475686798";
-
-    let messageHash = ethers.utils.solidityKeccak256(["string"], [nonce]);
+    let messageHash = ethers.utils.solidityKeccak256(["string"], [message]);
     let signature = await signer.signMessage(ethers.utils.arrayify(messageHash));
-
-    console.log(signature);
 
     return signature;
 };

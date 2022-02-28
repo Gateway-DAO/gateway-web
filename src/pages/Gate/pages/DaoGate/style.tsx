@@ -97,9 +97,12 @@ export const TagsDiv = styled.div`
 `;
 
 export const AdditionalInfoBox = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 2fr 3fr;
+    display: flex;
     margin-top: 38px;
+
+    & > * {
+        margin-right: 40px;
+    }
 `;
 
 export const AdminsBox = styled.div`
@@ -265,12 +268,13 @@ export const Box = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 200px;
-    border: 1px solid #7e3bdc;
+    border: 1px solid rgba(165, 165, 165, 0.5);
     box-sizing: border-box;
     border-radius: 20px;
     align-items: center;
     justify-content: center;
+
+    padding: 80px 0;
 `;
 
 export const BigText = styled.div`
@@ -281,15 +285,15 @@ export const BigText = styled.div`
     line-height: 64px;
     letter-spacing: -0.015em;
     text-align: left;
+
+    margin-bottom: 20px;
 `;
 
 export const StartButton = styled.div`
-    margin-top: 10px;
     font-family: Poppins;
     font-size: 13px;
     font-style: normal;
     font-weight: 700;
-    line-height: 20px;
     letter-spacing: 0.05em;
     text-align: center;
     color: white;
@@ -303,9 +307,13 @@ export const StartButton = styled.div`
     &:hover {
         cursor: pointer;
     }
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const ButtonText = styled.p`
-    padding: 5px 30px 8px 30px;
+    margin: 16px 48px;
     font-size: 14px;
 `;

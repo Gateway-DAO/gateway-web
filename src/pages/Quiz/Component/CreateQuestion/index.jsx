@@ -11,39 +11,20 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { IoMdAdd } from 'react-icons/io';
 
 const CreateQuestion = ({
-    data,
-    setData,
     setActiveModal,
     setShowMessage,
     setOptionsPerQuestion,
     initialClont,
+    formik,
 }) => {
     const [optionCount, setOptionCount] = useState(initialClont);
-    const [questions, setQuestions] = useState(
-        data || [
-            {
-                question: '',
-                options: [
-                    {
-                        answer: '',
-                        correct: false,
-                    },
-                    {
-                        answer: '',
-                        correct: false,
-                    },
-                ],
-                nrOfCorrectAnswers: 0,
-            },
-        ]
-    );
 
     /**
      * It adds a new question to the list of questions.
      */
     const AddQuestionHandler = () => {
-        setQuestions([
-            ...questions,
+        formik.setFieldValue('quiz.questions', [
+            ...formik.values.quiz.questions,
             {
                 question: '',
                 options: [
@@ -66,7 +47,12 @@ const CreateQuestion = ({
      * It removes the question from the array of questions.
      */
     const deleteQuestion = (questionNumber) => {
-        setQuestions(questions.filter((v, idx) => idx !== questionNumber));
+        formik.setFieldValue(
+            'quiz.questions',
+            formik.values.quiz.questions.filter(
+                (v, idx) => idx !== questionNumber
+            )
+        );
     };
 
     /**
@@ -74,7 +60,7 @@ const CreateQuestion = ({
      */
     const editQuestion = (e, index) => {
         const changeValue = e.target.value;
-        const helper = questions.map((values, idx) => {
+        const helper = formik.values.quiz.questions.map((values, idx) => {
             if (idx === index) {
                 return {
                     ...values,
@@ -83,21 +69,21 @@ const CreateQuestion = ({
             }
             return values;
         });
-        setQuestions(helper);
+        formik.setFieldValue('quiz.questions', helper);
     };
 
     /**
      * It adds an option to the question at the specified index.
      */
     const addOption = (index) => {
-        const addingOption = questions.map((value, idx) => {
+        const addingOption = formik.values.quiz.questions.map((value, idx) => {
             if (idx === index) {
                 value.options.push({ answer: '', correct: false });
             }
             return value;
         });
 
-        setQuestions(addingOption);
+        formik.setFieldValue('quiz.questions', addingOption);
     };
 
     /**
@@ -105,15 +91,12 @@ const CreateQuestion = ({
      */
     const editOption = (event, index, optionIndex) => {
         const changedValue = event.target.value;
-        const helper = questions.map((value, idx) => {
+        const helper = formik.values.quiz.questions.map((value, idx) => {
             if (idx === index) {
                 let arr = value.options;
                 if (arr[optionIndex].answer === '') {
                     setOptionCount(
                         optionCount.map((op, i) => {
-                            // if (op > 0) {
-                            //     return op;
-                            // }
                             if (i === index && changedValue !== '') {
                                 return op + 1;
                             } else if (i === index && changedValue === '') {
@@ -134,14 +117,14 @@ const CreateQuestion = ({
             }
             return value;
         });
-        setQuestions(helper);
+        formik.setFieldValue('quiz.questions', helper);
     };
 
     /**
      * This function deletes an option from a question
      */
     const deleteOption = (questionNumber, optionNumber) => {
-        const del = questions.map((value, idx) => {
+        const del = formik.values.quiz.questions.map((value, idx) => {
             if (idx === questionNumber) {
                 if (value.options.length > 2) {
                     value.options.splice(optionNumber, 1);
@@ -151,7 +134,7 @@ const CreateQuestion = ({
             }
             return value;
         });
-        setQuestions(del);
+        formik.setFieldValue('quiz.questions', del);
     };
 
     /**
@@ -161,7 +144,7 @@ const CreateQuestion = ({
      * correct answers by 1
      */
     const addCorrectAnswer = (questionNumber, optionNumber) => {
-        const add = questions.map((value, idx) => {
+        const add = formik.values.quiz.questions.map((value, idx) => {
             if (idx === questionNumber) {
                 let arr = value.options;
                 if (value.options.at(optionNumber).correct) {
@@ -178,8 +161,7 @@ const CreateQuestion = ({
             }
             return value;
         });
-        setQuestions(add);
-        console.log(questions);
+        formik.setFieldValue('quiz.questions', add);
     };
 
     /**
@@ -197,7 +179,6 @@ const CreateQuestion = ({
      * It sends the quiz to the next phase.
      */
     const saveQuiz = () => {
-        setData(questions);
         setActiveModal('PERCENTAGE_PAGE');
         setShowMessage(false);
         setOptionsPerQuestion(optionCount);
@@ -205,19 +186,19 @@ const CreateQuestion = ({
 
     return (
         <>
-            {questions.map((question, index) => (
+            {formik.values.quiz.questions.map((question, index) => (
                 <>
                     <FormStyled.Fieldset>
                         <FormStyled.Label>
                             QUIZ QUESTION {index + 1}
                         </FormStyled.Label>
                         <FormStyled.Input
-                            onChange={(e) => editQuestion(e, index)}
+                            onChange={formik.handleChange}
                             type='text'
                             id={`question-${index}`}
-                            name='question'
+                            name={`quiz.questions[${index}].question`}
                             placeholder='i.e. What is our token name?'
-                            value={question.question}
+                            value={formik.values.quiz.questions[index].question}
                             required
                         />
                     </FormStyled.Fieldset>
@@ -231,9 +212,12 @@ const CreateQuestion = ({
                                 </Styled.IconBox>
                                 <Styled.AnswerInput
                                     id={`answerInput-${idx}`}
-                                    name={ele.answer}
-                                    onChange={(e) => editOption(e, index, idx)}
-                                    value={ele.answer}
+                                    name={`quiz.questions[${index}].options[${idx}].answer`}
+                                    onChange={formik.handleChange}
+                                    value={
+                                        formik.values.quiz.questions[index]
+                                            .options[idx].answer
+                                    }
                                     required
                                 />
                                 <Styled.IconBox
@@ -294,7 +278,7 @@ const CreateQuestion = ({
                             </Styled.AddOptionText>
                         </Styled.AnswerBox>
                     </FormStyled.Fieldset>
-                    {questions.length > 1 && (
+                    {formik.values.quiz.questions.length > 1 && (
                         <FormStyled.DeleteWrapper
                             onClick={(e) => deleteQuestion(index)}
                         >
@@ -302,7 +286,7 @@ const CreateQuestion = ({
                                 <FaTrashAlt />
                             </FormStyled.IconButton>
                             <FormStyled.TextLabel marginLeft='10px'>
-                                Delete Section
+                                Delete Question
                             </FormStyled.TextLabel>
                         </FormStyled.DeleteWrapper>
                     )}
@@ -312,9 +296,11 @@ const CreateQuestion = ({
                 <Styled.Circle onClick={AddQuestionHandler}>
                     <IoMdAdd style={{ color: 'white' }} />
                 </Styled.Circle>
-                Add Questions
+                Add Another Question
             </Styled.AddQuestionBox>
-            <FormStyled.Button onClick={saveQuiz}>Next</FormStyled.Button>
+            <FormStyled.Button onClick={saveQuiz}>
+                Finish Quiz
+            </FormStyled.Button>
         </>
     );
 };

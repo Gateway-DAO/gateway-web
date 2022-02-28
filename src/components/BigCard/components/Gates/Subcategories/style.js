@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     font-family: Be Vietnam;
     display: flex;
-    justify-content: space-between;
-    padding-top: 30px;
+    justify-content: flex-end;
+    margin-top: 10px;
 `;
 export const Categories = styled.div`
     display: flex;

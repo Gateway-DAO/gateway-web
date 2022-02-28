@@ -615,6 +615,7 @@ export enum ErrorType {
   NO_PROPOSAL = "NO_PROPOSAL",
   NO_VOTE = "NO_VOTE",
   WRONG_TASK = "WRONG_TASK",
+  NO_MORE_SLOTS = "NO_MORE_SLOTS",
 }
 
 

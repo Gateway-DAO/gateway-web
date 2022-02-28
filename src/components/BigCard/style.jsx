@@ -235,9 +235,9 @@ const SelectionTabStyling = `
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
 
-    border-bottom: 4px solid ;
+    border-bottom: 2px solid;
     border-image: linear-gradient(95.57deg, #EE787B 8.89%, #E153F2 34.15%, #495BE0 67.09%, #6A39F3 95.52%);
     border-image-slice: 1;  
 `;

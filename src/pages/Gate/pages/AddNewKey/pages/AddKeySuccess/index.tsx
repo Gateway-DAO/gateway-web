@@ -12,6 +12,7 @@ import space from '../../../../../../utils/canvas';
 In this case, we are expecting a `gate` property that will be a string. */
 interface AddKeySuccessProps {
     gate?: string;
+    edit?: boolean;
 }
 
 /**
@@ -19,7 +20,7 @@ interface AddKeySuccessProps {
  * @param  - `gate`: The gate that the key was added to.
  * @returns A React component.
  */
-const AddKeySuccess: React.FC<AddKeySuccessProps> = ({ gate }) => {
+const KeySuccess: React.FC<AddKeySuccessProps> = ({ gate, edit = false }) => {
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
@@ -40,10 +41,12 @@ const AddKeySuccess: React.FC<AddKeySuccessProps> = ({ gate }) => {
     return (
         <Styled.Container>
             <ThemeStyled.SpaceBox id='space-canvas' />
-            <Styled.Heading>Key Successfully Added!</Styled.Heading>
+            <Styled.Heading>
+                Key Successfully {edit ? 'Edited' : 'Added'}!
+            </Styled.Heading>
             <Styled.RedirectText>Redirecting...</Styled.RedirectText>
         </Styled.Container>
     );
 };
 
-export default AddKeySuccess;
+export default KeySuccess;

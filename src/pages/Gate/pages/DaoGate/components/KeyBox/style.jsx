@@ -47,6 +47,12 @@ export const EditContainer = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     font-size: 10px;
+
+    &:hover {
+        cursor: pointer;
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+    }
 `;
 
 export const BoxSubtitle = styled.div`
@@ -130,10 +136,11 @@ export const BoxSubtitle = styled.div`
 `;
 export const BottonBox = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 `;
 export const ActionButton = styled.div`
     display: flex;
+    margin-right: 40px;
 `;
 
 const DetailsButton = `
@@ -206,15 +213,22 @@ export const EditButton = styled.div`
     text-align: center;
     color: white;
     border-radius: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+    margin-right: 20px;
+
+    ${(props) =>
+        props.opened
+            ? DetailsButton
+            : `
     border: solid 1px transparent;
     background-image: linear-gradient(#170627, #170627),
         linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
     background-origin: border-box;
     background-clip: content-box, border-box;
-    &:hover {
-        cursor: pointer;
-    }
-    margin-right: 20px;
+    `}
 `;
 export const ButtonText = styled.p`
     font-size: 14px;

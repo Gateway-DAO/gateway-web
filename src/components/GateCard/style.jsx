@@ -108,6 +108,7 @@ export const PeopleInvolved = styled.div`
 export const CategoryList = styled.ul`
     //margin-top: -15px;
     margin: 0 25px;
+    margin-top: 20px;
     display: flex;
     align-items: center;
     @media only screen and (max-width: 380px) {
@@ -124,7 +125,10 @@ export const Category = styled.li`
     border: 1px solid #170627;
     box-sizing: border-box;
     border-radius: 20px;
-    display: inline-block;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     font-family: Be Vietnam;
     font-style: normal;
@@ -158,7 +162,7 @@ export const CardBody = styled.div`
 
 export const CardTitle = styled.h1`
     font-family: 'Be Vietnam';
-    font-size: 18px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: 26px;
@@ -203,7 +207,7 @@ export const MediumHeading = styled.h3`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 13px;
     line-height: 21px;
     /* identical to box height, or 131% */
 
@@ -227,11 +231,12 @@ export const KeyBox = styled.div`
     flex-direction: row;
     align-items: center;
     position: relative;
+    margin-top: 5px;
 `;
 
 export const Circle = styled.div`
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     margin-right: 5px;
 
     & .CircularProgressbar .CircularProgressbar-path {
@@ -243,6 +248,8 @@ export const ActivityBox = styled.div`
     display: flex;
 
     align-items: center;
+    justify-content: space-between;
+
     margin: 15px;
 `;
 export const ActionButton = styled.div`

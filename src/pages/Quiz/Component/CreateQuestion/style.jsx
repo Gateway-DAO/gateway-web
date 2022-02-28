@@ -51,6 +51,9 @@ export const AddQuestionBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: left;
+
+    margin-top: 10px;
+    margin-bottom: 50px;
 `;
 
 export const Circle = styled.div`
