@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const DaoWrapper = styled.div`
-    width: 95vw;
+    width: 95%;
     margin: 20px auto;
     color: white;
 `;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const HeaderDiv = styled.header`
-    width: 100vw;
+    width: 100%;
     position: relative;
     height: 90px;
     display: grid;

@@ -3,7 +3,7 @@ import { FiSearch } from 'react-icons/fi';
 
 export const SearchMainDiv = styled.div`
     display: flex;
-    width: 100vw;
+    width: 100%;
     height: 120px;
     justify-content: center;
     margin-top: 30px;

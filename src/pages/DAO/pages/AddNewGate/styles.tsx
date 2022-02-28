@@ -15,14 +15,14 @@ export const Page = styled.div`
 
     overflow-x: hidden;
 
-    &:before {
+    /* &:before {
         position: absolute;
         content: '';
         z-index: -2;
         background-color: #170627;
         height: 100%;
         width: 100%;
-    }
+    } */
 `;
 
 export const Container = styled.form`

@@ -89,7 +89,7 @@ export const SubText = styled.p`
 
 /** CONTAINERS **/
 export const FormBox = styled.form`
-    max-width: 100vw;
+    max-width: 100%;
     display: flex;
     flex: 1;
     flex-direction: column;

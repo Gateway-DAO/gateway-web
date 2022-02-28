@@ -97,11 +97,11 @@ export const MarginWrapper = styled.div`
     margin: auto 20rem;
 `;
 export const SpaceBox = styled.canvas`
-    position: fixed;
+    position: absolute;
     top: 90px;
-    left: 0;
-    right: 0;
     z-index: -1;
+    left: 0;
+    width: 100%;
 `;
 export const Button = styled.button`
     margin-top: 10px;

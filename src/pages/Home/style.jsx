@@ -9,14 +9,14 @@ export const HomeContainer = styled.main`
 
     overflow-x: hidden;
 
-    &:before {
+    /* &:before {
         position: absolute;
         content: '';
         z-index: -2;
         background-color: #170627;
         height: 100%;
         width: 100%;
-    }
+    } */
 `;
 
 export const BigText = styled.h1`
@@ -116,10 +116,9 @@ export const MainBox = styled.section`
 export const SpaceBox = styled.canvas`
     position: absolute;
     top: 90px;
-    left: 0;
-    right: 0;
-    right: 0;
     z-index: -1;
+    left: 0;
+    width: 100%;
 `;
 
 export const CTABox = styled.section`

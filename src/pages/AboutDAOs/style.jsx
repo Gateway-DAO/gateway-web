@@ -6,14 +6,14 @@ export const PageContainer = styled.main`
     position: relative;
     overflow-x: hidden;
 
-    &:before {
+    /* &:before {
         position: absolute;
         content: '';
         z-index: -2;
         background-color: #170627;
         height: 100%;
         width: 100%;
-    }
+    } */
 `;
 export const MainWrapper = styled.div`
     display: flex;

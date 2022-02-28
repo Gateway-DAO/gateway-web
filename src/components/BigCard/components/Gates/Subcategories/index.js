@@ -4,7 +4,6 @@ import useAdmin from '../../../../../hooks/useAdmin';
 
 const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
     const { isAdmin } = useAdmin(whitelisted);
-    console.log(whitelisted);
     const categories = [
         'All',
         'Governance',

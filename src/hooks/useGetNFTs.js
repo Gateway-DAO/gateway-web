@@ -927,7 +927,7 @@ export const useGetNFTs = () => {
             return nfts;
         };
 
-        const data = await get();
+        const data = account ? await get() : [];
         return (await Promise.all(data)).filter((nft) => nft !== undefined);
     };
 

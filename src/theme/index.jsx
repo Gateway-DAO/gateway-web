@@ -44,6 +44,11 @@ export const GlobalTheme = createGlobalStyle`
     }
     body {
         line-height: 1;
+        background-color: #170627;
+    }
+    #root {
+        max-width: 1440px;
+        margin: auto;
     }
     ol, ul {
         list-style: none;

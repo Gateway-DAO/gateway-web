@@ -33,6 +33,7 @@ export const SpaceBox = styled.canvas`
     height: calc(100vh - 90px);
     top: 90px;
     z-index: -1;
+    width: 100%;
 `;
 
 export const MainText = styled.h1`
