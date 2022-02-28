@@ -335,7 +335,11 @@ const AddGateForm = () => {
     };
 
     const deployContract = async () => {
-        if (!daoData.nftContracts[(NFTType as string).toLowerCase()]) {
+        if (
+            daoData.nftContracts == null ||
+            (daoData.nftContracts != null &&
+                daoData.nftContracts[(NFTType as string).toLowerCase()])
+        ) {
             // Get minting authorization
             const { data: signData } = await generateSign();
 

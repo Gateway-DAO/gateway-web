@@ -95,7 +95,7 @@
         "generateSignature": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/generateSignature-715649774b414861416e-build.zip"
+          "s3Key": "amplify-builds/generateSignature-6a725a6f4a564759554e-build.zip"
         }
       },
       "auth": {
