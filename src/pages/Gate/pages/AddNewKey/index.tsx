@@ -40,6 +40,59 @@ const AddNewKey = ({ edit = false }) => {
 
     const [pushToDB, { loading }] = useMutation(gql(mutation));
 
+    const taskDBInput = () => {
+        switch (formik.values.taskLink) {
+            case 'self-verify':
+                return {
+                    type: 'SELF_VERIFY',
+                };
+            case 'quiz':
+                return {
+                    type: 'QUIZ',
+                    title: formik.values.quiz.title,
+                    description: formik.values.quiz.description,
+                    questions: formik.values.quiz.questions,
+                    passedAt: Math.floor(
+                        formik.values.quiz.questions.length *
+                            formik.values.quiz.percentage
+                    ),
+                };
+            case 'meeting-code':
+                return {
+                    type: 'MEETING_CODE',
+                    code: formik.values.code,
+                    caseSensitive: true,
+                };
+            case 'token':
+                return {
+                    type: 'TOKEN_HOLD',
+                    chainID: 1,
+                    address: formik.values.address,
+                    amount: formik.values.amount,
+                };
+            case 'sc-interaction':
+                return {
+                    type: 'CONTRACT_INTERACTION',
+                    chainID: formik.values.chain,
+                    address: formik.values.address,
+                    methodName: formik.values.methodName || '',
+                };
+            case 'governance':
+                return {
+                    type: 'SNAPSHOT_GOVERNANCE',
+                    snapshotType: formik.values.govActive.toUpperCase(),
+                    spaceID: formik.values.spaceID,
+                    proposal: formik.values.proposal,
+                };
+            case 'manual':
+                return {
+                    type: 'MANUAL',
+                };
+            default:
+                return { type: '' };
+        }
+    };
+
     const validate = (values) => {
         // eslint-disable-next-line prefer-const
         let errors = {
@@ -103,25 +156,27 @@ const AddNewKey = ({ edit = false }) => {
         },
         validate,
         onSubmit: async (values) => {
-            await pushToDB({
-                variables: {
-                    input: {
-                        id: uuidv4(),
-                        gateID: gateData.id,
-                        information: values.titleDescriptionPair,
-                        token: '',
-                        tokenAmount: 0,
-                        keys: values.keysRewarded,
-                        peopleLimit: values.peopleLimit,
-                        unlimited: values.unlimited,
-                        ...(!state && {
-                            task: input,
-                        }),
+            try {
+                await pushToDB({
+                    variables: {
+                        input: {
+                            id: uuidv4(),
+                            gateID: gateData.id,
+                            information: values.titleDescriptionPair,
+                            token: '',
+                            tokenAmount: 0,
+                            keys: values.keysRewarded,
+                            peopleLimit: values.peopleLimit,
+                            unlimited: values.unlimited,
+                            task: taskDBInput(),
+                        },
                     },
-                },
-            });
+                });
 
-            setCreatedKey(true);
+                setCreatedKey(true);
+            } catch (err) {
+                console.log(err);
+            }
         },
     });
 
@@ -129,57 +184,18 @@ const AddNewKey = ({ edit = false }) => {
         const switchTask = () => {
             switch (formik.values.taskLink) {
                 case 'self-verify':
-                    setInput({
-                        type: 'SELF_VERIFY',
-                    });
                     return createSelfVerify;
                 case 'quiz':
-                    setInput({
-                        type: 'QUIZ',
-                        title: formik.values.quiz.title,
-                        description: formik.values.quiz.description,
-                        questions: formik.values.quiz.questions,
-                        passedAt: Math.floor(
-                            formik.values.quiz.questions.length *
-                                formik.values.quiz.percentage
-                        ),
-                    });
                     return createQuiz;
                 case 'meeting-code':
-                    setInput({
-                        type: 'MEETING_CODE',
-                        code: formik.values.code,
-                        caseSensitive: true,
-                    });
                     return createMeetingCode;
                 case 'token':
-                    setInput({
-                        type: 'TOKEN_HOLD',
-                        chainID: 1,
-                        address: formik.values.address,
-                        amount: formik.values.amount,
-                    });
                     return createTokenHold;
                 case 'sc-interaction':
-                    setInput({
-                        type: 'CONTRACT_INTERACTION',
-                        chainID: formik.values.chain,
-                        address: formik.values.address,
-                        methodName: formik.values.methodName || '',
-                    });
                     return createContractInteraction;
                 case 'governance':
-                    setInput({
-                        type: 'SNAPSHOT_GOVERNANCE',
-                        snapshotType: formik.values.govActive.toUpperCase(),
-                        spaceID: formik.values.spaceID,
-                        proposal: formik.values.proposal,
-                    });
                     return createSnapshotGovernance;
                 case 'manual':
-                    setInput({
-                        type: 'MANUAL',
-                    });
                     return createManualTask;
                 default:
                     return mutation;
@@ -189,24 +205,28 @@ const AddNewKey = ({ edit = false }) => {
         setMutation(state ? updateKey : switchTask());
     }, [formik.values.taskLink]);
 
-    return createdKey ? (
-        <KeySuccess edit={!!state} gate={gateData.id} />
-    ) : (
+    return (
         <Styled.Container>
-            <BackButton url={backButton.url}>
-                Back to {backButton.text}
-            </BackButton>
-            <Outlet
-                context={{
-                    gateData,
-                    formik,
-                    edit: !!state || edit,
-                    loading,
-                    setBackButton,
-                    setValidator,
-                    state,
-                }}
-            />
+            {createdKey ? (
+                <KeySuccess edit={!!state} gate={gateData.id} />
+            ) : (
+                <>
+                    <BackButton url={backButton.url}>
+                        Back to {backButton.text}
+                    </BackButton>
+                    <Outlet
+                        context={{
+                            gateData,
+                            formik,
+                            edit: !!state || edit,
+                            loading,
+                            setBackButton,
+                            setValidator,
+                            state,
+                        }}
+                    />
+                </>
+            )}
         </Styled.Container>
     );
 };

@@ -1414,6 +1414,7 @@ export const getGate = /* GraphQL */ `
                         }
                         ... on MeetingCode {
                             type
+                            code
                             caseSensitive
                         }
                         ... on TokenHold {
@@ -1620,6 +1621,7 @@ export const getKey = /* GraphQL */ `
                 }
                 ... on MeetingCode {
                     type
+                    code
                     caseSensitive
                 }
                 ... on TokenHold {
@@ -1709,6 +1711,7 @@ export const listKeys = /* GraphQL */ `
                     }
                     ... on MeetingCode {
                         type
+                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -2267,6 +2270,7 @@ export const getTaskStatus = /* GraphQL */ `
                     }
                     ... on MeetingCode {
                         type
+                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -3401,6 +3405,7 @@ export const getKeysByGateId = /* GraphQL */ `
                     }
                     ... on MeetingCode {
                         type
+                        code
                         caseSensitive
                     }
                     ... on TokenHold {

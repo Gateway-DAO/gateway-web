@@ -6,7 +6,7 @@ import { useRef } from 'react';
 
 const DropDown = ({ toggle }) => {
     const navigate = useNavigate();
-    const { signIn, loggedIn } = useAuth();
+    const { signIn, loggedIn, loading } = useAuth();
     const ref = useRef(null);
 
     useClickAway(ref, () => {

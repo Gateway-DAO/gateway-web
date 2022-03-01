@@ -288,6 +288,7 @@ export const UserProvider = ({ children }) => {
         const callback = async () => {
             // Since state update is asynchrounous, let's keep track of the current value using an internal variable
             let userInfo_INTERNAL = userInfo;
+            setLoggingIn(true);
 
             if (web3.active && web3.account) {
                 // 1. fetch/create user based on the wallet
@@ -338,6 +339,8 @@ export const UserProvider = ({ children }) => {
                     }
                 }
             }
+
+            setLoggingIn(false);
         };
 
         callback();
@@ -352,13 +355,6 @@ export const UserProvider = ({ children }) => {
         console.log('event', event);
         switch (event) {
             case 'signIn':
-                /*
-                const userDB = await getUser({
-                    variables: {
-                        id: data.username,
-                    },
-                })
-                */
                 setUserInfo({
                     ...userInfo,
                     ...getUserGroups(data.signInUserSession),
@@ -392,7 +388,14 @@ export const UserProvider = ({ children }) => {
             activateWeb3,
             loadingWallet,
         }),
-        [walletConnected, userInfo, web3.wallet, loadingWallet, loggedIn]
+        [
+            walletConnected,
+            userInfo,
+            web3.wallet,
+            loadingWallet,
+            loggedIn,
+            loggingIn,
+        ]
     );
 
     return <Provider value={value}>{children}</Provider>;

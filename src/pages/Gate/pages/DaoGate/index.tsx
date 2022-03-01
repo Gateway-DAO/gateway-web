@@ -16,6 +16,7 @@ import { useGateAdmin } from '../../../../hooks/useAdmin';
 
 // Types
 import { DAO, Gate, Key, TaskStatus, User } from '../../../../graphql/API';
+import { useAuth } from '../../../../contexts/UserContext';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -44,6 +45,8 @@ const DaoGate: React.FC = () => {
         useOutletContext();
     const dao: DAO = gateData.dao;
     const navigate = useNavigate();
+
+    const { userInfo }: Record<string, any> = useAuth();
     const { isAdmin } = useGateAdmin(gateData.admins);
 
     const handleClick = () => {
@@ -64,7 +67,7 @@ const DaoGate: React.FC = () => {
         return (
             <Styled.Wrapper>
                 <BackButtonDiv
-                    url={`/dao/${dao.name}?tab=gates`}
+                    url={`/dao/${dao.id}?tab=gates`}
                     published={gateData.published}
                     id={gateData.id}
                     daoData={dao}
@@ -161,28 +164,32 @@ const DaoGate: React.FC = () => {
                             </Styled.LinksContainer>
                         </Styled.AdditionalInfoBox>
                         <Styled.HeaderLine />
-                        <Styled.SecondDiv>
-                            <Styled.SecondDivName>Keys</Styled.SecondDivName>
-                            <Styled.AnotherDiv>
-                                <Styled.CircleBox>
-                                    <CircularProgressbar
-                                        value={gateData.keysDone}
-                                        minValue={0}
-                                        maxValue={gateData.keysNumber}
-                                        strokeWidth={15}
-                                    />
-                                </Styled.CircleBox>
-                                <Styled.ProgressInfoDiv>
-                                    <Styled.ProgressInfoDivOne>
-                                        Keys
-                                    </Styled.ProgressInfoDivOne>
-                                    <Styled.ProgressInfoDivTwo>
-                                        {gateData.keysDone} of{' '}
-                                        {gateData.keysNumber}
-                                    </Styled.ProgressInfoDivTwo>
-                                </Styled.ProgressInfoDiv>
-                            </Styled.AnotherDiv>
-                        </Styled.SecondDiv>
+                        {gateData?.keysNumber !== 0 && (
+                            <Styled.SecondDiv>
+                                <Styled.SecondDivName>
+                                    Keys
+                                </Styled.SecondDivName>
+                                <Styled.AnotherDiv>
+                                    <Styled.CircleBox>
+                                        <CircularProgressbar
+                                            value={gateData.keysDone}
+                                            minValue={0}
+                                            maxValue={gateData.keysNumber}
+                                            strokeWidth={15}
+                                        />
+                                    </Styled.CircleBox>
+                                    <Styled.ProgressInfoDiv>
+                                        <Styled.ProgressInfoDivOne>
+                                            Keys
+                                        </Styled.ProgressInfoDivOne>
+                                        <Styled.ProgressInfoDivTwo>
+                                            {gateData.keysDone} of{' '}
+                                            {gateData.keysNumber}
+                                        </Styled.ProgressInfoDivTwo>
+                                    </Styled.ProgressInfoDiv>
+                                </Styled.AnotherDiv>
+                            </Styled.SecondDiv>
+                        )}
                         <Styled.ThirdDiv>
                             {isAdmin && (
                                 <Styled.Box>

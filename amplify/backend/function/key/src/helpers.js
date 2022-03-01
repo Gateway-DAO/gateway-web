@@ -112,4 +112,29 @@ const createKey = async (input) => {
     return Item
 }
 
-module.exports = { createKey }
+const updateKey = async (input) => {
+    let Item = {
+        id: input.id,
+        gateID: input.gateID,
+        information: input.information,
+        token: input.token,
+        tokenAmount: input.tokenAmount,
+        keys: input.keys,
+        peopleLimit: input.peopleLimit,
+        unlimited: input.unlimited,
+        createdAt: input.createdAt || new Date().toISOString(),
+        updatedAt: input.createdAt || new Date().toISOString(),
+        task: input.task
+    }
+
+    await docClient
+        .put({
+            TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            Item
+        })
+        .promise()
+
+    return Item
+}
+
+module.exports = { createKey, updateKey }

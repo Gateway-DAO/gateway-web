@@ -20,6 +20,11 @@ interface Key {
     spaceID?: string;
 }
 
+enum ActiveGovernance {
+    PROPOSAL = 'proposal',
+    VOTE = 'vote',
+}
+
 const AddGovernanceSnapshot = () => {
     const {
         formik,
@@ -75,28 +80,31 @@ const AddGovernanceSnapshot = () => {
                 <FormStyled.GridBox
                     cols='2'
                     gap='30px'
-                    onChange={(e) =>
-                        formik.setFieldValue('govActive', e.target.value)
-                    }
+                    onChange={formik.handleChange}
                 >
                     <FormStyled.BigRadio
                         id='option-1'
                         name='govActive'
-                        value='proposal'
+                        value={ActiveGovernance.PROPOSAL}
                         label='Create a Proposal'
-                        checked={formik.values.govActive === 'proposal'}
+                        checked={
+                            formik.values.govActive ===
+                            ActiveGovernance.PROPOSAL
+                        }
                     />
                     <FormStyled.BigRadio
                         id='option-2'
                         name='govActive'
-                        value='vote'
+                        value={ActiveGovernance.VOTE}
                         label='Vote'
-                        checked={formik.values.govActive === 'vote'}
+                        checked={
+                            formik.values.govActive === ActiveGovernance.VOTE
+                        }
                     />
                 </FormStyled.GridBox>
             </FormStyled.Fieldset>
 
-            {formik.values.govActive === 'vote' && (
+            {formik.values.govActive === ActiveGovernance.VOTE && (
                 <FormStyled.Fieldset>
                     <FormStyled.Label>Specific Proposal*</FormStyled.Label>
                     <FormStyled.Input
@@ -115,8 +123,8 @@ const AddGovernanceSnapshot = () => {
                 </FormStyled.Fieldset>
             )}
 
-            {(formik.values.govActive === 'vote' ||
-                formik.values.govActive === 'proposal') && (
+            {(formik.values.govActive === ActiveGovernance.PROPOSAL ||
+                formik.values.govActive === ActiveGovernance.VOTE) && (
                 <FormStyled.Fieldset>
                     <FormStyled.Label>Space ID*</FormStyled.Label>
                     <FormStyled.Input

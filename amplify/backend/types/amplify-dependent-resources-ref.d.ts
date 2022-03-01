@@ -1,4 +1,10 @@
 export type AmplifyDependentResourcesAttributes = {
+    "api": {
+        "gateway": {
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
+    },
     "function": {
         "getUserDAOs": {
             "Name": "string",
@@ -105,17 +111,29 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string",
             "LambdaExecutionRole": "string"
         },
-        "ceramic": {
+        "key": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
-        },
-        "generateSignature": {
-            "Name": "string",
-            "Arn": "string",
-            "Region": "string",
-            "LambdaExecutionRole": "string"
+        }
+    },
+    "auth": {
+        "gateway7887c977": {
+            "IdentityPoolId": "string",
+            "IdentityPoolName": "string",
+            "UserPoolId": "string",
+            "UserPoolArn": "string",
+            "UserPoolName": "string",
+            "AppClientIDWeb": "string",
+            "AppClientID": "string",
+            "CreatedSNSRole": "string"
+        }
+    },
+    "storage": {
+        "s3552269f5": {
+            "BucketName": "string",
+            "Region": "string"
         }
     }
 }

@@ -199,7 +199,7 @@ type Gate
     admins: [ID]!
     keysNumber: Int
     keys: [Key] @connection(keyName: "keyByGateID", fields: ["id"])
-    published: Boolean
+    published: Published
     badge: NFTInfo!
     preRequisites: PreRequisites
     retroactiveEarners: [String!]
@@ -328,6 +328,12 @@ enum SnapshotType {
 enum NFTType {
     CONTRIBUTOR
     REWARD
+}
+
+enum PUBLISHED {
+    NOT_PUBLISHED
+    PUBLISHED
+    PAUSED
 }
 
 union TaskUnion =
@@ -681,6 +687,18 @@ input ManualTaskInput {
     information: [KeyInformationInput]!
 }
 
+input UpdateKeyInput {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
+    task: AWSJSON # this can be customized depending on the update needs
+}
+
 ### CUSTOM QUERIES ###
 type Query {
     fetchFromCeramic(streamID: String!, node: AWSURL): FetchCeramicResponse @function(name: "ceramic-${env}")
@@ -701,25 +719,27 @@ type Mutation {
         @function(name: "vote-${env}")
 
     ## For keys ##
-    createQuiz(input: CreateKeyQuiz): Key @function(name: "addKey-${env}")
+    createQuiz(input: CreateKeyQuiz): Key @function(name: "key-${env}")
 
     createMeetingCode(input: CreateKeyMeetingCode): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createTokenHold(input: CreateKeyTokenHold): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createSelfVerify(input: CreateKeySelfVerify): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createContractInteraction(input: CreateKeyContractInteraction): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createManualTask(input: CreateKeyManualTask): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
+
+    updateKey(input: ): Key @function(name: "key-${env}")
 
     ## Verify keys ##
     verifyMeetingCode(
