@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 
 import Header from '../../components/Header';
-import WrappedBigSearch from '../../components/BigSearch';
-import Categories from '../../components/Categories';
 import Footer from '../../components/Footer';
-import CTASection from './components/CTASection';
 import * as Styled from './style';
+import * as CTAStyled from './components/CTASection/style';
 
 import space from '../../utils/canvas';
-import EMS_IMG from '../../assets/Group_26.png';
+import WalletBody from '../../components/WalletBody';
+import UserCategories from './components/UserCategories';
+import JoinBetaSection from './components/JoinBetaSection';
+import TutorialSection from './components/TutorialSection';
+import PartnerSection from './components/PartnerSection';
+import InvestorSection from './components/InvestorSection';
 
 const Home = (props) => {
     // eslint-disable-next-line
@@ -23,30 +26,33 @@ const Home = (props) => {
 
             <Styled.MainBox>
                 <Styled.SpaceBox id='space-canvas' />
-                <Styled.BigText>Discover Your Community</Styled.BigText>
-                <WrappedBigSearch />
+                <CTAStyled.Base />
+                <CTAStyled.Sparkles />
+                <CTAStyled.Dots />
+                <CTAStyled.Stars />
+                <CTAStyled.LbOne />
+                <CTAStyled.LbTwo />
+                <CTAStyled.LbThree />
+                <CTAStyled.RbOne />
+                <CTAStyled.RbTwo />
+                <Styled.WalletContent>
+                    <Styled.BigText>
+                        Your Decentralized Professional Network
+                    </Styled.BigText>
+                    <WalletBody title='ENTER THE GATEWAY' />
+                </Styled.WalletContent>
             </Styled.MainBox>
 
-            <Categories />
-            {/* Enlighten Me */}
-            <Styled.EMSBox>
-                <Styled.EMSImageContainer>
-                    <img src={`${EMS_IMG}`} alt='' />
-                </Styled.EMSImageContainer>
-                <Styled.EMSContentContainer>
-                    <Styled.EMSMediumText>
-                        Don't know what a DAO is?
-                    </Styled.EMSMediumText>
-                    <Styled.EMSButton to='/what-are-DAOs'>
-                        <Styled.CTAButtonText>
-                            ENLIGHTEN ME
-                        </Styled.CTAButtonText>
-                    </Styled.EMSButton>
-                </Styled.EMSContentContainer>
-            </Styled.EMSBox>
-
-            {/* Call to Action */}
-            <CTASection />
+            {/* Join Beta */}
+            <UserCategories />
+            {/* Join Beta */}
+            <JoinBetaSection />
+            {/* Tutorial */}
+            <TutorialSection />
+            {/* Partners */}
+            <PartnerSection />
+            {/* Partners */}
+            <InvestorSection />
 
             <Footer />
         </Styled.HomeContainer>
