@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
 import { Form } from 'formik';
 
 const InputDefault = `
@@ -292,11 +293,8 @@ export const SmallInput = styled.input`
     ${(props) => (props.value ? FilledInput : '')}
 `;
 
-const SearchInput = styled.input`
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 10px;
+const SearchInnerInput = styled.input<IInput>`
+    ${(props) => (props.white ? 'color: #170627;' : 'color: #e5e5e5;')}
 
     font-family: Be Vietnam;
     font-style: normal;
@@ -306,12 +304,36 @@ const SearchInput = styled.input`
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
-    background: #170627;
-    color: #e5e5e5;
-    margin: 15px 0;
-    width: 100%;
+    padding: 10px;
+    width: ${(props) => props.width || '100%'};
     outline: none;
+    border: 0px;
+
+    background-color: transparent;
 `;
+
+const SearchInputContainer = styled.div`
+    ${(props) => (props.white ? InputWhite : InputDefault)}
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px 0;
+
+    ${(props) => (!!props.value && !props.white ? FilledInput : '')}
+    ${(props) => (props.valid === false ? InvalidInput : '')}
+`;
+
+const SearchInputIcon = styled(FaSearch)`
+    margin: 0 10px;
+`;
+
+export const SearchInput = (props) => (
+    <SearchInputContainer {...props}>
+        <SearchInnerInput {...props} />
+        <SearchInputIcon color='white' />
+    </SearchInputContainer>
+);
 
 const CheckboxContainer = styled.div<{ checked: boolean }>`
     position: relative;
