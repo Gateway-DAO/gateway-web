@@ -870,7 +870,7 @@ const AddGateForm = () => {
                             <FormStyled.Label htmlFor='title'>
                                 Admin Privileges*
                             </FormStyled.Label>
-                            <FormStyled.Input
+                            <FormStyled.SearchInput
                                 onChange={(e) => setAdmin(e.target.value)}
                                 type='text'
                                 id='admin'
@@ -896,6 +896,7 @@ const AddGateForm = () => {
                                     <Loader color='white' size={32} />
                                 </Styled.CentralizedLoader>
                             ) : (
+                                admin.length > 0 &&
                                 adminSearch.length > 0 && (
                                     <Styled.SearchBox>
                                         {adminSearch.map((admin) => (
@@ -982,7 +983,7 @@ const AddGateForm = () => {
                             <FormStyled.Label htmlFor='title'>
                                 Prerequisite
                             </FormStyled.Label>
-                            <FormStyled.Input
+                            <FormStyled.SearchInput
                                 onChange={(e) =>
                                     setPrerequisite(e.target.value)
                                 }
@@ -1011,7 +1012,8 @@ const AddGateForm = () => {
                                     <Loader color='white' size={32} />
                                 </Styled.CentralizedLoader>
                             ) : (
-                                prereqsSearch.length > 0 && (
+                                prereqsSearch.length > 0 &&
+                                prerequisite.length > 0 && (
                                     <Styled.SearchBox>
                                         {prereqsSearch.map((gate) => (
                                             <SearchResGate
