@@ -249,20 +249,14 @@ const AddNewKey = () => {
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='keysRewarded'>
                                 Keys REWARDED*{' '}
-                                {/*
                                 <FormStyled.QuestionIcon
-                                    onMouseEnter={keysDilogBoxFunc}
-                                    onMouseLeave={keysDilogBoxFunc}
+                                    data-title='Enter the number of keys user gets on
+                                        successfully compleating a task.'
+                                    height={60}
+                                    width={300}
                                 >
                                     ?
                                 </FormStyled.QuestionIcon>
-                                {keysDilogBox && (
-                                    <FormStyled.DescriptionDilogBox>
-                                        Enter the number of keys user gets on
-                                        successfully compleating a task.
-                                    </FormStyled.DescriptionDilogBox>
-                                )}
-                                */}
                             </FormStyled.Label>
                             <FormStyled.Input
                                 id='keysRewarded'
@@ -281,19 +275,6 @@ const AddNewKey = () => {
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='peopleLimit'>
                                 PEOPLE LIMIT*{' '}
-                                {/*
-                                <FormStyled.QuestionIcon
-                                    onMouseEnter={peopleLimitDilogBoxFunc}
-                                    onMouseLeave={peopleLimitDilogBoxFunc}
-                                >
-                                    ?
-                                </FormStyled.QuestionIcon>
-                                {peopleLimitDilogBox && (
-                                    <FormStyled.DescriptionDilogBox>
-                                        Number of people can work on this task
-                                    </FormStyled.DescriptionDilogBox>
-                                )}
-                                */}
                             </FormStyled.Label>
                             <Styled.InputContainer
                                 value={

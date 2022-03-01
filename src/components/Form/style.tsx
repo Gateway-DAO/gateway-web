@@ -468,7 +468,7 @@ export const Select = styled.select`
     ${(props) => (props.valid === false ? InvalidInput : '')}
 `;
 
-export const QuestionIcon = styled.span`
+export const QuestionIcon = styled.a`
     width: 15px;
     height: 15px;
     margin-left: 10px;
@@ -487,6 +487,30 @@ export const QuestionIcon = styled.span`
     border: 1px solid #a5a5a5;
     box-sizing: border-box;
     border-radius: 100%;
+
+    &[data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 4px;
+        left: 80px;
+        top: -26px;
+        width: ${(props) => props.width}
+        height: ${(props) => props.height}
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        // line-height: px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
 `;
 
 export const DeleteIcon = styled.div`
@@ -516,26 +540,4 @@ export const DeleteContent = styled.div`
     align-items: center;
 
     color: #e5e5e5;
-`;
-export const DescriptionDilogBox = styled.div`
-    position: absolute;
-    padding: 2px 0px 2px 6px;
-    right: 180px;
-    top: -26px;
-    width: 100px;
-    height: 20px;
-
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 10px;
-    // line-height: px;
-
-    display: flex;
-    align-items: center;
-
-    background: #220a38;
-    border: 1px solid #7e3bdc;
-    color: rgba(255, 255, 255, 0.6);
-    border-radius: 10px;
 `;
