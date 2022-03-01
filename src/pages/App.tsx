@@ -105,7 +105,7 @@ const App: React.FC = () => {
                                 />
                             </Route>
 
-                            <Route path='edit-key' element={<AddNewKey />}>
+                            <Route path='edit-key' element={<AddNewKey edit />}>
                                 <Route index element={<AddNewKeyHome />} />
                                 <Route
                                     path='token-hold'

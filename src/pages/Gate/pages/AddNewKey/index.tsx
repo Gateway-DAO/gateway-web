@@ -22,7 +22,7 @@ import KeySuccess from './pages/AddKeySuccess';
  * It renders the Outlet component with the gateData context.
  * @returns The `AddNewKey` component is being returned.
  */
-const AddNewKey = () => {
+const AddNewKey = ({ edit = false }) => {
     const { state }: Record<string, any> = useLocation();
     const { gateData }: { gateData: Gate } = useOutletContext();
 
@@ -69,34 +69,36 @@ const AddNewKey = () => {
             keysRewarded: state ? state.data.keys : 0,
             peopleLimit: state ? state.data.peopleLimit : 0,
             unlimited: state ? state.data.unlimited : false,
-            chain: 1,
-            address: '',
-            amount: 0,
-            code: '',
-            methodName: '',
-            govActive: '',
-            spaceID: '',
-            proposal: '',
+            chain: state ? state.data.task.chain : 1,
+            address: state ? state.data.task.address : '',
+            amount: state ? state.data.task.amount : 0,
+            code: state ? state.data.task.code : '',
+            methodName: state ? state.data.task.methodName : '',
+            govActive: state ? state.data.task.snapshotType : '',
+            spaceID: state ? state.data.task.spaceID : '',
+            proposal: state ? state.data.task.proposal : '',
             quiz: {
-                title: '',
-                description: '',
-                percentage: 0,
-                questions: [
-                    {
-                        question: '',
-                        options: [
-                            {
-                                answer: '',
-                                correct: false,
-                            },
-                            {
-                                answer: '',
-                                correct: false,
-                            },
-                        ],
-                        nrOfCorrectAnswers: 0,
-                    },
-                ],
+                title: state ? state.data.task.title : '',
+                description: state ? state.data.task.description : '',
+                percentage: state ? state.data.task : 0,
+                questions: state
+                    ? state.data.task.questions
+                    : [
+                          {
+                              question: '',
+                              options: [
+                                  {
+                                      answer: '',
+                                      correct: false,
+                                  },
+                                  {
+                                      answer: '',
+                                      correct: false,
+                                  },
+                              ],
+                              nrOfCorrectAnswers: 0,
+                          },
+                      ],
             },
         },
         validate,
@@ -198,10 +200,11 @@ const AddNewKey = () => {
                 context={{
                     gateData,
                     formik,
-                    edit: !!state,
+                    edit: !!state || edit,
                     loading,
                     setBackButton,
                     setValidator,
+                    state,
                 }}
             />
         </Styled.Container>

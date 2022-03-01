@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 // Styling
 import * as Styled from './style';
@@ -27,20 +27,18 @@ interface Key {
 }
 
 const AddNewKey = () => {
-    const [keysDilogBox, setKeysDilogBox] = useState<boolean>(false);
-    const [peopleLimitDilogBox, setPeopleLimitDilogBox] =
-        useState<boolean>(false);
-
     const {
         gateData,
         formik,
         edit,
         loading,
+        state,
     }: {
         gateData: Gate;
         formik: FormikContextType<Key>;
         edit: boolean;
         loading: boolean;
+        state: Record<string, any>;
     } = useOutletContext();
 
     // Hooks
@@ -138,7 +136,9 @@ const AddNewKey = () => {
         e.preventDefault();
 
         formik.values.taskLink !== 'self-verify'
-            ? navigate(formik.values.taskLink)
+            ? navigate(formik.values.taskLink, {
+                  state,
+              })
             : formik.submitForm();
 
         return false;

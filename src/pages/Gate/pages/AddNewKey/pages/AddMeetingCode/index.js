@@ -3,7 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import { FormStyled } from '../../../../../../components/Form';
 import Loader from '../../../../../../components/Loader';
 
-const AddMeetingCode = (props) => {
+const AddMeetingCode = () => {
     const { formik, edit, loading, setBackButton, setValidator } =
         useOutletContext();
 

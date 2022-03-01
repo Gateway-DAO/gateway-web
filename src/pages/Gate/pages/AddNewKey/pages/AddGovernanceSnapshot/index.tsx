@@ -75,7 +75,9 @@ const AddGovernanceSnapshot = () => {
                 <FormStyled.GridBox
                     cols='2'
                     gap='30px'
-                    onChange={formik.handleChange}
+                    onChange={(e) =>
+                        formik.setFieldValue('govActive', e.target.value)
+                    }
                 >
                     <FormStyled.BigRadio
                         id='option-1'

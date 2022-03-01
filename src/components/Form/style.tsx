@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { Form } from 'formik';
 
 const InputDefault = `
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -89,6 +90,17 @@ export const SubText = styled.p`
 
 /** CONTAINERS **/
 export const FormBox = styled.form`
+    max-width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20%;
+    margin: 50px 0;
+`;
+
+export const FormikFormBox = styled(Form)`
     max-width: 100%;
     display: flex;
     flex: 1;
