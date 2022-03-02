@@ -39,25 +39,6 @@ const GateCard = ({ gate }) => {
             },
         },
     });
-    // const { preRequisit } = useQuery(gql(getGatesByGateid), {
-    //     variables: {
-    //         filter: {
-    //             gateID: {
-    //                 eq: gate.id,
-    //             },
-    //         },
-    //     },
-    // });
-    // const { adminData } = useQuery(gql(searchUsers), {
-    //     variables: {
-    //         filter: {
-    //             id: {
-    //                 eq: gate.admins[0],
-    //             },
-    //         },
-    //     },
-    // });
-    // console.log(preRequisit);
 
     const [
         searchByUsers,
