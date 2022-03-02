@@ -5,13 +5,18 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import parser from 'html-react-parser';
-import { FaPencilAlt } from 'react-icons/fa';
+import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import ConfirmationModal from '../../../../../../components/Modal/ConfirmationModal';
 
 // Task Components
 import MeetingCode from './components/MeetingCode';
 import Snapshot from './components/Snapshot';
 import ManualTask from './components/ManualTask';
 import Loader from '../../../../../../components/Loader';
+
+// API
+import { useMutation, gql } from '@apollo/client';
+import { deleteKey } from '../../../../../../graphql/mutations';
 
 const parsedKeyName = (name) => {
     switch (name) {
@@ -42,6 +47,14 @@ const KeyBox = (props) => {
     const data = props.data;
     const keyValidation = useKeyValidation(data, props.gateData);
     const { isAdmin } = useGateAdmin(props.gateData.admins);
+    const [showModal, setShowModal] = useState(true);
+
+    // API
+    const [deleteMutation] = useMutation(gql(deleteKey), {
+        variables: {
+            id: data.id,
+        },
+    });
 
     /**
      * When the button is clicked, the opened state is toggled
@@ -66,6 +79,10 @@ const KeyBox = (props) => {
         navigate(link, {
             state: { data },
         });
+    };
+
+    const toggleDeleteKeyModal = () => {
+        setShowModal(!showModal);
     };
 
     /**
@@ -103,108 +120,135 @@ const KeyBox = (props) => {
     };
 
     return (
-        <Styled.ThirdDiv>
-            <Styled.Box opened={opened} blocked={props.blocked}>
-                <Styled.TextContainer>
-                    <Styled.BoxHeading>
-                        <Styled.BoxTitle>
-                            {data.information[0].title}
-                        </Styled.BoxTitle>
-                        {isAdmin && !opened && (
-                            <Styled.EditContainer onClick={editKey}>
-                                <FaPencilAlt />
-                            </Styled.EditContainer>
-                        )}
-                    </Styled.BoxHeading>
-                    <Styled.BoxSubtitle opened={opened}>
-                        {parser(data.information[0].description)}
-                    </Styled.BoxSubtitle>
-                    {opened ? (
-                        <>
-                            {data.information.slice(1).map((key) => (
-                                <>
-                                    <br />
-                                    <br />
-                                    <Styled.BoxTitle>
-                                        {key.title}
-                                    </Styled.BoxTitle>
-                                    <Styled.BoxSubtitle opened={opened}>
-                                        {parser(key.description)}
-                                    </Styled.BoxSubtitle>
-                                </>
-                            ))}
-                            {startBox && <Task />}
-                        </>
-                    ) : null}
-                </Styled.TextContainer>
-                <Styled.BottonBox>
-                    <Styled.ActionButton>
-                        <Styled.StartButton
-                            opened={opened}
-                            blocked={props.blocked}
-                            onClick={
-                                !props.blocked
-                                    ? !opened
-                                        ? startHandler
-                                        : !keyValidation.loading
-                                        ? keyValidation.buttonBehavior.onClick
-                                        : null
-                                    : null
-                            }
-                        >
-                            <Styled.ButtonText>
-                                {keyValidation.loading && (
-                                    <Loader color='white' />
-                                )}
-                                {props.blocked && (
-                                    <AiFillCheckCircle
-                                        color='#27D5A2'
-                                        size={24}
-                                        style={{ marginRight: 10 }}
-                                    />
-                                )}
-                                {props.blocked
-                                    ? 'Completed'
-                                    : startBox
-                                    ? keyValidation.buttonBehavior.title
-                                    : 'Start'}
-                            </Styled.ButtonText>
-                        </Styled.StartButton>
-                        {(data.information.length > 1 || opened) && (
-                            <Styled.StartButtonTwo
+        <>
+            <ConfirmationModal
+                show={showModal}
+                toggle={toggleDeleteKeyModal}
+                buttons={[
+                    {
+                        button: 'YES',
+                        handler: async () => {
+                            await deleteMutation();
+                            toggleDeleteKeyModal();
+                        },
+                    },
+                    {
+                        button: 'NO',
+                        handler: toggleDeleteKeyModal,
+                    },
+                ]}
+            />
+            <Styled.ThirdDiv>
+                <Styled.Box opened={opened} blocked={props.blocked}>
+                    <Styled.TextContainer>
+                        <Styled.BoxHeading>
+                            <Styled.BoxTitle>
+                                {data.information[0].title}
+                            </Styled.BoxTitle>
+                            {isAdmin && !opened && (
+                                <Styled.EditDeleteContainer>
+                                    <Styled.EditContainer onClick={editKey}>
+                                        <FaPencilAlt />
+                                    </Styled.EditContainer>
+                                    <Styled.DeleteContainer
+                                        onClick={() => setShowModal(true)}
+                                    >
+                                        <FaTrashAlt />
+                                    </Styled.DeleteContainer>
+                                </Styled.EditDeleteContainer>
+                            )}
+                        </Styled.BoxHeading>
+                        <Styled.BoxSubtitle opened={opened}>
+                            {parser(data.information[0].description)}
+                        </Styled.BoxSubtitle>
+                        {opened ? (
+                            <>
+                                {data.information.slice(1).map((key) => (
+                                    <>
+                                        <br />
+                                        <br />
+                                        <Styled.BoxTitle>
+                                            {key.title}
+                                        </Styled.BoxTitle>
+                                        <Styled.BoxSubtitle opened={opened}>
+                                            {parser(key.description)}
+                                        </Styled.BoxSubtitle>
+                                    </>
+                                ))}
+                                {startBox && <Task />}
+                            </>
+                        ) : null}
+                    </Styled.TextContainer>
+                    <Styled.BottonBox>
+                        <Styled.ActionButton>
+                            <Styled.StartButton
+                                opened={opened}
+                                blocked={props.blocked}
                                 onClick={
-                                    startBox ? startHandler : openedHandler
+                                    !props.blocked
+                                        ? !opened
+                                            ? startHandler
+                                            : !keyValidation.loading
+                                            ? keyValidation.buttonBehavior
+                                                  .onClick
+                                            : null
+                                        : null
                                 }
                             >
                                 <Styled.ButtonText>
-                                    {opened ? 'Hide' : 'Details'}
+                                    {keyValidation.loading && (
+                                        <Loader color='white' />
+                                    )}
+                                    {props.blocked && (
+                                        <AiFillCheckCircle
+                                            color='#27D5A2'
+                                            size={24}
+                                            style={{ marginRight: 10 }}
+                                        />
+                                    )}
+                                    {props.blocked
+                                        ? 'Completed'
+                                        : startBox
+                                        ? keyValidation.buttonBehavior.title
+                                        : 'Start'}
                                 </Styled.ButtonText>
-                            </Styled.StartButtonTwo>
+                            </Styled.StartButton>
+                            {(data.information.length > 1 || opened) && (
+                                <Styled.StartButtonTwo
+                                    onClick={
+                                        startBox ? startHandler : openedHandler
+                                    }
+                                >
+                                    <Styled.ButtonText>
+                                        {opened ? 'Hide' : 'Details'}
+                                    </Styled.ButtonText>
+                                </Styled.StartButtonTwo>
+                            )}
+                        </Styled.ActionButton>
+                        {!opened && (
+                            <Styled.InformationDiv>
+                                <Styled.KeyRewardBox>
+                                    <Styled.InformationBoxHeading>
+                                        Key Reward
+                                    </Styled.InformationBoxHeading>
+                                    <Styled.InformationBoxInfoText>
+                                        {data.keys}
+                                    </Styled.InformationBoxInfoText>
+                                </Styled.KeyRewardBox>
+                                <Styled.CompensationBox>
+                                    <Styled.InformationBoxHeading>
+                                        Key Type
+                                    </Styled.InformationBoxHeading>
+                                    <Styled.InformationBoxInfoText>
+                                        {parsedKeyName(data.task.type)}
+                                    </Styled.InformationBoxInfoText>
+                                </Styled.CompensationBox>
+                            </Styled.InformationDiv>
                         )}
-                    </Styled.ActionButton>
-                    {!opened && (
-                        <Styled.InformationDiv>
-                            <Styled.KeyRewardBox>
-                                <Styled.InformationBoxHeading>
-                                    Key Reward
-                                </Styled.InformationBoxHeading>
-                                <Styled.InformationBoxInfoText>
-                                    {data.keys}
-                                </Styled.InformationBoxInfoText>
-                            </Styled.KeyRewardBox>
-                            <Styled.CompensationBox>
-                                <Styled.InformationBoxHeading>
-                                    Key Type
-                                </Styled.InformationBoxHeading>
-                                <Styled.InformationBoxInfoText>
-                                    {parsedKeyName(data.task.type)}
-                                </Styled.InformationBoxInfoText>
-                            </Styled.CompensationBox>
-                        </Styled.InformationDiv>
-                    )}
-                </Styled.BottonBox>
-            </Styled.Box>
-        </Styled.ThirdDiv>
+                    </Styled.BottonBox>
+                </Styled.Box>
+            </Styled.ThirdDiv>
+        </>
     );
 };
 

@@ -20,6 +20,7 @@ export const RichEditor = styled.div`
     border-radius: 10px;
     padding: 15px 0;
     color: #e5e5e5;
+
     & .ql-editor {
         min-height: 200px;
         font-size: 16px;
@@ -36,9 +37,9 @@ export const RichEditor = styled.div`
     .ql-container,
     .ql-snow {
         ${(props) =>
-    props.filled
-      ? FilledEditor
-      : 'border: 1px solid rgba(255, 255, 255, 0.2);'}
+            props.filled
+                ? FilledEditor
+                : 'border: 1px solid rgba(255, 255, 255, 0.2);'}
     }
     & .ql-toolbar .ql-stroke {
         fill: none;

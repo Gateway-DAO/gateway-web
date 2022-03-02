@@ -199,7 +199,7 @@ type Gate
     admins: [ID]!
     keysNumber: Int
     keys: [Key] @connection(keyName: "keyByGateID", fields: ["id"])
-    published: Published
+    published: PublishedState
     badge: NFTInfo!
     preRequisites: PreRequisites
     retroactiveEarners: [String!]
@@ -209,7 +209,7 @@ type Gate
 }
 
 type Key
-    @model
+    @model(mutations: { update: null })
     @key(
         name: "keyByGateID"
         fields: ["gateID"]
@@ -330,7 +330,7 @@ enum NFTType {
     REWARD
 }
 
-enum PUBLISHED {
+enum PublishedState {
     NOT_PUBLISHED
     PUBLISHED
     PAUSED
@@ -738,8 +738,6 @@ type Mutation {
 
     createManualTask(input: CreateKeyManualTask): Key
         @function(name: "key-${env}")
-
-    updateKey(input: ): Key @function(name: "key-${env}")
 
     ## Verify keys ##
     verifyMeetingCode(

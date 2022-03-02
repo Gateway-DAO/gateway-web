@@ -20,19 +20,23 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersiond54adaba": {
+    "LambdaLayerVersion54f1e5c3": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
-        "CompatibleRuntimes": [
-          "nodejs14.x"
-        ],
+        "CompatibleRuntimes": {
+          "Ref": "runtimes"
+        },
         "Content": {
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersiond54adaba-build.zip"
+          "S3Key": {
+            "Ref": "s3Key"
+          }
         },
-        "Description": "Updated layer version 2022-02-28T05:27:44.326Z",
+        "Description": {
+          "Ref": "description"
+        },
         "LayerName": {
           "Fn::Sub": [
             "gatewayverifyKey-${env}",
@@ -47,11 +51,50 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPrivated54adaba": {
+    "LambdaLayerPermissionPrivate54f1e5c3": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayverifyKey-dev:120",
+        "LayerVersionArn": {
+          "Ref": "LambdaLayerVersion54f1e5c3"
+        },
+        "Principal": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    },
+    "LambdaLayerVersion013a45ca": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "CompatibleRuntimes": [
+          "nodejs14.x"
+        ],
+        "Content": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion013a45ca-build.zip"
+        },
+        "Description": "Updated layer version 2022-03-01T15:56:49.024Z",
+        "LayerName": {
+          "Fn::Sub": [
+            "gatewayverifyKey-${env}",
+            {
+              "env": {
+                "Ref": "env"
+              }
+            }
+          ]
+        }
+      },
+      "DeletionPolicy": "Delete",
+      "UpdateReplacePolicy": "Retain"
+    },
+    "LambdaLayerPermissionPrivate013a45ca": {
+      "Type": "AWS::Lambda::LayerVersionPermission",
+      "Properties": {
+        "Action": "lambda:GetLayerVersion",
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayverifyKey-dev:126",
         "Principal": {
           "Ref": "AWS::AccountId"
         }
@@ -91,7 +134,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersiond54adaba"
+        "Ref": "LambdaLayerVersion54f1e5c3"
       }
     }
   }
