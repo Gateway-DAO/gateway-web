@@ -8,5 +8,7 @@
     }
   },
   "lambdaLayers": [],
-  "secretNames": []
+  "secretNames": [
+    "privateKey"
+  ]
 }

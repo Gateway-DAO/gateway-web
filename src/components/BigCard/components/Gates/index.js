@@ -4,7 +4,7 @@ import Subcategories from './Subcategories';
 import GateCard from '../../../GateCard';
 import { GradientSVG } from '../../../ProgressCircle';
 import { useAdmin } from '../../../../hooks/useAdmin';
-import { PublishedStatus } from '../../../../graphql/API';
+import { PublishedState } from '../../../../graphql/API';
 
 const Gates = (props) => {
     const [activeCategory, setActiveCategory] = useState('All');
@@ -27,7 +27,7 @@ const Gates = (props) => {
 
                     if (
                         !isAdmin &&
-                        gate.published === PublishedStatus.PUBLISHED
+                        gate.published === PublishedState.PUBLISHED
                     ) {
                         return <GateCard gate={gate} />;
                     }

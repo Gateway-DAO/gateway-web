@@ -15,7 +15,7 @@ import { useAuth } from '../../contexts/UserContext';
 import { getGateStatusByUserId } from '../../graphql/queries';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { updateGate } from '../../graphql/mutations';
-import { PublishedStatus } from '../../graphql/API';
+import { PublishedState } from '../../graphql/API';
 
 /* This is a card that displays information about a gate. */
 const GateCard = ({ gate }) => {
@@ -44,12 +44,12 @@ const GateCard = ({ gate }) => {
     const toggleGatePublished = async () => {
         try {
             const published_INTERNAL =
-                gate.published === PublishedStatus.NOT_PUBLISHED
-                    ? PublishedStatus.PUBLISHED
-                    : gate.published === PublishedStatus.PUBLISHED
-                    ? PublishedStatus.PAUSED
-                    : gate.published === PublishedStatus.PAUSED
-                    ? PublishedStatus.PUBLISHED
+                gate.published === PublishedState.NOT_PUBLISHED
+                    ? PublishedState.PUBLISHED
+                    : gate.published === PublishedState.PUBLISHED
+                    ? PublishedState.PAUSED
+                    : gate.published === PublishedState.PAUSED
+                    ? PublishedState.PUBLISHED
                     : gate.published;
 
             setChecked(published_INTERNAL === 'PUBLISHED');

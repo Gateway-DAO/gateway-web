@@ -9,7 +9,7 @@ enum Buttons {
 }
 
 interface ButtonProp {
-    button: Buttons;
+    button: Buttons | string;
     handler(...args: any[]): any;
 }
 
@@ -19,7 +19,7 @@ interface IProps {
     toggle(): void;
     title?: string;
     body?: string;
-    buttons: ButtonProp[];
+    buttons?: ButtonProp[];
 }
 
 /**

@@ -71,7 +71,7 @@ const DaoGate: React.FC = () => {
         return (
             <Styled.Wrapper>
                 <BackButtonDiv
-                    url={`/dao/${dao.id}?tab=gates`}
+                    url={`/dao/${dao.dao}?tab=gates`}
                     published={gateData.published}
                     id={gateData.id}
                     daoData={dao}

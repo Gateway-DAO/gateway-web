@@ -9,7 +9,7 @@ import { useModal } from '../contexts/ModalContext';
 import { ROUTER_ADDRESS } from '../utils/web3';
 
 // API
-import { Signature } from '../graphql/API';
+import { NFTType, Signature } from '../graphql/API';
 import { gql, useMutation } from '@apollo/client';
 import {
     generatedNonceSignature,
@@ -25,7 +25,7 @@ enum NFT {
 export const useWeb3 = () => {
     // Hooks
     const { account, library, chainId } = useWeb3React();
-    const { showErrorModal }: Record<string, any> = useModal();
+    const { showErrorModal, discardModal }: Record<string, any> = useModal();
 
     // API
     const [generateSign] = useMutation(gql(generatedNonceSignature));
@@ -33,18 +33,60 @@ export const useWeb3 = () => {
         gql(STREAM_MUTATION)
     );
 
-    const checkNetwork = () => {
-        if (chainId !== 137) {
-            showErrorModal("You're not using Polygon Network. Please switch.");
+    const checkNetwork = async () => {
+        if (chainId !== 4) {
+            showErrorModal("You're not using Rinkeby Network. Please switch.");
+
+            try {
+                await (window as any).ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: '0x4' }],
+                });
+
+                discardModal();
+            } catch (switchError) {
+                // This error code indicates that the chain has not been added to MetaMask.
+                if (switchError.code === 4902) {
+                    try {
+                        await (window as any).ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                                {
+                                    chainId: '0x89',
+                                    chainName: 'Polygon Network',
+                                    rpcUrls: ['https://polygon-rpc.com/'],
+                                    blockExplorerUrls: [
+                                        'https://polygonscan.com/',
+                                    ],
+                                    nativeCurrency: {
+                                        symbol: 'MATIC',
+                                        decimals: 18,
+                                    },
+                                },
+                            ],
+                        });
+
+                        discardModal();
+                    } catch (addError) {
+                        // handle "add" error
+                        discardModal();
+                        showErrorModal(
+                            "Couldn't add Polygon Network to your Metamask. Try again later."
+                        );
+                        console.log(addError);
+                    }
+                }
+            }
         }
     };
 
     const mintNFTContract = async (
-        NFTType: NFT,
+        nftType: NFTType,
         badgeName: string,
         adminList: string[]
     ) => {
-        checkNetwork();
+        await checkNetwork();
+
         // Get minting authorization
         const { data: signData } = await generateSign();
 
@@ -68,7 +110,7 @@ export const useWeb3 = () => {
             true,
             signature.signature,
             signature.message,
-            (NFTType as string) == 'Reward' ? 0 : 1
+            (nftType as string) == 'Reward' ? 0 : 1
         );
 
         const contractReceipt: ContractReceipt = await deployTx.wait();
@@ -76,7 +118,11 @@ export const useWeb3 = () => {
         console.log(contractReceipt);
 
         const event = contractReceipt.events?.find(
-            (event) => event.event === `Mint${NFTType}NFT`
+            (event) =>
+                event.event ===
+                `Mint${
+                    nftType == NFTType.CONTRIBUTOR ? 'Contributor' : 'Reward'
+                }NFT`
         );
 
         const nftAddr = event?.args?.['_address'];
@@ -84,19 +130,19 @@ export const useWeb3 = () => {
         return nftAddr;
     };
 
-    const issueCredential = async (credential) => {
-        await streamToCeramic({
+    const issueCredential = async (credential: Record<string, any>) => {
+        const { data: streamRes } = await streamToCeramic({
             variables: {
-                data: credential,
+                data: JSON.stringify(credential),
             },
         });
 
-        return streamData; // TODO: fix this
+        return streamRes.streamToCeramic.streamID;
     };
 
     const mintNFT = async (tokenAddress, credential) => {
         try {
-            checkNetwork();
+            await checkNetwork();
             const tokenURI = issueCredential(credential);
             const provider = await library.getSigner();
             const contract = new ethers.Contract(
@@ -113,17 +159,25 @@ export const useWeb3 = () => {
 
     const batchMint = async (
         tokenAddress: string,
-        credentials: (Record<string, any> | string)[],
+        credentials: Record<string, any>[],
         addresses: string[]
     ) => {
-        const tokenURIs = await Promise.all(
-            credentials.map(
-                async (credential) => await issueCredential(credential)
-            )
-        );
-        const provider = await library.getSigner();
-        const contract = new ethers.Contract(tokenAddress, NFT_ABI, provider);
-        await contract.batch_mint(addresses, tokenURIs, addresses.length);
+        try {
+            const tokenURIs = await Promise.all(
+                credentials.map(
+                    async (credential) => await issueCredential(credential)
+                )
+            );
+            const provider = await library.getSigner();
+            const contract = new ethers.Contract(
+                tokenAddress,
+                NFT_ABI,
+                provider
+            );
+            await contract.retroactiveMint(addresses, tokenURIs, tokenURIs);
+        } catch (err) {
+            alert('ERROR HERE!');
+        }
     };
 
     return {

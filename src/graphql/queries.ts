@@ -3218,6 +3218,29 @@ export const getPostsByChannelId = /* GraphQL */ `
                 content
                 comments {
                     nextToken
+                    items {
+                        id
+                        postID
+                        userID
+                        user {
+                            id
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            createdAt
+                            updatedAt
+                        }
+                        content
+                        upvotes
+                        downvotes
+                        createdAt
+                        updatedAt
+                    }
                 }
                 upvotes
                 downvotes
