@@ -9,7 +9,7 @@ export const GateCardBox = styled.div`
     grid-template-rows: repeat(6, 1fr);
     cursor: pointer;
     // With the card bottom => height: 30em;
-    height: 30em;
+    height: 37em;
     width: 25em;
 
     transition: margin 0.5s ease-in-out;
@@ -199,24 +199,25 @@ export const InfoContainer = styled.div`
     border-bottom: 1px solid #e5e5e5;
     margin: 0 25px;
     padding-bottom: 15px;
+    // flex-direction: column;
 `;
 export const InfoBox = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
     text-align: left;
+    // margin-right: 20px;
 `;
 
 export const MediumHeading = styled.h3`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 21px;
-    /* identical to box height, or 131% */
+    /* identical to box height, or 150% */
 
     letter-spacing: -0.015em;
-
     color: #000000;
 `;
 
@@ -305,5 +306,19 @@ export const PublishText = styled.span`
 `;
 export const Column = styled.div`
     display: flex;
-    align-items: center;
+    // align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+    // padding-right: 20px;
+`;
+export const InfoText = styled.div`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+
+    color: #111827;
 `;

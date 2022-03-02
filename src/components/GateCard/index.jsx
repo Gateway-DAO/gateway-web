@@ -13,9 +13,11 @@ import useAdmin from '../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/UserContext';
 import { getGateStatusByUserId } from '../../graphql/queries';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, useLazyQuery } from '@apollo/client';
 import { updateGate } from '../../graphql/mutations';
 import { PublishedState } from '../../graphql/API';
+// import { gql, useLazyQuery } from '@apollo/client';
+import { searchUsers } from '../../graphql/queries';
 
 /* This is a card that displays information about a gate. */
 const GateCard = ({ gate }) => {
@@ -37,7 +39,56 @@ const GateCard = ({ gate }) => {
             },
         },
     });
+    const { adminData } = useQuery(gql(searchUsers), {
+        variables: {
+            filter: {
+                id: {
+                    eq: gate.admins[0],
+                },
+            },
+        },
+    });
+    console.log(adminData);
+    // const [
+    //     searchByGates,
+    //     {
+    //         data: searchGateData,
+    //         loading: searchGateLoading,
+    //         refetch: searchGateRefetch,
+    //         called: searchGateCalled,
+    //     },
+    // ] = useLazyQuery(gql(searchGates), {
+    //     variables: {
+    //         filter: {
+    //             or: [
+    //                 {
+    //                     name: {
+    //                         wildcard: `*${prerequisite.toLowerCase()}*`,
+    //                     },
+    //                 },
+    //             ],
+    //         },
+    //     },
+    // });
 
+    const [
+        searchByUsers,
+        {
+            data: searchUserData,
+            loading: searchUserLoading,
+            refetch: searchUserRefetch,
+            called: searchUserCalled,
+        },
+    ] = useLazyQuery(gql(searchUsers), {
+        variables: {
+            filter: {
+                id: {
+                    eq: `*${gate.admins[0]}*`,
+                },
+            },
+        },
+    });
+    console.log(searchUserData);
     /**
      * It toggles the published state of the gate.
      */
@@ -80,7 +131,7 @@ const GateCard = ({ gate }) => {
                 return 'Details';
         }
     };
-    console.log(gate.data);
+    console.log(gate);
     return (
         <Styled.GateCardBox>
             <Styled.GateBanner
@@ -127,20 +178,13 @@ const GateCard = ({ gate }) => {
                     <Styled.SmallText>BANK.Beginner</Styled.SmallText>
                 </Styled.InfoBox>
                 */}
-                <Styled.InfoBox>
-                    <Styled.Column>
-                        <Styled.NFTBadgeContainer>
-                            <Styled.SimpleText>NFT Badge</Styled.SimpleText>
-                            <Styled.GuildName>
-                                {gate.badge.name}
-                            </Styled.GuildName>
-                        </Styled.NFTBadgeContainer>
-                        <Styled.PreRequisiteContainer>
-                            <Styled.SimpleText>PRE REQUISITE</Styled.SimpleText>
-                            <Styled.GuildName>BANK.Beginner</Styled.GuildName>
-                        </Styled.PreRequisiteContainer>
-                    </Styled.Column>
-                    <Styled.Column>
+                {/* <Styled.InfoBox> */}
+                <Styled.Column>
+                    <Styled.InfoBox>
+                        <Styled.MediumHeading>NFT Badge</Styled.MediumHeading>
+                        <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
+                    </Styled.InfoBox>
+                    <Styled.InfoBox>
                         {gate.keysNumber && (
                             <>
                                 <Styled.MediumHeading>
@@ -166,8 +210,27 @@ const GateCard = ({ gate }) => {
                                 </Styled.KeyBox>
                             </>
                         )}
-                    </Styled.Column>
-                </Styled.InfoBox>
+                    </Styled.InfoBox>
+                </Styled.Column>
+                <Styled.Column>
+                    <Styled.InfoBox>
+                        <Styled.MediumHeading>
+                            PRE REQUISITE
+                        </Styled.MediumHeading>
+                        <Styled.InfoText>
+                            Gateway.DAO.Verfication
+                        </Styled.InfoText>
+                    </Styled.InfoBox>
+                    <Styled.InfoBox>
+                        <Styled.MediumHeading>Admins</Styled.MediumHeading>
+                        <Styled.InfoText>
+                            {gate.admins.length} people
+                            <br />
+                            have earned it.
+                        </Styled.InfoText>
+                    </Styled.InfoBox>
+                </Styled.Column>
+                {/* </Styled.InfoBox> */}
             </Styled.InfoContainer>
             <Styled.ActivityBox>
                 <Styled.ActionButton
