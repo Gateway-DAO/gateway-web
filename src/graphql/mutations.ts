@@ -1245,6 +1245,125 @@ export const createManualTask = /* GraphQL */ `
     }
   }
 `;
+export const changeKey = /* GraphQL */ `
+  mutation ChangeKey($input: ChangeKeyInput) {
+    changeKey(input: $input) {
+      id
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        skills
+        knowledge
+        attitudes
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      unlimited
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          title
+          description
+          questions {
+            question
+            nrOfCorrectAnswers
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+          amount
+        }
+        ... on SelfVerify {
+          type
+        }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const verifyMeetingCode = /* GraphQL */ `
   mutation VerifyMeetingCode($userID: ID!, $keyID: ID!, $meetingCode: String!) {
     verifyMeetingCode(

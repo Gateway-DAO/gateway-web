@@ -55,9 +55,11 @@ const AddGovernanceSnapshot = () => {
             errors.spaceID = 'Required';
         }
 
-        if ((values.govActive = 'vote' && !values.proposal)) {
+        /*
+        if ((values.govActive = ActiveGovernance.VOTE && !values.proposal)) {
             errors.proposal = 'Required';
         }
+        */
 
         return errors;
     };
@@ -80,12 +82,14 @@ const AddGovernanceSnapshot = () => {
                 <FormStyled.GridBox
                     cols='2'
                     gap='30px'
-                    onChange={formik.handleChange}
+                    onChange={(e) =>
+                        formik.setFieldValue('govActive', e.target.value)
+                    }
                 >
                     <FormStyled.BigRadio
                         id='option-1'
                         name='govActive'
-                        value={ActiveGovernance.PROPOSAL}
+                        value={ActiveGovernance.PROPOSAL as string}
                         label='Create a Proposal'
                         checked={
                             formik.values.govActive ===
@@ -95,7 +99,7 @@ const AddGovernanceSnapshot = () => {
                     <FormStyled.BigRadio
                         id='option-2'
                         name='govActive'
-                        value={ActiveGovernance.VOTE}
+                        value={ActiveGovernance.VOTE as string}
                         label='Vote'
                         checked={
                             formik.values.govActive === ActiveGovernance.VOTE
@@ -144,7 +148,7 @@ const AddGovernanceSnapshot = () => {
             )}
 
             <FormStyled.Button type='submit'>
-                {loading && <Loader color='white' />}
+                {formik.isSubmitting && <Loader color='white' />}
                 Submit
             </FormStyled.Button>
         </FormStyled.FormBox>

@@ -7,6 +7,7 @@ import { gql, useMutation } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
 import { Gate } from '../../../../graphql/API';
 import {
+    changeKey,
     createContractInteraction,
     createManualTask,
     createMeetingCode,
@@ -14,7 +15,6 @@ import {
     createSelfVerify,
     createSnapshotGovernance,
     createTokenHold,
-    updateKey,
 } from '../../../../graphql/mutations';
 import KeySuccess from './pages/AddKeySuccess';
 
@@ -28,7 +28,7 @@ const AddNewKey = ({ edit = false }) => {
 
     // State
     const [createdKey, setCreatedKey] = useState(false);
-    const [mutation, setMutation] = useState(updateKey);
+    const [mutation, setMutation] = useState(changeKey);
     const [backButton, setBackButton] = useState({
         text: 'Gate',
         url: `/gate/${gateData.id}`,
@@ -157,6 +157,8 @@ const AddNewKey = ({ edit = false }) => {
         validate,
         onSubmit: async (values) => {
             try {
+                console.log(mutation);
+                console.log(taskDBInput());
                 await pushToDB({
                     variables: {
                         input: {
@@ -168,7 +170,9 @@ const AddNewKey = ({ edit = false }) => {
                             keys: values.keysRewarded,
                             peopleLimit: values.peopleLimit,
                             unlimited: values.unlimited,
-                            task: taskDBInput(),
+                            task: edit
+                                ? JSON.stringify(taskDBInput())
+                                : taskDBInput(),
                         },
                     },
                 });
@@ -202,7 +206,7 @@ const AddNewKey = ({ edit = false }) => {
             }
         };
 
-        setMutation(state ? updateKey : switchTask());
+        setMutation(state ? changeKey : switchTask());
     }, [formik.values.taskLink]);
 
     return (

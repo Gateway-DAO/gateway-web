@@ -16,7 +16,6 @@ import { useGateAdmin } from '../../../../hooks/useAdmin';
 
 // Types
 import { DAO, Gate, Key, TaskStatus, User } from '../../../../graphql/API';
-import { useAuth } from '../../../../contexts/UserContext';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -46,7 +45,6 @@ const DaoGate: React.FC = () => {
     const dao: DAO = gateData.dao;
     const navigate = useNavigate();
 
-    const { userInfo }: Record<string, any> = useAuth();
     const { isAdmin } = useGateAdmin(gateData.admins);
 
     const handleClick = () => {

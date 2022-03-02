@@ -1,14 +1,14 @@
 import * as Styled from './style';
 import { useWeb3React } from '@web3-react/core';
-import useGetNFTs from '../../../../hooks/useGetNFTs';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../../contexts/UserContext';
 import { useGetGateStatusByUserID } from '../../../../api/database/useGetGateStatus';
+import useWeb3 from '../../../../hooks/useWeb3';
 
 const AddExperience = () => {
     const { library, account } = useWeb3React();
     const { userInfo } = useAuth();
-    const { getNFTs } = useGetNFTs();
+    const { getNFTs, mintNFT } = useWeb3();
     const [nfts, setNFTs] = useState([]);
 
     const { data } = useGetGateStatusByUserID(userInfo?.id, {
@@ -20,7 +20,21 @@ const AddExperience = () => {
     });
 
     const mintHandler = async (gs) => {
-        alert("Doesn't do shit"); // TODO: remove this for God's sake
+        console.log(gs);
+        const credential = {
+            issuerId:
+                'did:key:z6Mkjeb28dgUpbAEMgjiP3KcVmVgNNUqynimDBKS4G1K1fUe',
+            competencies: [],
+            issueeId: '',
+            name: gs.gate.badge.name,
+            description: gs.gate.description,
+            organization: gs.gate.daoID,
+        };
+
+        mintNFT(
+            gs.gate.dao.nftContracts[gs.gate.nftType?.toLowerCase()],
+            credential
+        );
     };
 
     useEffect(() => {
