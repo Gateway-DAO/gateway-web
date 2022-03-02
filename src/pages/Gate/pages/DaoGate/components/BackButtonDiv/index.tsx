@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as Styled from './style';
+import * as Theam from '../../../../../../theme/style';
 
 //Icons
 import BackIcon from '../../../../../../assets/icons/BackIcon.svg';
@@ -12,6 +13,8 @@ import { To, useNavigate } from 'react-router-dom';
 import useUpdateGate from '../../../../../../api/database/useUpdateGate';
 import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
+// import { useModal } from '../../../../../../contexts/ModalContext';
+// import { useModal } from '../../../../../../contexts/ModalContext';
 
 // Types
 import { DAO, Gate } from '../../../../../../graphql/API';
@@ -47,6 +50,7 @@ const BackButton: React.FC<Props> = ({
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
     const { deleteGate } = useDeleteGate();
+    // const { showModal } = useModal();
 
     /**
      * It navigates to the edit-gate page.
@@ -58,10 +62,7 @@ const BackButton: React.FC<Props> = ({
         });
     };
 
-    /**
-     * It updates the published state of the gate.
-     */
-    const handleUpdate = async () => {
+    const confirm = async () => {
         try {
             setPublished(!published);
             await updateGate({
@@ -76,6 +77,26 @@ const BackButton: React.FC<Props> = ({
             alert('We are facing some issues. Please try again later.');
             console.log(e);
         }
+    };
+
+    /**
+     * It updates the published state of the gate.
+     */
+    const handleUpdate = () => {
+        // const ConfirmModal = () => (
+        //     <div>
+        //         <Theam.MainText>
+        //             Are you sure you want to publish
+        //         </Theam.MainText>
+        //         <p>
+        //             After publishing, you will only be able to add new key,
+        //             admins and pre-requisites. EveryThing else will be locked
+        //         </p>
+        //         <Theam.Buttom onClick={confirm}>Confirm</Theam.Buttom>
+        //     </div>
+        // );
+        // showModal(<ConfirmModal />);
+        confirm();
     };
 
     /**
@@ -123,9 +144,14 @@ const BackButton: React.FC<Props> = ({
                         <Styled.ButtonWrapper onClick={editGate} ml='20'>
                             <MdModeEditOutline />
                         </Styled.ButtonWrapper>
-                        <Styled.ButtonWrapper onClick={showDeleteModal} ml='20'>
-                            <FaTrashAlt />
-                        </Styled.ButtonWrapper>
+                        <Theam.ToolTip text='Delete'>
+                            <Styled.ButtonWrapper
+                                onClick={showDeleteModal}
+                                ml='20'
+                            >
+                                <FaTrashAlt />
+                            </Styled.ButtonWrapper>
+                        </Theam.ToolTip>
                         {showDelete && (
                             <Styled.DeleteModal>
                                 <Styled.DeleteContainer>

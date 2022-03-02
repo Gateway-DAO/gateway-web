@@ -90,7 +90,7 @@ enum YesNo {
 const AddGateForm = () => {
     const { userInfo }: Record<string, any> = useAuth();
     const { state }: Record<string, any> = useLocation();
-    const gateData: GateData | null = state.gateData;
+    const gateData: GateData | null = state ? state.gateData : null;
     const edit = state ? true : false;
 
     // State

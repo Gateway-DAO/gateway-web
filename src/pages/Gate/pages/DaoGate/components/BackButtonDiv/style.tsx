@@ -26,7 +26,6 @@ export const ButtonWrapper = styled.div<IButtonWrapperProps>`
     display: flex;
     width: ${(props) => props.width || '40px'};
     height: 40px;
-
     border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 100px;
     margin-left: ${(props) => props.ml || '0'}px;
