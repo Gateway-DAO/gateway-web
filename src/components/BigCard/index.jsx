@@ -2,7 +2,6 @@
 import * as Styled from './style';
 import { Link, useSearchParams } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
-import RelatedDAOSection from './components/RelatedDAO';
 import {
     FaDiscord,
     FaTwitter,
@@ -18,9 +17,9 @@ import useAdmin from '../../hooks/useAdmin';
 
 //components
 import Plugins from './components/Plugins';
-import Members from './components/Members';
+// import Members from './components/Members';
 import Profile from './components/Profiles';
-import Feed from './components/Feed';
+// import Feed from './components/Feed';
 import Gates from './components/Gates';
 import EditCardModal from '../Modal/EditCardModal';
 
@@ -266,10 +265,12 @@ const NewCard = (props) => {
         switch (searchParams.get('tab')) {
             case 'profile':
                 return <Profile {...props} />;
+            /*
             case 'feed':
                 return <Feed {...props} />;
             case 'members':
                 return <Members daoName={props.name} />;
+            */
             case 'gates':
                 return <Gates {...props} />;
             case 'Plugins':
@@ -362,12 +363,15 @@ const NewCard = (props) => {
                         >
                             Profile
                         </Styled.SelectedTab>
+
+                        {/*
                         <Styled.SelectedTab
                             showActive={searchParams.get('tab') === 'feed'}
                             onClick={() => setSearchParams({ tab: 'feed' })}
                         >
                             Discussion
                         </Styled.SelectedTab>
+                        */}
 
                         <Styled.SelectedTab
                             showActive={searchParams.get('tab') === 'gates'}
@@ -376,12 +380,15 @@ const NewCard = (props) => {
                             Gates
                         </Styled.SelectedTab>
 
+                        {/*
                         <Styled.SelectedTab
                             showActive={searchParams.get('tab') === 'members'}
                             onClick={() => setSearchParams({ tab: 'members' })}
                         >
                             Members
                         </Styled.SelectedTab>
+                        */}
+
                         {/*
                         <Styled.SelectedTab
                             showActive={activeTab === 'Plugins'}
@@ -398,10 +405,6 @@ const NewCard = (props) => {
                     <Feed cardName={props.id} />
                 ) : <Onboarding/>} */}
                 <ActiveTab />
-                <RelatedDAOSection
-                    categories={props.categories}
-                    name={props.name}
-                />
             </Styled.DaoWrapper>
         </>
     );

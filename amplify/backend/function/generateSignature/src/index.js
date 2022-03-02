@@ -12,7 +12,21 @@ const { Parameters } = await (new aws.SSM())
 
 Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
 */
-const Web3 = require('web3');
+/*
+Use the following code to retrieve configured secrets from SSM:
+
+const aws = require('aws-sdk');
+
+const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["privateKey"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  })
+  .promise();
+
+Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
+*/
+const { ethers } = require('ethers');
 const AWS = require('aws-sdk');
 
 AWS.config.update({
@@ -29,16 +43,10 @@ const generateSignature = async (message) => {
 
     const PRIVATE = Parameters[0].Value;
 
-    const NODE = new Web3(
-        new Web3.providers.HttpProvider(
-            'https://mainnet.infura.io/v3/19128174ace8471f88c08ca304b087e9'
-        )
-    );
+    const signer = new ethers.Wallet(PRIVATE);
 
-    const hash = NODE.utils.soliditySha3(message);
-    const signature = NODE.eth.accounts.sign(hash, PRIVATE);
-
-    console.log(signature);
+    let messageHash = ethers.utils.solidityKeccak256(["string"], [message]);
+    let signature = await signer.signMessage(ethers.utils.arrayify(messageHash));
 
     return signature;
 };
@@ -50,7 +58,8 @@ const resolvers = {
                 const signature = await generateSignature(ctx.arguments.message)
                 return {
                     __typename: "Signature",
-                    ...signature
+                    message: ctx.arguments.message,
+                    signature
                 }
             } catch (err) {
                 return {
@@ -74,8 +83,8 @@ const resolvers = {
 
                 return {
                     __typename: "Signature",
-                    nonce,
-                    ...signature
+                    message: nonce,
+                    signature
                 }
             } catch (err) {
                 return {

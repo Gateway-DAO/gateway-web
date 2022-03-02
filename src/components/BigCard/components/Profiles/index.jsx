@@ -32,6 +32,8 @@ import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri';
 import { shortenAddress } from '../../../../utils/web3';
 import { ytVideoID } from '../../../../utils/functions';
 
+import RelatedDAOSection from '../../components/RelatedDAO';
+
 const Profile = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
 
@@ -440,6 +442,10 @@ const Profile = (props) => {
                         </Styled.ColumnTwo>
                     )}
                 </Styled.DivideContainer>
+                <RelatedDAOSection
+                    categories={props.categories}
+                    name={props.name}
+                />
             </Styled.DAOContainer>
         </Styled.Container>
     );

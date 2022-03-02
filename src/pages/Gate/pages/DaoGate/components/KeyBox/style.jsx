@@ -47,6 +47,31 @@ export const EditContainer = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     font-size: 10px;
+
+    margin-right: 10px;
+
+    &:hover {
+        cursor: pointer;
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+    }
+`;
+
+export const DeleteContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 10px;
+
+    &:hover {
+        cursor: pointer;
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+    }
 `;
 
 export const BoxSubtitle = styled.div`
@@ -128,12 +153,15 @@ export const BoxSubtitle = styled.div`
         color: ${(props) => (props.opened ? '#170627' : '#e5e5e5')};
     }
 `;
+
 export const BottonBox = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 `;
+
 export const ActionButton = styled.div`
     display: flex;
+    margin-right: 40px;
 `;
 
 const DetailsButton = `
@@ -177,6 +205,7 @@ export const StartButton = styled.div`
 
     margin-right: 20px;
 `;
+
 export const StartButtonTwo = styled.div`
     min-width: 150px;
     // margin-top: 10px;
@@ -194,6 +223,7 @@ export const StartButtonTwo = styled.div`
     }
     margin-right: 20px;
 `;
+
 export const EditButton = styled.div`
     display: flex;
     align-items: center;
@@ -206,16 +236,28 @@ export const EditButton = styled.div`
     text-align: center;
     color: white;
     border-radius: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+    margin-right: 20px;
+
+    ${(props) =>
+        props.opened
+            ? DetailsButton
+            : `
     border: solid 1px transparent;
     background-image: linear-gradient(#170627, #170627),
         linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);
     background-origin: border-box;
     background-clip: content-box, border-box;
-    &:hover {
-        cursor: pointer;
-    }
-    margin-right: 20px;
+    `}
 `;
+
+export const EditDeleteContainer = styled.div`
+    display: flex;
+`;
+
 export const ButtonText = styled.p`
     font-size: 14px;
     margin: 12px 50px;

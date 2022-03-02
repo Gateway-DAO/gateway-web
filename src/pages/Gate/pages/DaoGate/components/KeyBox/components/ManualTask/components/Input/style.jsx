@@ -13,7 +13,7 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.5);
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 `;
 export const Wrapper = styled.div`

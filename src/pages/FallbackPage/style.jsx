@@ -3,7 +3,7 @@ import logo from '../../assets/Gateway.svg';
 
 export const Container = styled.main`
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

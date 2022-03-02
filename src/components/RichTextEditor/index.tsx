@@ -1,4 +1,4 @@
-import * as Styled from './Style';
+import * as Styled from './style';
 import React from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import * as Emoji from 'quill-emoji';
@@ -16,19 +16,25 @@ const TOOLBAR_OPTIONS = [
     [{ color: [] }],
     ['image', 'emoji'],
 ];
-const RichEditor = ({ value, set, ...props }) => {
+
+const RichEditor = ({ value, set, toolbar = {}, idx }) => {
     return (
-        <Styled.RichEditor>
+        <Styled.RichEditor
+            filled={!!value.replace(/<(.|\n)*?>/g, '').trim().length}
+        >
             <ReactQuill
                 value={value}
-                onChange={(val) => set(val, props.idx)}
+                onChange={(val) => set(val, idx)}
                 modules={{
                     imageResize: {
                         // parchment: Quill.import('parchment'),
                         modules: ['Resize', 'DisplaySize'],
                     },
                     toolbar: {
-                        container: TOOLBAR_OPTIONS,
+                        container:
+                            Object.keys(toolbar).length > 0
+                                ? toolbar
+                                : TOOLBAR_OPTIONS,
                     },
                     'emoji-toolbar': true,
                     'emoji-textarea': false,

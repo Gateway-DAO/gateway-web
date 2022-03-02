@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
 export const AboutContainer = styled.div`
-    width: 100vw;
-
-    background: #170627;
+    width: 100%;
 `;
 export const MainContainer = styled.div`
     padding: 5% 10% 0 10%;

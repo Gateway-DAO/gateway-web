@@ -20,7 +20,7 @@ import { Gate, User } from '../../graphql/API';
  */
 const GatePage: React.FC = () => {
     const { gate } = useParams();
-    const { userInfo }: Record<string, any> = useAuth();
+    const { userInfo, loggingIn }: Record<string, any> = useAuth();
 
     /* This is a query to the database. It is a GraphQL query that is being made to the database. */
     const {
@@ -112,8 +112,14 @@ const GatePage: React.FC = () => {
     /* This is a React Hook that is being used to check if the data has been loaded. If the data has
     been loaded, then the `loaded` state is set to `true`. */
     useEffect(() => {
-        setLoaded(!!gateData && !loading && userInfo !== null);
-    }, [gateData, loading, userInfo]);
+        setLoaded(
+            !!gateData &&
+                !loading &&
+                userInfo !== null &&
+                userInfo?.isAdmin !== null &&
+                !!admins?.length
+        );
+    }, [gateData, loading, userInfo, admins]);
 
     /* Fetching the data from the database. */
     useEffect(() => {

@@ -8,14 +8,14 @@ export const Page = styled.main`
 
     overflow-x: hidden;
 
-    &:before {
+    /* &:before {
         position: absolute;
         content: '';
         z-index: -2;
         background-color: #170627;
         height: 100%;
         width: 100%;
-    }
+    } */
 `;
 
 export const Container = styled.div`
@@ -63,6 +63,8 @@ export const SpaceBox = styled.canvas`
     position: absolute;
     top: 90px;
     z-index: -1;
+    left: 0;
+    width: 100%;
 `;
 
 export const Text = styled.p`

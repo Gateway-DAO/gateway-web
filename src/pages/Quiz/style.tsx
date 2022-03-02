@@ -2,7 +2,10 @@ import styled from 'styled-components';
 
 export const SpaceBox = styled.canvas`
     position: absolute;
+    top: 90px;
     z-index: -1;
+    left: 0;
+    width: 100%;
 `;
 export const Container = styled.div`
     position: relarive;

@@ -1,77 +1,52 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { FormStyled } from '../../../../../../components/Form';
-import { useCreateMeetingCode } from '../../../../../../api/database/useCreateKey';
-import { v4 as uuidv4 } from 'uuid';
-import AddKeySuccess from '../AddKeySuccess';
 import Loader from '../../../../../../components/Loader';
 
-const AddMeetingCode = (props) => {
-    // State
-    const { state } = useLocation();
-    const [code, setCode] = useState(
-        state.taskInfo ? state.taskInfo?.code : null
-    );
-    const [createdKey, setCreatedKey] = useState(false);
-    const { createMeetingCode, loading } = useCreateMeetingCode();
-    const navigate = useNavigate();
-    // console.log(state.taskInfo)
+const AddMeetingCode = () => {
+    const { formik, edit, loading, setBackButton, setValidator } =
+        useOutletContext();
 
-    /**
-     * Creates a meeting code task.
-     * @param e - event
-     */
-    const onSubmit = async (e) => {
-        e.preventDefault();
+    const validate = (values) => {
+        let errors = {};
 
-        try {
-            await createMeetingCode({
-                variables: {
-                    input: {
-                        id: uuidv4(),
-                        gateID: state.gateData.id,
-                        information: state.titleDescriptionPair,
-                        token: state.token,
-                        tokenAmount: state.amount,
-                        keys: state.keysRewarded,
-                        peopleLimit: state.peopleLimit,
-                        unlimited: state.unlimited,
-                        task: {
-                            type: 'MEETING_CODE',
-                            code,
-                            caseSensitive: false,
-                        },
-                    },
-                },
-            });
-
-            setCreatedKey(true);
-        } catch (err) {
-            alert('An error occurred. Please try again later!');
-            console.log(err);
+        if (!values.code) {
+            errors.code = 'Required';
         }
+
+        return errors;
     };
 
-    const onEditSubmit = async (e) => {
-        e.preventDefault();
-    };
+    useEffect(() => {
+        setBackButton({
+            url: -1,
+            text: 'Add a New Key',
+        });
 
-    return createdKey ? (
-        <AddKeySuccess gate={state.gateData.id} />
-    ) : (
-        <FormStyled.FormBox onSubmit={state.taskInfo ? onEditSubmit : onSubmit}>
+        setValidator(() => validate);
+    }, []);
+
+    return (
+        <FormStyled.FormBox onSubmit={formik.handleSubmit}>
             <FormStyled.H1>
-                {state.taskInfo ? 'Edit Meeting Code' : 'Add Meeting Code'}
+                {edit ? 'Edit Meeting Code' : 'Add Meeting Code'}
             </FormStyled.H1>
 
             <FormStyled.Fieldset>
-                <FormStyled.Label>What's the code?</FormStyled.Label>
+                <FormStyled.Label>What's the code?*</FormStyled.Label>
                 <FormStyled.Input
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
+                    name='code'
+                    value={formik.values.code}
+                    valid={!formik.errors.code}
+                    onChange={formik.handleChange}
                     placeholder='Input the meeting code here'
                     required
                 />
+                {formik.errors.code && (
+                    <FormStyled.SubText>
+                        {formik.errors.code}
+                    </FormStyled.SubText>
+                )}
             </FormStyled.Fieldset>
 
             <FormStyled.Button type='submit'>

@@ -9,12 +9,12 @@ export const Container = styled.main`
     flex-direction: column;
     position: relative;
 
-    &:before {
+    /* &:before {
         position: absolute;
         content: '';
         z-index: -2;
         background-color: #170627;
         height: 100%;
         width: 100%;
-    }
+    } */
 `;

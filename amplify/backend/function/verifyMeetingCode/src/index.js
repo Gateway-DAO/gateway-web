@@ -39,6 +39,15 @@ exports.handler = async (event, ctx, callback) => {
         // 1. get key
         const key = await getKey(keyID)
 
+        if (key.peopleLimit <= 0 && !key.unlimited) {
+            return {
+                __typename: 'Error',
+                keyID,
+                error: 'NO_MORE_SLOTS',
+                msg: "This task can no longer be completed.",
+            }
+        }
+
         // 2. get gate
         const gate = await getGate(key.gateID)
 

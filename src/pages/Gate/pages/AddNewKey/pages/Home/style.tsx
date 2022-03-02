@@ -46,6 +46,7 @@ export const InputContainer = styled.div<{ value?: unknown }>`
     width: 100%;
     ${(props) => (props.value ? FilledInput : '')}
     display : flex;
+    justify-content: space-between;
 `;
 
 export const Input = styled.input`
@@ -53,7 +54,7 @@ export const Input = styled.input`
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 18px;
     display: flex;
     align-items: center;
@@ -66,6 +67,12 @@ export const Input = styled.input`
     outline: none;
     //position : absolute;
     ${(props) => (props.value ? FilledLimitBox : '')}
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 `;
 
 export const UnlimitedBoxContainer = styled.div<{ value?: boolean }>`
@@ -97,11 +104,11 @@ export const MarginWrapper = styled.div`
     margin: auto 20rem;
 `;
 export const SpaceBox = styled.canvas`
-    position: fixed;
+    position: absolute;
     top: 90px;
-    left: 0;
-    right: 0;
     z-index: -1;
+    left: 0;
+    width: 100%;
 `;
 export const Button = styled.button`
     margin-top: 10px;

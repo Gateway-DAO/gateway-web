@@ -1,9 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-// Styling
-import * as ThemeStyled from '../theme/style';
-
 // Web3
 import { CONNECTORS, shortenAddress } from '../utils/web3';
 import { useWeb3React } from '@web3-react/core';
@@ -18,7 +15,7 @@ import { useLazyQuery, gql } from '@apollo/client';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
-import use3ID from '../hooks/use3ID';
+// import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -73,17 +70,6 @@ export const useSignedAuth = (deps = []) => {
 };
 
 /**
- * This function is used to render an error modal. It takes in an error message and renders it to the
- * screen.
- */
-const Error = ({ error }) => (
-    <div>
-        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
-        <p>{error}</p>
-    </div>
-);
-
-/**
  * The UserProvider component is a React component that wraps around the children components.
  * It provides the user data to the children components.
  *
@@ -109,8 +95,8 @@ export const UserProvider = ({ children }) => {
 
     // Hooks
     const web3 = useWeb3React();
-    const threeID = use3ID();
-    const { showModal } = useModal();
+    // const threeID = use3ID();
+    const { showErrorModal } = useModal();
 
     // Database
     const [
@@ -269,15 +255,15 @@ export const UserProvider = ({ children }) => {
             );
 
             if (!res.signInUserSession) {
-                showModal(
-                    <Error error='An error occurred while signing in. Please try again later.' />
+                showErrorModal(
+                    'An error occurred while signing in. Please try again later.'
                 );
             }
         };
 
         callback().catch((err) => {
-            showModal(
-                <Error error='An error occurred while signing in. Please try again later.' />
+            showErrorModal(
+                'An error occurred while signing in. Please try again later.'
             );
             console.log(err);
         });
@@ -288,6 +274,7 @@ export const UserProvider = ({ children }) => {
         const callback = async () => {
             // Since state update is asynchrounous, let's keep track of the current value using an internal variable
             let userInfo_INTERNAL = userInfo;
+            setLoggingIn(true);
 
             if (web3.active && web3.account) {
                 // 1. fetch/create user based on the wallet
@@ -338,6 +325,8 @@ export const UserProvider = ({ children }) => {
                     }
                 }
             }
+
+            setLoggingIn(false);
         };
 
         callback();
@@ -352,13 +341,6 @@ export const UserProvider = ({ children }) => {
         console.log('event', event);
         switch (event) {
             case 'signIn':
-                /*
-                const userDB = await getUser({
-                    variables: {
-                        id: data.username,
-                    },
-                })
-                */
                 setUserInfo({
                     ...userInfo,
                     ...getUserGroups(data.signInUserSession),
@@ -392,7 +374,14 @@ export const UserProvider = ({ children }) => {
             activateWeb3,
             loadingWallet,
         }),
-        [walletConnected, userInfo, web3.wallet, loadingWallet, loggedIn]
+        [
+            walletConnected,
+            userInfo,
+            web3.wallet,
+            loadingWallet,
+            loggedIn,
+            loggingIn,
+        ]
     );
 
     return <Provider value={value}>{children}</Provider>;

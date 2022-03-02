@@ -9,18 +9,19 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { FaTrashAlt } from 'react-icons/fa';
 import { IoMdAdd } from 'react-icons/io';
+import { useOutletContext } from 'react-router-dom';
 
 const CreateQuestion = ({
-    data,
-    setData,
     setActiveModal,
     setShowMessage,
     setOptionsPerQuestion,
     initialClont,
 }) => {
+    const { formik } = useOutletContext();
+
     const [optionCount, setOptionCount] = useState(initialClont);
     const [questions, setQuestions] = useState(
-        data || [
+        formik.values.quiz.questions || [
             {
                 question: '',
                 options: [
@@ -197,7 +198,7 @@ const CreateQuestion = ({
      * It sends the quiz to the next phase.
      */
     const saveQuiz = () => {
-        setData(questions);
+        formik.setFieldValue('quiz.questions', questions);
         setActiveModal('PERCENTAGE_PAGE');
         setShowMessage(false);
         setOptionsPerQuestion(optionCount);
@@ -302,7 +303,7 @@ const CreateQuestion = ({
                                 <FaTrashAlt />
                             </FormStyled.IconButton>
                             <FormStyled.TextLabel marginLeft='10px'>
-                                Delete Section
+                                Delete Question
                             </FormStyled.TextLabel>
                         </FormStyled.DeleteWrapper>
                     )}
@@ -312,9 +313,11 @@ const CreateQuestion = ({
                 <Styled.Circle onClick={AddQuestionHandler}>
                     <IoMdAdd style={{ color: 'white' }} />
                 </Styled.Circle>
-                Add Questions
+                Add Another Question
             </Styled.AddQuestionBox>
-            <FormStyled.Button onClick={saveQuiz}>Next</FormStyled.Button>
+            <FormStyled.Button onClick={saveQuiz}>
+                Finish Quiz
+            </FormStyled.Button>
         </>
     );
 };

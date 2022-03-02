@@ -1414,6 +1414,7 @@ export const getGate = /* GraphQL */ `
                         }
                         ... on MeetingCode {
                             type
+                            code
                             caseSensitive
                         }
                         ... on TokenHold {
@@ -1620,6 +1621,7 @@ export const getKey = /* GraphQL */ `
                 }
                 ... on MeetingCode {
                     type
+                    code
                     caseSensitive
                 }
                 ... on TokenHold {
@@ -1709,6 +1711,7 @@ export const listKeys = /* GraphQL */ `
                     }
                     ... on MeetingCode {
                         type
+                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -2267,6 +2270,7 @@ export const getTaskStatus = /* GraphQL */ `
                     }
                     ... on MeetingCode {
                         type
+                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -3214,6 +3218,29 @@ export const getPostsByChannelId = /* GraphQL */ `
                 content
                 comments {
                     nextToken
+                    items {
+                        id
+                        postID
+                        userID
+                        user {
+                            id
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            createdAt
+                            updatedAt
+                        }
+                        content
+                        upvotes
+                        downvotes
+                        createdAt
+                        updatedAt
+                    }
                 }
                 upvotes
                 downvotes
@@ -3401,6 +3428,7 @@ export const getKeysByGateId = /* GraphQL */ `
                     }
                     ... on MeetingCode {
                         type
+                        code
                         caseSensitive
                     }
                     ... on TokenHold {
@@ -3763,6 +3791,76 @@ export const getTaskStatusByGateId = /* GraphQL */ `
     ) {
         getTaskStatusByGateID(
             gateID: $gateID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                userID
+                user {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    createdAt
+                    updatedAt
+                }
+                gateID
+                gate {
+                    id
+                    daoID
+                    name
+                    description
+                    categories
+                    skills
+                    knowledge
+                    attitudes
+                    admins
+                    keysNumber
+                    published
+                    retroactiveEarners
+                    holders
+                    nftType
+                    createdAt
+                    updatedAt
+                }
+                keyID
+                key {
+                    id
+                    gateID
+                    token
+                    tokenAmount
+                    keys
+                    unlimited
+                    peopleLimit
+                    createdAt
+                    updatedAt
+                }
+                completed
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`;
+export const getTaskStatusByKeyId = /* GraphQL */ `
+    query GetTaskStatusByKeyId(
+        $keyID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelTaskStatusFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getTaskStatusByKeyID(
+            keyID: $keyID
             sortDirection: $sortDirection
             filter: $filter
             limit: $limit

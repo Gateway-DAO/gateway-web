@@ -15,11 +15,12 @@ import { useAuth } from '../../contexts/UserContext';
 import { getGateStatusByUserId } from '../../graphql/queries';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { updateGate } from '../../graphql/mutations';
+import { PublishedState } from '../../graphql/API';
 
 /* This is a card that displays information about a gate. */
 const GateCard = ({ gate }) => {
     // State
-    const [checked, setChecked] = useState(gate.published);
+    const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
 
     // Hooks
     const { isAdmin } = useAdmin(gate.admins || []);
@@ -42,12 +43,22 @@ const GateCard = ({ gate }) => {
      */
     const toggleGatePublished = async () => {
         try {
-            setChecked(!checked);
+            const published_INTERNAL =
+                gate.published === PublishedState.NOT_PUBLISHED
+                    ? PublishedState.PUBLISHED
+                    : gate.published === PublishedState.PUBLISHED
+                    ? PublishedState.PAUSED
+                    : gate.published === PublishedState.PAUSED
+                    ? PublishedState.PUBLISHED
+                    : gate.published;
+
+            setChecked(published_INTERNAL === 'PUBLISHED');
+
             await update({
                 variables: {
                     input: {
                         id: gate.id,
-                        published: !checked,
+                        published: published_INTERNAL,
                     },
                 },
             });
@@ -63,15 +74,13 @@ const GateCard = ({ gate }) => {
      */
     const getButtonText = () => {
         switch (data?.getGateStatusByUserID?.items[0]?.status) {
-            case 'IN_PROGRESS':
-                return 'In Progress';
             case 'COMPLETED':
                 return 'Done';
             default:
-                return 'Start';
+                return 'Details';
         }
     };
-
+    console.log(gate.data);
     return (
         <Styled.GateCardBox>
             <Styled.GateBanner
@@ -84,10 +93,10 @@ const GateCard = ({ gate }) => {
                     </Styled.EditContainer>
                 )}
 
-                <Styled.NFTBadgeContainer>
+                {/* <Styled.NFTBadgeContainer>
                     <Styled.SimpleText>NFT Badge</Styled.SimpleText>
                     <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
-                </Styled.NFTBadgeContainer>
+                </Styled.NFTBadgeContainer> */}
                 {/*
                 <Styled.PeopleInvolved>
                     <PfpBox text="4 people have earned it." />
@@ -119,25 +128,45 @@ const GateCard = ({ gate }) => {
                 </Styled.InfoBox>
                 */}
                 <Styled.InfoBox>
-                    <Styled.MediumHeading>KEYS REQUIRED</Styled.MediumHeading>
-                    <Styled.KeyBox>
-                        <Styled.Circle>
-                            <CircularProgressbar
-                                value={
-                                    data?.getGateStatusByUserID?.items[0]
-                                        ?.keysDone || 0
-                                }
-                                minValue={0}
-                                maxValue={gate.keysNumber}
-                                strokeWidth={20}
-                            />
-                        </Styled.Circle>
-                        <Styled.SmallText>
-                            {data?.getGateStatusByUserID?.items[0]?.keysDone ||
-                                0}{' '}
-                            of {gate.keysNumber}
-                        </Styled.SmallText>
-                    </Styled.KeyBox>
+                    <Styled.Column>
+                        <Styled.NFTBadgeContainer>
+                            <Styled.SimpleText>NFT Badge</Styled.SimpleText>
+                            <Styled.GuildName>
+                                {gate.badge.name}
+                            </Styled.GuildName>
+                        </Styled.NFTBadgeContainer>
+                        <Styled.PreRequisiteContainer>
+                            <Styled.SimpleText>PRE REQUISITE</Styled.SimpleText>
+                            <Styled.GuildName>BANK.Beginner</Styled.GuildName>
+                        </Styled.PreRequisiteContainer>
+                    </Styled.Column>
+                    <Styled.Column>
+                        {gate.keysNumber && (
+                            <>
+                                <Styled.MediumHeading>
+                                    KEYS REQUIRED
+                                </Styled.MediumHeading>
+                                <Styled.KeyBox>
+                                    <Styled.Circle>
+                                        <CircularProgressbar
+                                            value={
+                                                data?.getGateStatusByUserID
+                                                    ?.items[0]?.keysDone || 0
+                                            }
+                                            minValue={0}
+                                            maxValue={gate.keysNumber}
+                                            strokeWidth={20}
+                                        />
+                                    </Styled.Circle>
+                                    <Styled.SmallText>
+                                        {data?.getGateStatusByUserID?.items[0]
+                                            ?.keysDone || 0}{' '}
+                                        of {gate.keysNumber}
+                                    </Styled.SmallText>
+                                </Styled.KeyBox>
+                            </>
+                        )}
+                    </Styled.Column>
                 </Styled.InfoBox>
             </Styled.InfoContainer>
             <Styled.ActivityBox>
@@ -145,11 +174,6 @@ const GateCard = ({ gate }) => {
                     onClick={() => navigate(`/gate/${gate.id}`)}
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
-                </Styled.ActionButton>
-                <Styled.ActionButton
-                    onClick={() => navigate(`/gate/${gate.id}`)}
-                >
-                    <Styled.ButtonText>DETAILS</Styled.ButtonText>
                 </Styled.ActionButton>
                 {isAdmin && (
                     <Styled.PublishContainer>

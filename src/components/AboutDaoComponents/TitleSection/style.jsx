@@ -37,7 +37,7 @@ export const MainWrapper = styled.div`
     position: relative;
     display: flex;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     align-items: center;
     justify-content: center;
 `;

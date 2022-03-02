@@ -59,11 +59,12 @@ const ProfilePage = () => {
                     });
 
                     setUserInfo(
-                        !userLoading
+                        !userLoading && data
                             ? data.getUserByUsername.items[0]
                             : RAW_USER
                     );
                 } catch (err) {
+                    console.log('err', err);
                     navigate('/404');
                 }
             } else {
@@ -113,7 +114,7 @@ const ProfilePage = () => {
     );
 
     if (error) {
-        console.log(error);
+        console.log(`error -> `, error);
         return <Navigate to='/404' />;
     }
 
