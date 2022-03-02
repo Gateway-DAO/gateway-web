@@ -39,37 +39,25 @@ const GateCard = ({ gate }) => {
             },
         },
     });
-    const { adminData } = useQuery(gql(searchUsers), {
-        variables: {
-            filter: {
-                id: {
-                    eq: gate.admins[0],
-                },
-            },
-        },
-    });
-    console.log(adminData);
-    // const [
-    //     searchByGates,
-    //     {
-    //         data: searchGateData,
-    //         loading: searchGateLoading,
-    //         refetch: searchGateRefetch,
-    //         called: searchGateCalled,
-    //     },
-    // ] = useLazyQuery(gql(searchGates), {
+    // const { preRequisit } = useQuery(gql(getGatesByGateid), {
     //     variables: {
     //         filter: {
-    //             or: [
-    //                 {
-    //                     name: {
-    //                         wildcard: `*${prerequisite.toLowerCase()}*`,
-    //                     },
-    //                 },
-    //             ],
+    //             gateID: {
+    //                 eq: gate.id,
+    //             },
     //         },
     //     },
     // });
+    // const { adminData } = useQuery(gql(searchUsers), {
+    //     variables: {
+    //         filter: {
+    //             id: {
+    //                 eq: gate.admins[0],
+    //             },
+    //         },
+    //     },
+    // });
+    // console.log(preRequisit);
 
     const [
         searchByUsers,
@@ -88,7 +76,7 @@ const GateCard = ({ gate }) => {
             },
         },
     });
-    console.log(searchUserData);
+    // console.log(searchUserData);
     /**
      * It toggles the published state of the gate.
      */
@@ -172,64 +160,52 @@ const GateCard = ({ gate }) => {
                 </Styled.CardDesc>
             </Styled.CardBody>
             <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
-                {/*
+                <Styled.InfoBox>
+                    <Styled.MediumHeading>NFT Badge</Styled.MediumHeading>
+                    <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
+                </Styled.InfoBox>
                 <Styled.InfoBox>
                     <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
-                    <Styled.SmallText>BANK.Beginner</Styled.SmallText>
+                    <Styled.InfoText>Gateway.DAO.Verfication</Styled.InfoText>
                 </Styled.InfoBox>
-                */}
-                {/* <Styled.InfoBox> */}
-                <Styled.Column>
-                    <Styled.InfoBox>
-                        <Styled.MediumHeading>NFT Badge</Styled.MediumHeading>
-                        <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
-                    </Styled.InfoBox>
-                    <Styled.InfoBox>
-                        {gate.keysNumber && (
-                            <>
-                                <Styled.MediumHeading>
-                                    KEYS REQUIRED
-                                </Styled.MediumHeading>
-                                <Styled.KeyBox>
-                                    <Styled.Circle>
-                                        <CircularProgressbar
-                                            value={
-                                                data?.getGateStatusByUserID
-                                                    ?.items[0]?.keysDone || 0
-                                            }
-                                            minValue={0}
-                                            maxValue={gate.keysNumber}
-                                            strokeWidth={20}
-                                        />
-                                    </Styled.Circle>
-                                    <Styled.SmallText>
-                                        {data?.getGateStatusByUserID?.items[0]
-                                            ?.keysDone || 0}{' '}
-                                        of {gate.keysNumber}
-                                    </Styled.SmallText>
-                                </Styled.KeyBox>
-                            </>
-                        )}
-                    </Styled.InfoBox>
-                </Styled.Column>
-                <Styled.Column>
-                    <Styled.InfoBox>
-                        <Styled.MediumHeading>
-                            PRE REQUISITE
-                        </Styled.MediumHeading>
-                        <Styled.InfoText>
-                            Gateway.DAO.Verfication
-                        </Styled.InfoText>
-                    </Styled.InfoBox>
-                    <Styled.InfoBox>
-                        <Styled.MediumHeading>Admins</Styled.MediumHeading>
-                        <Styled.InfoText>
-                            {gate.admins.length} people
-                            <br />
-                            have earned it.
-                        </Styled.InfoText>
-                    </Styled.InfoBox>
-                </Styled.Column>
+                <Styled.InfoBox>
+                    {gate.keysNumber && (
+                        <>
+                            <Styled.MediumHeading>
+                                KEYS REQUIRED
+                            </Styled.MediumHeading>
+                            <Styled.KeyBox>
+                                <Styled.Circle>
+                                    <CircularProgressbar
+                                        value={
+                                            data?.getGateStatusByUserID
+                                                ?.items[0]?.keysDone || 0
+                                        }
+                                        minValue={0}
+                                        maxValue={gate.keysNumber}
+                                        strokeWidth={20}
+                                    />
+                                </Styled.Circle>
+                                <Styled.SmallText>
+                                    {data?.getGateStatusByUserID?.items[0]
+                                        ?.keysDone || 0}{' '}
+                                    of {gate.keysNumber}
+                                </Styled.SmallText>
+                            </Styled.KeyBox>
+                        </>
+                    )}
+                </Styled.InfoBox>
+                {/* </Styled.Column>
+                <Styled.Column> */}
+                <Styled.InfoBox>
+                    <Styled.MediumHeading>Admins</Styled.MediumHeading>
+                    <Styled.InfoText>
+                        {gate.admins.length} people
+                        <br />
+                        have earned it.
+                    </Styled.InfoText>
+                </Styled.InfoBox>
+                {/* </Styled.Column> */}
                 {/* </Styled.InfoBox> */}
             </Styled.InfoContainer>
             <Styled.ActivityBox>

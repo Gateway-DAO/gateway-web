@@ -176,14 +176,11 @@ export const CardTitle = styled.h1`
 `;
 
 export const CardDesc = styled.div`
-    font-family: 'Be Vietnam', sans-serif;
+    font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.05em;
+    font-size: 16px;
+    line-height: 22px;
     margin-top: 5px;
 
     color: #170627;
@@ -193,13 +190,12 @@ export const CardDesc = styled.div`
     align-items: flex-start;
 `;
 export const InfoContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    /* align-items: center; */
+    display: grid;
     border-bottom: 1px solid #e5e5e5;
     margin: 0 25px;
     padding-bottom: 15px;
-    // flex-direction: column;
+    grid-template-columns: auto auto;
+    column-gap: 40px;
 `;
 export const InfoBox = styled.div`
     display: flex;
@@ -310,7 +306,6 @@ export const Column = styled.div`
     justify-content: space-between;
     width: 100%;
     flex-direction: column;
-    // padding-right: 20px;
 `;
 export const InfoText = styled.div`
     font-family: Be Vietnam;
