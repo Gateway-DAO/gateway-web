@@ -47,12 +47,14 @@ const KeyBox = (props) => {
     const data = props.data;
     const keyValidation = useKeyValidation(data, props.gateData);
     const { isAdmin } = useGateAdmin(props.gateData.admins);
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     // API
     const [deleteMutation] = useMutation(gql(deleteKey), {
         variables: {
-            id: data.id,
+            input: {
+                id: data.id,
+            },
         },
     });
 

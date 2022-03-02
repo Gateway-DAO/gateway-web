@@ -44,11 +44,12 @@ const removePeopleFromKey = async (keyID) => {
             Key: {
                 id: keyID,
             },
-            ConditionExpression: `#unlimited = :false AND #people >= 0`,
+            ConditionExpression: `#unlimited = :false AND #people >= :zero`,
             UpdateExpression: 'SET #people = #people - :decrement',
             ExpressionAttributeValues: {
                 ':decrement': 1,
-                ':false': false
+                ':false': false,
+                ':zero': 0
             },
             ExpressionAttributeNames: {
                 '#people': 'peopleLimit',

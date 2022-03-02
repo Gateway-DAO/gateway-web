@@ -141,20 +141,18 @@ export const useWeb3 = () => {
     };
 
     const mintNFT = async (tokenAddress, credential) => {
-        try {
-            await checkNetwork();
-            const tokenURI = issueCredential(credential);
-            const provider = await library.getSigner();
-            const contract = new ethers.Contract(
-                tokenAddress,
-                NFT_ABI,
-                provider
-            );
-            await contract.mint(account, tokenURI);
-        } catch (err) {
-            alert('An error occurred!');
-            console.log(err);
-        }
+        await checkNetwork();
+        const { data: sign } = await generateSign();
+        const tokenURI = issueCredential(credential);
+        const provider = await library.getSigner();
+        const contract = new ethers.Contract(tokenAddress, NFT_ABI, provider);
+        await contract.mint(
+            account,
+            tokenURI,
+            tokenURI,
+            sign.generatedNonceSignature.signature,
+            sign.generatedNonceSignature.nonce
+        );
     };
 
     const batchMint = async (
@@ -162,22 +160,63 @@ export const useWeb3 = () => {
         credentials: Record<string, any>[],
         addresses: string[]
     ) => {
-        try {
-            const tokenURIs = await Promise.all(
-                credentials.map(
-                    async (credential) => await issueCredential(credential)
-                )
+        const tokenURIs = await Promise.all(
+            credentials.map(
+                async (credential) => await issueCredential(credential)
+            )
+        );
+        const provider = await library.getSigner();
+        const contract = new ethers.Contract(tokenAddress, NFT_ABI, provider);
+        await contract.retroactiveMint(addresses, tokenURIs, tokenURIs);
+    };
+
+    const getNFTs = async (address, tokenURI) => {
+        const get = async () => {
+            const res = await fetch(
+                `https://deep-index.moralis.io/api/v2/${account}/nft/${address}?chain=rinkeby&format=decimal`,
+                {
+                    headers: {
+                        'X-API-Key':
+                            'MlQjjtrJx3EqRdpKKxKOYeCFzeFArHvc97szEyUuDba2qbbRKCUi0OB9uNytyDm9',
+                    },
+                }
             );
-            const provider = await library.getSigner();
-            const contract = new ethers.Contract(
-                tokenAddress,
-                NFT_ABI,
-                provider
-            );
-            await contract.retroactiveMint(addresses, tokenURIs, tokenURIs);
-        } catch (err) {
-            alert('ERROR HERE!');
-        }
+            const json = await res.json();
+
+            const nfts = json?.result?.map(async (nft) => {
+                if (nft.token_uri) {
+                    if (!nft.token_uri.startsWith('http')) {
+                        const res2 = await fetch(
+                            `https://gateway-clay.ceramic.network/api/v0/streams/${nft.token_uri}`
+                        );
+
+                        const json2 = await res2.json();
+
+                        return {
+                            ...nft,
+                            metadata: json2.state.metadata,
+                        };
+                    } else {
+                        const res3 = await fetch(nft.token_uri);
+                        const json3 = await res3.json();
+
+                        return {
+                            ...nft,
+                            metadata: {
+                                ...json3,
+                                image: `https://gateway.pinata.cloud/ipfs/${json3.image}`,
+                            },
+                        };
+                    }
+                }
+            });
+
+            return nfts;
+        };
+
+        const data = account ? await get() : [];
+        const resolved = await Promise.all(data || []);
+        return resolved?.filter((nft) => nft !== undefined);
     };
 
     return {
@@ -186,6 +225,7 @@ export const useWeb3 = () => {
         issueCredential,
         mintNFT,
         batchMint,
+        getNFTs,
     };
 };
 

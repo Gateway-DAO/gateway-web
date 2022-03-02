@@ -12,7 +12,7 @@ const { createKey, updateKey: update } = require('./helpers');
 
 const resolvers = {
     Mutation: {
-        updateKey: async (ctx) => {
+        changeKey: async (ctx) => {
             return update(ctx.arguments.input);
         },
 

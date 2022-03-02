@@ -10,7 +10,8 @@ const NftBadge = ({ nft }) => {
                 <Styled.CardBody>
                     <Styled.CardBadge>NFT Badge</Styled.CardBadge>
                     <Styled.CardBadgeText>
-                        {nft.name.slice(0, 24) + '...'}
+                        {nft.name.slice(0, 24) +
+                            (nft.name.length > 24 ? '...' : '')}
                     </Styled.CardBadgeText>
                 </Styled.CardBody>
             </Styled.CardBox>

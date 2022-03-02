@@ -52,7 +52,7 @@ interface Props {
     id: string;
     url?: number | string;
     children: string | React.ReactNode;
-    gateData: Gate;
+    gateData: GateData;
     daoData: DAO;
     published: PublishedState;
 }
@@ -106,6 +106,7 @@ const BackButton: React.FC<Props> = ({
                     ? PublishedState.PUBLISHED
                     : published;
 
+            /*
             if (
                 published === PublishedState.NOT_PUBLISHED &&
                 published_INTERNAL === PublishedState.PUBLISHED
@@ -114,8 +115,9 @@ const BackButton: React.FC<Props> = ({
                 const nftType = gateData.nftType;
                 const dao = gateData.dao;
 
-                let contract: string | null =
-                    dao.nftContracts[(nftType as string).toLowerCase()];
+                let contract: string | null = dao.nftContracts
+                    ? dao.nftContracts[(nftType as string).toLowerCase()]
+                    : null;
 
                 // Step 1. check if there's the contract
                 if (
@@ -140,8 +142,8 @@ const BackButton: React.FC<Props> = ({
                             input: {
                                 id: dao.id,
                                 nftContracts: {
-                                    contributor: dao.nftContracts.contributor,
-                                    reward: dao.nftContracts.reward,
+                                    contributor: dao.nftContracts?.contributor,
+                                    reward: dao.nftContracts?.reward,
                                     [(nftType as string).toLowerCase()]:
                                         contract,
                                 },
@@ -152,12 +154,7 @@ const BackButton: React.FC<Props> = ({
 
                 // Step 2. mint the NFT
 
-                // Step 2.1. get the authorization
-                const { data: nonceData } = await signNonce();
-
-                console.log(nonceData);
-
-                // Step 2.2. stream the credential to Ceramic
+                // Step 2.1. stream the credential to Ceramic
                 const credential = {
                     issuerId:
                         'did:key:z6Mkjeb28dgUpbAEMgjiP3KcVmVgNNUqynimDBKS4G1K1fUe',
@@ -175,8 +172,8 @@ const BackButton: React.FC<Props> = ({
                         gateData.retroactiveEarners
                     ));
             }
+            */
 
-            /*
             setPublished(published_INTERNAL);
 
             await updateGate({
@@ -187,7 +184,8 @@ const BackButton: React.FC<Props> = ({
                     },
                 },
             });
-            */
+
+            discardModal();
         } catch (e) {
             setShowPublish(false);
             discardModal();

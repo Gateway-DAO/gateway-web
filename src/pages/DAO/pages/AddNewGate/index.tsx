@@ -91,9 +91,9 @@ const AddGateForm = () => {
     const [description, setDescription] = useState<string>(
         edit ? gateData.description : ''
     );
-    const [retroactiveEarners, setRetroactiveEarners] = useState<string[]>([
-        '',
-    ]);
+    const [retroactiveEarners, setRetroactiveEarners] = useState<string[]>(
+        edit ? gateData.retroactiveEarners : ['']
+    );
     const [uploadFile, setUploadFile] = useState(null);
     const [category, setCategory] = useState<string>('');
     const [categoryList, setCategoryList] = useState<(string | null)[]>(
@@ -519,7 +519,8 @@ const AddGateForm = () => {
                 <Styled.Header>
                     {edit ? `Edit Gate` : `Create a New Gate`}
                 </Styled.Header>
-                {gateData.published === PublishedState.NOT_PUBLISHED && (
+                {(!edit ||
+                    gateData?.published === PublishedState.NOT_PUBLISHED) && (
                     <>
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='title'>
@@ -631,8 +632,9 @@ const AddGateForm = () => {
                             </FormStyled.Fieldset>
                         )}
 
-                        {gateData.published ===
-                            PublishedState.NOT_PUBLISHED && (
+                        {(!edit ||
+                            gateData?.published ===
+                                PublishedState.NOT_PUBLISHED) && (
                             <>
                                 <FormStyled.Fieldset>
                                     <FormStyled.Label htmlFor='title'>
@@ -869,8 +871,9 @@ const AddGateForm = () => {
                             )}
                         </FormStyled.Fieldset>
 
-                        {gateData.published ===
-                            PublishedState.NOT_PUBLISHED && (
+                        {(!edit ||
+                            gateData?.published ===
+                                PublishedState.NOT_PUBLISHED) && (
                             <FormStyled.Fieldset>
                                 <FormStyled.Label htmlFor='retroactiveLearner'>
                                     {wantPreReqs === YesNo.YES

@@ -209,7 +209,7 @@ type Gate
 }
 
 type Key
-    @model(mutations: { update: null })
+    @model
     @key(
         name: "keyByGateID"
         fields: ["gateID"]
@@ -347,25 +347,26 @@ union TaskUnion =
 
 ### MANUAL TASK SUBMISSION ###
 
-type ManualTaskSubmission @model @key(
+type ManualTaskSubmission
+    @model
+    @key(
         name: "manualTaskSubmissionByUserID"
         fields: ["userID"]
         queryField: "getManualTaskSubmissionByUserID"
     )
-
     @key(
         name: "manualTaskSubmissionByKeyID"
         fields: ["keyID"]
         queryField: "getManualTaskSubmissionByKeyID"
     ) {
-        userID: ID!
-        user: User @connection(fields: ["userID"])
-        keyID: ID!
-        key: Key @connection(fields: ["keyID"])
-        submissionURL: AWSURL
-        discordID: String
-        wallet: String
-        comment: String
+    userID: ID!
+    user: User @connection(fields: ["userID"])
+    keyID: ID!
+    key: Key @connection(fields: ["keyID"])
+    submissionURL: AWSURL
+    discordID: String
+    wallet: String
+    comment: String
 }
 
 ### TASK STATUS / GATE STATUS / ERROR ###
@@ -687,7 +688,7 @@ input ManualTaskInput {
     information: [KeyInformationInput]!
 }
 
-input UpdateKeyInput {
+input ChangeKeyInput {
     id: ID!
     gateID: ID!
     information: [KeyInformationInput]!
@@ -701,7 +702,8 @@ input UpdateKeyInput {
 
 ### CUSTOM QUERIES ###
 type Query {
-    fetchFromCeramic(streamID: String!, node: AWSURL): FetchCeramicResponse @function(name: "ceramic-${env}")
+    fetchFromCeramic(streamID: String!, node: AWSURL): FetchCeramicResponse
+        @function(name: "ceramic-${env}")
 }
 
 ### CUSTOM MUTATIONS ###
@@ -739,6 +741,8 @@ type Mutation {
     createManualTask(input: CreateKeyManualTask): Key
         @function(name: "key-${env}")
 
+    changeKey(input: ChangeKeyInput): Key @function(name: "key-${env}")
+
     ## Verify keys ##
     verifyMeetingCode(
         userID: ID!
@@ -765,9 +769,12 @@ type Mutation {
     ): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
 
     ## Ceramic ##
-    streamToCeramic(data: AWSJSON!,  node: AWSURL): StreamCeramicResponse @function(name: "ceramic-${env}")
+    streamToCeramic(data: AWSJSON!, node: AWSURL): StreamCeramicResponse
+        @function(name: "ceramic-${env}")
 
     ## Signatures ##
-    generateSignature(message: String!): SignatureResponse @function(name: "generateSignature-${env}")
-    generatedNonceSignature: SignatureResponse @function(name: "generateSignature-${env}")
+    generateSignature(message: String!): SignatureResponse
+        @function(name: "generateSignature-${env}")
+    generatedNonceSignature: SignatureResponse
+        @function(name: "generateSignature-${env}")
 }
