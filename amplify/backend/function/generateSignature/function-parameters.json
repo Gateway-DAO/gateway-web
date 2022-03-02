@@ -1,6 +1,4 @@
 {
   "lambdaLayers": [],
-  "secretNames": [
-    "privateKey"
-  ]
+  "secretNames": []
 }

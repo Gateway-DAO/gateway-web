@@ -15,11 +15,12 @@ import { useAuth } from '../../contexts/UserContext';
 import { getGateStatusByUserId } from '../../graphql/queries';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import { updateGate } from '../../graphql/mutations';
+import { PublishedStatus } from '../../graphql/API';
 
 /* This is a card that displays information about a gate. */
 const GateCard = ({ gate }) => {
     // State
-    const [checked, setChecked] = useState(gate.published);
+    const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
 
     // Hooks
     const { isAdmin } = useAdmin(gate.admins || []);
@@ -42,12 +43,22 @@ const GateCard = ({ gate }) => {
      */
     const toggleGatePublished = async () => {
         try {
-            setChecked(!checked);
+            const published_INTERNAL =
+                gate.published === PublishedStatus.NOT_PUBLISHED
+                    ? PublishedStatus.PUBLISHED
+                    : gate.published === PublishedStatus.PUBLISHED
+                    ? PublishedStatus.PAUSED
+                    : gate.published === PublishedStatus.PAUSED
+                    ? PublishedStatus.PUBLISHED
+                    : gate.published;
+
+            setChecked(published_INTERNAL === 'PUBLISHED');
+
             await update({
                 variables: {
                     input: {
                         id: gate.id,
-                        published: !checked,
+                        published: published_INTERNAL,
                     },
                 },
             });

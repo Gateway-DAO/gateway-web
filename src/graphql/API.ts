@@ -212,7 +212,7 @@ export type Gate = {
   admins?: Array< string | null >,
   keysNumber?: number | null,
   keys?: ModelKeyConnection,
-  published?: boolean | null,
+  published?: PublishedStatus | null,
   badge?: NFTInfo,
   preRequisites?: PreRequisites,
   retroactiveEarners?: Array< string > | null,
@@ -391,6 +391,12 @@ export enum CompletedState {
   DONE = "DONE",
   IN_REVIEW = "IN_REVIEW",
   NOT_DONE = "NOT_DONE",
+}
+
+export enum PublishedStatus {
+  PAUSED = "PAUSED",
+  NOT_PUBLISHED = "NOT_PUBLISHED",
+  PUBLISHED = "PUBLISHED",
 }
 
 

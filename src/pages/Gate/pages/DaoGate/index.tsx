@@ -60,7 +60,11 @@ const DaoGate: React.FC = () => {
             </Styled.LoaderBox>
         );
     } else if (loaded) {
-        if (!isAdmin && !gateData.published) {
+        if (
+            !isAdmin &&
+            (gateData.published == 'NOT_PUBLISHED' ||
+                gateData.published == 'PAUSED')
+        ) {
             return <Navigate to='/404' />;
         }
 

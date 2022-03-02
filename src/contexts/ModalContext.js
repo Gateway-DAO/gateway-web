@@ -25,6 +25,35 @@ const ModalBox = styled.div`
     }
 `;
 
+const Title = styled.h3`
+    font-family: Poppins;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    text-transform: uppercase;
+`;
+
+const Body = styled.p`
+    font-family: Poppins;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0.05em;
+    text-align: left;
+    margin-top: 15px;
+`;
+
+const Error = ({ children }) => (
+    <>
+        <Title>An Error Occurred</Title>
+        <Body>{children}</Body>
+    </>
+);
+
 export const ModalContext = createContext({});
 const { Provider } = ModalContext;
 
@@ -37,21 +66,26 @@ export const ModalProvider = ({ children }) => {
     const [show, setShow] = useState(false);
     const [modalElements, setModalElements] = useState(null);
 
-    const showModal = (children, config = {}) => {
-        setModalElements(children);
-        setShow(true);
-    };
-
     const discardModal = () => {
         setShow(false);
         setModalElements(null);
     };
+
+    const showModal = (children, config = {}) => {
+        discardModal();
+        setModalElements(children);
+        setShow(true);
+    };
+
+    const showErrorModal = (children, config = {}) =>
+        showModal(<Error>{children}</Error>, config);
 
     return (
         <Provider
             value={{
                 showModal,
                 discardModal,
+                showErrorModal,
             }}
         >
             <Modal show={show} toggle={discardModal}>

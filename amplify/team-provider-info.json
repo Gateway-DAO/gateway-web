@@ -55,7 +55,7 @@
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion54f1e5c3-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion82c1072d-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -89,11 +89,9 @@
         },
         "ceramic": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/ceramic-494b7a6e47414a373241-build.zip",
-          "secretsPathAmplifyAppId": "d1eyfltl5g67m"
+          "s3Key": "amplify-builds/ceramic-494b7a6e47414a373241-build.zip"
         },
         "generateSignature": {
-          "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
           "s3Key": "amplify-builds/generateSignature-6a725a6f4a564759554e-build.zip"
         },

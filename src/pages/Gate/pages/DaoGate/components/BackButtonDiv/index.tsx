@@ -14,8 +14,9 @@ import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 
 // Types
-import { DAO, Gate } from '../../../../../../graphql/API';
+import { DAO, Gate, PublishedStatus } from '../../../../../../graphql/API';
 import { MutationFunctionOptions } from '@apollo/client';
+import { useModal } from '../../../../../../contexts/ModalContext';
 
 /* A type definition for the GateData interface. It is used to make sure that the data that is passed
 to the component is of the correct type. */
@@ -25,7 +26,7 @@ interface Props {
     children: string | React.ReactNode;
     gateData: Gate;
     daoData: DAO;
-    published: boolean;
+    published: PublishedStatus;
 }
 
 const BackButton: React.FC<Props> = ({
@@ -36,7 +37,9 @@ const BackButton: React.FC<Props> = ({
     const gateData: Gate = props.gateData;
 
     //States
-    const [published, setPublished] = useState<boolean>(props.published);
+    const [published, setPublished] = useState<PublishedStatus>(
+        props.published
+    );
     const [showDelete, setShowDelete] = useState<boolean>(false);
 
     //Hooks
@@ -47,6 +50,7 @@ const BackButton: React.FC<Props> = ({
     const navigate = useNavigate();
     const { isAdmin } = useGateAdmin(gateData.admins);
     const { deleteGate } = useDeleteGate();
+    const { showErrorModal }: Record<string, any> = useModal();
 
     /**
      * It navigates to the edit-gate page.
@@ -63,17 +67,29 @@ const BackButton: React.FC<Props> = ({
      */
     const handleUpdate = async () => {
         try {
-            setPublished(!published);
+            const published_INTERNAL =
+                published === PublishedStatus.NOT_PUBLISHED
+                    ? PublishedStatus.PUBLISHED
+                    : published === PublishedStatus.PUBLISHED
+                    ? PublishedStatus.PAUSED
+                    : published === PublishedStatus.PAUSED
+                    ? PublishedStatus.PUBLISHED
+                    : published;
+
+            setPublished(published_INTERNAL);
+
             await updateGate({
                 variables: {
                     input: {
                         id: props.id,
-                        published: !published,
+                        published: published_INTERNAL,
                     },
                 },
             });
         } catch (e) {
-            alert('We are facing some issues. Please try again later.');
+            showErrorModal(
+                'We are facing some issues. Please try again later.'
+            );
             console.log(e);
         }
     };
@@ -118,7 +134,9 @@ const BackButton: React.FC<Props> = ({
                             width='182px'
                             size='13px'
                         >
-                            {published ? 'Unpublish' : 'Publish'}
+                            {published == PublishedStatus.PUBLISHED
+                                ? 'Unpublish'
+                                : 'Publish'}
                         </Styled.ButtonWrapper>
                         <Styled.ButtonWrapper onClick={editGate} ml='20'>
                             <MdModeEditOutline />

@@ -16,7 +16,6 @@ import { ImageUpload } from '../../../../components/Form';
 import { useCreateGate } from '../../../../api/database/useCreateGate';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../../contexts/UserContext';
-import useMint from '../../../../hooks/useMint';
 
 // Icons
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
@@ -29,25 +28,11 @@ import { useEffect } from 'react';
 
 // API
 import useUpdateGate from '../../../../api/database/useUpdateGate';
-import { gql, useLazyQuery, useMutation } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import { searchGates, searchUsers } from '../../../../graphql/queries';
-import {
-    generatedNonceSignature,
-    updateDao,
-} from '../../../../graphql/mutations';
-import {
-    DAO,
-    Gate,
-    Signature,
-    TaskStatus,
-    User,
-} from '../../../../graphql/API';
+import { DAO, Gate, TaskStatus, User } from '../../../../graphql/API';
 
-// Web3
-import { ContractReceipt, ethers } from 'ethers';
-import { abi } from '../../../../utils/abis/Router.json';
-import { useWeb3React } from '@web3-react/core';
-import { ROUTER_ADDRESS } from '../../../../utils/web3';
+// Components
 import BackButton from '../../../../components/BackButton';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
@@ -165,8 +150,7 @@ const AddGateForm = () => {
     const { daoData }: { daoData: DAO } = useOutletContext();
     const { createGate } = useCreateGate();
     const { updateGate } = useUpdateGate();
-    const [updateDAO] = useMutation(gql(updateDao));
-    const [generateSign] = useMutation(gql(generatedNonceSignature));
+
     const [
         searchByUsers,
         {
@@ -209,9 +193,7 @@ const AddGateForm = () => {
         },
     });
 
-    const { batchMint } = useMint();
     const navigate = useNavigate();
-    const { library, chainId } = useWeb3React();
 
     /* The addCategories function is called when the user presses the Enter key. 
     The function adds the current value of the category input to the categoryList array and clears
@@ -334,63 +316,6 @@ const AddGateForm = () => {
         );
     };
 
-    const deployContract = async () => {
-        if (
-            daoData.nftContracts == null ||
-            (daoData.nftContracts != null &&
-                daoData.nftContracts[(NFTType as string).toLowerCase()])
-        ) {
-            // Get minting authorization
-            const { data: signData } = await generateSign();
-
-            const signature: Signature = signData.generatedNonceSignature;
-
-            const signer = await library.getSigner();
-
-            const contract = new ethers.Contract(
-                ROUTER_ADDRESS[chainId],
-                abi,
-                signer
-            );
-
-            console.log(signature);
-
-            const deployTx = await contract.deployNFT(
-                badgeName,
-                'GATENFT',
-                '',
-                adminList.map((admin) => admin.wallet),
-                true,
-                signature.signature,
-                signature.message,
-                (NFTType as string) == 'Reward' ? 0 : 1
-            );
-
-            const contractReceipt: ContractReceipt = await deployTx.wait();
-
-            console.log(contractReceipt);
-
-            const event = contractReceipt.events?.find(
-                (event) => event.event === `Mint${NFTType}NFT`
-            );
-
-            const nftAddr = event?.args?.['_address'];
-
-            console.log(nftAddr);
-
-            await updateDAO({
-                variables: {
-                    input: {
-                        id: daoData.id,
-                        nftContracts: {
-                            [(NFTType as string).toLowerCase()]: nftAddr,
-                        },
-                    },
-                },
-            });
-        }
-    };
-
     /**
      * It creates a new gate.
      * @param e - React.FormEvent
@@ -412,8 +337,6 @@ const AddGateForm = () => {
             const hash = await uploadFileToIPFS(form);
             const gateID = uuidv4();
 
-            await deployContract();
-
             await createGate({
                 variables: {
                     input: {
@@ -432,7 +355,7 @@ const AddGateForm = () => {
                         ...(knowledgeList.length > 0 && {
                             knowledge: knowledgeList,
                         }),
-                        published: false,
+                        published: 'NOT_PUBLISHED',
                         holders: 0,
                         links: [],
                         retroactiveEarners,
@@ -472,8 +395,6 @@ const AddGateForm = () => {
                 form.append('file', uploadFile, 'image.png');
                 const hash = await uploadFileToIPFS(form);
 
-                await deployContract();
-
                 await updateGate({
                     variables: {
                         input: {
@@ -503,8 +424,6 @@ const AddGateForm = () => {
                     alert('Please Enter the NFT');
                     return false;
                 }
-
-                await deployContract();
 
                 await updateGate({
                     variables: {

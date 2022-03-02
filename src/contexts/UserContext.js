@@ -1,9 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-// Styling
-import * as ThemeStyled from '../theme/style';
-
 // Web3
 import { CONNECTORS, shortenAddress } from '../utils/web3';
 import { useWeb3React } from '@web3-react/core';
@@ -73,17 +70,6 @@ export const useSignedAuth = (deps = []) => {
 };
 
 /**
- * This function is used to render an error modal. It takes in an error message and renders it to the
- * screen.
- */
-const Error = ({ error }) => (
-    <div>
-        <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
-        <p>{error}</p>
-    </div>
-);
-
-/**
  * The UserProvider component is a React component that wraps around the children components.
  * It provides the user data to the children components.
  *
@@ -110,7 +96,7 @@ export const UserProvider = ({ children }) => {
     // Hooks
     const web3 = useWeb3React();
     // const threeID = use3ID();
-    const { showModal } = useModal();
+    const { showErrorModal } = useModal();
 
     // Database
     const [
@@ -269,15 +255,15 @@ export const UserProvider = ({ children }) => {
             );
 
             if (!res.signInUserSession) {
-                showModal(
-                    <Error error='An error occurred while signing in. Please try again later.' />
+                showErrorModal(
+                    'An error occurred while signing in. Please try again later.'
                 );
             }
         };
 
         callback().catch((err) => {
-            showModal(
-                <Error error='An error occurred while signing in. Please try again later.' />
+            showErrorModal(
+                'An error occurred while signing in. Please try again later.'
             );
             console.log(err);
         });
