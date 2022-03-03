@@ -108,6 +108,7 @@ const DaoGate: React.FC = () => {
                                             >
                                                 <Styled.PfpAdmin
                                                     src={admin.pfp}
+                                                    data-title={admin.name}
                                                 />
                                             </Link>
                                         );
