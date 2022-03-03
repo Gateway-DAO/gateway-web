@@ -83,7 +83,7 @@ export const GuildName = styled.h3`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 21px;
     /* identical to box height, or 131% */
 

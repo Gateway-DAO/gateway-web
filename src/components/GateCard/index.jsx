@@ -143,7 +143,10 @@ const GateCard = ({ gate }) => {
             <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
                 <Styled.InfoBox>
                     <Styled.MediumHeading>NFT Badge</Styled.MediumHeading>
-                    <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
+                    <Styled.GuildName>
+                        {gate.badge.name.slice(0, 16) +
+                            (gate.badge.name.length > 16 ? '...' : '')}
+                    </Styled.GuildName>
                 </Styled.InfoBox>
                 <Styled.InfoBox>
                     <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
