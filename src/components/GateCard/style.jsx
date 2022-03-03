@@ -20,18 +20,34 @@ export const GateCardBox = styled.div`
         margin-top: -5px;
     }
 
+    @media only screen and (max-width: 1350px) {
+        width: 30em;
+    }
+
     @media only screen and (max-width: 1170px) {
-        height: 27em;
-        min-width: 15em;
+        height: 30em;
+        width: 25em;
+    }
+
+    @media only screen and (max-width: 900px) {
+        height: 30em;
+        width: 22em;
+    }
+
+    @media only screen and (max-width: 785px) {
+        height: 33em;
+        width: 29em;
     }
     // @media only screen and (max-width: 1000px) {
     //   min-width: calc(100%/3);
     //   max-width: calc(100%/2.5);
     // }
-    // @media only screen and (max-width: 550px) {
-    //     width: 100%;
-    //     max-width: 400px;
-    // }
+    @media only screen and (max-width: 550px) {
+        width: 100%;
+        max-width: 400px;
+        height: 30em;
+    }
+
     @media only screen and (max-width: 300px) {
         min-width: 200px;
         max-width: 200px;
@@ -165,13 +181,14 @@ export const CardBody = styled.div`
 `;
 
 export const CardTitle = styled.h1`
-    font-family: 'Be Vietnam';
-    font-size: 24px;
+    font-family: Be Vietnam;
     font-style: normal;
-    font-weight: 700;
-    line-height: 26px;
-    letter-spacing: 0em;
-    text-align: left;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 35px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
     color: #170627;
 `;
 

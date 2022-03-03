@@ -8,7 +8,7 @@ import Switch from 'react-switch';
 import { CircularProgressbar } from 'react-circular-progressbar';
 
 // Hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useAdmin from '../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/UserContext';
@@ -23,7 +23,7 @@ import { searchUsers } from '../../graphql/queries';
 const GateCard = ({ gate }) => {
     // State
     const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
-
+    const [numberOfWords, setNumberOfWords] = useState(130);
     // Hooks
     const { isAdmin } = useAdmin(gate.admins || []);
     const { userInfo } = useAuth();
@@ -58,6 +58,20 @@ const GateCard = ({ gate }) => {
         },
     });
     // console.log(searchUserData);
+
+    useEffect(() => {
+        if (window.innerWidth < 1171 && window.innerWidth > 900) {
+            setNumberOfWords(90);
+        } else if (window.innerWidth <= 900 && window.innerWidth > 785) {
+            setNumberOfWords(80);
+        } else if (window.innerWidth <= 545 && window.innerWidth > 430) {
+            setNumberOfWords(60);
+        } else if (window.innerWidth < 430) {
+            setNumberOfWords(30);
+        } else {
+            setNumberOfWords(130);
+        }
+    }, [window.innerWidth]);
     /**
      * It toggles the published state of the gate.
      */
@@ -135,8 +149,10 @@ const GateCard = ({ gate }) => {
             <Styled.CardBody onClick={() => navigate(`/gate/${gate.id}`)}>
                 <Styled.CardTitle>{gate.name}</Styled.CardTitle>
                 <Styled.CardDesc>
-                    {gate.description.length > 180
-                        ? gate.description.slice(0, 177).concat('...')
+                    {gate.description.length > numberOfWords
+                        ? gate.description
+                              .slice(0, numberOfWords - 3)
+                              .concat('...')
                         : gate.description}
                 </Styled.CardDesc>
             </Styled.CardBody>

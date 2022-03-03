@@ -30,7 +30,7 @@ const Subcategories = ({ whitelisted, activeCategory, setActiveCategory }) => {
                     </Styled.Category>
                 ))}
                 </Styled.Categories>*/}
-            {true && (
+            {isAdmin && (
                 <Styled.WhitelistButtonDiv>
                     <Styled.Text>
                         As
