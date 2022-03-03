@@ -134,143 +134,113 @@ class AddExperience extends React.Component {
 		const { title, expTaskAccom, startDate, startYear, endDate, endYear, currWorkRole, hourPerWeek } = this.state.user;
 		// console.log("currWorkRole", currWorkRole);
 		return (
-			<div className="main-about-section">
+			<>
 				<Header />
-				<canvas id="space-canvas"></canvas>
-				<Container>
-					<div className="back-link">
-						<Link to="/profiles">
-							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-							<p>Back to Profile</p>
-						</Link>
-					</div>
-				</Container>
-				<div className="gt-about-section add-exp-outer">
+				<div className="main-about-section">
+					<canvas id="space-canvas"></canvas>
 					<Container>
-						<h1>Add Experience</h1>
-						<Form method="post" noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
-							<Row className="mb-3">
-								<Form.Group as={Col} controlId="formGridDao">
-									<Form.Label>DAO</Form.Label>
-									<Select
-										hideSelectedOptions={false}
-										controlShouldRenderValue={false}
-										isMulti
-										options={this.state.optionsDao}
-										className={valuesDao.length == 0 ? 'invalid' : ''}
-										classNamePrefix="select"
-										onChange={this.handleChangeDao}
-										value={valuesDao}
-										placeholder="Search"
-										theme={(theme) => ({
-											...theme,
-											borderRadius: 0,
-											colors: {
-												...theme.colors,
-												primary25: 'blue',
-												primary: 'darkblue',
-											},
-										})}
-									/>
-									<div className="selected-options">
-										{
-											valuesDao.length > 0 && valuesDao.map(item =>
-												<p key={item.label}>{item.label}
-													<span onClick={this.removeDao.bind(this, item.value)} className="selectClose"><img src="/cancel-icon.svg" alt="" /></span></p>
-											)
-										}
-									</div>
-								</Form.Group>
-							</Row>
-
-							<Row className="mb-3">
-								<Form.Group as={Col} controlId="formGridTitle">
-									<Form.Label>Title</Form.Label>
-									<Form.Control
-										required
-										type="text"
-										name="title"
-										onChange={(e) => {
-											this.handleChange(e)
-										}}
-										placeholder="i.e. Communitty Manager"
-										value={title}
-									/>
-								</Form.Group>
-							</Row>
-
-							<Row className="mb-3">
-								<Form.Group as={Col} controlId="formGridExp">
-									<Form.Label>Experience and Tasks Accomplished</Form.Label>
-									<Form.Control
-										required
-										as="textarea"
-										name="expTaskAccom"
-										onChange={this.handleChange}
-										placeholder="This will be the description of your position."
-										style={{ height: '100px' }}
-									/>
-								</Form.Group>
-							</Row>
-
-							<Row>
-								<p className="time-label"><strong>Time Period of Contributions</strong></p>
-							</Row>
-
-							<Row className="mb-3">
-								<Form.Group as={Col} controlId="formGridStartDateMonth">
-									<Form.Label className="time-label">Start Date</Form.Label>
-									<Form.Select
-										name="startDate"
-										required
-										onChange={this.handleChange}
-										value={startDate}
-									>
-										{this.state.months.map((e, key) => {
-											return <option key={key} value={e.value}>{e.label}</option>;
-										})}
-									</Form.Select>
-								</Form.Group>
-
-								<Form.Group as={Col} controlId="formGridStartDateYear">
-									<Form.Label></Form.Label>
-									<Form.Select
-										name="startYear"
-										className="mt-2"
-										required
-										onChange={this.handleChange}
-										value={startYear}
-									>
-										{years.map((e, key) => {
-											return <option key={key} value={e}>{e}</option>;
-										})}
-									</Form.Select>
-								</Form.Group>
-							</Row>
-
-							{!currWorkRole ?
+						<div className="back-link">
+							<Link to="/profiles">
+								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
+								<p>Back to Profile</p>
+							</Link>
+						</div>
+					</Container>
+					<div className="gt-about-section add-exp-outer">
+						<Container>
+							<h1>Add Experience</h1>
+							<Form method="post" noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
 								<Row className="mb-3">
-									<Form.Group as={Col} controlId="formGridEndDateMonth">
-										<Form.Label name="endDate" className="time-label">End Date</Form.Label>
-										<Form.Select
-											name="endDate"
-											onChange={this.handleChange}
-											value={endDate}
+									<Form.Group as={Col} controlId="formGridDao">
+										<Form.Label>DAO</Form.Label>
+										<Select
+											hideSelectedOptions={false}
+											controlShouldRenderValue={false}
+											isMulti
+											options={this.state.optionsDao}
+											className={valuesDao.length == 0 ? 'invalid' : ''}
+											classNamePrefix="select"
+											onChange={this.handleChangeDao}
+											value={valuesDao}
+											placeholder="Search"
+											theme={(theme) => ({
+												...theme,
+												borderRadius: 0,
+												colors: {
+													...theme.colors,
+													primary25: 'blue',
+													primary: 'darkblue',
+												},
+											})}
+										/>
+										<div className="selected-options">
+											{
+												valuesDao.length > 0 && valuesDao.map(item =>
+													<p key={item.label}>{item.label}
+														<span onClick={this.removeDao.bind(this, item.value)} className="selectClose"><img src="/cancel-icon.svg" alt="" /></span></p>
+												)
+											}
+										</div>
+									</Form.Group>
+								</Row>
+
+								<Row className="mb-3">
+									<Form.Group as={Col} controlId="formGridTitle">
+										<Form.Label>Title</Form.Label>
+										<Form.Control
 											required
+											type="text"
+											name="title"
+											onChange={(e) => {
+												this.handleChange(e)
+											}}
+											placeholder="i.e. Communitty Manager"
+											value={title}
+										/>
+									</Form.Group>
+								</Row>
+
+								<Row className="mb-3">
+									<Form.Group as={Col} controlId="formGridExp">
+										<Form.Label>Experience and Tasks Accomplished</Form.Label>
+										<Form.Control
+											required
+											as="textarea"
+											name="expTaskAccom"
+											onChange={this.handleChange}
+											placeholder="This will be the description of your position."
+											style={{ height: '100px' }}
+										/>
+									</Form.Group>
+								</Row>
+
+								<Row>
+									<p className="time-label"><strong>Time Period of Contributions</strong></p>
+								</Row>
+
+								<Row className="mb-3">
+									<Form.Group as={Col} controlId="formGridStartDateMonth">
+										<Form.Label className="time-label">Start Date</Form.Label>
+										<Form.Select
+											name="startDate"
+											required
+											onChange={this.handleChange}
+											value={startDate}
 										>
 											{this.state.months.map((e, key) => {
 												return <option key={key} value={e.value}>{e.label}</option>;
 											})}
 										</Form.Select>
 									</Form.Group>
-									<Form.Group name="endYear" as={Col} controlId="formGridEndDateYear">
+
+									<Form.Group as={Col} controlId="formGridStartDateYear">
 										<Form.Label></Form.Label>
 										<Form.Select
-											onChange={this.handleChange}
-											name="endYear"
-											value={endYear}
+											name="startYear"
 											className="mt-2"
 											required
+											onChange={this.handleChange}
+											value={startYear}
 										>
 											{years.map((e, key) => {
 												return <option key={key} value={e}>{e}</option>;
@@ -279,44 +249,76 @@ class AddExperience extends React.Component {
 									</Form.Group>
 								</Row>
 
-								: null
-							}
+								{!currWorkRole ?
+									<Row className="mb-3">
+										<Form.Group as={Col} controlId="formGridEndDateMonth">
+											<Form.Label name="endDate" className="time-label">End Date</Form.Label>
+											<Form.Select
+												name="endDate"
+												onChange={this.handleChange}
+												value={endDate}
+												required
+											>
+												{this.state.months.map((e, key) => {
+													return <option key={key} value={e.value}>{e.label}</option>;
+												})}
+											</Form.Select>
+										</Form.Group>
+										<Form.Group name="endYear" as={Col} controlId="formGridEndDateYear">
+											<Form.Label></Form.Label>
+											<Form.Select
+												onChange={this.handleChange}
+												name="endYear"
+												value={endYear}
+												className="mt-2"
+												required
+											>
+												{years.map((e, key) => {
+													return <option key={key} value={e}>{e}</option>;
+												})}
+											</Form.Select>
+										</Form.Group>
+									</Row>
 
-							<Form.Group className="mb-3" id="formGridCheckbox">
-								<Form.Check
-									name="currWorkRole"
-									type="checkbox"
-									onChange={this.handleChange}
-									defaultChecked={currWorkRole}
-									className="mt-2"
-									label="I am currently working in this role"
-								/>
-							</Form.Group>
+									: null
+								}
 
-							<Row className="mb-5 mbl-full">
-								<Form.Group as={Col} controlId="formGridEndDateYear" className="mb-3">
-									<Form.Label><strong>Hours Per Week Committed on Average</strong></Form.Label>
-									<Form.Control
-										type="time"
-										name="hourPerWeek"
-										placeholder="00:00"
+								<Form.Group className="mb-3" id="formGridCheckbox">
+									<Form.Check
+										name="currWorkRole"
+										type="checkbox"
 										onChange={this.handleChange}
-										value={hourPerWeek}
-										required
+										defaultChecked={currWorkRole}
+										className="mt-2"
+										label="I am currently working in this role"
 									/>
 								</Form.Group>
-								<Form.Group as={Col}>
-								</Form.Group>
-							</Row>
 
-							<Button variant="primary" type="submit">
-								Submit
-							</Button>
+								<Row className="mb-5 mbl-full">
+									<Form.Group as={Col} controlId="formGridEndDateYear" className="mb-3">
+										<Form.Label><strong>Hours Per Week Committed on Average</strong></Form.Label>
+										<Form.Control
+											type="time"
+											name="hourPerWeek"
+											placeholder="00:00"
+											onChange={this.handleChange}
+											value={hourPerWeek}
+											required
+										/>
+									</Form.Group>
+									<Form.Group as={Col}>
+									</Form.Group>
+								</Row>
 
-						</Form>
-					</Container>
+								<Button variant="primary" type="submit">
+									Submit
+								</Button>
+
+							</Form>
+						</Container>
+					</div>
 				</div>
-			</div>
+			</>
 		)
 	}
 }

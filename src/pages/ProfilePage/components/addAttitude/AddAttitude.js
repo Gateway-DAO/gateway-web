@@ -101,74 +101,76 @@ class AddAttitude extends React.Component {
 
 		const { selectedAttitude, suggestedOptions } = this.state;
 		return (
-			<div className="main-about-section">
+			<>
 				<Header />
-				<canvas id="space-canvas"></canvas>
-				<Container>
-					<div className="back-link">
-						<Link to="/profiles">
-							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-							<p>Back to Profile</p>
-						</Link>
-					</div>
-				</Container>
-				<div className="gt-about-section">
+				<div className="main-about-section">
+					<canvas id="space-canvas"></canvas>
 					<Container>
-						<h1>Attitudes</h1>
-					</Container>
-				</div>
-				<div className="suggested-skills">
-					<Container>
-						<div className="suggested-inner-skills">
-							<Form method="post" noValidate onSubmit={this.handleSubmit}>
-								<Form.Group as={Col} controlId="formGridSkills">
-									<Form.Label>Add your attitude</Form.Label>
-									<Select
-										hideSelectedOptions={false}
-										controlShouldRenderValue={false}
-										isMulti
-										options={this.state.options}
-										className="basic-multi-select"
-										classNamePrefix="select"
-										onChange={this.handleChange}
-										value={selectedAttitude}
-										placeholder="Search"
-										theme={(theme) => ({
-											...theme,
-											borderRadius: 0,
-											colors: {
-												...theme.colors,
-												primary25: 'blue',
-												primary: 'darkblue',
-											},
-										})}
-									/>
-									<div className="selected-options">
-										{
-											!!selectedAttitude && selectedAttitude.length > 0 && selectedAttitude.map(item =>
-												<p key={item.label}>{item.label}
-													<span onClick={this.removeAttitude.bind(this, item.value)} className="selectClose">
-														<img src="/cancel-icon.svg" alt="" />
-													</span>
-												</p>
-											)
-										}
-									</div>
-								</Form.Group>
-								<h4>Suggested attitude based on your profile</h4>
-								<ul>
-									{
-										suggestedOptions.length > 0 && suggestedOptions.map(item =>
-											<li onClick={this.addSuggestedAttitude.bind(this, item.value)} key={item.label}>{item.label}</li>
-										)
-									}
-								</ul>
-								<Button variant="primary" type="submit">save</Button>{' '}
-							</Form>
+						<div className="back-link">
+							<Link to="/profiles">
+								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
+								<p>Back to Profile</p>
+							</Link>
 						</div>
 					</Container>
+					<div className="gt-about-section">
+						<Container>
+							<h1>Attitudes</h1>
+						</Container>
+					</div>
+					<div className="suggested-skills">
+						<Container>
+							<div className="suggested-inner-skills">
+								<Form method="post" noValidate onSubmit={this.handleSubmit}>
+									<Form.Group as={Col} controlId="formGridSkills">
+										<Form.Label>Add your attitude</Form.Label>
+										<Select
+											hideSelectedOptions={false}
+											controlShouldRenderValue={false}
+											isMulti
+											options={this.state.options}
+											className="basic-multi-select"
+											classNamePrefix="select"
+											onChange={this.handleChange}
+											value={selectedAttitude}
+											placeholder="Search"
+											theme={(theme) => ({
+												...theme,
+												borderRadius: 0,
+												colors: {
+													...theme.colors,
+													primary25: 'blue',
+													primary: 'darkblue',
+												},
+											})}
+										/>
+										<div className="selected-options">
+											{
+												!!selectedAttitude && selectedAttitude.length > 0 && selectedAttitude.map(item =>
+													<p key={item.label}>{item.label}
+														<span onClick={this.removeAttitude.bind(this, item.value)} className="selectClose">
+															<img src="/cancel-icon.svg" alt="" />
+														</span>
+													</p>
+												)
+											}
+										</div>
+									</Form.Group>
+									<h4>Suggested attitude based on your profile</h4>
+									<ul>
+										{
+											suggestedOptions.length > 0 && suggestedOptions.map(item =>
+												<li onClick={this.addSuggestedAttitude.bind(this, item.value)} key={item.label}>{item.label}</li>
+											)
+										}
+									</ul>
+									<Button variant="primary" type="submit">save</Button>{' '}
+								</Form>
+							</div>
+						</Container>
+					</div>
 				</div>
-			</div>
+			</>
 		)
 	}
 }

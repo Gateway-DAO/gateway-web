@@ -195,186 +195,188 @@ class CompleteProfile extends React.Component {
 		const scope = this;
 		// console.log(socials);
 		return (
-			<div className="main-about-section">
+			<>
 				<Header />
-				<canvas id="space-canvas"></canvas>
-				<Container>
-					<div className="back-link">
-						<Link to="/profiles">
-							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-							<p>Back to Profile</p>
-						</Link>
-					</div>
-				</Container>
-				<div className="gt-about-section gt-complete-profile">
+				<div className="main-about-section">
+					<canvas id="space-canvas"></canvas>
 					<Container>
-						<h1>{window.location.pathname !== '/profiles/edit-profile' ? 'Complete Profile' : 'Edit Profile'}</h1>
-						<Form method="post" className="completeprofile" noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
-							<div className="mb-3 row">
-								<Form.Group className="col" controlId="displayName">
-									<Form.Label>Display name</Form.Label>
-									<Form.Control
-										required
-										name="displayName"
-										size="lg" type="text"
-										placeholder=""
-										onChange={(e) => {
-											this.handleChange(e)
-										}}
-										value={displayName}
-									/>
-								</Form.Group>
-							</div>
-							<div className="mb-3 row">
-								<Form.Group className="col" controlId="userName">
-									<Form.Label>Username</Form.Label>
-									<Form.Control
-										required
-										name="userName"
-										size="lg"
-										type="text" placeholder="mygateway.xyz/username"
-										onChange={(e) => {
-											this.handleChange(e)
-										}}
-										value={userName}
-									/>
-								</Form.Group>
-							</div>
-							<div className="mb-3 row">
-								<Form.Group className="col" controlId="userAvatar">
-									<Form.Label>AVATAR</Form.Label>
-									<FilePond
-										ref={ref => (this.pond = ref)}
-										required={true}
-										files={this.state.files}
-										allowMultiple={false}
-										allowReorder={true}
-										maxFiles={1}
-										name="avatar"
-										allowFileEncode="true"
-										acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg']}
-										labelIdle="<img src='/completeprofile/Vector.svg' /><span class='avatar-upload-action'>Upload</span> or drag your avatar here."
-										oninit={() => this.handleInit()}
-										onupdatefiles={fileItems => {
-											// console.log(fileItems);
+						<div className="back-link">
+							<Link to="/profiles">
+								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
+								<p>Back to Profile</p>
+							</Link>
+						</div>
+					</Container>
+					<div className="gt-about-section gt-complete-profile">
+						<Container>
+							<h1>{window.location.pathname !== '/profiles/edit-profile' ? 'Complete Profile' : 'Edit Profile'}</h1>
+							<Form method="post" className="completeprofile" noValidate validated={this.state.isValidated} onSubmit={this.handleSubmit}>
+								<div className="mb-3 row">
+									<Form.Group className="col" controlId="displayName">
+										<Form.Label>Display name</Form.Label>
+										<Form.Control
+											required
+											name="displayName"
+											size="lg" type="text"
+											placeholder=""
+											onChange={(e) => {
+												this.handleChange(e)
+											}}
+											value={displayName}
+										/>
+									</Form.Group>
+								</div>
+								<div className="mb-3 row">
+									<Form.Group className="col" controlId="userName">
+										<Form.Label>Username</Form.Label>
+										<Form.Control
+											required
+											name="userName"
+											size="lg"
+											type="text" placeholder="mygateway.xyz/username"
+											onChange={(e) => {
+												this.handleChange(e)
+											}}
+											value={userName}
+										/>
+									</Form.Group>
+								</div>
+								<div className="mb-3 row">
+									<Form.Group className="col" controlId="userAvatar">
+										<Form.Label>AVATAR</Form.Label>
+										<FilePond
+											ref={ref => (this.pond = ref)}
+											required={true}
+											files={this.state.files}
+											allowMultiple={false}
+											allowReorder={true}
+											maxFiles={1}
+											name="avatar"
+											allowFileEncode="true"
+											acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg']}
+											labelIdle="<img src='/completeprofile/Vector.svg' /><span class='avatar-upload-action'>Upload</span> or drag your avatar here."
+											oninit={() => this.handleInit()}
+											onupdatefiles={fileItems => {
+												// console.log(fileItems);
 
-											// Set currently active file objects to this.state
-											this.setState({
-												files: fileItems.map(fileItem => fileItem.file)
-											});
-										}}
-										onaddfile={(error, file) => {
-											if (error == null) {
-												var reader = new FileReader();
-												reader.onloadend = function () {
-													// console.log('RESULT', reader.result);
+												// Set currently active file objects to this.state
+												this.setState({
+													files: fileItems.map(fileItem => fileItem.file)
+												});
+											}}
+											onaddfile={(error, file) => {
+												if (error == null) {
+													var reader = new FileReader();
+													reader.onloadend = function () {
+														// console.log('RESULT', reader.result);
+														scope.setState(prevState => ({
+															user: {                   // object that we want to update
+																...prevState.user,    // keep all other key-value pairs
+																avatar: reader.result       // update the value of specific key
+															}
+														}))
+
+													}
+													reader.onerror = function (error) {
+														console.log('Error: ', error);
+													};
+													reader.readAsDataURL(file.file);
+												} else {
 													scope.setState(prevState => ({
 														user: {                   // object that we want to update
 															...prevState.user,    // keep all other key-value pairs
-															avatar: reader.result       // update the value of specific key
+															avatar: ""       // update the value of specific key
 														}
 													}))
-
 												}
-												reader.onerror = function (error) {
-													console.log('Error: ', error);
-												};
-												reader.readAsDataURL(file.file);
-											} else {
+
+											}}
+											onremovefile={(error, file) => {
 												scope.setState(prevState => ({
+													files: [],
 													user: {                   // object that we want to update
 														...prevState.user,    // keep all other key-value pairs
 														avatar: ""       // update the value of specific key
 													}
 												}))
-											}
-
-										}}
-										onremovefile={(error, file) => {
-											scope.setState(prevState => ({
-												files: [],
-												user: {                   // object that we want to update
-													...prevState.user,    // keep all other key-value pairs
-													avatar: ""       // update the value of specific key
-												}
-											}))
-											console.log('remove avatar ---: ', scope.state.user.avatar)
-										}}
-										server={{
-											load: (source, load, error, progress, abort, headers) => {
-												var myRequest = new Request(source);
-												fetch(myRequest).then(function (response) {
-													response.blob().then(function (myBlob) {
-														load(myBlob);
+												console.log('remove avatar ---: ', scope.state.user.avatar)
+											}}
+											server={{
+												load: (source, load, error, progress, abort, headers) => {
+													var myRequest = new Request(source);
+													fetch(myRequest).then(function (response) {
+														response.blob().then(function (myBlob) {
+															load(myBlob);
+														});
 													});
-												});
-											}
-										}}
-									/>
-								</Form.Group>
-							</div>
-							<div className="mb-3 row">
-								<Form.Group className="col" controlId="userBio">
-									<Form.Label>Headline</Form.Label>
-									<Form.Control
-										required
-										name="userBio"
-										value={userBio}
-										onChange={(e) => {
-											this.handleChange(e)
-										}}
-										rows={5}
-									/>
-								</Form.Group>
-							</div>
-							<Form.Group className="col" controlId="formBasic">
-								<Form.Label>SOCIALS</Form.Label>
-								<div className="gway-socialurl-add">
-									{
-										socials.map((x, i) => {
-											return (
-												<div className="gway-socialurl-row" key={i}>
-													<div className="gway-socialurl-col-left">
-														{/* <Link to='#'>{x.name}</Link> */}
-														<Form.Control
-															required
-															name="platform_name"
-															size="sm"
-															type="text"
-															value={x.platform_name}
-															onChange={e => this.handleSocialChange(e, i)}
-														/>
-													</div>
-													<div className="gway-socialurl-col-center">
-														<Form.Control
-															required
-															name="platform_value"
-															size="lg"
-															type="text"
-															value={x.platform_value}
-															onChange={e => this.handleSocialChange(e, i)}
-															placeholder={x.placeholder}
-														/>
-													</div>
-													<div className="gway-socialurl-col-right">
-														<a onClick={() => this.handleRemoveSocial(i)}><img src="/completeprofile/trash.svg" /></a>
-													</div>
-												</div>
-											)
-										})
-									}
-									<div className="add-social-row">
-										<a onClick={this.handleAddSocial}><img src="/completeprofile/plus-btn.svg" /></a>
-									</div>
+												}
+											}}
+										/>
+									</Form.Group>
 								</div>
-							</Form.Group>
-							<Button variant="primary" type="submit">
-								SAVE
-							</Button>
-						</Form>
-					</Container>
+								<div className="mb-3 row">
+									<Form.Group className="col" controlId="userBio">
+										<Form.Label>Headline</Form.Label>
+										<Form.Control
+											required
+											name="userBio"
+											value={userBio}
+											onChange={(e) => {
+												this.handleChange(e)
+											}}
+											rows={5}
+										/>
+									</Form.Group>
+								</div>
+								<Form.Group className="col" controlId="formBasic">
+									<Form.Label>SOCIALS</Form.Label>
+									<div className="gway-socialurl-add">
+										{
+											socials.map((x, i) => {
+												return (
+													<div className="gway-socialurl-row" key={i}>
+														<div className="gway-socialurl-col-left">
+															{/* <Link to='#'>{x.name}</Link> */}
+															<Form.Control
+																required
+																name="platform_name"
+																size="sm"
+																type="text"
+																value={x.platform_name}
+																onChange={e => this.handleSocialChange(e, i)}
+															/>
+														</div>
+														<div className="gway-socialurl-col-center">
+															<Form.Control
+																required
+																name="platform_value"
+																size="lg"
+																type="text"
+																value={x.platform_value}
+																onChange={e => this.handleSocialChange(e, i)}
+																placeholder={x.placeholder}
+															/>
+														</div>
+														<div className="gway-socialurl-col-right">
+															<a onClick={() => this.handleRemoveSocial(i)}><img src="/completeprofile/trash.svg" /></a>
+														</div>
+													</div>
+												)
+											})
+										}
+										<div className="add-social-row">
+											<a onClick={this.handleAddSocial}><img src="/completeprofile/plus-btn.svg" /></a>
+										</div>
+									</div>
+								</Form.Group>
+								<Button variant="primary" type="submit">
+									SAVE
+								</Button>
+							</Form>
+						</Container>
+					</div>
 				</div>
-			</div>
+			</>
 		)
 	}
 }
