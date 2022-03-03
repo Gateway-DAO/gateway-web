@@ -1,0 +1,258 @@
+.completeprofile {
+    max-width: 572px;
+    margin: 0 auto;
+}
+.main-about-section .form-control:focus,
+.form-select:focus {
+    color: #fff !important;
+    border: 1px solid #7e3bdc !important;
+    background-color: #220a38 !important;
+    box-shadow: none !important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    border: 1px solid #7e3bdc;
+    -webkit-text-fill-color: #fff;
+    -webkit-box-shadow: 0 0 0px 1000px #220a38 inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+.gway-socialurl-row {
+    margin-bottom: 1rem;
+}
+.gway-socialurl-col-left {
+    width: 20%;
+}
+.gway-socialurl-col-center {
+    width: 76%;
+}
+.gway-socialurl-col-right {
+    width: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gway-socialurl-row {
+    display: flex;
+    flex-direction: row;
+    grid-column-gap: 10px;
+    align-items: center;
+}
+.gway-socialurl-col-left a {
+    background: #170627;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    text-decoration: none;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    color: rgba(255, 255, 255, 0.6);
+    transition: 0.3s;
+}
+.gway-socialurl-col-left a:hover,
+.gway-socialurl-col-left a:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transition: 0.3s;
+}
+.gway-socialurl-col-center input {
+    background: #170627;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    height: 40px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: rgba(255, 255, 255, 0.6);
+}
+.completeprofile .add-social-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 60px;
+}
+.main-about-section button[type='submit'] {
+    background: #170627;
+    border: 1px solid #a5a5a5;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #e5e5e5;
+    width: 210px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: 0.3s;
+}
+.main-about-section button[type='submit']:hover,
+.main-about-section button[type='submit']:focus {
+    background: linear-gradient(
+        to top,
+        #ff00b8 0%,
+        #7e3bdc 50.5%,
+        #0075ff 100%
+    );
+    border: none;
+    transition: 0.3s;
+    box-shadow: none;
+}
+.completeprofile .filepond--drop-label.filepond--drop-label label {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0px 40px;
+    cursor: pointer;
+}
+.completeprofile .filepond--label-action {
+    color: #fe02b9;
+    text-decoration: none;
+}
+.completeprofile .filepond--panel-root {
+    background: #170627;
+    border: 1px dashed rgba(255, 255, 255, 0.2) !important;
+    border-radius: 5px !important;
+    border-style: solid !important;
+}
+.completeprofile .filepond--panel-bottom,
+.completeprofile .filepond--panel-top {
+    background: unset;
+    border: unset !important;
+    border-style: unset !important;
+}
+.add-social-row a:hover,
+.add-social-row a:focus {
+    transition: 0.3s;
+    border: none;
+    background: linear-gradient(
+        to top,
+        #ff00b8 0%,
+        #7e3bdc 50.5%,
+        #0075ff 100%
+    );
+}
+.gway-socialurl-col-right a:hover,
+.gway-socialurl-col-right a:focus {
+    filter: invert(80%) sepia(57%) saturate(7299%) hue-rotate(354deg)
+        brightness(91%) contrast(123%);
+}
+.add-social-row a {
+    transition: 0.3s;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.completeprofile .filepond--root.filepond--hopper {
+    margin-bottom: 0;
+}
+.gt-complete-profile h1 {
+    background: linear-gradient(
+        88.04deg,
+        #ee787b 22.54%,
+        #e153f2 41.08%,
+        #495be0 65.25%,
+        #6a39f3 86.1%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.gt-complete-profile label.form-label {
+    margin-bottom: 12px;
+}
+.completeprofile .mb-3.row {
+    margin-bottom: 27px !important;
+}
+.gway-socialurl-col-right a {
+    cursor: pointer;
+}
+.completeprofile .filepond--drop-label.filepond--drop-label label img {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+.completeprofile .filepond--panel-root {
+    min-height: 125px;
+}
+.completeprofile .filepond--wrapper {
+    min-height: 125px;
+    max-width: 210px;
+    background: #170627;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.completeprofile .filepond--root.filepond--hopper {
+    min-height: 125px;
+}
+.completeprofile .filepond--browser.filepond--browser {
+    min-height: 125px;
+}
+.completeprofile .filepond--root .filepond--drop-label {
+    min-height: 125px;
+}
+span.avatar-upload-action {
+    color: #fe02b9;
+}
+@media (max-width: 768px) {
+    .gt-about-section h1 {
+        font-size: 60px;
+        margin-bottom: 60px;
+    }
+}
+@media (max-width: 767px) {
+    .completeprofile .filepond--wrapper {
+        max-width: 100%;
+    }
+    .gt-about-section h1 {
+        font-size: 40px;
+        margin-bottom: 50px;
+        line-height: 1.2;
+    }
+    .gway-socialurl-row {
+        flex-wrap: wrap;
+    }
+    .gway-socialurl-col-left {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .gway-socialurl-col-center {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .gway-socialurl-col-right {
+        width: 100%;
+    }
+}
