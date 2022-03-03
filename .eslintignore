@@ -1,5 +1,3 @@
 node_modules
 public
 amplify
-src/pages/ProfilePage/**
-src/pages/App.tsx
