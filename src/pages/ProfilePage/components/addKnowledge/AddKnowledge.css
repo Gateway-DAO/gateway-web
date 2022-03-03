@@ -1,0 +1,33 @@
+.suggested-skills h4{font-size: 18px; color: #fff; font-weight: 400; text-align: center; margin-bottom: 30px;}
+.suggested-skills ul{list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap;clear: both;}
+.suggested-skills ul li{font-size: 16px; font-weight: 400; color: #A5A5A5; padding: 8px 20px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 100px; margin-right: 10px; margin-bottom: 12px; letter-spacing: 0.05em; cursor: pointer;}
+.suggested-skills ul li:hover, .suggested-skills ul li:focus{background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;}
+.suggested-inner-skills{max-width: 700px; width: 100%; margin: auto;}
+.suggested-inner-skills .btn-primary {
+  max-width: 245px;
+  margin: auto;
+  padding: 9px;
+  width: 100%;
+  border-radius: 20px;
+  border: 1px solid #A5A5A5;
+  margin-top: 55px;
+  background: #170627;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.suggested-inner-skills .btn-primary:hover{background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;}
+.suggested-inner-skills h4{margin-top: 83px; clear:both; width:100%; float:left;}
+
+.select__control:focus{border: 1px solid #7E3BDC !important; background: #220A38 !important; box-shadow: 0 0 0 1px #7E3BDC !important;}
+.select__control:hover{border: 1px solid #7E3BDC !important; background: #220A38 !important; box-shadow: 0 0 0 1px #7E3BDC !important;}
+.select__menu{border: 1px solid #7E3BDC !important; background: #220A38 !important; box-shadow: 0 0 0 1px #7E3BDC !important; color: #fff !important;}
+.select__input{color: #fff !important;}
+.suggested-skills ul { margin-bottom: 60px;}
+@media(max-width: 767px){
+  .suggested-skills ul li{font-size: 14px;}
+}
