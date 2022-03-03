@@ -14,6 +14,13 @@ a:hover {
 .container-xl {
     max-width: 1420px;
 }
+
+.gateway-profile-loader-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 section.gateway-profile {
     margin-top: 3rem;
 }
