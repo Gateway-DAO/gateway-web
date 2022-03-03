@@ -8,16 +8,17 @@ export const GatesContainer = styled.div`
     grid-row-gap: 40px;
     margin: 0 30px;
     margin-top: 60px;
+    place-items: center;
 
     @media only screen and (max-width: 1700px) {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    @media only screen and (max-width: 1170px) {
+    @media only screen and (max-width: 1350px) {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    @media only screen and (max-width: 735px) {
+    @media only screen and (max-width: 785px) {
         grid-template-columns: repeat(1, 100%);
     }
 
