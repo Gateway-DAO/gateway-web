@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Header from '../../components/Header';
 import WrappedBigSearch from '../../components/BigSearch';
@@ -6,25 +6,19 @@ import Categories from '../../components/Categories';
 import Footer from '../../components/Footer';
 import CTASection from './components/CTASection';
 import * as Styled from './style';
-
-import space from '../../utils/canvas';
 import EMS_IMG from '../../assets/Group_26.png';
+import Space from '../../components/Space';
 
 const Home = (props) => {
-    // eslint-disable-next-line
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
-
     return (
         <Styled.HomeContainer>
             <Header />
 
             <Styled.MainBox>
-                <Styled.SpaceBox id='space-canvas' />
-                <Styled.BigText>Discover Your Community</Styled.BigText>
-                <WrappedBigSearch />
+                <Space>
+                    <Styled.BigText>Discover Your Community</Styled.BigText>
+                    <WrappedBigSearch />
+                </Space>
             </Styled.MainBox>
 
             <Categories />
