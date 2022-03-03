@@ -298,12 +298,17 @@ const BackButton: React.FC<Props> = ({
                                     ? 'Unpublish'
                                     : 'Publish'}
                             </Styled.ButtonWrapper>
-                            <Styled.ButtonWrapper onClick={editGate} ml='20'>
+                            <Styled.ButtonWrapper
+                                onClick={editGate}
+                                ml='20'
+                                data-title='Edit Gate'
+                            >
                                 <MdModeEditOutline />
                             </Styled.ButtonWrapper>
                             <Styled.ButtonWrapper
                                 onClick={showDeleteModal}
                                 ml='20'
+                                data-title='Delete Gate'
                             >
                                 <FaTrashAlt />
                             </Styled.ButtonWrapper>
@@ -314,6 +319,7 @@ const BackButton: React.FC<Props> = ({
                             navigator.clipboard.writeText(window.location.href)
                         }
                         ml='20'
+                        data-title='copy shareable link '
                     >
                         <img src={ShareIcon} alt='Share Icon' />
                     </Styled.ButtonWrapper>
