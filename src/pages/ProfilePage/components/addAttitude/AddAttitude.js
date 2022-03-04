@@ -1,107 +1,74 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { NavLink as Link, Route, Routes, Navigate } from "react-router-dom";
 import Select from 'react-select';
 import { Container, Button, Form, Row, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import './AddAttitude.css';
-import { connect } from 'react-redux';
-// import { addAttitude } from "../../actions";
 import space from '../../../../utils/canvas';
 import Header from "../../../../components/Header";
 
-class AddAttitude extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			redirect: false,
-			selectedAttitude: [],
-			options: [
-				{ value: 'Pro-active', label: 'Pro-active' },
-				{ value: 'Business Driven', label: 'Business Driven' },
-				{ value: 'Innovative', label: 'Innovative' },
-				{ value: 'Leadership', label: 'Leadership' }
-			],
-			suggestedOptions: [
-				{ value: 'Collaborative', label: 'Collaborative' },
-				{ value: 'Pro-active', label: 'Pro-active' },
-				{ value: 'Business Driven', label: 'Business Driven' },
-				{ value: 'Leadership', label: 'Leadership' },
-				{ value: 'Innovative', label: 'Innovative' }
-			]
-		}
-		this.removeAttitude = this.removeAttitude.bind(this);
-		this.addSuggestedAttitude = this.addSuggestedAttitude.bind(this);
+const AddAttitude = () => {
+
+	const [redirect, setRedirect] = useState(false);
+	const [options, setOptions] = useState([
+		{ value: 'Pro-active', label: 'Pro-active' },
+		{ value: 'Business Driven', label: 'Business Driven' },
+		{ value: 'Innovative', label: 'Innovative' },
+		{ value: 'Leadership', label: 'Leadership' }
+	]);
+	const [suggestedOptions, setSuggestedOptions] = useState([
+		{ value: 'Collaborative', label: 'Collaborative' },
+		{ value: 'Pro-active', label: 'Pro-active' },
+		{ value: 'Business Driven', label: 'Business Driven' },
+		{ value: 'Leadership', label: 'Leadership' },
+		{ value: 'Innovative', label: 'Innovative' }
+	]);
+	const [selectedAttitude, setSelectedAttitude] = useState([]);
+
+	useEffect(
+        () => space(window.innerHeight, window.innerWidth),
+        [window.innerHeight, window.innerWidth]
+    );
+
+	const removeAttitude = useCallback(
+    (val) => () => {
+      setSelectedAttitude((previousTags) =>
+        previousTags.filter((previousTag, index) => previousTag.value !== val),
+      );
+    },
+    [],
+  );
+
+	const handleChange = useCallback((selectedAttitude) => {
+		setSelectedAttitude(selectedAttitude);
+	})
+
+	const handleCheck = val => {
+		return selectedAttitude.some(item => val === item.value);
 	}
 
-	componentDidMount() {
-		var existing = localStorage.getItem('gtwUserState');
-		// If no existing data, create an array
-		// Otherwise, convert the localStorage string to an array
-		existing = existing ? JSON.parse(existing) : {};
-		// Add new data to localStorage Array
-		this.setState({ selectedAttitude: existing.attitude });
-		space(window.innerHeight, window.innerWidth,
-			[window.innerHeight, window.innerWidth])
-	}
 
-	removeAttitude = (val) => {
-		this.setState({
-			selectedAttitude: this.state.selectedAttitude.filter((previousTag, index) => previousTag.value !== val)
-		});
-	};
+	const addSuggestedAttitude = useCallback((attitude) => {
 
-	handleChange = selectedAttitude => {
-		this.setState({ selectedAttitude });
-	};
-
-	handleCheck(val) {
-		const { selectedAttitude } = this.state;
-		if (selectedAttitude === undefined) {
-			this.setState({ selectedAttitude: [] });
-			return false;
-		} else {
-			return this.state.selectedAttitude.some(item => val === item.value);
-		}
-	}
-
-	addSuggestedAttitude = attitude => {
-
-		if (this.handleCheck(attitude) == false) {
-			this.setState(prevState => ({
-				selectedAttitude: [...prevState.selectedAttitude, {
-					value: attitude,
-					label: attitude,
-				}]
-			}));
+		const attitudeItems = selectedAttitude;
+		if (handleCheck(attitude) == false) {
+			setSelectedAttitude([...attitudeItems, {
+				value: attitude,
+				label: attitude,
+			}]);
 		}
 
-	}
+	})
 
-	handleSubmit = (event) => {
+	const handleSubmit = (event) => {
+		console.log("submitted");
 		event.preventDefault();
 		event.stopPropagation();
+		setRedirect(true);
 
-		this.props.setUserAttitude(this.state.selectedAttitude);
+	}
 
-		var existing = localStorage.getItem('gtwUserState');
-		// If no existing data, create an array
-		// Otherwise, convert the localStorage string to an array
-		existing = existing ? JSON.parse(existing) : {};
-		// Add new data to localStorage Array
-		Object.assign(existing, { attitude: this.state.selectedAttitude });
-		// Save back to localStorage
-		localStorage.setItem('gtwUserState', JSON.stringify(existing));
-		this.setState({ redirect: true });
-
-	};
-
-	render() {
-		if (this.state.redirect) {
-			return <Navigate to="/profiles" />
-		}
-
-		const { selectedAttitude, suggestedOptions } = this.state;
-		return (
-			<>
+	return (
+		<>
 				<Header />
 				<div className="main-about-section">
 					<canvas id="space-canvas"></canvas>
@@ -121,17 +88,17 @@ class AddAttitude extends React.Component {
 					<div className="suggested-skills">
 						<Container>
 							<div className="suggested-inner-skills">
-								<Form method="post" noValidate onSubmit={this.handleSubmit}>
+								<Form method="post" noValidate onSubmit={handleSubmit}>
 									<Form.Group as={Col} controlId="formGridSkills">
 										<Form.Label>Add your attitude</Form.Label>
 										<Select
 											hideSelectedOptions={false}
 											controlShouldRenderValue={false}
 											isMulti
-											options={this.state.options}
+											options={options}
 											className="basic-multi-select"
 											classNamePrefix="select"
-											onChange={this.handleChange}
+											onChange={handleChange}
 											value={selectedAttitude}
 											placeholder="Search"
 											theme={(theme) => ({
@@ -145,22 +112,22 @@ class AddAttitude extends React.Component {
 											})}
 										/>
 										<div className="selected-options">
-											{
-												!!selectedAttitude && selectedAttitude.length > 0 && selectedAttitude.map(item =>
-													<p key={item.label}>{item.label}
-														<span onClick={this.removeAttitude.bind(this, item.value)} className="selectClose">
-															<img src="/cancel-icon.svg" alt="" />
-														</span>
-													</p>
-												)
-											}
+										{
+											selectedAttitude.length > 0 && selectedAttitude.map(item =>
+												<p key={item.label}>{item.label}
+													<span onClick={removeAttitude(item.value)} className="selectClose">
+														<img src="/cancel-icon.svg" alt="" />
+													</span>
+												</p>
+											)
+										}
 										</div>
 									</Form.Group>
 									<h4>Suggested attitude based on your profile</h4>
 									<ul>
 										{
 											suggestedOptions.length > 0 && suggestedOptions.map(item =>
-												<li onClick={this.addSuggestedAttitude.bind(this, item.value)} key={item.label}>{item.label}</li>
+												<li onClick={() => addSuggestedAttitude(item.value)} key={item.label}>{item.label}</li>
 											)
 										}
 									</ul>
@@ -171,22 +138,7 @@ class AddAttitude extends React.Component {
 					</div>
 				</div>
 			</>
-		)
-	}
+	)
 }
 
-function mapStateToProps(state) {
-	return {
-		userAttitude: state.selectedAttitude
-	}
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		setUserAttitude: (userAttitude) => {
-			dispatch({ type: "SET_USER_ATTITUDE", payload: userAttitude })
-		}
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddAttitude);
+export default AddAttitude;
