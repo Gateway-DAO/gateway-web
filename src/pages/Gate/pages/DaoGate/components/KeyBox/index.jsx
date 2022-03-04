@@ -149,11 +149,15 @@ const KeyBox = (props) => {
                             </Styled.BoxTitle>
                             {isAdmin && !opened && (
                                 <Styled.EditDeleteContainer>
-                                    <Styled.EditContainer onClick={editKey}>
+                                    <Styled.EditContainer
+                                        onClick={editKey}
+                                        data-title='Edit key'
+                                    >
                                         <FaPencilAlt />
                                     </Styled.EditContainer>
                                     <Styled.DeleteContainer
                                         onClick={() => setShowModal(true)}
+                                        data-title='Delete key'
                                     >
                                         <FaTrashAlt />
                                     </Styled.DeleteContainer>
