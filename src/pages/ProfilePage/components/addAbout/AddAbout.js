@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { NavLink as Link, Route, Routes, Navigate } from "react-router-dom";
+import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import {
 	Container,
 	Button
@@ -12,28 +12,28 @@ import space from '../../../../utils/canvas';
 import Header from "../../../../components/Header";
 
 const AddAbout = () => {
+	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
 	const [about, setAbout] = useState("");
 
 	useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
+		() => space(window.innerHeight, window.innerWidth),
+		[window.innerHeight, window.innerWidth]
+	);
 
 	const handleChange = (data) => {
-  		setAbout(data);
-  		if(data) {
-  			setIsValidated(false);
-  		} else {
-  			setIsValidated(true);
-  		}
-  	}
+		setAbout(data);
+		if (data) {
+			setIsValidated(false);
+		} else {
+			setIsValidated(true);
+		}
+	}
 
-  	const handleAdd = () => {
+	const handleAdd = () => {
 
-		if(about == '')
-		{
+		if (about == '') {
 			setIsValidated(true);
 
 		} else {
@@ -42,21 +42,28 @@ const AddAbout = () => {
 			// redirect
 			setRedirect(true);
 		}
-		
+
 	}
 
-  	return (
+	return (
 
-  		<>
+		<>
 			<Header />
 			<div className="main-about-section">
 				<canvas id="space-canvas"></canvas>
 				<Container>
 					<div className="back-link">
-						<Link to="/profiles">
+						{/* <Link to="/profiles">
 							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 							<p>Back to Profile</p>
-						</Link>
+						</Link> */}
+						<a href="#">
+							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							</div>
+						</a>
+						<span style={{ color: "white", marginLeft: "20px" }}>
+							Back to Profile
+						</span>
 					</div>
 				</Container>
 				<div className="gt-about-section">
@@ -90,7 +97,7 @@ const AddAbout = () => {
 				</div>
 			</div>
 		</>
-  	)
+	)
 }
 
 export default AddAbout;
