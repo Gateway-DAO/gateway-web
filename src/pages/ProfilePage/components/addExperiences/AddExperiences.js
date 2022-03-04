@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate } from "react-router-dom";
+import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import {
 	Container,
@@ -20,6 +20,7 @@ const history = createBrowserHistory();
 const years = [...Array(new Date().getFullYear() - 1989).keys()].map((e) => e + 1990);
 
 const AddExperience = () => {
+	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
 	const [optionsDao, setOptionsDao] = useState([
@@ -56,58 +57,58 @@ const AddExperience = () => {
 	});
 
 	useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
+		() => space(window.innerHeight, window.innerWidth),
+		[window.innerHeight, window.innerWidth]
+	);
 
-    const handleChange = (event) => {
+	const handleChange = (event) => {
 		const { name, value } = event.target;
 		const re = /^[0-9\b]+$/;
 		if (event.target.type === 'checkbox') {
-			setUser(prev => ({...prev, [name]: event.target.checked }))
+			setUser(prev => ({ ...prev, [name]: event.target.checked }))
 		} else {
-        	if(name === 'hourPerWeek') {
-        		var str = '';
-        		if(value.includes(":")) {
-        			str = value.replace(':','');
-        			const times = value.split(":");
-        			if(Number(times[1]) > 59) {
-        				setUser(prev => ({...prev, [name]:  times[0]+":00" }))
-        				return true;
-        			}
+			if (name === 'hourPerWeek') {
+				var str = '';
+				if (value.includes(":")) {
+					str = value.replace(':', '');
+					const times = value.split(":");
+					if (Number(times[1]) > 59) {
+						setUser(prev => ({ ...prev, [name]: times[0] + ":00" }))
+						return true;
+					}
 
-        		} else {
-        			str = value;
-        		}
-        		// console.log("str", str);
-        		if (value === '' || re.test(str)) {
-			        setUser(prev => ({...prev, [name]: value}))
-			     }
-        	} else {
-				setUser(prev => ({...prev, [name]: value}))
+				} else {
+					str = value;
+				}
+				// console.log("str", str);
+				if (value === '' || re.test(str)) {
+					setUser(prev => ({ ...prev, [name]: value }))
+				}
+			} else {
+				setUser(prev => ({ ...prev, [name]: value }))
 			}
-			
+
 		}
 
 	}
 
 	const handleTime = (event) => {
-	  	const { name, value } = event.target;
-	    if(value.length == 2){
-	    	setUser(prev => ({...prev, ['hourPerWeek']: value + ":" }))
-	    }
-  	}
+		const { name, value } = event.target;
+		if (value.length == 2) {
+			setUser(prev => ({ ...prev, ['hourPerWeek']: value + ":" }))
+		}
+	}
 
 	const handleChangeDao = useCallback((valuesDao) => {
 		setValuesDao(valuesDao);
 	})
 
 	const removeDao = useCallback(
-    (val) => () => {
-      setValuesDao((previousTags) =>
-        previousTags.filter((previousTag, index) => previousTag.value !== val),
-      );
-    }, []);
+		(val) => () => {
+			setValuesDao((previousTags) =>
+				previousTags.filter((previousTag, index) => previousTag.value !== val),
+			);
+		}, []);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -126,10 +127,17 @@ const AddExperience = () => {
 				<canvas id="space-canvas"></canvas>
 				<Container>
 					<div className="back-link">
-						<Link to="/profiles">
+						{/* <Link to="/profiles">
 							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 							<p>Back to Profile</p>
-						</Link>
+						</Link> */}
+						<a href="#">
+							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							</div>
+						</a>
+						<span style={{ color: "white", marginLeft: "20px" }}>
+							Back to Profile
+						</span>
 					</div>
 				</Container>
 				<div className="gt-about-section add-exp-outer">
@@ -287,7 +295,7 @@ const AddExperience = () => {
 										type="text"
 										name="hourPerWeek"
 										placeholder="00:00"
-										maxLength = "5"
+										maxLength="5"
 										onChange={handleChange}
 										onKeyPress={handleTime}
 										value={user.hourPerWeek}

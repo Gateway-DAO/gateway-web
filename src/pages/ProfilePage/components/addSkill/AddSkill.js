@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate } from "react-router-dom";
+import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import { Container, Button, Form, Row, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import './AddSkill.css';
@@ -7,6 +7,7 @@ import space from '../../../../utils/canvas';
 import Header from "../../../../components/Header";
 
 const AddSkill = () => {
+	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
 	const [options, setOptions] = useState([
@@ -29,18 +30,18 @@ const AddSkill = () => {
 	const [selectedSkill, setSelectedSkill] = useState([]);
 
 	useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
+		() => space(window.innerHeight, window.innerWidth),
+		[window.innerHeight, window.innerWidth]
+	);
 
 	const removeSkill = useCallback(
-    (val) => () => {
-      setSelectedSkill((previousTags) =>
-        previousTags.filter((previousTag, index) => previousTag.value !== val),
-      );
-    },
-    [],
-  );
+		(val) => () => {
+			setSelectedSkill((previousTags) =>
+				previousTags.filter((previousTag, index) => previousTag.value !== val),
+			);
+		},
+		[],
+	);
 
 	const handleChange = useCallback((selectedSkill) => {
 		setSelectedSkill(selectedSkill);
@@ -73,49 +74,56 @@ const AddSkill = () => {
 
 	return (
 		<>
-				<Header />
-				<div className="main-about-section">
-					<canvas id="space-canvas"></canvas>
-					<Container>
-						<div className="back-link">
-							<Link to="/profiles">
-								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-								<p>Back to Profile</p>
-							</Link>
-						</div>
-					</Container>
-					<div className="gt-about-section">
-						<Container>
-							<h1>Skills</h1>
-						</Container>
+			<Header />
+			<div className="main-about-section">
+				<canvas id="space-canvas"></canvas>
+				<Container>
+					<div className="back-link">
+						{/* <Link to="/">
+							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
+							<p>Back to Profile</p>
+						</Link> */}
+						<a href="#">
+							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							</div>
+						</a>
+						<span style={{ color: "white", marginLeft: "20px" }}>
+							Back to Profile
+						</span>
 					</div>
-					<div className="suggested-skills">
-						<Container>
-							<div className="suggested-inner-skills">
-								<Form method="post" noValidate onSubmit={handleSubmit}>
-									<Form.Group as={Col} controlId="formGridSkills">
-										<Form.Label>Add your Skills</Form.Label>
-										<Select
-											hideSelectedOptions={false}
-											controlShouldRenderValue={false}
-											isMulti
-											options={options}
-											className="basic-multi-select"
-											classNamePrefix="select"
-											onChange={handleChange}
-											value={selectedSkill}
-											placeholder="Search"
-											theme={(theme) => ({
-												...theme,
-												borderRadius: 0,
-												colors: {
-													...theme.colors,
-													primary25: 'blue',
-													primary: 'darkblue',
-												},
-											})}
-										/>
-										<div className="selected-options">
+				</Container>
+				<div className="gt-about-section">
+					<Container>
+						<h1>Skills</h1>
+					</Container>
+				</div>
+				<div className="suggested-skills">
+					<Container>
+						<div className="suggested-inner-skills">
+							<Form method="post" noValidate onSubmit={handleSubmit}>
+								<Form.Group as={Col} controlId="formGridSkills">
+									<Form.Label>Add your Skills</Form.Label>
+									<Select
+										hideSelectedOptions={false}
+										controlShouldRenderValue={false}
+										isMulti
+										options={options}
+										className="basic-multi-select"
+										classNamePrefix="select"
+										onChange={handleChange}
+										value={selectedSkill}
+										placeholder="Search"
+										theme={(theme) => ({
+											...theme,
+											borderRadius: 0,
+											colors: {
+												...theme.colors,
+												primary25: 'blue',
+												primary: 'darkblue',
+											},
+										})}
+									/>
+									<div className="selected-options">
 										{
 											selectedSkill.length > 0 && selectedSkill.map(item =>
 												<p key={item.label}>{item.label}
@@ -125,23 +133,23 @@ const AddSkill = () => {
 												</p>
 											)
 										}
-										</div>
-									</Form.Group>
-									<h4>Suggested skills based on your profile</h4>
-									<ul>
-										{
-											suggestedOptions.length > 0 && suggestedOptions.map(item =>
-												<li onClick={() => addSuggestedSkill(item.value)} key={item.label}>{item.label}</li>
-											)
-										}
-									</ul>
-									<Button variant="primary" type="submit">save</Button>{' '}
-								</Form>
-							</div>
-						</Container>
-					</div>
+									</div>
+								</Form.Group>
+								<h4>Suggested skills based on your profile</h4>
+								<ul>
+									{
+										suggestedOptions.length > 0 && suggestedOptions.map(item =>
+											<li onClick={() => addSuggestedSkill(item.value)} key={item.label}>{item.label}</li>
+										)
+									}
+								</ul>
+								<Button variant="primary" type="submit">save</Button>{' '}
+							</Form>
+						</div>
+					</Container>
 				</div>
-			</>
+			</div>
+		</>
 	)
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate } from "react-router-dom";
+import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import { Container, Button, Form } from 'react-bootstrap';
 import './CompleteProfile.css';
 import space from '../../../../utils/canvas';
@@ -24,6 +24,7 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileEncode, FilePondPluginFileValidateType);
 
 const CompleteProfile = () => {
+	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
 	const [files, setFiles] = useState([]);
@@ -42,36 +43,36 @@ const CompleteProfile = () => {
 	});
 
 	useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
+		() => space(window.innerHeight, window.innerWidth),
+		[window.innerHeight, window.innerWidth]
+	);
 
-    const handleInit = () => {
+	const handleInit = () => {
 		// console.log("FilePond instance has initialised", this.pond);
 	}
 
 	const handleAddSocial = () => {
 		setUser((prevState) => {
-	      return {
-	        ...prevState,
-	        socials: [...prevState.socials, {
-				platform_name: "",
-				placeholder: "",
-				platform_value: "",
-			}]
-	      };
-	    });
+			return {
+				...prevState,
+				socials: [...prevState.socials, {
+					platform_name: "",
+					placeholder: "",
+					platform_value: "",
+				}]
+			};
+		});
 	}
 
 	const handleRemoveSocial = (social) => {
 		const filtered = user.socials.filter((previousTag, index) => index !== social);
 		console.log("filtered", filtered);
 		setUser((prevState) => {
-	      return {
-	        ...prevState,
-	        socials: filtered
-	      };
-	    });
+			return {
+				...prevState,
+				socials: filtered
+			};
+		});
 	}
 
 	const handleSocialChange = (e, index) => {
@@ -80,17 +81,17 @@ const CompleteProfile = () => {
 		const list = [...socials];
 		list[index][name] = value;
 		setUser((prevState) => {
-	      return {
-	        ...prevState,
-	        socials: list
-	      };
-	    });
-		
+			return {
+				...prevState,
+				socials: list
+			};
+		});
+
 	}
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
-		setUser(prev => ({...prev, [name]: value }))
+		setUser(prev => ({ ...prev, [name]: value }))
 	}
 
 	const handleSubmit = (event) => {
@@ -110,10 +111,17 @@ const CompleteProfile = () => {
 				<canvas id="space-canvas"></canvas>
 				<Container>
 					<div className="back-link">
-						<Link to="/profiles">
+						{/* <Link to="/profiles">
 							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 							<p>Back to Profile</p>
-						</Link>
+						</Link> */}
+						<a href="#">
+							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							</div>
+						</a>
+						<span style={{ color: "white", marginLeft: "20px" }}>
+							Back to Profile
+						</span>
 					</div>
 				</Container>
 				<div className="gt-about-section gt-complete-profile">
@@ -172,11 +180,11 @@ const CompleteProfile = () => {
 												reader.onloadend = function () {
 													// console.log('RESULT', reader.result);
 													setUser((prevState) => {
-												      return {
-												        ...prevState,
-												        avatar: reader.result
-												      };
-												    });
+														return {
+															...prevState,
+															avatar: reader.result
+														};
+													});
 												}
 												reader.onerror = function (error) {
 													console.log('Error: ', error);
@@ -184,22 +192,22 @@ const CompleteProfile = () => {
 												reader.readAsDataURL(file.file);
 											} else {
 												setUser((prevState) => {
-											      return {
-											        ...prevState,
-											        avatar: ""
-											      };
-											    });
+													return {
+														...prevState,
+														avatar: ""
+													};
+												});
 											}
 
 										}}
 										onremovefile={(error, file) => {
 											setFiles([])
 											setUser((prevState) => {
-										      return {
-										        ...prevState,
-										        avatar: ""
-										      };
-										    });
+												return {
+													...prevState,
+													avatar: ""
+												};
+											});
 											// console.log('remove avatar ---: ', user.avatar)
 										}}
 										server={{
@@ -277,7 +285,7 @@ const CompleteProfile = () => {
 					</Container>
 				</div>
 			</div>
-	    </>
+		</>
 	)
 }
 
