@@ -20,7 +20,7 @@ export const LeftSide = styled.div`
 export const RightSide = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: right;
     flex: 1;
     padding-left: 1rem;
 
@@ -42,6 +42,12 @@ export const Title = styled.h5`
     letter-spacing: 0.2em;
 
     color: #e5e5e5;
+
+    margin-bottom: 3rem;
+
+    @media only screen and (max-width: 768px) {
+        margin-bottom: 1rem;
+    }
 `;
 
 export const BigText = styled.h3`
@@ -52,8 +58,6 @@ export const BigText = styled.h3`
     /* identical to box height, or 50% */
 
     letter-spacing: -0.015em;
-
-    margin-top: 3rem;
 
     /* Background */
     background: linear-gradient(
@@ -67,10 +71,6 @@ export const BigText = styled.h3`
     -webkit-text-fill-color: transparent;
     -moz-background-clip: text;
     -moz-text-fill-color: transparent;
-
-    @media only screen and (max-width: 768px) {
-        margin-top: 1rem;
-    }
 `;
 
 export const Text = styled.p`
@@ -86,9 +86,14 @@ export const Text = styled.p`
     color: #e5e5e5;
 
     margin-top: 10px;
+
+    &:hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
 `;
 
-export const Video = styled.div`
+export const VideoContainer = styled.div`
     max-width: 710px;
     width: 100%;
     height: 380px;
@@ -100,11 +105,22 @@ export const Video = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+`;
+
+export const Video = styled.video`
+    width: 100%;
+    height: 100%;
 `;
 
 export const PlayIcon = styled.img`
     width: 52px;
     height: 52px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     &:hover {
         width: 55px;

@@ -35,8 +35,12 @@ const Home = (props) => {
                 <CTAStyled.LbThree />
                 <CTAStyled.RbOne />
                 <CTAStyled.RbTwo />
-                <Styled.WalletContent>
-                    <Styled.BigText>
+                <Styled.WalletContent data-aos='fade-up'>
+                    <Styled.BigText
+                        data-aos='zoom-out'
+                        data-aos-delay='200'
+                        data-aos-offset='500'
+                    >
                         Your Decentralized Professional Network
                     </Styled.BigText>
                     <WalletBody title='ENTER THE GATEWAY' />

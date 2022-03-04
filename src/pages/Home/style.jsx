@@ -22,6 +22,7 @@ export const WalletContent = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    width: 100%;
 `;
 
 export const BigText = styled.h1`

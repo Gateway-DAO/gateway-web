@@ -37,10 +37,52 @@ export const InvestorCard = styled.div`
     width: 100%;
     height: 400px;
     border-radius: 20px;
-    border: 1px solid rgba(229, 229, 229, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        position: absolute;
+        top: 0;
+        left: -80%;
+        z-index: 2;
+        display: block;
+        content: '';
+        width: 50%;
+        height: 100%;
+        background: -webkit-linear-gradient(
+            left,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.3) 100%
+        );
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.3) 100%
+        );
+        -webkit-transform: skewX(200deg);
+        transform: skewX(200deg);
+    }
 
     &:hover {
         cursor: pointer;
+
+        &::before {
+            -webkit-animation: shine 0.75s;
+            animation: shine 0.75s;
+        }
+    }
+
+    @-webkit-keyframes shine {
+        100% {
+            left: 120%;
+        }
+    }
+    @keyframes shine {
+        100% {
+            left: 125%;
+        }
     }
 `;
 

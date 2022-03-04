@@ -27,7 +27,7 @@ export const RightSide = styled.div`
     align-items: flex-start;
 `;
 
-export const Text = styled.h4`
+export const Text = styled.h1`
     color: white;
 
     font-family: Poppins;
@@ -55,7 +55,7 @@ export const Text = styled.h4`
     }
 `;
 
-export const BigText = styled.h1`
+export const BigText = styled.p`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
@@ -109,6 +109,12 @@ export const JoinButton = styled.a`
 
     &:hover {
         cursor: pointer;
+        background-image: linear-gradient(
+            90deg,
+            #ff00b8 0%,
+            #7e3bdc 50.52%,
+            #0075ff 100%
+        );
     }
 `;
 

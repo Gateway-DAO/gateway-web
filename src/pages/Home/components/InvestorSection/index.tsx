@@ -10,9 +10,11 @@ import Avatar2 from '../../../../assets/investors/user2.png';
 export default function InvestorSection() {
     return (
         <MainStyled.SectionContainer>
-            <MainStyled.SectionTitle>ALPHA PARTNERS</MainStyled.SectionTitle>
+            <MainStyled.SectionTitle data-aos='fade-right'>
+                INVESTORS
+            </MainStyled.SectionTitle>
             <Styled.Content>
-                <Styled.Col>
+                <Styled.Col data-aos='fade-up' data-aos-delay='100'>
                     <Styled.InvestorCard
                         background={Investor1}
                     ></Styled.InvestorCard>
@@ -31,7 +33,7 @@ export default function InvestorSection() {
                         </Styled.InvestorData>
                     </Styled.InvestorInfo>
                 </Styled.Col>
-                <Styled.Col>
+                <Styled.Col data-aos='fade-up' data-aos-delay='200'>
                     <Styled.InvestorCard
                         background={Investor2}
                     ></Styled.InvestorCard>
@@ -50,7 +52,7 @@ export default function InvestorSection() {
                         </Styled.InvestorData>
                     </Styled.InvestorInfo>
                 </Styled.Col>
-                <Styled.Col>
+                <Styled.Col data-aos='fade-up' data-aos-delay='300'>
                     <Styled.InvestorCard
                         background={Investor3}
                     ></Styled.InvestorCard>
@@ -67,7 +69,7 @@ export default function InvestorSection() {
                         </Styled.InvestorData>
                     </Styled.InvestorInfo>
                 </Styled.Col>
-                <Styled.Col>
+                <Styled.Col data-aos='fade-up' data-aos-delay='400'>
                     <Styled.InvestorCard>
                         <Styled.MoreText>+15 MORE</Styled.MoreText>
                     </Styled.InvestorCard>

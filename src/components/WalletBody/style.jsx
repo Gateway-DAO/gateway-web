@@ -23,6 +23,10 @@ export const ConnectToWallet = styled.a`
 
     &:hover {
         cursor: pointer;
+        ${(props) =>
+            props.borderd
+                ? `background-image: linear-gradient(90deg, #ff00b8 0%, #7e3bdc 50.52%, #0075ff 100%);`
+                : ``}
     }
 
     @media only screen and (max-width: 768px) {

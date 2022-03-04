@@ -6,9 +6,11 @@ import WalletBody from '../../../../components/WalletBody';
 export default function UserCategories() {
     return (
         <MainStyled.SectionContainer>
-            <MainStyled.SectionTitle>FOR USERS</MainStyled.SectionTitle>
+            <MainStyled.SectionTitle data-aos='fade-right'>
+                FOR USERS
+            </MainStyled.SectionTitle>
             <Styled.CategoriesContainer>
-                <Styled.Category>
+                <Styled.Category data-aos='fade-up'>
                     <Styled.CategoryImg />
                     <Styled.CategoryName>
                         YOUR CONTRIBUTIONS
@@ -17,7 +19,7 @@ export default function UserCategories() {
                         {`Proof of Work — Where you contributed in a verifiable way.`}
                     </Styled.CategoryDescription>
                 </Styled.Category>
-                <Styled.Category>
+                <Styled.Category data-aos='fade-up'>
                     <Styled.CategoryImg />
                     <Styled.CategoryName color='#B85EFF'>
                         YOUR SKILLS
@@ -26,7 +28,7 @@ export default function UserCategories() {
                         {`Highlight your skills using badges and solidify your reputation.`}
                     </Styled.CategoryDescription>
                 </Styled.Category>
-                <Styled.Category>
+                <Styled.Category data-aos='fade-up'>
                     <Styled.CategoryImg />
                     <Styled.CategoryName color='#0075FF'>
                         YOUR SKILLS
@@ -36,7 +38,7 @@ export default function UserCategories() {
                     </Styled.CategoryDescription>
                 </Styled.Category>
             </Styled.CategoriesContainer>
-            <MainStyled.SignUpBtn>
+            <MainStyled.SignUpBtn data-aos='fade-up'>
                 <WalletBody title='SIGN UP' borderd />
             </MainStyled.SignUpBtn>
         </MainStyled.SectionContainer>
