@@ -40,6 +40,7 @@ export const BoxTitle = styled.div`
 
 export const EditContainer = styled.div`
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     width: 28px;
@@ -55,10 +56,33 @@ export const EditContainer = styled.div`
         background: #220a38;
         border: 1px solid #7e3bdc;
     }
+
+    &[data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 4px 10px;
+
+        top: 36px;
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        // line-height: px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
 `;
 
 export const DeleteContainer = styled.div`
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     width: 28px;
@@ -71,6 +95,28 @@ export const DeleteContainer = styled.div`
         cursor: pointer;
         background: #220a38;
         border: 1px solid #7e3bdc;
+    }
+
+    &[data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 4px 10px;
+
+        top: 36px;
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        // line-height: px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
     }
 `;
 

@@ -46,7 +46,7 @@ export const ButtonWrapper = styled.div<IButtonWrapperProps>`
     &[data-title]:hover:after {
         content: attr(data-title);
         position: absolute;
-        padding: 2px 8px;
+        padding: 2px 10px;
 
         top: 56px;
 
