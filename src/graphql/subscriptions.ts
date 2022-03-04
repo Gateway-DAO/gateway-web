@@ -60,6 +60,11 @@ export const onCreateUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -151,6 +156,11 @@ export const onUpdateUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -242,6 +252,11 @@ export const onDeleteUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -1280,6 +1295,11 @@ export const onCreatePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1431,6 +1451,11 @@ export const onUpdatePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1582,6 +1607,11 @@ export const onDeletePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1654,6 +1684,11 @@ export const onCreateComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1713,6 +1748,11 @@ export const onUpdateComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1772,6 +1812,11 @@ export const onDeleteComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2469,6 +2514,11 @@ export const onCreateManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2599,6 +2649,11 @@ export const onUpdateManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2729,6 +2784,11 @@ export const onDeleteManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2859,6 +2919,11 @@ export const onCreateGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2988,6 +3053,11 @@ export const onUpdateGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3117,6 +3187,11 @@ export const onDeleteGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3246,6 +3321,11 @@ export const onCreateTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3429,6 +3509,11 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3612,6 +3697,11 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url

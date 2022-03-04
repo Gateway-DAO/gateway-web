@@ -122,6 +122,11 @@ export const getUser = /* GraphQL */ `
             init
             nonce
             pfp
+            about
+            skills
+            attitudes
+            languages
+            knowledges
             socials {
                 network
                 url
@@ -194,6 +199,11 @@ export const listUsers = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -1059,6 +1069,11 @@ export const getPost = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -1144,6 +1159,11 @@ export const listPosts = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -1221,6 +1241,11 @@ export const getComment = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -1263,6 +1288,11 @@ export const listComments = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -1787,6 +1817,11 @@ export const getManualTaskSubmission = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -1904,6 +1939,11 @@ export const listManualTaskSubmissions = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -1967,6 +2007,11 @@ export const getGateStatus = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -2079,6 +2124,11 @@ export const listGateStatuss = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -2154,6 +2204,11 @@ export const getTaskStatus = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -2331,6 +2386,11 @@ export const listTaskStatuss = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -2420,6 +2480,11 @@ export const getUserByAddress = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -2536,6 +2601,11 @@ export const getUserByUsername = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -3212,6 +3282,11 @@ export const getPostsByChannelId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3280,6 +3355,11 @@ export const getCommentsByPostId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3495,6 +3575,11 @@ export const getManualTaskSubmissionByUserId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3549,6 +3634,11 @@ export const getManualTaskSubmissionByKeyId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3603,6 +3693,11 @@ export const getGateStatusByUserId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3673,6 +3768,11 @@ export const getGateStatusByGateId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3739,6 +3839,11 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3809,6 +3914,11 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3879,6 +3989,11 @@ export const getTaskStatusByKeyId = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
@@ -3968,6 +4083,11 @@ export const searchUsers = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -4204,6 +4324,11 @@ export const searchPosts = /* GraphQL */ `
                     init
                     nonce
                     pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
                     createdAt
                     updatedAt
                 }
