@@ -13,9 +13,10 @@ import { To, useNavigate } from 'react-router-dom';
 import useUpdateGate from '../../../../../../api/database/useUpdateGate';
 import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
-// import { useModal } from '../../../../../../contexts/ModalContext';
-// import { useModal } from '../../../../../../contexts/ModalContext';
 import { useWeb3 } from '../../../../../../hooks/useWeb3';
+
+// Components
+import Tooltip from '../../../../../../components/ToolTip';
 
 // Types
 import {
@@ -301,12 +302,19 @@ const BackButton: React.FC<Props> = ({
                             <Styled.ButtonWrapper onClick={editGate} ml='20'>
                                 <MdModeEditOutline />
                             </Styled.ButtonWrapper>
-                            <Styled.ButtonWrapper
-                                onClick={showDeleteModal}
-                                ml='20'
+                            <Tooltip
+                                position='bottom'
+                                text='Delete this gate'
+                                background='#180b27'
+                                styleMe={false}
                             >
-                                <FaTrashAlt />
-                            </Styled.ButtonWrapper>
+                                <Styled.ButtonWrapper
+                                    onClick={showDeleteModal}
+                                    ml='20'
+                                >
+                                    <FaTrashAlt />
+                                </Styled.ButtonWrapper>
+                            </Tooltip>
                         </>
                     )}
                     <Styled.ButtonWrapper
