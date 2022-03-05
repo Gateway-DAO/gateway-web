@@ -72,6 +72,10 @@ const AddKnowledge = () => {
 
 	}
 
+	if (redirect) {
+		navigate(-1);
+	}
+
 	return (
 		<>
 			<Header />
@@ -83,7 +87,7 @@ const AddKnowledge = () => {
 								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 								<p>Back to Profile</p>
 							</Link> */}
-						<a href="#">
+						<a>
 							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>
