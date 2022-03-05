@@ -17,6 +17,8 @@ const AddAbout = () => {
 	const [isValidated, setIsValidated] = useState(false);
 	const [about, setAbout] = useState("");
 
+	const { updateUserInfo, userInfo } = useAuth();
+
 	useEffect(
 		() => space(window.innerHeight, window.innerWidth),
 		[window.innerHeight, window.innerWidth]
@@ -31,14 +33,20 @@ const AddAbout = () => {
 		}
 	}
 
-	const handleAdd = () => {
+	const handleAdd = async () => {
 
 		if (about == '') {
 			setIsValidated(true);
 
 		} else {
-			// API should be call here
 			console.log("about", about);
+			
+			// API should be call here
+			await updateUserInfo({
+				id: userInfo.id,
+				about
+			});
+
 			// redirect
 			setRedirect(true);
 		}
