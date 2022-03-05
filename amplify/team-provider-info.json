@@ -89,17 +89,17 @@
         },
         "ceramic": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/ceramic-6b2b627367476b623745-build.zip",
+          "s3Key": "amplify-builds/ceramic-54537a54595844534f34-build.zip",
           "secretsPathAmplifyAppId": "d1eyfltl5g67m"
         },
         "generateSignature": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/generateSignature-50543345714e312b3641-build.zip"
+          "s3Key": "amplify-builds/generateSignature-6251473255577a2f4a6c-build.zip"
         },
         "key": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/key-62434631306237454278-build.zip"
+          "s3Key": "amplify-builds/key-7335356475473936712b-build.zip"
         }
       },
       "auth": {

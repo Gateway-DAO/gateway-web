@@ -23,6 +23,11 @@ type User
     init: Boolean
     nonce: Int!
     pfp: String
+    about: String
+    skills: [String]
+    attitudes: [String]
+    languages: [String]
+    knowledges: [String]
     socials: [Social]
     gates: [GateStatus]
         @connection(keyName: "gateStatusByUserID", fields: ["id"])
