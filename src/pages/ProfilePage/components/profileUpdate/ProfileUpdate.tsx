@@ -450,16 +450,16 @@ const ProfileUpdate = () => {
 									</Link>
 								</div>
 								<ListGroup as='ul'>
-									{!!userInfo.skill &&
-										userInfo.skill.length > 0 ? (
-										userInfo.skill.length > 0 &&
-										userInfo.skill.map((item) => (
+									{!!userInfo.skills &&
+										userInfo.skills.length > 0 ? (
+										userInfo.skills.length > 0 &&
+										userInfo.skills.map((item) => (
 											<ListGroup.Item
 												as='li'
-												key={item.label}
+												key={item}
 											>
 												<a className='gway-btn'>
-													{item.label}
+													{item}
 												</a>
 											</ListGroup.Item>
 										))
@@ -480,16 +480,16 @@ const ProfileUpdate = () => {
 									</Link>
 								</div>
 								<ListGroup as='ul'>
-									{!!userInfo.knowledge &&
-										userInfo.knowledge.length > 0 ? (
-										userInfo.knowledge.length > 0 &&
-										userInfo.knowledge.map((item) => (
+									{!!userInfo.knowledges &&
+										userInfo.knowledges.length > 0 ? (
+										userInfo.knowledges.length > 0 &&
+										userInfo.knowledges.map((item) => (
 											<ListGroup.Item
 												as='li'
-												key={item.label}
+												key={item}
 											>
 												<a className='gway-btn'>
-													{item.label}
+													{item}
 												</a>
 											</ListGroup.Item>
 										))
@@ -510,16 +510,16 @@ const ProfileUpdate = () => {
 									</Link>
 								</div>
 								<ListGroup as='ul'>
-									{!!userInfo.attitude &&
-										userInfo.attitude.length > 0 ? (
-										userInfo.attitude.length > 0 &&
-										userInfo.attitude.map((item) => (
+									{!!userInfo.attitudes &&
+										userInfo.attitudes.length > 0 ? (
+										userInfo.attitudes.length > 0 &&
+										userInfo.attitudes.map((item) => (
 											<ListGroup.Item
 												as='li'
-												key={item.label}
+												key={item}
 											>
 												<a className='gway-btn'>
-													{item.label}
+													{item}
 												</a>
 											</ListGroup.Item>
 										))
@@ -540,16 +540,16 @@ const ProfileUpdate = () => {
 									</Link>
 								</div>
 								<ListGroup as='ul'>
-									{!!userInfo.langs &&
-										userInfo.langs.length > 0 ? (
-										userInfo.langs.length > 0 &&
-										userInfo.langs.map((item) => (
+									{!!userInfo.languages &&
+										userInfo.languages.length > 0 ? (
+										userInfo.languages.length > 0 &&
+										userInfo.languages.map((item) => (
 											<ListGroup.Item
 												as='li'
-												key={item.label}
+												key={item}
 											>
 												<a className='gway-btn'>
-													{item.label}
+													{item}
 												</a>
 											</ListGroup.Item>
 										))

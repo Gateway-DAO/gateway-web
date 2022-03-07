@@ -37,10 +37,9 @@ const AddAbout = () => {
 		space(window.innerHeight, window.innerWidth),
 			[window.innerHeight, window.innerWidth]
 		const callback = async () => {
-			const myUser = await getUser();
-			const myAbout = myUser.data.getUserByUsername.items[0].about
-			setAbout(myAbout);
-		};
+			const { data } = await getUser();
+			setAbout(data?.getUserByUsername?.items[0]?.about || '');
+		}
 		callback();
 	}, []);
 
@@ -59,7 +58,7 @@ const AddAbout = () => {
 			setIsValidated(true);
 
 		} else {
-			console.log("about", about);
+			// console.log("about", about);
 
 			// API should be call here
 			try {
