@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import {
-	Container,
-	Button
-} from 'react-bootstrap';
+import { NavLink as Link, Route, Routes, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Container, Button } from 'react-bootstrap';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './AddAbout.css';
 import space from '../../../../utils/canvas';
+import { useAuth } from '../../../../contexts/UserContext';
 import Header from "../../../../components/Header";
 
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import { updateUser } from '../../../../graphql/mutations';
+import { getUserByUsername } from '../../../../graphql/queries';
+
 const AddAbout = () => {
+	const username = useParams().username;
+	var userId = localStorage.getItem('userId');
+	userId = userId.slice(1, -1);
+	const [updateAbout] = useMutation(gql(updateUser));
+	const [getUser, { data, loading, error }] = useLazyQuery(
+		gql(getUserByUsername),
+		{
+			variables: {
+				username,
+			},
+		}
+	);
 	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
@@ -19,10 +33,16 @@ const AddAbout = () => {
 
 	const { updateUserInfo, userInfo } = useAuth();
 
-	useEffect(
-		() => space(window.innerHeight, window.innerWidth),
-		[window.innerHeight, window.innerWidth]
-	);
+	useEffect(() => {
+		space(window.innerHeight, window.innerWidth),
+			[window.innerHeight, window.innerWidth]
+		const callback = async () => {
+			const myUser = await getUser();
+			const myAbout = myUser.data.getUserByUsername.items[0].about
+			setAbout(myAbout);
+		};
+		callback();
+	}, []);
 
 	const handleChange = (data) => {
 		setAbout(data);
@@ -40,17 +60,32 @@ const AddAbout = () => {
 
 		} else {
 			console.log("about", about);
-			
+
 			// API should be call here
-			await updateUserInfo({
-				id: userInfo.id,
-				about
-			});
+			try {
+				await updateAbout({
+					variables: {
+						input: {
+							id: userId,
+							about: about,
+						},
+					},
+				});
+				await updateUserInfo({
+					id: userInfo.id,
+					about: about
+				});
 
-			// redirect
-			setRedirect(true);
+				// redirect
+				setRedirect(true);
+			} catch (err) {
+				console.log(err);
+			}
 		}
+	}
 
+	if (redirect) {
+		navigate(-1);
 	}
 
 	return (

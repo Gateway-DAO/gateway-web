@@ -6,7 +6,24 @@ import './AddSkill.css';
 import space from '../../../../utils/canvas';
 import Header from "../../../../components/Header";
 
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import { updateUser } from '../../../../graphql/mutations';
+import { getUserByUsername } from '../../../../graphql/queries';
+
 const AddSkill = () => {
+	const username = useParams().username;
+	var userId = localStorage.getItem('userId');
+	userId = userId.slice(1, -1);
+	const [updateSkill] = useMutation(gql(updateUser));
+	const [getUser, { data, loading, error }] = useLazyQuery(
+		gql(getUserByUsername),
+		{
+			variables: {
+				username,
+			},
+		}
+	);
+
 	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
@@ -83,7 +100,7 @@ const AddSkill = () => {
 							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 							<p>Back to Profile</p>
 						</Link> */}
-						<a href="#">
+						<a>
 							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>

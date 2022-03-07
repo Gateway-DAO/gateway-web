@@ -63,6 +63,9 @@ const ProfileUpdate = () => {
 		}
 	);
 
+	const userId = data?.getUserByUsername?.items[0]?.id;
+	localStorage.setItem('userId', JSON.stringify(userId));
+
 	// State
 	const [userInfo, setUserInfo] = useState({
 		about: data?.getUserByUsername?.items[0]?.about || '',
