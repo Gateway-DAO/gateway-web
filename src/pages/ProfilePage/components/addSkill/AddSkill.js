@@ -11,19 +11,6 @@ import { updateUser } from '../../../../graphql/mutations';
 import { getUserByUsername } from '../../../../graphql/queries';
 
 const AddSkill = () => {
-	const username = useParams().username;
-	var userId = localStorage.getItem('userId');
-	userId = userId.slice(1, -1);
-	const [updateSkill] = useMutation(gql(updateUser));
-	const [getUser, { data, loading, error }] = useLazyQuery(
-		gql(getUserByUsername),
-		{
-			variables: {
-				username,
-			},
-		}
-	);
-
 	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
