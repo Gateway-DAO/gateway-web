@@ -1,12 +1,31 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { NavLink as Link, Route, Routes, Navigate, useNavigate, useParams } from "react-router-dom";
 import Select from 'react-select';
 import { Container, Button, Form, Row, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import './AddAttitude.css';
 import space from '../../../../utils/canvas';
+import { useAuth } from '../../../../contexts/UserContext';
 import Header from "../../../../components/Header";
 
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import { updateUser } from '../../../../graphql/mutations';
+import { getUserByUsername } from '../../../../graphql/queries';
+
 const AddAttitude = () => {
+
+	const username = useParams().username;
+	var userId = localStorage.getItem('userId');
+	userId = userId.slice(1, -1);
+	const [updateAttitude] = useMutation(gql(updateUser));
+	const [getUser, { data, loading, error }] = useLazyQuery(
+		gql(getUserByUsername),
+		{
+			variables: {
+				username,
+			},
+		}
+	);
+
 	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
@@ -25,10 +44,23 @@ const AddAttitude = () => {
 	]);
 	const [selectedAttitude, setSelectedAttitude] = useState([]);
 
-	useEffect(
+	const { updateUserInfo, userInfo } = useAuth();
+
+	useEffect(() => {
 		() => space(window.innerHeight, window.innerWidth),
-		[window.innerHeight, window.innerWidth]
-	);
+			[window.innerHeight, window.innerWidth]
+		const callback = async () => {
+			const { data } = await getUser();
+			console.log("data", data);
+			var attitudes = data?.getUserByUsername?.items[0]?.attitudes || [];
+			var arr = [];
+			for (var i = 0; i < attitudes.length; i++) {
+				arr.push({ "label": attitudes[i], "value": attitudes[i] });
+			}
+			setSelectedAttitude(arr);
+		}
+		callback();
+	}, []);
 
 	const removeAttitude = useCallback(
 		(val) => () => {
@@ -60,12 +92,38 @@ const AddAttitude = () => {
 
 	})
 
-	const handleSubmit = (event) => {
-		console.log("submitted");
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		event.stopPropagation();
-		setRedirect(true);
+		let objAttitudes = selectedAttitude;
+		// CONVERT TO NUMERIC ARRAY
+		objAttitudes = objAttitudes.map(function (x) {
+			return x.value;
+		});
+		// API should be call here
+		try {
+			await updateAttitude({
+				variables: {
+					input: {
+						id: userId,
+						attitudes: objAttitudes,
+					},
+				},
+			});
+			await updateUserInfo({
+				id: userInfo.id,
+				attitudes: objAttitudes,
+			});
 
+			// redirect
+			setRedirect(true);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	if (redirect) {
+		navigate(-1);
 	}
 
 	return (

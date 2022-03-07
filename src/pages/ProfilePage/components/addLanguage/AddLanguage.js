@@ -1,12 +1,31 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { NavLink as Link, Route, Routes, Navigate, useNavigate, useParams } from "react-router-dom";
 import Select from 'react-select';
 import { Container, Button, Form, Row, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import './AddLanguage.css';
 import space from '../../../../utils/canvas';
+import { useAuth } from '../../../../contexts/UserContext';
 import Header from "../../../../components/Header";
 
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import { updateUser } from '../../../../graphql/mutations';
+import { getUserByUsername } from '../../../../graphql/queries';
+
 const AddLanguage = () => {
+
+	const username = useParams().username;
+	var userId = localStorage.getItem('userId');
+	userId = userId.slice(1, -1);
+	const [updateLanguage] = useMutation(gql(updateUser));
+	const [getUser, { data, loading, error }] = useLazyQuery(
+		gql(getUserByUsername),
+		{
+			variables: {
+				username,
+			},
+		}
+	);
+
 	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
@@ -30,10 +49,23 @@ const AddLanguage = () => {
 	]);
 	const [selectedLangs, setSelectedLangs] = useState([]);
 
-	useEffect(
+	const { updateUserInfo, userInfo } = useAuth();
+
+	useEffect(() => {
 		() => space(window.innerHeight, window.innerWidth),
-		[window.innerHeight, window.innerWidth]
-	);
+			[window.innerHeight, window.innerWidth]
+		const callback = async () => {
+			const { data } = await getUser();
+			console.log("data", data);
+			var langs = data?.getUserByUsername?.items[0]?.languages || [];
+			var arr = [];
+			for (var i = 0; i < langs.length; i++) {
+				arr.push({ "label": langs[i], "value": langs[i] });
+			}
+			setSelectedLangs(arr);
+		}
+		callback();
+	}, []);
 
 	const removeLanguage = useCallback(
 		(val) => () => {
@@ -65,12 +97,40 @@ const AddLanguage = () => {
 
 	})
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		console.log("submitted");
 		event.preventDefault();
 		event.stopPropagation();
-		setRedirect(true);
+		let objLngs = selectedLangs;
+		// CONVERT TO NUMERIC ARRAY
+		objLngs = objLngs.map(function (x) {
+			return x.value;
+		});
+		// API should be call here
+		try {
+			await updateLanguage({
+				variables: {
+					input: {
+						id: userId,
+						languages: objLngs,
+					},
+				},
+			});
+			await updateUserInfo({
+				id: userInfo.id,
+				languages: objLngs,
+			});
 
+			// redirect
+			setRedirect(true);
+		} catch (err) {
+			console.log(err);
+		}
+
+	}
+
+	if (redirect) {
+		navigate(-1);
 	}
 
 	return (

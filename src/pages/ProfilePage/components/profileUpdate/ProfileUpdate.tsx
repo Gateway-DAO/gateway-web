@@ -69,11 +69,11 @@ const ProfileUpdate = () => {
 	// State
 	const [userInfo, setUserInfo] = useState({
 		about: data?.getUserByUsername?.items[0]?.about || '',
-		skill: data?.getUserByUsername?.items[0]?.skill || [],
-		langs: data?.getUserByUsername?.items[0]?.languages || [],
-		knowledge: data?.getUserByUsername?.items[0]?.knowledge || [],
-		experience: data?.getUserByUsername?.items[0]?.experience || {},
+		skill: data?.getUserByUsername?.items[0]?.skills || [],
+		knowledge: data?.getUserByUsername?.items[0]?.knowledges || [],
 		attitude: data?.getUserByUsername?.items[0]?.attitudes || [],
+		langs: data?.getUserByUsername?.items[0]?.languages || [],
+		experience: data?.getUserByUsername?.items[0]?.experience || {},
 		socials: data?.getUserByUsername?.items[0]?.socials || [],
 		...(data?.getUserByUsername?.items[0] || {}),
 	});

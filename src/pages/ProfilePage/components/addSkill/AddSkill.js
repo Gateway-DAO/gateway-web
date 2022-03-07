@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { NavLink as Link, Route, Routes, Navigate, useNavigate, useParams } from "react-router-dom";
 import Select from 'react-select';
 import { Container, Button, Form, Row, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
 import './AddSkill.css';
 import space from '../../../../utils/canvas';
+import { useAuth } from '../../../../contexts/UserContext';
 import Header from "../../../../components/Header";
 
 import { useLazyQuery, useMutation, gql } from '@apollo/client';
@@ -11,6 +12,20 @@ import { updateUser } from '../../../../graphql/mutations';
 import { getUserByUsername } from '../../../../graphql/queries';
 
 const AddSkill = () => {
+
+	const username = useParams().username;
+	var userId = localStorage.getItem('userId');
+	userId = userId.slice(1, -1);
+	const [updateSkill] = useMutation(gql(updateUser));
+	const [getUser, { data, loading, error }] = useLazyQuery(
+		gql(getUserByUsername),
+		{
+			variables: {
+				username,
+			},
+		}
+	);
+
 	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
@@ -33,10 +48,23 @@ const AddSkill = () => {
 	]);
 	const [selectedSkill, setSelectedSkill] = useState([]);
 
-	useEffect(
+	const { updateUserInfo, userInfo } = useAuth();
+
+	useEffect(() => {
 		() => space(window.innerHeight, window.innerWidth),
-		[window.innerHeight, window.innerWidth]
-	);
+			[window.innerHeight, window.innerWidth]
+		const callback = async () => {
+			const { data } = await getUser();
+			console.log("data", data);
+			var skills = data?.getUserByUsername?.items[0]?.skills || [];
+			var arr = [];
+			for (var i = 0; i < skills.length; i++) {
+				arr.push({ "label": skills[i], "value": skills[i] });
+			}
+			setSelectedSkill(arr);
+		}
+		callback();
+	}, []);
 
 	const removeSkill = useCallback(
 		(val) => () => {
@@ -68,12 +96,39 @@ const AddSkill = () => {
 
 	})
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		console.log("submitted");
 		event.preventDefault();
 		event.stopPropagation();
-		setRedirect(true);
+		let objSkills = selectedSkill;
+		// CONVERT TO NUMERIC ARRAY
+		objSkills = objSkills.map(function (x) {
+			return x.value;
+		});
+		// API should be call here
+		try {
+			await updateSkill({
+				variables: {
+					input: {
+						id: userId,
+						skills: objSkills,
+					},
+				},
+			});
+			await updateUserInfo({
+				id: userInfo.id,
+				skills: objSkills,
+			});
 
+			// redirect
+			setRedirect(true);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+
+	if (redirect) {
+		navigate(-1);
 	}
 
 	return (
@@ -87,7 +142,7 @@ const AddSkill = () => {
 							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 							<p>Back to Profile</p>
 						</Link> */}
-						<a>
+						<a href="#">
 							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>
