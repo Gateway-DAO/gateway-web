@@ -258,7 +258,7 @@ export const Input = styled.input<IInput>`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 20px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
@@ -300,7 +300,7 @@ const SearchInnerInput = styled.input<IInput>`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 20px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
@@ -308,7 +308,6 @@ const SearchInnerInput = styled.input<IInput>`
     width: ${(props) => props.width || '100%'};
     outline: none;
     border: 0px;
-
     background-color: transparent;
 `;
 

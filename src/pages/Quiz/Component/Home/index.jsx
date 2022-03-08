@@ -23,7 +23,7 @@ const Home = (props) => {
         <>
             <FormStyled.Fieldset>
                 <FormStyled.Label htmlFor='quiz.title'>
-                    QUIZ TITLE
+                    QUIZ TITLE*
                 </FormStyled.Label>
                 <FormStyled.Input
                     onChange={(e) => setTitle(e.target.value)}
@@ -38,7 +38,7 @@ const Home = (props) => {
 
             <FormStyled.Fieldset>
                 <FormStyled.Label htmlFor='description'>
-                    QUIZ Description
+                    QUIZ Description*
                 </FormStyled.Label>
                 <FormStyled.Textarea
                     height='100px'

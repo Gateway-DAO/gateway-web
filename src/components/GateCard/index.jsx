@@ -114,11 +114,11 @@ const GateCard = ({ gate }) => {
                 return 'Details';
         }
     };
-    console.log(gate);
+
     return (
         <Styled.GateCardBox>
             <Styled.GateBanner
-                src={`https://gateway.pinata.cloud/ipfs/${gate.badge.ipfsURL}`}
+                src={`https://ipfs.io/ipfs/${gate.badge.ipfsURL}`}
                 onClick={() => navigate(`/gate/${gate.id}`)}
             >
                 {false && (
@@ -164,10 +164,16 @@ const GateCard = ({ gate }) => {
                             (gate.badge.name.length > 16 ? '...' : '')}
                     </Styled.GuildName>
                 </Styled.InfoBox>
-                <Styled.InfoBox>
-                    <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
-                    <Styled.InfoText>Gateway.DAO.Verfication</Styled.InfoText>
-                </Styled.InfoBox>
+                {gate.preRequisites && (
+                    <Styled.InfoBox>
+                        <Styled.MediumHeading>
+                            PRE REQUISITE
+                        </Styled.MediumHeading>
+                        <Styled.InfoText>
+                            Gateway.DAO.Verfication
+                        </Styled.InfoText>
+                    </Styled.InfoBox>
+                )}
                 <Styled.InfoBox>
                     {gate.keysNumber && (
                         <>
@@ -198,11 +204,11 @@ const GateCard = ({ gate }) => {
                 {/* </Styled.Column>
                 <Styled.Column> */}
                 <Styled.InfoBox>
-                    <Styled.MediumHeading>Admins</Styled.MediumHeading>
+                    <Styled.MediumHeading>EARNERS</Styled.MediumHeading>
                     <Styled.InfoText>
-                        {gate.admins.length} people
-                        <br />
-                        have earned it.
+                        {gate.holders}{' '}
+                        {gate.holders !== 1 ? 'people have' : 'person has'}{' '}
+                        earned it.
                     </Styled.InfoText>
                 </Styled.InfoBox>
                 {/* </Styled.Column> */}

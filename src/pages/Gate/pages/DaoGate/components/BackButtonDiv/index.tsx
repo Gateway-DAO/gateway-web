@@ -15,9 +15,6 @@ import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 import { useWeb3 } from '../../../../../../hooks/useWeb3';
 
-// Components
-import Tooltip from '../../../../../../components/ToolTip';
-
 // Types
 import {
     DAO,
@@ -299,22 +296,20 @@ const BackButton: React.FC<Props> = ({
                                     ? 'Unpublish'
                                     : 'Publish'}
                             </Styled.ButtonWrapper>
-                            <Styled.ButtonWrapper onClick={editGate} ml='20'>
+                            <Styled.ButtonWrapper
+                                onClick={editGate}
+                                ml='20'
+                                data-title='Edit Gate'
+                            >
                                 <MdModeEditOutline />
                             </Styled.ButtonWrapper>
-                            <Tooltip
-                                position='bottom'
-                                text='Delete this gate'
-                                background='#180b27'
-                                styleMe={false}
+                            <Styled.ButtonWrapper
+                                onClick={showDeleteModal}
+                                ml='20'
+                                data-title='Delete Gate'
                             >
-                                <Styled.ButtonWrapper
-                                    onClick={showDeleteModal}
-                                    ml='20'
-                                >
-                                    <FaTrashAlt />
-                                </Styled.ButtonWrapper>
-                            </Tooltip>
+                                <FaTrashAlt />
+                            </Styled.ButtonWrapper>
                         </>
                     )}
                     <Styled.ButtonWrapper
@@ -322,6 +317,7 @@ const BackButton: React.FC<Props> = ({
                             navigator.clipboard.writeText(window.location.href)
                         }
                         ml='20'
+                        data-title='copy shareable link '
                     >
                         <img src={ShareIcon} alt='Share Icon' />
                     </Styled.ButtonWrapper>

@@ -101,12 +101,7 @@ export const UserProvider = ({ children }) => {
     // Database
     const [
         getUserByAddress,
-        {
-            data: userBAData,
-            loading: userBALoading,
-            refetch,
-            called: userBACalled,
-        },
+        { data: userBAData, loading: userBALoading, called: userBACalled },
     ] = useLazyQuery(gql(getUserByAddressQuery), {
         fetchPolicy: 'no-cache',
         variables: {
@@ -261,12 +256,14 @@ export const UserProvider = ({ children }) => {
             }
         };
 
+        setLoggingIn(true);
         callback().catch((err) => {
             showErrorModal(
                 'An error occurred while signing in. Please try again later.'
             );
             console.log(err);
         });
+        setLoggingIn(false);
     };
 
     /* If the user has their wallet connected, get the user's info from the database. */
@@ -274,19 +271,14 @@ export const UserProvider = ({ children }) => {
         const callback = async () => {
             // Since state update is asynchrounous, let's keep track of the current value using an internal variable
             let userInfo_INTERNAL = userInfo;
-            setLoggingIn(true);
 
             if (web3.active && web3.account) {
                 // 1. fetch/create user based on the wallet
-                const userDB = userBACalled
-                    ? await refetch({
-                          wallet: web3.account,
-                      })
-                    : await getUserByAddress({
-                          variables: {
-                              wallet: web3.account,
-                          },
-                      });
+                const userDB = await getUserByAddress({
+                    variables: {
+                        wallet: web3.account,
+                    },
+                });
 
                 if (userDB.data.getUserByAddress.items.length > 0) {
                     setUserInfo({
@@ -325,11 +317,11 @@ export const UserProvider = ({ children }) => {
                     }
                 }
             }
-
-            setLoggingIn(false);
         };
 
+        setLoggingIn(true);
         callback();
+        setLoggingIn(false);
     }, [web3.account, web3.active]);
 
     /**

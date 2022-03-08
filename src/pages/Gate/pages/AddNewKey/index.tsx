@@ -17,6 +17,7 @@ import {
     createTokenHold,
 } from '../../../../graphql/mutations';
 import KeySuccess from './pages/AddKeySuccess';
+import Space from '../../../../components/Space';
 
 /**
  * It renders the Outlet component with the gateData context.
@@ -211,26 +212,28 @@ const AddNewKey = ({ edit = false }) => {
 
     return (
         <Styled.Container>
-            {createdKey ? (
-                <KeySuccess edit={!!state} gate={gateData.id} />
-            ) : (
-                <>
-                    <BackButton url={backButton.url}>
-                        Back to {backButton.text}
-                    </BackButton>
-                    <Outlet
-                        context={{
-                            gateData,
-                            formik,
-                            edit: !!state || edit,
-                            loading,
-                            setBackButton,
-                            setValidator,
-                            state,
-                        }}
-                    />
-                </>
-            )}
+            <Space>
+                {createdKey ? (
+                    <KeySuccess edit={!!state} gate={gateData.id} />
+                ) : (
+                    <>
+                        <BackButton url={backButton.url}>
+                            Back to {backButton.text}
+                        </BackButton>
+                        <Outlet
+                            context={{
+                                gateData,
+                                formik,
+                                edit: !!state || edit,
+                                loading,
+                                setBackButton,
+                                setValidator,
+                                state,
+                            }}
+                        />
+                    </>
+                )}
+            </Space>
         </Styled.Container>
     );
 };

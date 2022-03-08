@@ -9,11 +9,13 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: flex-start;
     width: 300px;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const Title = styled.h3`
     font-family: Poppins;
-    font-size: 13px;
+    font-size: 23px;
     font-style: normal;
     font-weight: 700;
     line-height: 20px;
@@ -29,8 +31,8 @@ export const Body = styled.p`
     font-weight: 400;
     line-height: 21px;
     letter-spacing: 0.05em;
-    text-align: left;
-    margin-top: 15px;
+    text-align: center;
+    margin-top: 25px;
 `;
 
 export const ButtonContainer = styled.div`
