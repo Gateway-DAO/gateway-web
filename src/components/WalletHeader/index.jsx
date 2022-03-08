@@ -14,6 +14,21 @@ import { useAuth } from '../../contexts/UserContext';
 import { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 
+import { Auth } from 'aws-amplify';
+
+Auth.configure({
+    oauth: {
+        domain: 'auth-dev.mygateway.xyz',
+        scope: ['email', 'openid'],
+        redirectSignIn: 'http://localhost:3000/auth',
+        redirectSignOut: 'http://localhost:3000/sign-out',
+        responseType: 'code',
+        attributes: {
+            username: 'sub',
+        },
+    },
+});
+
 const Wallet = (props) => {
     const { loggedIn, loggingIn, activateWeb3, loadingWallet } = useAuth();
     const { active, account } = useWeb3React();
@@ -23,7 +38,7 @@ const Wallet = (props) => {
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(!showModal);
 
-    useEffect(() => !active && activateWeb3(), []);
+    // useEffect(() => !active && activateWeb3(), []);
 
     useEffect(() =>
         window.ethereum.on('chainChanged', (chain) =>
@@ -48,7 +63,11 @@ const Wallet = (props) => {
     return (
         <>
             <Styled.ConnectToWallet
-                onClick={active ? () => setHidden(!hidden) : activateWeb3}
+                onClick={
+                    active
+                        ? () => setHidden(!hidden)
+                        : () => Auth.federatedSignIn({ provider: 'Discord' })
+                }
             >
                 <Styled.ConnectText>
                     {(loggingIn || loadingWallet) && (

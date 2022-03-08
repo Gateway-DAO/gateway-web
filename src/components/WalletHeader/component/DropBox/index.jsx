@@ -6,7 +6,7 @@ import { useRef } from 'react';
 
 const DropDown = ({ toggle }) => {
     const navigate = useNavigate();
-    const { signIn, loggedIn, loading } = useAuth();
+    const { signIn, loggedIn, loading, userSignOut } = useAuth();
     const ref = useRef(null);
 
     useClickAway(ref, () => {
@@ -19,7 +19,7 @@ const DropDown = ({ toggle }) => {
                 <Styled.ItemTextContainer onClick={() => navigate('/profile')}>
                     Profile
                 </Styled.ItemTextContainer>
-                {!loggedIn && (
+                {!loggedIn ? (
                     <>
                         <Styled.BorderLine />
                         <Styled.ItemTextContainer
@@ -28,6 +28,13 @@ const DropDown = ({ toggle }) => {
                             }}
                         >
                             Authorize Metamask
+                        </Styled.ItemTextContainer>
+                    </>
+                ) : (
+                    <>
+                        <Styled.BorderLine />
+                        <Styled.ItemTextContainer onClick={userSignOut}>
+                            Disconnect
                         </Styled.ItemTextContainer>
                     </>
                 )}
