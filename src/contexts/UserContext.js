@@ -274,7 +274,6 @@ export const UserProvider = ({ children }) => {
         const callback = async () => {
             // Since state update is asynchrounous, let's keep track of the current value using an internal variable
             let userInfo_INTERNAL = userInfo;
-            setLoggingIn(true);
 
             if (web3.active && web3.account) {
                 // 1. fetch/create user based on the wallet
@@ -325,11 +324,10 @@ export const UserProvider = ({ children }) => {
                     }
                 }
             }
-
-            setLoggingIn(false);
         };
 
-        callback();
+        setLoggingIn(true);
+        callback().finally(() => setLoggingIn(false));
     }, [web3.account, web3.active]);
 
     /**

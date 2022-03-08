@@ -55,7 +55,7 @@
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersione6092eea-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersionaeb992c3-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",

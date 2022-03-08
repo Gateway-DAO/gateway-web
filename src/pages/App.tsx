@@ -149,6 +149,7 @@ const App: React.FC = () => {
 
 						<Route path='/search/:query' element={<Search />} />
 
+						<Route path='/profiles' element={<ProfileUpdate />} />
 						<Route path='/profiles/:username' element={<ProfileUpdate />} />
 						<Route path='/profiles/:username/add-about' element={<AddAbout />} />
 						<Route path='/profiles/:username/add-experiences' element={<AddExperiences />} />
