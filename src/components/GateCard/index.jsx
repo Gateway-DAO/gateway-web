@@ -9,7 +9,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 
 // Hooks
 import { useState, useEffect } from 'react';
-import useAdmin from '../../hooks/useAdmin';
+// import useAdmin from '../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/UserContext';
 import { getGateStatusByUserId } from '../../graphql/queries';
@@ -20,12 +20,12 @@ import { PublishedState } from '../../graphql/API';
 import { searchUsers } from '../../graphql/queries';
 
 /* This is a card that displays information about a gate. */
-const GateCard = ({ gate }) => {
+const GateCard = ({ gate, viewAsMember }) => {
     // State
     const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
     const [numberOfWords, setNumberOfWords] = useState(130);
     // Hooks
-    const { isAdmin } = useAdmin(gate.admins || []);
+    // const { !viewAsMember } = useAdmin(gate.admins || []);
     const { userInfo } = useAuth();
     const navigate = useNavigate();
     const [update] = useMutation(gql(updateGate));
@@ -220,7 +220,7 @@ const GateCard = ({ gate }) => {
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                {isAdmin && (
+                {!viewAsMember && (
                     <Styled.PublishContainer>
                         <Styled.PublishText>PUBLISH</Styled.PublishText>
                         <Switch

@@ -67,6 +67,7 @@ const NewCard = (props) => {
 
     const [balance, setBalance] = useState(0);
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
+    const [viewAsMember, setViewAsMember] = useState(isAdmin ? false : true);
     const [showEditModal, setShowEditModal] = useState(false);
     const iconHover = useRef(null);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
@@ -75,6 +76,8 @@ const NewCard = (props) => {
     const [activeTab, setActiveTab] = useState(
         searchParams.get('tab') || 'profile'
     );
+
+    // console.log({ viewAsMember });
 
     const Modals = () => (
         <>
@@ -264,7 +267,13 @@ const NewCard = (props) => {
     const ActiveTab = () => {
         switch (searchParams.get('tab')) {
             case 'profile':
-                return <Profile {...props} />;
+                return (
+                    <Profile
+                        {...props}
+                        setViewAsMember={setViewAsMember}
+                        viewAsMember={viewAsMember}
+                    />
+                );
             /*
             case 'feed':
                 return <Feed {...props} />;
@@ -272,7 +281,13 @@ const NewCard = (props) => {
                 return <Members daoName={props.name} />;
             */
             case 'gates':
-                return <Gates {...props} />;
+                return (
+                    <Gates
+                        {...props}
+                        setViewAsMember={setViewAsMember}
+                        viewAsMember={viewAsMember}
+                    />
+                );
             case 'Plugins':
                 return <Plugins {...props} />;
             default:
@@ -302,7 +317,7 @@ const NewCard = (props) => {
                             <Styled.Title>
                                 {props?.name}{' '}
                                 <Styled.EditContainer>
-                                    {isAdmin && (
+                                    {!viewAsMember && (
                                         <FaPencilAlt
                                             onClick={toggleEditModal}
                                         />
@@ -398,6 +413,22 @@ const NewCard = (props) => {
                         </Styled.SelectedTab>
                         */}
                     </Styled.ProfileDiv>
+                    {isAdmin && (
+                        <Styled.AdminAndMemberViewWrapper>
+                            <Styled.ChangeViewButton
+                                active={!viewAsMember}
+                                onClick={() => setViewAsMember(false)}
+                            >
+                                View AS ADMIN
+                            </Styled.ChangeViewButton>
+                            <Styled.ChangeViewButton
+                                active={viewAsMember}
+                                onClick={() => setViewAsMember(true)}
+                            >
+                                View AS MEMBER
+                            </Styled.ChangeViewButton>
+                        </Styled.AdminAndMemberViewWrapper>
+                    )}
                 </Styled.ProfileAndFeedContainer>
                 {/* {activeTab === 'profile' ? (
                     <Profile {...props} />

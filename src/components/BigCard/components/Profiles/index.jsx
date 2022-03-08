@@ -3,7 +3,7 @@ import { useState } from 'react';
 import React from 'react';
 import parser from 'html-react-parser';
 
-import useAdmin from '../../../../hooks/useAdmin';
+// import useAdmin from '../../../../hooks/useAdmin';
 
 // Modals
 import BountyModal from '../../../Modal/BountyModal';
@@ -35,8 +35,7 @@ import { ytVideoID } from '../../../../utils/functions';
 import RelatedDAOSection from '../../components/RelatedDAO';
 
 const Profile = (props) => {
-    const { isAdmin } = useAdmin(props.whitelistedAddresses);
-
+    // const { isAdmin } = useAdmin(props.whitelistedAddresses);
     const [bounties, setBounties] = useState(props.bounties.items || []);
     const [benefits, setBenefits] = useState(props.tokenBenefits.items || []);
     const [HTJ, setHTJ] = useState(props.howToJoin || '');
@@ -181,7 +180,7 @@ const Profile = (props) => {
                             )}
                             <Collapsible title='What Do We Do?'>
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {!props.viewAsMember && (
                                         <Styled.Button
                                             onClick={toggleWDWDModal}
                                         >
@@ -194,7 +193,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title='Mission and Vision'>
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {!props.viewAsMember && (
                                         <Styled.Button onClick={toggleMVModal}>
                                             Change Information
                                         </Styled.Button>
@@ -205,7 +204,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title='Accomplishments'>
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {!props.viewAsMember && (
                                         <Styled.Button
                                             onClick={toggleAccomplishmentModal}
                                         >
@@ -218,7 +217,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title='Frequently Asked Questions'>
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {!props.viewAsMember && (
                                         <Styled.Button onClick={toggleFAQModal}>
                                             Add Questions
                                         </Styled.Button>
@@ -230,7 +229,7 @@ const Profile = (props) => {
                             {props.tokenAddress && (
                                 <Collapsible title='Token Benefits/Utility'>
                                     <Styled.CollapsibleChildren>
-                                        {isAdmin && (
+                                        {!props.viewAsMember && (
                                             <Styled.Button
                                                 onClick={toggleTBModal}
                                             >
@@ -248,7 +247,9 @@ const Profile = (props) => {
                                                         set={(newTBs) =>
                                                             setBenefits(newTBs)
                                                         }
-                                                        admin={isAdmin}
+                                                        admin={
+                                                            !props.viewAsMember
+                                                        }
                                                     />
                                                 );
                                             })}
@@ -257,7 +258,7 @@ const Profile = (props) => {
                             )}
                             <Collapsible title='Upcoming Hangouts'>
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {!props.viewAsMember && (
                                         <Styled.Button onClick={toggleUHModal}>
                                             Change Information
                                         </Styled.Button>
@@ -268,7 +269,7 @@ const Profile = (props) => {
                             </Collapsible>
                             <Collapsible title='How To Contribute?'>
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {!props.viewAsMember && (
                                         <Styled.Button onClick={toggleHTJModal}>
                                             Add Steps
                                         </Styled.Button>
@@ -280,7 +281,7 @@ const Profile = (props) => {
 
                             <Collapsible title='Bounties'>
                                 <Styled.CollapsibleChildren>
-                                    {isAdmin && (
+                                    {!props.viewAsMember && (
                                         <Styled.Button
                                             onClick={toggleBountyModal}
                                         >
@@ -298,7 +299,7 @@ const Profile = (props) => {
                                                     set={(newBounties) =>
                                                         setBounties(newBounties)
                                                     }
-                                                    admin={isAdmin}
+                                                    admin={!props.viewAsMember}
                                                     showInfo={
                                                         toggleBountyInfoModal
                                                     }

@@ -258,7 +258,7 @@ export const Input = styled.input<IInput>`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 20px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
