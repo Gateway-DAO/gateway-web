@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-router-dom";
-import { Container, Button, Form } from 'react-bootstrap';
+import { Container, Button, Form, Dropdown } from 'react-bootstrap';
 import './CompleteProfile.css';
 import space from '../../../../utils/canvas';
 import Header from '../../../../components/Header';
@@ -41,6 +41,8 @@ const CompleteProfile = () => {
 			{ platform_name: "Email", placeholder: "name@email.xyz", platform_value: "" },
 		]
 	});
+
+	const [platforms, setPlatforms] = useState(["Twitter", "Telegram", "Discord", "Github", "Email"]);
 
 	useEffect(
 		() => space(window.innerHeight, window.innerWidth),
@@ -246,6 +248,17 @@ const CompleteProfile = () => {
 												<div className="gway-socialurl-row" key={i}>
 													<div className="gway-socialurl-col-left">
 														{/* <Link to='#'>{x.name}</Link> */}
+														{/* <Dropdown>
+															<Dropdown.Toggle
+																variant='success'
+																id='dropdown-basic'
+															>
+															</Dropdown.Toggle>
+
+															<Dropdown.Menu>
+																{x.platform_name}
+															</Dropdown.Menu>
+														</Dropdown> 
 														<Form.Control
 															required
 															name="platform_name"
@@ -253,7 +266,20 @@ const CompleteProfile = () => {
 															type="text"
 															value={x.platform_name}
 															onChange={e => handleSocialChange(e, i)}
-														/>
+														/> */}
+														<Form.Select
+															required
+															name="platform_name"
+															size="sm"
+															value={x.platform_name}
+															onChange={e => handleSocialChange(e, i)}
+														>
+															{
+																platforms.length > 0 && platforms.map(item =>
+																	<option key={item} value={item}>{item}</option>
+																)
+															}
+														</Form.Select>
 													</div>
 													<div className="gway-socialurl-col-center">
 														<Form.Control

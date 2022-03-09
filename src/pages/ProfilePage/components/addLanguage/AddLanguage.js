@@ -1,141 +1,121 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Select from 'react-select';
-import { Container, Button, Form, Row, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
+import { Container, Button, Form, Col } from 'react-bootstrap';
 import './AddLanguage.css';
 import space from '../../../../utils/canvas';
 import { useAuth } from '../../../../contexts/UserContext';
-import Header from "../../../../components/Header";
+import { FaTimes } from 'react-icons/fa';
 
-import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import Page from '../../../../components/Page';
+
+import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
-import { getUserByUsername } from '../../../../graphql/queries';
 
 const AddLanguage = () => {
+	// State
+	const { userInfo, updateUserInfo } = useAuth();
+	const [updateLanguages] = useMutation(gql(updateUser));
 
-	const username = useParams().username;
-	var userId = localStorage.getItem('userId');
-	userId = userId.slice(1, -1);
-	const [updateLanguage] = useMutation(gql(updateUser));
-	const [getUser, { data, loading, error }] = useLazyQuery(
-		gql(getUserByUsername),
-		{
-			variables: {
-				username,
-			},
-		}
-	);
+	// Getting userId from local Storage because user Id is different with userInfo.id here.
+	// var userId = localStorage.getItem('userId');
+	var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
 
+	// Hooks
 	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
 	const [options, setOptions] = useState([
-		{ value: 'portuguese', label: 'Portuguese' },
-		{ value: 'polish', label: 'Polish' },
-		{ value: 'persian', label: 'Persian' },
-		{ value: 'punjabi', label: 'Punjabi' }
+		'Portuguese',
+		'Polish',
+		'Persian',
+		'Punjabi'
 	]);
-	const [suggestedLangs, setSuggestedLangs] = useState([
-		{ value: 'English', label: 'English' },
-		{ value: 'Spanish', label: 'Spanish' },
-		{ value: 'Chinese', label: 'Chinese' },
-		{ value: 'Dutch', label: 'Dutch' },
-		{ value: 'Arabic', label: 'Arabic' },
-		{ value: 'German', label: 'German' },
-		{ value: 'Japanese', label: 'Japanese' },
-		{ value: 'Punjabi', label: 'Punjabi' },
-		{ value: 'French', label: 'French' },
-		{ value: 'Italian', label: 'Italian' }
+	const [suggestedOptions, setSuggestedOptions] = useState([
+		'English',
+		'Spanish',
+		'Chinese',
+		'Dutch',
+		'Arabic',
+		'German',
+		'Japanese',
+		'Punjabi',
+		'French',
+		'Italian'
 	]);
-	const [selectedLangs, setSelectedLangs] = useState([]);
+	const [selectedLanguage, setSelectedLanguage] = useState(userInfo?.languages || []);
 
-	const { updateUserInfo, userInfo } = useAuth();
-
-	useEffect(() => {
-		() => space(window.innerHeight, window.innerWidth),
-			[window.innerHeight, window.innerWidth]
-		const callback = async () => {
-			const { data } = await getUser();
-			console.log("data", data);
-			var langs = data?.getUserByUsername?.items[0]?.languages || [];
-			var arr = [];
-			for (var i = 0; i < langs.length; i++) {
-				arr.push({ "label": langs[i], "value": langs[i] });
-			}
-			setSelectedLangs(arr);
-		}
-		callback();
-	}, []);
-
+	/* This is a callback function that will be called when the user clicks on the remove button. */
 	const removeLanguage = useCallback(
 		(val) => () => {
-			setSelectedLangs((previousTags) =>
-				previousTags.filter((previousTag, index) => previousTag.value !== val),
+			setSelectedLanguage((previousTags) =>
+				previousTags.filter(
+					(previousTag, index) => previousTag !== val
+				)
 			);
 		},
-		[],
+		[]
 	);
 
+	/* This is a callback function that will be called when the user clicks on the remove button. */
 	const handleChange = useCallback((selectedLanguage) => {
-		setSelectedLangs(selectedLanguage);
+		setSelectedLanguage(selectedLanguage);
 	})
 
 	const handleCheck = val => {
-		return selectedLangs.some(item => val === item.value);
+		return selectedLanguage.some(item => val === item);
 	}
 
 
-	const addSuggestedLanguage = useCallback((lang) => {
+	const addSuggestedLanguage = useCallback((language) => {
 
-		const langItems = selectedLangs;
-		if (handleCheck(lang) == false) {
-			setSelectedLangs([...langItems, {
-				value: lang,
-				label: lang,
-			}]);
+		const languageItems = selectedLanguage;
+		if (handleCheck(language) == false) {
+			setSelectedLanguage([...languageItems, language]);
 		}
-
 	})
 
 	const handleSubmit = async (event) => {
-		console.log("submitted");
+		console.log('submitted');
 		event.preventDefault();
 		event.stopPropagation();
-		let objLngs = selectedLangs;
+		let objLanguages = selectedLanguage;
 		// CONVERT TO NUMERIC ARRAY
-		objLngs = objLngs.map(function (x) {
-			return x.value;
+		objLanguages = objLanguages.map(function (x) {
+			return x;
 		});
+
 		// API should be call here
 		try {
-			await updateLanguage({
+			await updateLanguages({
 				variables: {
 					input: {
 						id: userId,
-						languages: objLngs,
+						languages: objLanguages,
 					},
 				},
 			});
 			await updateUserInfo({
-				id: userInfo.id,
-				languages: objLngs,
+				languages: objLanguages,
 			});
 
-			// redirect
 			setRedirect(true);
 		} catch (err) {
 			console.log(err);
 		}
-
-	}
+	};
 
 	if (redirect) {
 		navigate(-1);
 	}
 
+	useEffect(() => {
+		space(window.innerHeight, window.innerWidth),
+			[window.innerHeight, window.innerWidth]
+	}, []);
+
 	return (
-		<>
-			<Header />
+		<Page space>
 			<div className="main-about-section">
 				<canvas id="space-canvas"></canvas>
 				<Container>
@@ -143,9 +123,12 @@ const AddLanguage = () => {
 						{/* <Link to="/profiles">
 								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 								<p>Back to Profile</p>
-						</Link> */}
-						<a href="#">
-							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							</Link> */}
+						<a>
+							<div className="arrow-back"
+								onClick={() => navigate(-1)}
+							>
+								<img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>
 						<span style={{ color: "white", marginLeft: "20px" }}>
@@ -155,15 +138,19 @@ const AddLanguage = () => {
 				</Container>
 				<div className="gt-about-section">
 					<Container>
-						<h1>Languages</h1>
+						<h1>Language</h1>
 					</Container>
 				</div>
 				<div className="suggested-skills">
 					<Container>
 						<div className="suggested-inner-skills">
-							<Form method="post" noValidate onSubmit={handleSubmit}>
+							<Form
+								method="post"
+								noValidate
+								onSubmit={handleSubmit}
+							>
 								<Form.Group as={Col} controlId="formGridSkills">
-									<Form.Label>Add your Languages</Form.Label>
+									<Form.Label>Add your language</Form.Label>
 									<Select
 										hideSelectedOptions={false}
 										controlShouldRenderValue={false}
@@ -172,7 +159,7 @@ const AddLanguage = () => {
 										className="basic-multi-select"
 										classNamePrefix="select"
 										onChange={handleChange}
-										value={selectedLangs}
+										value={selectedLanguage}
 										placeholder="Search"
 										theme={(theme) => ({
 											...theme,
@@ -185,32 +172,44 @@ const AddLanguage = () => {
 										})}
 									/>
 									<div className="selected-options">
-										{
-											selectedLangs.length > 0 && selectedLangs.map(item =>
-												<p key={item.label}>{item.label}
-													<span onClick={removeLanguage(item.value)} className="selectClose">
-														<img src="/cancel-icon.svg" alt="" />
+										{selectedLanguage.length > 0 &&
+											selectedLanguage.map(item => (
+												<p key={item}>{item}
+													<span
+														onClick={removeLanguage(
+															item
+														)}
+														className="selectClose"
+													>
+														<FaTimes color='white' />
 													</span>
 												</p>
-											)
-										}
+											))}
 									</div>
 								</Form.Group>
-								<h4>Suggested languages based on your profile</h4>
+								<h4>Suggested language based on your profile</h4>
 								<ul>
-									{
-										suggestedLangs.length > 0 && suggestedLangs.map(item =>
-											<li onClick={() => addSuggestedLanguage(item.value)} key={item.label}>{item.label}</li>
-										)
-									}
+									{suggestedOptions.length > 0 &&
+										suggestedOptions.map((item) => (
+											<li
+												onClick={() =>
+													addSuggestedLanguage(item)
+												}
+												key={item}
+											>
+												{item}
+											</li>
+										))}
 								</ul>
-								<Button variant="primary" type="submit">save</Button>{' '}
+								<Button variant="primary" type="submit">
+									save
+								</Button>{' '}
 							</Form>
 						</div>
 					</Container>
 				</div>
 			</div>
-		</>
+		</Page>
 	)
 }
 

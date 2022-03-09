@@ -14,33 +14,20 @@ import { updateUser } from '../../../../graphql/mutations';
 import { getUserByUsername } from '../../../../graphql/queries';
 
 const AddAbout = () => {
-	const username = useParams().username;
-	var userId = localStorage.getItem('userId');
-	userId = userId.slice(1, -1);
+	const { userInfo, updateUserInfo } = useAuth();
 	const [updateAbout] = useMutation(gql(updateUser));
-	const [getUser, { data, loading, error }] = useLazyQuery(
-		gql(getUserByUsername),
-		{
-			variables: {
-				username,
-			},
-		}
-	);
+
+	// var userId = localStorage.getItem('userId');
+	var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
+
 	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
-	const [about, setAbout] = useState("");
-
-	const { updateUserInfo, userInfo } = useAuth();
+	const [about, setAbout] = useState(userInfo?.about || []);
 
 	useEffect(() => {
 		space(window.innerHeight, window.innerWidth),
 			[window.innerHeight, window.innerWidth]
-		const callback = async () => {
-			const { data } = await getUser();
-			setAbout(data?.getUserByUsername?.items[0]?.about || '');
-		}
-		callback();
 	}, []);
 
 	const handleChange = (data) => {
@@ -71,7 +58,6 @@ const AddAbout = () => {
 					},
 				});
 				await updateUserInfo({
-					id: userInfo.id,
 					about: about
 				});
 
@@ -133,6 +119,13 @@ const AddAbout = () => {
 									// console.log( 'Focus.', editor );
 								}}
 							/>
+							{/* <textarea
+								id="about-content"
+								name="textarea"
+								value={about}
+								onChange={handleChange}
+							>
+							</textarea> */}
 							<Button onClick={handleAdd} variant="primary">Save</Button>
 						</div>
 					</Container>

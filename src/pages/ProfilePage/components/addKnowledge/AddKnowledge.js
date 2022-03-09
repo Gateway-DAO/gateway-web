@@ -1,113 +1,93 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NavLink as Link, Route, Routes, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Select from 'react-select';
-import { Container, Button, Form, Row, FormGroup, FormControl, ControlLabel, Col } from 'react-bootstrap';
+import { Container, Button, Form, Col } from 'react-bootstrap';
 import './AddKnowledge.css';
 import space from '../../../../utils/canvas';
 import { useAuth } from '../../../../contexts/UserContext';
-import Header from "../../../../components/Header";
+import { FaTimes } from 'react-icons/fa';
 
-import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import Page from '../../../../components/Page';
+
+import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
-import { getUserByUsername } from '../../../../graphql/queries';
 
 const AddKnowledge = () => {
+	// State
+	const { userInfo, updateUserInfo } = useAuth();
+	const [updateKnowledges] = useMutation(gql(updateUser));
 
-	const username = useParams().username;
-	var userId = localStorage.getItem('userId');
-	userId = userId.slice(1, -1);
-	const [updateKnowledge] = useMutation(gql(updateUser));
-	const [getUser, { data, loading, error }] = useLazyQuery(
-		gql(getUserByUsername),
-		{
-			variables: {
-				username,
-			},
-		}
-	);
+	// Getting userId from local Storage because user Id is different with userInfo.id here.
+	// var userId = localStorage.getItem('userId');
+	var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
 
+
+	// Hooks
 	const navigate = useNavigate();
 
 	const [redirect, setRedirect] = useState(false);
 	const [options, setOptions] = useState([
-		{ value: 'development', label: 'Development' },
-		{ value: 'design', label: 'Design' },
-		{ value: 'decentralization', label: 'Decentralization' },
-		{ value: 'defense analyst', label: 'Defense Analyst' }
+		'Development',
+		'Design',
+		'Decentralization',
+		'Defense Analyst'
 	]);
 	const [suggestedOptions, setSuggestedOptions] = useState([
-		{ value: 'Crypto', label: 'Crypto' },
-		{ value: 'Blockchain', label: 'Blockchain' },
-		{ value: 'UX Design', label: 'UX Design' },
-		{ value: 'UI Design', label: 'UI Design' },
-		{ value: 'Social Media', label: 'Social Media' },
-		{ value: 'Legal', label: 'Legal' },
-		{ value: 'Community', label: 'Community' },
-		{ value: 'Engeneering', label: 'Engeneering' },
-		{ value: 'Solidity', label: 'Solidity' }
+		'Crypto',
+		'Blockchain',
+		'UX Design',
+		'UI Design',
+		'Social Media',
+		'Legal',
+		'Community',
+		'Engeneering',
+		'Solidity'
 	]);
-	const [selectedKnowledge, setSelectedKnowledge] = useState([]);
+	const [selectedKnowledge, setSelectedKnowledge] = useState(userInfo?.knowledges || []);
 
-	const { updateUserInfo, userInfo } = useAuth();
-
-	useEffect(() => {
-		() => space(window.innerHeight, window.innerWidth),
-			[window.innerHeight, window.innerWidth]
-		const callback = async () => {
-			const { data } = await getUser();
-			console.log("data", data);
-			var knowledges = data?.getUserByUsername?.items[0]?.knowledges || [];
-			var arr = [];
-			for (var i = 0; i < knowledges.length; i++) {
-				arr.push({ "label": knowledges[i], "value": knowledges[i] });
-			}
-			setSelectedKnowledge(arr);
-		}
-		callback();
-	}, []);
-
+	/* This is a callback function that will be called when the user clicks on the remove button. */
 	const removeKnowledge = useCallback(
 		(val) => () => {
 			setSelectedKnowledge((previousTags) =>
-				previousTags.filter((previousTag, index) => previousTag.value !== val),
+				previousTags.filter(
+					(previousTag, index) => previousTag !== val
+				)
 			);
 		},
-		[],
+		[]
 	);
 
+	/* This is a callback function that will be called when the user clicks on the remove button. */
 	const handleChange = useCallback((selectedKnowledge) => {
 		setSelectedKnowledge(selectedKnowledge);
 	})
 
 	const handleCheck = val => {
-		return selectedKnowledge.some(item => val === item.value);
-	}
+		return selectedKnowledge.some(item => val === item);
+	};
 
 
 	const addSuggestedKnowledge = useCallback((knowledge) => {
 
 		const knowledgeItems = selectedKnowledge;
 		if (handleCheck(knowledge) == false) {
-			setSelectedKnowledge([...knowledgeItems, {
-				value: knowledge,
-				label: knowledge,
-			}]);
+			setSelectedKnowledge([...knowledgeItems, knowledge]);
 		}
-
-	})
+	});
 
 	const handleSubmit = async (event) => {
-		console.log("submitted");
+		console.log('submitted');
 		event.preventDefault();
 		event.stopPropagation();
 		let objKnowledges = selectedKnowledge;
 		// CONVERT TO NUMERIC ARRAY
 		objKnowledges = objKnowledges.map(function (x) {
-			return x.value;
+			return x;
 		});
+
 		// API should be call here
 		try {
-			await updateKnowledge({
+			await updateKnowledges({
 				variables: {
 					input: {
 						id: userId,
@@ -116,25 +96,26 @@ const AddKnowledge = () => {
 				},
 			});
 			await updateUserInfo({
-				id: userInfo.id,
 				knowledges: objKnowledges,
 			});
 
-			// redirect
 			setRedirect(true);
 		} catch (err) {
 			console.log(err);
 		}
-
-	}
+	};
 
 	if (redirect) {
 		navigate(-1);
 	}
 
+	useEffect(() => {
+		space(window.innerHeight, window.innerWidth),
+			[window.innerHeight, window.innerWidth]
+	}, []);
+
 	return (
-		<>
-			<Header />
+		<Page space>
 			<div className="main-about-section">
 				<canvas id="space-canvas"></canvas>
 				<Container>
@@ -144,7 +125,10 @@ const AddKnowledge = () => {
 								<p>Back to Profile</p>
 							</Link> */}
 						<a>
-							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							<div className="arrow-back"
+								onClick={() => navigate(-1)}
+							>
+								<img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>
 						<span style={{ color: "white", marginLeft: "20px" }}>
@@ -160,7 +144,11 @@ const AddKnowledge = () => {
 				<div className="suggested-skills">
 					<Container>
 						<div className="suggested-inner-skills">
-							<Form method="post" noValidate onSubmit={handleSubmit}>
+							<Form
+								method="post"
+								noValidate
+								onSubmit={handleSubmit}
+							>
 								<Form.Group as={Col} controlId="formGridSkills">
 									<Form.Label>Add your knowledge</Form.Label>
 									<Select
@@ -184,32 +172,44 @@ const AddKnowledge = () => {
 										})}
 									/>
 									<div className="selected-options">
-										{
-											selectedKnowledge.length > 0 && selectedKnowledge.map(item =>
-												<p key={item.label}>{item.label}
-													<span onClick={removeKnowledge(item.value)} className="selectClose">
-														<img src="/cancel-icon.svg" alt="" />
+										{selectedKnowledge.length > 0 &&
+											selectedKnowledge.map(item => (
+												<p key={item}>{item}
+													<span
+														onClick={removeKnowledge(
+															item
+														)}
+														className="selectClose"
+													>
+														<FaTimes color='white' />
 													</span>
 												</p>
-											)
-										}
+											))}
 									</div>
 								</Form.Group>
 								<h4>Suggested knowledge based on your profile</h4>
 								<ul>
-									{
-										suggestedOptions.length > 0 && suggestedOptions.map(item =>
-											<li onClick={() => addSuggestedKnowledge(item.value)} key={item.label}>{item.label}</li>
-										)
-									}
+									{suggestedOptions.length > 0 &&
+										suggestedOptions.map((item) => (
+											<li
+												onClick={() =>
+													addSuggestedKnowledge(item)
+												}
+												key={item}
+											>
+												{item}
+											</li>
+										))}
 								</ul>
-								<Button variant="primary" type="submit">save</Button>{' '}
+								<Button variant="primary" type="submit">
+									save
+								</Button>{' '}
 							</Form>
 						</div>
 					</Container>
 				</div>
 			</div>
-		</>
+		</Page>
 	)
 }
 
