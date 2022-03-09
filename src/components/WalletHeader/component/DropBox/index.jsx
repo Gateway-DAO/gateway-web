@@ -19,6 +19,10 @@ const DropDown = ({ toggle }) => {
                 <Styled.ItemTextContainer onClick={() => navigate('/profile')}>
                     Profile
                 </Styled.ItemTextContainer>
+                <Styled.BorderLine />
+                <Styled.ItemTextContainer onClick={() => navigate('/profile')}>
+                    Disconnect
+                </Styled.ItemTextContainer>
                 {!loggedIn && (
                     <>
                         <Styled.BorderLine />

@@ -18,6 +18,7 @@ const Gates = (props) => {
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}
                 whitelisted={props.whitelistedAddresses}
+                viewAsMember={props.viewAsMember}
             />
             <Styled.GatesContainer>
                 {gates.map((gate) => {
