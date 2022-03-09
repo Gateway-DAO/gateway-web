@@ -78,7 +78,7 @@ const Profile = (props) => {
         setShowAccomplishmentModal(!showAccomplishmentModal);
     const toggleMVModal = () => setShowMVModal(!showMVModal);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
-
+    // console.log('Profile: ', props.viewAsMember);
     const Modals = () => (
         <>
             {/* Modals */}

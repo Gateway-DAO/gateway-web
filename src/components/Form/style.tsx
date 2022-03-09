@@ -198,7 +198,7 @@ export const Textarea = styled.textarea<{ height?: string | number }>`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
@@ -281,7 +281,7 @@ export const SmallInput = styled.input`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
@@ -300,7 +300,7 @@ const SearchInnerInput = styled.input<IInput>`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 20px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;

@@ -66,19 +66,20 @@ const NewCard = (props) => {
     }, [web3.active, props.id, props]);
 
     const [balance, setBalance] = useState(0);
+    const [viewAsMember, setViewAsMember] = useState(true);
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
-    const [viewAsMember, setViewAsMember] = useState(isAdmin ? false : true);
     const [showEditModal, setShowEditModal] = useState(false);
     const iconHover = useRef(null);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
     const [searchParams, setSearchParams] = useSearchParams();
-
     const [activeTab, setActiveTab] = useState(
         searchParams.get('tab') || 'profile'
     );
-
-    // console.log({ viewAsMember });
-
+    console.log({ isAdmin });
+    useEffect(() => {
+        setViewAsMember(!isAdmin);
+        console.log({ viewAsMember });
+    }, [isAdmin]);
     const Modals = () => (
         <>
             {React.createElement(EditCardModal, {
@@ -267,13 +268,7 @@ const NewCard = (props) => {
     const ActiveTab = () => {
         switch (searchParams.get('tab')) {
             case 'profile':
-                return (
-                    <Profile
-                        {...props}
-                        setViewAsMember={setViewAsMember}
-                        viewAsMember={viewAsMember}
-                    />
-                );
+                return <Profile {...props} viewAsMember={viewAsMember} />;
             /*
             case 'feed':
                 return <Feed {...props} />;
@@ -281,17 +276,11 @@ const NewCard = (props) => {
                 return <Members daoName={props.name} />;
             */
             case 'gates':
-                return (
-                    <Gates
-                        {...props}
-                        setViewAsMember={setViewAsMember}
-                        viewAsMember={viewAsMember}
-                    />
-                );
+                return <Gates {...props} viewAsMember={viewAsMember} />;
             case 'Plugins':
                 return <Plugins {...props} />;
             default:
-                return <Profile {...props} />;
+                return <Profile {...props} viewAsMember={viewAsMember} />;
         }
     };
 
@@ -416,17 +405,19 @@ const NewCard = (props) => {
                     {isAdmin && (
                         <Styled.AdminAndMemberViewWrapper>
                             <Styled.ChangeViewButton
-                                active={!viewAsMember}
-                                onClick={() => setViewAsMember(false)}
+                                active={viewAsMember}
+                                onClick={() => setViewAsMember(!viewAsMember)}
                             >
-                                View AS ADMIN
+                                {viewAsMember
+                                    ? `View AS ADMIN`
+                                    : `View AS MEMBER`}
                             </Styled.ChangeViewButton>
-                            <Styled.ChangeViewButton
+                            {/* <Styled.ChangeViewButton
                                 active={viewAsMember}
                                 onClick={() => setViewAsMember(true)}
                             >
                                 View AS MEMBER
-                            </Styled.ChangeViewButton>
+                            </Styled.ChangeViewButton> */}
                         </Styled.AdminAndMemberViewWrapper>
                     )}
                 </Styled.ProfileAndFeedContainer>
