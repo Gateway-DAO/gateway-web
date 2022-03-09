@@ -17,8 +17,8 @@ const AddAbout = () => {
 	const { userInfo, updateUserInfo } = useAuth();
 	const [updateAbout] = useMutation(gql(updateUser));
 
-	// var userId = localStorage.getItem('userId');
-	var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
+	var userId = localStorage.getItem('userId');
+	// var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
 
 	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
