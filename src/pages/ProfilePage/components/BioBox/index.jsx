@@ -26,53 +26,85 @@ const BioBox = (props) => {
     const { walletConnected, userInfo } = useAuth();
 
     const socials = props.socials
-        ? props.socials.map((social) => {
+        ? props.socials.map((social, idx) => {
               switch (social.network) {
                   case 'discord':
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <FaDiscord size={20} />
                           </Styled.SocialLink>
                       );
                   case 'twitter':
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <FaTwitter size={20} />
                           </Styled.SocialLink>
                       );
                   case 'website':
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <FiGlobe size={20} />
                           </Styled.SocialLink>
                       );
                   case 'medium':
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <FaMedium size={20} />
                           </Styled.SocialLink>
                       );
                   case 'github':
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <FaGithub size={20} />
                           </Styled.SocialLink>
                       );
                   case 'telegram':
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <FaTelegram size={20} />
                           </Styled.SocialLink>
                       );
                   case 'chat':
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <BsChatTextFill size={20} />
                           </Styled.SocialLink>
                       );
                   default:
                       return (
-                          <Styled.SocialLink href={social.url} target='_blank'>
+                          <Styled.SocialLink
+                              href={social.url}
+                              target='_blank'
+                              key={idx}
+                          >
                               <FaLink size={20} />
                           </Styled.SocialLink>
                       );
@@ -96,8 +128,8 @@ const BioBox = (props) => {
             <div>
                 <FormStyled.Label>Membership</FormStyled.Label>
                 <Styled.MembershipBox>
-                    {props.daos?.map((dao) => (
-                        <Link to={`/dao/${dao.dao}`}>
+                    {props.daos?.map((dao, idx) => (
+                        <Link to={`/dao/${dao.dao}`} key={idx}>
                             <Styled.MembershipImg src={dao.logoURL} />
                         </Link>
                     ))}

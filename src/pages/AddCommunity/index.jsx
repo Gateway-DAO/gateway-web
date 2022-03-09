@@ -303,7 +303,7 @@ const AddCommunity = () => {
                     </FormStyled.Label>
                     {socials.map((social, idx) => {
                         return (
-                            <FormStyled.InputWrapper>
+                            <FormStyled.InputWrapper key={idx}>
                                 <FormStyled.Select
                                     style={{ marginRight: '10px' }}
                                     onChange={(e) =>
@@ -494,7 +494,7 @@ const AddCommunity = () => {
                     </FormStyled.Label>
                     {whitelistedAddresses.map((address, idx) => {
                         return (
-                            <FormStyled.InputWrapper>
+                            <FormStyled.InputWrapper key={idx}>
                                 <FormStyled.Input
                                     id={`social-${idx}`}
                                     type='text'

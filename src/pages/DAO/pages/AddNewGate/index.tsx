@@ -714,11 +714,13 @@ const AddGateForm = () => {
                                 <Styled.CategoryList>
                                     {categoryList.map((category, id) => {
                                         return (
-                                            <SearchedItem
-                                                val={category}
-                                                id={id}
-                                                remove={removeCategories}
-                                            />
+                                            <React.Fragment key={id}>
+                                                <SearchedItem
+                                                    val={category}
+                                                    id={id}
+                                                    remove={removeCategories}
+                                                />
+                                            </React.Fragment>
                                         );
                                     })}
                                 </Styled.CategoryList>

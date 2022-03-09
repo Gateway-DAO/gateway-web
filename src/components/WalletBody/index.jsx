@@ -9,15 +9,12 @@ import { shortenAddress } from '../../utils/web3';
 
 // Hooks
 import { useAuth } from '../../contexts/UserContext';
-import { useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 
 const WalletBody = (props) => {
     const { loggingIn, activateWeb3, loadingWallet } = useAuth();
     const { active, account } = useWeb3React();
     const [hidden, setHidden] = useState(false);
-
-    useEffect(() => !active && activateWeb3(), []);
 
     return (
         <>

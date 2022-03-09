@@ -9,7 +9,7 @@ export const DropDownContainer = styled.div`
     align-items: left;
     justify-content: center;
     position: absolute;
-    top: 60px;
+    top: 80px;
     width: 200px;
     border: double 1px transparent;
 

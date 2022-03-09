@@ -243,7 +243,7 @@ const CreateProfile = () => {
                         </FormStyled.Label>
                         {socials.map((social, idx) => {
                             return (
-                                <FormStyled.InputWrapper>
+                                <FormStyled.InputWrapper key={idx}>
                                     <FormStyled.Select
                                         style={{ marginRight: '10px' }}
                                         onChange={(e) =>
@@ -377,9 +377,9 @@ const CreateProfile = () => {
                         </FormStyled.Label>
                         <Styled.MembershipBox>
                             {membership.length &&
-                                membership.map((dao) => {
+                                membership.map((dao, idx) => {
                                     return (
-                                        <Styled.MembershipIcon>
+                                        <Styled.MembershipIcon key={idx}>
                                             <Styled.MembershipImg
                                                 src={dao.logoURL}
                                                 alt={dao.name}
@@ -415,6 +415,7 @@ const CreateProfile = () => {
                                         <Styled.SearchItem
                                             onClick={() => addDAO(res)}
                                             divider={idx !== 0}
+                                            key={idx}
                                         >
                                             {res.name}
                                         </Styled.SearchItem>

@@ -291,18 +291,22 @@ const Profile = (props) => {
                                     {bounties &&
                                         bounties.map((bounty, idx) => {
                                             return (
-                                                <BountyCard
-                                                    id={props.id}
-                                                    bounties={bounties}
-                                                    idx={idx}
-                                                    set={(newBounties) =>
-                                                        setBounties(newBounties)
-                                                    }
-                                                    admin={isAdmin}
-                                                    showInfo={
-                                                        toggleBountyInfoModal
-                                                    }
-                                                />
+                                                <React.Fragment key={idx}>
+                                                    <BountyCard
+                                                        id={props.id}
+                                                        bounties={bounties}
+                                                        idx={idx}
+                                                        set={(newBounties) =>
+                                                            setBounties(
+                                                                newBounties
+                                                            )
+                                                        }
+                                                        admin={isAdmin}
+                                                        showInfo={
+                                                            toggleBountyInfoModal
+                                                        }
+                                                    />
+                                                </React.Fragment>
                                             );
                                         })}
                                 </Styled.CollapsibleChildren>

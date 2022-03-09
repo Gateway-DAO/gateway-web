@@ -66,7 +66,7 @@ const HowtoJoinModal = (props) => {
                 <ModalStyled.Header>How to Contribute?</ModalStyled.Header>
 
                 {inputs.map((step, idx) => (
-                    <FormStyled.Fieldset>
+                    <FormStyled.Fieldset key={idx}>
                         <FormStyled.Label htmlFor={`description-${idx}`}>
                             Step {idx + 1}
                         </FormStyled.Label>

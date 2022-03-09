@@ -36,8 +36,8 @@ const Card = (props) => {
                 <Styled.CardDesc>{desc}</Styled.CardDesc>
             </Styled.CardBody>
             <Styled.CategoryList>
-                {props.categories.map((e) => (
-                    <Styled.Category>
+                {props.categories.map((e, idx) => (
+                    <Styled.Category key={idx}>
                         <Styled.CategoryLink to={`/search/${e}`}>
                             {e}
                         </Styled.CategoryLink>

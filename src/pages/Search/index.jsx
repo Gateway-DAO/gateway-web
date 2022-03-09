@@ -1,8 +1,8 @@
 import * as Styled from './style';
 
 // Hooks
-import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { useDAOLength } from '../../api/database/useDAOLength';
 
@@ -11,17 +11,19 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import DAOTab from './component/DAOs';
 import UserTab from './component/Users';
-import SearchSuggestions from './component/SearchSuggestions';
+// import SearchSuggestions from './component/SearchSuggestions';
 import { Navigate } from 'react-router-dom';
 
 // API
 import { searchDaos } from '../../graphql/queries';
+import { DAOFilter, GateFilter, UserFilter } from './component/Filters';
 
 const Search = (props) => {
     const [selectionTab, setSelectionTab] = useState('DAOs');
     const { query } = useParams();
     const [inputVal, setInputVal] = useState(query || '');
     const navigate = useNavigate();
+    const location = useLocation();
     const [hits, setHits] = useState([]);
     const [toggle, setToggle] = useState(false);
 
@@ -47,8 +49,23 @@ const Search = (props) => {
                 return <DAOTab />;
             case 'Users':
                 return <UserTab query={query} />;
+            case 'Gates':
+                return <UserTab query={query} />;
             default:
                 return <DAOTab />;
+        }
+    };
+
+    const ActiveFilter = () => {
+        switch (selectionTab) {
+            case 'DAOs':
+                return <DAOFilter />;
+            case 'Users':
+                return <UserFilter query={query} />;
+            case 'Gates':
+                return <GateFilter query={query} />;
+            default:
+                return <DAOFilter />;
         }
     };
 
@@ -94,14 +111,21 @@ const Search = (props) => {
         setToggle(true);
     };
 
+    useEffect(() => {
+        if (location.state && location.state.tab) {
+            setSelectionTab(location.state.tab);
+            window.history.replaceState({}, document.title);
+        }
+    }, [location]);
+
     return (
         <Styled.Container>
             <Header />
             <Styled.Nav>
-                <Styled.SearchTermContainer>
+                {/* <Styled.SearchTermContainer>
                     <Styled.SearchIcon>🔍</Styled.SearchIcon>
                     <Styled.SearchTerm>{query}</Styled.SearchTerm>
-                </Styled.SearchTermContainer>
+                </Styled.SearchTermContainer> */}
                 <Styled.DAOAndUserSelectionContainer>
                     <Styled.SelectContainer
                         active={'DAOs' === selectionTab}
@@ -119,9 +143,19 @@ const Search = (props) => {
                             Users
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
+                    <Styled.SelectContainer
+                        active={'Gates' === selectionTab}
+                        onClick={(e) => setSelectionTab('Gates')}
+                    >
+                        <Styled.SelectContainerText>
+                            Gates
+                        </Styled.SelectContainerText>
+                    </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
                 <Styled.LeftNav>
-                    <Styled.SearchInputBox>
+                    <Styled.FilterText>Filter:</Styled.FilterText>
+                    <ActiveFilter />
+                    {/* <Styled.SearchInputBox>
                         <Styled.SearchInput
                             //    onKeyDown={resumeTyping}
                             //    onKeyUp={pauseTyping}
@@ -149,7 +183,7 @@ const Search = (props) => {
                                 )}
                             </Styled.SearchSuggestionBox>
                         )}
-                    </Styled.SearchInputBox>
+                    </Styled.SearchInputBox> */}
                 </Styled.LeftNav>
 
                 {/* </Styled.SearchTermContainer> */}

@@ -207,6 +207,25 @@ export const LeftNav = styled.div`
     flex: 1;
     margin-left: auto;
     justify-content: flex-end;
+    align-items: center;
+`;
+
+export const FilterText = styled.span`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+
+    margin-right: 15px;
+
+    color: #e5e5e5;
+`;
+
+export const FilterBox = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 export const SearchInputBox = styled.div`

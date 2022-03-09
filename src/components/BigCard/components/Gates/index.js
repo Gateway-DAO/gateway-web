@@ -1,5 +1,5 @@
 import * as Styled from './style';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Subcategories from './Subcategories';
 import GateCard from '../../../GateCard';
 import { GradientSVG } from '../../../ProgressCircle';
@@ -19,13 +19,21 @@ const Gates = (props) => {
                 whitelisted={props.whitelistedAddresses}
             />
             <Styled.GatesContainer>
-                {gates.map((gate) => {
+                {gates.map((gate, idx) => {
                     if (isAdmin) {
-                        return <GateCard gate={gate} />;
+                        return (
+                            <React.Fragment key={idx}>
+                                <GateCard gate={gate} />
+                            </React.Fragment>
+                        );
                     }
 
                     if (!isAdmin && gate.published) {
-                        return <GateCard gate={gate} />;
+                        return (
+                            <React.Fragment key={idx}>
+                                <GateCard gate={gate} />
+                            </React.Fragment>
+                        );
                     }
 
                     return null;

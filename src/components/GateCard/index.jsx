@@ -93,8 +93,8 @@ const GateCard = ({ gate }) => {
                 */}
             </Styled.GateBanner>
             <Styled.CategoryList>
-                {gate.categories.map((category) => (
-                    <Styled.Category>
+                {gate.categories.map((category, idx) => (
+                    <Styled.Category key={idx}>
                         <Styled.CategoryLink to='/'>
                             {category}
                         </Styled.CategoryLink>

@@ -233,7 +233,7 @@ const BountyModal = (props) => {
                     </FormStyled.Label>
 
                     {links.map((step, idx) => (
-                        <FormStyled.InputWrapper>
+                        <FormStyled.InputWrapper key={idx}>
                             <FormStyled.Input
                                 id={`link-${idx}`}
                                 key={`bounty-link-${idx}`}
