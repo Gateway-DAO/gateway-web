@@ -43,6 +43,7 @@ import { shortenAddress } from '../../../../utils/web3';
 
 // Types
 import { User } from '../../../../graphql/API';
+import { useWeb3React } from '@web3-react/core';
 
 /* Creating a variable called offset and setting it to the timezone offset of the current date. */
 let offset = new Date().getTimezoneOffset(),
@@ -98,6 +99,8 @@ const ProfileUpdate = () => {
         country: '',
     });
     const [internalLoading, setInternalLoading] = useState(true);
+    const { account } = useWeb3React();
+    const canEdit = userInfo.wallet === account;
 
     /**
      * Get the current location of the user and set the state of the component to reflect that location
@@ -224,12 +227,12 @@ const ProfileUpdate = () => {
         const callback = async () => {
             if (!username) {
                 if (!loadingWallet && signedUser) {
-					setUserInfo((prev) => ({
-						...prev,
-						...signedUser,
-					}));
-					setInternalLoading(false);
-				}
+                    setUserInfo((prev) => ({
+                        ...prev,
+                        ...signedUser,
+                    }));
+                    setInternalLoading(false);
+                }
             } else {
                 try {
                     await getUser();
@@ -250,7 +253,7 @@ const ProfileUpdate = () => {
         return clearInterval(timerID);
     }, [username, loadingWallet, userLoading, signedUser]);
 
-	useEffect(getAddress, []);
+    useEffect(getAddress, []);
 
     /* Checking if there is an error. If there is an error, it will return a 404 page. */
     if (userError) {
@@ -303,7 +306,8 @@ const ProfileUpdate = () => {
                                                         )
                                                     )}
                                             </div>
-                                            {userInfo.userBio === '' ? (
+                                            {userInfo.userBio === '' &&
+                                            canEdit ? (
                                                 <Link
                                                     to='complete-profile'
                                                     className='complete-profile-btn'
@@ -324,7 +328,8 @@ const ProfileUpdate = () => {
                                                 <a href='#'>
                                                     <BiCopy color='white' />
                                                 </a>
-                                                {userInfo.userBio !== '' ? (
+                                                {userInfo.userBio !== '' &&
+                                                canEdit ? (
                                                     <Dropdown>
                                                         <Dropdown.Toggle
                                                             variant='success'
@@ -352,9 +357,9 @@ const ProfileUpdate = () => {
                             <div className='gway-prfile-col'>
                                 <div className='gway-about-hd'>
                                     <h2>About</h2>
-                                    {userInfo.about ? (
+                                    {userInfo.about && canEdit ? (
                                         <Link to='add-about'>
-                                            <FaEdit />
+                                            <FaEdit color='white' />
                                         </Link>
                                     ) : null}
                                 </div>
@@ -384,9 +389,11 @@ const ProfileUpdate = () => {
                             <div className='gway-prfile-col'>
                                 <div className='gway-about-hd'>
                                     <h2>Experience</h2>
-                                    <Link to='add-experiences'>
-                                        <FaPlus color='white' />
-                                    </Link>
+                                    {canEdit && (
+                                        <Link to='add-experiences'>
+                                            <FaPlus color='white' />
+                                        </Link>
+                                    )}
                                 </div>
                                 <p>Add your Experience and Contributions. </p>
                                 <div className='gway-contact-card'>
@@ -397,12 +404,15 @@ const ProfileUpdate = () => {
                                     <Link to='/contact'>Start Now</Link>
                                 </div>
                             </div>
+                            {/*
                             <div className='gway-prfile-col'>
                                 <div className='gway-about-hd'>
                                     <h2>Activity</h2>
-                                    <a href='#'>
-                                        <FaPlus color='white' />
-                                    </a>
+                                    {canEdit && (
+                                        <a href='#'>
+                                            <FaPlus color='white' />
+                                        </a>
+                                    )}
                                 </div>
                                 <p>
                                     Share articles you created or whatever align
@@ -412,6 +422,7 @@ const ProfileUpdate = () => {
                                     ADD NOW
                                 </a>
                             </div>
+                            */}
                         </Col>
 
                         <Col md={3}>
@@ -461,9 +472,11 @@ const ProfileUpdate = () => {
                             <div className='gway-skill-col skill-second-sec'>
                                 <div className='gway-skill-col-hd'>
                                     <h3>Skills</h3>
-                                    <Link to='add-skills'>
-                                        <FaPlus color='white' />
-                                    </Link>
+                                    {canEdit && (
+                                        <Link to='add-skills'>
+                                            <FaPlus color='white' />
+                                        </Link>
+                                    )}
                                 </div>
                                 <ListGroup as='ul'>
                                     {!!userInfo.skills &&
@@ -488,9 +501,11 @@ const ProfileUpdate = () => {
                             <div className='gway-skill-col skill-second-sec gway-skill-col-inner'>
                                 <div className='gway-skill-col-hd'>
                                     <h3>Knowledge</h3>
-                                    <Link to='add-knowledge'>
-                                        <FaPlus color='white' />
-                                    </Link>
+                                    {canEdit && (
+                                        <Link to='add-knowledge'>
+                                            <FaPlus color='white' />
+                                        </Link>
+                                    )}
                                 </div>
                                 <ListGroup as='ul'>
                                     {!!userInfo.knowledges &&
@@ -515,9 +530,11 @@ const ProfileUpdate = () => {
                             <div className='gway-skill-col skill-second-sec gway-skill-col-inner gway-attitudes-col-inner'>
                                 <div className='gway-skill-col-hd'>
                                     <h3>Attitudes</h3>
-                                    <Link to='add-attitude'>
-                                        <FaPlus color='white' />
-                                    </Link>
+                                    {canEdit && (
+                                        <Link to='add-attitude'>
+                                            <FaPlus color='white' />
+                                        </Link>
+                                    )}
                                 </div>
                                 <ListGroup as='ul'>
                                     {!!userInfo.attitudes &&
@@ -542,9 +559,11 @@ const ProfileUpdate = () => {
                             <div className='gway-skill-col gway-languages-col-inner'>
                                 <div className='gway-skill-col-hd'>
                                     <h3>Languages</h3>
-                                    <Link to='add-language'>
-                                        <FaPlus color='white' />
-                                    </Link>
+                                    {canEdit && (
+                                        <Link to='add-language'>
+                                            <FaPlus color='white' />
+                                        </Link>
+                                    )}
                                 </div>
                                 <ListGroup as='ul'>
                                     {!!userInfo.languages &&

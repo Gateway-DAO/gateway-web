@@ -149,16 +149,29 @@ const App: React.FC = () => {
 
 						<Route path='/search/:query' element={<Search />} />
 
-						<Route path='/profiles' element={<ProfileUpdate />} />
-						<Route path='/profiles/:username' element={<ProfileUpdate />} />
-						<Route path='/profiles/:username/add-about' element={<AddAbout />} />
-						<Route path='/profiles/:username/add-experiences' element={<AddExperiences />} />
-						<Route path='/profiles/:username/add-language' element={<AddLanguage />} />
-						<Route path='/profiles/:username/add-skills' element={<AddSkill />} />
-						<Route path='/profiles/:username/add-knowledge' element={<AddKnowledge />} />
-						<Route path='/profiles/:username/add-attitude' element={<AddAttitude />} />
-						<Route path='/profiles/:username/complete-profile' element={<CompleteProfile />} />
-						<Route path='/profiles/:username/edit-profile' element={<CompleteProfile />} />
+						<Route path='/profiles'>
+							<Route path='' element={<ProfileUpdate />} />
+
+							<Route path='add-about' element={<AddAbout />} />
+							<Route path='add-experiences' element={<AddExperiences />} />
+							<Route path='add-language' element={<AddLanguage />} />
+							<Route path='add-skills' element={<AddSkill />} />
+							<Route path='add-knowledge' element={<AddKnowledge />} />
+							<Route path='add-attitude' element={<AddAttitude />} />
+							<Route path='complete-profile' element={<CompleteProfile />} />
+							<Route path='edit-profile' element={<CompleteProfile />} />
+
+							<Route path=':username' element={<ProfileUpdate />} />
+
+							<Route path=':username/add-about' element={<AddAbout />} />
+							<Route path=':username/add-experiences' element={<AddExperiences />} />
+							<Route path=':username/add-language' element={<AddLanguage />} />
+							<Route path=':username/add-skills' element={<AddSkill />} />
+							<Route path=':username/add-knowledge' element={<AddKnowledge />} />
+							<Route path=':username/add-attitude' element={<AddAttitude />} />
+							<Route path=':username/complete-profile' element={<CompleteProfile />} />
+							<Route path=':username/edit-profile' element={<CompleteProfile />} />
+						</Route>
 
 						<Route path='/sign-in' element={<SignIn />} />
 						<Route

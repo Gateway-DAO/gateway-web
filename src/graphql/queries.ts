@@ -122,6 +122,11 @@ export const getUser = /* GraphQL */ `
             init
             nonce
             pfp
+            about
+            skills
+            attitudes
+            languages
+            knowledges
             socials {
                 network
                 url
@@ -2475,6 +2480,11 @@ export const getUserByAddress = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
@@ -2591,6 +2601,11 @@ export const getUserByUsername = /* GraphQL */ `
                 init
                 nonce
                 pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
                 socials {
                     network
                     url
