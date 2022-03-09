@@ -12,6 +12,7 @@ import { shortenAddress } from '../../utils/web3';
 import { useAuth } from '../../contexts/UserContext';
 import { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
+import { useNavigate } from 'react-router-dom';
 
 const Wallet = (props) => {
     const {
@@ -27,6 +28,7 @@ const Wallet = (props) => {
 
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(!showModal);
+    const navigate = useNavigate();
 
     useEffect(() => !active && activateWeb3(), []);
 
@@ -44,6 +46,12 @@ const Wallet = (props) => {
         )
     }
     */
+    useEffect(() => {
+        if (active !== JSON.parse(localStorage.getItem('prevStatus'))) {
+            localStorage.setItem('prevStatus', JSON.stringify(active));
+            if (active === true) navigate('/profile');
+        }
+    }, [active]);
 
     return (
         <>

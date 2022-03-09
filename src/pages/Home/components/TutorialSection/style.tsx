@@ -94,7 +94,7 @@ export const Text = styled.p`
 `;
 
 export const VideoContainer = styled.div`
-    max-width: 710px;
+    max-width: 675px;
     width: 100%;
     height: 380px;
 
