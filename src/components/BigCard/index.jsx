@@ -96,7 +96,7 @@ const NewCard = (props) => {
         switch (social.network) {
             case 'discord':
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='Discord'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaDiscord />
                         </Styled.SocialLink>
@@ -104,7 +104,7 @@ const NewCard = (props) => {
                 );
             case 'twitter':
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='twitter'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTwitter size={20} />
                         </Styled.SocialLink>
@@ -112,7 +112,7 @@ const NewCard = (props) => {
                 );
             case 'website':
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='website'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FiGlobe />
                         </Styled.SocialLink>
@@ -120,7 +120,7 @@ const NewCard = (props) => {
                 );
             case 'medium':
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='medium'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaMedium />
                         </Styled.SocialLink>
@@ -128,7 +128,7 @@ const NewCard = (props) => {
                 );
             case 'github':
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='Github'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaGithub />
                         </Styled.SocialLink>
@@ -136,7 +136,7 @@ const NewCard = (props) => {
                 );
             case 'telegram':
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='Telegram'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTelegram />
                         </Styled.SocialLink>
@@ -144,7 +144,7 @@ const NewCard = (props) => {
                 );
             case 'chat':
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='Chat'>
                         <Styled.SocialLink href={social.url}>
                             <BsChatTextFill />
                         </Styled.SocialLink>
@@ -152,7 +152,7 @@ const NewCard = (props) => {
                 );
             default:
                 return (
-                    <Styled.Social>
+                    <Styled.Social data-title='other social network'>
                         <Styled.SocialLink href={social.url}>
                             <FaLink />
                         </Styled.SocialLink>
@@ -316,7 +316,7 @@ const NewCard = (props) => {
                             </Styled.DaoTagContainer>
                             <Styled.Title>
                                 {props?.name}{' '}
-                                <Styled.EditContainer>
+                                <Styled.EditContainer data-title='Edit Dao'>
                                     {!viewAsMember && (
                                         <FaPencilAlt
                                             onClick={toggleEditModal}
