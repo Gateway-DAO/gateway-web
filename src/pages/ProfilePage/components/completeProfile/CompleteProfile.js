@@ -9,7 +9,8 @@ import './CompleteProfile.css';
 import space from '../../../../utils/canvas';
 import { useAuth } from '../../../../contexts/UserContext';
 import Header from '../../../../components/Header';
-
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import { updateUser } from '../../../../graphql/mutations';
 // Import React FilePond
 import { FilePond, registerPlugin } from 'react-filepond';
 
@@ -45,6 +46,8 @@ const CompleteProfile = () => {
     const navigate = useNavigate();
     const web3 = useWeb3React();
     console.log('AAA---', userInfo);
+    const [updateProfile] = useMutation(gql(updateUser));
+    var userId = localStorage.getItem('userId');
 
     // State
     const [redirect, setRedirect] = useState(false);
@@ -177,13 +180,18 @@ const CompleteProfile = () => {
         if (form.checkValidity() !== false) {
             console.log('submitted', user);
             try {
+                // Upload files to S3
+                const avatarURL = await uploadFile(
+                    `daos/${userId}/avartar.${files.name}`,
+                    files
+                );
                 await updateProfile({
                     variables: {
                         input: {
                             id: userId,
                             name: user.displayName,
                             username: user.userName,
-                            pfp: user.avatar,
+                            pfp: avatarURL,
                             bio: user.userBio,
                             socials: user.socials.map((social) => ({
                                 network: social.platform_name,
@@ -197,7 +205,7 @@ const CompleteProfile = () => {
                 await updateUserInfo({
                     name: user.displayName,
                     username: user.userName,
-                    pfp: user.avatar,
+                    pfp: avatarURL,
                     bio: user.userBio,
                     socials: user.socials.map((social) => ({
                         network: social.platform_name,
@@ -220,6 +228,10 @@ const CompleteProfile = () => {
     if (!isUser) {
         return <Navigate to="/404" />;
     }
+    if (redirect) {
+        navigate(-1);
+    }
+
 
     return (
         <>
