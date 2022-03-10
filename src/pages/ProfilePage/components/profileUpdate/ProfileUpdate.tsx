@@ -91,6 +91,7 @@ const ProfileUpdate = () => {
 
 	// State
 	const [userInfo, setUserInfo] = useState(RAW_USER);
+	console.log("UserInfo---", userInfo);
 	localStorage.setItem('userId', userInfo.id);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [currentLocation, setCurrentLocation] = useState({

@@ -189,3 +189,18 @@ header.gateway-header
 .ck.ck-toolbar.ck-toolbar_grouping {
     display: none;
 }
+
+.ck-editor_editable.ck-focused {
+    background: rgb(34, 10, 56) !important;
+}
+.change-background-to-fill {
+    background: #220a38 !important;
+    border-color: rgb(126, 59, 220) !important;
+}
+/* .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred {
+    background: red !important;
+} */
+.text-editor
+    .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-focused.ck-editor__editable_inline {
+    background: #220a38 !important;
+}

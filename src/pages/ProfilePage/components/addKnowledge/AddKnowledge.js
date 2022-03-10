@@ -19,6 +19,7 @@ const AddKnowledge = () => {
 
 	// Getting userId from local Storage because user Id is different with userInfo.id here.
 	var userId = localStorage.getItem('userId');
+	console.log("IIDD--", userId);
 	// var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
 
 

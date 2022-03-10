@@ -3,6 +3,9 @@ import { NavLink as Link, Route, Routes, Navigate, useNavigate } from "react-rou
 import { Container, Button, Form, Dropdown } from 'react-bootstrap';
 import './CompleteProfile.css';
 import space from '../../../../utils/canvas';
+import { useAuth } from '../../../../contexts/UserContext';
+import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import { updateUser } from '../../../../graphql/mutations';
 import Header from '../../../../components/Header';
 
 // Import React FilePond
@@ -20,14 +23,23 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 
+import useFileUpload from '../../../../api/useFileUpload';
+
 // Register the plugins
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileEncode, FilePondPluginFileValidateType);
 
 const CompleteProfile = () => {
+	const { uploadFile } = useFileUpload();
+	const { userInfo, updateUserInfo } = useAuth();
+	console.log("AAA---", userInfo);
+	const [updateProfile] = useMutation(gql(updateUser));
+	var userId = localStorage.getItem('userId');
+
 	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
 	const [files, setFiles] = useState([]);
+
 	const [user, setUser] = useState({
 		displayName: '',
 		userName: '',
@@ -43,11 +55,50 @@ const CompleteProfile = () => {
 	});
 
 	const [platforms, setPlatforms] = useState(["Twitter", "Telegram", "Discord", "Github", "Email"]);
+	const [isDisplayNameFilled, setIsDisplayNameFilled] = useState(false);
+	const [isUserNameFilled, setIsUserNameFilled] = useState(false);
+	const [isHeadLineFilled, setIsHeadLineFilled] = useState(false);
+	const [isSocialValueFilled, setIsSocialValueFilled] = useState([false, false, false, false, false]);
 
-	useEffect(
-		() => space(window.innerHeight, window.innerWidth),
-		[window.innerHeight, window.innerWidth]
-	);
+	useEffect(() => {
+		space(window.innerHeight, window.innerWidth),
+			[window.innerHeight, window.innerWidth]
+
+		handleFormFilled();
+	});
+
+	const handleFormFilled = () => {
+		if (user.displayName.length > 0) {
+			setIsDisplayNameFilled(true);
+		}
+		else {
+			setIsDisplayNameFilled(false);
+		}
+		if (user.userName.length > 0) {
+			setIsUserNameFilled(true);
+		}
+		else {
+			setIsUserNameFilled(false);
+		}
+		if (user.userBio.length > 0) {
+			setIsHeadLineFilled(true);
+		}
+		else {
+			setIsHeadLineFilled(false);
+		}
+
+		for (let i = 0; i < user.socials.length; i++) {
+			let flags = isSocialValueFilled;
+			if (user.socials[i].platform_value.length > 0) {
+				flags[i] = true
+				setIsSocialValueFilled(flags);
+			}
+			else {
+				flags[i] = false
+				setIsSocialValueFilled(flags);
+			}
+		}
+	}
 
 	const handleInit = () => {
 		// console.log("FilePond instance has initialised", this.pond);
@@ -94,14 +145,41 @@ const CompleteProfile = () => {
 	const handleChange = (event) => {
 		const { name, value } = event.target;
 		setUser(prev => ({ ...prev, [name]: value }))
+
 	}
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		event.stopPropagation();
 		const form = event.currentTarget;
 		if (form.checkValidity() !== false) {
-			console.log("submitted", "user data", user);
+			console.log("submitted", user);
+			try {
+				await updateProfile({
+					variables: {
+						input: {
+							id: userId,
+							name: user.displayName,
+							username: user.userName,
+							pfp: user.avatar,
+							bio: user.userBio,
+							// socials: user.socials
+						},
+					},
+				});
+				await updateUserInfo({
+					name: user.displayName,
+					username: user.userName,
+					pfp: user.avatar,
+					bio: user.userBio,
+					// socials: user.socials
+				});
+
+				// redirect
+				setRedirect(true);
+			} catch (err) {
+				console.log(err);
+			}
 		}
 		setIsValidated(true);
 	}
@@ -113,10 +191,6 @@ const CompleteProfile = () => {
 				<canvas id="space-canvas"></canvas>
 				<Container>
 					<div className="back-link">
-						{/* <Link to="/profiles">
-							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-							<p>Back to Profile</p>
-						</Link> */}
 						<a href="#">
 							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
@@ -134,6 +208,7 @@ const CompleteProfile = () => {
 								<Form.Group className="col" controlId="displayName">
 									<Form.Label>Display name</Form.Label>
 									<Form.Control
+										className={`${isDisplayNameFilled ? 'change-background-to-fill' : ''}`}
 										required
 										name="displayName"
 										size="lg" type="text"
@@ -149,6 +224,7 @@ const CompleteProfile = () => {
 								<Form.Group className="col" controlId="userName">
 									<Form.Label>Username</Form.Label>
 									<Form.Control
+										className={`${isUserNameFilled ? 'change-background-to-fill' : ''}`}
 										required
 										name="userName"
 										size="lg"
@@ -229,6 +305,7 @@ const CompleteProfile = () => {
 								<Form.Group className="col" controlId="userBio">
 									<Form.Label>Headline</Form.Label>
 									<Form.Control
+										className={`${isHeadLineFilled ? 'change-background-to-fill' : ''}`}
 										required
 										name="userBio"
 										value={user.userBio}
@@ -247,26 +324,6 @@ const CompleteProfile = () => {
 											return (
 												<div className="gway-socialurl-row" key={i}>
 													<div className="gway-socialurl-col-left">
-														{/* <Link to='#'>{x.name}</Link> */}
-														{/* <Dropdown>
-															<Dropdown.Toggle
-																variant='success'
-																id='dropdown-basic'
-															>
-															</Dropdown.Toggle>
-
-															<Dropdown.Menu>
-																{x.platform_name}
-															</Dropdown.Menu>
-														</Dropdown> 
-														<Form.Control
-															required
-															name="platform_name"
-															size="sm"
-															type="text"
-															value={x.platform_name}
-															onChange={e => handleSocialChange(e, i)}
-														/> */}
 														<Form.Select
 															required
 															name="platform_name"
@@ -283,6 +340,7 @@ const CompleteProfile = () => {
 													</div>
 													<div className="gway-socialurl-col-center">
 														<Form.Control
+															className={`${isSocialValueFilled[i] ? 'change-background-to-fill' : ''}`}
 															required
 															name="platform_value"
 															size="lg"

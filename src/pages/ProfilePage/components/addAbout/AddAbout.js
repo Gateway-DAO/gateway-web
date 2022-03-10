@@ -12,6 +12,7 @@ import Header from "../../../../components/Header";
 import { useLazyQuery, useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
 import { getUserByUsername } from '../../../../graphql/queries';
+import { $CombinedState } from 'redux';
 
 const AddAbout = () => {
 	const { userInfo, updateUserInfo } = useAuth();
@@ -24,6 +25,7 @@ const AddAbout = () => {
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
 	const [about, setAbout] = useState(userInfo?.about || []);
+	console.log("About--", about.length);
 
 	useEffect(() => {
 		space(window.innerHeight, window.innerWidth),
@@ -100,6 +102,7 @@ const AddAbout = () => {
 						<div className={`text-editor ${isValidated ? 'invalid' : ''}`}>
 							<div className="counting-number">0/400</div>
 							<CKEditor
+								className="change-background-to-fill"
 								id="about-content"
 								editor={ClassicEditor}
 								data={about}

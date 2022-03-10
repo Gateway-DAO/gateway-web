@@ -256,3 +256,8 @@ span.avatar-upload-action {
         width: 100%;
     }
 }
+
+.change-background-to-fill {
+    background: #220a38 !important;
+    border-color: rgb(126, 59, 220) !important;
+}
