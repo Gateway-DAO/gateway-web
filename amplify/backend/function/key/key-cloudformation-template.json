@@ -27,6 +27,10 @@
     "apigatewayGraphQLAPIKeyOutput": {
       "Type": "String",
       "Default": "apigatewayGraphQLAPIKeyOutput"
+    },
+    "functiongatewayverifyKeyArn": {
+      "Type": "String",
+      "Default": "functiongatewayverifyKeyArn"
     }
   },
   "Conditions": {
@@ -126,7 +130,11 @@
           ]
         },
         "Runtime": "nodejs14.x",
-        "Layers": [],
+        "Layers": [
+          {
+            "Ref": "functiongatewayverifyKeyArn"
+          }
+        ],
         "Timeout": 25
       }
     },

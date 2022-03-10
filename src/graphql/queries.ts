@@ -155,6 +155,24 @@ export const getUser = /* GraphQL */ `
                 }
                 nextToken
             }
+            credentials {
+                items {
+                    id
+                    issuerID
+                    targetID
+                    organizationID
+                    name
+                    description
+                    pow
+                    skills
+                    knowledges
+                    attitudes
+                    ceramicStream
+                    createdAt
+                    updatedAt
+                }
+                nextToken
+            }
             createdAt
             updatedAt
         }
@@ -212,6 +230,9 @@ export const listUsers = /* GraphQL */ `
                     nextToken
                 }
                 tasks {
+                    nextToken
+                }
+                credentials {
                     nextToken
                 }
                 createdAt
@@ -1084,6 +1105,9 @@ export const getPost = /* GraphQL */ `
                 tasks {
                     nextToken
                 }
+                credentials {
+                    nextToken
+                }
                 createdAt
                 updatedAt
             }
@@ -1254,6 +1278,9 @@ export const getComment = /* GraphQL */ `
                     nextToken
                 }
                 tasks {
+                    nextToken
+                }
+                credentials {
                     nextToken
                 }
                 createdAt
@@ -1832,6 +1859,9 @@ export const getManualTaskSubmission = /* GraphQL */ `
                 tasks {
                     nextToken
                 }
+                credentials {
+                    nextToken
+                }
                 createdAt
                 updatedAt
             }
@@ -2020,6 +2050,9 @@ export const getGateStatus = /* GraphQL */ `
                     nextToken
                 }
                 tasks {
+                    nextToken
+                }
+                credentials {
                     nextToken
                 }
                 createdAt
@@ -2217,6 +2250,9 @@ export const getTaskStatus = /* GraphQL */ `
                     nextToken
                 }
                 tasks {
+                    nextToken
+                }
+                credentials {
                     nextToken
                 }
                 createdAt
@@ -2433,6 +2469,264 @@ export const listTaskStatuss = /* GraphQL */ `
         }
     }
 `;
+export const getCredential = /* GraphQL */ `
+    query GetCredential($id: ID!) {
+        getCredential(id: $id) {
+            id
+            issuerID
+            issuer {
+                id
+                wallet
+                username
+                name
+                bio
+                daos_ids
+                daos {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                init
+                nonce
+                pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
+                socials {
+                    network
+                    url
+                }
+                gates {
+                    nextToken
+                }
+                tasks {
+                    nextToken
+                }
+                credentials {
+                    nextToken
+                }
+                createdAt
+                updatedAt
+            }
+            targetID
+            target {
+                id
+                wallet
+                username
+                name
+                bio
+                daos_ids
+                daos {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                init
+                nonce
+                pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
+                socials {
+                    network
+                    url
+                }
+                gates {
+                    nextToken
+                }
+                tasks {
+                    nextToken
+                }
+                credentials {
+                    nextToken
+                }
+                createdAt
+                updatedAt
+            }
+            organizationID
+            organization {
+                id
+                wallet
+                username
+                name
+                bio
+                daos_ids
+                daos {
+                    id
+                    dao
+                    name
+                    accomplishments
+                    snapshotID
+                    backgroundURL
+                    youtubeURL
+                    logoURL
+                    categories
+                    tags
+                    description
+                    howToJoin
+                    missionAndVision
+                    whatDoWeDo
+                    upcomingHangouts
+                    tokenAddress
+                    whitelistedAddresses
+                    chains
+                    createdAt
+                    updatedAt
+                }
+                init
+                nonce
+                pfp
+                about
+                skills
+                attitudes
+                languages
+                knowledges
+                socials {
+                    network
+                    url
+                }
+                gates {
+                    nextToken
+                }
+                tasks {
+                    nextToken
+                }
+                credentials {
+                    nextToken
+                }
+                createdAt
+                updatedAt
+            }
+            name
+            description
+            pow
+            skills
+            knowledges
+            attitudes
+            ceramicStream
+            createdAt
+            updatedAt
+        }
+    }
+`;
+export const listCredentials = /* GraphQL */ `
+    query ListCredentials(
+        $filter: ModelCredentialFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        listCredentials(filter: $filter, limit: $limit, nextToken: $nextToken) {
+            items {
+                id
+                issuerID
+                issuer {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                targetID
+                target {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                organizationID
+                organization {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                pow
+                skills
+                knowledges
+                attitudes
+                ceramicStream
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`;
 export const getUserByAddress = /* GraphQL */ `
     query GetUserByAddress(
         $wallet: String
@@ -2490,61 +2784,12 @@ export const getUserByAddress = /* GraphQL */ `
                     url
                 }
                 gates {
-                    items {
-                        id
-                        userID
-                        gateID
-                        gate {
-                            id
-                            daoID
-                            dao {
-                                name
-                                logoURL
-                                dao
-                            }
-                            name
-                            description
-                            categories
-                            admins
-                            keysNumber
-                            holders
-                            published
-                            createdAt
-                            updatedAt
-                            skills
-                            knowledge
-                            attitudes
-                            retroactiveEarners
-                            nftType
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                        }
-                        reward {
-                            rewardCode
-                            retrieved
-                        }
-                        tasks {
-                            items {
-                                id
-                                userID
-                                gateID
-                                keyID
-                                completed
-                                createdAt
-                                updatedAt
-                            }
-                            nextToken
-                        }
-                        keysDone
-                        status
-                        createdAt
-                        updatedAt
-                    }
                     nextToken
                 }
                 tasks {
+                    nextToken
+                }
+                credentials {
                     nextToken
                 }
                 createdAt
@@ -2614,6 +2859,9 @@ export const getUserByUsername = /* GraphQL */ `
                     nextToken
                 }
                 tasks {
+                    nextToken
+                }
+                credentials {
                     nextToken
                 }
                 createdAt
@@ -4036,6 +4284,270 @@ export const getTaskStatusByKeyId = /* GraphQL */ `
         }
     }
 `;
+export const getCredentialByIssuerId = /* GraphQL */ `
+    query GetCredentialByIssuerId(
+        $issuerID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelCredentialFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getCredentialByIssuerID(
+            issuerID: $issuerID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                issuerID
+                issuer {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                targetID
+                target {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                organizationID
+                organization {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                pow
+                skills
+                knowledges
+                attitudes
+                ceramicStream
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`;
+export const getCredentialByTargetId = /* GraphQL */ `
+    query GetCredentialByTargetId(
+        $targetID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelCredentialFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getCredentialByTargetID(
+            targetID: $targetID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                issuerID
+                issuer {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                targetID
+                target {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                organizationID
+                organization {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                pow
+                skills
+                knowledges
+                attitudes
+                ceramicStream
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`;
+export const getCredentialByOrganizationId = /* GraphQL */ `
+    query GetCredentialByOrganizationId(
+        $organizationID: ID
+        $sortDirection: ModelSortDirection
+        $filter: ModelCredentialFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        getCredentialByOrganizationID(
+            organizationID: $organizationID
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                id
+                issuerID
+                issuer {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                targetID
+                target {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                organizationID
+                organization {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                pow
+                skills
+                knowledges
+                attitudes
+                ceramicStream
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`;
 export const searchUsers = /* GraphQL */ `
     query SearchUsers(
         $filter: SearchableUserFilterInput
@@ -4096,6 +4608,9 @@ export const searchUsers = /* GraphQL */ `
                     nextToken
                 }
                 tasks {
+                    nextToken
+                }
+                credentials {
                     nextToken
                 }
                 createdAt
@@ -4413,6 +4928,95 @@ export const searchGates = /* GraphQL */ `
                 }
                 holders
                 nftType
+                createdAt
+                updatedAt
+            }
+            nextToken
+            total
+        }
+    }
+`;
+export const searchCredentials = /* GraphQL */ `
+    query SearchCredentials(
+        $filter: SearchableCredentialFilterInput
+        $sort: SearchableCredentialSortInput
+        $limit: Int
+        $nextToken: String
+        $from: Int
+    ) {
+        searchCredentials(
+            filter: $filter
+            sort: $sort
+            limit: $limit
+            nextToken: $nextToken
+            from: $from
+        ) {
+            items {
+                id
+                issuerID
+                issuer {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                targetID
+                target {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                organizationID
+                organization {
+                    id
+                    wallet
+                    username
+                    name
+                    bio
+                    daos_ids
+                    init
+                    nonce
+                    pfp
+                    about
+                    skills
+                    attitudes
+                    languages
+                    knowledges
+                    createdAt
+                    updatedAt
+                }
+                name
+                description
+                pow
+                skills
+                knowledges
+                attitudes
+                ceramicStream
                 createdAt
                 updatedAt
             }

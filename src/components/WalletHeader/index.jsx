@@ -23,12 +23,12 @@ const Wallet = (props) => {
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(!showModal);
 
-    useEffect(() => !active && activateWeb3(), []);
-
-    useEffect(() =>
-        window.ethereum.on('chainChanged', (chain) =>
-            setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))
-        )
+    useEffect(
+        () =>
+            window.ethereum &&
+            window.ethereum.on('chainChanged', (chain) =>
+                setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))
+            )
     );
 
     if (wrong && !loggedIn) {

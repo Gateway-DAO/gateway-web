@@ -93,6 +93,24 @@ export const onCreateUser = /* GraphQL */ `
         }
         nextToken
       }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -189,6 +207,24 @@ export const onUpdateUser = /* GraphQL */ `
         }
         nextToken
       }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -280,6 +316,24 @@ export const onDeleteUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -1310,6 +1364,9 @@ export const onCreatePost = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1464,6 +1521,9 @@ export const onUpdatePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1622,6 +1682,9 @@ export const onDeletePost = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1699,6 +1762,9 @@ export const onCreateComment = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1763,6 +1829,9 @@ export const onUpdateComment = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -1825,6 +1894,9 @@ export const onDeleteComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2529,6 +2601,9 @@ export const onCreateManualTaskSubmission = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2662,6 +2737,9 @@ export const onUpdateManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2799,6 +2877,9 @@ export const onDeleteManualTaskSubmission = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -2932,6 +3013,9 @@ export const onCreateGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3068,6 +3152,9 @@ export const onUpdateGateStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3202,6 +3289,9 @@ export const onDeleteGateStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3334,6 +3424,9 @@ export const onCreateTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3524,6 +3617,9 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3712,6 +3808,9 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3843,6 +3942,540 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         updatedAt
       }
       completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateCredential = /* GraphQL */ `
+  subscription OnCreateCredential {
+    onCreateCredential {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCredential = /* GraphQL */ `
+  subscription OnUpdateCredential {
+    onUpdateCredential {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCredential = /* GraphQL */ `
+  subscription OnDeleteCredential {
+    onDeleteCredential {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
       createdAt
       updatedAt
     }

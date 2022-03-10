@@ -33,6 +33,7 @@ type User
         @connection(keyName: "gateStatusByUserID", fields: ["id"])
     tasks: [TaskStatus]
         @connection(keyName: "taskStatusByUserID", fields: ["id"])
+    credentials: [Credential] @connection(keyName: "credentialByTargetID", fields: ["id"])
     createdAt: AWSDateTime
 }
 
@@ -518,6 +519,40 @@ type SignatureError {
 
 union SignatureResponse = Signature | SignatureError
 
+### CREDENTIALS ###
+
+type Credential @model @searchable @key(
+        name: "credentialByIssuerID"
+        fields: ["issuerID"]
+        queryField: "getCredentialByIssuerID"
+    )
+    @key(
+        name: "credentialByTargetID"
+        fields: ["targetID"]
+        queryField: "getCredentialByTargetID"
+    )
+    @key(
+        name: "credentialByOrganizationID"
+        fields: ["organizationID"]
+        queryField: "getCredentialByOrganizationID"
+    ) {
+    id: ID!
+    issuerID: ID!
+    issuer: User @connection(fields: ["issuerID"])
+    targetID: ID!
+    target: User @connection(fields: ["targetID"])
+    organizationID: ID
+    organization: User @connection(fields: ["organizationID"])
+    name: String!
+    description: String!
+    pow: [AWSJSON]
+    skills: [String]
+    knowledges: [String]
+    attitudes: [String]
+    ceramicStream: String!
+    createdAt: AWSDateTime
+}
+
 ### INPUTS ###
 
 input CreateNewDAO {
@@ -753,25 +788,25 @@ type Mutation {
         userID: ID!
         keyID: ID!
         meetingCode: String!
-    ): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
+    ): KeyVerificationResponse @function(name: "key-${env}")
 
     verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifyHoldAToken-${env}")
+        @function(name: "key-${env}")
 
     verifyContractInteraction(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifyContractInteraction-${env}")
+        @function(name: "key-${env}")
 
     verifySnapshot(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifySnapshot-${env}")
+        @function(name: "key-${env}")
 
     verifySelfVerify(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifySelfVerify-${env}")
+        @function(name: "key-${env}")
 
     verifyQuiz(
         userID: ID!
         keyID: ID!
         questions: [QuestionLambdaInput]!
-    ): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
+    ): KeyVerificationResponse @function(name: "key-${env}")
 
     ## Ceramic ##
     streamToCeramic(data: AWSJSON!, node: AWSURL): StreamCeramicResponse

@@ -166,7 +166,7 @@ export const UserProvider = ({ children }) => {
         await Auth.signOut();
         setLoggedIn(false);
         setLoggingIn(false);
-        setUserInfo(null);
+        // setUserInfo(null);
     };
 
     /**
