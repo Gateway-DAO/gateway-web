@@ -58,6 +58,7 @@ export const BigText = styled.h3`
     /* identical to box height, or 50% */
 
     letter-spacing: -0.015em;
+    line-height: 55px;
 
     /* Background */
     background: linear-gradient(

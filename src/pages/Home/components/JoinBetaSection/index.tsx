@@ -1,8 +1,13 @@
 import React from 'react';
 import * as Styled from './style';
 import * as MainStyled from '../../style';
+import LandingButton from '../../../../components/LandingButton';
 
 export default function JoinBetaSection() {
+    const joinBeta = () => {
+        window.open('https://ph7lzvecjq8.typeform.com/to/jDlK2fQ7', '__blank');
+    };
+
     return (
         <MainStyled.SectionContainer>
             <MainStyled.SectionTitle data-aos='fade-right'>
@@ -23,9 +28,9 @@ export default function JoinBetaSection() {
                         </Styled.BigText>
                         contributors
                     </Styled.Text>
-                    <Styled.JoinButton data-aos='fade-up'>
-                        <Styled.ButtonText>JOIN BETA</Styled.ButtonText>
-                    </Styled.JoinButton>
+                    <Styled.JoinBetaButton data-aos='fade-up'>
+                        <LandingButton title='JOIN BETA' onClick={joinBeta} />
+                    </Styled.JoinBetaButton>
                 </Styled.LeftSide>
                 <Styled.RightSide></Styled.RightSide>
             </Styled.Content>

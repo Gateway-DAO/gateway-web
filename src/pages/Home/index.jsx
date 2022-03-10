@@ -6,19 +6,34 @@ import * as Styled from './style';
 import * as CTAStyled from './components/CTASection/style';
 
 import space from '../../utils/canvas';
-import WalletBody from '../../components/WalletBody';
 import UserCategories from './components/UserCategories';
 import JoinBetaSection from './components/JoinBetaSection';
 import TutorialSection from './components/TutorialSection';
 import PartnerSection from './components/PartnerSection';
 import InvestorSection from './components/InvestorSection';
+import LandingButton from '../../components/LandingButton';
+import { useNavigate } from 'react-router-dom';
+import { useWeb3React } from '@web3-react/core';
+import { useAuth } from '../../contexts/UserContext';
 
 const Home = (props) => {
+    const navigate = useNavigate();
+    const { active } = useWeb3React();
+    const { activateWeb3 } = useAuth();
+
     // eslint-disable-next-line
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
         [window.innerHeight, window.innerWidth]
     );
+
+    const enterGateway = () => {
+        if (active) {
+            navigate('/search/all', { state: { tab: 'Gates' } });
+        } else {
+            activateWeb3();
+        }
+    };
 
     return (
         <Styled.HomeContainer>
@@ -43,7 +58,11 @@ const Home = (props) => {
                     >
                         Your Decentralized Professional Network
                     </Styled.BigText>
-                    <WalletBody title='ENTER THE GATEWAY' />
+                    <LandingButton
+                        title='ENTER THE GATEWAY'
+                        variant='filled'
+                        onClick={enterGateway}
+                    />
                 </Styled.WalletContent>
             </Styled.MainBox>
 

@@ -7,6 +7,10 @@ import Yearn from '../../../../assets/partners/yearn-finance.png';
 import JoinBeta from '../../../../assets/partners/Join BETA.png';
 
 export default function PartnerSection() {
+    const joinBeta = () => {
+        window.open('https://ph7lzvecjq8.typeform.com/to/jDlK2fQ7', '__blank');
+    };
+
     return (
         <MainStyled.SectionContainer>
             <MainStyled.SectionTitle data-aos='fade-right'>
@@ -44,7 +48,11 @@ export default function PartnerSection() {
                     </Styled.PartnerCard>
                 </Styled.Col>
                 <Styled.Col>
-                    <Styled.PartnerCard data-aos='fade-up' data-aos-delay='400'>
+                    <Styled.PartnerCard
+                        data-aos='fade-up'
+                        data-aos-delay='400'
+                        onClick={joinBeta}
+                    >
                         <Styled.PartnerLogo src={JoinBeta}></Styled.PartnerLogo>
                     </Styled.PartnerCard>
                 </Styled.Col>
