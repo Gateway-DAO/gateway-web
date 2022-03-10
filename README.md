@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+![gateway-web](https://www.mygateway.xyz/social.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Gateway Project - Web Repository
+
+![gateway-twitter](https://img.shields.io/twitter/follow/Gateway_DAO?style=social)
+
+**Gateway** is the largest professional decentralized networking platform. Leveraging open and collaborative infrastructure, Gateway helps Web3 users to onboard into their favorite communities, build out their decentralized resumes, and begin developing credentials across the ecosystem. Users receive membership NFTs, reward NFTs, and community verified skills and competencies from DAOs.
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), [AWS Amplify](https://aws.amazon.com/amplify/), [Apollo Client](https://www.apollographql.com/apollo-client), [Ceramic](https://ceramic.network), and other tools.
 
 ## Available Scripts
 
@@ -28,6 +34,15 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `yarn test`
+
+Runs unit tests written for React components. Currently, no testing units are written for the project, although you can write them at any moment following the section about [testing](https://reactjs.org/docs/testing.html).
+
+### `yarn lint`
+
+Lints the written code, so it is compliant with Gateway's ESLint/Prettier configurations.\
+This makes the code easier to read, more efficient and organized.
+
 ### `yarn eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
@@ -38,32 +53,82 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Local environment - instructions to build
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Note:** since Gateway currently relies on AWS Amplify for backend management, you will only be able to successfully build the project on your machine if you have permissions within Gateway's team to access our AWS console. Make sure the team has provided you an `Access Key ID` and `Access Key Secret`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 1. install `npm i -g @aws-amplify/cli`
 
-### Code Splitting
+If you haven't installed Amplify already, please make sure you have it globally installed on your machine by running `npm i -g @aws-amplify/cli`. This way, you will be able to run Amplify successfully and initialize the project.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 2. configure Amplify with `amplify init`
 
-### Analyzing the Bundle Size
+Within the project's repository (assuming it's already cloned into your machine), run `amplify init`. It will ask your for some inputs.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Environment selection
 
-### Making a Progressive Web App
+        ? Do you want to use an existing environment? (Y/n)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    Select `yes`/`y`.
 
-### Advanced Configuration
+        ? Choose the environment you would like to use: (Use arrow keys)
+        ❯ dev
+        main
+    
+    Please select *dev*, or else you might not be able to run the environment correctly.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. Default editor
 
-### Deployment
+        ? Choose your default editor: (Use arrow keys)
+        ❯ Visual Studio Code
+        Android Studio
+        Xcode (macOS only)
+        Atom Editor
+        Sublime Text
+        IntelliJ IDEA
+        Vim (via Terminal, macOS only)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    Choose the editor that you intend to use with the repository/Amplify. No specific editor required: it's a matter of personal preference.
 
-### `yarn build` fails to minify
+3. Authentication method
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+        ? Select the authentication method you want to use:
+        AWS profile
+        ❯ AWS access keys
+
+    Please select `AWS access keys`, so you can use the provided keys to login to AWS and use Amplify's capabilities.
+
+    **Note:** if you don't have these credentials, you've probably not supposed to - these keys are only issued to Gateway's core contributors at this stage. However, if you were supposed to have these keys, or want to contribute to the project, please [join our Discord](https://discord.com/invite/78wuJuKFVK) and contact `Sanket#8142` or `MasterStarkk#4282`.
+
+4. Region
+
+        ? region:  (Use arrow keys)
+        ❯ us-east-1
+        us-east-2
+        us-west-1
+        us-west-2
+        eu-north-1
+        eu-west-1
+        eu-west-2
+
+    Please select North Virginia's region, `us-east-1`.
+
+### 3. run `yarn` and `yarn start`
+
+You need to install all the required packages with `yarn`. It might take some minutes.
+
+After all the packages are installed on your machine, you're ready to execute the local environment. Please use `yarn start` so you can get execute a local version of Gateway's frontend on your machine.
+
+### Some considerations
+
+- you can *mock* the backend locally by using `amplify mock`. However, some services like [AWS OpenSearch](https://aws.amazon.com/opensearch-service/the-elk-stack/what-is-opensearch/) won't work.
+- to outside contributors: always PR your changes with an extensive description on how they're improving the project, as well as a technical description for new functionalities and/or tech stacks.
+
+## Troubleshooting
+
+- For questions, support, and discussions: [Join the Gateway Discord](https://discord.com/invite/78wuJuKFVK)
+- For bugs and feature requests: [Create an issue on Github](https://github.com/Gateway-DAO/gateway-web)
+
+## Maintainers
+
+- [Gateway Team](https://github.com/orgs/Gateway-DAO/people)
