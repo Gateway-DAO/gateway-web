@@ -182,26 +182,10 @@ const CompleteProfile = () => {
             try {
                 // Upload files to S3
                 const avatarURL = await uploadFile(
-                    `daos/${userId}/avartar.${files.name}`,
-                    files
+                    `users/${userInfo.id}/profile.${files[0].file.name.split('.').pop()}`,
+                    files[0].file
                 );
-                await updateProfile({
-                    variables: {
-                        input: {
-                            id: userId,
-                            name: user.displayName,
-                            username: user.userName,
-                            pfp: avatarURL,
-                            bio: user.userBio,
-                            socials: user.socials.map((social) => ({
-                                network: social.platform_name,
-                                url: normalizeUrl(social.platform_value, {
-                                    forceHttps: true,
-                                }),
-                            })),
-                        },
-                    },
-                });
+
                 await updateUserInfo({
                     name: user.displayName,
                     username: user.userName,
@@ -228,6 +212,7 @@ const CompleteProfile = () => {
     if (!isUser) {
         return <Navigate to="/404" />;
     }
+    
     if (redirect) {
         navigate(-1);
     }
