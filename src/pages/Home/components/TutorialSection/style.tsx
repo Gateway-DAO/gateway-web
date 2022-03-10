@@ -19,8 +19,8 @@ export const LeftSide = styled.div`
 
 export const RightSide = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: right;
+    flex-direction: column;
+    align-items: flex-end;
     flex: 1;
     padding-left: 1rem;
 

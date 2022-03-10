@@ -62,7 +62,7 @@ export const BigText = styled.p`
     font-size: 280px;
     /* or 37% */
 
-    display: flex;
+    display: -webkit-box;
     align-items: center;
     letter-spacing: -0.065em;
 
