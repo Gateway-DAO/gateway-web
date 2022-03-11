@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import Subcategories from './Subcategories';
 import GateCard from '../../../GateCard';
 import { GradientSVG } from '../../../ProgressCircle';
-import { useAdmin } from '../../../../hooks/useAdmin';
+// import { useAdmin } from '../../../../hooks/useAdmin';
+import { PublishedState } from '../../../../graphql/API';
 
 const Gates = (props) => {
     const [activeCategory, setActiveCategory] = useState('All');
     const gates = props.gates.items || [];
-    const { isAdmin } = useAdmin(props.whitelistedAddresses);
+    // const { isAdmin } = useAdmin(props.whitelistedAddresses);
 
     return (
         <Styled.Wrapper>
@@ -17,22 +18,28 @@ const Gates = (props) => {
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}
                 whitelisted={props.whitelistedAddresses}
+                viewAsMember={props.viewAsMember}
             />
             <Styled.GatesContainer>
-                {gates.map((gate, idx) => {
-                    if (isAdmin) {
+                {gates.map((gate) => {
+                    if (!props.viewAsMember) {
                         return (
-                            <React.Fragment key={idx}>
-                                <GateCard gate={gate} />
-                            </React.Fragment>
+                            <GateCard
+                                gate={gate}
+                                viewAsMember={props.viewAsMember}
+                            />
                         );
                     }
 
-                    if (!isAdmin && gate.published) {
+                    if (
+                        props.viewAsMember &&
+                        gate.published === PublishedState.PUBLISHED
+                    ) {
                         return (
-                            <React.Fragment key={idx}>
-                                <GateCard gate={gate} />
-                            </React.Fragment>
+                            <GateCard
+                                gate={gate}
+                                viewAsMember={props.viewAsMember}
+                            />
                         );
                     }
 

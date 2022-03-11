@@ -20,7 +20,7 @@ const createKey = async (input) => {
         tokenAmount: input.tokenAmount,
         keys: input.keys,
         peopleLimit: input.peopleLimit,
-        unlimited: input.unlimited || true,
+        unlimited: input.unlimited,
         createdAt: input.createdAt || new Date().toISOString(),
         updatedAt: input.createdAt || new Date().toISOString(),
     }

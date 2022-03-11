@@ -8,21 +8,24 @@ import Switch from 'react-switch';
 import { CircularProgressbar } from 'react-circular-progressbar';
 
 // Hooks
-import { useState } from 'react';
-import useAdmin from '../../hooks/useAdmin';
+import { useState, useEffect } from 'react';
+// import useAdmin from '../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/UserContext';
 import { getGateStatusByUserId } from '../../graphql/queries';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useQuery, gql, useMutation, useLazyQuery } from '@apollo/client';
 import { updateGate } from '../../graphql/mutations';
+import { PublishedState } from '../../graphql/API';
+// import { gql, useLazyQuery } from '@apollo/client';
+import { searchUsers } from '../../graphql/queries';
 
 /* This is a card that displays information about a gate. */
-const GateCard = ({ gate }) => {
+const GateCard = ({ gate, viewAsMember }) => {
     // State
-    const [checked, setChecked] = useState(gate.published);
-
+    const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
+    const [numberOfWords, setNumberOfWords] = useState(130);
     // Hooks
-    const { isAdmin } = useAdmin(gate.admins || []);
+    // const { !viewAsMember } = useAdmin(gate.admins || []);
     const { userInfo } = useAuth();
     const navigate = useNavigate();
     const [update] = useMutation(gql(updateGate));
@@ -37,17 +40,59 @@ const GateCard = ({ gate }) => {
         },
     });
 
+    const [
+        searchByUsers,
+        {
+            data: searchUserData,
+            loading: searchUserLoading,
+            refetch: searchUserRefetch,
+            called: searchUserCalled,
+        },
+    ] = useLazyQuery(gql(searchUsers), {
+        variables: {
+            filter: {
+                id: {
+                    eq: `*${gate.admins[0]}*`,
+                },
+            },
+        },
+    });
+    // console.log(searchUserData);
+
+    useEffect(() => {
+        if (window.innerWidth < 1171 && window.innerWidth > 900) {
+            setNumberOfWords(90);
+        } else if (window.innerWidth <= 900 && window.innerWidth > 785) {
+            setNumberOfWords(80);
+        } else if (window.innerWidth <= 545 && window.innerWidth > 430) {
+            setNumberOfWords(60);
+        } else if (window.innerWidth < 430) {
+            setNumberOfWords(30);
+        } else {
+            setNumberOfWords(130);
+        }
+    }, [window.innerWidth]);
     /**
      * It toggles the published state of the gate.
      */
     const toggleGatePublished = async () => {
         try {
-            setChecked(!checked);
+            const published_INTERNAL =
+                gate.published === PublishedState.NOT_PUBLISHED
+                    ? PublishedState.PUBLISHED
+                    : gate.published === PublishedState.PUBLISHED
+                    ? PublishedState.PAUSED
+                    : gate.published === PublishedState.PAUSED
+                    ? PublishedState.PUBLISHED
+                    : gate.published;
+
+            setChecked(published_INTERNAL === 'PUBLISHED');
+
             await update({
                 variables: {
                     input: {
                         id: gate.id,
-                        published: !checked,
+                        published: published_INTERNAL,
                     },
                 },
             });
@@ -73,7 +118,7 @@ const GateCard = ({ gate }) => {
     return (
         <Styled.GateCardBox>
             <Styled.GateBanner
-                src={`https://gateway.pinata.cloud/ipfs/${gate.badge.ipfsURL}`}
+                src={`https://ipfs.io/ipfs/${gate.badge.ipfsURL}`}
                 onClick={() => navigate(`/gate/${gate.id}`)}
             >
                 {false && (
@@ -82,10 +127,10 @@ const GateCard = ({ gate }) => {
                     </Styled.EditContainer>
                 )}
 
-                <Styled.NFTBadgeContainer>
+                {/* <Styled.NFTBadgeContainer>
                     <Styled.SimpleText>NFT Badge</Styled.SimpleText>
                     <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
-                </Styled.NFTBadgeContainer>
+                </Styled.NFTBadgeContainer> */}
                 {/*
                 <Styled.PeopleInvolved>
                     <PfpBox text="4 people have earned it." />
@@ -104,18 +149,31 @@ const GateCard = ({ gate }) => {
             <Styled.CardBody onClick={() => navigate(`/gate/${gate.id}`)}>
                 <Styled.CardTitle>{gate.name}</Styled.CardTitle>
                 <Styled.CardDesc>
-                    {gate.description.length > 180
-                        ? gate.description.slice(0, 177).concat('...')
+                    {gate.description.length > numberOfWords
+                        ? gate.description
+                              .slice(0, numberOfWords - 3)
+                              .concat('...')
                         : gate.description}
                 </Styled.CardDesc>
             </Styled.CardBody>
             <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
-                {/*
                 <Styled.InfoBox>
-                    <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
-                    <Styled.SmallText>BANK.Beginner</Styled.SmallText>
+                    <Styled.MediumHeading>NFT Badge</Styled.MediumHeading>
+                    <Styled.GuildName>
+                        {gate.badge.name.slice(0, 16) +
+                            (gate.badge.name.length > 16 ? '...' : '')}
+                    </Styled.GuildName>
                 </Styled.InfoBox>
-                */}
+                {gate.preRequisites && (
+                    <Styled.InfoBox>
+                        <Styled.MediumHeading>
+                            PRE REQUISITE
+                        </Styled.MediumHeading>
+                        <Styled.InfoText>
+                            Gateway.DAO.Verfication
+                        </Styled.InfoText>
+                    </Styled.InfoBox>
+                )}
                 <Styled.InfoBox>
                     {gate.keysNumber && (
                         <>
@@ -143,6 +201,18 @@ const GateCard = ({ gate }) => {
                         </>
                     )}
                 </Styled.InfoBox>
+                {/* </Styled.Column>
+                <Styled.Column> */}
+                <Styled.InfoBox>
+                    <Styled.MediumHeading>EARNERS</Styled.MediumHeading>
+                    <Styled.InfoText>
+                        {gate.holders}{' '}
+                        {gate.holders !== 1 ? 'people have' : 'person has'}{' '}
+                        earned it.
+                    </Styled.InfoText>
+                </Styled.InfoBox>
+                {/* </Styled.Column> */}
+                {/* </Styled.InfoBox> */}
             </Styled.InfoContainer>
             <Styled.ActivityBox>
                 <Styled.ActionButton
@@ -150,7 +220,7 @@ const GateCard = ({ gate }) => {
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                {isAdmin && (
+                {!viewAsMember && (
                     <Styled.PublishContainer>
                         <Styled.PublishText>PUBLISH</Styled.PublishText>
                         <Switch

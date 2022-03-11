@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 // Styling
 import * as Styled from './style';
@@ -27,20 +27,18 @@ interface Key {
 }
 
 const AddNewKey = () => {
-    const [keysDilogBox, setKeysDilogBox] = useState<boolean>(false);
-    const [peopleLimitDilogBox, setPeopleLimitDilogBox] =
-        useState<boolean>(false);
-
     const {
         gateData,
         formik,
         edit,
         loading,
+        state,
     }: {
         gateData: Gate;
         formik: FormikContextType<Key>;
         edit: boolean;
         loading: boolean;
+        state: Record<string, any>;
     } = useOutletContext();
 
     // Hooks
@@ -138,7 +136,9 @@ const AddNewKey = () => {
         e.preventDefault();
 
         formik.values.taskLink !== 'self-verify'
-            ? navigate(formik.values.taskLink)
+            ? navigate(formik.values.taskLink, {
+                  state,
+              })
             : formik.submitForm();
 
         return false;
@@ -249,20 +249,14 @@ const AddNewKey = () => {
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='keysRewarded'>
                                 Keys REWARDED*{' '}
-                                {/*
                                 <FormStyled.QuestionIcon
-                                    onMouseEnter={keysDilogBoxFunc}
-                                    onMouseLeave={keysDilogBoxFunc}
+                                    data-title='Enter the number of keys user gets on
+                                        successfully compleating a task.'
+                                    height={60}
+                                    width={300}
                                 >
                                     ?
                                 </FormStyled.QuestionIcon>
-                                {keysDilogBox && (
-                                    <FormStyled.DescriptionDilogBox>
-                                        Enter the number of keys user gets on
-                                        successfully compleating a task.
-                                    </FormStyled.DescriptionDilogBox>
-                                )}
-                                */}
                             </FormStyled.Label>
                             <FormStyled.Input
                                 id='keysRewarded'
@@ -281,19 +275,6 @@ const AddNewKey = () => {
                         <FormStyled.Fieldset>
                             <FormStyled.Label htmlFor='peopleLimit'>
                                 PEOPLE LIMIT*{' '}
-                                {/*
-                                <FormStyled.QuestionIcon
-                                    onMouseEnter={peopleLimitDilogBoxFunc}
-                                    onMouseLeave={peopleLimitDilogBoxFunc}
-                                >
-                                    ?
-                                </FormStyled.QuestionIcon>
-                                {peopleLimitDilogBox && (
-                                    <FormStyled.DescriptionDilogBox>
-                                        Number of people can work on this task
-                                    </FormStyled.DescriptionDilogBox>
-                                )}
-                                */}
                             </FormStyled.Label>
                             <Styled.InputContainer
                                 value={

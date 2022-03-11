@@ -12,7 +12,7 @@ import Home from './Component/Home';
 import Percentage from './Component/Persentage';
 
 // Hooks
-import { useLocation, useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { FormikContextType } from 'formik';
 import { QuizOptionInput } from '../../graphql/API';
 
@@ -55,11 +55,6 @@ const CreateQuiz = () => {
     } = useOutletContext();
 
     // State
-    const { state }: { state: Record<string, any> } = useLocation();
-    const [title, setTitle] = useState(edit ? formik.values.quiz.title : '');
-    const [description, setDescription] = useState(
-        edit ? formik.values.quiz.description : ''
-    );
     const [message, setMessage] = useState('Processing your Quiz');
     const [showMessage, setShowMessage] = useState(false);
     const [activeModal, setActiveModal] = useState('HOME');
@@ -70,10 +65,6 @@ const CreateQuiz = () => {
             case 'HOME':
                 return (
                     <Home
-                        title={title}
-                        setTitle={setTitle}
-                        description={description}
-                        setDescription={setDescription}
                         setActiveModal={setActiveModal}
                         setShowMessage={setShowMessage}
                     />
@@ -85,25 +76,33 @@ const CreateQuiz = () => {
                         setShowMessage={setShowMessage}
                         setOptionsPerQuestion={setOptionsPerQuestion}
                         initialClont={optionsPerQuestion}
-                        formik={formik}
                     />
                 );
             case 'PERCENTAGE_PAGE':
-                return <Percentage formik={formik} />;
+                return <Percentage />;
             default:
-                return <Home />;
+                return (
+                    <Home
+                        setActiveModal={setActiveModal}
+                        setShowMessage={setShowMessage}
+                    />
+                );
         }
     };
+
     /**
-     * This function is used to create a quiz.
-     * @param e - event
-     * @returns The mutation is returning the data of the quiz.
+     * It validates the form.
+     * @param values - The values of the form.
+     * @returns The validation function returns an object with errors.
      */
     const validate = async (values) => {
         // eslint-disable-next-line prefer-const
         let errors = {};
 
-        if (title.length === 0 || description.length === 0) {
+        if (
+            values.quiz.title.length === 0 ||
+            values.quiz.description.length === 0
+        ) {
             setMessage('Please enter title and description');
         }
 
@@ -155,9 +154,6 @@ const CreateQuiz = () => {
     return (
         <FormStyled.FormBox onSubmit={formik.handleSubmit}>
             <Styled.Container>
-                {showMessage && (
-                    <Styled.ErrorMessage>{message}</Styled.ErrorMessage>
-                )}
                 <ThemeStyled.SpaceBox id='space-canvas' />
                 <FormStyled.H1>{edit ? 'Edit Quiz' : 'Add Quiz'}</FormStyled.H1>
                 <ActiveModal />

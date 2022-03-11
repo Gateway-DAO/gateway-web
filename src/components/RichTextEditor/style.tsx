@@ -25,17 +25,14 @@ export const RichEditor = styled.div`
         min-height: 200px;
         font-size: 16px;
     }
-
     & .ql-container {
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
     }
-
     & .ql-toolbar {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
     }
-
     & .ql-toolbar,
     .ql-container,
     .ql-snow {
@@ -44,17 +41,14 @@ export const RichEditor = styled.div`
                 ? FilledEditor
                 : 'border: 1px solid rgba(255, 255, 255, 0.2);'}
     }
-
     & .ql-toolbar .ql-stroke {
         fill: none;
         stroke: #a5a5a5;
     }
-
     & .ql-toolbar .ql-fill {
         fill: #a5a5a5;
         stroke: none;
     }
-
     & .ql-toolbar .ql-picker {
         color: #a5a5a5;
     }

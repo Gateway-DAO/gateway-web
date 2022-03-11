@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+import { Form } from 'formik';
 
 const InputDefault = `
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -99,6 +101,17 @@ export const FormBox = styled.form`
     margin: 50px 0;
 `;
 
+export const FormikFormBox = styled(Form)`
+    max-width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20%;
+    margin: 50px 0;
+`;
+
 interface IMarginProps {
     marginY?: string | number;
     marginBottom?: string | number;
@@ -185,7 +198,7 @@ export const Textarea = styled.textarea<{ height?: string | number }>`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
@@ -245,7 +258,7 @@ export const Input = styled.input<IInput>`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
@@ -268,7 +281,7 @@ export const SmallInput = styled.input`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
@@ -280,26 +293,46 @@ export const SmallInput = styled.input`
     ${(props) => (props.value ? FilledInput : '')}
 `;
 
-const SearchInput = styled.input`
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 10px;
+const SearchInnerInput = styled.input<IInput>`
+    ${(props) => (props.white ? 'color: #170627;' : 'color: #e5e5e5;')}
 
     font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;
-    background: #170627;
-    color: #e5e5e5;
-    margin: 15px 0;
-    width: 100%;
+    padding: 10px;
+    width: ${(props) => props.width || '100%'};
     outline: none;
+    border: 0px;
+    background-color: transparent;
 `;
+
+const SearchInputContainer = styled.div`
+    ${(props) => (props.white ? InputWhite : InputDefault)}
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 15px 0;
+
+    ${(props) => (!!props.value && !props.white ? FilledInput : '')}
+    ${(props) => (props.valid === false ? InvalidInput : '')}
+`;
+
+const SearchInputIcon = styled(FaSearch)`
+    margin: 0 10px;
+`;
+
+export const SearchInput = (props) => (
+    <SearchInputContainer {...props}>
+        <SearchInnerInput {...props} />
+        <SearchInputIcon color='white' />
+    </SearchInputContainer>
+);
 
 const CheckboxContainer = styled.div<{ checked: boolean }>`
     position: relative;
@@ -456,7 +489,7 @@ export const Select = styled.select`
     ${(props) => (props.valid === false ? InvalidInput : '')}
 `;
 
-export const QuestionIcon = styled.span`
+export const QuestionIcon = styled.a`
     width: 15px;
     height: 15px;
     margin-left: 10px;
@@ -475,6 +508,30 @@ export const QuestionIcon = styled.span`
     border: 1px solid #a5a5a5;
     box-sizing: border-box;
     border-radius: 100%;
+
+    &[data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 4px;
+        left: 80px;
+        top: -26px;
+        width: ${(props) => props.width}
+        height: ${(props) => props.height}
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        // line-height: px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
 `;
 
 export const DeleteIcon = styled.div`
@@ -504,26 +561,4 @@ export const DeleteContent = styled.div`
     align-items: center;
 
     color: #e5e5e5;
-`;
-export const DescriptionDilogBox = styled.div`
-    position: absolute;
-    padding: 2px 0px 2px 6px;
-    right: 180px;
-    top: -26px;
-    width: 100px;
-    height: 20px;
-
-    font-family: Be Vietnam;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 10px;
-    // line-height: px;
-
-    display: flex;
-    align-items: center;
-
-    background: #220a38;
-    border: 1px solid #7e3bdc;
-    color: rgba(255, 255, 255, 0.6);
-    border-radius: 10px;
 `;

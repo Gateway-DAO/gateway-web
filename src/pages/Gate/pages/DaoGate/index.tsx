@@ -44,6 +44,7 @@ const DaoGate: React.FC = () => {
         useOutletContext();
     const dao: DAO = gateData.dao;
     const navigate = useNavigate();
+
     const { isAdmin } = useGateAdmin(gateData.admins);
 
     const handleClick = () => {
@@ -57,14 +58,18 @@ const DaoGate: React.FC = () => {
             </Styled.LoaderBox>
         );
     } else if (loaded) {
-        if (!isAdmin && !gateData.published) {
+        if (
+            !isAdmin &&
+            (gateData.published == 'NOT_PUBLISHED' ||
+                gateData.published == 'PAUSED')
+        ) {
             return <Navigate to='/404' />;
         }
 
         return (
             <Styled.Wrapper>
                 <BackButtonDiv
-                    url={`/dao/${dao.name}?tab=gates`}
+                    url={`/dao/${dao.dao}?tab=gates`}
                     published={gateData.published}
                     id={gateData.id}
                     daoData={dao}
@@ -108,6 +113,7 @@ const DaoGate: React.FC = () => {
                                             >
                                                 <Styled.PfpAdmin
                                                     src={admin.pfp}
+                                                    data-title={admin.name}
                                                 />
                                             </Link>
                                         );
@@ -166,28 +172,32 @@ const DaoGate: React.FC = () => {
                             </Styled.LinksContainer>
                         </Styled.AdditionalInfoBox>
                         <Styled.HeaderLine />
-                        <Styled.SecondDiv>
-                            <Styled.SecondDivName>Keys</Styled.SecondDivName>
-                            <Styled.AnotherDiv>
-                                <Styled.CircleBox>
-                                    <CircularProgressbar
-                                        value={gateData.keysDone}
-                                        minValue={0}
-                                        maxValue={gateData.keysNumber}
-                                        strokeWidth={15}
-                                    />
-                                </Styled.CircleBox>
-                                <Styled.ProgressInfoDiv>
-                                    <Styled.ProgressInfoDivOne>
-                                        Keys
-                                    </Styled.ProgressInfoDivOne>
-                                    <Styled.ProgressInfoDivTwo>
-                                        {gateData.keysDone} of{' '}
-                                        {gateData.keysNumber}
-                                    </Styled.ProgressInfoDivTwo>
-                                </Styled.ProgressInfoDiv>
-                            </Styled.AnotherDiv>
-                        </Styled.SecondDiv>
+                        {gateData?.keysNumber !== 0 && (
+                            <Styled.SecondDiv>
+                                <Styled.SecondDivName>
+                                    Keys
+                                </Styled.SecondDivName>
+                                <Styled.AnotherDiv>
+                                    <Styled.CircleBox>
+                                        <CircularProgressbar
+                                            value={gateData.keysDone}
+                                            minValue={0}
+                                            maxValue={gateData.keysNumber}
+                                            strokeWidth={15}
+                                        />
+                                    </Styled.CircleBox>
+                                    <Styled.ProgressInfoDiv>
+                                        <Styled.ProgressInfoDivOne>
+                                            Keys
+                                        </Styled.ProgressInfoDivOne>
+                                        <Styled.ProgressInfoDivTwo>
+                                            {gateData.keysDone} of{' '}
+                                            {gateData.keysNumber}
+                                        </Styled.ProgressInfoDivTwo>
+                                    </Styled.ProgressInfoDiv>
+                                </Styled.AnotherDiv>
+                            </Styled.SecondDiv>
+                        )}
                         <Styled.ThirdDiv>
                             {isAdmin && (
                                 <Styled.Box>

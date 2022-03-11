@@ -16,7 +16,7 @@ export const CONNECTORS = {
 };
 
 export const ROUTER_ADDRESS = {
-    4: '0x17eBdB004aEe7985f513Fc3d087A1C1F2d51aA64',
+    4: '0x3F9Ad56D3245619eDc373C252E74432D7D667Cf2',
     137: '',
 };
 

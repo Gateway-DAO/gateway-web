@@ -17,14 +17,14 @@ const TOOLBAR_OPTIONS = [
     ['image', 'emoji'],
 ];
 
-const RichEditor = ({ value, set, toolbar = {}, ...props }) => {
+const RichEditor = ({ value, set, toolbar = {}, idx }) => {
     return (
         <Styled.RichEditor
             filled={!!value.replace(/<(.|\n)*?>/g, '').trim().length}
         >
             <ReactQuill
                 value={value}
-                onChange={(val) => set(val, props.idx)}
+                onChange={(val) => set(val, idx)}
                 modules={{
                     imageResize: {
                         // parchment: Quill.import('parchment'),

@@ -124,6 +124,8 @@ interface IPfpAdmin {
 }
 
 export const PfpAdmin = styled.div<IPfpAdmin>`
+    display: flex;
+    position: relative;
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -134,6 +136,27 @@ export const PfpAdmin = styled.div<IPfpAdmin>`
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    &[data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 2px 8px;
+
+        top: 46px;
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        // line-height: px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
 `;
 
 export const BoldTextHeading = styled.h3`

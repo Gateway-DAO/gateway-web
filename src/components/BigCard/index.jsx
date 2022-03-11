@@ -66,16 +66,20 @@ const NewCard = (props) => {
     }, [web3.active, props.id, props]);
 
     const [balance, setBalance] = useState(0);
+    const [viewAsMember, setViewAsMember] = useState(true);
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
     const [showEditModal, setShowEditModal] = useState(false);
     const iconHover = useRef(null);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
     const [searchParams, setSearchParams] = useSearchParams();
-
     const [activeTab, setActiveTab] = useState(
         searchParams.get('tab') || 'gates'
     );
-
+    console.log({ isAdmin });
+    useEffect(() => {
+        setViewAsMember(!isAdmin);
+        console.log({ viewAsMember });
+    }, [isAdmin]);
     const Modals = () => (
         <>
             {React.createElement(EditCardModal, {
@@ -93,7 +97,7 @@ const NewCard = (props) => {
         switch (social.network) {
             case 'discord':
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='Discord'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaDiscord />
                         </Styled.SocialLink>
@@ -101,7 +105,7 @@ const NewCard = (props) => {
                 );
             case 'twitter':
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='twitter'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTwitter size={20} />
                         </Styled.SocialLink>
@@ -109,7 +113,7 @@ const NewCard = (props) => {
                 );
             case 'website':
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='website'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FiGlobe />
                         </Styled.SocialLink>
@@ -117,7 +121,7 @@ const NewCard = (props) => {
                 );
             case 'medium':
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='medium'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaMedium />
                         </Styled.SocialLink>
@@ -125,7 +129,7 @@ const NewCard = (props) => {
                 );
             case 'github':
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='Github'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaGithub />
                         </Styled.SocialLink>
@@ -133,7 +137,7 @@ const NewCard = (props) => {
                 );
             case 'telegram':
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='Telegram'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTelegram />
                         </Styled.SocialLink>
@@ -141,7 +145,7 @@ const NewCard = (props) => {
                 );
             case 'chat':
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='Chat'>
                         <Styled.SocialLink href={social.url}>
                             <BsChatTextFill />
                         </Styled.SocialLink>
@@ -149,7 +153,7 @@ const NewCard = (props) => {
                 );
             default:
                 return (
-                    <Styled.Social key={idx}>
+                    <Styled.Social key={idx} data-title='other social network'>
                         <Styled.SocialLink href={social.url}>
                             <FaLink />
                         </Styled.SocialLink>
@@ -266,7 +270,7 @@ const NewCard = (props) => {
     const ActiveTab = () => {
         switch (searchParams.get('tab')) {
             case 'profile':
-                return <Profile {...props} />;
+                return <Profile {...props} viewAsMember={viewAsMember} />;
             /*
             case 'feed':
                 return <Feed {...props} />;
@@ -274,7 +278,7 @@ const NewCard = (props) => {
                 return <Members daoName={props.name} />;
             */
             case 'gates':
-                return <Gates {...props} />;
+                return <Gates {...props} viewAsMember={viewAsMember} />;
             case 'Plugins':
                 return <Plugins {...props} />;
             default:
@@ -303,8 +307,8 @@ const NewCard = (props) => {
                             </Styled.DaoTagContainer>
                             <Styled.Title>
                                 {props?.name}{' '}
-                                <Styled.EditContainer>
-                                    {isAdmin && (
+                                <Styled.EditContainer data-title='Edit Dao'>
+                                    {!viewAsMember && (
                                         <FaPencilAlt
                                             onClick={toggleEditModal}
                                         />
@@ -400,6 +404,24 @@ const NewCard = (props) => {
                         </Styled.SelectedTab>
                         */}
                     </Styled.ProfileDiv>
+                    {isAdmin && (
+                        <Styled.AdminAndMemberViewWrapper>
+                            <Styled.ChangeViewButton
+                                active={viewAsMember}
+                                onClick={() => setViewAsMember(!viewAsMember)}
+                            >
+                                {viewAsMember
+                                    ? `View AS ADMIN`
+                                    : `View AS MEMBER`}
+                            </Styled.ChangeViewButton>
+                            {/* <Styled.ChangeViewButton
+                                active={viewAsMember}
+                                onClick={() => setViewAsMember(true)}
+                            >
+                                View AS MEMBER
+                            </Styled.ChangeViewButton> */}
+                        </Styled.AdminAndMemberViewWrapper>
+                    )}
                 </Styled.ProfileAndFeedContainer>
                 {/* {activeTab === 'profile' ? (
                     <Profile {...props} />

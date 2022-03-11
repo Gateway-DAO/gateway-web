@@ -9,7 +9,7 @@ export const GateCardBox = styled.div`
     grid-template-rows: repeat(6, 1fr);
     cursor: pointer;
     // With the card bottom => height: 30em;
-    height: 30em;
+    height: 37em;
     width: 25em;
 
     transition: margin 0.5s ease-in-out;
@@ -20,18 +20,34 @@ export const GateCardBox = styled.div`
         margin-top: -5px;
     }
 
+    @media only screen and (max-width: 1350px) {
+        width: 30em;
+    }
+
     @media only screen and (max-width: 1170px) {
-        height: 27em;
-        min-width: 15em;
+        height: 30em;
+        width: 25em;
+    }
+
+    @media only screen and (max-width: 900px) {
+        height: 30em;
+        width: 22em;
+    }
+
+    @media only screen and (max-width: 785px) {
+        height: 33em;
+        width: 29em;
     }
     // @media only screen and (max-width: 1000px) {
     //   min-width: calc(100%/3);
     //   max-width: calc(100%/2.5);
     // }
-    // @media only screen and (max-width: 550px) {
-    //     width: 100%;
-    //     max-width: 400px;
-    // }
+    @media only screen and (max-width: 550px) {
+        width: 100%;
+        max-width: 400px;
+        height: 30em;
+    }
+
     @media only screen and (max-width: 300px) {
         min-width: 200px;
         max-width: 200px;
@@ -54,9 +70,13 @@ export const EditContainer = styled.div`
 `;
 
 export const NFTBadgeContainer = styled.div`
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
+    // position: absolute;
+    // bottom: 15px;
+    // left: 15px;
+    display: flex;
+    flex-direction: column;
+`;
+export const PreRequisiteContainer = styled.div`
     display: flex;
     flex-direction: column;
 `;
@@ -79,7 +99,7 @@ export const GuildName = styled.h3`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 21px;
     /* identical to box height, or 131% */
 
@@ -161,25 +181,23 @@ export const CardBody = styled.div`
 `;
 
 export const CardTitle = styled.h1`
-    font-family: 'Be Vietnam';
-    font-size: 24px;
+    font-family: Be Vietnam;
     font-style: normal;
-    font-weight: 700;
-    line-height: 26px;
-    letter-spacing: 0em;
-    text-align: left;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 35px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
     color: #170627;
 `;
 
 export const CardDesc = styled.div`
-    font-family: 'Be Vietnam', sans-serif;
+    font-family: Be Vietnam;
     font-style: normal;
     font-weight: normal;
-    font-size: 12px;
-    line-height: 18px;
-    display: flex;
-    align-items: center;
-    letter-spacing: 0.05em;
+    font-size: 16px;
+    line-height: 22px;
     margin-top: 5px;
 
     color: #170627;
@@ -189,30 +207,30 @@ export const CardDesc = styled.div`
     align-items: flex-start;
 `;
 export const InfoContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    /* align-items: center; */
+    display: grid;
     border-bottom: 1px solid #e5e5e5;
     margin: 0 25px;
     padding-bottom: 15px;
+    grid-template-columns: auto auto;
+    column-gap: 40px;
 `;
 export const InfoBox = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
     text-align: left;
+    // margin-right: 20px;
 `;
 
 export const MediumHeading = styled.h3`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 14px;
     line-height: 21px;
-    /* identical to box height, or 131% */
+    /* identical to box height, or 150% */
 
     letter-spacing: -0.015em;
-
     color: #000000;
 `;
 
@@ -293,11 +311,26 @@ export const PublishText = styled.span`
     font-size: 13px;
     line-height: 19px;
     /* identical to box height */
-
     text-align: center;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-
     color: #170627;
     margin-right: 5px;
+`;
+export const Column = styled.div`
+    display: flex;
+    // align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: column;
+`;
+export const InfoText = styled.div`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+
+    color: #111827;
 `;
