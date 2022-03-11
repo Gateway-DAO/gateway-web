@@ -119,6 +119,9 @@ You need to install all the required packages with `yarn`. It might take some mi
 
 After all the packages are installed on your machine, you're ready to execute the local environment. Please use `yarn start` so you can get execute a local version of Gateway's frontend on your machine.
 
+Note: Running `yarn` (esp. the first time) might take a few mins.
+
+
 ### Some considerations
 
 - you can *mock* the backend locally by using `amplify mock`. However, some services like [AWS OpenSearch](https://aws.amazon.com/opensearch-service/the-elk-stack/what-is-opensearch/) won't work.
