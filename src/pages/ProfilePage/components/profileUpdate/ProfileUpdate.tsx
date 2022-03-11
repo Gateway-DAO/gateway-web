@@ -21,6 +21,31 @@ import {
 	FaMapMarkerAlt,
 } from 'react-icons/fa';
 import { BiCopy } from 'react-icons/bi';
+import {
+	WiDaySunny,
+	WiDaySunnyOvercast,
+	WiDayCloudyHigh,
+	WiCloudy,
+	WiFog,
+	WiShowers,
+	WiDayRainMix,
+	WiStormShowers,
+	WiRain,
+	WiSprinkle,
+	WiDayShowers,
+	WiSnowflakeCold,
+	WiDaySnow,
+	WiSleet,
+	WiRainMix,
+	WiHot,
+	WiWindy,
+	WiNightClear,
+	WiNightAltCloudy,
+	WiNightLightning,
+	WiNightAltShowers,
+	WiNightAltStormShowers,
+	WiNightAltSnow
+} from 'react-icons/wi';
 import Loader from '../../../../components/Loader';
 import Page from '../../../../components/Page';
 import {
@@ -91,7 +116,7 @@ const ProfileUpdate = () => {
 
 	// State
 	const [userInfo, setUserInfo] = useState(RAW_USER);
-	console.log("UI--", userInfo);
+	// console.log("UI--", userInfo);
 	localStorage.setItem('userId', userInfo.id);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [currentLocation, setCurrentLocation] = useState({
@@ -102,6 +127,7 @@ const ProfileUpdate = () => {
 		country: '',
 	});
 	const [internalLoading, setInternalLoading] = useState(true);
+	const [weatherData, setWeatherData] = useState([]);
 	const { account } = useWeb3React();
 
 	const canEdit = userInfo.wallet === account;
@@ -194,13 +220,13 @@ const ProfileUpdate = () => {
 	const getSocialIcon = (platform) => {
 		let icon = <FaShareAlt color='white' />;
 
-		if (platform == 'twitter') {
+		if (platform == 'Twitter') {
 			icon = <FaTwitter color='white' />;
-		} else if (platform == 'discord') {
-			icon = <FaDiscord color='white' />;
-		} else if (platform == 'telegram') {
+		} else if (platform == 'Discord') {
+			icon = <FaDiscord color='White' />;
+		} else if (platform == 'Telegram') {
 			icon = <FaTelegram color='white' />;
-		} else if (platform == 'github') {
+		} else if (platform == 'Github') {
 			icon = <FaGithubAlt color='white' />;
 		}
 
@@ -264,6 +290,128 @@ const ProfileUpdate = () => {
 		console.log(userError);
 		return <Navigate to='/404' />;
 	}
+	const getUserWeather = async () => {
+		if (currentLocation.lat && currentLocation.long) {
+			// console.log("currentLocation", currentLocation);
+			const resLocation = await fetch(
+				'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2dvV2gApn0czHGJ659bUO5hM3LFkU5Zn&q=' + currentLocation.lat + ',' + currentLocation.long
+			);
+			const locationRes = await resLocation.json();
+
+			const resWeather = await fetch(
+				'http://dataservice.accuweather.com/currentconditions/v1/' + locationRes.Key + '?apikey=2dvV2gApn0czHGJ659bUO5hM3LFkU5Zn'
+			);
+			const weatherRes = await resWeather.json();
+
+			console.log("locationRes", locationRes);
+			console.log("weatherRes", weatherRes);
+			setWeatherData(weatherRes);
+		}
+	};
+	useEffect(() => {
+		getUserWeather();
+	}, [currentLocation]);
+
+	const getWeatherIcon = () => {
+		let weatherIcon = null;
+		// console.log("weatherData", weatherData.length);
+		if (weatherData.length === 1) {
+			if (weatherData[0].WeatherText === 'Sunny') {
+				weatherIcon = <WiDaySunny color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Sunny') {
+				weatherIcon = <WiDaySunnyOvercast color="white" />;
+			} else if (weatherData[0].WeatherText === 'Partly Sunny') {
+				weatherIcon = <WiDaySunnyOvercast color="white" />;
+			} else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
+				weatherIcon = <WiDaySunnyOvercast color="white" />;
+			} else if (weatherData[0].WeatherText === 'Hazy Sunshine') {
+				weatherIcon = <WiDaySunnyOvercast color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
+				weatherIcon = <WiDayCloudyHigh color="white" />;
+			} else if (weatherData[0].WeatherText === 'Cloudy') {
+				weatherIcon = <WiCloudy color="white" />;
+			} else if (weatherData[0].WeatherText === 'Dreary (Overcast)') {
+				weatherIcon = <WiCloudy color="white" />;
+			} else if (weatherData[0].WeatherText === 'Fog') {
+				weatherIcon = <WiFog color="white" />;
+			} else if (weatherData[0].WeatherText === 'Showers') {
+				weatherIcon = <WiShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' && weatherData[0].IsDayTime === true) {
+				weatherIcon = <WiDayRainMix color="white" />;
+			} else if (weatherData[0].WeatherText === 'Partly Sunny w/ Showers') {
+				weatherIcon = <WiDayRainMix color="white" />;
+			} else if (weatherData[0].WeatherText === 'T-Storms') {
+				weatherIcon = <WiStormShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' && weatherData[0].IsDayTime === true) {
+				weatherIcon = <WiDayRainMix color="white" />;
+			} else if (weatherData[0].WeatherText === 'Partly Sunny w/ T-Storms') {
+				weatherIcon = <WiDayRainMix color="white" />;
+			} else if (weatherData[0].WeatherText === 'Rain') {
+				weatherIcon = <WiRain color="white" />;
+			} else if (weatherData[0].WeatherText === 'Flurries') {
+				weatherIcon = <WiSprinkle color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' && weatherData[0].IsDayTime === true) {
+				weatherIcon = <WiDayShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Partly Sunny w/ Flurries') {
+				weatherIcon = <WiDayShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Snow') {
+				weatherIcon = <WiSnowflakeCold color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' && weatherData[0].IsDayTime === true) {
+				weatherIcon = <WiDaySnow color="white" />;
+			} else if (weatherData[0].WeatherText === 'Ice') {
+				weatherIcon = <WiSnowflakeCold color="white" />;
+			} else if (weatherData[0].WeatherText === 'Sleet') {
+				weatherIcon = <WiSleet color="white" />;
+			} else if (weatherData[0].WeatherText === 'Freezing Rain') {
+				weatherIcon = <WiRain color="white" />;
+			} else if (weatherData[0].WeatherText === 'Rain and Snow') {
+				weatherIcon = <WiRainMix color="white" />;
+			} else if (weatherData[0].WeatherText === 'Hot') {
+				weatherIcon = <WiHot color="white" />;
+			} else if (weatherData[0].WeatherText === 'Cold') {
+				weatherIcon = <WiSnowflakeCold color="white" />;
+			} else if (weatherData[0].WeatherText === 'Windy') {
+				weatherIcon = <WiWindy color="white" />;
+			} else if (weatherData[0].WeatherText === 'Clear') {
+				weatherIcon = <WiNightClear color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Clear') {
+				weatherIcon = <WiNightClear color="white" />;
+			} else if (weatherData[0].WeatherText === 'Partly Cloudy') {
+				weatherIcon = <WiNightAltCloudy color="white" />;
+			} else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
+				weatherIcon = <WiNightAltCloudy color="white" />;
+			} else if (weatherData[0].WeatherText === 'Hazy Moonlight') {
+				weatherIcon = <WiNightLightning color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
+				weatherIcon = <WiCloudy color="white" />;
+			} else if (weatherData[0].WeatherText === 'Partly Cloudy w/ Showers') {
+				weatherIcon = <WiNightAltShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' && weatherData[0].IsDayTime === false) {
+				weatherIcon = <WiNightAltShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Partly Cloudy w/ T-Storms') {
+				weatherIcon = <WiNightAltStormShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' && weatherData[0].IsDayTime === false) {
+				weatherIcon = <WiNightAltStormShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' && weatherData[0].IsDayTime === false) {
+				weatherIcon = <WiNightAltShowers color="white" />;
+			} else if (weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' && weatherData[0].IsDayTime === false) {
+				weatherIcon = <WiNightAltSnow color="white" />;
+			} else {
+				weatherIcon = <WiDaySunny color="white" />;
+			}
+
+		}
+		return weatherIcon;
+	}
+
+	const handleCopy = async () => {
+		const walletAddress = userInfo.wallet;
+		try {
+			navigator.clipboard.writeText(walletAddress);
+		} catch (err) {
+			console.error('Failed to copy!', err);
+		}
+	}
 
 	return internalLoading ? (
 		<Page>
@@ -310,7 +458,7 @@ const ProfileUpdate = () => {
 														)
 													)}
 											</div>
-											{userInfo.userBio === '' &&
+											{userInfo.bio === '' &&
 												canEdit ? (
 												<Link
 													to='complete-profile'
@@ -332,10 +480,10 @@ const ProfileUpdate = () => {
 												)}
 											</p>
 											<div className='gateway-profile-middle-btn-grp'>
-												<a href='#'>
+												<a onClick={() => { handleCopy() }}>
 													<BiCopy color='white' />
 												</a>
-												{userInfo.userBio !== '' &&
+												{userInfo.bio !== '' &&
 													canEdit ? (
 													<Dropdown>
 														<Dropdown.Toggle
@@ -441,7 +589,7 @@ const ProfileUpdate = () => {
 									</a>
 								</div>
 								<div className='gateway-profile-right-content'>
-									<img src='/profile/vector.svg' />
+									{getWeatherIcon()}
 									<h3>
 										{currentTime.toLocaleTimeString(
 											'en-US',

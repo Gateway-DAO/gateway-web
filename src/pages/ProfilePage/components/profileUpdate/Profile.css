@@ -116,6 +116,19 @@ section.gateway-profile {
     color: #e5e5e5;
     margin-bottom: 0;
 }
+.gateway-profile-right-content svg {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(
+        161.27deg,
+        #ee787b 26.85%,
+        #e153f2 47.73%,
+        #495be0 74.96%,
+        #6a39f3 98.45%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 .gateway-profile-right-content img {
     margin-bottom: 13px;
 }
