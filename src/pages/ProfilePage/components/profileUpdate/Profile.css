@@ -323,6 +323,10 @@ section.gateway-profile {
     justify-content: space-between;
     margin-bottom: 20px;
 }
+.about-content {
+    color: #fff;
+    font-size: 20px;
+}
 ul.daos-like-ul li a {
     font-style: normal;
     font-weight: normal;
@@ -563,7 +567,8 @@ ul.daos-like-ul li a:focus {
 .gateway-profile-middle-btn-grp a:hover,
 .gateway-profile-middle-btn-grp a:focus,
 .gateway-profile-middle-btn-grp .dropdown-toggle:hover,
-.gateway-profile-middle-btn-grp .dropdown-toggle.btn.btn-success {
+.gateway-profile-middle-btn-grp .dropdown-toggle.btn.btn-success:hover,
+.show > .btn-success.dropdown-toggle {
     transition: 0.3s;
     border: none;
     background: linear-gradient(

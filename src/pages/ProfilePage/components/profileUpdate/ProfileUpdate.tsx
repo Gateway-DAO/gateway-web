@@ -69,7 +69,7 @@ import { shortenAddress } from '../../../../utils/web3';
 // Types
 import { User } from '../../../../graphql/API';
 import { useWeb3React } from '@web3-react/core';
-
+import copy from "copy-to-clipboard";
 /* Creating a variable called offset and setting it to the timezone offset of the current date. */
 let offset = new Date().getTimezoneOffset(),
 	o = Math.abs(offset);
@@ -116,8 +116,6 @@ const ProfileUpdate = () => {
 
 	// State
 	const [userInfo, setUserInfo] = useState(RAW_USER);
-	// console.log("UI--", userInfo);
-	localStorage.setItem('userId', userInfo.id);
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [currentLocation, setCurrentLocation] = useState({
 		lat: '',
@@ -219,17 +217,15 @@ const ProfileUpdate = () => {
 	 */
 	const getSocialIcon = (platform) => {
 		let icon = <FaShareAlt color='white' />;
-
 		if (platform == 'Twitter') {
 			icon = <FaTwitter color='white' />;
 		} else if (platform == 'Discord') {
-			icon = <FaDiscord color='White' />;
+			icon = <FaDiscord color='white' />;
 		} else if (platform == 'Telegram') {
 			icon = <FaTelegram color='white' />;
 		} else if (platform == 'Github') {
 			icon = <FaGithubAlt color='white' />;
 		}
-
 		return icon;
 	};
 
@@ -290,27 +286,35 @@ const ProfileUpdate = () => {
 		console.log(userError);
 		return <Navigate to='/404' />;
 	}
-	const getUserWeather = async () => {
-		if (currentLocation.lat && currentLocation.long) {
-			// console.log("currentLocation", currentLocation);
-			const resLocation = await fetch(
-				'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2dvV2gApn0czHGJ659bUO5hM3LFkU5Zn&q=' + currentLocation.lat + ',' + currentLocation.long
-			);
-			const locationRes = await resLocation.json();
 
-			const resWeather = await fetch(
-				'http://dataservice.accuweather.com/currentconditions/v1/' + locationRes.Key + '?apikey=2dvV2gApn0czHGJ659bUO5hM3LFkU5Zn'
-			);
-			const weatherRes = await resWeather.json();
+	/*useEffect(() => {
 
-			console.log("locationRes", locationRes);
-			console.log("weatherRes", weatherRes);
-			setWeatherData(weatherRes);
-		}
-	};
-	useEffect(() => {
+		const getUserWeather = async () => {
+			if(currentLocation.lat && currentLocation.long){
+				// console.log("currentLocation", currentLocation);
+
+				const resLocation = await fetch(
+					'http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=2dvV2gApn0czHGJ659bUO5hM3LFkU5Zn&q='+currentLocation.lat+','+currentLocation.long
+				);
+				if (!resLocation.ok) {
+						const locationRes = await resLocation.json();
+
+						const resWeather = await fetch(
+						'http://dataservice.accuweather.com/currentconditions/v1/'+locationRes.Key+'?apikey=2dvV2gApn0czHGJ659bUO5hM3LFkU5Zn'
+					);
+						const weatherRes = await resWeather.json();
+
+						// console.log("locationRes", locationRes);
+						// console.log("weatherRes", weatherRes);
+						setWeatherData(weatherRes);
+					} else {
+						console.log("error weather location", resLocation.status);
+					}
+				}
+		};
+
 		getUserWeather();
-	}, [currentLocation]);
+	}, [currentLocation]);*/
 
 	const getWeatherIcon = () => {
 		let weatherIcon = null;
@@ -405,12 +409,7 @@ const ProfileUpdate = () => {
 	}
 
 	const handleCopy = async () => {
-		const walletAddress = userInfo.wallet;
-		try {
-			navigator.clipboard.writeText(walletAddress);
-		} catch (err) {
-			console.error('Failed to copy!', err);
-		}
+		copy(userInfo?.wallet || '');
 	}
 
 	return internalLoading ? (
@@ -480,7 +479,7 @@ const ProfileUpdate = () => {
 												)}
 											</p>
 											<div className='gateway-profile-middle-btn-grp'>
-												<a onClick={() => { handleCopy() }}>
+												<a href="#0" onClick={() => { handleCopy() }}>
 													<BiCopy color='white' />
 												</a>
 												{userInfo.bio !== '' &&
@@ -490,7 +489,7 @@ const ProfileUpdate = () => {
 															variant='success'
 															id='dropdown-basic'
 														>
-															<FaEdit />
+															<FaEdit color='white' />
 														</Dropdown.Toggle>
 
 														<Dropdown.Menu>
@@ -520,6 +519,7 @@ const ProfileUpdate = () => {
 								</div>
 								{userInfo.about ? (
 									<div
+										className="about-content"
 										dangerouslySetInnerHTML={{
 											__html: userInfo.about,
 										}}

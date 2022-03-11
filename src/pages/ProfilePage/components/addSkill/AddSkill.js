@@ -2,24 +2,18 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 import { Container, Button, Form, Col } from 'react-bootstrap';
-import './AddSkill.css';
-import space from '../../../../utils/canvas';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
-
+import space from '../../../../utils/canvas';
 import Page from '../../../../components/Page';
-
 import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
+import './AddSkill.css';
 
 const AddSkill = () => {
 	// State
 	const { userInfo, updateUserInfo } = useAuth();
 	const [updateSkills] = useMutation(gql(updateUser));
-
-	// Getting userId from local Storage because user Id is different with userInfo.id here.
-	var userId = localStorage.getItem('userId');
-	// var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
 
 	// Hooks
 	const navigate = useNavigate();
@@ -90,7 +84,7 @@ const AddSkill = () => {
 			await updateSkills({
 				variables: {
 					input: {
-						id: userId,
+						id: userInfo.id,
 						skills: objSkills,
 					},
 				},
@@ -106,7 +100,7 @@ const AddSkill = () => {
 	};
 
 	if (redirect) {
-		navigate(-1);
+		navigate('/profiles');
 	}
 
 	useEffect(() => {
@@ -127,7 +121,7 @@ const AddSkill = () => {
 						<a href>
 							<div
 								className='arrow-back'
-								onClick={() => navigate(-1)}
+								onClick={() => navigate('/profiles')}
 							>
 								<img src='/left-arrow-icon.svg' alt='' />
 							</div>

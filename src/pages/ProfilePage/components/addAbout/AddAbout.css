@@ -204,3 +204,7 @@ header.gateway-header
     .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-focused.ck-editor__editable_inline {
     background: #220a38 !important;
 }
+.change-background-to-fill {
+    background: #220a38 !important;
+    border-color: rgb(126, 59, 220) !important;
+}

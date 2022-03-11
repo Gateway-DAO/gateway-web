@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Container, Button, Form, Dropdown } from 'react-bootstrap';
-import './CompleteProfile.css';
 import space from '../../../../utils/canvas';
 import { useAuth } from '../../../../contexts/UserContext';
 import Header from '../../../../components/Header';
@@ -17,6 +16,7 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import useFileUpload from '../../../../api/useFileUpload';
 import normalizeUrl from 'normalize-url';
 import { useWeb3React } from '@web3-react/core';
+import './CompleteProfile.css';
 
 registerPlugin(
 	FilePondPluginImageExifOrientation,
@@ -82,11 +82,13 @@ const CompleteProfile = () => {
 		if (userInfo) {
 			setFiles([{
 				source: userInfo.pfp || '',
-				// source: 'https://static.wikia.nocookie.net/jamescameronsavatar/images/b/b4/Avatar2logo2.jpg',
 				options: { type: "local" }
 			}]);
 		}
-	}, [userInfo]);
+		else {
+			return (<Navigate to="/404" />)
+		}
+	}, []);
 
 
 	const handleFormFilled = () => {
@@ -180,7 +182,8 @@ const CompleteProfile = () => {
 				// Upload files to S3
 				const avatarURL = await uploadFile(
 					`users/${userInfo.id}/profile.${files[0].file.name.split('.').pop()}`,
-					files[0].file
+					files[0].file,
+					{ contentType: "image/jpeg" }
 				);
 
 				await updateUserInfo({
@@ -210,7 +213,7 @@ const CompleteProfile = () => {
 	// 	return <Navigate to="/404" />;
 	// }
 	if (redirect) {
-		navigate(-1);
+		return (<Navigate to="/profiles" />)
 	}
 
 	return (
@@ -221,7 +224,7 @@ const CompleteProfile = () => {
 				<Container>
 					<div className='back-link'>
 						<a href='#'>
-							<div className='arrow-back' onClick={() => navigate(-1)}>
+							<div className='arrow-back' onClick={() => navigate('/profiles')}>
 								<img src='/left-arrow-icon.svg' alt='' />
 							</div>
 						</a>

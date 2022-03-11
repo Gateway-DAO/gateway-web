@@ -1,60 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { NavLink as Link, Route, Routes, Navigate, useNavigate, useParams } from "react-router-dom";
-import { Container, Button } from 'react-bootstrap';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import './AddAbout.css';
-import space from '../../../../utils/canvas';
+import { useState, useEffect } from 'react';
+import { NavLink as Link, useNavigate, useParams } from "react-router-dom";
+import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
+
+import space from '../../../../utils/canvas';
 import Header from "../../../../components/Header";
 
-import { useLazyQuery, useMutation, gql } from '@apollo/client';
+import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
-import { getUserByUsername } from '../../../../graphql/queries';
-import { $CombinedState } from 'redux';
+import './AddAbout.css';
 
 const AddAbout = () => {
 	const { userInfo, updateUserInfo } = useAuth();
 	const [updateAbout] = useMutation(gql(updateUser));
-
-	var userId = localStorage.getItem('userId');
-	// var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
-
 	const navigate = useNavigate();
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
-	const [about, setAbout] = useState(userInfo?.about || []);
-	console.log("About--", about.length);
+	const [about, setAbout] = useState('');
+	const [isAboutFilled, setIsAboutFilled] = useState(false);
 
 	useEffect(() => {
 		space(window.innerHeight, window.innerWidth),
 			[window.innerHeight, window.innerWidth]
-	}, []);
+		setAbout(userInfo?.about || '');
+	}, [userInfo]);
 
-	const handleChange = (data) => {
-		setAbout(data);
-		if (data) {
-			setIsValidated(false);
-		} else {
-			setIsValidated(true);
-		}
+	const handleChange = (event) => {
+		setAbout(event.target.value);
 	}
 
-	const handleAdd = async () => {
+	useEffect(() => {
+		handleAboutFilled();
+	}, [about]);
 
-		if (about == '') {
-			setIsValidated(true);
-
+	const handleAboutFilled = () => {
+		if (about.length > 0) {
+			setIsAboutFilled(true);
 		} else {
-			// console.log("about", about);
+			setIsAboutFilled(false);
+		}
+	};
 
-			// API should be call here
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		event.stopPropagation();
+		const form = event.currentTarget;
+		if (form.checkValidity() !== false) {
 			try {
 				await updateAbout({
 					variables: {
 						input: {
-							id: userId,
+							id: userInfo.id,
 							about: about,
 						},
 					},
@@ -69,10 +65,11 @@ const AddAbout = () => {
 				console.log(err);
 			}
 		}
+		setIsValidated(true);
 	}
 
 	if (redirect) {
-		navigate(-1);
+		navigate('/profiles');
 	}
 
 	return (
@@ -83,12 +80,8 @@ const AddAbout = () => {
 				<canvas id="space-canvas"></canvas>
 				<Container>
 					<div className="back-link">
-						{/* <Link to="/profiles">
-							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-							<p>Back to Profile</p>
-						</Link> */}
 						<a href="#">
-							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							<div className="arrow-back" onClick={() => navigate('/profiles')}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>
 						<span style={{ color: "white", marginLeft: "20px" }}>
@@ -101,35 +94,25 @@ const AddAbout = () => {
 						<h1>About</h1>
 						<div className={`text-editor ${isValidated ? 'invalid' : ''}`}>
 							<div className="counting-number">0/400</div>
-							<CKEditor
-								className="change-background-to-fill"
-								id="about-content"
-								editor={ClassicEditor}
-								data={about}
-								onReady={editor => {
-									// You can store the "editor" and use when it is needed.
-									// console.log( 'Editor is ready to use!', editor );
-								}}
-								onChange={(event, editor) => {
-									const data = editor.getData();
-									handleChange(data);
-									// console.log( { event, editor, data } );
-								}}
-								onBlur={(event, editor) => {
-									// console.log( 'Blur.', editor );
-								}}
-								onFocus={(event, editor) => {
-									// console.log( 'Focus.', editor );
-								}}
-							/>
-							{/* <textarea
-								id="about-content"
-								name="textarea"
-								value={about}
-								onChange={handleChange}
-							>
-							</textarea> */}
-							<Button onClick={handleAdd} variant="primary">Save</Button>
+							<Form method="post" className="add-about" noValidate validated={isValidated} onSubmit={handleSubmit}>
+								<Form.Control
+									required
+									className={`${isAboutFilled
+										? 'change-background-to-fill mb-5'
+										: 'mb-5'
+										}`}
+									// className="mb-5"
+									as="textarea"
+									id="about-content"
+									name="textarea"
+									value={about}
+									onChange={(e) => {
+										handleChange(e)
+									}}
+									rows={12}
+								/>
+								<Button variant="primary" type="submit">Save</Button>
+							</Form>
 						</div>
 					</Container>
 				</div>
