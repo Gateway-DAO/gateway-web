@@ -99,7 +99,7 @@
         },
         "key": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/key-6f386262684953734c57-build.zip"
+          "s3Key": "amplify-builds/key-48394e4c7955754d374c-build.zip"
         },
         "gatewayceramicLayer": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",

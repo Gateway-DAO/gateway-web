@@ -11,6 +11,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import DAOTab from './component/DAOs';
 import UserTab from './component/Users';
+import GateTab from './component/Gates';
 // import SearchSuggestions from './component/SearchSuggestions';
 import { Navigate } from 'react-router-dom';
 
@@ -50,7 +51,7 @@ const Search = (props) => {
             case 'Users':
                 return <UserTab query={query} />;
             case 'Gates':
-                return <UserTab query={query} />;
+                return <GateTab query={query} />;
             default:
                 return <DAOTab />;
         }
