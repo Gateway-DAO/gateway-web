@@ -15,7 +15,7 @@
       "function": {
         "getUserDAOs": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getUserDAOs-3171386d673037423152-build.zip"
+          "s3Key": "amplify-builds/getUserDAOs-69684a375576596e3866-build.zip"
         },
         "getAuthenticationNonce": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -55,11 +55,11 @@
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersionf45e497d-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion23018364-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyHoldAToken-526a71544d71626c5052-build.zip"
+          "s3Key": "amplify-builds/verifyHoldAToken-77775a6b51686a345072-build.zip"
         },
         "verifyContractInteraction": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
@@ -81,7 +81,7 @@
         },
         "getCompletedKeys": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getCompletedKeys-636e7545673072397856-build.zip"
+          "s3Key": "amplify-builds/getCompletedKeys-74656632666770556935-build.zip"
         },
         "getGateHolders": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -99,11 +99,11 @@
         },
         "key": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/key-662b4347637876356652-build.zip"
+          "s3Key": "amplify-builds/key-6f386262684953734c57-build.zip"
         },
         "gatewayceramicLayer": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersione632fa48-build.zip"
+          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersionaf16ecd0-build.zip"
         }
       },
       "auth": {

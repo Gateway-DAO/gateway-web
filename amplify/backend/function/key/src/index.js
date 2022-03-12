@@ -30,6 +30,7 @@ const {
     getProvider,
     removePeopleFromKey,
     markGateAsCompleted,
+    createTaskStatus,
 } = require('./helpers');
 
 const resolvers = {

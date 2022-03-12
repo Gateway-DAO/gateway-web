@@ -14,65 +14,6 @@ const API_GATEWAY_GRAPHQL = process.env.API_GATEWAY_GRAPHQLAPIIDOUTPUT;
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 /**
- * Given a userID and a keyID, verify that the user can complete the task
- * @param args - the arguments passed on the GraphQL mutation.
- * @param callback - a function that takes in the above parameters and returns a result.
- * @returns a `Promise` that resolves to an object containing the key verification solution.
- */
-const verifyKey = async (args, callback) => {
-    try {
-        const { userID, keyID } = args;
-
-        // 1. get key
-        const key = await getKey(keyID);
-
-        if (key.peopleLimit <= 0 && !key.unlimited) {
-            return {
-                __typename: 'Error',
-                keyID,
-                error: 'NO_MORE_SLOTS',
-                msg: 'This task can no longer be completed.',
-            };
-        }
-
-        // 2. get gate
-        const gate = await getGate(key.gateID);
-
-        // 2. get user
-        const user = await getUser(userID);
-
-        // 3. get gate status; if doesn't exist, create it
-        let gateStatus = await getGateStatus(userID, key.gateID);
-        if (!gateStatus) {
-            gateStatus = await createGateStatus({
-                userID,
-                gateID: key.gateID,
-            });
-        }
-
-        let keysDone = await getCompletedKeys(userID, key.gateID);
-
-        return await callback({
-            ...args,
-            key,
-            gate,
-            user,
-            gateStatus,
-            keysDone,
-        });
-    } catch (error) {
-        const { keyID } = args;
-
-        return {
-            __typename: 'Error',
-            keyID,
-            error: 'UNEXPECTED_ERROR',
-            msg: error,
-        };
-    }
-};
-
-/**
  * Given a chainID, return the corresponding blockchain name
  * @param chainID - The chain ID of the network you want to connect to.
  * @returns The `getChain` function returns the `chainID` of the network.
@@ -665,6 +606,67 @@ const updateKey = async (input) => {
     console.log(`New Item: ${newItem}`);
 
     return Item;
+};
+
+/**
+ * Given a userID and a keyID, verify that the user can complete the task
+ * @param args - the arguments passed on the GraphQL mutation.
+ * @param callback - a function that takes in the above parameters and returns a result.
+ * @returns a `Promise` that resolves to an object containing the key verification solution.
+ */
+ const verifyKey = async (args, callback) => {
+    try {
+        const { userID, keyID } = args;
+
+        // 1. get key
+        const key = await getKey(keyID);
+
+        if (key.peopleLimit <= 0 && !key.unlimited) {
+            return {
+                __typename: 'Error',
+                keyID,
+                error: 'NO_MORE_SLOTS',
+                msg: 'This task can no longer be completed.',
+            };
+        }
+
+        // 2. get gate
+        const gate = await getGate(key.gateID);
+
+        // 2. get user
+        const user = await getUser(userID);
+
+        // 3. get gate status; if doesn't exist, create it
+        let gateStatus = await getGateStatus(userID, key.gateID);
+        if (!gateStatus) {
+            gateStatus = await createGateStatus({
+                userID,
+                gateID: key.gateID,
+            });
+        }
+
+        let keysDone = await getCompletedKeys(userID, key.gateID);
+
+        return await callback({
+            ...args,
+            key,
+            gate,
+            user,
+            gateStatus,
+            keysDone,
+        });
+    } catch (error) {
+        const { keyID } = args;
+
+        console.log(error);
+
+        return {
+            __typename: 'Error',
+            keyID,
+            error: 'UNEXPECTED_ERROR',
+            msg: error,
+        };
+    }
 };
 
 module.exports = { createKey, updateKey, createTaskStatus, markGateAsCompleted, verifyKey, getChain, getProvider, getCompletedKeys, removePeopleFromKey };
