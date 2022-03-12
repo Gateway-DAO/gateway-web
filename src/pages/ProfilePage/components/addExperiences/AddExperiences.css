@@ -51,6 +51,7 @@
     text-align: center;
     margin-bottom: 50px;
     letter-spacing: -0.05em;
+    line-height: 110px;
 }
 .ck.ck-editor {
     border: 1px solid rgba(255, 255, 255, 0.2);

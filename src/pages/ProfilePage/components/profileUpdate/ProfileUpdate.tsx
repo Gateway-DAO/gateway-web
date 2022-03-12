@@ -410,6 +410,7 @@ const ProfileUpdate = () => {
 
 	const handleCopy = async () => {
 		copy(userInfo?.wallet || '');
+		alert("Wallet Address Copied!");
 	}
 
 	return internalLoading ? (
@@ -441,7 +442,7 @@ const ProfileUpdate = () => {
 												{userInfo.bio}
 											</div>
 											<div className='social'>
-												{userInfo.socials.length > 0 &&
+												{userInfo.socials &&
 													userInfo.socials.map(
 														(item) => (
 															<a

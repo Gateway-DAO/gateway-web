@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NavLink as Link, useNavigate, useParams } from "react-router-dom";
 import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
@@ -24,6 +24,7 @@ const AddAbout = () => {
 			[window.innerHeight, window.innerWidth]
 		setAbout(userInfo?.about || '');
 	}, [userInfo]);
+
 
 	const handleChange = (event) => {
 		setAbout(event.target.value);
@@ -93,7 +94,7 @@ const AddAbout = () => {
 					<Container>
 						<h1>About</h1>
 						<div className={`text-editor ${isValidated ? 'invalid' : ''}`}>
-							<div className="counting-number">0/400</div>
+							<div className="counting-number">{about.length}/400</div>
 							<Form method="post" className="add-about" noValidate validated={isValidated} onSubmit={handleSubmit}>
 								<Form.Control
 									required
@@ -103,6 +104,7 @@ const AddAbout = () => {
 										}`}
 									// className="mb-5"
 									as="textarea"
+									maxLength={400}
 									id="about-content"
 									name="textarea"
 									value={about}

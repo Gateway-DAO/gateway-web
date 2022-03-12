@@ -43,7 +43,7 @@ const CompleteProfile = () => {
 		userName: userInfo?.username || "",
 		avatar: userInfo?.pfp || "",
 		userBio: userInfo?.bio || "",
-		socials: userInfo?.socials.map((social) => ({
+		socials: userInfo?.socials?.map((social) => ({
 			platform_name: social.network,
 			placeholder: social.url,
 			platform_value: social.url,
@@ -319,6 +319,8 @@ const CompleteProfile = () => {
 													response.blob().then(myBlob => {
 														console.log({ myBlob });
 														load(myBlob);
+													}).catch(err => {
+														console.log(err)
 													});
 												});
 											}
