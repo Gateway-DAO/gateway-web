@@ -98,9 +98,11 @@ export const onCreateUser = /* GraphQL */ `
           id
           issuerID
           targetID
+          gateID
           organizationID
           name
           description
+          image
           pow
           skills
           knowledges
@@ -212,9 +214,11 @@ export const onUpdateUser = /* GraphQL */ `
           id
           issuerID
           targetID
+          gateID
           organizationID
           name
           description
+          image
           pow
           skills
           knowledges
@@ -326,9 +330,11 @@ export const onDeleteUser = /* GraphQL */ `
           id
           issuerID
           targetID
+          gateID
           organizationID
           name
           description
+          image
           pow
           skills
           knowledges
@@ -4059,15 +4065,11 @@ export const onCreateCredential = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      organizationID
-      organization {
+      gateID
+      gate {
         id
-        wallet
-        username
-        name
-        bio
-        daos_ids
-        daos {
+        daoID
+        dao {
           id
           dao
           name
@@ -4089,32 +4091,86 @@ export const onCreateCredential = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        init
-        nonce
-        pfp
-        about
+        name
+        description
+        categories
         skills
+        knowledge
         attitudes
-        languages
-        knowledges
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
         }
+        chains
+        channels {
+          nextToken
+        }
         gates {
           nextToken
         }
-        tasks {
-          nextToken
-        }
-        credentials {
-          nextToken
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
       }
       name
       description
+      image
       pow
       skills
       knowledges
@@ -4237,15 +4293,11 @@ export const onUpdateCredential = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      organizationID
-      organization {
+      gateID
+      gate {
         id
-        wallet
-        username
-        name
-        bio
-        daos_ids
-        daos {
+        daoID
+        dao {
           id
           dao
           name
@@ -4267,32 +4319,86 @@ export const onUpdateCredential = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        init
-        nonce
-        pfp
-        about
+        name
+        description
+        categories
         skills
+        knowledge
         attitudes
-        languages
-        knowledges
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
         }
+        chains
+        channels {
+          nextToken
+        }
         gates {
           nextToken
         }
-        tasks {
-          nextToken
-        }
-        credentials {
-          nextToken
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
       }
       name
       description
+      image
       pow
       skills
       knowledges
@@ -4415,15 +4521,11 @@ export const onDeleteCredential = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      organizationID
-      organization {
+      gateID
+      gate {
         id
-        wallet
-        username
-        name
-        bio
-        daos_ids
-        daos {
+        daoID
+        dao {
           id
           dao
           name
@@ -4445,32 +4547,86 @@ export const onDeleteCredential = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        init
-        nonce
-        pfp
-        about
+        name
+        description
+        categories
         skills
+        knowledge
         attitudes
-        languages
-        knowledges
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
         socials {
           network
           url
         }
+        chains
+        channels {
+          nextToken
+        }
         gates {
           nextToken
         }
-        tasks {
-          nextToken
-        }
-        credentials {
-          nextToken
+        nftContracts {
+          reward
+          contributor
         }
         createdAt
         updatedAt
       }
       name
       description
+      image
       pow
       skills
       knowledges

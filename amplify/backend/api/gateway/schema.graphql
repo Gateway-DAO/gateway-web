@@ -535,16 +535,24 @@ type Credential @model @searchable @key(
         name: "credentialByOrganizationID"
         fields: ["organizationID"]
         queryField: "getCredentialByOrganizationID"
+    )
+    @key(
+        name: "credentialByGateID"
+        fields: ["gateID"]
+        queryField: "getCredentialByGateID"
     ) {
     id: ID!
     issuerID: ID!
     issuer: User @connection(fields: ["issuerID"])
     targetID: ID!
     target: User @connection(fields: ["targetID"])
+    gateID: ID
+    gate: Gate @connection(fields: ["gateID"])
     organizationID: ID
-    organization: User @connection(fields: ["organizationID"])
+    organization: DAO @connection(fields: ["organizationID"])
     name: String!
     description: String!
+    image: String
     pow: [AWSJSON]
     skills: [String]
     knowledges: [String]
