@@ -457,7 +457,8 @@ const ProfileEditModal = (props) => {
                     </>
                 ) : (
                     <FormStyled.Text>
-                        Please authorize Metamask to access your account.
+                        Please sign the message on your wallet to access your
+                        account.
                     </FormStyled.Text>
                 )}
             </Styled.Container>
