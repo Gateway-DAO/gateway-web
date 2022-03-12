@@ -21,7 +21,7 @@ exports.handler = async (event) => {
         Web3.givenProvider ||
             'wss://mainnet.infura.io/ws/v3/19128174ace8471f88c08ca304b087e9'
     )
-    const address = web3.eth.accounts.recover(nonce, signature, false)
+    const address = web3.eth.accounts.recover(`Welcome to Gateway!\n\nPlease sign this message for access: ${nonce}`, signature, false)
 
     console.log(address)
     console.log(publicAddress)

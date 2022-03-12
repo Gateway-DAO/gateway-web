@@ -248,7 +248,7 @@ export const UserProvider = ({ children }) => {
             const signer = web3.library.getSigner();
 
             const signature = await signer.signMessage(
-                data.getAuthenticationNonce.nonce
+                `Welcome to Gateway!\n\nPlease sign this message for access: ${data.getAuthenticationNonce.nonce}`
             );
 
             const user = await Auth.signIn(data.getAuthenticationNonce.userId);
