@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 // Web3
 import { shortenAddress } from '../utils/web3';
 import { useWeb3React } from '@web3-react/core';
-import useUpdateUser from '../api/database/useUpdateUser';
-import useCreateUser from '../api/database/useCreateUser';
+import {
+    updateUser as UPDATE_USER,
+    createUser as CREATE_USER,
+} from '../graphql/mutations';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 
@@ -13,7 +15,7 @@ import Portis from '@portis/web3';
 import awsconfig from '../aws-exports';
 import { getNonce } from '../api/database/getNonce';
 import { getUserByAddress as getUserByAddressQuery } from '../graphql/queries';
-import { useLazyQuery, gql } from '@apollo/client';
+import { useLazyQuery, gql, useMutation } from '@apollo/client';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
@@ -102,29 +104,14 @@ export const UserProvider = ({ children }) => {
     const { showErrorModal } = useModal();
 
     // Database
-    const [
-        getUserByAddress,
-        { data: userBAData, loading: userBALoading, called: userBACalled },
-    ] = useLazyQuery(gql(getUserByAddressQuery), {
+    const [getUserByAddress] = useLazyQuery(gql(getUserByAddressQuery), {
         fetchPolicy: 'no-cache',
         variables: {
             wallet: web3.account,
         },
     });
-
-    const {
-        updateUser,
-        data: userUpdateData,
-        error: userUpdateError,
-        loading: userUpdateLoading,
-    } = useUpdateUser();
-
-    const {
-        createUser,
-        data: userCreateData,
-        error: userCreateError,
-        loading: userCreateLoading,
-    } = useCreateUser();
+    const [updateUser] = useMutation(gql(UPDATE_USER));
+    const [createUser] = useMutation(gql(CREATE_USER));
 
     const { getFile } = useGetFile();
 
@@ -188,9 +175,10 @@ export const UserProvider = ({ children }) => {
      */
     const userSignOut = async () => {
         await Auth.signOut();
+        await web3.deactivate();
         setLoggedIn(false);
         setLoggingIn(false);
-        // setUserInfo(null);
+        setUserInfo(null);
     };
 
     /**

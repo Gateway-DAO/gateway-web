@@ -47,13 +47,6 @@ const Wallet = (props) => {
         );
     }
 
-    useEffect(() => {
-        if (active !== JSON.parse(localStorage.getItem('prevStatus'))) {
-            localStorage.setItem('prevStatus', JSON.stringify(active));
-            if (active === true) navigate('/profile');
-        }
-    }, [active]);
-
     return (
         <>
             <Styled.ConnectToWallet
