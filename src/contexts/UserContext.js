@@ -2,10 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // Web3
-import { CONNECTORS, shortenAddress } from '../utils/web3';
+import { shortenAddress } from '../utils/web3';
 import { useWeb3React } from '@web3-react/core';
 import useUpdateUser from '../api/database/useUpdateUser';
 import useCreateUser from '../api/database/useCreateUser';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Portis from '@portis/web3';
 
 // AWS/GraphQL
 import awsconfig from '../aws-exports';
@@ -15,6 +17,7 @@ import { useLazyQuery, gql } from '@apollo/client';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
+import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 // import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
@@ -132,7 +135,28 @@ export const UserProvider = ({ children }) => {
     const activateWeb3 = async () => {
         try {
             setLoadingWallet(true);
-            await web3.activate(CONNECTORS.Injected);
+
+            const providerOptions = {
+                walletconnect: {
+                    package: WalletConnectProvider,
+                    options: {
+                        infuraId: '19128174ace8471f88c08ca304b087e9', // required
+                    },
+                },
+                portis: {
+                    package: Portis, // required
+                    options: {
+                        id: '05880af7-bb63-4795-b558-4b6f9ba21288', // required
+                    },
+                },
+            };
+
+            const connector = new Web3ModalConnector({
+                providerOptions,
+            });
+
+            await web3.activate(connector);
+
             setLoadingWallet(false);
         } catch (err) {
             console.log(`Error connecting to wallet: ${err}`);
