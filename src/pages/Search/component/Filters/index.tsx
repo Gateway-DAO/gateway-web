@@ -1,22 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Styled from '../../style';
 import FilterDropdown from '../FilterDropdown';
 
-export const DAOFilter = function () {
+export const DAOFilter = function ({ setDaoFilterQuery }: any) {
     const categoryFilterOptions = [
+        'Protocol',
         'DeFi',
-        'DESCI',
-        'Investment',
-        'Media',
         'Social',
+        'Grant',
+        'Investment',
+        'Collector',
+        'Framework',
+        'Gaming',
+        'DeSci',
     ];
     const chainFilterOptions = [
-        'ETHEREUM',
-        'SOLANA',
-        'POLYGON',
-        'BNB CHAIN',
-        'POLKADOT',
-        'AVALANCHE',
+        'Ethereum',
+        'Solana',
+        'Polygon',
+        'NEAR',
+        'Binance',
+        'Bitcoin',
+        'Avalanche',
     ];
     const sizeFilterOptions = [
         '1-10',
@@ -29,19 +34,98 @@ export const DAOFilter = function () {
         '10,001 +',
     ];
 
+    const [categoryMatches, setCategoryMatches] = useState<string[]>([]);
+    const [chainMatches, setChainMatches] = useState<string[]>([]);
+    const [sizeMatches, setSizeMatches] = useState<string[]>([]);
+
+    const showResult = () => {
+        // const query = [];
+        // categoryMatches.length &&
+        //     query.push({
+        //         categories: {
+        //             match: categoryMatches,
+        //         },
+        //     });
+        // chainMatches.length &&
+        //     query.push({
+        //         chains: {
+        //             match: chainMatches,
+        //         },
+        //     });
+        // setDaoFilterQuery(query);
+        const query = {};
+
+        if (categoryMatches.length > 1) {
+            query['or'] = [];
+            for (let i = 0; i < categoryMatches.length; i++) {
+                query['or'].push({
+                    categories: {
+                        match: categoryMatches[i],
+                    },
+                });
+            }
+        } else {
+            if (categoryMatches.length) {
+                query['and'] = [];
+                query['and'].push({
+                    categories: {
+                        match: categoryMatches,
+                    },
+                });
+            }
+        }
+
+        if (chainMatches.length > 1) {
+            if (!query['or'] || query['or'].length === 0) query['or'] = [];
+            for (let i = 0; i < chainMatches.length; i++) {
+                query['or'].push({
+                    chains: {
+                        match: chainMatches[i],
+                    },
+                });
+            }
+        } else {
+            if (chainMatches.length) {
+                if (!query['and'] || query['and'].length === 0)
+                    query['and'] = [];
+                query['and'].push({
+                    chains: {
+                        match: chainMatches,
+                    },
+                });
+            }
+        }
+
+        console.log('query', query);
+        setDaoFilterQuery(query);
+        console.log(categoryMatches, chainMatches, sizeMatches);
+    };
+
     return (
         <Styled.FilterBox>
             <FilterDropdown
                 title='Category'
                 filterable
                 options={categoryFilterOptions}
+                selected={categoryMatches}
+                handleSelected={(options) => setCategoryMatches(options)}
+                showResult={showResult}
             />
             <FilterDropdown
                 title='Chain'
                 filterable
                 options={chainFilterOptions}
+                selected={chainMatches}
+                showResult={showResult}
+                handleSelected={(options) => setChainMatches(options)}
             />
-            <FilterDropdown title='Size' options={sizeFilterOptions} />
+            <FilterDropdown
+                title='Size'
+                options={sizeFilterOptions}
+                selected={sizeMatches}
+                showResult={showResult}
+                handleSelected={(options) => setSizeMatches(options)}
+            />
         </Styled.FilterBox>
     );
 };
@@ -67,16 +151,19 @@ export const UserFilter = function () {
             <FilterDropdown
                 title='Connections'
                 options={connectionsFilterOptions}
+                selected={[]}
             />
             <FilterDropdown
                 title='DAO Membership'
                 filterable
                 options={membershipFilterOptions}
+                selected={[]}
             />
             <FilterDropdown
                 title='Credentials'
                 filterable
                 options={credentialsFilterOptions}
+                selected={[]}
             />
         </Styled.FilterBox>
     );
@@ -112,18 +199,29 @@ export const GateFilter = function () {
     ];
     return (
         <Styled.FilterBox>
-            <FilterDropdown title='DAO' filterable options={DAOFilterOptions} />
+            <FilterDropdown
+                title='DAO'
+                filterable
+                options={DAOFilterOptions}
+                selected={[]}
+            />
             <FilterDropdown
                 title='Category'
                 filterable
                 options={categoryFilterOptions}
+                selected={[]}
             />
             <FilterDropdown
                 title='Credentials'
                 filterable
                 options={credentialsFilterOptions}
+                selected={[]}
             />
-            <FilterDropdown title='Posted' options={postedFilterOptions} />
+            <FilterDropdown
+                title='Posted'
+                options={postedFilterOptions}
+                selected={[]}
+            />
         </Styled.FilterBox>
     );
 };

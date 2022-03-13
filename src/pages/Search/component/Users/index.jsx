@@ -12,6 +12,8 @@ import { useEffect, useState } from 'react';
 import { useSearchUsers } from '../../../../api/database/useSearchUser';
 import useUserLength from '../../../../api/database/useUserLength';
 
+import { Navigate } from 'react-router-dom';
+
 const UserTab = ({ query }) => {
     const [hits, setHits] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -94,6 +96,10 @@ const UserTab = ({ query }) => {
         query.toLowerCase() === 'all' ? listLoading : searchLoading;
     const searchOrListCalled =
         query.toLowerCase() === 'all' ? listCalled : searchCalled;
+
+    if (searchError || listError) {
+        return <Navigate to='/404' />;
+    }
 
     if (searchOrListLoading) {
         return (

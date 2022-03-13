@@ -3,10 +3,19 @@ import * as Styled from './style';
 import { useClickAway } from 'react-use';
 import FilterCheckbox from '../../../../components/FilterCheckbox';
 
-export default function FilterDropdown(props) {
-    const [visible, handleVisible] = useState(false);
+interface Props {
+    title: string;
+    filterable?: boolean;
+    options: string[];
+    selected: string[];
+    showResult?: () => void;
+    handleSelected?: (options: string[]) => void;
+}
 
-    const ddContent = useRef(null);
+export default function FilterDropdown(props: Props) {
+    const [visible, handleVisible] = useState<boolean>(false);
+
+    const ddContent = useRef<any>(null);
 
     useClickAway(ddContent, () => {
         if (visible) handleVisible(false);
@@ -14,6 +23,19 @@ export default function FilterDropdown(props) {
 
     const toggle = () => {
         handleVisible(!visible);
+    };
+
+    const onSelect = (item: string) => {
+        const newFilterOptions: string[] = [...props.selected];
+        const index = newFilterOptions.indexOf(item);
+
+        if (index < 0) {
+            newFilterOptions.push(item);
+        } else {
+            newFilterOptions.splice(index, 1);
+        }
+
+        props.handleSelected(newFilterOptions);
     };
 
     return (
@@ -34,14 +56,20 @@ export default function FilterDropdown(props) {
                 ) : null}
                 {props.options.map((item, idx) => (
                     <Styled.DropdownItem key={idx}>
-                        <FilterCheckbox label={item} />
+                        <FilterCheckbox
+                            onChange={onSelect}
+                            checked={!(props.selected.indexOf(item) < 0)}
+                            label={item}
+                        />
                     </Styled.DropdownItem>
                 ))}
                 <Styled.FilterAction>
                     <Styled.CancelButton onClick={toggle}>
                         Cancel
                     </Styled.CancelButton>
-                    <Styled.SearchButton>Show Results</Styled.SearchButton>
+                    <Styled.SearchButton onClick={props.showResult}>
+                        Show Results
+                    </Styled.SearchButton>
                 </Styled.FilterAction>
             </Styled.DropdownContent>
         </Styled.DropdownContainer>
