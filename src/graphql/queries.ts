@@ -2947,6 +2947,45 @@ export const getUserByAddress = /* GraphQL */ `
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
