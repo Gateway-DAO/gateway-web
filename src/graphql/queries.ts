@@ -2908,9 +2908,42 @@ export const getUserByAddress = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {

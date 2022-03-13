@@ -1,9 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const AWS = require('aws-sdk');
 
-const {
-    streamToCeramic: stream,
-} = require('/opt/ceramic.js');
+const { streamToCeramic: stream } = require('/opt/ceramic.js');
 
 AWS.config.update({
     region: 'us-east-1',
@@ -245,50 +243,61 @@ const getGateStatus = async (userID, gateID) => {
  * @returns The status of the gate.
  */
 const markGateAsCompleted = async (gsID, userID, gate) => {
-    // Mark gate as completed
-    const { Items: [status] = [] } = await docClient
-        .update({
-            TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
-            Key: {
-                id: gsID,
-            },
-            ConditionExpression: `#st <> :completed`,
-            UpdateExpression: 'set #st = :completed',
-            ExpressionAttributeValues: {
-                ':completed': 'COMPLETED',
-            },
-            ExpressionAttributeNames: {
-                '#st': 'status',
-            },
-            ReturnValues: 'UPDATED_NEW',
-        })
-        .promise();
+    try {
+        // Mark gate as completed
+        const { Items: [status] = [] } = await docClient
+            .update({
+                TableName: `GateStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+                Key: {
+                    id: gsID,
+                },
+                ConditionExpression: `#st <> :completed`,
+                UpdateExpression: 'set #st = :completed',
+                ExpressionAttributeValues: {
+                    ':completed': 'COMPLETED',
+                },
+                ExpressionAttributeNames: {
+                    '#st': 'status',
+                },
+                ReturnValues: 'UPDATED_NEW',
+            })
+            .promise();
 
-    // Issue credential
-    const Item = {
-        id: uuidv4(),
-        issuerID: process.env.ENV == "main" ? "21696527-0fe3-40fc-86d5-d85f650ae3fe" : "70a52c4e-f333-4f6c-b528-993ad166ad10",
-        targetID: userID,
-        organizationID: gate.daoID,
-        gateID: gate.id,
-        name: gate.badge.name,
-        description: gate.description,
-        image: gate.badge.ipfsURL,
-        skills: gate.skills || [],
-        knowledges: gate.knowledge || [],
-        attitudes: gate.attitudes || [],
-        ceramicStream: "",
-        createdAt: new Date().toISOString()
+        // Issue credential
+        const Item = {
+            id: uuidv4(),
+            issuerID:
+                process.env.ENV == 'main'
+                    ? '21696527-0fe3-40fc-86d5-d85f650ae3fe'
+                    : '70a52c4e-f333-4f6c-b528-993ad166ad10',
+            targetID: userID,
+            organizationID: gate.daoID,
+            gateID: gate.id,
+            name: gate.badge.name,
+            description: gate.description,
+            image: gate.badge.ipfsURL,
+            skills: gate.skills || [],
+            knowledges: gate.knowledge || [],
+            attitudes: gate.attitudes || [],
+            ceramicStream: 'ceramic://',
+            createdAt: new Date().toISOString(),
+        };
+
+        console.log(Item);
+
+        await docClient
+            .put({
+                TableName: `Credential-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+                Item,
+                ConditionExpression: 'attribute_not_exists(id)',
+            })
+            .promise();
+
+        return status;
+    } catch (err) {
+        console.log(`Error: ${err}`);
+        throw err;
     }
-
-    await docClient
-        .put({
-            TableName: `Credential-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
-            Item,
-            ConditionExpression: 'attribute_not_exists(id)',
-        })
-
-    return status;
 };
 
 /**
@@ -517,8 +526,6 @@ const updateKey = async (input) => {
         task: input.task,
     };
 
-    console.log(`Old Item: ${Item}`);
-
     switch (input.task.type) {
         case 'QUIZ':
             Item = {
@@ -603,7 +610,7 @@ const updateKey = async (input) => {
         })
         .promise();
 
-    console.log(`New Item: ${newItem}`);
+    console.log(`New Item: ${JSON.stringify(newItem)}`);
 
     return Item;
 };
@@ -614,7 +621,7 @@ const updateKey = async (input) => {
  * @param callback - a function that takes in the above parameters and returns a result.
  * @returns a `Promise` that resolves to an object containing the key verification solution.
  */
- const verifyKey = async (args, callback) => {
+const verifyKey = async (args, callback) => {
     try {
         const { userID, keyID } = args;
 
@@ -669,4 +676,14 @@ const updateKey = async (input) => {
     }
 };
 
-module.exports = { createKey, updateKey, createTaskStatus, markGateAsCompleted, verifyKey, getChain, getProvider, getCompletedKeys, removePeopleFromKey };
+module.exports = {
+    createKey,
+    updateKey,
+    createTaskStatus,
+    markGateAsCompleted,
+    verifyKey,
+    getChain,
+    getProvider,
+    getCompletedKeys,
+    removePeopleFromKey,
+};
