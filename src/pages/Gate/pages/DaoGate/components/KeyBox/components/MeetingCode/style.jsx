@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+    margin-top: 30px;
+`;
 
 export const WarningInfo = styled.div`
     font-family: Be Vietnam;

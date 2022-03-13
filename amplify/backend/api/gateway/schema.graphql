@@ -23,11 +23,17 @@ type User
     init: Boolean
     nonce: Int!
     pfp: String
+    about: String
+    skills: [String]
+    attitudes: [String]
+    languages: [String]
+    knowledges: [String]
     socials: [Social]
     gates: [GateStatus]
         @connection(keyName: "gateStatusByUserID", fields: ["id"])
     tasks: [TaskStatus]
         @connection(keyName: "taskStatusByUserID", fields: ["id"])
+    credentials: [Credential] @connection(keyName: "credentialByTargetID", fields: ["id"])
     createdAt: AWSDateTime
 }
 
@@ -199,7 +205,7 @@ type Gate
     admins: [ID]!
     keysNumber: Int
     keys: [Key] @connection(keyName: "keyByGateID", fields: ["id"])
-    published: Boolean
+    published: PublishedState
     badge: NFTInfo!
     preRequisites: PreRequisites
     retroactiveEarners: [String!]
@@ -330,6 +336,12 @@ enum NFTType {
     REWARD
 }
 
+enum PublishedState {
+    NOT_PUBLISHED
+    PUBLISHED
+    PAUSED
+}
+
 union TaskUnion =
       Quiz
     | MeetingCode
@@ -341,25 +353,26 @@ union TaskUnion =
 
 ### MANUAL TASK SUBMISSION ###
 
-type ManualTaskSubmission @model @key(
+type ManualTaskSubmission
+    @model
+    @key(
         name: "manualTaskSubmissionByUserID"
         fields: ["userID"]
         queryField: "getManualTaskSubmissionByUserID"
     )
-
     @key(
         name: "manualTaskSubmissionByKeyID"
         fields: ["keyID"]
         queryField: "getManualTaskSubmissionByKeyID"
     ) {
-        userID: ID!
-        user: User @connection(fields: ["userID"])
-        keyID: ID!
-        key: Key @connection(fields: ["keyID"])
-        submissionURL: AWSURL
-        discordID: String
-        wallet: String
-        comment: String
+    userID: ID!
+    user: User @connection(fields: ["userID"])
+    keyID: ID!
+    key: Key @connection(fields: ["keyID"])
+    submissionURL: AWSURL
+    discordID: String
+    wallet: String
+    comment: String
 }
 
 ### TASK STATUS / GATE STATUS / ERROR ###
@@ -505,6 +518,40 @@ type SignatureError {
 }
 
 union SignatureResponse = Signature | SignatureError
+
+### CREDENTIALS ###
+
+type Credential @model @searchable @key(
+        name: "credentialByIssuerID"
+        fields: ["issuerID"]
+        queryField: "getCredentialByIssuerID"
+    )
+    @key(
+        name: "credentialByTargetID"
+        fields: ["targetID"]
+        queryField: "getCredentialByTargetID"
+    )
+    @key(
+        name: "credentialByOrganizationID"
+        fields: ["organizationID"]
+        queryField: "getCredentialByOrganizationID"
+    ) {
+    id: ID!
+    issuerID: ID!
+    issuer: User @connection(fields: ["issuerID"])
+    targetID: ID!
+    target: User @connection(fields: ["targetID"])
+    organizationID: ID
+    organization: User @connection(fields: ["organizationID"])
+    name: String!
+    description: String!
+    pow: [AWSJSON]
+    skills: [String]
+    knowledges: [String]
+    attitudes: [String]
+    ceramicStream: String!
+    createdAt: AWSDateTime
+}
 
 ### INPUTS ###
 
@@ -681,9 +728,22 @@ input ManualTaskInput {
     information: [KeyInformationInput]!
 }
 
+input ChangeKeyInput {
+    id: ID!
+    gateID: ID!
+    information: [KeyInformationInput]!
+    token: String # An ERC20 token to reward the users
+    tokenAmount: Int
+    keys: Int!
+    peopleLimit: Int! # 0 for unlimited
+    unlimited: Boolean!
+    task: AWSJSON # this can be customized depending on the update needs
+}
+
 ### CUSTOM QUERIES ###
 type Query {
-    fetchFromCeramic(streamID: String!, node: AWSURL): FetchCeramicResponse @function(name: "ceramic-${env}")
+    fetchFromCeramic(streamID: String!, node: AWSURL): FetchCeramicResponse
+        @function(name: "ceramic-${env}")
 }
 
 ### CUSTOM MUTATIONS ###
@@ -701,55 +761,60 @@ type Mutation {
         @function(name: "vote-${env}")
 
     ## For keys ##
-    createQuiz(input: CreateKeyQuiz): Key @function(name: "addKey-${env}")
+    createQuiz(input: CreateKeyQuiz): Key @function(name: "key-${env}")
 
     createMeetingCode(input: CreateKeyMeetingCode): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createTokenHold(input: CreateKeyTokenHold): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createSnapshotGovernance(input: CreateKeySnapshotGovernance): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createSelfVerify(input: CreateKeySelfVerify): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createContractInteraction(input: CreateKeyContractInteraction): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
 
     createManualTask(input: CreateKeyManualTask): Key
-        @function(name: "addKey-${env}")
+        @function(name: "key-${env}")
+
+    changeKey(input: ChangeKeyInput): Key @function(name: "key-${env}")
 
     ## Verify keys ##
     verifyMeetingCode(
         userID: ID!
         keyID: ID!
         meetingCode: String!
-    ): KeyVerificationResponse @function(name: "verifyMeetingCode-${env}")
+    ): KeyVerificationResponse @function(name: "key-${env}")
 
     verifyHoldAToken(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifyHoldAToken-${env}")
+        @function(name: "key-${env}")
 
     verifyContractInteraction(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifyContractInteraction-${env}")
+        @function(name: "key-${env}")
 
     verifySnapshot(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifySnapshot-${env}")
+        @function(name: "key-${env}")
 
     verifySelfVerify(userID: ID!, keyID: ID!): KeyVerificationResponse
-        @function(name: "verifySelfVerify-${env}")
+        @function(name: "key-${env}")
 
     verifyQuiz(
         userID: ID!
         keyID: ID!
         questions: [QuestionLambdaInput]!
-    ): KeyVerificationResponse @function(name: "verifyQuiz-${env}")
+    ): KeyVerificationResponse @function(name: "key-${env}")
 
     ## Ceramic ##
-    streamToCeramic(data: AWSJSON!,  node: AWSURL): StreamCeramicResponse @function(name: "ceramic-${env}")
+    streamToCeramic(data: AWSJSON!, node: AWSURL): StreamCeramicResponse
+        @function(name: "ceramic-${env}")
 
     ## Signatures ##
-    generateSignature(message: String!): SignatureResponse @function(name: "generateSignature-${env}")
-    generatedNonceSignature: SignatureResponse @function(name: "generateSignature-${env}")
+    generateSignature(message: String!): SignatureResponse
+        @function(name: "generateSignature-${env}")
+    generatedNonceSignature: SignatureResponse
+        @function(name: "generateSignature-${env}")
 }

@@ -44,11 +44,12 @@ const removePeopleFromKey = async (keyID) => {
             Key: {
                 id: keyID,
             },
-            ConditionExpression: `#unlimited = :false AND #people >= 0`,
+            ConditionExpression: `#unlimited = :false AND #people >= :zero`,
             UpdateExpression: 'SET #people = #people - :decrement',
             ExpressionAttributeValues: {
                 ':decrement': 1,
-                ':false': false
+                ':false': false,
+                ':zero': 0
             },
             ExpressionAttributeNames: {
                 '#people': 'peopleLimit',
@@ -113,6 +114,27 @@ const markGateAsCompleted = async (gsID) => {
             ReturnValues: 'UPDATED_NEW',
         })
         .promise()
+
+    /*
+    // Issue credential
+    const Item = {
+        id: uuidv4(),
+        issuerID: process.env.ENV == "main" ? "21696527-0fe3-40fc-86d5-d85f650ae3fe" : "70a52c4e-f333-4f6c-b528-993ad166ad10",
+        targetID: userID
+        organizationID: daoID,
+        name,
+        description,
+        ceramicStream: 
+        createdAt: new Date().toISOString()
+    }
+
+    await docClient
+        .put({
+            TableName: `Credential-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            Item,
+            ConditionExpression: 'attribute_not_exists(id)',
+        })
+    */
 
     return status
 }

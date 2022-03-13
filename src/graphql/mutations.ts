@@ -227,6 +227,11 @@ export const votePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -235,6 +240,9 @@ export const votePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -378,6 +386,11 @@ export const unvotePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -386,6 +399,9 @@ export const unvotePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1245,6 +1261,125 @@ export const createManualTask = /* GraphQL */ `
     }
   }
 `;
+export const changeKey = /* GraphQL */ `
+  mutation ChangeKey($input: ChangeKeyInput) {
+    changeKey(input: $input) {
+      id
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        skills
+        knowledge
+        attitudes
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      information {
+        title
+        description
+      }
+      token
+      tokenAmount
+      keys
+      unlimited
+      peopleLimit
+      task {
+        ... on Quiz {
+          type
+          title
+          description
+          questions {
+            question
+            nrOfCorrectAnswers
+          }
+          passedAt
+        }
+        ... on MeetingCode {
+          type
+          code
+          caseSensitive
+        }
+        ... on TokenHold {
+          type
+          chainID
+          address
+          amount
+        }
+        ... on SelfVerify {
+          type
+        }
+        ... on SnapshotGovernance {
+          type
+          snapshotType
+          spaceID
+          proposal
+        }
+        ... on ContractInteraction {
+          type
+          chainID
+          address
+          methodName
+        }
+        ... on ManualTask {
+          type
+          information {
+            title
+            description
+          }
+        }
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const verifyMeetingCode = /* GraphQL */ `
   mutation VerifyMeetingCode($userID: ID!, $keyID: ID!, $meetingCode: String!) {
     verifyMeetingCode(
@@ -1483,6 +1618,11 @@ export const createUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -1506,6 +1646,24 @@ export const createUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -1577,6 +1735,11 @@ export const updateUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -1600,6 +1763,24 @@ export const updateUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -1671,6 +1852,11 @@ export const deleteUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -1694,6 +1880,24 @@ export const deleteUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -2748,6 +2952,11 @@ export const createPost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2756,6 +2965,9 @@ export const createPost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2902,6 +3114,11 @@ export const updatePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2910,6 +3127,9 @@ export const updatePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3056,6 +3276,11 @@ export const deletePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3064,6 +3289,9 @@ export const deletePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3131,6 +3359,11 @@ export const createComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3139,6 +3372,9 @@ export const createComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3193,6 +3429,11 @@ export const updateComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3201,6 +3442,9 @@ export const updateComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3255,6 +3499,11 @@ export const deleteComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3263,6 +3512,9 @@ export const deleteComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3973,6 +4225,11 @@ export const createManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3981,6 +4238,9 @@ export const createManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4106,6 +4366,11 @@ export const updateManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -4114,6 +4379,9 @@ export const updateManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4239,6 +4507,11 @@ export const deleteManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -4247,6 +4520,9 @@ export const deleteManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4372,6 +4648,11 @@ export const createGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -4380,6 +4661,9 @@ export const createGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4504,6 +4788,11 @@ export const updateGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -4512,6 +4801,9 @@ export const updateGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4636,6 +4928,11 @@ export const deleteGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -4644,6 +4941,9 @@ export const deleteGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4768,6 +5068,11 @@ export const createTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -4776,6 +5081,9 @@ export const createTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4954,6 +5262,11 @@ export const updateTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -4962,6 +5275,9 @@ export const updateTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -5140,6 +5456,11 @@ export const deleteTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -5148,6 +5469,9 @@ export const deleteTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -5281,6 +5605,549 @@ export const deleteTaskStatus = /* GraphQL */ `
         updatedAt
       }
       completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createCredential = /* GraphQL */ `
+  mutation CreateCredential(
+    $input: CreateCredentialInput!
+    $condition: ModelCredentialConditionInput
+  ) {
+    createCredential(input: $input, condition: $condition) {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCredential = /* GraphQL */ `
+  mutation UpdateCredential(
+    $input: UpdateCredentialInput!
+    $condition: ModelCredentialConditionInput
+  ) {
+    updateCredential(input: $input, condition: $condition) {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCredential = /* GraphQL */ `
+  mutation DeleteCredential(
+    $input: DeleteCredentialInput!
+    $condition: ModelCredentialConditionInput
+  ) {
+    deleteCredential(input: $input, condition: $condition) {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
       createdAt
       updatedAt
     }

@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "api": {
+      "gateway": [
+        "create",
+        "read",
+        "update"
+      ]
+    },
+    "storage": {
+      "Key:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "gatewayverifyKey",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
+}

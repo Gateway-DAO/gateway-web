@@ -55,7 +55,7 @@ export const Input = styled.input`
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 18px;
+    line-height: 24px;
     display: flex;
     align-items: center;
     letter-spacing: 0.05em;

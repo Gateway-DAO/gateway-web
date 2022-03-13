@@ -60,6 +60,11 @@ export const onCreateUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -83,6 +88,24 @@ export const onCreateUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -151,6 +174,11 @@ export const onUpdateUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -174,6 +202,24 @@ export const onUpdateUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -242,6 +288,11 @@ export const onDeleteUser = /* GraphQL */ `
       init
       nonce
       pfp
+      about
+      skills
+      attitudes
+      languages
+      knowledges
       socials {
         network
         url
@@ -265,6 +316,24 @@ export const onDeleteUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          organizationID
+          name
+          description
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -1280,6 +1349,11 @@ export const onCreatePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1288,6 +1362,9 @@ export const onCreatePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1431,6 +1508,11 @@ export const onUpdatePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1439,6 +1521,9 @@ export const onUpdatePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1582,6 +1667,11 @@ export const onDeletePost = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1590,6 +1680,9 @@ export const onDeletePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1654,6 +1747,11 @@ export const onCreateComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1662,6 +1760,9 @@ export const onCreateComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1713,6 +1814,11 @@ export const onUpdateComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1721,6 +1827,9 @@ export const onUpdateComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1772,6 +1881,11 @@ export const onDeleteComment = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -1780,6 +1894,9 @@ export const onDeleteComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2469,6 +2586,11 @@ export const onCreateManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2477,6 +2599,9 @@ export const onCreateManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2599,6 +2724,11 @@ export const onUpdateManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2607,6 +2737,9 @@ export const onUpdateManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2729,6 +2862,11 @@ export const onDeleteManualTaskSubmission = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2737,6 +2875,9 @@ export const onDeleteManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2859,6 +3000,11 @@ export const onCreateGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2867,6 +3013,9 @@ export const onCreateGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -2988,6 +3137,11 @@ export const onUpdateGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -2996,6 +3150,9 @@ export const onUpdateGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3117,6 +3274,11 @@ export const onDeleteGateStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3125,6 +3287,9 @@ export const onDeleteGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3246,6 +3411,11 @@ export const onCreateTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3254,6 +3424,9 @@ export const onCreateTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3429,6 +3602,11 @@ export const onUpdateTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3437,6 +3615,9 @@ export const onUpdateTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3612,6 +3793,11 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         init
         nonce
         pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
         socials {
           network
           url
@@ -3620,6 +3806,9 @@ export const onDeleteTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3753,6 +3942,540 @@ export const onDeleteTaskStatus = /* GraphQL */ `
         updatedAt
       }
       completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateCredential = /* GraphQL */ `
+  subscription OnCreateCredential {
+    onCreateCredential {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCredential = /* GraphQL */ `
+  subscription OnUpdateCredential {
+    onUpdateCredential {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCredential = /* GraphQL */ `
+  subscription OnDeleteCredential {
+    onDeleteCredential {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
       createdAt
       updatedAt
     }
