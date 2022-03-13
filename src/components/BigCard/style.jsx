@@ -39,6 +39,30 @@ export const DaoBioInfo = styled.div`
 export const EditContainer = styled.div`
     margin: 10px;
     font-size: 20px;
+    display: flex;
+    position: relative;
+    &[data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 2px 6px;
+        width: 40px;
+        height: 20px;
+        top: 46px;
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        // line-height: px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
 `;
 
 export const DaoTagContainer = styled.div`
@@ -151,8 +175,30 @@ export const BackHomeButtonText = styled.a`
 export const Social = styled(BackHomeButton)`
     margin-right: 10px;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
+    &[data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 2px 6px;
+
+        top: 46px;
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        // line-height: px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
 `;
 
 export const TokenHolding = styled.div`
@@ -214,6 +260,7 @@ export const SubDAOImg = styled.img`
 export const ProfileAndFeedContainer = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
@@ -295,4 +342,29 @@ export const ChainLink = styled(Link)`
     text-decoration: none;
     width: 22px;
     height: 22px;
+`;
+export const AdminAndMemberViewWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+export const ChangeViewButton = styled.div`
+    width: 184px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid ${(props) => (props.active ? '#7e3bdc' : '#a5a5a5')};
+    box-sizing: border-box;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: ${(props) => props.active && '#220a38'};
 `;

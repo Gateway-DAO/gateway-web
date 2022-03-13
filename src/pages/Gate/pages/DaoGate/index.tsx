@@ -90,9 +90,13 @@ const DaoGate: React.FC = () => {
                             {gateData.description}
                         </Styled.Subheading>
                         <Styled.TagsDiv>
-                            {gateData.categories.map((category: string) => (
-                                <Styled.Tag>{category}</Styled.Tag>
-                            ))}
+                            {gateData.categories.map(
+                                (category: string, idx: number) => (
+                                    <Styled.Tag key={idx}>
+                                        {category}
+                                    </Styled.Tag>
+                                )
+                            )}
                             • {gateData.holders} holder(s)
                         </Styled.TagsDiv>
                         <Styled.AdditionalInfoBox>
@@ -101,10 +105,11 @@ const DaoGate: React.FC = () => {
                                     ADMINS
                                 </Styled.BoldTextHeading>
                                 <Styled.ContentContainer>
-                                    {gateData.adminList.map((admin) => {
+                                    {gateData.adminList.map((admin, idx) => {
                                         return (
                                             <Link
                                                 to={`/profile/${admin.username}`}
+                                                key={idx}
                                             >
                                                 <Styled.PfpAdmin
                                                     src={admin.pfp}

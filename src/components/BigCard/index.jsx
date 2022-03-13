@@ -66,16 +66,20 @@ const NewCard = (props) => {
     }, [web3.active, props.id, props]);
 
     const [balance, setBalance] = useState(0);
+    const [viewAsMember, setViewAsMember] = useState(true);
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
     const [showEditModal, setShowEditModal] = useState(false);
     const iconHover = useRef(null);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
     const [searchParams, setSearchParams] = useSearchParams();
-
     const [activeTab, setActiveTab] = useState(
-        searchParams.get('tab') || 'profile'
+        searchParams.get('tab') || 'gates'
     );
-
+    console.log({ isAdmin });
+    useEffect(() => {
+        setViewAsMember(!isAdmin);
+        console.log({ viewAsMember });
+    }, [isAdmin]);
     const Modals = () => (
         <>
             {React.createElement(EditCardModal, {
@@ -89,11 +93,11 @@ const NewCard = (props) => {
 
     const removeHover = () => {};
 
-    const socials = props.socials.map((social) => {
+    const socials = props.socials.map((social, idx) => {
         switch (social.network) {
             case 'discord':
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='Discord'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaDiscord />
                         </Styled.SocialLink>
@@ -101,7 +105,7 @@ const NewCard = (props) => {
                 );
             case 'twitter':
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='twitter'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTwitter size={20} />
                         </Styled.SocialLink>
@@ -109,7 +113,7 @@ const NewCard = (props) => {
                 );
             case 'website':
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='website'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FiGlobe />
                         </Styled.SocialLink>
@@ -117,7 +121,7 @@ const NewCard = (props) => {
                 );
             case 'medium':
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='medium'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaMedium />
                         </Styled.SocialLink>
@@ -125,7 +129,7 @@ const NewCard = (props) => {
                 );
             case 'github':
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='Github'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaGithub />
                         </Styled.SocialLink>
@@ -133,7 +137,7 @@ const NewCard = (props) => {
                 );
             case 'telegram':
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='Telegram'>
                         <Styled.SocialLink href={social.url} target='_blank'>
                             <FaTelegram />
                         </Styled.SocialLink>
@@ -141,7 +145,7 @@ const NewCard = (props) => {
                 );
             case 'chat':
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='Chat'>
                         <Styled.SocialLink href={social.url}>
                             <BsChatTextFill />
                         </Styled.SocialLink>
@@ -149,7 +153,7 @@ const NewCard = (props) => {
                 );
             default:
                 return (
-                    <Styled.Social>
+                    <Styled.Social key={idx} data-title='other social network'>
                         <Styled.SocialLink href={social.url}>
                             <FaLink />
                         </Styled.SocialLink>
@@ -160,11 +164,12 @@ const NewCard = (props) => {
 
     const chains =
         props.chains &&
-        Object.keys(props.chains).map((key) => {
+        Object.keys(props.chains).map((key, idx) => {
             switch (props.chains[key]) {
                 case 'ethereum':
                     return (
                         <Styled.Chain
+                            key={idx}
                             ref={iconHover}
                             id='Ethereum'
                             onMouseLeave={removeHover}
@@ -182,7 +187,7 @@ const NewCard = (props) => {
                     );
                 case 'solana':
                     return (
-                        <Styled.Chain ref={iconHover} id='Solana'>
+                        <Styled.Chain key={idx} ref={iconHover} id='Solana'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -192,7 +197,7 @@ const NewCard = (props) => {
                     );
                 case 'Polygon':
                     return (
-                        <Styled.Chain ref={iconHover} id='Polygon'>
+                        <Styled.Chain key={idx} ref={iconHover} id='Polygon'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -202,7 +207,7 @@ const NewCard = (props) => {
                     );
                 case 'NEAR':
                     return (
-                        <Styled.Chain ref={iconHover} id='NEAR'>
+                        <Styled.Chain key={idx} ref={iconHover} id='NEAR'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -212,7 +217,7 @@ const NewCard = (props) => {
                     );
                 case 'Avalanche':
                     return (
-                        <Styled.Chain ref={iconHover} id='Avalanche'>
+                        <Styled.Chain key={idx} ref={iconHover} id='Avalanche'>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -228,6 +233,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain>
                             <Styled.ChainLink
+                                key={idx}
                                 to={`/search/${props.chains[key]}`}
                             >
                                 <img
@@ -242,7 +248,7 @@ const NewCard = (props) => {
                     );
                 case 'Bitcoin':
                     return (
-                        <Styled.Chain ref={iconHover}>
+                        <Styled.Chain key={idx} ref={iconHover}>
                             <Styled.ChainLink
                                 to={`/search/${props.chains[key]}`}
                             >
@@ -264,7 +270,7 @@ const NewCard = (props) => {
     const ActiveTab = () => {
         switch (searchParams.get('tab')) {
             case 'profile':
-                return <Profile {...props} />;
+                return <Profile {...props} viewAsMember={viewAsMember} />;
             /*
             case 'feed':
                 return <Feed {...props} />;
@@ -272,11 +278,11 @@ const NewCard = (props) => {
                 return <Members daoName={props.name} />;
             */
             case 'gates':
-                return <Gates {...props} />;
+                return <Gates {...props} viewAsMember={viewAsMember} />;
             case 'Plugins':
                 return <Plugins {...props} />;
             default:
-                return <Profile {...props} />;
+                return <Gates {...props} />;
         }
     };
 
@@ -289,8 +295,8 @@ const NewCard = (props) => {
                         <Styled.ProfileImageContainer src={props?.logoURL} />
                         <Styled.DaoBioInfo>
                             <Styled.DaoTagContainer>
-                                {props.categories.map((e) => (
-                                    <Styled.Category>
+                                {props.categories.map((e, idx) => (
+                                    <Styled.Category key={idx}>
                                         <Styled.CategoryLink
                                             to={`/search/${e}`}
                                         >
@@ -301,8 +307,8 @@ const NewCard = (props) => {
                             </Styled.DaoTagContainer>
                             <Styled.Title>
                                 {props?.name}{' '}
-                                <Styled.EditContainer>
-                                    {isAdmin && (
+                                <Styled.EditContainer data-title='Edit Dao'>
+                                    {!viewAsMember && (
                                         <FaPencilAlt
                                             onClick={toggleEditModal}
                                         />
@@ -356,9 +362,16 @@ const NewCard = (props) => {
                     <Styled.ProfileDiv>
                         <Styled.SelectedTab
                             showActive={
-                                searchParams.get('tab') === 'profile' ||
+                                searchParams.get('tab') === 'gates' ||
                                 searchParams.get('tab') === null
                             }
+                            onClick={() => setSearchParams({ tab: 'gates' })}
+                        >
+                            Gates
+                        </Styled.SelectedTab>
+
+                        <Styled.SelectedTab
+                            showActive={searchParams.get('tab') === 'profile'}
                             onClick={() => setSearchParams({ tab: 'profile' })}
                         >
                             Profile
@@ -372,13 +385,6 @@ const NewCard = (props) => {
                             Discussion
                         </Styled.SelectedTab>
                         */}
-
-                        <Styled.SelectedTab
-                            showActive={searchParams.get('tab') === 'gates'}
-                            onClick={() => setSearchParams({ tab: 'gates' })}
-                        >
-                            Gates
-                        </Styled.SelectedTab>
 
                         {/*
                         <Styled.SelectedTab
@@ -398,6 +404,24 @@ const NewCard = (props) => {
                         </Styled.SelectedTab>
                         */}
                     </Styled.ProfileDiv>
+                    {isAdmin && (
+                        <Styled.AdminAndMemberViewWrapper>
+                            <Styled.ChangeViewButton
+                                active={viewAsMember}
+                                onClick={() => setViewAsMember(!viewAsMember)}
+                            >
+                                {viewAsMember
+                                    ? `View AS ADMIN`
+                                    : `View AS MEMBER`}
+                            </Styled.ChangeViewButton>
+                            {/* <Styled.ChangeViewButton
+                                active={viewAsMember}
+                                onClick={() => setViewAsMember(true)}
+                            >
+                                View AS MEMBER
+                            </Styled.ChangeViewButton> */}
+                        </Styled.AdminAndMemberViewWrapper>
+                    )}
                 </Styled.ProfileAndFeedContainer>
                 {/* {activeTab === 'profile' ? (
                     <Profile {...props} />

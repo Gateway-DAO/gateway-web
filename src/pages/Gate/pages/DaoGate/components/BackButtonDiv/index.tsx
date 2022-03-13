@@ -13,8 +13,6 @@ import { To, useNavigate } from 'react-router-dom';
 import useUpdateGate from '../../../../../../api/database/useUpdateGate';
 import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
-// import { useModal } from '../../../../../../contexts/ModalContext';
-// import { useModal } from '../../../../../../contexts/ModalContext';
 import { useWeb3 } from '../../../../../../hooks/useWeb3';
 
 // Types

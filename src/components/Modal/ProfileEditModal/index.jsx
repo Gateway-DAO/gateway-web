@@ -244,7 +244,7 @@ const ProfileEditModal = (props) => {
                             </FormStyled.Label>
                             {socials.map((social, idx) => {
                                 return (
-                                    <FormStyled.InputWrapper>
+                                    <FormStyled.InputWrapper key={idx}>
                                         <FormStyled.Select
                                             style={{ marginRight: '10px' }}
                                             onChange={(e) =>
@@ -404,9 +404,9 @@ const ProfileEditModal = (props) => {
                             </FormStyled.Label>
                             <Styled.MembershipBox>
                                 {!!membership.length &&
-                                    membership.map((dao) => {
+                                    membership.map((dao, idx) => {
                                         return (
-                                            <Styled.MembershipIcon>
+                                            <Styled.MembershipIcon key={idx}>
                                                 <Styled.MembershipImg
                                                     src={dao.logoURL}
                                                     alt={dao.name}
@@ -437,6 +437,7 @@ const ProfileEditModal = (props) => {
                                         <Styled.SearchItem
                                             onClick={() => addDAO(res)}
                                             divider={idx !== 0}
+                                            key={idx}
                                         >
                                             {res.name}
                                         </Styled.SearchItem>
@@ -456,7 +457,8 @@ const ProfileEditModal = (props) => {
                     </>
                 ) : (
                     <FormStyled.Text>
-                        Please authorize Metamask to access your account.
+                        Please sign the message on your wallet to access your
+                        account.
                     </FormStyled.Text>
                 )}
             </Styled.Container>

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import CTA_BG from '../../assets/Landing CTA Background.png';
-import { Link } from 'react-router-dom';
 
 export const HomeContainer = styled.main`
     background-color: transparent;
@@ -19,12 +18,19 @@ export const HomeContainer = styled.main`
     } */
 `;
 
+export const WalletContent = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+`;
+
 export const BigText = styled.h1`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 96px;
-    z-index: 100;
+    font-size: 64px;
+    z-index: 1;
     // word-spacing: 100vw;
     line-height: 90px;
 
@@ -45,6 +51,7 @@ export const BigText = styled.h1`
     -moz-text-fill-color: transparent;
 
     margin: 0 15%;
+    margin-bottom: 2rem;
 
     @media only screen and (max-width: 1170px) {
         font-size: 86px;
@@ -110,12 +117,17 @@ export const MediumText = styled.h2`
 `;
 
 export const MainBox = styled.section`
-    margin: 100px 0;
+    position: relative;
+    display: flex;
+    height: calc(100vh - 90px);
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const SpaceBox = styled.canvas`
     position: absolute;
-    top: 90px;
+    top: 0px;
     z-index: -1;
     left: 0;
     width: 100%;
@@ -173,58 +185,34 @@ export const CTAButtonText = styled.p`
     color: #e5e5e5;
 `;
 
-// englighten me section styling
-
-export const EMSBox = styled.section`
-    margin: 125px 0 50px 0;
+export const SignUpBtn = styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
-    background-position: center;
-    background-size: cover;
-    height: 60vh;
     justify-content: center;
-
-    @media only screen and (max-width: 1550px) {
-        margin: 100px 0 50px 0;
-    }
+    margin-top: 3rem;
 
     @media only screen and (max-width: 768px) {
-        margin: 100px 0 50px 0;
+        margin-top: 0rem;
     }
 `;
 
-export const EMSImageContainer = styled.div`
-    display: flex;
-    width: 50%;
-    justify-content: center;
-    align-items: center;
+export const SectionContainer = styled.section`
+    padding: 5rem 0;
+    width: 100%;
+    @media only screen and (max-width: 768px) {
+        padding: 2rem 0;
+    }
 `;
 
-export const EMSContentContainer = styled.div`
-    display: flex;
-    width: 40%;
-    align-items: flex-start;
-    flex-direction: column;
-`;
+export const SectionTitle = styled.h5`
+    font-size: 14px;
+    font-family: Poppins;
+    color: #a5a5a5;
+    margin-left: 30px;
+    margin-bottom: 3rem;
 
-export const EMSMediumText = styled(MediumText)`
-    text-align: left;
-`;
-
-export const EMSButton = styled(Link)`
-    background: linear-gradient(
-        88.53deg,
-        #ee787b 2.77%,
-        #e153f2 51.87%,
-        #495be0 98.96%
-    );
-    box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
-    border-radius: 20px;
-    padding: 10px 50px;
-    margin-top: 70px;
-    text-decoration: none;
-
-    &:hover {
-        cursor: pointer;
+    @media only screen and (max-width: 768px) {
+        margin-bottom: 1rem;
     }
 `;

@@ -13,6 +13,7 @@ import { shortenAddress, SUPPORTED_CHAINS } from '../../utils/web3';
 import { useAuth } from '../../contexts/UserContext';
 import { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
+import { useNavigate } from 'react-router-dom';
 
 const Wallet = (props) => {
     const { loggedIn, loggingIn, activateWeb3, loadingWallet } = useAuth();
@@ -22,13 +23,14 @@ const Wallet = (props) => {
 
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(!showModal);
+    const navigate = useNavigate();
 
-    useEffect(() => !active && activateWeb3(), []);
-
-    useEffect(() =>
-        window.ethereum.on('chainChanged', (chain) =>
-            setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))
-        )
+    useEffect(
+        () =>
+            window.ethereum &&
+            window.ethereum.on('chainChanged', (chain) =>
+                setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))
+            )
     );
 
     if (wrong && !loggedIn) {

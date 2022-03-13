@@ -9,7 +9,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 
 // Hooks
 import { useState, useEffect } from 'react';
-import useAdmin from '../../hooks/useAdmin';
+// import useAdmin from '../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/UserContext';
 import { getGateStatusByUserId } from '../../graphql/queries';
@@ -20,12 +20,12 @@ import { PublishedState } from '../../graphql/API';
 import { searchUsers } from '../../graphql/queries';
 
 /* This is a card that displays information about a gate. */
-const GateCard = ({ gate }) => {
+const GateCard = ({ gate, viewAsMember }) => {
     // State
     const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
     const [numberOfWords, setNumberOfWords] = useState(130);
     // Hooks
-    const { isAdmin } = useAdmin(gate.admins || []);
+    // const { !viewAsMember } = useAdmin(gate.admins || []);
     const { userInfo } = useAuth();
     const navigate = useNavigate();
     const [update] = useMutation(gql(updateGate));
@@ -114,11 +114,11 @@ const GateCard = ({ gate }) => {
                 return 'Details';
         }
     };
-    console.log(gate);
+
     return (
         <Styled.GateCardBox>
             <Styled.GateBanner
-                src={`https://gateway.pinata.cloud/ipfs/${gate.badge.ipfsURL}`}
+                src={`https://ipfs.io/ipfs/${gate.badge.ipfsURL}`}
                 onClick={() => navigate(`/gate/${gate.id}`)}
             >
                 {false && (
@@ -138,8 +138,8 @@ const GateCard = ({ gate }) => {
                 */}
             </Styled.GateBanner>
             <Styled.CategoryList>
-                {gate.categories.map((category) => (
-                    <Styled.Category>
+                {gate.categories.map((category, idx) => (
+                    <Styled.Category key={idx}>
                         <Styled.CategoryLink to='/'>
                             {category}
                         </Styled.CategoryLink>
@@ -164,10 +164,16 @@ const GateCard = ({ gate }) => {
                             (gate.badge.name.length > 16 ? '...' : '')}
                     </Styled.GuildName>
                 </Styled.InfoBox>
-                <Styled.InfoBox>
-                    <Styled.MediumHeading>PRE REQUISITE</Styled.MediumHeading>
-                    <Styled.InfoText>Gateway.DAO.Verfication</Styled.InfoText>
-                </Styled.InfoBox>
+                {gate.preRequisites && (
+                    <Styled.InfoBox>
+                        <Styled.MediumHeading>
+                            PRE REQUISITE
+                        </Styled.MediumHeading>
+                        <Styled.InfoText>
+                            Gateway.DAO.Verfication
+                        </Styled.InfoText>
+                    </Styled.InfoBox>
+                )}
                 <Styled.InfoBox>
                     {gate.keysNumber && (
                         <>
@@ -198,11 +204,11 @@ const GateCard = ({ gate }) => {
                 {/* </Styled.Column>
                 <Styled.Column> */}
                 <Styled.InfoBox>
-                    <Styled.MediumHeading>Admins</Styled.MediumHeading>
+                    <Styled.MediumHeading>EARNERS</Styled.MediumHeading>
                     <Styled.InfoText>
-                        {gate.admins.length} people
-                        <br />
-                        have earned it.
+                        {gate.holders}{' '}
+                        {gate.holders !== 1 ? 'people have' : 'person has'}{' '}
+                        earned it.
                     </Styled.InfoText>
                 </Styled.InfoBox>
                 {/* </Styled.Column> */}
@@ -214,7 +220,7 @@ const GateCard = ({ gate }) => {
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                {isAdmin && (
+                {!viewAsMember && (
                     <Styled.PublishContainer>
                         <Styled.PublishText>PUBLISH</Styled.PublishText>
                         <Switch

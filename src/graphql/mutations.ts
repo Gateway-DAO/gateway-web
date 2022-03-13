@@ -242,6 +242,9 @@ export const votePost = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -396,6 +399,9 @@ export const unvotePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -1645,6 +1651,26 @@ export const createUser = /* GraphQL */ `
         }
         nextToken
       }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          gateID
+          organizationID
+          name
+          description
+          image
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -1744,6 +1770,26 @@ export const updateUser = /* GraphQL */ `
         }
         nextToken
       }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          gateID
+          organizationID
+          name
+          description
+          image
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -1838,6 +1884,26 @@ export const deleteUser = /* GraphQL */ `
           gateID
           keyID
           completed
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      credentials {
+        items {
+          id
+          issuerID
+          targetID
+          gateID
+          organizationID
+          name
+          description
+          image
+          pow
+          skills
+          knowledges
+          attitudes
+          ceramicStream
           createdAt
           updatedAt
         }
@@ -2907,6 +2973,9 @@ export const createPost = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3064,6 +3133,9 @@ export const updatePost = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -3225,6 +3297,9 @@ export const deletePost = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3305,6 +3380,9 @@ export const createComment = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3372,6 +3450,9 @@ export const updateComment = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -3437,6 +3518,9 @@ export const deleteComment = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4162,6 +4246,9 @@ export const createManualTaskSubmission = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4298,6 +4385,9 @@ export const updateManualTaskSubmission = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4438,6 +4528,9 @@ export const deleteManualTaskSubmission = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4574,6 +4667,9 @@ export const createGateStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -4713,6 +4809,9 @@ export const updateGateStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4850,6 +4949,9 @@ export const deleteGateStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -4985,6 +5087,9 @@ export const createTaskStatus = /* GraphQL */ `
           nextToken
         }
         tasks {
+          nextToken
+        }
+        credentials {
           nextToken
         }
         createdAt
@@ -5178,6 +5283,9 @@ export const updateTaskStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -5369,6 +5477,9 @@ export const deleteTaskStatus = /* GraphQL */ `
         tasks {
           nextToken
         }
+        credentials {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -5500,6 +5611,699 @@ export const deleteTaskStatus = /* GraphQL */ `
         updatedAt
       }
       completed
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createCredential = /* GraphQL */ `
+  mutation CreateCredential(
+    $input: CreateCredentialInput!
+    $condition: ModelCredentialConditionInput
+  ) {
+    createCredential(input: $input, condition: $condition) {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        skills
+        knowledge
+        attitudes
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        nftContracts {
+          reward
+          contributor
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      image
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCredential = /* GraphQL */ `
+  mutation UpdateCredential(
+    $input: UpdateCredentialInput!
+    $condition: ModelCredentialConditionInput
+  ) {
+    updateCredential(input: $input, condition: $condition) {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        skills
+        knowledge
+        attitudes
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        nftContracts {
+          reward
+          contributor
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      image
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCredential = /* GraphQL */ `
+  mutation DeleteCredential(
+    $input: DeleteCredentialInput!
+    $condition: ModelCredentialConditionInput
+  ) {
+    deleteCredential(input: $input, condition: $condition) {
+      id
+      issuerID
+      issuer {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      targetID
+      target {
+        id
+        wallet
+        username
+        name
+        bio
+        daos_ids
+        daos {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        init
+        nonce
+        pfp
+        about
+        skills
+        attitudes
+        languages
+        knowledges
+        socials {
+          network
+          url
+        }
+        gates {
+          nextToken
+        }
+        tasks {
+          nextToken
+        }
+        credentials {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      gateID
+      gate {
+        id
+        daoID
+        dao {
+          id
+          dao
+          name
+          accomplishments
+          snapshotID
+          backgroundURL
+          youtubeURL
+          logoURL
+          categories
+          tags
+          description
+          howToJoin
+          missionAndVision
+          whatDoWeDo
+          upcomingHangouts
+          tokenAddress
+          whitelistedAddresses
+          chains
+          createdAt
+          updatedAt
+        }
+        name
+        description
+        categories
+        skills
+        knowledge
+        attitudes
+        admins
+        keysNumber
+        keys {
+          nextToken
+        }
+        published
+        badge {
+          nftURL
+          ipfsURL
+          name
+        }
+        preRequisites {
+          completedGates
+        }
+        retroactiveEarners
+        links {
+          name
+          link
+        }
+        holders
+        nftType
+        createdAt
+        updatedAt
+      }
+      organizationID
+      organization {
+        id
+        dao
+        name
+        faq {
+          question
+          answer
+        }
+        accomplishments
+        snapshotID
+        backgroundURL
+        youtubeURL
+        logoURL
+        bounties {
+          nextToken
+        }
+        categories
+        tags
+        description
+        howToJoin
+        missionAndVision
+        whatDoWeDo
+        tokenBenefits {
+          nextToken
+        }
+        upcomingHangouts
+        tokenAddress
+        whitelistedAddresses
+        socials {
+          network
+          url
+        }
+        chains
+        channels {
+          nextToken
+        }
+        gates {
+          nextToken
+        }
+        nftContracts {
+          reward
+          contributor
+        }
+        createdAt
+        updatedAt
+      }
+      name
+      description
+      image
+      pow
+      skills
+      knowledges
+      attitudes
+      ceramicStream
       createdAt
       updatedAt
     }

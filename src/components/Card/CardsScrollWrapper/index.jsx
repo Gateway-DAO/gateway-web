@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Card from '../index';
 
 import * as Styled from './style';
@@ -64,17 +64,19 @@ const CardsScrollWrapper = (props) => {
         <Styled.CardBox className='full' ref={cardRef}>
             {props.cards
                 .filter((item, idx) => idx < numberOfCards)
-                .map((card) => {
+                .map((card, idx) => {
                     return (
-                        <Card
-                            id={card.dao}
-                            title={card.name}
-                            description={card.description}
-                            logoURL={card.logoURL}
-                            bannerURL={card.backgroundURL}
-                            // isScrolling={isScrolling}
-                            categories={card.categories}
-                        />
+                        <React.Fragment key={idx}>
+                            <Card
+                                id={card.dao}
+                                title={card.name}
+                                description={card.description}
+                                logoURL={card.logoURL}
+                                bannerURL={card.backgroundURL}
+                                // isScrolling={isScrolling}
+                                categories={card.categories}
+                            />
+                        </React.Fragment>
                     );
                 })}
         </Styled.CardBox>

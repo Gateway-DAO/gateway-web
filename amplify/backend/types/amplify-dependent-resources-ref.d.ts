@@ -128,6 +128,9 @@ export type AmplifyDependentResourcesAttributes = {
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        },
+        "gatewayceramicLayer": {
+            "Arn": "string"
         }
     },
     "auth": {

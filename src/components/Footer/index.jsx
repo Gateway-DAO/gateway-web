@@ -19,7 +19,7 @@ const Footer = (props) => {
                         <FaDiscord color='white' size={24} />
                     </Styled.SocialBtn>
                     <Styled.SocialBtn
-                        href='https://twitter.com/tryGateway'
+                        href='https://twitter.com/Gateway_DAO'
                         target='_blank'
                     >
                         <FaTwitter color='white' size={24} />

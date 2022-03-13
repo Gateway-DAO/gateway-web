@@ -26,7 +26,9 @@ const EditCardModal = (props) => {
     const [whitelistedAddresses, setWhitelistedAddresses] = useState(
         props.whitelistedAddresses || ['']
     );
-
+    const [errorMessage, setErrorMessage] = useState(
+        'An error occurred. Try again later!'
+    );
     const [updateLoading, setUpdateLoading] = useState(false);
 
     const { updateDAO, data, error, loading } = useUpdateDAO();
@@ -36,6 +38,20 @@ const EditCardModal = (props) => {
         setUpdateLoading(true);
         try {
             // Upload files to S3
+            if (logoFile === null || backgroundFile === null) {
+                setErrorMessage('Files not uploaded');
+                console.log(logoFile);
+                console.log(backgroundFile);
+                throw 'Files not uploaded';
+            }
+            if (name === '') {
+                setErrorMessage('Name cannot be empty');
+                throw 'Name cannot be empty';
+            }
+            if (tokenAddress === '') {
+                setErrorMessage('tokenAddress cannot be empty');
+                throw 'tokenAddress cannot be empty';
+            }
             const logoURL =
                 logoFile &&
                 (await uploadFile(
@@ -85,7 +101,7 @@ const EditCardModal = (props) => {
             props.changeDAOData(newInfo);
             props.toggle();
         } catch (err) {
-            alert('An error occurred. Try again later!');
+            alert(errorMessage);
             console.log(err);
         }
         setUpdateLoading(false);
@@ -296,7 +312,7 @@ const EditCardModal = (props) => {
                     </FormStyled.Label>
                     {socials.map((social, idx) => {
                         return (
-                            <FormStyled.InputWrapper>
+                            <FormStyled.InputWrapper key={idx}>
                                 <FormStyled.Select
                                     style={{ marginRight: '10px' }}
                                     onChange={(e) =>
@@ -482,7 +498,7 @@ const EditCardModal = (props) => {
                     </FormStyled.Label>
                     {whitelistedAddresses.map((address, idx) => {
                         return (
-                            <FormStyled.InputWrapper>
+                            <FormStyled.InputWrapper key={idx}>
                                 <FormStyled.Input
                                     id={`social-${idx}`}
                                     type='text'

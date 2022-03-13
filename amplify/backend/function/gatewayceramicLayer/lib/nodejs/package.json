@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.92"
+  },
+  "dependencies": {
+    "@ceramicnetwork/http-client": "^1.5.7",
+    "@ceramicnetwork/stream-tile": "^1.5.7",
+    "aws-sdk": "^2.1078.0",
+    "dids": "^2.4.3",
+    "key-did-provider-ed25519": "^1.1.0",
+    "key-did-resolver": "^1.4.4",
+    "web3": "^1.7.0"
+  },
+  "resolutions": {
+    "did-jwt": "5.1.0"
+  }
+}

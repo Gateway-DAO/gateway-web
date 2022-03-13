@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './pages/App.tsx';
 import { store } from './state/store';
 
+/* AOS CSS animation */
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 /* Providers */
 import { Provider as ReduxProvider } from 'react-redux';
 import { ThemeProvider, GlobalTheme } from './theme';
@@ -22,6 +26,8 @@ import ReactGA from 'react-ga';
 Amplify.configure(awsconfig);
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
+
+AOS.init();
 
 function getLibrary(provider, connector) {
     return new Web3Provider(provider); // this will vary according to whether you use e.g. ethers or web3.js
