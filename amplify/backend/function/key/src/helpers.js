@@ -244,7 +244,7 @@ const getGateStatus = async (userID, gateID) => {
  * @param gsID - The ID of the gate status to mark as completed.
  * @returns The status of the gate.
  */
-const markGateAsCompleted = async (gsID, gate) => {
+const markGateAsCompleted = async (gsID, userID, gate) => {
     // Mark gate as completed
     const { Items: [status] = [] } = await docClient
         .update({
@@ -269,7 +269,7 @@ const markGateAsCompleted = async (gsID, gate) => {
         id: uuidv4(),
         issuerID: process.env.ENV == "main" ? "21696527-0fe3-40fc-86d5-d85f650ae3fe" : "70a52c4e-f333-4f6c-b528-993ad166ad10",
         targetID: userID,
-        organizationID: daoID,
+        organizationID: gate.daoID,
         gateID: gate.id,
         name: gate.badge.name,
         description: gate.description,

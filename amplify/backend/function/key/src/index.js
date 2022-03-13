@@ -110,7 +110,7 @@ const resolvers = {
                         gateStatus.status !== 'COMPLETED'
                     ) {
                         // Gate completed, update gate status
-                        await markGateAsCompleted(gateStatus.id);
+                        await markGateAsCompleted(gateStatus.id, userID, gate);
                         completedGate = true;
                     }
 
@@ -169,7 +169,7 @@ const resolvers = {
                         gateStatus.status !== 'COMPLETED'
                     ) {
                         // Gate completed, update gate status
-                        await markGateAsCompleted(gateStatus.id);
+                        await markGateAsCompleted(gateStatus.id, userID, gate);
                         completedGate = true;
                     }
 
@@ -264,7 +264,7 @@ const resolvers = {
                         gateStatus.status !== 'COMPLETED'
                     ) {
                         // Gate completed, update gate status
-                        await markGateAsCompleted(gateStatus.id);
+                        await markGateAsCompleted(gateStatus.id, userID, gate);
                         completedGate = true;
                     }
 
@@ -387,7 +387,7 @@ const resolvers = {
                         gateStatus.status !== 'COMPLETED'
                     ) {
                         // Gate completed, update gate status
-                        await markGateAsCompleted(gateStatus.id);
+                        await markGateAsCompleted(gateStatus.id, userID, gate);
                         completedGate = true;
                     }
 
@@ -430,7 +430,7 @@ const resolvers = {
                         gateStatus.status !== 'COMPLETED'
                     ) {
                         // Gate completed, update gate status
-                        await markGateAsCompleted(gateStatus.id);
+                        await markGateAsCompleted(gateStatus.id, userID, gate);
                         completedGate = true;
                     }
 
@@ -507,7 +507,7 @@ const resolvers = {
                         gateStatus.status !== 'COMPLETED'
                     ) {
                         // Gate completed, update gate status
-                        await markGateAsCompleted(gateStatus.id);
+                        await markGateAsCompleted(gateStatus.id, userID, gate);
                         completedGate = true;
                     }
 
