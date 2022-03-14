@@ -100,15 +100,9 @@ const AddKnowledge = () => {
         navigate('/profiles');
     }
 
-    useEffect(() => {
-        space(window.innerHeight, window.innerWidth),
-            [window.innerHeight, window.innerWidth];
-    }, []);
-
     return (
         <Page space>
             <div className='main-about-section'>
-                <canvas id='space-canvas'></canvas>
                 <Container>
                     <div className='back-link'>
                         {/* <Link to="/profiles">
@@ -118,7 +112,7 @@ const AddKnowledge = () => {
                         <a>
                             <div
                                 className='arrow-back'
-                                onClick={() => navigate('/profiles')}
+                                onClick={() => navigate('..')}
                             >
                                 <img src='/left-arrow-icon.svg' alt='' />
                             </div>

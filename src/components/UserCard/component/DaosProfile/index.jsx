@@ -9,7 +9,6 @@ const DaosProfile = (props) => {
     };
 
     let imgURl = props.imgURL;
-    console.log(imgURl);
 
     return (
         <Styled.DaoPfpContainer

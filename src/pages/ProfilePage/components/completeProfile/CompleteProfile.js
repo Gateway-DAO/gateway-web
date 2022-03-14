@@ -17,6 +17,7 @@ import useFileUpload from '../../../../api/useFileUpload';
 import normalizeUrl from 'normalize-url';
 import { useWeb3React } from '@web3-react/core';
 import './CompleteProfile.css';
+import Page from '../../../../components/Page';
 
 registerPlugin(
     FilePondPluginImageExifOrientation,
@@ -212,16 +213,12 @@ const CompleteProfile = () => {
         setIsValidated(true);
     };
 
-    // if (!isUser) {
-    // 	return <Navigate to="/404" />;
-    // }
     if (redirect) {
         return <Navigate to='/profiles' />;
     }
 
     return (
-        <>
-            <Header />
+        <Page space>
             <div className='main-about-section'>
                 <canvas id='space-canvas'></canvas>
                 <Container>
@@ -229,7 +226,7 @@ const CompleteProfile = () => {
                         <a href='#'>
                             <div
                                 className='arrow-back'
-                                onClick={() => navigate('/profiles')}
+                                onClick={() => navigate('..')}
                             >
                                 <img src='/left-arrow-icon.svg' alt='' />
                             </div>
@@ -514,7 +511,7 @@ const CompleteProfile = () => {
                     </Container>
                 </div>
             </div>
-        </>
+        </Page>
     );
 };
 

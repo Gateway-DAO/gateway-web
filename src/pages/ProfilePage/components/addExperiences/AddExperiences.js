@@ -19,6 +19,8 @@ import { useAuth } from '../../../../contexts/UserContext';
 import { useSearchDAO } from '../../../../api/database/useSearchDAO';
 import Header from "../../../../components/Header";
 import Loader from '../../../../components/Loader';
+import { MONTHS } from '../../../../utils/constants';
+import Page from '../../../../components/Page';
 
 const history = createBrowserHistory();
 const years = [...Array(new Date().getFullYear() - 1989).keys()].map((e) => e + 1990);
@@ -33,21 +35,6 @@ const AddExperience = () => {
 	const [redirect, setRedirect] = useState(false);
 	const [isValidated, setIsValidated] = useState(false);
 	const [optionsDao, setOptionsDao] = useState([]);
-
-	const [months, setMonths] = useState([
-		{ value: 'january', label: 'January' },
-		{ value: 'february', label: 'February' },
-		{ value: 'march', label: 'March' },
-		{ value: 'april', label: 'April' },
-		{ value: 'may', label: 'May' },
-		{ value: 'june', label: 'June' },
-		{ value: 'july', label: 'July' },
-		{ value: 'august', label: 'August' },
-		{ value: 'september', label: 'September' },
-		{ value: 'october', label: 'October' },
-		{ value: 'november', label: 'November' },
-		{ value: 'december', label: 'December' },
-	]);
 
 	const [valuesDao, setValuesDao] = useState([]);
 	const [user, setUser] = useState({
@@ -202,8 +189,7 @@ const AddExperience = () => {
 	// console.log("valuesDao", valuesDao)
 
 	return (
-		<>
-			<Header />
+		<Page space>
 			<div className="main-about-section">
 				<canvas id="space-canvas"></canvas>
 				<Container>
@@ -338,8 +324,8 @@ const AddExperience = () => {
 										onChange={handleChange}
 										value={user.startDate}
 									>
-										{months.map((e, key) => {
-											return <option key={key} value={e.value}>{e.label}</option>;
+										{MONTHS.map((e, key) => {
+											return <option key={key} value={e}>{e}</option>;
 										})}
 									</Form.Select>
 								</Form.Group>
@@ -431,7 +417,7 @@ const AddExperience = () => {
 					</Container>
 				</div>
 			</div>
-		</>
+		</Page>
 	)
 }
 
