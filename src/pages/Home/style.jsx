@@ -30,7 +30,7 @@ export const BigText = styled.h1`
     font-style: normal;
     font-weight: bold;
     font-size: 64px;
-    z-index: 100;
+    z-index: 1;
     // word-spacing: 100vw;
     line-height: 90px;
 

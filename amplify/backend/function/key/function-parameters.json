@@ -8,7 +8,38 @@
       ]
     },
     "storage": {
+      "User:@model(appsync)": [
+        "read",
+        "update"
+      ],
+      "DAO:@model(appsync)": [
+        "read"
+      ],
+      "Gate:@model(appsync)": [
+        "read",
+        "update"
+      ],
       "Key:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ],
+      "ManualTaskSubmission:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ],
+      "GateStatus:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ],
+      "TaskStatus:@model(appsync)": [
+        "create",
+        "read",
+        "update"
+      ],
+      "Credential:@model(appsync)": [
         "create",
         "read",
         "update"
@@ -18,7 +49,7 @@
   "lambdaLayers": [
     {
       "type": "ProjectLayer",
-      "resourceName": "gatewayverifyKey",
+      "resourceName": "gatewayceramicLayer",
       "env": "dev",
       "version": "Always choose latest version",
       "isLatestVersionSelected": true

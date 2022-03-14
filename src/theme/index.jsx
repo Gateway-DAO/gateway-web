@@ -45,6 +45,7 @@ export const GlobalTheme = createGlobalStyle`
     body {
         line-height: 1;
         background-color: #170627;
+        font-family: 'Be Vietnam Pro', sans-serif !important;
     }
     #root {
         max-width: 1440px;
@@ -64,5 +65,11 @@ export const GlobalTheme = createGlobalStyle`
     table {
         border-collapse: collapse;
         border-spacing: 0;
+    }
+    img {
+        max-width: 100%;
+    }
+    a {
+        text-decoration: none;
     }
 `;

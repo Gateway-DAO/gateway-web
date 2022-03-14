@@ -1,5 +1,3 @@
-import { InjectedConnector } from '@web3-react/injected-connector';
-
 export const SUPPORTED_CHAINS = [
     1,
     3,
@@ -10,10 +8,6 @@ export const SUPPORTED_CHAINS = [
     ...(process.env.NODE_ENV == 'development' ? [1337, 31337] : []),
     80001,
 ];
-
-export const CONNECTORS = {
-    Injected: new InjectedConnector({ supportedChainIds: SUPPORTED_CHAINS }),
-};
 
 export const ROUTER_ADDRESS = {
     4: '0x3F9Ad56D3245619eDc373C252E74432D7D667Cf2',

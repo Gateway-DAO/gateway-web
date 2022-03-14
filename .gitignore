@@ -32,6 +32,9 @@ cors.json
 deleteAllUsers.sh
 /src/utils/aws-migration.js
 
+
+src/components/RichTextEditor/Style.jsx
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -52,5 +55,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-
-src/components/RichTextEditor/Style.jsx

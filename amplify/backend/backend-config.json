@@ -346,7 +346,7 @@
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "gatewayverifyKey",
+          "resourceName": "gatewayceramicLayer",
           "attributes": [
             "Arn"
           ]
