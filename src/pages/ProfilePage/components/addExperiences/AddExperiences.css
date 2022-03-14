@@ -172,7 +172,7 @@ label.form-check-label {
     font-weight: 400;
     letter-spacing: 0.5px;
     background: rgba(255, 255, 255, 0.2);
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 30px;
     display: inline-block;
     margin-right: 10px;
@@ -256,6 +256,61 @@ label.form-label {
     background-color: transparent !important;
     background-image: url('data:image/svg+xml,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3e%3cpath fill=%27none%27 stroke=%27%23ffffff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M2 5l6 6 6-6%27/%3e%3c/svg%3e') !important;
 }
+
+/*autocomplete css start here*/
+ul.autocomplete-results li.result-item {
+    border: none;
+    padding: 12px;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+}
+ul.autocomplete-results li.result-item:hover {
+    background: blue;
+    color: #fff;
+}
+ul.autocomplete-results {
+    border: 1px solid #7e3bdc;
+    margin-top: 10px;
+    background: #220a38;
+}
+input.form-control[placeholder='Search'] {
+    position: relative;
+}
+input.form-control[placeholder='Search']:after {
+    content: '';
+    background: url(http://gateway.devcmitexpert.com/search-icon.svg) no-repeat
+        center center;
+    width: 22px;
+    height: 24px;
+    right: 10px;
+    position: absolute;
+}
+.selected-options p img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 6px;
+}
+.selected-options p .selectClose img {
+    width: 18px;
+    height: 18px;
+    object-fit: unset;
+    margin-right: unset;
+}
+.loader-search {
+    text-align: center;
+    margin-top: 15px;
+}
+ul.autocomplete-results li.result-item.selected {
+    background: #00008b;
+    cursor: inherit;
+}
+ul.autocomplete-results li.result-item.selected:hover {
+    background: #00008b;
+}
+
 p.time-label strong {
     text-transform: uppercase;
     letter-spacing: 0.5px;

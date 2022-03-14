@@ -722,6 +722,177 @@ a.profile-toggle:focus + .profile-dropdown {
     color: #1e2125;
     text-decoration: underline !important;
 }
+
+.experience-profile-inner-section {
+    display: flex;
+}
+.experience-profile-section {
+    position: relative;
+}
+.experience-profile-section:before {
+    position: absolute;
+    content: '';
+    left: 20px;
+    top: 0;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    background-size: 100%;
+    width: 2px;
+    height: 100%;
+    z-index: -1;
+}
+.creative-icon {
+    flex: 0 0 41px;
+    margin-right: 19px;
+}
+/* .experience-profile-section h3 img{margin-right: 19px;} */
+.experience-profile-section h3 {
+    font-size: 21px;
+    color: #e5e5e5;
+    font-weight: 700;
+}
+.experience-profile-section .finance-date p {
+    font-size: 16px;
+    color: #e5e5e5;
+    display: block;
+    letter-spacing: 0.05em;
+}
+.experience-profile-section .finance-date p span {
+    display: block;
+    color: #a29ba9;
+}
+.creative-see-more {
+    background: linear-gradient(270deg, #ff00b8 41.87%, #7e3bdc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+    font-weight: 500;
+}
+.contributor-nft {
+    padding: 0 60px;
+}
+.contributor-nft .accordion-header .accordion-button {
+    padding-left: 0;
+    padding-right: 0;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #e5e5e5;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    box-shadow: none;
+}
+.contributor-nft .accordion-button::after {
+    margin-left: 5px;
+    filter: brightness(0) invert(1);
+    background-image: url(https://gateway.devcmitexpert.com/profile/top-chevron.svg);
+    width: 13px;
+    height: 8px;
+    background-size: 13px;
+    transform: rotate(180deg);
+}
+.contributor-nft .accordion-item {
+    background: none;
+}
+.contributor-nft .accordion-button:not(.collapsed)::after {
+    transform: rotate(0deg);
+}
+.contributor-nft .accordion-item {
+    border: none;
+    box-shadow: none;
+}
+.accordion-top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+.accordion-top-header:before {
+    position: absolute;
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #453852;
+    transform: rotate(45deg);
+    left: -42px;
+}
+.accordion-see-all-btn {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    text-transform: capitalize;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+}
+.cNFT {
+    background: #0d1840;
+    border-radius: 10px;
+}
+.contributor-nft .accordion-body {
+    padding: 0;
+}
+.contributor-nft .img-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 203px;
+}
+.contributor-nft .img-box img {
+    border-radius: 12px 12px 0 0;
+}
+.contributor-nft .content-box {
+    padding: 4px 10px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0 0 10px 10px;
+}
+.cNFT .content-box .nft-heading span {
+    font-size: 9px !important;
+    letter-spacing: 0.05em;
+    color: #170627;
+}
+.cNFT .content-box .nft-heading h4 {
+    font-size: 12px !important;
+    background: linear-gradient(
+        95.57deg,
+        #ee787b 8.89%,
+        #e153f2 34.15%,
+        #495be0 67.09%,
+        #6a39f3 95.52%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
+    letter-spacing: -0.015em;
+}
+.cNFT .content-box .yearn-date p {
+    font-size: 9px !important;
+    color: rgba(23, 6, 39, 0.6);
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 0;
+    line-height: 15px;
+}
+.cNFT .content-box .yearn-date p span {
+    color: rgba(23, 6, 39, 0.8);
+    display: block;
+}
+.experience-profile-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.experience-profile-heading a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /*Profile-page*/
 @media (min-width: 1024px) {
     .gateway-profile-middle-btn-grp .dropdown-menu.show {
