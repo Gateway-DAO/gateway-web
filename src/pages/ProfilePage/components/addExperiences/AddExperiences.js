@@ -199,7 +199,7 @@ const AddExperience = () => {
 							<p>Back to Profile</p>
 						</Link> */}
 						<a href="#">
-							<div className="arrow-back" onClick={() => navigate(-1)}><img src="/left-arrow-icon.svg" alt="" />
+							<div className="arrow-back" onClick={() => navigate('/profile')}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>
 						<span style={{ color: "white", marginLeft: "20px" }}>
