@@ -229,12 +229,84 @@ export const listUsers = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -1102,12 +1174,84 @@ export const getPost = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -1277,12 +1421,84 @@ export const getComment = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -1856,12 +2072,84 @@ export const getManualTaskSubmission = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -2049,12 +2337,84 @@ export const getGateStatus = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -2249,12 +2609,84 @@ export const getTaskStatus = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -2518,12 +2950,84 @@ export const getCredential = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -2572,12 +3076,84 @@ export const getCredential = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -3052,12 +3628,84 @@ export const getUserByUsername = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt
@@ -4985,12 +5633,84 @@ export const searchUsers = /* GraphQL */ `
                     url
                 }
                 gates {
+                    items {
+                        id
+                        userID
+                        gateID
+                        tasks {
+                            items {
+                                id
+                                userID
+                                gateID
+                                keyID
+                                completed
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                        reward {
+                            rewardCode
+                            retrieved
+                        }
+                        keysDone
+                        status
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 tasks {
+                    items {
+                        id
+                        userID
+                        gateID
+                        keyID
+                        completed
+                        createdAt
+                        updatedAt
+                    }
                     nextToken
                 }
                 credentials {
+                    items {
+                        id
+                        issuerID
+                        targetID
+                        gateID
+                        gate {
+                            id
+                            name
+                            description
+                            categories
+                            skills
+                            knowledge
+                            attitudes
+                            keysNumber
+                            badge {
+                                ipfsURL
+                                name
+                            }
+                            nftType
+                        }
+                        organizationID
+                        organization {
+                            id
+                            dao
+                            name
+                            snapshotID
+                            logoURL
+                            description
+                        }
+                        name
+                        description
+                        image
+                        pow
+                        skills
+                        knowledges
+                        attitudes
+                        ceramicStream
+                        createdAt
+                    }
                     nextToken
                 }
                 createdAt

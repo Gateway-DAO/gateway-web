@@ -68,7 +68,7 @@ import { getUserByUsername } from '../../../../graphql/queries';
 import { shortenAddress } from '../../../../utils/web3';
 
 // Types
-import { User } from '../../../../graphql/API';
+import { Social, User } from '../../../../graphql/API';
 import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
 import CredentialCard from './components/CredentialCard';
@@ -223,18 +223,19 @@ const ProfileUpdate = () => {
      * @param platform - The social media platform you want to share to.
      * @returns A function that returns a React component.
      */
-    const getSocialIcon = (platform) => {
-        let icon = <FaShareAlt color='white' />;
-        if (platform == 'Twitter') {
-            icon = <FaTwitter color='white' />;
-        } else if (platform == 'Discord') {
-            icon = <FaDiscord color='white' />;
-        } else if (platform == 'Telegram') {
-            icon = <FaTelegram color='white' />;
-        } else if (platform == 'Github') {
-            icon = <FaGithubAlt color='white' />;
+    const getSocialIcon = (platform: Social) => {
+        switch (platform.network) {
+            case 'twitter':
+                return <FaTwitter color='white' />;
+            case 'discord':
+                return <FaDiscord color='white' />;
+            case 'telegram':
+                return <FaTelegram color='white' />;
+            case 'github':
+                return <FaGithubAlt color='white' />;
+            default:
+                return <FaShareAlt color='white' />;
         }
-        return icon;
     };
 
     /**
@@ -329,128 +330,125 @@ const ProfileUpdate = () => {
      * @returns The weather icon.
      */
     const getWeatherIcon = () => {
-        let weatherIcon = null;
-        // console.log("weatherData", weatherData.length);
         if (weatherData.length === 1) {
             if (weatherData[0].WeatherText === 'Sunny') {
-                weatherIcon = <WiDaySunny color='white' />;
+                return <WiDaySunny color='white' />;
             } else if (weatherData[0].WeatherText === 'Mostly Sunny') {
-                weatherIcon = <WiDaySunnyOvercast color='white' />;
+                return <WiDaySunnyOvercast color='white' />;
             } else if (weatherData[0].WeatherText === 'Partly Sunny') {
-                weatherIcon = <WiDaySunnyOvercast color='white' />;
+                return <WiDaySunnyOvercast color='white' />;
             } else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
-                weatherIcon = <WiDaySunnyOvercast color='white' />;
+                return <WiDaySunnyOvercast color='white' />;
             } else if (weatherData[0].WeatherText === 'Hazy Sunshine') {
-                weatherIcon = <WiDaySunnyOvercast color='white' />;
+                return <WiDaySunnyOvercast color='white' />;
             } else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
-                weatherIcon = <WiDayCloudyHigh color='white' />;
+                return <WiDayCloudyHigh color='white' />;
             } else if (weatherData[0].WeatherText === 'Cloudy') {
-                weatherIcon = <WiCloudy color='white' />;
+                return <WiCloudy color='white' />;
             } else if (weatherData[0].WeatherText === 'Dreary (Overcast)') {
-                weatherIcon = <WiCloudy color='white' />;
+                return <WiCloudy color='white' />;
             } else if (weatherData[0].WeatherText === 'Fog') {
-                weatherIcon = <WiFog color='white' />;
+                return <WiFog color='white' />;
             } else if (weatherData[0].WeatherText === 'Showers') {
-                weatherIcon = <WiShowers color='white' />;
+                return <WiShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' &&
                 weatherData[0].IsDayTime === true
             ) {
-                weatherIcon = <WiDayRainMix color='white' />;
+                return <WiDayRainMix color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Partly Sunny w/ Showers'
             ) {
-                weatherIcon = <WiDayRainMix color='white' />;
+                return <WiDayRainMix color='white' />;
             } else if (weatherData[0].WeatherText === 'T-Storms') {
-                weatherIcon = <WiStormShowers color='white' />;
+                return <WiStormShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' &&
                 weatherData[0].IsDayTime === true
             ) {
-                weatherIcon = <WiDayRainMix color='white' />;
+                return <WiDayRainMix color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Partly Sunny w/ T-Storms'
             ) {
-                weatherIcon = <WiDayRainMix color='white' />;
+                return <WiDayRainMix color='white' />;
             } else if (weatherData[0].WeatherText === 'Rain') {
-                weatherIcon = <WiRain color='white' />;
+                return <WiRain color='white' />;
             } else if (weatherData[0].WeatherText === 'Flurries') {
-                weatherIcon = <WiSprinkle color='white' />;
+                return <WiSprinkle color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' &&
                 weatherData[0].IsDayTime === true
             ) {
-                weatherIcon = <WiDayShowers color='white' />;
+                return <WiDayShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Partly Sunny w/ Flurries'
             ) {
-                weatherIcon = <WiDayShowers color='white' />;
+                return <WiDayShowers color='white' />;
             } else if (weatherData[0].WeatherText === 'Snow') {
-                weatherIcon = <WiSnowflakeCold color='white' />;
+                return <WiSnowflakeCold color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' &&
                 weatherData[0].IsDayTime === true
             ) {
-                weatherIcon = <WiDaySnow color='white' />;
+                return <WiDaySnow color='white' />;
             } else if (weatherData[0].WeatherText === 'Ice') {
-                weatherIcon = <WiSnowflakeCold color='white' />;
+                return <WiSnowflakeCold color='white' />;
             } else if (weatherData[0].WeatherText === 'Sleet') {
-                weatherIcon = <WiSleet color='white' />;
+                return <WiSleet color='white' />;
             } else if (weatherData[0].WeatherText === 'Freezing Rain') {
-                weatherIcon = <WiRain color='white' />;
+                return <WiRain color='white' />;
             } else if (weatherData[0].WeatherText === 'Rain and Snow') {
-                weatherIcon = <WiRainMix color='white' />;
+                return <WiRainMix color='white' />;
             } else if (weatherData[0].WeatherText === 'Hot') {
-                weatherIcon = <WiHot color='white' />;
+                return <WiHot color='white' />;
             } else if (weatherData[0].WeatherText === 'Cold') {
-                weatherIcon = <WiSnowflakeCold color='white' />;
+                return <WiSnowflakeCold color='white' />;
             } else if (weatherData[0].WeatherText === 'Windy') {
-                weatherIcon = <WiWindy color='white' />;
+                return <WiWindy color='white' />;
             } else if (weatherData[0].WeatherText === 'Clear') {
-                weatherIcon = <WiNightClear color='white' />;
+                return <WiNightClear color='white' />;
             } else if (weatherData[0].WeatherText === 'Mostly Clear') {
-                weatherIcon = <WiNightClear color='white' />;
+                return <WiNightClear color='white' />;
             } else if (weatherData[0].WeatherText === 'Partly Cloudy') {
-                weatherIcon = <WiNightAltCloudy color='white' />;
+                return <WiNightAltCloudy color='white' />;
             } else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
-                weatherIcon = <WiNightAltCloudy color='white' />;
+                return <WiNightAltCloudy color='white' />;
             } else if (weatherData[0].WeatherText === 'Hazy Moonlight') {
-                weatherIcon = <WiNightLightning color='white' />;
+                return <WiNightLightning color='white' />;
             } else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
-                weatherIcon = <WiCloudy color='white' />;
+                return <WiCloudy color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Partly Cloudy w/ Showers'
             ) {
-                weatherIcon = <WiNightAltShowers color='white' />;
+                return <WiNightAltShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' &&
                 weatherData[0].IsDayTime === false
             ) {
-                weatherIcon = <WiNightAltShowers color='white' />;
+                return <WiNightAltShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Partly Cloudy w/ T-Storms'
             ) {
-                weatherIcon = <WiNightAltStormShowers color='white' />;
+                return <WiNightAltStormShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' &&
                 weatherData[0].IsDayTime === false
             ) {
-                weatherIcon = <WiNightAltStormShowers color='white' />;
+                return <WiNightAltStormShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' &&
                 weatherData[0].IsDayTime === false
             ) {
-                weatherIcon = <WiNightAltShowers color='white' />;
+                return <WiNightAltShowers color='white' />;
             } else if (
                 weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' &&
                 weatherData[0].IsDayTime === false
             ) {
-                weatherIcon = <WiNightAltSnow color='white' />;
+                return <WiNightAltSnow color='white' />;
             } else {
-                weatherIcon = <WiDaySunny color='white' />;
+                return <WiDaySunny color='white' />;
             }
         }
-        return weatherIcon;
     };
 
     const handleCopy = async () => {
@@ -475,6 +473,7 @@ const ProfileUpdate = () => {
                             </div>
                         </Col>
                         <Col md={7}>
+                            {/* Gateway Profile - Header */}
                             <div className='gateway-profile-middle'>
                                 <Row>
                                     <Col md={8}>
@@ -497,7 +496,7 @@ const ProfileUpdate = () => {
                                                                 }
                                                             >
                                                                 {getSocialIcon(
-                                                                    item.network
+                                                                    item
                                                                 )}
                                                             </a>
                                                         )
@@ -558,55 +557,63 @@ const ProfileUpdate = () => {
                                 </Row>
                             </div>
 
-                            <div className='gway-prfile-col'>
-                                <div className='gway-about-hd'>
-                                    <h2>About</h2>
-                                    {userInfo.about && canEdit ? (
-                                        <Link to='add-about'>
-                                            <FaEdit color='white' />
+                            {/* Gateway Profile - About */}
+                            {(userInfo.about ||
+                                (!userInfo.about && canEdit)) && (
+                                <div className='gway-prfile-col'>
+                                    <div className='gway-about-hd'>
+                                        <h2>About</h2>
+                                        {userInfo.about && canEdit ? (
+                                            <Link to='add-about'>
+                                                <FaEdit color='white' />
+                                            </Link>
+                                        ) : null}
+                                    </div>
+                                    {userInfo.about ? (
+                                        <div
+                                            className='about-content'
+                                            dangerouslySetInnerHTML={{
+                                                __html: userInfo.about,
+                                            }}
+                                        />
+                                    ) : (
+                                        <p>
+                                            You can write about your years of
+                                            experience, industry, or skills.
+                                            People also talk about their
+                                            achievements or previous job
+                                            experiences.
+                                        </p>
+                                    )}
+                                    {!userInfo.about && canEdit ? (
+                                        <Link
+                                            to='add-about'
+                                            className='add-now-btn'
+                                        >
+                                            ADD NOW
                                         </Link>
                                     ) : null}
                                 </div>
-                                {userInfo.about ? (
-                                    <div
-                                        className='about-content'
-                                        dangerouslySetInnerHTML={{
-                                            __html: userInfo.about,
-                                        }}
-                                    />
-                                ) : (
-                                    <p>
-                                        You can write about your years of
-                                        experience, industry, or skills. People
-                                        also talk about their achievements or
-                                        previous job experiences.
-                                    </p>
-                                )}
-                                {!userInfo.about && canEdit ? (
-                                    <Link
-                                        to='add-about'
-                                        className='add-now-btn'
-                                    >
-                                        ADD NOW
-                                    </Link>
-                                ) : null}
-                            </div>
-                            <div className='gway-prfile-col'>
-                                <div className='gway-about-hd'>
-                                    <h2>Experience</h2>
-                                    {canEdit && (
-                                        <Link to='add-experiences'>
-                                            <FaPlus color='white' />
-                                        </Link>
-                                    )}
-                                </div>
-                                {/* canEdit && (
+                            )}
+
+                            {/* Gateway Profile - Credentials */}
+                            {userInfo.credentials?.items.length > 0 && (
+                                <div className='gway-prfile-col'>
+                                    <div className='gway-about-hd'>
+                                        <h2>Experience</h2>
+                                        {/*canEdit && (
+                                            <Link to='add-experiences'>
+                                                <FaPlus color='white' />
+                                            </Link>
+                                        )*/}
+                                    </div>
+                                    {/* canEdit && (
                                     <p>
                                         Add your Experience and Contributions.{' '}
                                     </p>
 								) */}
 
-                                {/*
+                                    {/*
 								<div className='gway-contact-card'>
 									<p>
 										Start now your on-chain experience
@@ -616,112 +623,122 @@ const ProfileUpdate = () => {
 								</div>
 								*/}
 
-                                {userInfo.credentials?.items && userInfo.credentials?.items.map(
-                                    (credential) => (
-                                        <div className='experience-profile-section'>
-                                            <div className='experience-profile-inner-section'>
-                                                <div className='creative-icon'>
-                                                    <img
-                                                        src={
-                                                            credential
-                                                                .organization
-                                                                .logoURL
-                                                        }
-                                                        alt='image'
-                                                    />
-                                                </div>
-                                                <div className='finance-date'>
-                                                    <div className='experience-profile-heading'>
-                                                        <h3>
-                                                            {credential.name}
-                                                        </h3>
-                                                        {/* canEdit && (
+                                    {userInfo.credentials?.items.map(
+                                        (credential) => (
+                                            <div className='experience-profile-section'>
+                                                <div className='experience-profile-inner-section'>
+                                                    <div className='creative-icon'>
+                                                        <img
+                                                            src={
+                                                                credential
+                                                                    .organization
+                                                                    .logoURL
+                                                            }
+                                                            alt='image'
+                                                        />
+                                                    </div>
+                                                    <div className='finance-date'>
+                                                        <div className='experience-profile-heading'>
+                                                            <h3>
+                                                                {
+                                                                    credential.name
+                                                                }
+                                                            </h3>
+                                                            {/* canEdit && (
                                                             <Link to='/'>
                                                                 <FaEdit color='white' />
                                                             </Link>
 														) */}
-                                                    </div>
-                                                    <p>
-                                                        {
-                                                            credential
-                                                                .organization
-                                                                .name
-                                                        }
-                                                        {/*<span>
+                                                        </div>
+                                                        <p>
+                                                            {
+                                                                credential
+                                                                    .organization
+                                                                    .name
+                                                            }
+                                                            {/*<span>
                                                             Nov 2021 — Present •
                                                             15h/week
                                                         </span>*/}
-                                                        <span>
-                                                            {MONTHS[new Date(
-                                                                credential.createdAt
-                                                            ).getMonth()].slice(0, 3)} {new Date(
-                                                                credential.createdAt
-                                                            ).getFullYear()}
-                                                        </span>
-                                                    </p>
-                                                    <p>
-                                                        {
-                                                            credential.gate
-                                                                .description
-                                                        }
-                                                        {/* <Link
+                                                            <span>
+                                                                {MONTHS[
+                                                                    new Date(
+                                                                        credential.createdAt
+                                                                    ).getMonth()
+                                                                ].slice(
+                                                                    0,
+                                                                    3
+                                                                )}{' '}
+                                                                {new Date(
+                                                                    credential.createdAt
+                                                                ).getFullYear()}
+                                                            </span>
+                                                        </p>
+                                                        <p>
+                                                            {
+                                                                credential.gate
+                                                                    .description
+                                                            }
+                                                            {/* <Link
                                                             to='/contact'
                                                             className='creative-see-more'
                                                         >
                                                             See more
 														</Link> */}
-                                                    </p>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className='nft'>
-                                                <Accordion defaultActiveKey='0'>
-                                                    {credential.gate.nftType ==
-                                                    'CONTRIBUTOR' ? (
-                                                        <Accordion.Item eventKey='0'>
-                                                            <div className='accordion-top-header'>
-                                                                <Accordion.Header>
-                                                                    CONTRIBUTOR
-                                                                    NFT
-                                                                </Accordion.Header>
-                                                                {/*<Link
+                                                <div className='nft'>
+                                                    <Accordion defaultActiveKey='0'>
+                                                        {credential.gate
+                                                            .nftType ==
+                                                        'CONTRIBUTOR' ? (
+                                                            <Accordion.Item eventKey='0'>
+                                                                <div className='accordion-top-header'>
+                                                                    <Accordion.Header>
+                                                                        CONTRIBUTOR
+                                                                        NFT
+                                                                    </Accordion.Header>
+                                                                    {/*<Link
                                                                     to='/'
                                                                     className='accordion-see-all-btn'
                                                                 >
                                                                     See all
 																</Link>*/}
-                                                            </div>
-                                                            <Accordion.Body>
-                                                                <Row className='justify-content-md-left'>
-                                                                    <CredentialCard
-                                                                        credential={
-                                                                            credential
-                                                                        }
-                                                                    />
-                                                                </Row>
-                                                            </Accordion.Body>
-                                                        </Accordion.Item>
-                                                    ) : (
-                                                        <Accordion.Item eventKey='0'>
-                                                            <Accordion.Header>
-                                                                Reward NFT
-                                                            </Accordion.Header>
-                                                            <Accordion.Body>
-                                                                <Row className='justify-content-md-left'>
-                                                                    <CredentialCard
-                                                                        credential={
-                                                                            credential
-                                                                        }
-                                                                    />
-                                                                </Row>
-                                                            </Accordion.Body>
-                                                        </Accordion.Item>
-                                                    )}
-                                                </Accordion>
+                                                                </div>
+                                                                <Accordion.Body>
+                                                                    <Row className='justify-content-md-left'>
+                                                                        <CredentialCard
+                                                                            credential={
+                                                                                credential
+                                                                            }
+                                                                        />
+                                                                    </Row>
+                                                                </Accordion.Body>
+                                                            </Accordion.Item>
+                                                        ) : (
+                                                            <Accordion.Item eventKey='0'>
+                                                                <Accordion.Header>
+                                                                    Reward NFT
+                                                                </Accordion.Header>
+                                                                <Accordion.Body>
+                                                                    <Row className='justify-content-md-left'>
+                                                                        <CredentialCard
+                                                                            credential={
+                                                                                credential
+                                                                            }
+                                                                        />
+                                                                    </Row>
+                                                                </Accordion.Body>
+                                                            </Accordion.Item>
+                                                        )}
+                                                    </Accordion>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )
-                                )}
-                            </div>
+                                        )
+                                    )}
+                                </div>
+                            )}
                             {/*
                             <div className='gway-prfile-col'>
                                 <div className='gway-about-hd'>
