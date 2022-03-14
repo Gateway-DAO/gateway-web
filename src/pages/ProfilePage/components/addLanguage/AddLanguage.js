@@ -4,48 +4,50 @@ import Select from 'react-select';
 import { Container, Button, Form, Col } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
-import space from '../../../../utils/canvas';
 import Page from '../../../../components/Page';
 import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
 import './AddLanguage.css';
+import { LANGUAGES } from '../../../../utils/constants';
+
+const options = LANGUAGES.map(lang => ({
+    label: lang.name,
+    value: lang.name
+}));
+
+const suggestedOptions = [
+    { label: 'English', value: 'English'},
+    { label: 'Spanish', value: 'Spanish'},
+    { label: 'Chinese', value: 'Chinese'},
+    { label: 'Dutch', value: 'Dutch'},
+    { label: 'Arabic', value: 'Arabic'},
+    { label: 'German', value: 'German'},
+    { label: 'Japanese', value: 'Japanese'},
+    { label: 'Punjabi', value: 'Punjabi'},
+    { label: 'French', value: 'French'},
+    { label: 'Italian', value: 'Italian'},
+];
 
 const AddLanguage = () => {
     // State
     const { userInfo, updateUserInfo } = useAuth();
-    const [updateLanguages] = useMutation(gql(updateUser));
 
     // Hooks
     const navigate = useNavigate();
 
     const [redirect, setRedirect] = useState(false);
-    const [options, setOptions] = useState([
-        'Portuguese',
-        'Polish',
-        'Persian',
-        'Punjabi',
-    ]);
-    const [suggestedOptions, setSuggestedOptions] = useState([
-        'English',
-        'Spanish',
-        'Chinese',
-        'Dutch',
-        'Arabic',
-        'German',
-        'Japanese',
-        'Punjabi',
-        'French',
-        'Italian',
-    ]);
     const [selectedLanguage, setSelectedLanguage] = useState(
-        userInfo?.languages || []
+        userInfo?.languages?.map(lang => ({
+            label: lang,
+            value: lang
+        })) || []
     );
 
     /* This is a callback function that will be called when the user clicks on the remove button. */
     const removeLanguage = useCallback(
         (val) => () => {
             setSelectedLanguage((previousTags) =>
-                previousTags.filter((previousTag, index) => previousTag !== val)
+                previousTags.filter((previousTag, index) => previousTag.value !== val.value)
             );
         },
         []
@@ -57,7 +59,7 @@ const AddLanguage = () => {
     });
 
     const handleCheck = (val) => {
-        return selectedLanguage.some((item) => val === item);
+        return selectedLanguage.some((item) => val.value === item.value);
     };
 
     const addSuggestedLanguage = useCallback((language) => {
@@ -71,22 +73,11 @@ const AddLanguage = () => {
         console.log('submitted');
         event.preventDefault();
         event.stopPropagation();
-        let objLanguages = selectedLanguage;
-        // CONVERT TO NUMERIC ARRAY
-        objLanguages = objLanguages.map(function (x) {
-            return x;
-        });
+
+        let objLanguages = selectedLanguage.map(lang => lang.value);
 
         // API should be call here
         try {
-            await updateLanguages({
-                variables: {
-                    input: {
-                        id: userInfo.id,
-                        languages: objLanguages,
-                    },
-                },
-            });
             await updateUserInfo({
                 languages: objLanguages,
             });
@@ -98,7 +89,7 @@ const AddLanguage = () => {
     };
 
     if (redirect) {
-        navigate('/profiles');
+        navigate('..');
     }
 
     return (
@@ -162,7 +153,7 @@ const AddLanguage = () => {
                                         {selectedLanguage.length > 0 &&
                                             selectedLanguage.map((item) => (
                                                 <p key={item}>
-                                                    {item}
+                                                    {item.label}
                                                     <span
                                                         onClick={removeLanguage(
                                                             item
@@ -185,9 +176,9 @@ const AddLanguage = () => {
                                                 onClick={() =>
                                                     addSuggestedLanguage(item)
                                                 }
-                                                key={item}
+                                                key={item.value}
                                             >
-                                                {item}
+                                                {item.label}
                                             </li>
                                         ))}
                                 </ul>

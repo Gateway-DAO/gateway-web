@@ -6,9 +6,27 @@ import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
 import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
-import space from '../../../../utils/canvas';
 import Page from '../../../../components/Page';
 import './AddKnowledge.css';
+
+const options = [
+    { label: 'Development', value: 'Development' },
+    { label: 'Design', value: 'Design' },
+    { label: 'Decentralization', value: 'Decentralization' },
+    { label: 'Defense Analyst', value: 'Defense Analyst' },
+];
+
+const suggestedOptions = [
+    { label: 'Crypto', value: 'Crypto' },
+    { label: 'Blockchain', value: 'Blockchain' },
+    { label: 'UX Design', value: 'UX Design' },
+    { label: 'UI Design', value: 'UI Design' },
+    { label: 'Social Media', value: 'Social Media' },
+    { label: 'Legal', value: 'Legal' },
+    { label: 'Community', value: 'Community' },
+    { label: 'Engineering', value: 'Engineering' },
+    { label: 'Solidity', value: 'Solidity' },
+];
 
 const AddKnowledge = () => {
     // State
@@ -19,32 +37,17 @@ const AddKnowledge = () => {
     const navigate = useNavigate();
 
     const [redirect, setRedirect] = useState(false);
-    const [options, setOptions] = useState([
-        'Development',
-        'Design',
-        'Decentralization',
-        'Defense Analyst',
-    ]);
-    const [suggestedOptions, setSuggestedOptions] = useState([
-        'Crypto',
-        'Blockchain',
-        'UX Design',
-        'UI Design',
-        'Social Media',
-        'Legal',
-        'Community',
-        'Engeneering',
-        'Solidity',
-    ]);
-    const [selectedKnowledge, setSelectedKnowledge] = useState(
-        userInfo?.knowledges || []
-    );
+
+    const [selectedKnowledge, setSelectedKnowledge] = useState(userInfo?.knowledges?.map(knowledge => ({
+        label: knowledge,
+        value: knowledge
+    })) || []);
 
     /* This is a callback function that will be called when the user clicks on the remove button. */
     const removeKnowledge = useCallback(
         (val) => () => {
             setSelectedKnowledge((previousTags) =>
-                previousTags.filter((previousTag, index) => previousTag !== val)
+                previousTags.filter((previousTag, index) => previousTag.value !== val.value)
             );
         },
         []
@@ -56,7 +59,7 @@ const AddKnowledge = () => {
     });
 
     const handleCheck = (val) => {
-        return selectedKnowledge.some((item) => val === item);
+        return selectedKnowledge.some((item) => val.value === item.value);
     };
 
     const addSuggestedKnowledge = useCallback((knowledge) => {
@@ -70,22 +73,10 @@ const AddKnowledge = () => {
         console.log('submitted');
         event.preventDefault();
         event.stopPropagation();
-        let objKnowledges = selectedKnowledge;
-        // CONVERT TO NUMERIC ARRAY
-        objKnowledges = objKnowledges.map(function (x) {
-            return x;
-        });
+        let objKnowledges = selectedKnowledge.map(knowledge => knowledge.value);
 
         // API should be call here
         try {
-            await updateKnowledges({
-                variables: {
-                    input: {
-                        id: userInfo.id,
-                        knowledges: objKnowledges,
-                    },
-                },
-            });
             await updateUserInfo({
                 knowledges: objKnowledges,
             });
@@ -97,7 +88,7 @@ const AddKnowledge = () => {
     };
 
     if (redirect) {
-        navigate('/profiles');
+        navigate('..');
     }
 
     return (
@@ -160,8 +151,8 @@ const AddKnowledge = () => {
                                     <div className='selected-options'>
                                         {selectedKnowledge.length > 0 &&
                                             selectedKnowledge.map((item) => (
-                                                <p key={item}>
-                                                    {item}
+                                                <p key={item.value}>
+                                                    {item.label}
                                                     <span
                                                         onClick={removeKnowledge(
                                                             item
@@ -184,9 +175,9 @@ const AddKnowledge = () => {
                                                 onClick={() =>
                                                     addSuggestedKnowledge(item)
                                                 }
-                                                key={item}
+                                                key={item.value}
                                             >
-                                                {item}
+                                                {item.label}
                                             </li>
                                         ))}
                                 </ul>

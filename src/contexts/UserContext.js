@@ -91,29 +91,33 @@ export const useSignedAuth = (deps = []) => {
  * @returns None
  */
 export const UserProvider = ({ children }) => {
-    /* State */
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [walletConnected, setWalletConnected] = useState(false);
-    const [loggingIn, setLoggingIn] = useState(false);
-    const [loadingWallet, setLoadingWallet] = useState(false);
-    const [userInfo, setUserInfo] = useState(null);
-
     // Hooks
     const web3 = useWeb3React();
     // const threeID = use3ID();
     const { showErrorModal } = useModal();
 
     // Database
-    const [getUserByAddress] = useLazyQuery(gql(getUserByAddressQuery), {
-        fetchPolicy: 'no-cache',
-        variables: {
-            wallet: web3.account,
-        },
-    });
+    const [getUserByAddress, { data: fetchedUserData }] = useLazyQuery(
+        gql(getUserByAddressQuery),
+        {
+            variables: {
+                wallet: web3.account,
+            },
+        }
+    );
     const [updateUser] = useMutation(gql(UPDATE_USER));
     const [createUser] = useMutation(gql(CREATE_USER));
 
     const { getFile } = useGetFile();
+
+    /* State */
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [walletConnected, setWalletConnected] = useState(false);
+    const [loggingIn, setLoggingIn] = useState(false);
+    const [loadingWallet, setLoadingWallet] = useState(false);
+    const [userInfo, setUserInfo] = useState(
+        fetchedUserData?.getUserByAddress?.items[0] || null
+    );
 
     /**
      * Activates Metamask/injected wallet provider.
@@ -193,7 +197,10 @@ export const UserProvider = ({ children }) => {
             },
         });
 
-        setUserInfo(user.data.updateUser);
+        setUserInfo((prev) => ({
+            ...prev,
+            ...info,
+        }));
     };
 
     /**

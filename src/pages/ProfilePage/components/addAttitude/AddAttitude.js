@@ -4,47 +4,43 @@ import Select from 'react-select';
 import { Container, Button, Form, Col } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
-import space from '../../../../utils/canvas';
 import Page from '../../../../components/Page';
-import { useMutation, gql } from '@apollo/client';
-import { updateUser } from '../../../../graphql/mutations';
 import './AddAttitude.css';
+
+const options = [
+    { label: 'Pro-active', value: 'Pro-active' },
+    { label: 'Business Driven', value: 'Business Driven' },
+    { label: 'Innovative', value: 'Innovative' },
+    { label: 'Leadership', value: 'Leadership' },
+];
+
+const suggestedOptions = [
+    { label: 'Collaborative', value: 'Collaborative' },
+    { label: 'Pro-active', value: 'Pro-active' },
+    { label: 'Business Driven', value: 'Business Driven' },
+    { label: 'Leadership', value: 'Leadership' },
+    { label: 'Innovative', value: 'Innovative' },
+];
 
 const AddAttitude = () => {
     // State
     const { userInfo, updateUserInfo } = useAuth();
-    const [updateAttitudes] = useMutation(gql(updateUser));
-
-    // Getting userId from local Storage because user Id is different with userInfo.id here.
-    // var userId = localStorage.getItem('userId');
-    // var userId = "d37139b0-5803-44f1-92e5-87f30a45d851";
 
     // Hooks
     const navigate = useNavigate();
 
     const [redirect, setRedirect] = useState(false);
-    const [options, setOptions] = useState([
-        'Pro-active',
-        'Business Driven',
-        'Innovative',
-        'Leadership',
-    ]);
-    const [suggestedOptions, setSuggestedOptions] = useState([
-        'Collaborative',
-        'Pro-active',
-        'Business Driven',
-        'Leadership',
-        'Innovative',
-    ]);
-    const [selectedAttitude, setSelectedAttitude] = useState(
-        userInfo?.attitudes || []
-    );
+
+    const [selectedAttitude, setSelectedAttitude] = useState(userInfo?.attitudes?.map(attitude => ({
+        label: attitude,
+        value: attitude
+    })) || []);;
 
     /* This is a callback function that will be called when the user clicks on the remove button. */
     const removeAttitude = useCallback(
         (val) => () => {
             setSelectedAttitude((previousTags) =>
-                previousTags.filter((previousTag, index) => previousTag !== val)
+                previousTags.filter((previousTag, index) => previousTag.value !== val.value)
             );
         },
         []
@@ -56,7 +52,7 @@ const AddAttitude = () => {
     });
 
     const handleCheck = (val) => {
-        return selectedAttitude.some((item) => val === item);
+        return selectedAttitude.some((item) => val.value === item.value);
     };
 
     const addSuggestedAttitude = useCallback((attitude) => {
@@ -67,25 +63,12 @@ const AddAttitude = () => {
     });
 
     const handleSubmit = async (event) => {
-        console.log('submitted');
         event.preventDefault();
         event.stopPropagation();
-        let objAttitudes = selectedAttitude;
-        // CONVERT TO NUMERIC ARRAY
-        objAttitudes = objAttitudes.map(function (x) {
-            return x;
-        });
+        let objAttitudes = selectedAttitude.map(att => att.value);
 
         // API should be call here
         try {
-            await updateAttitudes({
-                variables: {
-                    input: {
-                        id: userInfo.id,
-                        attitudes: objAttitudes,
-                    },
-                },
-            });
             await updateUserInfo({
                 attitudes: objAttitudes,
             });
@@ -97,7 +80,7 @@ const AddAttitude = () => {
     };
 
     if (redirect) {
-        navigate('/profiles');
+        navigate('..');
     }
 
     return (
@@ -160,8 +143,8 @@ const AddAttitude = () => {
                                     <div className='selected-options'>
                                         {selectedAttitude.length > 0 &&
                                             selectedAttitude.map((item) => (
-                                                <p key={item}>
-                                                    {item}
+                                                <p key={item.value}>
+                                                    {item.label}
                                                     <span
                                                         onClick={removeAttitude(
                                                             item
@@ -184,9 +167,9 @@ const AddAttitude = () => {
                                                 onClick={() =>
                                                     addSuggestedAttitude(item)
                                                 }
-                                                key={item}
+                                                key={item.value}
                                             >
-                                                {item}
+                                                {item.label}
                                             </li>
                                         ))}
                                 </ul>

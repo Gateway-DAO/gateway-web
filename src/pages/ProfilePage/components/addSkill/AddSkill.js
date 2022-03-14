@@ -9,42 +9,44 @@ import Page from '../../../../components/Page';
 import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
 import './AddSkill.css';
+import { SKILLS } from '../../../../utils/constants';
+
+const options = SKILLS.map(skill => ({
+    label: skill.name,
+    value: skill.name,
+}))
+
+const suggestedOptions = [
+    { label: 'Crypto', value: 'Crypto' },
+    { label: 'Blockchain', value: 'Blockchain' },
+    { label: 'UX Design', value: 'UX Design' },
+    { label: 'UI Design', value: 'UI Design' },
+    { label: 'Social Media', value: 'Social Media' },
+    { label: 'Legal', value: 'Legal' },
+    { label: 'Community', value: 'Community' },
+    { label: 'Engineering', value: 'Engineering' },
+    { label: 'Solidity', value: 'Solidity' },
+];
 
 const AddSkill = () => {
     // State
     const { userInfo, updateUserInfo } = useAuth();
-    const [updateSkills] = useMutation(gql(updateUser));
 
     // Hooks
     const navigate = useNavigate();
 
     const [redirect, setRedirect] = useState(false);
 
-    const [options, setOptions] = useState([
-        'Development',
-        'Design',
-        'Decentralization',
-        'Defense Analyst',
-    ]);
-
-    const [suggestedOptions, setSuggestedOptions] = useState([
-        'Crypto',
-        'Blockchain',
-        'UX Design',
-        'UI Design',
-        'Social Media',
-        'Legal',
-        'Community',
-        'Engineering',
-        'Solidity',
-    ]);
-    const [selectedSkill, setSelectedSkill] = useState(userInfo?.skills || []);
+    const [selectedSkill, setSelectedSkill] = useState(userInfo?.skills?.map(skill => ({
+        label: skill,
+        value: skill
+    })) || []);
 
     /* This is a callback function that will be called when the user clicks on the remove button. */
     const removeSkill = useCallback(
         (val) => () => {
             setSelectedSkill((previousTags) =>
-                previousTags.filter((previousTag, index) => previousTag !== val)
+                previousTags.filter((previousTag, index) => previousTag.value !== val.value)
             );
         },
         []
@@ -56,7 +58,7 @@ const AddSkill = () => {
     });
 
     const handleCheck = (val) => {
-        return selectedSkill.some((item) => val === item);
+        return selectedSkill.some((item) => val.value === item.value);
     };
 
     const addSuggestedSkill = useCallback((skill) => {
@@ -71,22 +73,10 @@ const AddSkill = () => {
         console.log('submitted');
         event.preventDefault();
         event.stopPropagation();
-        let objSkills = selectedSkill;
-        // CONVERT TO NUMERIC ARRAY
-        objSkills = objSkills.map(function (x) {
-            return x;
-        });
+        let objSkills = selectedSkill.map(skill => skill.value);
 
         // API should be call here
         try {
-            await updateSkills({
-                variables: {
-                    input: {
-                        id: userInfo.id,
-                        skills: objSkills,
-                    },
-                },
-            });
             await updateUserInfo({
                 skills: objSkills,
             });
@@ -98,7 +88,7 @@ const AddSkill = () => {
     };
 
     if (redirect) {
-        navigate('/profiles');
+        navigate('..');
     }
 
     return (
@@ -161,8 +151,8 @@ const AddSkill = () => {
                                     <div className='selected-options'>
                                         {selectedSkill.length > 0 &&
                                             selectedSkill.map((item) => (
-                                                <p key={item}>
-                                                    {item}
+                                                <p key={item.value}>
+                                                    {item.label}
                                                     <span
                                                         onClick={removeSkill(
                                                             item
@@ -183,9 +173,9 @@ const AddSkill = () => {
                                                 onClick={() =>
                                                     addSuggestedSkill(item)
                                                 }
-                                                key={item}
+                                                key={item.value}
                                             >
-                                                {item}
+                                                {item.label}
                                             </li>
                                         ))}
                                 </ul>
