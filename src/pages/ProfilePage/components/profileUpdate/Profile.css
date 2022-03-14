@@ -744,6 +744,11 @@ a.profile-toggle:focus + .profile-dropdown {
     flex: 0 0 41px;
     margin-right: 19px;
 }
+.creative-icon img {
+    border-radius: 100%;
+    object-fit: cover;
+    height: 41px;
+}
 /* .experience-profile-section h3 img{margin-right: 19px;} */
 .experience-profile-section h3 {
     font-size: 21px;
@@ -767,10 +772,10 @@ a.profile-toggle:focus + .profile-dropdown {
     text-decoration: none;
     font-weight: 500;
 }
-.contributor-nft {
+.nft {
     padding: 0 60px;
 }
-.contributor-nft .accordion-header .accordion-button {
+.nft .accordion-header .accordion-button {
     padding-left: 0;
     padding-right: 0;
     background: none;
@@ -781,7 +786,7 @@ a.profile-toggle:focus + .profile-dropdown {
     font-weight: 600;
     box-shadow: none;
 }
-.contributor-nft .accordion-button::after {
+.nft .accordion-button::after {
     margin-left: 5px;
     filter: brightness(0) invert(1);
     background-image: url(https://gateway.devcmitexpert.com/profile/top-chevron.svg);
@@ -790,13 +795,13 @@ a.profile-toggle:focus + .profile-dropdown {
     background-size: 13px;
     transform: rotate(180deg);
 }
-.contributor-nft .accordion-item {
+.nft .accordion-item {
     background: none;
 }
-.contributor-nft .accordion-button:not(.collapsed)::after {
+.nft .accordion-button:not(.collapsed)::after {
     transform: rotate(0deg);
 }
-.contributor-nft .accordion-item {
+.nft .accordion-item {
     border: none;
     box-shadow: none;
 }
@@ -827,25 +832,35 @@ a.profile-toggle:focus + .profile-dropdown {
     background: #0d1840;
     border-radius: 10px;
 }
-.contributor-nft .accordion-body {
+.nft .accordion-body {
     padding: 0;
 }
-.contributor-nft .img-box {
+.nft .img-box {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 203px;
 }
-.contributor-nft .img-box img {
+.nft .img-box img {
     border-radius: 12px 12px 0 0;
+    height: inherit;
+    object-fit: cover;
 }
-.contributor-nft .content-box {
-    padding: 4px 10px;
+.nft .content-box {
+    padding: 7.5px 10px;
     background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-radius: 0 0 10px 10px;
+}
+.cNFT:hover {
+    box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.5);
+    margin-top: -5px;
+}
+.cNFT .content-box .nft-heading {
+    margin-right: 15px;
+    width: 60%;
 }
 .cNFT .content-box .nft-heading span {
     font-size: 9px !important;
@@ -865,8 +880,10 @@ a.profile-toggle:focus + .profile-dropdown {
     -webkit-text-fill-color: transparent;
     font-weight: 900;
     letter-spacing: -0.015em;
+    line-height: 10px;
+    word-wrap: break-word;
 }
-.cNFT .content-box .yearn-date p {
+.cNFT .content-box .date p {
     font-size: 9px !important;
     color: rgba(23, 6, 39, 0.6);
     letter-spacing: 0.05em;
@@ -874,7 +891,7 @@ a.profile-toggle:focus + .profile-dropdown {
     margin-bottom: 0;
     line-height: 15px;
 }
-.cNFT .content-box .yearn-date p span {
+.cNFT .content-box .date p span {
     color: rgba(23, 6, 39, 0.8);
     display: block;
 }
