@@ -15,11 +15,11 @@
       "function": {
         "getUserDAOs": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getUserDAOs-69684a375576596e3866-build.zip"
+          "s3Key": "amplify-builds/getUserDAOs-3574624d53584c484b4b-build.zip"
         },
         "getAuthenticationNonce": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getAuthenticationNonce-2b4f35357364512f5874-build.zip"
+          "s3Key": "amplify-builds/getAuthenticationNonce-2f474d5472495464696e-build.zip"
         },
         "gateway7887c977DefineAuthChallenge": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -31,7 +31,7 @@
         },
         "gateway7887c977VerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-4b2b5576576f65473458-build.zip"
+          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-776e797965376f325449-build.zip"
         },
         "gateway7887c977PreSignup": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -39,15 +39,15 @@
         },
         "vote": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/vote-556d6f7969466c726765-build.zip"
+          "s3Key": "amplify-builds/vote-396e326f446e45725446-build.zip"
         },
         "addDAOAndChannels": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/addDAOAndChannels-696f4c4e572b5a38324b-build.zip"
+          "s3Key": "amplify-builds/addDAOAndChannels-55656c786c6332644451-build.zip"
         },
         "addKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/addKey-4665782f59304e493659-build.zip"
+          "s3Key": "amplify-builds/addKey-7654557536484c7a4148-build.zip"
         },
         "verifyMeetingCode": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -55,11 +55,11 @@
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion23018364-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersiond713b389-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyHoldAToken-77775a6b51686a345072-build.zip"
+          "s3Key": "amplify-builds/verifyHoldAToken-4d3464722b6a3149326f-build.zip"
         },
         "verifyContractInteraction": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
@@ -81,7 +81,7 @@
         },
         "getCompletedKeys": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getCompletedKeys-74656632666770556935-build.zip"
+          "s3Key": "amplify-builds/getCompletedKeys-44423462486374664c4e-build.zip"
         },
         "getGateHolders": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -89,21 +89,21 @@
         },
         "ceramic": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/ceramic-6e79566a572b7078456d-build.zip",
+          "s3Key": "amplify-builds/ceramic-6d6c69386f2b59557674-build.zip",
           "secretsPathAmplifyAppId": "d1eyfltl5g67m"
         },
         "generateSignature": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/generateSignature-6e6548424e4633423258-build.zip"
+          "s3Key": "amplify-builds/generateSignature-57656345726b2b334461-build.zip"
         },
         "key": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/key-49387232667271734853-build.zip"
+          "s3Key": "amplify-builds/key-725a484e6d52422f4f4a-build.zip"
         },
         "gatewayceramicLayer": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersionaf16ecd0-build.zip"
+          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersion85d70db8-build.zip"
         }
       },
       "auth": {

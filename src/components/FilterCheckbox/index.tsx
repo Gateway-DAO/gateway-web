@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as Styled from './style';
 
-export default function FilterCheckbox(props) {
-    const [checked, setChecked] = useState<boolean>(false);
+interface Props {
+    label: string;
+    checked: boolean;
+    onChange: (label: string) => void;
+}
 
+export default function FilterCheckbox(props: Props) {
     return (
-        <Styled.CheckboxContainer onClick={() => setChecked(!checked)}>
-            {checked ? <Styled.CheckedboxInput /> : <Styled.CheckboxInput />}
+        <Styled.CheckboxContainer onClick={() => props.onChange(props.label)}>
+            {props.checked ? (
+                <Styled.CheckedboxInput />
+            ) : (
+                <Styled.CheckboxInput />
+            )}
             <Styled.Label>{props.label}</Styled.Label>
         </Styled.CheckboxContainer>
     );

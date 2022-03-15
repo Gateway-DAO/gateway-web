@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 
-import space from '../../../../utils/canvas';
-import Header from '../../../../components/Header';
+import Page from '../../../../components/Page';
 
 import { useMutation, gql } from '@apollo/client';
 import { updateUser } from '../../../../graphql/mutations';
@@ -18,12 +17,6 @@ const AddAbout = () => {
 	const [isValidated, setIsValidated] = useState(false);
 	const [about, setAbout] = useState('');
 	const [isAboutFilled, setIsAboutFilled] = useState(false);
-
-	useEffect(() => {
-		space(window.innerHeight, window.innerWidth),
-			[window.innerHeight, window.innerWidth];
-		setAbout(userInfo?.about || '');
-	}, [userInfo]);
 
 	const handleChange = (event) => {
 		setAbout(event.target.value);
@@ -75,10 +68,8 @@ const AddAbout = () => {
 	}, [redirect]);
 
 	return (
-		<>
-			<Header />
+		<Page space>
 			<div className='main-about-section'>
-				<canvas id='space-canvas'></canvas>
 				<Container>
 					<div className='back-link'>
 						<a href='#'>
@@ -136,7 +127,7 @@ const AddAbout = () => {
 					</Container>
 				</div>
 			</div>
-		</>
+		</Page>
 	);
 };
 

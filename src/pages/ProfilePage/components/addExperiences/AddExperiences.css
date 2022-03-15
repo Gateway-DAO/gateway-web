@@ -345,13 +345,6 @@ body {
     margin: 0;
 }
 
-canvas#space-canvas {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
 .main-about-section .container {
     position: relative;
     z-index: 111;
