@@ -18,15 +18,18 @@ import { updateGate } from '../../graphql/mutations';
 import { PublishedState } from '../../graphql/API';
 // import { gql, useLazyQuery } from '@apollo/client';
 import { searchUsers } from '../../graphql/queries';
+import { useGateAdmin } from '../../hooks/useAdmin';
 
 /* This is a card that displays information about a gate. */
 const GateCard = ({ gate, viewAsMember }) => {
     // State
     const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
     const [numberOfWords, setNumberOfWords] = useState(130);
+
     // Hooks
     // const { !viewAsMember } = useAdmin(gate.admins || []);
     const { userInfo } = useAuth();
+    const { isAdmin } = useGateAdmin(gate.admins);
     const navigate = useNavigate();
     const [update] = useMutation(gql(updateGate));
     const { data } = useQuery(gql(getGateStatusByUserId), {
@@ -164,7 +167,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                             (gate.badge.name.length > 16 ? '...' : '')}
                     </Styled.GuildName>
                 </Styled.InfoBox>
-                {gate.preRequisites && (
+                {/* gate.preRequisites && (
                     <Styled.InfoBox>
                         <Styled.MediumHeading>
                             PRE REQUISITE
@@ -173,7 +176,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                             Gateway.DAO.Verfication
                         </Styled.InfoText>
                     </Styled.InfoBox>
-                )}
+                ) */}
                 <Styled.InfoBox>
                     {gate.keysNumber && (
                         <>
@@ -220,7 +223,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                {!viewAsMember && (
+                {(isAdmin && !viewAsMember) && (
                     <Styled.PublishContainer>
                         <Styled.PublishText>PUBLISH</Styled.PublishText>
                         <Switch
