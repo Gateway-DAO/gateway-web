@@ -20,48 +20,7 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion85d70db8": {
-      "Type": "AWS::Lambda::LayerVersion",
-      "Properties": {
-        "CompatibleRuntimes": {
-          "Ref": "runtimes"
-        },
-        "Content": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        },
-        "Description": {
-          "Ref": "description"
-        },
-        "LayerName": {
-          "Fn::Sub": [
-            "gatewayceramicLayer-${env}",
-            {
-              "env": {
-                "Ref": "env"
-              }
-            }
-          ]
-        }
-      },
-      "DeletionPolicy": "Delete",
-      "UpdateReplacePolicy": "Retain"
-    },
-    "LambdaLayerPermissionPublic85d70db8": {
-      "Type": "AWS::Lambda::LayerVersionPermission",
-      "Properties": {
-        "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion85d70db8"
-        },
-        "Principal": "*"
-      }
-    },
-    "LambdaLayerVersion27a13836": {
+    "LambdaLayerVersion75651dd3": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
         "CompatibleRuntimes": [
@@ -71,9 +30,9 @@
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersion27a13836-build.zip"
+          "S3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersion75651dd3-build.zip"
         },
-        "Description": "Updated layer version 2022-03-15T02:12:35.104Z",
+        "Description": "Updated layer version 2022-03-15T11:52:03.414Z",
         "LayerName": {
           "Fn::Sub": [
             "gatewayceramicLayer-${env}",
@@ -88,11 +47,11 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPublic27a13836": {
+    "LambdaLayerPermissionPublic75651dd3": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayceramicLayer-dev:19",
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayceramicLayer-dev:24",
         "Principal": "*"
       }
     }
@@ -100,7 +59,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion85d70db8"
+        "Ref": "LambdaLayerVersion75651dd3"
       }
     }
   }
