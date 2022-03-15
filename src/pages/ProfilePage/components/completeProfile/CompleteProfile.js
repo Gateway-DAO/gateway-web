@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Container, Button, Form } from 'react-bootstrap';
-import space from '../../../../utils/canvas';
 import { useAuth } from '../../../../contexts/UserContext';
-import Header from '../../../../components/Header';
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 
@@ -12,6 +10,8 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
+import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 
 import useFileUpload from '../../../../api/useFileUpload';
 import normalizeUrl from 'normalize-url';
@@ -23,8 +23,18 @@ registerPlugin(
     FilePondPluginImageExifOrientation,
     FilePondPluginImagePreview,
     FilePondPluginFileEncode,
-    FilePondPluginFileValidateType
+    FilePondPluginFileValidateType,
+    FilePondPluginFilePoster
 );
+
+const platforms = [
+    'Select',
+    'Twitter',
+    'Telegram',
+    'Discord',
+    'Github',
+    'Email',
+];
 
 const CompleteProfile = () => {
     // Hooks
@@ -52,14 +62,6 @@ const CompleteProfile = () => {
             })) || [],
     });
 
-    const [platforms, setPlatforms] = useState([
-        'Select',
-        'Twitter',
-        'Telegram',
-        'Discord',
-        'Github',
-        'Email',
-    ]);
     const [isDisplayNameFilled, setIsDisplayNameFilled] = useState(false);
     const [isUserNameFilled, setIsUserNameFilled] = useState(false);
     const [isHeadLineFilled, setIsHeadLineFilled] = useState(false);
@@ -70,11 +72,6 @@ const CompleteProfile = () => {
         false,
         false,
     ]);
-
-    useEffect(() => {
-        // isUser &&
-        space(window.innerHeight, window.innerWidth);
-    }, [window.innerHeight, window.innerWidth]);
 
     useEffect(() => {
         handleFormFilled();
@@ -214,13 +211,12 @@ const CompleteProfile = () => {
     };
 
     if (redirect) {
-        return <Navigate to='/profiles' />;
+        return <Navigate to='..' />;
     }
 
     return (
         <Page space>
             <div className='main-about-section'>
-                <canvas id='space-canvas'></canvas>
                 <Container>
                     <div className='back-link'>
                         <a href='#'>
@@ -240,7 +236,7 @@ const CompleteProfile = () => {
                     <Container>
                         <h1>
                             {window.location.pathname !==
-                            '/profiles/edit-profile'
+                            '/profile/edit-profile'
                                 ? 'Complete Profile'
                                 : 'Edit Profile'}
                         </h1>
@@ -323,39 +319,10 @@ const CompleteProfile = () => {
                                             'image/JPEG',
                                             'image/webp',
                                         ]}
-                                        server={{
-                                            load: (source, load) => {
-                                                console.log({
-                                                    source,
-                                                });
-                                                var myRequest = new Request(
-                                                    source
-                                                );
-                                                fetch(myRequest).then(
-                                                    (response) => {
-                                                        response
-                                                            .blob()
-                                                            .then((myBlob) => {
-                                                                console.log({
-                                                                    myBlob,
-                                                                });
-                                                                load(myBlob);
-                                                            })
-                                                            .catch((err) => {
-                                                                console.log(
-                                                                    err
-                                                                );
-                                                            });
-                                                    }
-                                                );
-                                            },
-                                        }}
+                                        allowFilePoster
                                         labelIdle="<img src='/completeprofile/Vector.svg' /><span class='avatar-upload-action'>Upload</span> or drag your avatar here."
                                         oninit={() => handleInit()}
                                         onupdatefiles={setFiles}
-                                        // onupdatefiles={_files => {
-                                        // 	setFiles(_files.map(_file => _file.file));
-                                        // }}
                                         onaddfile={(error, file) => {
                                             // console.log("error", error);
                                             if (error == null) {
@@ -395,7 +362,30 @@ const CompleteProfile = () => {
                                                     avatar: '',
                                                 };
                                             });
-                                            // console.log('remove avatar ---: ', user.avatar)
+                                        }}
+                                        server={{
+                                            load: (source, load) => {
+                                                var myRequest = new Request(
+                                                    source
+                                                );
+                                                fetch(myRequest).then(
+                                                    (response) => {
+                                                        response
+                                                            .blob()
+                                                            .then((myBlob) => {
+                                                                console.log({
+                                                                    myBlob,
+                                                                });
+                                                                load(myBlob);
+                                                            })
+                                                            .catch((err) => {
+                                                                console.log(
+                                                                    err
+                                                                );
+                                                            });
+                                                    }
+                                                ).catch(console.log);
+                                            },
                                         }}
                                     />
                                 </Form.Group>
