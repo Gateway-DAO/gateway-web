@@ -31,7 +31,7 @@
         },
         "gateway7887c977VerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-4b2b5576576f65473458-build.zip"
+          "s3Key": "amplify-builds/gateway7887c977VerifyAuthChallengeResponse-776e797965376f325449-build.zip"
         },
         "gateway7887c977PreSignup": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -55,7 +55,7 @@
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion23018364-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersiond713b389-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -89,7 +89,7 @@
         },
         "ceramic": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/ceramic-6e79566a572b7078456d-build.zip",
+          "s3Key": "amplify-builds/ceramic-6d6c69386f2b59557674-build.zip",
           "secretsPathAmplifyAppId": "d1eyfltl5g67m"
         },
         "generateSignature": {
@@ -99,11 +99,11 @@
         },
         "key": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/key-49387232667271734853-build.zip"
+          "s3Key": "amplify-builds/key-725a484e6d52422f4f4a-build.zip"
         },
         "gatewayceramicLayer": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersionaf16ecd0-build.zip"
+          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersion85d70db8-build.zip"
         }
       },
       "auth": {
