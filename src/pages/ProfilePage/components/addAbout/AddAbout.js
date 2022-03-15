@@ -68,9 +68,11 @@ const AddAbout = () => {
 		setIsValidated(true);
 	};
 
-	if (redirect) {
-		navigate('/profile');
-	}
+	useEffect(() => {
+		if (redirect) {
+			navigate('/profile');
+		}
+	}, [redirect]);
 
 	return (
 		<>
@@ -112,8 +114,8 @@ const AddAbout = () => {
 								<Form.Control
 									required
 									className={`${isAboutFilled
-											? 'change-background-to-fill mb-5'
-											: 'mb-5'
+										? 'change-background-to-fill mb-5'
+										: 'mb-5'
 										}`}
 									// className="mb-5"
 									as='textarea'

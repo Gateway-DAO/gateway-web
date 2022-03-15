@@ -97,20 +97,18 @@ const AddSkill = () => {
 		}
 	};
 
-	if (redirect) {
-		navigate('/profile');
-	}
+	useEffect(() => {
+		if (redirect) {
+			navigate('/profile');
+		}
+	}, [redirect]);
 
 	return (
 		<Page space>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
-						{/* <Link to="/">
-							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-							<p>Back to Profile</p>
-						</Link> */}
-						<a href>
+						<a>
 							<div
 								className='arrow-back'
 								onClick={() => navigate('/profile')}
@@ -142,7 +140,7 @@ const AddSkill = () => {
 										hideSelectedOptions={false}
 										controlShouldRenderValue={false}
 										isMulti
-										options={options}
+										// options={options}
 										className='basic-multi-select'
 										classNamePrefix='select'
 										onChange={handleChange}

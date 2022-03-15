@@ -96,9 +96,11 @@ const AddKnowledge = () => {
 		}
 	};
 
-	if (redirect) {
-		navigate('/profile');
-	}
+	useEffect(() => {
+		if (redirect) {
+			navigate('/profile');
+		}
+	}, [redirect]);
 
 	return (
 		<Page space>
@@ -141,7 +143,7 @@ const AddKnowledge = () => {
 										hideSelectedOptions={false}
 										controlShouldRenderValue={false}
 										isMulti
-										options={options}
+										// options={options}
 										className='basic-multi-select'
 										classNamePrefix='select'
 										onChange={handleChange}

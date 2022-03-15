@@ -96,9 +96,12 @@ const AddAttitude = () => {
 		}
 	};
 
-	if (redirect) {
-		navigate('/profile');
-	}
+	useEffect(() => {
+		if (redirect) {
+			navigate('/profile');
+		}
+	}, [redirect]);
+
 
 	return (
 		<Page space>
@@ -141,7 +144,7 @@ const AddAttitude = () => {
 										hideSelectedOptions={false}
 										controlShouldRenderValue={false}
 										isMulti
-										options={options}
+										// options={options}
 										className='basic-multi-select'
 										classNamePrefix='select'
 										onChange={handleChange}

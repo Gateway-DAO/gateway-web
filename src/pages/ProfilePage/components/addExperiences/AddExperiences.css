@@ -229,8 +229,8 @@ label.form-check-label {
 
 .select__control:after {
     content: '';
-    background: url(http://gateway.devcmitexpert.com/search-icon.svg) no-repeat
-        center center;
+    /* background: url(http://gateway.devcmitexpert.com/search-icon.svg) no-repeat
+        center center; */
     width: 22px;
     height: 24px;
     right: 10px;
@@ -279,8 +279,8 @@ input.form-control[placeholder='Search'] {
 }
 input.form-control[placeholder='Search']:after {
     content: '';
-    background: url(http://gateway.devcmitexpert.com/search-icon.svg) no-repeat
-        center center;
+    /* background: url(http://gateway.devcmitexpert.com/search-icon.svg) no-repeat
+        center center; */
     width: 22px;
     height: 24px;
     right: 10px;
