@@ -5,7 +5,7 @@ export const Page = styled.div`
     // background-color: #170627;
     min-height: 100vh;
     // overflow-x: hidden;
-    // width: 100vw;
+    width: 100%;
     // display: flex;
     // justify-content: space-between;
     // flex-direction: column;
@@ -13,7 +13,7 @@ export const Page = styled.div`
     height: 100%;
     position: relative;
 
-    overflow-x: hidden;
+    overflow: hidden;
 
     /* &:before {
         position: absolute;

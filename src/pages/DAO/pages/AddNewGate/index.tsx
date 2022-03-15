@@ -41,6 +41,7 @@ import {
 // Components
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
+import Page from '../../../../components/Page';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */

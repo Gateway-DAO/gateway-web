@@ -13,10 +13,9 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Pagination from '../Pagination';
 
-const DAOTab = () => {
+const DAOTab = ({ filterQuery }) => {
     const [pageNumber, setPageNumber] = useState(0);
     const { query } = useParams();
-    const [loading, setLoading] = useState(true);
     const [hits, setHits] = useState([]);
     const resultPerPage = 8;
     const [pageCount, setPageCount] = useState(0);
@@ -43,15 +42,7 @@ const DAOTab = () => {
         variables: {
             limit: resultPerPage,
             from: from,
-            filter: {
-                or: [
-                    { dao: { wildcard: `*${query}*` } },
-                    { name: { wildcard: `*${query}*` } },
-                    { description: { wildcard: `*${query}*` } },
-                    { categories: { match: `*${query}*` } },
-                    { tags: { wildcard: `*${query}*` } },
-                ],
-            },
+            filter: filterQuery,
         },
     });
 
@@ -62,21 +53,12 @@ const DAOTab = () => {
         called: searchDaosLengthCalled,
     } = useDAOLength({
         variables: {
-            filter: {
-                or: [
-                    { dao: { wildcard: `*${query}*` } },
-                    { name: { wildcard: `*${query}*` } },
-                    { description: { wildcard: `*${query}*` } },
-                    { categories: { match: `*${query}*` } },
-                    { tags: { wildcard: `*${query}*` } },
-                ],
-            },
+            filter: filterQuery,
         },
     });
 
     useEffect(() => {
-        if (query.toLowerCase() === 'all') {
-            console.log(query.toLowerCase());
+        if (Object.keys(filterQuery).length === 0) {
             setHits(!listLoading ? listData.searchDAOs.items : []);
             setPageCount(Math.ceil(listData?.searchDAOs.total / resultPerPage));
         } else {
@@ -100,10 +82,10 @@ const DAOTab = () => {
     }
 
     const searchOrListLoading =
-        query.toLowerCase() === 'all' ? listLoading : searchLoading;
+        Object.keys(filterQuery).length === 0 ? listLoading : searchLoading;
 
     const searchOrListCalled =
-        query.toLowerCase() === 'all' ? listCalled : searchCalled;
+        Object.keys(filterQuery).length === 0 ? listCalled : searchCalled;
 
     return (
         <>
