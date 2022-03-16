@@ -198,7 +198,7 @@ const AddExperience = () => {
 							<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 							<p>Back to Profile</p>
 						</Link> */}
-						<a href="#">
+						<a>
 							<div className="arrow-back" onClick={() => navigate('/profile')}><img src="/left-arrow-icon.svg" alt="" />
 							</div>
 						</a>

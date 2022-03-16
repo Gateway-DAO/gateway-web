@@ -8,23 +8,23 @@ import Page from '../../../../components/Page';
 import './AddAttitude.css';
 
 const options = [
-    { label: 'Pro-active', value: 'Pro-active' },
-    { label: 'Business Driven', value: 'Business Driven' },
-    { label: 'Innovative', value: 'Innovative' },
-    { label: 'Leadership', value: 'Leadership' },
+	{ label: 'Pro-active', value: 'Pro-active' },
+	{ label: 'Business Driven', value: 'Business Driven' },
+	{ label: 'Innovative', value: 'Innovative' },
+	{ label: 'Leadership', value: 'Leadership' },
 ];
 
 const suggestedOptions = [
-    { label: 'Collaborative', value: 'Collaborative' },
-    { label: 'Pro-active', value: 'Pro-active' },
-    { label: 'Business Driven', value: 'Business Driven' },
-    { label: 'Leadership', value: 'Leadership' },
-    { label: 'Innovative', value: 'Innovative' },
+	{ label: 'Collaborative', value: 'Collaborative' },
+	{ label: 'Pro-active', value: 'Pro-active' },
+	{ label: 'Business Driven', value: 'Business Driven' },
+	{ label: 'Leadership', value: 'Leadership' },
+	{ label: 'Innovative', value: 'Innovative' },
 ];
 
 const AddAttitude = () => {
-    // State
-    const { userInfo, updateUserInfo } = useAuth();
+	// State
+	const { userInfo, updateUserInfo } = useAuth();
 
 	// Hooks
 	const navigate = useNavigate();
@@ -36,9 +36,9 @@ const AddAttitude = () => {
 		setSelectedAttitude(selectedAttitude);
 	});
 
-    const handleCheck = (val) => {
-        return selectedAttitude.some((item) => val.value === item.value);
-    };
+	const handleCheck = (val) => {
+		return selectedAttitude.some((item) => val.value === item.value);
+	};
 
 	const addSuggestedAttitude = useCallback((attitude) => {
 		const attitudeItems = selectedAttitude;
@@ -47,16 +47,16 @@ const AddAttitude = () => {
 		}
 	});
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        let objAttitudes = selectedAttitude.map(att => att.value);
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		event.stopPropagation();
+		let objAttitudes = selectedAttitude.map(att => att.value);
 
-        // API should be call here
-        try {
-            await updateUserInfo({
-                attitudes: objAttitudes,
-            });
+		// API should be call here
+		try {
+			await updateUserInfo({
+				attitudes: objAttitudes,
+			});
 
 			setRedirect(true);
 		} catch (err) {
@@ -64,10 +64,11 @@ const AddAttitude = () => {
 		}
 	};
 
-    if (redirect) {
-        navigate('..');
-    }
-
+	useEffect(() => {
+		if (redirect) {
+			navigate('/profile');
+		}
+	}, [redirect]);
 
 	return (
 		<Page space>
@@ -78,97 +79,97 @@ const AddAttitude = () => {
 								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
 								<p>Back to Profile</p>
 							</Link> */}
-                        <a>
-                            <div
-                                className='arrow-back'
-                                onClick={() => navigate('..')}
-                            >
-                                <img src='/left-arrow-icon.svg' alt='' />
-                            </div>
-                        </a>
-                        <span style={{ color: 'white', marginLeft: '20px' }}>
-                            Back to Profile
-                        </span>
-                    </div>
-                </Container>
-                <div className='gt-about-section'>
-                    <Container>
-                        <h1>Attitude</h1>
-                    </Container>
-                </div>
-                <div className='suggested-skills'>
-                    <Container>
-                        <div className='suggested-inner-skills'>
-                            <Form
-                                method='post'
-                                noValidate
-                                onSubmit={handleSubmit}
-                            >
-                                <Form.Group as={Col} controlId='formGridSkills'>
-                                    <Form.Label>Add your attitude</Form.Label>
-                                    <Select
-                                        hideSelectedOptions={false}
-                                        controlShouldRenderValue={false}
-                                        isMulti
-                                        options={options}
-                                        className='basic-multi-select'
-                                        classNamePrefix='select'
-                                        onChange={handleChange}
-                                        value={selectedAttitude}
-                                        placeholder='Search'
-                                        theme={(theme) => ({
-                                            ...theme,
-                                            borderRadius: 0,
-                                            colors: {
-                                                ...theme.colors,
-                                                primary25: 'blue',
-                                                primary: 'darkblue',
-                                            },
-                                        })}
-                                    />
-                                    <div className='selected-options'>
-                                        {selectedAttitude.length > 0 &&
-                                            selectedAttitude.map((item) => (
-                                                <p key={item.value}>
-                                                    {item.label}
-                                                    <span
-                                                        onClick={removeAttitude(
-                                                            item
-                                                        )}
-                                                        className='selectClose'
-                                                    >
-                                                        <FaTimes color='white' />
-                                                    </span>
-                                                </p>
-                                            ))}
-                                    </div>
-                                </Form.Group>
-                                <h4>
-                                    Suggested attitude based on your profile
-                                </h4>
-                                <ul>
-                                    {suggestedOptions.length > 0 &&
-                                        suggestedOptions.map((item) => (
-                                            <li
-                                                onClick={() =>
-                                                    addSuggestedAttitude(item)
-                                                }
-                                                key={item.value}
-                                            >
-                                                {item.label}
-                                            </li>
-                                        ))}
-                                </ul>
-                                <Button variant='primary' type='submit'>
-                                    save
-                                </Button>{' '}
-                            </Form>
-                        </div>
-                    </Container>
-                </div>
-            </div>
-        </Page>
-    );
+						<a>
+							<div
+								className='arrow-back'
+								onClick={() => navigate('/profile')}
+							>
+								<img src='/left-arrow-icon.svg' alt='' />
+							</div>
+						</a>
+						<span style={{ color: 'white', marginLeft: '20px' }}>
+							Back to Profile
+						</span>
+					</div>
+				</Container>
+				<div className='gt-about-section'>
+					<Container>
+						<h1>Attitude</h1>
+					</Container>
+				</div>
+				<div className='suggested-skills'>
+					<Container>
+						<div className='suggested-inner-skills'>
+							<Form
+								method='post'
+								noValidate
+								onSubmit={handleSubmit}
+							>
+								<Form.Group as={Col} controlId='formGridSkills'>
+									<Form.Label>Add your attitude</Form.Label>
+									<Select
+										hideSelectedOptions={false}
+										controlShouldRenderValue={false}
+										isMulti
+										options={options}
+										className='basic-multi-select'
+										classNamePrefix='select'
+										onChange={handleChange}
+										value={selectedAttitude}
+										placeholder='Search'
+										theme={(theme) => ({
+											...theme,
+											borderRadius: 0,
+											colors: {
+												...theme.colors,
+												primary25: 'blue',
+												primary: 'darkblue',
+											},
+										})}
+									/>
+									<div className='selected-options'>
+										{selectedAttitude.length > 0 &&
+											selectedAttitude.map((item) => (
+												<p key={item.value}>
+													{item.label}
+													<span
+														onClick={removeAttitude(
+															item
+														)}
+														className='selectClose'
+													>
+														<FaTimes color='white' />
+													</span>
+												</p>
+											))}
+									</div>
+								</Form.Group>
+								<h4>
+									Suggested attitude based on your profile
+								</h4>
+								<ul>
+									{suggestedOptions.length > 0 &&
+										suggestedOptions.map((item) => (
+											<li
+												onClick={() =>
+													addSuggestedAttitude(item)
+												}
+												key={item.value}
+											>
+												{item.label}
+											</li>
+										))}
+								</ul>
+								<Button variant='primary' type='submit'>
+									save
+								</Button>{' '}
+							</Form>
+						</div>
+					</Container>
+				</div>
+			</div>
+		</Page>
+	);
 };
 
 export default AddAttitude;

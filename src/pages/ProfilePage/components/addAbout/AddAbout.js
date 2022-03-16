@@ -21,6 +21,9 @@ const AddAbout = () => {
 	const handleChange = (event) => {
 		setAbout(event.target.value);
 	};
+	useEffect(() => {
+		setAbout(userInfo?.about || '');
+	}, [userInfo]);
 
 	useEffect(() => {
 		handleAboutFilled();
@@ -72,7 +75,7 @@ const AddAbout = () => {
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
-						<a href='#'>
+						<a>
 							<div
 								className='arrow-back'
 								onClick={() => navigate('/profile')}
