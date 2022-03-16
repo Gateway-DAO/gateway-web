@@ -288,6 +288,8 @@ export const UserProvider = ({ children }) => {
     /* If the user has their wallet connected, get the user's info from the database. */
     useEffect(() => {
         const callback = async () => {
+            !web3.active && activateWeb3();
+
             // Since state update is asynchrounous, let's keep track of the current value using an internal variable
             let userInfo_INTERNAL = userInfo;
 
