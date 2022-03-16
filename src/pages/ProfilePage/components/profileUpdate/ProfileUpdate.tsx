@@ -696,8 +696,7 @@ const ProfileUpdate = () => {
 															<Accordion.Item eventKey='0'>
 																<div className='accordion-top-header'>
 																	<Accordion.Header>
-																		CONTRIBUTOR
-																		NFT
+																		CONTRIBUTOR CREDENTIAL
 																	</Accordion.Header>
 																	{/*<Link
                                                                     to='/'
@@ -719,7 +718,7 @@ const ProfileUpdate = () => {
 														) : (
 															<Accordion.Item eventKey='0'>
 																<Accordion.Header>
-																	Reward NFT
+																	REWARD CREDENTIAL
 																</Accordion.Header>
 																<Accordion.Body>
 																	<Row className='justify-content-md-left'>

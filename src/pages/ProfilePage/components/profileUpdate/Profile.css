@@ -728,6 +728,7 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 .experience-profile-section {
     position: relative;
+    margin-bottom: 80px;
 }
 .experience-profile-section:before {
     position: absolute;

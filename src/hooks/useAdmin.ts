@@ -5,17 +5,17 @@ interface Permissions {
 }
 
 export const useAdmin = (addressOrList: string | string[]): Permissions => {
-    const { userInfo, loggedIn }: Record<string, any> = useAuth();
+    const { userInfo, walletConnected }: Record<string, any> = useAuth();
 
     let isAdmin = false;
 
-    if (loggedIn && addressOrList instanceof Array) {
+    if (walletConnected && addressOrList instanceof Array) {
         isAdmin = addressOrList.includes(userInfo.wallet);
-    } else if (loggedIn && addressOrList instanceof String) {
+    } else if (walletConnected && addressOrList instanceof String) {
         isAdmin = addressOrList === userInfo.wallet;
     }
 
-    if (loggedIn && userInfo.isAdmin) {
+    if (walletConnected && userInfo.isAdmin) {
         isAdmin = userInfo.isAdmin;
     }
 
@@ -25,17 +25,17 @@ export const useAdmin = (addressOrList: string | string[]): Permissions => {
 };
 
 export const useGateAdmin = (addressOrList: string | string[]): Permissions => {
-    const { userInfo, loggedIn }: Record<string, any> = useAuth();
+    const { userInfo, walletConnected }: Record<string, any> = useAuth();
 
     let isAdmin = false;
 
-    if (loggedIn && addressOrList instanceof Array) {
+    if (walletConnected && addressOrList instanceof Array) {
         isAdmin = addressOrList.includes(userInfo.id);
-    } else if (loggedIn && addressOrList instanceof String) {
+    } else if (walletConnected && addressOrList instanceof String) {
         isAdmin = addressOrList === userInfo.id;
     }
 
-    if (loggedIn && userInfo.isAdmin) {
+    if (walletConnected && userInfo.isAdmin) {
         isAdmin = userInfo.isAdmin;
     }
 
