@@ -1,42 +1,45 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import * as Styled from '../../style';
 import FilterDropdown from '../FilterDropdown';
 
-export const DAOFilter = function ({ setDaoFilterQuery }: any) {
-    const categoryFilterOptions = [
-        'Protocol',
-        'DeFi',
-        'Social',
-        'Grant',
-        'Investment',
-        'Collector',
-        'Framework',
-        'Gaming',
-        'DeSci',
-    ];
-    const chainFilterOptions = [
-        'Ethereum',
-        'Solana',
-        'Polygon',
-        'NEAR',
-        'Binance',
-        'Bitcoin',
-        'Avalanche',
-    ];
-    const sizeFilterOptions = [
-        '1-10',
-        '11-50',
-        '51-200',
-        '201-500',
-        '501-1000',
-        '1001-5000',
-        '5001-10000',
-        '10,001 +',
-    ];
+const categoryFilterOptions = [
+    'Protocol',
+    'DeFi',
+    'Social',
+    'Grant',
+    'Investment',
+    'Collector',
+    'Framework',
+    'Gaming',
+    'DeSci',
+];
+const chainFilterOptions = [
+    'Ethereum',
+    'Solana',
+    'Polygon',
+    'NEAR',
+    'Binance',
+    'Bitcoin',
+    'Avalanche',
+];
+const sizeFilterOptions = [
+    '1-10',
+    '11-50',
+    '51-200',
+    '201-500',
+    '501-1000',
+    '1001-5000',
+    '5001-10000',
+    '10,001 +',
+];
 
+export const DAOFilter = function (props) {
+    const [query, setQuery] = useState<Record<string, any>>()
     const [categoryMatches, setCategoryMatches] = useState<string[]>([]);
     const [chainMatches, setChainMatches] = useState<string[]>([]);
     const [sizeMatches, setSizeMatches] = useState<string[]>([]);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const showResult = () => {
         // const query = [];
@@ -96,9 +99,7 @@ export const DAOFilter = function ({ setDaoFilterQuery }: any) {
             }
         }
 
-        console.log('query', query);
-        setDaoFilterQuery(query);
-        console.log(categoryMatches, chainMatches, sizeMatches);
+        setSearchParams({ filters: JSON.stringify(query) });
     };
 
     return (

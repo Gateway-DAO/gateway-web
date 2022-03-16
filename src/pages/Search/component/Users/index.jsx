@@ -12,14 +12,16 @@ import { useEffect, useState } from 'react';
 import { useSearchUsers } from '../../../../api/database/useSearchUser';
 import useUserLength from '../../../../api/database/useUserLength';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
-const UserTab = ({ query }) => {
+const UserTab = () => {
     const [hits, setHits] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const query = searchParams.get('query') || '';
 
     const [pageCount, setPageCount] = useState(0);
-    const [pageNumber, setPageNumber] = useState(0);
+    const pageNumber = parseInt(searchParams.get('page')) || 0;
     const resultPerPage = 8;
     let from = pageNumber * 8;
     const {
@@ -56,41 +58,19 @@ const UserTab = ({ query }) => {
         },
     });
 
-    const {
-        data: lengthData,
-        loading: lengthDataLoading,
-        error: userLengthError,
-        called: userLengthCalled,
-    } = useUserLength({
-        variables: {
-            filter: {
-                or: [
-                    { daos_ids: { wildcard: `*${query}*` } },
-                    { username: { wildcard: `*${query}*` } },
-                    { bio: { wildcard: `*${query}*` } },
-                    { id: { wildcard: `*${query}*` } },
-                    { name: { wildcard: `*${query}*` } },
-                ],
-            },
-        },
-    });
-
     useEffect(() => {
-        if (query.toLowerCase() === 'all') {
+        if (query.toLowerCase() === '') {
             setHits(!listLoading ? listData.searchUsers.items : []);
             setPageCount(
                 Math.ceil(listData?.searchUsers.total / resultPerPage)
             );
         } else {
             setHits(!searchLoading ? searchData.searchUsers.items : []);
-            console.log('fdsfdfds');
-
-            console.log(lengthData);
             setPageCount(
-                Math.ceil(lengthData?.searchUsers.items.length / resultPerPage)
+                Math.ceil(searchData?.searchUsers.items.length / resultPerPage)
             );
         }
-    }, [query, searchLoading, listLoading, pageNumber, lengthDataLoading]);
+    }, [query, searchLoading, listLoading, pageNumber]);
 
     const searchOrListLoading =
         query.toLowerCase() === 'all' ? listLoading : searchLoading;
@@ -135,7 +115,7 @@ const UserTab = ({ query }) => {
                     />
                 ))}
             </Styled.UserCardBox>
-            <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
+            <Pagination pageCount={pageCount} />
         </>
     );
 };

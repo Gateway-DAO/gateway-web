@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import * as Styled from './style';
 
 // Hooks
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useSearchParams, useNavigate } from 'react-router-dom';
 
 // Components
 import Header from '../../components/Header';
@@ -22,34 +22,32 @@ import { DAOFilter, GateFilter, UserFilter } from './component/Filters';
 const Search = (props) => {
     const { query } = useParams();
     const location = useLocation();
-
-    const [selectionTab, setSelectionTab] = useState('DAOs');
-    const [daoFilterQuery, setDaoFilterQuery] = useState({});
+    const navigate = useNavigate();
 
     const ActiveTab = () => {
-        switch (selectionTab) {
-            case 'DAOs':
-                return <DAOTab filterQuery={daoFilterQuery} />;
-            case 'Users':
-                return <UserTab query={query} />;
-            case 'Gates':
-                return <GateTab query={query} />;
+        switch (query) {
+            case 'daos':
+                return <DAOTab />;
+            case 'users':
+                return <UserTab />;
+            case 'gates':
+                return <GateTab />;
             default:
-                return <DAOTab filterQuery={daoFilterQuery} />;
+                return <DAOTab />;
         }
     };
 
     const ActiveFilter = () => {
-        console.log('selectionTab', selectionTab);
-        switch (selectionTab) {
-            case 'DAOs':
-                return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
-            case 'Users':
-                return <UserFilter query={query} />;
-            case 'Gates':
-                return <GateFilter query={query} />;
+        switch (query) {
+            case 'daos':
+                return <DAOFilter />;
+            case 'users':
+                // return <UserFilter />;
+                return null;
+            case 'gates':
+                return <GateFilter />;
             default:
-                return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
+                return <DAOFilter />;
         }
     };
 
@@ -66,24 +64,24 @@ const Search = (props) => {
             <Styled.Nav>
                 <Styled.DAOAndUserSelectionContainer>
                     <Styled.SelectContainer
-                        active={'DAOs' === selectionTab}
-                        onClick={(e) => setSelectionTab('DAOs')}
+                        active={'daos' === query}
+                        onClick={(e) => navigate('/search/daos')}
                     >
                         <Styled.SelectContainerText>
                             DAOs
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                     <Styled.SelectContainer
-                        active={'Users' === selectionTab}
-                        onClick={(e) => setSelectionTab('Users')}
+                        active={'users' === query}
+                        onClick={(e) => navigate('/search/users')}
                     >
                         <Styled.SelectContainerText>
                             Users
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                     <Styled.SelectContainer
-                        active={'Gates' === selectionTab}
-                        onClick={(e) => setSelectionTab('Gates')}
+                        active={'gates' === query}
+                        onClick={(e) => navigate('/search/gates')}
                     >
                         <Styled.SelectContainerText>
                             Gates

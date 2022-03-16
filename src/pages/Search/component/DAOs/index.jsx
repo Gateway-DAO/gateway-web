@@ -9,13 +9,14 @@ import { Navigate } from 'react-router-dom';
 // Hooks
 import useDAOLength from '../../../../api/database/useDAOLength';
 import { useSearchDAO } from '../../../../api/database/useSearchDAO';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Pagination from '../Pagination';
 
-const DAOTab = ({ filterQuery }) => {
+const DAOTab = (props) => {
     const [pageNumber, setPageNumber] = useState(0);
-    const { query } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const filter = JSON.parse(searchParams.get('filters') || "{}");
     const [hits, setHits] = useState([]);
     const resultPerPage = 8;
     const [pageCount, setPageCount] = useState(0);
@@ -42,7 +43,7 @@ const DAOTab = ({ filterQuery }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            filter: filterQuery,
+            filter: filter,
         },
     });
 
@@ -53,12 +54,15 @@ const DAOTab = ({ filterQuery }) => {
         called: searchDaosLengthCalled,
     } = useDAOLength({
         variables: {
-            filter: filterQuery,
+            filter: filter,
         },
     });
 
     useEffect(() => {
-        if (Object.keys(filterQuery).length === 0) {
+        if (
+            Object.keys(filter).length ===
+            0
+        ) {
             setHits(!listLoading ? listData.searchDAOs.items : []);
             setPageCount(Math.ceil(listData?.searchDAOs.total / resultPerPage));
         } else {
@@ -70,7 +74,7 @@ const DAOTab = ({ filterQuery }) => {
             );
         }
     }, [
-        query,
+        searchParams,
         searchLoading,
         listLoading,
         searchDaosLengthLoading,
@@ -82,10 +86,16 @@ const DAOTab = ({ filterQuery }) => {
     }
 
     const searchOrListLoading =
-        Object.keys(filterQuery).length === 0 ? listLoading : searchLoading;
+        Object.keys(filter || {})
+            .length === 0
+            ? listLoading
+            : searchLoading;
 
     const searchOrListCalled =
-        Object.keys(filterQuery).length === 0 ? listCalled : searchCalled;
+        Object.keys(filter || {})
+            .length === 0
+            ? listCalled
+            : searchCalled;
 
     return (
         <>
@@ -98,7 +108,8 @@ const DAOTab = ({ filterQuery }) => {
             {!hits.length && !searchOrListLoading && searchOrListCalled && (
                 <SearchStyled.TextBox>
                     <SearchStyled.MainText>
-                        Oops! There's no "{query}" DAO on our records :/
+                        Oops! There's no "{searchParams.get('query')}" DAO on
+                        our records :/
                     </SearchStyled.MainText>
                     <SearchStyled.SmallText>
                         We couldn't find what you're looking for. Try again

@@ -11,12 +11,14 @@ import Pagination from '../Pagination';
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { searchGates } from '../../../../graphql/queries';
+import { useSearchParams } from 'react-router-dom';
 
 const GateTab = ({ query }) => {
     const [hits, setHits] = useState([]);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const [pageCount, setPageCount] = useState(0);
-    const [pageNumber, setPageNumber] = useState(0);
+    const pageNumber = parseInt(searchParams.get('page')) || 0;
     const resultPerPage = 8;
     const from = pageNumber * 8;
 
@@ -78,7 +80,7 @@ const GateTab = ({ query }) => {
                     <GateCard gate={item} viewAsMember={true} />
                 ))}
             </Styled.GateCardBox>
-            <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
+            <Pagination pageCount={pageCount} />
         </>
     );
 };

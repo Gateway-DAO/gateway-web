@@ -2,9 +2,19 @@ import * as Styled from './style';
 import Wallet from '../WalletHeader';
 import logo from '../../assets/Gateway.svg';
 import useMediaQueries from '../../hooks/useMediaQueries';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Header = (props) => {
     const { xs } = useMediaQueries();
+    const [query, setQuery] = useState(null);
+    const navigate = useNavigate()
+
+    const search = e => {
+        if (e.key === 'Enter') {
+            navigate(`/search/${query}`);
+        }
+    }
 
     return (
         <Styled.HeaderDiv>
@@ -20,30 +30,30 @@ const Header = (props) => {
                         <Styled.SearchInput
                             type='text'
                             placeholder='Search DAO'
+                            onChange={e => setQuery(e.target.value)}
+                            value={query}
+                            onKeyPress={search}
                         />
                         <Styled.WrappedFiSearch />
                     </Styled.SearchInputBox>
                     {!xs || (
                         <Styled.GroupLink>
                             <Styled.OptionLink
-                                to='/search/all'
-                                state={{ tab: 'DAOs' }}
+                                to='/search/daos'
                             >
                                 <Styled.Text color='#FFFFFF'>DAOs</Styled.Text>
                             </Styled.OptionLink>
                             <Styled.OptionLink
-                                to='/search/all'
-                                state={{ tab: 'Gates' }}
-                            >
-                                <Styled.Text color='#FFFFFF'>Gates</Styled.Text>
-                            </Styled.OptionLink>
-                            <Styled.OptionLink
-                                to='/search/all'
-                                state={{ tab: 'Users' }}
+                                to='/search/users'
                             >
                                 <Styled.Text color='#FFFFFF'>
                                     People
                                 </Styled.Text>
+                            </Styled.OptionLink>
+                            <Styled.OptionLink
+                                to='/search/gates'
+                            >
+                                <Styled.Text color='#FFFFFF'>Gates</Styled.Text>
                             </Styled.OptionLink>
                             <Styled.OptionLink
                                 to='//discord.gg/78wuJuKFVK'

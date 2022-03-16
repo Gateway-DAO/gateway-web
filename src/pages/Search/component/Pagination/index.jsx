@@ -1,9 +1,12 @@
 import * as Styled from './style';
 import ReactPaginate from 'react-paginate';
+import { useSearchParams } from 'react-router-dom';
 
-const Pagination = ({ pageCount, setPageNumber }) => {
+const Pagination = ({ pageCount }) => {
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const changePage = ({ selected }) => {
-        setPageNumber(selected);
+        setSearchParams({ page: parseInt(selected) });
     };
 
     return (
