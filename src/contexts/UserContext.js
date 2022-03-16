@@ -144,6 +144,7 @@ export const UserProvider = ({ children }) => {
 
             const connector = new Web3ModalConnector({
                 providerOptions,
+                cacheProvider: true
             });
 
             await web3.activate(connector);
