@@ -110,7 +110,7 @@
 	},
 	"scripts": {
 		"start": "cross-env CI= react-scripts start",
-		"build": "cross-env CI= react-scripts build",
+		"build": "cross-env CI= react-scripts --max_old_space_size=8192 build",
 		"test": "cross-env CI= react-scripts test",
 		"dev": "cross-env REACT_APP_NODE_ENV=dev yarn start",
 		"eject": "react-scripts eject",
