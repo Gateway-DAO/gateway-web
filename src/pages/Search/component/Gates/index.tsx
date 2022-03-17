@@ -29,14 +29,14 @@ const GateTab = ({ query }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            ...(query !== 'all' && {
+            ...((query !== 'all' || query !== '') && {
                 filter: {
                     or: [
-                        { daos_ids: { wildcard: `*${query.toLowerCase()}*` } },
-                        { username: { wildcard: `*${query.toLowerCase()}*` } },
-                        { bio: { wildcard: `*${query.toLowerCase()}*` } },
-                        { id: { wildcard: `*${query.toLowerCase()}*` } },
-                        { name: { wildcard: `*${query.toLowerCase()}*` } },
+                        {
+                            name: {
+                                wildcard: `*${query.toLowerCase()}*`,
+                            },
+                        },
                     ],
                 },
             }),
@@ -45,8 +45,9 @@ const GateTab = ({ query }) => {
 
     useEffect(() => {
         setHits(!searchLoading ? searchData?.searchGates?.items : []);
+        console.log(searchData?.searchGates?.items);
         setPageCount(
-            Math.ceil(searchData?.searchGates.items.length / resultPerPage)
+            Math.ceil(searchData?.searchGates?.items.length / resultPerPage)
         );
     }, [query, searchLoading, pageNumber]);
 
