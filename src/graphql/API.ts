@@ -161,6 +161,7 @@ export type Post = {
 export type User = {
     __typename: 'User';
     id?: string;
+    ip?: string | null;
     wallet?: string;
     username?: string | null;
     name?: string | null;

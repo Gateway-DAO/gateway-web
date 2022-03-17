@@ -20,6 +20,7 @@ import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
+import getIPLocation from '../api/getIPLocation';
 // import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
@@ -144,7 +145,7 @@ export const UserProvider = ({ children }) => {
 
             const connector = new Web3ModalConnector({
                 providerOptions,
-                cacheProvider: true
+                cacheProvider: true,
             });
 
             await web3.activate(connector);
@@ -194,7 +195,7 @@ export const UserProvider = ({ children }) => {
     const updateUserInfo = async (info) => {
         const user = await updateUser({
             variables: {
-                input: { ...info, id: userInfo.id },
+                input: { ...info, id: userInfo?.id || info?.id },
             },
         });
 
@@ -289,8 +290,6 @@ export const UserProvider = ({ children }) => {
     /* If the user has their wallet connected, get the user's info from the database. */
     useEffect(() => {
         const callback = async () => {
-            !web3.active && activateWeb3();
-
             // Since state update is asynchrounous, let's keep track of the current value using an internal variable
             let userInfo_INTERNAL = userInfo;
 
@@ -312,6 +311,9 @@ export const UserProvider = ({ children }) => {
                         ...userDB.data.getUserByAddress.items[0],
                         isAdmin: false,
                     };
+
+                    const { ip_address } = await getIPLocation();
+                    await updateUserInfo({ id: userInfo_INTERNAL.id, ip: ip_address });
                 } else {
                     userInfo_INTERNAL = await createNewUser();
                 }
@@ -345,6 +347,8 @@ export const UserProvider = ({ children }) => {
         callback();
         setLoggingIn(false);
     }, [web3.account, web3.active]);
+
+    useEffect(() => !web3.active && activateWeb3(), []);
 
     /**
      * When the user signs in, get the user's information from the database and set it in the state.

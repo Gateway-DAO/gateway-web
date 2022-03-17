@@ -14,6 +14,7 @@ type User
     )
     @searchable {
     id: ID!
+    ip: AWSIPAddress
     wallet: String!
     username: String
     name: String

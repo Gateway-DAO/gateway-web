@@ -20,6 +20,7 @@ export const getUser = /* GraphQL */ `
     query GetUser($id: ID!) {
         getUser(id: $id) {
             id
+            ip
             wallet
             username
             name
@@ -3444,6 +3445,7 @@ export const getUserByAddress = /* GraphQL */ `
         ) {
             items {
                 id
+                ip
                 wallet
                 username
                 name
@@ -3588,6 +3590,7 @@ export const getUserByUsername = /* GraphQL */ `
         ) {
             items {
                 id
+                ip
                 wallet
                 username
                 name
