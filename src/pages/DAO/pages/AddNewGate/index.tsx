@@ -681,41 +681,6 @@ const AddGateForm = () => {
                                 gateData?.published ===
                                     PublishedState.NOT_PUBLISHED) && (
                                 <>
-                                    <FormStyled.Fieldset>
-                                        <FormStyled.Label htmlFor='title'>
-                                            Category*
-                                        </FormStyled.Label>
-                                        <FormStyled.Input
-                                            onChange={(e) =>
-                                                setCategory(e.target.value)
-                                            }
-                                            type='text'
-                                            id='category'
-                                            name='category'
-                                            placeholder='Search Category'
-                                            onKeyPress={addCategories}
-                                            value={category}
-                                        />
-
-                                        {categoryList.length > 0 && (
-                                            <Styled.CategoryList>
-                                                {categoryList.map(
-                                                    (category, id) => {
-                                                        return (
-                                                            <SearchedItem
-                                                                val={category}
-                                                                id={id}
-                                                                remove={
-                                                                    removeCategories
-                                                                }
-                                                            />
-                                                        );
-                                                    }
-                                                )}
-                                            </Styled.CategoryList>
-                                        )}
-                                    </FormStyled.Fieldset>
-
                                     {NFTType === 'Reward' && (
                                         <>
                                             <FormStyled.Fieldset>

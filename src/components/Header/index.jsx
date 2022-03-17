@@ -33,7 +33,7 @@ const Header = (props) => {
                         <Styled.SearchInput
                             type='text'
                             placeholder='Search DAO'
-                            value={query}
+                            value={query || ""}
                             onChange={(e) => setQuery(e.target.value)}
                             onKeyPress={search}
                         />
@@ -42,19 +42,19 @@ const Header = (props) => {
                     {!xs || (
                         <Styled.GroupLink>
                             <Styled.OptionLink
-                                to='/search/all'
+                                to='/search'
                                 state={{ tab: 'DAOs' }}
                             >
                                 <Styled.Text color='#FFFFFF'>DAOs</Styled.Text>
                             </Styled.OptionLink>
                             <Styled.OptionLink
-                                to='/search/all'
+                                to='/search'
                                 state={{ tab: 'Gates' }}
                             >
                                 <Styled.Text color='#FFFFFF'>Gates</Styled.Text>
                             </Styled.OptionLink>
                             <Styled.OptionLink
-                                to='/search/all'
+                                to='/search'
                                 state={{ tab: 'Users' }}
                             >
                                 <Styled.Text color='#FFFFFF'>

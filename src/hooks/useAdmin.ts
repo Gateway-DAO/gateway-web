@@ -10,13 +10,13 @@ export const useAdmin = (addressOrList: string | string[]): Permissions => {
     let isAdmin = false;
 
     if (walletConnected && addressOrList instanceof Array) {
-        isAdmin = addressOrList.includes(userInfo.wallet);
+        isAdmin = addressOrList.includes(userInfo?.wallet);
     } else if (walletConnected && addressOrList instanceof String) {
-        isAdmin = addressOrList === userInfo.wallet;
+        isAdmin = addressOrList === userInfo?.wallet;
     }
 
-    if (walletConnected && userInfo.isAdmin) {
-        isAdmin = userInfo.isAdmin;
+    if (walletConnected && userInfo?.isAdmin) {
+        isAdmin = userInfo?.isAdmin;
     }
 
     return {

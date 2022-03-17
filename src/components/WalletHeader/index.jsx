@@ -14,9 +14,11 @@ import { useAuth } from '../../contexts/UserContext';
 import { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { useNavigate } from 'react-router-dom';
+import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 
 const Wallet = (props) => {
-    const { loggedIn, loggingIn, activateWeb3, loadingWallet } = useAuth();
+    const { loggedIn, loggingIn, activateWeb3, loadingWallet, userInfo } =
+        useAuth();
     const { active, account } = useWeb3React();
     const [hidden, setHidden] = useState(false);
     const [wrong, setWrong] = useState(false);
@@ -57,8 +59,21 @@ const Wallet = (props) => {
                         <Styled.SpinningLoader color='white' />
                     )}{' '}
                     {active
-                        ? shortenAddress(account, 4, 12)
+                        ? userInfo?.username
+                            ? `@${userInfo.username}`
+                            : shortenAddress(account, 4, 12)
                         : 'Connect To Wallet'}
+                    {hidden ? (
+                        <GoChevronUp
+                            color='#FE02B9'
+                            style={{ marginLeft: 10 }}
+                        />
+                    ) : (
+                        <GoChevronDown
+                            color='#FE02B9'
+                            style={{ marginLeft: 10 }}
+                        />
+                    )}
                 </Styled.ConnectText>
             </Styled.ConnectToWallet>
             {hidden ? <DropDown toggle={setHidden} /> : null}
