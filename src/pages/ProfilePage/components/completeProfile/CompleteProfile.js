@@ -2,30 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
-import { FilePond, registerPlugin } from 'react-filepond';
-import 'filepond/dist/filepond.min.css';
-
-import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
-import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 
 import useFileUpload from '../../../../api/useFileUpload';
 import normalizeUrl from 'normalize-url';
-import { useWeb3React } from '@web3-react/core';
 import './CompleteProfile.css';
 import Page from '../../../../components/Page';
-
-registerPlugin(
-	FilePondPluginImageExifOrientation,
-	FilePondPluginImagePreview,
-	FilePondPluginFileEncode,
-	FilePondPluginFileValidateType,
-	FilePondPluginFilePoster
-);
+import { RawImageUpload } from '../../../../components/Form';
 
 const platforms = [
 	'Select',
@@ -39,16 +21,14 @@ const platforms = [
 const CompleteProfile = () => {
 	// Hooks
 	const { uploadFile } = useFileUpload();
-	const location = useLocation();
 	const { userInfo, updateUserInfo } = useAuth();
 	const navigate = useNavigate();
-	const web3 = useWeb3React();
 
 	// State
 	const [redirect, setRedirect] = useState(false);
-	// const [isUser, setIsUser] = useState(location.state.isUser || false);
 	const [isValidated, setIsValidated] = useState(false);
-	const [files, setFiles] = useState([]);
+	const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
+	const [file, setFile] = useState(null);
 	const [user, setUser] = useState({
 		displayName: userInfo?.name || '',
 		userName: userInfo?.username || '',
@@ -76,19 +56,6 @@ const CompleteProfile = () => {
 	useEffect(() => {
 		handleFormFilled();
 	}, [user]);
-
-	useEffect(() => {
-		if (userInfo) {
-			setFiles([
-				{
-					source: userInfo.pfp || '',
-					options: { type: 'local' },
-				},
-			]);
-		} else {
-			return <Navigate to='/404' />;
-		}
-	}, []);
 
 	const handleFormFilled = () => {
 		if (user.displayName.length > 0) {
@@ -180,10 +147,10 @@ const CompleteProfile = () => {
 			try {
 				// Upload files to S3
 				const avatarURL = await uploadFile(
-					`users/${userInfo.id}/profile.${files[0].file.name
+					`users/${userInfo.id}/profile.${file.name
 						.split('.')
 						.pop()}`,
-					files[0].file,
+					file,
 					{ contentType: 'image/jpeg' }
 				);
 
@@ -299,93 +266,7 @@ const CompleteProfile = () => {
 									controlId='userAvatar'
 								>
 									<Form.Label>AVATAR</Form.Label>
-									<FilePond
-										required={true}
-										files={files}
-										allowMultiple={true}
-										allowReorder={true}
-										maxFiles={1}
-										name='avatar'
-										allowFileEncode='true'
-										content-type='image/jpeg'
-										acceptedFileTypes={[
-											'image/png',
-											'image/PNG',
-											'image/jpg',
-											'image/JPG',
-											'image/jpeg',
-											'image/JPEG',
-											'image/webp',
-										]}
-										allowFilePoster
-										labelIdle="<img src='/completeprofile/Vector.svg' /><span class='avatar-upload-action'>Upload</span> or drag your avatar here."
-										oninit={() => handleInit()}
-										onupdatefiles={setFiles}
-										onaddfile={(error, file) => {
-											// console.log("error", error);
-											if (error == null) {
-												var reader = new FileReader();
-												reader.onloadend = function () {
-													// console.log('RESULT', reader.result);
-													setUser((prevState) => {
-														return {
-															...prevState,
-															avatar: reader.result,
-														};
-													});
-												};
-												reader.onerror = function (
-													error
-												) {
-													console.log(
-														'Error: ',
-														error
-													);
-												};
-												reader.readAsDataURL(file.file);
-											} else {
-												setUser((prevState) => {
-													return {
-														...prevState,
-														avatar: '',
-													};
-												});
-											}
-										}}
-										onremovefile={(error, file) => {
-											setFiles([]);
-											setUser((prevState) => {
-												return {
-													...prevState,
-													avatar: '',
-												};
-											});
-										}}
-										server={{
-											load: (source, load) => {
-												var myRequest = new Request(
-													source
-												);
-												fetch(myRequest).then(
-													(response) => {
-														response
-															.blob()
-															.then((myBlob) => {
-																console.log({
-																	myBlob,
-																});
-																load(myBlob);
-															})
-															.catch((err) => {
-																console.log(
-																	err
-																);
-															});
-													}
-												).catch(console.log);
-											},
-										}}
-									/>
+									<RawImageUpload defaultImageURL={defaultPfp} setImage={setFile} />
 								</Form.Group>
 							</div>
 							<div className='mb-3 row'>

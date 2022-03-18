@@ -2,26 +2,23 @@ import * as FormStyled from '../../style';
 import * as Styled from './style';
 import { useState, useRef, useEffect } from 'react';
 
-const ImageUpload = (props) => {
-    const [image, setImage] = useState(props.defaultImage || null);
-    const [imageURL, setImageURL] = useState(props.defaultImageURL || null);
+export const RawImageUpload = ({ defaultImage, defaultImageURL, setImage: sendImage }) => {
+    const [image, setImage] = useState(defaultImage || null);
+    const [imageURL, setImageURL] = useState(defaultImageURL || null);
     const [over, setOver] = useState(null);
     const $input = useRef(null);
 
     useEffect(
-        () => props.defaultImage && setImageURL(URL.createObjectURL(image)),
+        () => defaultImage && setImageURL(URL.createObjectURL(image)),
         []
     );
 
     useEffect(() => {
-        props.setImage(image);
+        sendImage(image);
     }, [image]);
 
     return (
-        <FormStyled.Fieldset>
-            <FormStyled.Label htmlFor={props.htmlFor}>
-                {props.label}
-            </FormStyled.Label>
+        <>
             {!imageURL ? (
                 <Styled.DragArea
                     hover={over}
@@ -80,6 +77,17 @@ const ImageUpload = (props) => {
                     </Styled.Cross>
                 </Styled.Background>
             )}
+        </>
+    );
+};
+
+export const ImageUpload = ({ defaultImage = null, defaultImageURL = null, setImage, htmlFor, label }) => {
+    return (
+        <FormStyled.Fieldset>
+            <FormStyled.Label htmlFor={htmlFor}>
+                {label}
+            </FormStyled.Label>
+            <RawImageUpload defaultImage={defaultImage} defaultImageURL={defaultImageURL} setImage={setImage} />
         </FormStyled.Fieldset>
     );
 };
