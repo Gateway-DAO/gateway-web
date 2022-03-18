@@ -71,6 +71,8 @@ export class Web3ModalConnector extends AbstractConnector {
             this.handleAccountsChanged
         );
 
+        this.web3Modal.clearCachedProvider();
+
         // use disconnect function if exists
         this.provider?.disconnect?.();
 

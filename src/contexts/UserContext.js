@@ -20,7 +20,7 @@ import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
-import getIPLocation from '../api/getIPLocation';
+import getIPLocation, { getIP } from '../api/getIPLocation';
 // import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
@@ -312,8 +312,8 @@ export const UserProvider = ({ children }) => {
                         isAdmin: false,
                     };
 
-                    const { ip_address } = await getIPLocation();
-                    await updateUserInfo({ id: userInfo_INTERNAL.id, ip: ip_address });
+                    const { ip } = await getIP();
+                    await updateUserInfo({ id: userInfo_INTERNAL.id, ip });
                 } else {
                     userInfo_INTERNAL = await createNewUser();
                 }

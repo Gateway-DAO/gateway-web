@@ -147,7 +147,7 @@ const ProfileUpdate = () => {
      * Get the current location of the user and set the state of the component to reflect that location
      */
     const getAddress = async () => {
-        const data = await getIPLocation(userInfo.ip || null);
+        const data = await getIPLocation(signedUser.ip || null);
         setCurrentLocation((prev) => ({
             lat: data.latitude.toString(),
             long: data.longitude.toString(),
@@ -190,7 +190,7 @@ const ProfileUpdate = () => {
         const callback = async () => {
             if (!username) {
                 if (!loadingWallet && signedUser) {
-                    await getAddress();
+                    !currentLocation.lat && await getAddress();
                     setUserInfo((prev) => ({
                         ...prev,
                         ...signedUser,

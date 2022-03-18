@@ -44,6 +44,10 @@ export interface Metadata {
     };
 }
 
+export const getIP = async (): Promise<{ ip: string; }> => {
+    return await (await fetch('https://api.ipify.org?format=json')).json();
+}
+
 /**
  * It returns the location of the user's IP address.
  * @returns The response is a JSON object with the following keys:
