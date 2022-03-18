@@ -212,30 +212,35 @@ const DaoGate: React.FC = () => {
                                 </Styled.Box>
                             )}
                             {gateData?.keys?.items?.map((key: Key) => {
-                                if (
-                                    !isAdmin &&
-                                    !key.unlimited &&
-                                    key.peopleLimit === 0
-                                ) {
-                                    return null;
-                                }
+                                const LIMIT_REACHED =
+                                    !key.unlimited && key.peopleLimit === 0;
 
-                                return (
-                                    <KeyBox
-                                        data={key}
-                                        gateData={gateData}
-                                        blocked={
-                                            gateData.taskStatus.length > 0
-                                                ? gateData.taskStatus
-                                                      .map(
-                                                          (ts: TaskStatus) =>
-                                                              ts.keyID
-                                                      )
-                                                      .includes(key.id)
-                                                : false
-                                        }
-                                    />
-                                );
+                                if (
+                                    !LIMIT_REACHED ||
+                                    gateData.taskStatus
+                                        .map((ts: TaskStatus) => ts.keyID)
+                                        .includes(key.id) ||
+                                    isAdmin
+                                ) {
+                                    return (
+                                        <KeyBox
+                                            data={key}
+                                            gateData={gateData}
+                                            blocked={
+                                                gateData.taskStatus.length > 0
+                                                    ? gateData.taskStatus
+                                                          .map(
+                                                              (
+                                                                  ts: TaskStatus
+                                                              ) => ts.keyID
+                                                          )
+                                                          .includes(key.id)
+                                                    : false
+                                            }
+                                        />
+                                    );
+                                }
+                                else return null;
                             })}
                         </Styled.ThirdDiv>
                     </Styled.MainContent>
