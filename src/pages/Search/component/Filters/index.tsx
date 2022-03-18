@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import * as Styled from '../../style';
 import FilterDropdown from '../FilterDropdown';
 
@@ -37,22 +38,9 @@ export const DAOFilter = function ({ setDaoFilterQuery }: any) {
     const [categoryMatches, setCategoryMatches] = useState<string[]>([]);
     const [chainMatches, setChainMatches] = useState<string[]>([]);
     const [sizeMatches, setSizeMatches] = useState<string[]>([]);
+    const { query: searchTerm } = useParams();
 
     const showResult = () => {
-        // const query = [];
-        // categoryMatches.length &&
-        //     query.push({
-        //         categories: {
-        //             match: categoryMatches,
-        //         },
-        //     });
-        // chainMatches.length &&
-        //     query.push({
-        //         chains: {
-        //             match: chainMatches,
-        //         },
-        //     });
-        // setDaoFilterQuery(query);
         const query = {};
 
         if (categoryMatches.length > 1) {
@@ -96,9 +84,17 @@ export const DAOFilter = function ({ setDaoFilterQuery }: any) {
             }
         }
 
-        console.log('query', query);
+        query['or'].push(...[
+            { dao: { wildcard: `*${searchTerm.toLowerCase()}*` } },
+            { name: { wildcard: `*${searchTerm.toLowerCase()}*` } },
+            {
+                description: {
+                    wildcard: `*${searchTerm.toLowerCase()}*`,
+                },
+            },
+        ])
+
         setDaoFilterQuery(query);
-        console.log(categoryMatches, chainMatches, sizeMatches);
     };
 
     return (

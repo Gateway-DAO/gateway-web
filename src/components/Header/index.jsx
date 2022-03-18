@@ -2,9 +2,22 @@ import * as Styled from './style';
 import Wallet from '../WalletHeader';
 import logo from '../../assets/Gateway.svg';
 import useMediaQueries from '../../hooks/useMediaQueries';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useLocation } from 'react-use';
 
 const Header = (props) => {
     const { xs } = useMediaQueries();
+    const location = useLocation();
+    const { query: searchQuery } = useParams();
+    const [query, setQuery] = useState(location.pathname.includes('/search') && searchQuery);
+    const navigate = useNavigate();
+
+    const search = (e) =>{
+        if (e.key == 'Enter') {
+            navigate(`/search/${query}`, { tab: 'DAOs' });
+        }
+    }
 
     return (
         <Styled.HeaderDiv>
@@ -20,25 +33,28 @@ const Header = (props) => {
                         <Styled.SearchInput
                             type='text'
                             placeholder='Search DAO'
+                            value={query || ""}
+                            onChange={(e) => setQuery(e.target.value)}
+                            onKeyPress={search}
                         />
                         <Styled.WrappedFiSearch />
                     </Styled.SearchInputBox>
                     {!xs || (
                         <Styled.GroupLink>
                             <Styled.OptionLink
-                                to='/search/all'
+                                to='/search'
                                 state={{ tab: 'DAOs' }}
                             >
                                 <Styled.Text color='#FFFFFF'>DAOs</Styled.Text>
                             </Styled.OptionLink>
                             <Styled.OptionLink
-                                to='/search/all'
+                                to='/search'
                                 state={{ tab: 'Gates' }}
                             >
                                 <Styled.Text color='#FFFFFF'>Gates</Styled.Text>
                             </Styled.OptionLink>
                             <Styled.OptionLink
-                                to='/search/all'
+                                to='/search'
                                 state={{ tab: 'Users' }}
                             >
                                 <Styled.Text color='#FFFFFF'>
@@ -56,13 +72,6 @@ const Header = (props) => {
                         </Styled.GroupLink>
                     )}
                 </Styled.HeaderContent>
-                {/* {!xs || (
-                    <Styled.OptionLink to="/dao-gate">
-                        <Styled.Text color="#FF00B8">
-                           DAO Gate
-                        </Styled.Text>
-                    </Styled.OptionLink>
-                )} */}
             </Styled.LogoBox>
             <Styled.WalletBox>
                 <Wallet />

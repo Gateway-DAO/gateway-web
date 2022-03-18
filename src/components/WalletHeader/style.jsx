@@ -5,6 +5,10 @@ export const ConnectToWallet = styled.a`
     border-radius: 20px;
     position: relative;
     border: double 1px transparent;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 
     ${(props) =>
         props.wrong

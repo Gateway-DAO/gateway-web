@@ -6110,6 +6110,11 @@ export const searchCredentials = /* GraphQL */ `
                     retroactiveEarners
                     holders
                     nftType
+                    badge {
+                        nftURL
+                        ipfsURL
+                        name
+                    }
                     createdAt
                     updatedAt
                 }
