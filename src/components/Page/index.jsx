@@ -5,7 +5,7 @@ import Space from '../Space';
 
 const Page = (props) => {
     return (
-        <Styled.Container>
+        <Styled.Container suppressContentEditableWarning={true}>
             <Header />
             {props.space ? <Space>{props.children}</Space> : props.children}
             <Footer />

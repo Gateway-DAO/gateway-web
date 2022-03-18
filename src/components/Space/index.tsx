@@ -35,7 +35,7 @@ const Space: React.FC<IProps> = ({
     return (
         <Container>
             <SpaceBox id='space-canvas' />
-            <Children>
+            <Children suppressContentEditableWarning={true}>
                 {children}
             </Children>
         </Container>
