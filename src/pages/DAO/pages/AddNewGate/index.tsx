@@ -964,6 +964,8 @@ const AddGateForm = () => {
                                     </FormStyled.IconButton>
                                 </FormStyled.Fieldset>
                             )}
+
+                            {/*
                             <FormStyled.Fieldset>
                                 <FormStyled.Label htmlFor='title'>
                                     Prerequisite
@@ -1014,7 +1016,8 @@ const AddGateForm = () => {
                                     )
                                 )}
                             </FormStyled.Fieldset>
-
+                                            */}
+                                            
                             <FormStyled.Button type='submit'>
                                 {updateLoading && <Loader color='white' />}
                                 Submit
