@@ -30,13 +30,13 @@ export const useGateAdmin = (addressOrList: string | string[]): Permissions => {
     let isAdmin = false;
 
     if (walletConnected && addressOrList instanceof Array) {
-        isAdmin = addressOrList.includes(userInfo.id);
+        isAdmin = addressOrList.includes(userInfo?.id);
     } else if (walletConnected && addressOrList instanceof String) {
-        isAdmin = addressOrList === userInfo.id;
+        isAdmin = addressOrList === userInfo?.id;
     }
 
-    if (walletConnected && userInfo.isAdmin) {
-        isAdmin = userInfo.isAdmin;
+    if (walletConnected && userInfo?.isAdmin) {
+        isAdmin = userInfo?.isAdmin;
     }
 
     return {
