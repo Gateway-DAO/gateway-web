@@ -47,37 +47,37 @@
         },
         "addKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/addKey-546470477a6542355a69-build.zip"
+          "s3Key": "amplify-builds/addKey-7762434e5444732b5164-build.zip"
         },
         "verifyMeetingCode": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyMeetingCode-50644772366732325457-build.zip"
+          "s3Key": "amplify-builds/verifyMeetingCode-5133646f52676750365a-build.zip"
         },
         "gatewayverifyKey": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion34b25094-build.zip"
+          "s3Key": "amplify-builds/gatewayverifyKey-LambdaLayerVersion61051bfd-build.zip"
         },
         "verifyHoldAToken": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyHoldAToken-78594638462b7462374a-build.zip"
+          "s3Key": "amplify-builds/verifyHoldAToken-5a6e395765484a323541-build.zip"
         },
         "verifyContractInteraction": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyContractInteraction-637776614966496e6844-build.zip",
+          "s3Key": "amplify-builds/verifyContractInteraction-4a306b576a6f714b6a51-build.zip",
           "bitqueryKey": "BQYTFxjdFDvYNpjzU1echVkLgWLavvpK"
         },
         "verifyQuiz": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifyQuiz-59686a694d4334556844-build.zip"
+          "s3Key": "amplify-builds/verifyQuiz-30457752647543424778-build.zip"
         },
         "verifySnapshot": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySnapshot-734b703934724e625042-build.zip"
+          "s3Key": "amplify-builds/verifySnapshot-7958576973446b326f32-build.zip"
         },
         "verifySelfVerify": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/verifySelfVerify-32704a587156326b5236-build.zip"
+          "s3Key": "amplify-builds/verifySelfVerify-65652b61705a774c7970-build.zip"
         },
         "getCompletedKeys": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
@@ -85,25 +85,25 @@
         },
         "getGateHolders": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/getGateHolders-51523231733541423064-build.zip"
+          "s3Key": "amplify-builds/getGateHolders-6956316e7838525a7246-build.zip"
         },
         "ceramic": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/ceramic-32395642714f396f6f61-build.zip",
+          "s3Key": "amplify-builds/ceramic-3563563867712b722f36-build.zip",
           "secretsPathAmplifyAppId": "d1eyfltl5g67m"
         },
         "generateSignature": {
           "secretsPathAmplifyAppId": "d1eyfltl5g67m",
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/generateSignature-7769744c7130486e326c-build.zip"
+          "s3Key": "amplify-builds/generateSignature-51714c5931304d474359-build.zip"
         },
         "key": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/key-434c627856766a774d4a-build.zip"
+          "s3Key": "amplify-builds/key-72747730746138733054-build.zip"
         },
         "gatewayceramicLayer": {
           "deploymentBucketName": "amplify-gateway-dev-184152-deployment",
-          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersion34fc0f76-build.zip"
+          "s3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersion89ea3b1f-build.zip"
         }
       },
       "auth": {
