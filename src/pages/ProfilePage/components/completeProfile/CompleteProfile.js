@@ -8,378 +8,395 @@ import normalizeUrl from 'normalize-url';
 import './CompleteProfile.css';
 import Page from '../../../../components/Page';
 import { RawImageUpload } from '../../../../components/Form';
+import { FaTrashAlt } from 'react-icons/fa';
+import { useLazyQuery, gql } from '@apollo/client';
+import { getUserByUsername } from '../../../../graphql/queries';
 
 const platforms = [
-	'Select',
-	'Twitter',
-	'Telegram',
-	'Discord',
-	'Github',
-	'Email',
+    { label: 'Twitter', value: 'twitter' },
+    { label: 'Telegram', value: 'telegram' },
+    { label: 'Discord', value: 'discord' },
+    { label: 'Github', value: 'github' },
+    { label: 'Email', value: 'email' },
+    { label: 'Medium', value: 'medium' },
+    { label: 'Website', value: 'website' },
+    { label: 'Chat', value: 'chat' },
+    { label: 'Other', value: 'other' },
 ];
 
 const CompleteProfile = () => {
-	// Hooks
-	const { uploadFile } = useFileUpload();
-	const { userInfo, updateUserInfo } = useAuth();
-	const navigate = useNavigate();
+    // Hooks
+    const { uploadFile } = useFileUpload();
+    const { userInfo, updateUserInfo } = useAuth();
+    const navigate = useNavigate();
+    const [getUser, { data }] = useLazyQuery(gql(getUserByUsername));
 
-	// State
-	const [redirect, setRedirect] = useState(false);
-	const [isValidated, setIsValidated] = useState(false);
-	const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
-	const [file, setFile] = useState(null);
-	const [user, setUser] = useState({
-		displayName: userInfo?.name || '',
-		userName: userInfo?.username || '',
-		avatar: userInfo?.pfp || '',
-		userBio: userInfo?.bio || '',
-		socials:
-			userInfo?.socials?.map((social) => ({
-				platform_name: social.network,
-				placeholder: social.url,
-				platform_value: social.url,
-			})) || [],
-	});
+    // State
+    const [redirect, setRedirect] = useState(false);
+    const [isValidated, setIsValidated] = useState(false);
+    const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
+    const [file, setFile] = useState(null);
+    const [user, setUser] = useState({
+        displayName: userInfo?.name || '',
+        userName: userInfo?.username || '',
+        avatar: userInfo?.pfp || '',
+        userBio: userInfo?.bio || '',
+        socials:
+            userInfo?.socials?.map((social) => ({
+                platform_name: social.network,
+                placeholder: social.url,
+                platform_value: social.url,
+            })) || [],
+    });
+    const [errors, setErrors] = useState({});
 
-	const [isDisplayNameFilled, setIsDisplayNameFilled] = useState(false);
-	const [isUserNameFilled, setIsUserNameFilled] = useState(false);
-	const [isHeadLineFilled, setIsHeadLineFilled] = useState(false);
-	const [isSocialValueFilled, setIsSocialValueFilled] = useState([
-		false,
-		false,
-		false,
-		false,
-		false,
-	]);
+    const checkErrors = async () => {
+        let errors = {};
 
-	useEffect(() => {
-		handleFormFilled();
-	}, [user]);
+        if (user.displayName.length < 3)
+            errors.name = 'The display name is too short!';
+        else if (user.displayName.length > 30)
+            errors.name = 'The display name is too long!';
 
-	const handleFormFilled = () => {
-		if (user.displayName.length > 0) {
-			setIsDisplayNameFilled(true);
-		} else {
-			setIsDisplayNameFilled(false);
-		}
-		if (user.userName.length > 0) {
-			setIsUserNameFilled(true);
-		} else {
-			setIsUserNameFilled(false);
-		}
-		if (user.userBio.length > 0) {
-			setIsHeadLineFilled(true);
-		} else {
-			setIsHeadLineFilled(false);
-		}
+        if (user.userName.length < 3)
+            errors.userName = 'The username is too short!';
+        else if (user.userName.length > 15)
+            errors.userName = 'The username is too long!';
 
-		for (let i = 0; i < user.socials.length; i++) {
-			let flags = isSocialValueFilled;
-			if (user.socials[i].platform_value.length > 0) {
-				flags[i] = true;
-				setIsSocialValueFilled(flags);
-			} else {
-				flags[i] = false;
-				setIsSocialValueFilled(flags);
-			}
-		}
-	};
+        const { data } = await getUser({
+            variables: {
+                username: user.userName,
+            },
+        });
 
-	const handleInit = () => {
-		console.log('FilePond instance has initialised');
-	};
+        if (
+            user.userName !== userInfo?.username &&
+            data.getUserByUsername.items.length > 0
+        )
+            errors.userName = 'This username is already taken!';
 
-	const handleAddSocial = () => {
-		setUser((prevState) => {
-			return {
-				...prevState,
-				socials: [
-					...prevState.socials,
-					{
-						platform_name: '',
-						placeholder: '',
-						platform_value: '',
-					},
-				],
-			};
-		});
-	};
+        if (user.userBio.length < 3)
+            errors.userBio = 'The headline is too short!';
+        else if (user.userBio.length > 120)
+            errors.userBio = 'The headline is too long!';
 
-	const handleRemoveSocial = (social) => {
-		const filtered = user.socials.filter(
-			(previousTag, index) => index !== social
-		);
-		console.log('filtered', filtered);
-		setUser((prevState) => {
-			return {
-				...prevState,
-				socials: filtered,
-			};
-		});
-	};
+        for (let i = 0; i < user.socials.length; i++) {
+            if (user.socials[i].platform_value.length < 0) {
+                errors.socials[i] = 'The URL is too short!';
+            }
+        }
 
-	const handleSocialChange = (e, index) => {
-		const { name, value } = e.target;
-		const { socials } = user;
-		const list = [...socials];
-		list[index][name] = value;
-		setUser((prevState) => {
-			return {
-				...prevState,
-				socials: list,
-			};
-		});
-	};
+        return errors;
+    };
 
-	const handleChange = (event) => {
-		const { name, value } = event.target;
-		setUser((prev) => ({ ...prev, [name]: value }));
-	};
+    const handleAddSocial = () => {
+        setUser((prevState) => {
+            return {
+                ...prevState,
+                socials: [
+                    ...prevState.socials,
+                    {
+                        platform_name: '',
+                        placeholder: '',
+                        platform_value: '',
+                    },
+                ],
+            };
+        });
+    };
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		event.stopPropagation();
-		const form = event.currentTarget;
+    const handleRemoveSocial = (social) => {
+        const filtered = user.socials.filter(
+            (previousTag, index) => index !== social
+        );
+        console.log('filtered', filtered);
+        setUser((prevState) => {
+            return {
+                ...prevState,
+                socials: filtered,
+            };
+        });
+    };
 
-		if (form.checkValidity() !== false) {
-			console.log('submitted', user);
-			try {
-				// Upload files to S3
-				const avatarURL = await uploadFile(
-					`users/${userInfo.id}/profile.${file.name
-						.split('.')
-						.pop()}`,
-					file,
-					{ contentType: 'image/jpeg' }
-				);
+    const handleSocialChange = (e, index) => {
+        const { name, value } = e.target;
+        const { socials } = user;
+        const list = [...socials];
+        list[index][name] = value;
+        setUser((prevState) => {
+            return {
+                ...prevState,
+                socials: list,
+            };
+        });
+    };
 
-				await updateUserInfo({
-					name: user.displayName,
-					username: user.userName,
-					pfp: avatarURL,
-					bio: user.userBio,
-					socials: user.socials.map((social) => ({
-						network: social.platform_name,
-						url: normalizeUrl(social.platform_value, {
-							forceHttps: true,
-						}),
-					})),
-				});
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setUser((prev) => ({ ...prev, [name]: value }));
+    };
 
-				// redirect
-				setRedirect(true);
-			} catch (err) {
-				console.log(err);
-			}
-		}
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
 
-		setIsValidated(true);
-	};
+        const formErrors = await checkErrors();
+        if (Object.keys(formErrors).length) {
+            setErrors(formErrors);
+            setIsValidated(false);
+        } else {
+            setErrors({});
+            setIsValidated(true);
 
-	if (redirect) {
-		return <Navigate to='..' />;
-	}
+            try {
+                // Upload files to S3
+                const avatarURL = defaultPfp || await uploadFile(
+                    `users/${userInfo.id}/profile.${file.name
+                        .split('.')
+                        .pop()}`,
+                    file,
+                    { contentType: 'image/jpeg' }
+                );
 
-	return (
-		<Page space>
-			<div className='main-about-section'>
-				<Container>
-					<div className='back-link'>
-						<a>
-							<div
-								className='arrow-back'
-								onClick={() => navigate('..')}
-							>
-								<img src='/left-arrow-icon.svg' alt='' />
-							</div>
-						</a>
-						<span style={{ color: 'white', marginLeft: '20px' }}>
-							Back to Profile
-						</span>
-					</div>
-				</Container>
-				<div className='gt-about-section gt-complete-profile'>
-					<Container>
-						<h1>
-							{window.location.pathname !==
-								'/profile/edit-profile'
-								? 'Complete Profile'
-								: 'Edit Profile'}
-						</h1>
-						<Form
-							method='post'
-							className='completeprofile'
-							noValidate
-							validated={isValidated}
-							onSubmit={handleSubmit}
-						>
-							<div className='mb-3 row'>
-								<Form.Group
-									className='col'
-									controlId='displayName'
-								>
-									<Form.Label>Display name</Form.Label>
-									<Form.Control
-										className={`${isDisplayNameFilled
-												? 'change-background-to-fill'
-												: ''
-											}`}
-										required
-										name='displayName'
-										size='lg'
-										type='text'
-										placeholder=''
-										onChange={(e) => {
-											handleChange(e);
-										}}
-										value={user.displayName}
-									/>
-								</Form.Group>
-							</div>
-							<div className='mb-3 row'>
-								<Form.Group
-									className='col'
-									controlId='userName'
-								>
-									<Form.Label>Username</Form.Label>
-									<Form.Control
-										className={`${isUserNameFilled
-												? 'change-background-to-fill'
-												: ''
-											}`}
-										required
-										name='userName'
-										size='lg'
-										type='text'
-										placeholder='mygateway.xyz/username'
-										onChange={(e) => {
-											handleChange(e);
-										}}
-										value={user.userName}
-									/>
-								</Form.Group>
-							</div>
-							<div className='mb-3 row'>
-								<Form.Group
-									className='col'
-									controlId='userAvatar'
-								>
-									<Form.Label>AVATAR</Form.Label>
-									<RawImageUpload defaultImageURL={defaultPfp} setImage={setFile} />
-								</Form.Group>
-							</div>
-							<div className='mb-3 row'>
-								<Form.Group className='col' controlId='userBio'>
-									<Form.Label>Headline</Form.Label>
-									<Form.Control
-										className={`${isHeadLineFilled
-												? 'change-background-to-fill'
-												: ''
-											}`}
-										required
-										name='userBio'
-										value={user.userBio}
-										onChange={(e) => {
-											handleChange(e);
-										}}
-										rows={5}
-									/>
-								</Form.Group>
-							</div>
-							<Form.Group className='col' controlId='formBasic'>
-								<Form.Label>SOCIALS</Form.Label>
-								<div className='gway-socialurl-add'>
-									{user.socials.map((x, i) => {
-										return (
-											<div
-												className='gway-socialurl-row'
-												key={i}
-											>
-												<div className='gway-socialurl-col-left'>
-													<Form.Select
-														required
-														name='platform_name'
-														size='sm'
-														value={x.platform_name}
-														onChange={(e) =>
-															handleSocialChange(
-																e,
-																i
-															)
-														}
-													>
-														{platforms.length > 0 &&
-															platforms.map(
-																(item) => (
-																	<option
-																		key={
-																			item
-																		}
-																		value={
-																			item
-																		}
-																	>
-																		{item}
-																	</option>
-																)
-															)}
-													</Form.Select>
-												</div>
-												<div className='gway-socialurl-col-center'>
-													<Form.Control
-														className={`${isSocialValueFilled[
-																i
-															]
-																? 'change-background-to-fill'
-																: ''
-															}`}
-														required
-														name='platform_value'
-														size='lg'
-														type='text'
-														value={x.platform_value}
-														onChange={(e) =>
-															handleSocialChange(
-																e,
-																i
-															)
-														}
-														placeholder={
-															x.placeholder
-														}
-													/>
-												</div>
-												<div className='gway-socialurl-col-right'>
-													<a
-														onClick={() =>
-															handleRemoveSocial(
-																i
-															)
-														}
-													>
-														<img src='/completeprofile/trash.svg' />
-													</a>
-												</div>
-											</div>
-										);
-									})}
-									<div className='add-social-row'>
-										<a onClick={handleAddSocial}>
-											<img src='/completeprofile/plus-btn.svg' />
-										</a>
-									</div>
-								</div>
-							</Form.Group>
-							<Button variant='primary' type='submit'>
-								SAVE
-							</Button>
-						</Form>
-					</Container>
-				</div>
-			</div>
-		</Page>
-	);
+                await updateUserInfo({
+                    name: user.displayName,
+                    username: user.userName,
+                    pfp: avatarURL,
+                    bio: user.userBio,
+                    socials: user.socials.map((social) => ({
+                        network: social.platform_name,
+                        url: normalizeUrl(social.platform_value, {
+                            forceHttps: true,
+                        }),
+                    })),
+                });
+
+                // redirect
+                setRedirect(true);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    };
+
+    if (redirect) {
+        return <Navigate to='..' />;
+    }
+
+    return (
+        <Page space>
+            <div className='main-about-section'>
+                <Container>
+                    <div className='back-link'>
+                        <a>
+                            <div
+                                className='arrow-back'
+                                onClick={() => navigate('..')}
+                            >
+                                <img src='/left-arrow-icon.svg' alt='' />
+                            </div>
+                        </a>
+                        <span style={{ color: 'white', marginLeft: '20px' }}>
+                            Back to Profile
+                        </span>
+                    </div>
+                </Container>
+                <div className='gt-about-section gt-complete-profile'>
+                    <Container>
+                        <h1>
+                            {window.location.pathname !==
+                            '/profile/edit-profile'
+                                ? 'Complete Profile'
+                                : 'Edit Profile'}
+                        </h1>
+                        <Form
+                            method='post'
+                            className='completeprofile'
+                            noValidate
+                            validated={isValidated}
+                            onSubmit={handleSubmit}
+                        >
+                            <div className='mb-3 row'>
+                                <Form.Group
+                                    className='col'
+                                    controlId='displayName'
+                                >
+                                    <Form.Label>Display name</Form.Label>
+                                    <Form.Control
+                                        className={`${
+                                            user.displayName &&
+                                            'change-background-to-fill'
+                                        }`}
+                                        required
+                                        name='displayName'
+                                        size='lg'
+                                        type='text'
+                                        placeholder=''
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                        }}
+                                        value={user.displayName}
+                                        isInvalid={!!errors.name}
+                                    />
+                                    <Form.Control.Feedback type='invalid'>
+                                        {errors.name}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </div>
+                            <div className='mb-3 row'>
+                                <Form.Group
+                                    className='col'
+                                    controlId='userName'
+                                >
+                                    <Form.Label>Username</Form.Label>
+                                    <Form.Control
+                                        className={`${
+                                            user.userName &&
+                                            'change-background-to-fill'
+                                        }`}
+                                        required
+                                        name='userName'
+                                        size='lg'
+                                        type='text'
+                                        placeholder='mygateway.xyz/username'
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                        }}
+                                        value={user.userName}
+                                        isInvalid={!!errors.userName}
+                                    />
+                                    <Form.Control.Feedback type='invalid'>
+                                        {errors.userName}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </div>
+                            <div className='mb-3 row'>
+                                <Form.Group
+                                    className='col'
+                                    controlId='userAvatar'
+                                >
+                                    <Form.Label>AVATAR</Form.Label>
+                                    <RawImageUpload
+                                        defaultImageURL={defaultPfp}
+                                        setImage={setFile}
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className='mb-3 row'>
+                                <Form.Group className='col' controlId='userBio'>
+                                    <Form.Label>Headline</Form.Label>
+                                    <Form.Control
+                                        className={`${
+                                            user.userBio &&
+                                            'change-background-to-fill'
+                                        }`}
+                                        required
+                                        name='userBio'
+                                        value={user.userBio}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                        }}
+                                        rows={5}
+                                        isInvalid={!!errors.userBio}
+                                    />
+                                    <Form.Control.Feedback type='invalid'>
+                                        {errors.userBio}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </div>
+                            <Form.Group className='col' controlId='formBasic'>
+                                <Form.Label>SOCIALS</Form.Label>
+                                <div className='gway-socialurl-add'>
+                                    {user.socials.map((x, i) => {
+                                        return (
+                                            <div
+                                                className='gway-socialurl-row'
+                                                key={i}
+                                            >
+                                                <div className='gway-socialurl-col-left'>
+                                                    <Form.Select
+                                                        required
+                                                        name='platform_name'
+                                                        size='sm'
+                                                        value={x.platform_name}
+                                                        onChange={(e) =>
+                                                            handleSocialChange(
+                                                                e,
+                                                                i
+                                                            )
+                                                        }
+                                                    >
+                                                        {platforms.length > 0 &&
+                                                            platforms.map(
+                                                                (item) => (
+                                                                    <option
+                                                                        key={
+                                                                            item.value
+                                                                        }
+                                                                        value={
+                                                                            item.value
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            item.label
+                                                                        }
+                                                                    </option>
+                                                                )
+                                                            )}
+                                                    </Form.Select>
+                                                </div>
+                                                <div className='gway-socialurl-col-center'>
+                                                    <Form.Control
+                                                        className={`${
+                                                            user.socials[i] &&
+                                                            'change-background-to-fill'
+                                                        }`}
+                                                        required
+                                                        name='platform_value'
+                                                        size='lg'
+                                                        type='text'
+                                                        value={x.platform_value}
+                                                        onChange={(e) =>
+                                                            handleSocialChange(
+                                                                e,
+                                                                i
+                                                            )
+                                                        }
+                                                        placeholder={
+                                                            x.placeholder
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className='gway-socialurl-col-right'>
+                                                    <a
+                                                        onClick={() =>
+                                                            handleRemoveSocial(
+                                                                i
+                                                            )
+                                                        }
+                                                    >
+                                                        <FaTrashAlt color='white' />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                    <div className='add-social-row'>
+                                        <a onClick={handleAddSocial}>
+                                            <img src='/completeprofile/plus-btn.svg' />
+                                        </a>
+                                    </div>
+                                </div>
+                            </Form.Group>
+                            <Button variant='primary' type='submit'>
+                                SAVE
+                            </Button>
+                        </Form>
+                    </Container>
+                </div>
+            </div>
+        </Page>
+    );
 };
 
 export default CompleteProfile;
