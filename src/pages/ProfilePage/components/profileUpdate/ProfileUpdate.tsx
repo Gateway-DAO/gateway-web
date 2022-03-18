@@ -50,15 +50,14 @@ import Loader from '../../../../components/Loader';
 import Page from '../../../../components/Page';
 import {
     Container,
-    Button,
     Row,
     Col,
     ListGroup,
-    ProgressBar,
     Dropdown,
     Accordion,
 } from 'react-bootstrap';
 import { Navigate, NavLink as Link, useNavigate } from 'react-router-dom';
+import CredentialCard from './components/CredentialCard';
 
 // API
 import { useLazyQuery, gql } from '@apollo/client';
@@ -66,14 +65,16 @@ import { getUserByUsername } from '../../../../graphql/queries';
 
 // Utils
 import { shortenAddress } from '../../../../utils/web3';
+import parser from 'html-react-parser';
+import { getIPLocation } from '../../../../api/getIPLocation';
+
 
 // Types
 import { Social, User } from '../../../../graphql/API';
 import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
-import CredentialCard from './components/CredentialCard';
 import { MONTHS } from '../../../../utils/constants';
-import { getIPLocation } from '../../../../api/getIPLocation';
+
 /* Creating a variable called offset and setting it to the timezone offset of the current date. */
 let offset = new Date().getTimezoneOffset(),
     o = Math.abs(offset);
@@ -470,12 +471,9 @@ const ProfileUpdate = () => {
                                         )}
                                     </div>
                                     {userInfo.about ? (
-                                        <div
-                                            className='about-content'
-                                            dangerouslySetInnerHTML={{
-                                                __html: userInfo.about,
-                                            }}
-                                        />
+                                        <div className='about-content'>
+                                            {parser(userInfo.about)}
+                                        </div>
                                     ) : (
                                         <p>
                                             You can write about your years of

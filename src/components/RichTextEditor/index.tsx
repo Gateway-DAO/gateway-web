@@ -17,10 +17,11 @@ const TOOLBAR_OPTIONS = [
     ['image', 'emoji'],
 ];
 
-const RichEditor = ({ value, set, toolbar = {}, idx }) => {
+const RichEditor = ({ value, set, toolbar = {}, idx, className = '' }) => {
     return (
         <Styled.RichEditor
             filled={!!value.replace(/<(.|\n)*?>/g, '').trim().length}
+            className={className}
         >
             <ReactQuill
                 value={value}

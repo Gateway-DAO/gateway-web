@@ -327,6 +327,9 @@ section.gateway-profile {
     color: #fff;
     font-size: 20px;
 }
+.about-content strong {
+    font-weight: bold;
+}
 ul.daos-like-ul li a {
     font-style: normal;
     font-weight: normal;
