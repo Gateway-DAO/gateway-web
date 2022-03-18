@@ -33,6 +33,8 @@ const {
     createTaskStatus,
 } = require('./helpers');
 
+const { default: axios } = require('axios')
+
 const resolvers = {
     Mutation: {
         /**
