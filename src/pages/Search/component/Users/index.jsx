@@ -44,64 +44,32 @@ const UserTab = ({ query }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            filter: {
-                or: [
-                    { daos_ids: { wildcard: `*${query.toLowerCase()}*` } },
-                    { username: { wildcard: `*${query.toLowerCase()}*` } },
-                    { bio: { wildcard: `*${query.toLowerCase()}*` } },
-                    { id: { wildcard: `*${query.toLowerCase()}*` } },
-                    { name: { wildcard: `*${query.toLowerCase()}*` } },
-                ],
-            },
-        },
-    });
-
-    const {
-        data: lengthData,
-        loading: lengthDataLoading,
-        error: userLengthError,
-        called: userLengthCalled,
-    } = useUserLength({
-        variables: {
-            filter: {
-                or: [
-                    { daos_ids: { wildcard: `*${query}*` } },
-                    { username: { wildcard: `*${query}*` } },
-                    { bio: { wildcard: `*${query}*` } },
-                    { id: { wildcard: `*${query}*` } },
-                    { name: { wildcard: `*${query}*` } },
-                ],
-            },
+            ...(query?.length && {
+                filter: {
+                    or: [
+                        { daos_ids: { wildcard: `*${query.toLowerCase()}*` } },
+                        { username: { wildcard: `*${query.toLowerCase()}*` } },
+                        { bio: { wildcard: `*${query.toLowerCase()}*` } },
+                        { id: { wildcard: `*${query.toLowerCase()}*` } },
+                        { name: { wildcard: `*${query.toLowerCase()}*` } },
+                    ],
+                },
+            }),
         },
     });
 
     useEffect(() => {
-        if (query.toLowerCase() === 'all') {
-            setHits(!listLoading ? listData.searchUsers.items : []);
-            setPageCount(
-                Math.ceil(listData?.searchUsers.total / resultPerPage)
-            );
-        } else {
-            setHits(!searchLoading ? searchData.searchUsers.items : []);
-            console.log('fdsfdfds');
-
-            console.log(lengthData);
-            setPageCount(
-                Math.ceil(lengthData?.searchUsers.items.length / resultPerPage)
-            );
-        }
-    }, [query, searchLoading, listLoading, pageNumber, lengthDataLoading]);
-
-    const searchOrListLoading =
-        query.toLowerCase() === 'all' ? listLoading : searchLoading;
-    const searchOrListCalled =
-        query.toLowerCase() === 'all' ? listCalled : searchCalled;
+        setHits(!searchLoading ? searchData.searchUsers.items : []);
+        setPageCount(
+            Math.ceil(searchData?.searchUsers.total / resultPerPage)
+        );
+    }, [query, searchLoading, listLoading, pageNumber]);
 
     if (searchError || listError) {
         return <Navigate to='/404' />;
     }
 
-    if (searchOrListLoading) {
+    if (searchLoading) {
         return (
             <SearchStyled.LoaderBox>
                 <Loader color='white' size={35} />
@@ -109,7 +77,7 @@ const UserTab = ({ query }) => {
         );
     }
 
-    if (!hits.length && !searchOrListLoading && searchOrListCalled) {
+    if (!hits.length && !searchLoading && searchCalled) {
         return (
             <SearchStyled.TextBox>
                 <SearchStyled.MainText>

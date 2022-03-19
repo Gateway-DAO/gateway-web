@@ -32,7 +32,7 @@ const DAOTab = ({ filterQuery }) => {
             from: from,
             ...(Object.keys(filterQuery).length
                 ? { filter: filterQuery }
-                : query.length
+                : query?.length
                 ? {
                       filter: {
                           or: [
