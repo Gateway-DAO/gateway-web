@@ -21,6 +21,7 @@ import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import getIPLocation, { getIP } from '../api/getIPLocation';
+import { usernameGenerator } from '../utils/functions';
 // import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
@@ -122,7 +123,7 @@ export const UserProvider = ({ children }) => {
 
     /**
      * Activates Metamask/injected wallet provider.
-     * @returns None
+     * @returns boolean
      */
     const activateWeb3 = async () => {
         try {
@@ -148,11 +149,21 @@ export const UserProvider = ({ children }) => {
                 cacheProvider: true,
             });
 
-            await web3.activate(connector);
+            await web3.activate(connector, error => {
+                throw error;
+            }, true);
 
             setLoadingWallet(false);
+            localStorage.setItem('gateway-wallet', '1');
+
+            return true;
         } catch (err) {
             console.log(`Error connecting to wallet: ${err}`);
+
+            setLoadingWallet(false);
+            localStorage.setItem('gateway-wallet', '0');
+
+            return false;
         }
     };
 
@@ -182,6 +193,7 @@ export const UserProvider = ({ children }) => {
     const userSignOut = async () => {
         await Auth.signOut();
         await web3.deactivate();
+        localStorage.setItem('gateway-wallet', '0');
         setLoggedIn(false);
         setLoggingIn(false);
         setUserInfo(null);
@@ -228,7 +240,7 @@ export const UserProvider = ({ children }) => {
                     input: {
                         id: id,
                         wallet: web3.account,
-                        username: web3.account,
+                        username: usernameGenerator(),
                         name: shortenAddress(web3.account),
                         init: false,
                         nonce: Math.round(Math.random() * 1000000),
@@ -348,7 +360,9 @@ export const UserProvider = ({ children }) => {
         setLoggingIn(false);
     }, [web3.account, web3.active]);
 
-    useEffect(() => !web3.active && activateWeb3(), []);
+    useEffect(() => {
+        JSON.parse(localStorage.getItem('gateway-wallet')) && activateWeb3();
+    }, []);
 
     /**
      * When the user signs in, get the user's information from the database and set it in the state.

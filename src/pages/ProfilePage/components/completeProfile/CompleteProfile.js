@@ -7,10 +7,11 @@ import useFileUpload from '../../../../api/useFileUpload';
 import normalizeUrl from 'normalize-url';
 import './CompleteProfile.css';
 import Page from '../../../../components/Page';
-import { RawImageUpload } from '../../../../components/Form';
+import { FormStyled, RawImageUpload } from '../../../../components/Form';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useLazyQuery, gql } from '@apollo/client';
 import { getUserByUsername } from '../../../../graphql/queries';
+import { usernameGenerator } from '../../../../utils/functions';
 
 const platforms = [
     { label: 'Twitter', value: 'twitter' },
@@ -42,11 +43,15 @@ const CompleteProfile = () => {
         avatar: userInfo?.pfp || '',
         userBio: userInfo?.bio || '',
         socials:
-            userInfo?.socials?.map((social) => ({
+            userInfo?.socials?.length > 0 ? userInfo.socials.map((social) => ({
                 platform_name: social.network,
                 placeholder: social.url,
                 platform_value: social.url,
-            })) || [],
+            })) : [{
+                platform_name: 'other',
+                placeholder: 'mygateway.xyz/profile',
+                platform_value: null,
+            }],
     });
     const [errors, setErrors] = useState({});
 
@@ -55,12 +60,12 @@ const CompleteProfile = () => {
 
         if (user.displayName.length < 3)
             errors.name = 'The display name is too short!';
-        else if (user.displayName.length > 30)
+        else if (user.displayName.length > 50)
             errors.name = 'The display name is too long!';
 
         if (user.userName.length < 3)
             errors.userName = 'The username is too short!';
-        else if (user.userName.length > 15)
+        else if (user.userName.length > 50)
             errors.userName = 'The username is too long!';
 
         const { data } = await getUser({
@@ -169,6 +174,7 @@ const CompleteProfile = () => {
                             forceHttps: true,
                         }),
                     })),
+                    init: true
                 });
 
                 // redirect
@@ -210,7 +216,6 @@ const CompleteProfile = () => {
                                 : 'Edit Profile'}
                         </h1>
                         <Form
-                            method='post'
                             className='completeprofile'
                             noValidate
                             validated={isValidated}
@@ -268,6 +273,11 @@ const CompleteProfile = () => {
                                     <Form.Control.Feedback type='invalid'>
                                         {errors.userName}
                                     </Form.Control.Feedback>
+
+                                    <FormStyled.Button type='button' onClick={() => setUser(prev => ({
+                                        ...prev,
+                                        userName: usernameGenerator()
+                                    }))}>Generate Username</FormStyled.Button>
                                 </Form.Group>
                             </div>
                             <div className='mb-3 row'>

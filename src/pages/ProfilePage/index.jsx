@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import ProfileUpdate from './components/profileUpdate/ProfileUpdate';
 import AddAbout from './components/addAbout/AddAbout';
 import AddExperiences from './components/addExperiences/AddExperiences';

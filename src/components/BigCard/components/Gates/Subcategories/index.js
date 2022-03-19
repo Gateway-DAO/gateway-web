@@ -9,8 +9,6 @@ const Subcategories = ({
     viewAsMember,
 }) => {
     const { isAdmin } = useAdmin(whitelisted);
-    console.log(whitelisted);
-    console.log(isAdmin);
 
     const navigate = useNavigate();
     const addGate = () => {

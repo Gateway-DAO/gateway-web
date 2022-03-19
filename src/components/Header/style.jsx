@@ -112,7 +112,6 @@ export const GroupLink = styled.div`
 
 export const SearchInputBox = styled.div`
     padding-left: 30px;
-    background: #170627;
     justify-content: space-between;
     align-items: center;
     display: flex;
@@ -133,7 +132,7 @@ export const SearchInputBox = styled.div`
 
 export const SearchInput = styled.input`
     border: none;
-    background: #170627;
+    background-color: transparent;
     color: #ffffff;
     outline: none;
     flex: 1;

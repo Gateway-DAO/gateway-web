@@ -28,7 +28,7 @@ const GateCard = ({ gate, viewAsMember }) => {
 
     // Hooks
     // const { !viewAsMember } = useAdmin(gate.admins || []);
-    const { userInfo } = useAuth();
+    const { userInfo, activateWeb3 } = useAuth();
     const { isAdmin } = useGateAdmin(gate.admins);
     const navigate = useNavigate();
     const [update] = useMutation(gql(updateGate));
@@ -118,11 +118,17 @@ const GateCard = ({ gate, viewAsMember }) => {
         }
     };
 
+    const goToGate = async () => {
+        let activated = false;
+        if (!userInfo?.walletConnected) activated = await activateWeb3();
+        activated && navigate(`/gate/${gate.id}`);
+    }
+
     return (
         <Styled.GateCardBox>
             <Styled.GateBanner
                 src={`https://ipfs.io/ipfs/${gate.badge.ipfsURL}`}
-                onClick={() => navigate(`/gate/${gate.id}`)}
+                onClick={goToGate}
             >
                 {false && (
                     <Styled.EditContainer>
@@ -149,7 +155,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                     </Styled.Category>
                 ))}
             </Styled.CategoryList>
-            <Styled.CardBody onClick={() => navigate(`/gate/${gate.id}`)}>
+            <Styled.CardBody onClick={goToGate}>
                 <Styled.CardTitle>{gate.name}</Styled.CardTitle>
                 <Styled.CardDesc>
                     {gate.description.length > numberOfWords
@@ -159,7 +165,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                         : gate.description}
                 </Styled.CardDesc>
             </Styled.CardBody>
-            <Styled.InfoContainer onClick={() => navigate(`/gate/${gate.id}`)}>
+            <Styled.InfoContainer onClick={goToGate}>
                 <Styled.InfoBox>
                     <Styled.MediumHeading>NFT Badge</Styled.MediumHeading>
                     <Styled.GuildName>
@@ -219,7 +225,7 @@ const GateCard = ({ gate, viewAsMember }) => {
             </Styled.InfoContainer>
             <Styled.ActivityBox>
                 <Styled.ActionButton
-                    onClick={() => navigate(`/gate/${gate.id}`)}
+                    onClick={goToGate}
                 >
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>

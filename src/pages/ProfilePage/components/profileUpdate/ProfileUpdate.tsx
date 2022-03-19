@@ -10,9 +10,7 @@ import { useAuth } from '../../../../contexts/UserContext';
 
 // Components
 import {
-    FaCopy,
     FaDiscord,
-    FaEdit,
     FaGithubAlt,
     FaPlus,
     FaShareAlt,
@@ -20,6 +18,7 @@ import {
     FaTwitter,
     FaMapMarkerAlt,
 } from 'react-icons/fa';
+import { MdEdit } from 'react-icons/md';
 import { BiCopy } from 'react-icons/bi';
 import {
     WiDaySunny,
@@ -401,7 +400,7 @@ const ProfileUpdate = () => {
                                                         )
                                                     )}
                                             </div>
-                                            {userInfo.bio === '' && canEdit ? (
+                                            {!userInfo.init && canEdit ? (
                                                 <Link
                                                     to='complete-profile'
                                                     state={{
@@ -430,14 +429,14 @@ const ProfileUpdate = () => {
                                                 >
                                                     <BiCopy color='white' />
                                                 </a>
-                                                {userInfo.bio !== '' &&
+                                                {userInfo.init &&
                                                 canEdit ? (
                                                     <Dropdown>
                                                         <Dropdown.Toggle
                                                             variant='success'
                                                             id='dropdown-basic'
                                                         >
-                                                            <FaEdit color='white' />
+                                                            <MdEdit color='white' />
                                                         </Dropdown.Toggle>
 
                                                         <Dropdown.Menu>
@@ -464,7 +463,7 @@ const ProfileUpdate = () => {
                                         <h2>About</h2>
                                         {userInfo.about && canEdit ? (
                                             <Link to='add-about'>
-                                                <FaEdit color='white' />
+                                                <MdEdit color='white' />
                                             </Link>
                                         ) : (
                                             ''
@@ -544,7 +543,7 @@ const ProfileUpdate = () => {
                                                             </h3>
                                                             {/* canEdit && (
                                                             <Link to='/'>
-                                                                <FaEdit color='white' />
+                                                                <MdEdit color='white' />
                                                             </Link>
 														) */}
                                                         </div>
@@ -712,7 +711,7 @@ const ProfileUpdate = () => {
                                     <h3>Skills</h3>
                                     {canEdit && (
                                         <Link to='add-skills'>
-                                            <FaPlus color='white' />
+                                            {userInfo.skills?.length > 0 ? <MdEdit color='white' /> : <FaPlus color='white' />}
                                         </Link>
                                     )}
                                 </div>
@@ -741,7 +740,7 @@ const ProfileUpdate = () => {
                                     <h3>Knowledge</h3>
                                     {canEdit && (
                                         <Link to='add-knowledge'>
-                                            <FaPlus color='white' />
+                                            {userInfo.knowledges?.length > 0 ? <MdEdit color='white' /> : <FaPlus color='white' />}
                                         </Link>
                                     )}
                                 </div>
@@ -770,7 +769,7 @@ const ProfileUpdate = () => {
                                     <h3>Attitudes</h3>
                                     {canEdit && (
                                         <Link to='add-attitude'>
-                                            <FaPlus color='white' />
+                                            {userInfo.attitudes?.length > 0 ? <MdEdit color='white' /> : <FaPlus color='white' />}
                                         </Link>
                                     )}
                                 </div>
@@ -799,7 +798,7 @@ const ProfileUpdate = () => {
                                     <h3>Languages</h3>
                                     {canEdit && (
                                         <Link to='add-language'>
-                                            <FaPlus color='white' />
+                                            {userInfo.languages?.length > 0 ? <MdEdit color='white' /> : <FaPlus color='white' />}
                                         </Link>
                                     )}
                                 </div>
