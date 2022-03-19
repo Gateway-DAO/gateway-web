@@ -1,8 +1,24 @@
+import React, { useState, useRef, useEffect } from 'react';
+
+// Styling
 import * as FormStyled from '../../style';
 import * as Styled from './style';
-import { useState, useRef, useEffect } from 'react';
 
-export const RawImageUpload = ({ defaultImage, defaultImageURL, setImage: sendImage }) => {
+/* A type definition for the props of the component. */
+interface IProps {
+    defaultImage?: File;
+    defaultImageURL?: string;
+    setImage(File): void;
+}
+
+/* Extending the interface IProps with two new properties. */
+interface IPropsIU extends IProps {
+    htmlFor: string;
+    label: string;
+}
+
+/* It's a component that renders the image uploader. */
+export const RawImageUpload: React.FC<IProps> = ({ defaultImage, defaultImageURL, setImage: sendImage }) => {
     const [image, setImage] = useState(defaultImage || null);
     const [imageURL, setImageURL] = useState(defaultImageURL || null);
     const [over, setOver] = useState(null);
@@ -81,7 +97,12 @@ export const RawImageUpload = ({ defaultImage, defaultImageURL, setImage: sendIm
     );
 };
 
-export const ImageUpload = ({ defaultImage = null, defaultImageURL = null, setImage, htmlFor, label }) => {
+/**
+ * It creates a form field with a label and an image uploader.
+ * @param  - defaultImage: The default image to be displayed.
+ * @returns A form fieldset with a label and an image uploader.
+ */
+export const ImageUpload: React.FC<IPropsIU> = ({ defaultImage = null, defaultImageURL = null, setImage, htmlFor, label }) => {
     return (
         <FormStyled.Fieldset>
             <FormStyled.Label htmlFor={htmlFor}>

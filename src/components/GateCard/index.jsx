@@ -121,8 +121,11 @@ const GateCard = ({ gate, viewAsMember }) => {
     const goToGate = async () => {
         let activated = false;
         if (!userInfo?.walletConnected) activated = await activateWeb3();
-        activated && navigate(`/gate/${gate.id}`);
-    }
+        if (activated) {
+            if (userInfo?.init) navigate(`/gate/${gate.id}`);
+            else navigate(`/profile/complete-profile?to=/gate/${gate.id}`);
+        }
+    };
 
     return (
         <Styled.GateCardBox>
@@ -224,12 +227,10 @@ const GateCard = ({ gate, viewAsMember }) => {
                 {/* </Styled.InfoBox> */}
             </Styled.InfoContainer>
             <Styled.ActivityBox>
-                <Styled.ActionButton
-                    onClick={goToGate}
-                >
+                <Styled.ActionButton onClick={goToGate}>
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                {(isAdmin && !viewAsMember) && (
+                {isAdmin && !viewAsMember && (
                     <Styled.PublishContainer>
                         <Styled.PublishText>PUBLISH</Styled.PublishText>
                         <Switch

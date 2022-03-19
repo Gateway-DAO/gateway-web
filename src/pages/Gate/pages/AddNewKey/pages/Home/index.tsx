@@ -178,8 +178,7 @@ const AddNewKey = () => {
                                     ['emoji'],
                                 ]}
                                 value={pair.description}
-                                set={updateDescription}
-                                idx={idx}
+                                set={(e) => updateDescription(e, idx)}
                             />
                         </FormStyled.Fieldset>
 

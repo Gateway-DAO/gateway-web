@@ -27,8 +27,8 @@ import KeyCompletedPage from './Gate/pages/KeyCompleted';
 import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz';
 
 // Profile
-import {
-    ProfileUpdate,
+import Profile, {
+    Home as ProfileUpdate,
     AddAbout,
     AddExperiences,
     AddLanguage,
@@ -152,7 +152,7 @@ const App: React.FC = () => {
                         <Route path='/search/:query' element={<Search />} />
 
                         {/* User Profile */}
-                        <Route path='/profile'>
+                        <Route path='/profile' element={<Profile />}>
                             <Route path='' element={<ProfileUpdate />} />
 
                             <Route path='add-about' element={<AddAbout />} />

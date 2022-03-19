@@ -205,7 +205,7 @@ export const UserProvider = ({ children }) => {
      * @returns None
      */
     const updateUserInfo = async (info) => {
-        const user = await updateUser({
+        await updateUser({
             variables: {
                 input: { ...info, id: userInfo?.id || info?.id },
             },
