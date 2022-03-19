@@ -32,7 +32,7 @@ const Header = (props) => {
                     <Styled.SearchInputBox>
                         <Styled.SearchInput
                             type='text'
-                            placeholder='Search DAO'
+                            placeholder='Search'
                             value={query || ""}
                             onChange={(e) => setQuery(e.target.value)}
                             onKeyPress={search}
