@@ -170,78 +170,84 @@ const Credentials = () => {
 								</div>
 							</Col>
 							<Col sm={12} className='credetials-skill-knowledge-attitude'>
-								<div className='gway-skill-col skill-second-sec'>
-									<div className='gway-skill-col-hd'>
-										<h3>Skills</h3>
-									</div>
-									<ListGroup as='ul'>
-										{!!userInfo.skills &&
-											userInfo.skills.length > 0 ? (
-											userInfo.skills.length > 0 &&
-											userInfo.skills.map((item) => (
-												<ListGroup.Item as='li' key={item}>
+								<Col sm={4}>
+									<div className='gway-skill-col skill-second-sec'>
+										<div className='gway-skill-col-hd'>
+											<h3>Skills</h3>
+										</div>
+										<ListGroup as='ul'>
+											{!!userInfo.skills &&
+												userInfo.skills.length > 0 ? (
+												userInfo.skills.length > 0 &&
+												userInfo.skills.map((item) => (
+													<ListGroup.Item as='li' key={item}>
+														<a className='gway-btn'>
+															{item}
+														</a>
+													</ListGroup.Item>
+												))
+											) : (
+												<ListGroup.Item as='li'>
 													<a className='gway-btn'>
-														{item}
+														No skills found
 													</a>
 												</ListGroup.Item>
-											))
-										) : (
-											<ListGroup.Item as='li'>
-												<a className='gway-btn'>
-													No skills found
-												</a>
-											</ListGroup.Item>
-										)}
-									</ListGroup>
-								</div>
-								<div className='gway-skill-col skill-second-sec gway-skill-col-inner'>
-									<div className='gway-skill-col-hd'>
-										<h3>Knowledge</h3>
+											)}
+										</ListGroup>
 									</div>
-									<ListGroup as='ul'>
-										{!!userInfo.knowledges &&
-											userInfo.knowledges.length > 0 ? (
-											userInfo.knowledges.length > 0 &&
-											userInfo.knowledges.map((item) => (
-												<ListGroup.Item as='li' key={item}>
+								</Col>
+								<Col sm={4}>
+									<div className='gway-skill-col skill-second-sec gway-skill-col-inner'>
+										<div className='gway-skill-col-hd'>
+											<h3>Knowledge</h3>
+										</div>
+										<ListGroup as='ul'>
+											{!!userInfo.knowledges &&
+												userInfo.knowledges.length > 0 ? (
+												userInfo.knowledges.length > 0 &&
+												userInfo.knowledges.map((item) => (
+													<ListGroup.Item as='li' key={item}>
+														<a className='gway-btn'>
+															{item}
+														</a>
+													</ListGroup.Item>
+												))
+											) : (
+												<ListGroup.Item as='li'>
 													<a className='gway-btn'>
-														{item}
+														No knowledge found
 													</a>
 												</ListGroup.Item>
-											))
-										) : (
-											<ListGroup.Item as='li'>
-												<a className='gway-btn'>
-													No knowledge found
-												</a>
-											</ListGroup.Item>
-										)}
-									</ListGroup>
-								</div>
-								<div className='gway-skill-col skill-second-sec gway-skill-col-inner gway-attitudes-col-inner'>
-									<div className='gway-skill-col-hd'>
-										<h3>Attitudes</h3>
+											)}
+										</ListGroup>
 									</div>
-									<ListGroup as='ul'>
-										{!!userInfo.attitudes &&
-											userInfo.attitudes.length > 0 ? (
-											userInfo.attitudes.length > 0 &&
-											userInfo.attitudes.map((item) => (
-												<ListGroup.Item as='li' key={item}>
+								</Col>
+								<Col sm={4}>
+									<div className='gway-skill-col skill-second-sec gway-skill-col-inner gway-attitudes-col-inner'>
+										<div className='gway-skill-col-hd'>
+											<h3>Attitudes</h3>
+										</div>
+										<ListGroup as='ul'>
+											{!!userInfo.attitudes &&
+												userInfo.attitudes.length > 0 ? (
+												userInfo.attitudes.length > 0 &&
+												userInfo.attitudes.map((item) => (
+													<ListGroup.Item as='li' key={item}>
+														<a className='gway-btn'>
+															{item}
+														</a>
+													</ListGroup.Item>
+												))
+											) : (
+												<ListGroup.Item as='li'>
 													<a className='gway-btn'>
-														{item}
+														No attitudes found
 													</a>
 												</ListGroup.Item>
-											))
-										) : (
-											<ListGroup.Item as='li'>
-												<a className='gway-btn'>
-													No attitudes found
-												</a>
-											</ListGroup.Item>
-										)}
-									</ListGroup>
-								</div>
+											)}
+										</ListGroup>
+									</div>
+								</Col>
 								{/* <div className='gway-skill-col gway-languages-col-inner'>
 									<div className='gway-skill-col-hd'>
 										<h3>Languages</h3>
