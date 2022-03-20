@@ -181,14 +181,13 @@ const CompleteProfile: React.FC = () => {
             try {
                 // Upload files to S3
                 const avatarURL =
-                    defaultPfp ||
-                    (await uploadFile(
+                    file ? (await uploadFile(
                         `users/${userInfo.id}/profile.${file.name
                             .split('.')
                             .pop()}`,
                         file,
-                        { contentType: 'image/jpeg' }
-                    ));
+                        { contentType: `image` }
+                    )) : defaultPfp;
 
                 await updateUserInfo({
                     name: user.displayName,

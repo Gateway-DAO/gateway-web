@@ -51,6 +51,9 @@ import {
 import { NavLink as Link, useOutletContext } from 'react-router-dom';
 import CredentialCard from './components/CredentialCard';
 
+// Hooks
+import { useMeasure } from 'react-use';
+
 // Utils
 import { shortenAddress } from '../../../../utils/web3';
 import parser from 'html-react-parser';
@@ -69,6 +72,10 @@ const ProfileUpdate = () => {
     const { userInfo, currentLocation, canEdit }: Record<string, any> = useOutletContext();
     const [currentTime, setCurrentTime] = useState(new Date());
     const [weatherData, setWeatherData] = useState([]);
+
+    // Hooks
+    const [ref, { height: heightPfp }] = useMeasure();
+    const height = heightPfp > 40 ? heightPfp : 262;
 
     const tick = () => setCurrentTime(new Date());
 
@@ -235,13 +242,13 @@ const ProfileUpdate = () => {
             <Container>
                 <Row>
                     <Col md={2}>
-                        <div className='gateway-profile-left'>
+                        <div className='gateway-profile-left' ref={ref}>
                             <img src={userInfo.pfp} />
                         </div>
                     </Col>
                     <Col md={7}>
                         {/* Gateway Profile - Header */}
-                        <div className='gateway-profile-middle'>
+                        <div className='gateway-profile-middle' style={{ height }}>
                             <Row>
                                 <Col md={8}>
                                     <div className='gateway-profile-middle-inner-content'>
@@ -510,7 +517,7 @@ const ProfileUpdate = () => {
                     </Col>
 
                     <Col md={3}>
-                        <div className='gateway-profile-right'>
+                        <div className='gateway-profile-right' style={{ height }}>
                             <div className='gateway-profile-right-top'>
                                 <p>Time Zone</p>
                                 <a href='#'>
