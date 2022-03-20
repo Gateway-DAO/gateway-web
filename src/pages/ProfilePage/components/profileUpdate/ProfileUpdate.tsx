@@ -258,6 +258,7 @@ const ProfileUpdate = () => {
                                                     <a
                                                         href={item.url}
                                                         key={item.network}
+                                                        target='_blank'
                                                     >
                                                         {getSocialIcon(item)}
                                                     </a>

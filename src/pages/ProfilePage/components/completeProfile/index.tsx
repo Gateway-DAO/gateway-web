@@ -90,6 +90,8 @@ const CompleteProfile: React.FC = () => {
             errors.userName = 'The username is too short!';
         else if (user.userName.length > 50)
             errors.userName = 'The username is too long!';
+        else if (!/^[a-z0-9_\.]+$/.test(user.userName))
+            errors.userName = 'The username is in the wrong format!';
 
         const { data } = await getUser({
             variables: {
@@ -190,7 +192,7 @@ const CompleteProfile: React.FC = () => {
 
                 await updateUserInfo({
                     name: user.displayName,
-                    username: user.userName,
+                    username: user.userName.toLowerCase(),
                     pfp: avatarURL,
                     bio: user.userBio,
                     socials: user.socials.map((social) => ({
