@@ -28,8 +28,22 @@ const AddAttitude = () => {
 
 	// Hooks
 	const navigate = useNavigate();
-
 	const [redirect, setRedirect] = useState(false);
+	const [selectedAttitude, setSelectedAttitude] = useState(
+		userInfo?.attitudes?.map(attitude => ({
+			label: attitude,
+			value: attitude
+		})) || []
+	);
+
+	const removeAttitude = useCallback(
+		(val) => () => {
+			setSelectedAttitude((previousTags) =>
+				previousTags.filter((previousTag, index) => previousTag.value !== val.value)
+			);
+		},
+		[]
+	);
 
 	/* This is a callback function that will be called when the user clicks on the remove button. */
 	const handleChange = useCallback((selectedAttitude) => {

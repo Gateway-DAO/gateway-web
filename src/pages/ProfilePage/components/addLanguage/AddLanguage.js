@@ -34,7 +34,6 @@ const AddLanguage = () => {
 
 	// Hooks
 	const navigate = useNavigate();
-
 	const [redirect, setRedirect] = useState(false);
 	const [selectedLanguage, setSelectedLanguage] = useState(
 		userInfo?.languages?.map(lang => ({
@@ -73,7 +72,6 @@ const AddLanguage = () => {
 		console.log('submitted');
 		event.preventDefault();
 		event.stopPropagation();
-
 		let objLanguages = selectedLanguage.map(lang => lang.value);
 
 		// API should be call here
@@ -154,7 +152,7 @@ const AddLanguage = () => {
 									<div className='selected-options'>
 										{selectedLanguage.length > 0 &&
 											selectedLanguage.map((item) => (
-												<p key={item}>
+												<p key={item.value}>
 													{item.label}
 													<span
 														onClick={removeLanguage(
