@@ -33,7 +33,7 @@ const CredentialCard: React.FC<IProps> = ({ credential }: IProps) => (
             </div>
             <div className='content-box'>
                 <div className='nft-heading'>
-                    <span>NFT Badge</span>
+                    <span>Badge</span>
                     <h4>{credential.name}</h4>
                 </div>
                 <div className='date'>

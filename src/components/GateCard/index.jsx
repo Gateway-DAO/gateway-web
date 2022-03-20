@@ -140,7 +140,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                 )}
 
                 {/* <Styled.NFTBadgeContainer>
-                    <Styled.SimpleText>NFT Badge</Styled.SimpleText>
+                    <Styled.SimpleText>Badge</Styled.SimpleText>
                     <Styled.GuildName>{gate.badge.name}</Styled.GuildName>
                 </Styled.NFTBadgeContainer> */}
                 {/*
@@ -170,7 +170,7 @@ const GateCard = ({ gate, viewAsMember }) => {
             </Styled.CardBody>
             <Styled.InfoContainer onClick={goToGate}>
                 <Styled.InfoBox>
-                    <Styled.MediumHeading>NFT Badge</Styled.MediumHeading>
+                    <Styled.MediumHeading>Badge</Styled.MediumHeading>
                     <Styled.GuildName>
                         {gate.badge.name.slice(0, 16) +
                             (gate.badge.name.length > 16 ? '...' : '')}
@@ -230,7 +230,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                 <Styled.ActionButton onClick={goToGate}>
                     <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                 </Styled.ActionButton>
-                {isAdmin && !viewAsMember && (
+                {/*isAdmin && !viewAsMember && (
                     <Styled.PublishContainer>
                         <Styled.PublishText>PUBLISH</Styled.PublishText>
                         <Switch
@@ -250,7 +250,7 @@ const GateCard = ({ gate, viewAsMember }) => {
                             id='material-switch'
                         />
                     </Styled.PublishContainer>
-                )}
+                )*/}
             </Styled.ActivityBox>
         </Styled.GateCardBox>
     );

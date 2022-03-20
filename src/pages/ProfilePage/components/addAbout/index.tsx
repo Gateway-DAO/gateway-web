@@ -92,12 +92,7 @@ const AddAbout: React.FC = () => {
                                         value={about}
                                         set={setAbout}
                                         toolbar={[
-                                            [
-                                                { list: 'ordered' },
-                                                { list: 'bullet' },
-                                            ],
                                             ['bold', 'italic', 'underline'],
-                                            [{ color: [] }],
                                             ['emoji'],
                                         ]}
                                     />

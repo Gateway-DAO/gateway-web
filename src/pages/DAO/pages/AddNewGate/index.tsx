@@ -598,7 +598,7 @@ const AddGateForm = () => {
 
                             <FormStyled.Fieldset>
                                 <FormStyled.Label>
-                                    Type of NFT*
+                                    Type of Badge*
                                 </FormStyled.Label>
                                 <FormStyled.GridBox
                                     cols={2}
@@ -815,14 +815,14 @@ const AddGateForm = () => {
                                         {edit ? (
                                             <ImageUpload
                                                 htmlFor='ProfileImage'
-                                                label='Upload Badge or NFT*'
+                                                label='Upload Badge Image*'
                                                 setImage={setUploadFile}
                                                 defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
                                             />
                                         ) : (
                                             <ImageUpload
                                                 htmlFor='ProfileImage'
-                                                label='Upload Badge or NFT*'
+                                                label='Upload Badge Image*'
                                                 setImage={setUploadFile}
                                             />
                                         )}
@@ -838,7 +838,7 @@ const AddGateForm = () => {
 
                                     <FormStyled.Fieldset>
                                         <FormStyled.Label htmlFor='title'>
-                                            BADGE/NFT Name*
+                                            Badge Name*
                                         </FormStyled.Label>
                                         <FormStyled.Input
                                             onChange={(e) => {
