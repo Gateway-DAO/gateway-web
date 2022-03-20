@@ -41,28 +41,7 @@ export const EditContainer = styled.div`
     font-size: 20px;
     display: flex;
     position: relative;
-    &[data-title]:hover:after {
-        content: attr(data-title);
-        position: absolute;
-        padding: 2px 6px;
-        width: 40px;
-        height: 20px;
-        top: 46px;
-
-        font-family: Be Vietnam;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 10px;
-        // line-height: px;
-
-        display: flex;
-        align-items: center;
-
-        background: #220a38;
-        border: 1px solid #7e3bdc;
-        color: rgba(255, 255, 255, 0.6);
-        border-radius: 10px;
-    }
+    cursor: pointer;
 `;
 
 export const DaoTagContainer = styled.div`

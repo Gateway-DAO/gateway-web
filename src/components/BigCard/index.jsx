@@ -301,7 +301,7 @@ const NewCard = (props) => {
                             </Styled.DaoTagContainer>
                             <Styled.Title>
                                 {props?.name}{' '}
-                                <Styled.EditContainer data-title='Edit Dao'>
+                                <Styled.EditContainer>
                                     {(isAdmin && !viewAsMember) && (
                                         <FaPencilAlt
                                             onClick={toggleEditModal}
