@@ -24,11 +24,18 @@ a:hover {
 section.gateway-profile {
     margin-top: 3rem;
 }
-
+.gateway-profile-left {
+    top: 10px;
+    /* height: 262px; */
+    height: 100%;
+}
 .gateway-profile-left img {
     border-radius: 20px;
     height: 262px;
     object-fit: cover;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 10px;
 }
 .gateway-profile-middle-inner-top {
     display: flex;
@@ -780,24 +787,27 @@ a.profile-toggle:focus + .profile-dropdown {
     padding: 0 60px;
 }
 .nft .accordion-header .accordion-button {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 0;
+    padding-top: 0;
     background: none;
     border: none;
     font-size: 16px;
     color: #e5e5e5;
     letter-spacing: 0.05em;
     font-weight: 600;
-    box-shadow: none;
+    box-shadow: #305e97;
+    margin-bottom: 30px;
 }
 .nft .accordion-button::after {
     margin-left: 5px;
     filter: brightness(0) invert(1);
-    background-image: url(https://gateway.devcmitexpert.com/profile/top-chevron.svg);
     width: 13px;
     height: 8px;
     background-size: 13px;
     transform: rotate(180deg);
+    padding-bottom: 17px;
 }
 .nft .accordion-item {
     background: none;
@@ -1038,4 +1048,16 @@ a.profile-toggle:focus + .profile-dropdown {
     section.gateway-profile .row .col-md-3 .gway-skill-col {
         order: 6;
     }
+}
+
+.accordion-button:focus {
+    /* border: solid 2px #305e97 !important; */
+    border-radius: 20px !important;
+    background-color: #2e1f3d !important;
+    outline: none !important;
+    border: none !important;
+}
+
+.sc-gloWDX.dfMtuz {
+    overflow: unset;
 }

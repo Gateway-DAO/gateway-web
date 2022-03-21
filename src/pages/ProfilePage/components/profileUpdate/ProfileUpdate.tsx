@@ -597,12 +597,6 @@ const ProfileUpdate = () => {
 																		CONTRIBUTOR
 																		CREDENTIAL
 																	</Accordion.Header>
-																	{/*<Link
-                                                                    to='/'
-                                                                    className='accordion-see-all-btn'
-                                                                >
-                                                                    See all
-																</Link>*/}
 																</div>
 																<Accordion.Body>
 																	<Row className='justify-content-md-left'>
@@ -616,10 +610,12 @@ const ProfileUpdate = () => {
 															</Accordion.Item>
 														) : (
 															<Accordion.Item eventKey='0'>
-																<Accordion.Header>
-																	REWARD
-																	CREDENTIAL
-																</Accordion.Header>
+																<div className='accordion-top-header'>
+																	<Accordion.Header>
+																		REWARD
+																		CREDENTIAL
+																	</Accordion.Header>
+																</div>
 																<Accordion.Body>
 																	<Row className='justify-content-md-left'>
 																		<CredentialCard
@@ -879,7 +875,7 @@ const ProfileUpdate = () => {
 					</Row>
 				</Container>
 			</section>
-		</Page>
+		</Page >
 	);
 };
 
