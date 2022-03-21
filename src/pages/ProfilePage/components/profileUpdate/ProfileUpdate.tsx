@@ -432,8 +432,7 @@ const ProfileUpdate = () => {
                                                     </p>
                                                     <p>
                                                         {
-                                                            credential.gate
-                                                                .description
+                                                            credential.description
                                                         }
                                                         {/* <Link
                                                             to='/contact'
