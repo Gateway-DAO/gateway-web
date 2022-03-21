@@ -333,6 +333,7 @@ section.gateway-profile {
 .about-content {
     color: #fff;
     font-size: 20px;
+    font-family: 'Be Vietnam';
 }
 .about-content strong {
     font-weight: bold;
@@ -449,7 +450,9 @@ ul.daos-like-ul li a img {
     display: block;
     width: 100%;
 }
-.gway-skill-col ul li a:hover,
+.gway-skill-col ul li a:hover {
+    color: #fc01b7;
+}
 .gway-skill-col ul li a:focus {
     color: #fff;
     background: linear-gradient(
@@ -765,16 +768,20 @@ a.profile-toggle:focus + .profile-dropdown {
     font-size: 21px;
     color: #e5e5e5;
     font-weight: 700;
+    font-family: 'Be Vietnam';
+    margin-bottom: 20px;
 }
 .experience-profile-section .finance-date p {
     font-size: 16px;
     color: #e5e5e5;
     display: block;
     letter-spacing: 0.05em;
+    font-family: 'Be Vietnam';
 }
 .experience-profile-section .finance-date p span {
     display: block;
     color: #a29ba9;
+    font-family: 'Be Vietnam';
 }
 .creative-see-more {
     background: linear-gradient(270deg, #ff00b8 41.87%, #7e3bdc 100%);
@@ -798,16 +805,15 @@ a.profile-toggle:focus + .profile-dropdown {
     letter-spacing: 0.05em;
     font-weight: 600;
     box-shadow: #305e97;
-    margin-bottom: 30px;
 }
 .nft .accordion-button::after {
     margin-left: 5px;
     filter: brightness(0) invert(1);
     width: 13px;
     height: 8px;
-    background-size: 13px;
+    background-size: 15px;
     transform: rotate(180deg);
-    padding-bottom: 17px;
+    padding-bottom: 15px;
 }
 .nft .accordion-item {
     background: none;
@@ -848,6 +854,7 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 .nft .accordion-body {
     padding: 0;
+    margin-top: 30px;
 }
 .nft .img-box {
     display: flex;
