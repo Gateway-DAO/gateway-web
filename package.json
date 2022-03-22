@@ -2,6 +2,9 @@
     "name": "gateway",
     "version": "0.1.0",
     "private": true,
+    "repository": {
+        "url": "https://github.com/Gateway-DAO/gateway-web"
+    },
     "dependencies": {
         "@3id/connect": "^0.2.5",
         "@apollo/client": "^3.5.6",
