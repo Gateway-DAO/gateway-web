@@ -20,23 +20,19 @@
     }
   },
   "Resources": {
-    "LambdaLayerVersion89ea3b1f": {
+    "LambdaLayerVersion75046bba": {
       "Type": "AWS::Lambda::LayerVersion",
       "Properties": {
-        "CompatibleRuntimes": {
-          "Ref": "runtimes"
-        },
+        "CompatibleRuntimes": [
+          "nodejs14.x"
+        ],
         "Content": {
           "S3Bucket": {
             "Ref": "deploymentBucketName"
           },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
+          "S3Key": "amplify-builds/gatewayceramicLayer-LambdaLayerVersion75046bba-build.zip"
         },
-        "Description": {
-          "Ref": "description"
-        },
+        "Description": "Updated layer version 2022-03-22T13:09:20.038Z",
         "LayerName": {
           "Fn::Sub": [
             "gatewayceramicLayer-${env}",
@@ -51,13 +47,11 @@
       "DeletionPolicy": "Delete",
       "UpdateReplacePolicy": "Retain"
     },
-    "LambdaLayerPermissionPublic89ea3b1f": {
+    "LambdaLayerPermissionPublic75046bba": {
       "Type": "AWS::Lambda::LayerVersionPermission",
       "Properties": {
         "Action": "lambda:GetLayerVersion",
-        "LayerVersionArn": {
-          "Ref": "LambdaLayerVersion89ea3b1f"
-        },
+        "LayerVersionArn": "arn:aws:lambda:us-east-1:628607619154:layer:gatewayceramicLayer-dev:56",
         "Principal": "*"
       }
     }
@@ -65,7 +59,7 @@
   "Outputs": {
     "Arn": {
       "Value": {
-        "Ref": "LambdaLayerVersion89ea3b1f"
+        "Ref": "LambdaLayerVersion75046bba"
       }
     }
   }

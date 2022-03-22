@@ -38,218 +38,189 @@ interface GateData extends Gate {
 const DaoGate: React.FC = () => {
     const {
         gateData,
-        loading,
-        loaded,
-    }: { gateData: GateData; loading: boolean; loaded: boolean } =
+        isAdmin
+    }: { gateData: GateData; isAdmin: boolean; } =
         useOutletContext();
     const dao: DAO = gateData.dao;
     const navigate = useNavigate();
-
-    const { isAdmin } = useGateAdmin(gateData.admins);
 
     const handleClick = () => {
         navigate('add-key');
     };
 
-    if (loading && !loaded) {
-        return (
-            <Styled.LoaderBox>
-                <Loader color='white' size={35} />
-            </Styled.LoaderBox>
-        );
-    } else if (loaded) {
-        if (
-            !isAdmin &&
-            (gateData.published == 'NOT_PUBLISHED' ||
-                gateData.published == 'PAUSED')
-        ) {
-            return <Navigate to='/404' />;
-        }
-
-        return (
-            <Styled.Wrapper>
-                <BackButtonDiv
-                    url={`/dao/${dao.dao}?tab=gates`}
-                    published={gateData.published}
-                    id={gateData.id}
-                    daoData={dao}
-                    gateData={gateData}
-                >
-                    Back to DAO Gates
-                </BackButtonDiv>
-                <GradientSVG idCSS='circleGradient' />
-                <Styled.ContentWrapper>
-                    <NftBadge nft={gateData.badge} />
-                    <Styled.MainContent>
-                        <Styled.FirstDiv>
-                            <Styled.SmallLogo src={dao.logoURL} />
-                            <Styled.SmallText>{dao.name}</Styled.SmallText>
-                        </Styled.FirstDiv>
-                        <Styled.HeadingDiv>{gateData.name}</Styled.HeadingDiv>
-                        <Styled.Subheading>
-                            {gateData.description}
-                        </Styled.Subheading>
-                        <Styled.TagsDiv>
-                            {gateData.categories.map(
-                                (category: string, idx: number) => (
-                                    <Styled.Tag key={idx}>
-                                        {category}
-                                    </Styled.Tag>
-                                )
-                            )}
-                            • {gateData.holders} holder(s)
-                        </Styled.TagsDiv>
-                        <Styled.AdditionalInfoBox>
-                            <Styled.AdminsBox>
+    return (
+        <Styled.Wrapper>
+            <BackButtonDiv
+                url={`/dao/${dao.dao}?tab=gates`}
+                published={gateData.published}
+                id={gateData.id}
+                daoData={dao}
+                gateData={gateData}
+            >
+                Back to DAO Gates
+            </BackButtonDiv>
+            <GradientSVG idCSS='circleGradient' />
+            <Styled.ContentWrapper>
+                <NftBadge nft={gateData.badge} />
+                <Styled.MainContent>
+                    <Styled.FirstDiv>
+                        <Styled.SmallLogo src={dao.logoURL} />
+                        <Styled.SmallText>{dao.name}</Styled.SmallText>
+                    </Styled.FirstDiv>
+                    <Styled.HeadingDiv>{gateData.name}</Styled.HeadingDiv>
+                    <Styled.Subheading>
+                        {gateData.description}
+                    </Styled.Subheading>
+                    <Styled.TagsDiv>
+                        {gateData.categories.map(
+                            (category: string, idx: number) => (
+                                <Styled.Tag key={idx}>{category}</Styled.Tag>
+                            )
+                        )}
+                        • {gateData.holders} holder(s)
+                    </Styled.TagsDiv>
+                    <Styled.AdditionalInfoBox>
+                        <Styled.AdminsBox>
+                            <Styled.BoldTextHeading>
+                                ADMINS
+                            </Styled.BoldTextHeading>
+                            <Styled.ContentContainer>
+                                {gateData.adminList.map((admin, idx) => {
+                                    return (
+                                        <Link
+                                            to={`/profile/${admin.username}`}
+                                            key={idx}
+                                        >
+                                            <Styled.PfpAdmin
+                                                src={admin.pfp}
+                                                data-title={admin.name}
+                                            />
+                                        </Link>
+                                    );
+                                })}
+                            </Styled.ContentContainer>
+                        </Styled.AdminsBox>
+                        {gateData.preRequisitesList.length > 0 && (
+                            <Styled.PreRequisiteBox>
                                 <Styled.BoldTextHeading>
-                                    ADMINS
+                                    PRE REQUISITE
                                 </Styled.BoldTextHeading>
                                 <Styled.ContentContainer>
-                                    {gateData.adminList.map((admin, idx) => {
+                                    {gateData.preRequisitesList.map((gate) => (
+                                        <Styled.InsideLink
+                                            to={`/gate/${gate.id}`}
+                                        >
+                                            {gate.badge.name} ⬈
+                                        </Styled.InsideLink>
+                                    ))}
+                                </Styled.ContentContainer>
+                            </Styled.PreRequisiteBox>
+                        )}
+                        <Styled.LinksContainer>
+                            <Styled.BoldTextHeading>
+                                LINKS
+                            </Styled.BoldTextHeading>
+                            <Styled.ContentContainer>
+                                {gateData.links.length > 0 &&
+                                    gateData.links.map((link) => {
                                         return (
-                                            <Link
-                                                to={`/profile/${admin.username}`}
-                                                key={idx}
+                                            <Styled.OutsideLink
+                                                href={link.link}
+                                                target='_blank'
                                             >
-                                                <Styled.PfpAdmin
-                                                    src={admin.pfp}
-                                                    data-title={admin.name}
-                                                />
-                                            </Link>
+                                                {link.name} ⬈
+                                            </Styled.OutsideLink>
                                         );
                                     })}
-                                </Styled.ContentContainer>
-                            </Styled.AdminsBox>
-                            {gateData.preRequisitesList.length > 0 && (
-                                <Styled.PreRequisiteBox>
-                                    <Styled.BoldTextHeading>
-                                        PRE REQUISITE
-                                    </Styled.BoldTextHeading>
-                                    <Styled.ContentContainer>
-                                        {gateData.preRequisitesList.map(
-                                            (gate) => (
-                                                <Styled.InsideLink
-                                                    to={`/gate/${gate.id}`}
-                                                >
-                                                    {gate.badge.name} ⬈
-                                                </Styled.InsideLink>
-                                            )
-                                        )}
-                                    </Styled.ContentContainer>
-                                </Styled.PreRequisiteBox>
-                            )}
-                            <Styled.LinksContainer>
-                                <Styled.BoldTextHeading>
-                                    LINKS
-                                </Styled.BoldTextHeading>
-                                <Styled.ContentContainer>
-                                    {gateData.links.length > 0 &&
-                                        gateData.links.map((link) => {
-                                            return (
-                                                <Styled.OutsideLink
-                                                    href={link.link}
-                                                    target='_blank'
-                                                >
-                                                    {link.name} ⬈
-                                                </Styled.OutsideLink>
-                                            );
-                                        })}
-                                    {isAdmin && (
-                                        <Styled.InsideLink
-                                            to={`${
-                                                gateData.links.length > 0
-                                                    ? 'edit'
-                                                    : 'add'
-                                            }-links`}
-                                        >
-                                            {gateData.links.length > 0
-                                                ? 'Edit'
-                                                : 'Add'}{' '}
-                                            Links ⬈
-                                        </Styled.InsideLink>
-                                    )}
-                                </Styled.ContentContainer>
-                            </Styled.LinksContainer>
-                        </Styled.AdditionalInfoBox>
-                        <Styled.HeaderLine />
-                        {gateData?.keysNumber !== 0 && (
-                            <Styled.SecondDiv>
-                                <Styled.SecondDivName>
-                                    Keys
-                                </Styled.SecondDivName>
-                                <Styled.AnotherDiv>
-                                    <Styled.CircleBox>
-                                        <CircularProgressbar
-                                            value={gateData.keysDone}
-                                            minValue={0}
-                                            maxValue={gateData.keysNumber}
-                                            strokeWidth={15}
-                                        />
-                                    </Styled.CircleBox>
-                                    <Styled.ProgressInfoDiv>
-                                        <Styled.ProgressInfoDivOne>
-                                            Keys
-                                        </Styled.ProgressInfoDivOne>
-                                        <Styled.ProgressInfoDivTwo>
-                                            {gateData.keysDone} of{' '}
-                                            {gateData.keysNumber}
-                                        </Styled.ProgressInfoDivTwo>
-                                    </Styled.ProgressInfoDiv>
-                                </Styled.AnotherDiv>
-                            </Styled.SecondDiv>
+                                {isAdmin && (
+                                    <Styled.InsideLink
+                                        to={`${
+                                            gateData.links.length > 0
+                                                ? 'edit'
+                                                : 'add'
+                                        }-links`}
+                                    >
+                                        {gateData.links.length > 0
+                                            ? 'Edit'
+                                            : 'Add'}{' '}
+                                        Links ⬈
+                                    </Styled.InsideLink>
+                                )}
+                            </Styled.ContentContainer>
+                        </Styled.LinksContainer>
+                    </Styled.AdditionalInfoBox>
+                    <Styled.HeaderLine />
+                    {gateData?.keysNumber !== 0 && (
+                        <Styled.SecondDiv>
+                            <Styled.SecondDivName>Keys</Styled.SecondDivName>
+                            <Styled.AnotherDiv>
+                                <Styled.CircleBox>
+                                    <CircularProgressbar
+                                        value={gateData.keysDone}
+                                        minValue={0}
+                                        maxValue={gateData.keysNumber}
+                                        strokeWidth={15}
+                                    />
+                                </Styled.CircleBox>
+                                <Styled.ProgressInfoDiv>
+                                    <Styled.ProgressInfoDivOne>
+                                        Keys
+                                    </Styled.ProgressInfoDivOne>
+                                    <Styled.ProgressInfoDivTwo>
+                                        {gateData.keysDone} of{' '}
+                                        {gateData.keysNumber}
+                                    </Styled.ProgressInfoDivTwo>
+                                </Styled.ProgressInfoDiv>
+                            </Styled.AnotherDiv>
+                        </Styled.SecondDiv>
+                    )}
+                    <Styled.ThirdDiv>
+                        {isAdmin && (
+                            <Styled.Box>
+                                <Styled.BigText>
+                                    Let’s create the Keys for your Gate.
+                                </Styled.BigText>
+                                <Styled.StartButton onClick={handleClick}>
+                                    <Styled.ButtonText>
+                                        Start Now
+                                    </Styled.ButtonText>
+                                </Styled.StartButton>
+                            </Styled.Box>
                         )}
-                        <Styled.ThirdDiv>
-                            {isAdmin && (
-                                <Styled.Box>
-                                    <Styled.BigText>
-                                        Let’s create the Keys for your Gate.
-                                    </Styled.BigText>
-                                    <Styled.StartButton onClick={handleClick}>
-                                        <Styled.ButtonText>
-                                            Start Now
-                                        </Styled.ButtonText>
-                                    </Styled.StartButton>
-                                </Styled.Box>
-                            )}
-                            {gateData?.keys?.items?.map((key: Key) => {
-                                const LIMIT_REACHED =
-                                    !key.unlimited && key.peopleLimit === 0;
+                        {gateData?.keys?.items?.map((key: Key) => {
+                            const LIMIT_REACHED =
+                                !key.unlimited && key.peopleLimit === 0;
 
-                                if (
-                                    !LIMIT_REACHED ||
-                                    gateData.taskStatus
-                                        .map((ts: TaskStatus) => ts.keyID)
-                                        .includes(key.id) ||
-                                    isAdmin
-                                ) {
-                                    return (
-                                        <KeyBox
-                                            data={key}
-                                            gateData={gateData}
-                                            blocked={
-                                                gateData.taskStatus.length > 0
-                                                    ? gateData.taskStatus
-                                                          .map(
-                                                              (
-                                                                  ts: TaskStatus
-                                                              ) => ts.keyID
-                                                          )
-                                                          .includes(key.id)
-                                                    : false
-                                            }
-                                        />
-                                    );
-                                }
-                                else return null;
-                            })}
-                        </Styled.ThirdDiv>
-                    </Styled.MainContent>
-                </Styled.ContentWrapper>
-            </Styled.Wrapper>
-        );
-    } else {
-        return null;
-    }
+                            if (
+                                !LIMIT_REACHED ||
+                                gateData.taskStatus
+                                    .map((ts: TaskStatus) => ts.keyID)
+                                    .includes(key.id) ||
+                                isAdmin
+                            ) {
+                                return (
+                                    <KeyBox
+                                        data={key}
+                                        gateData={gateData}
+                                        blocked={
+                                            gateData.taskStatus.length > 0
+                                                ? gateData.taskStatus
+                                                      .map(
+                                                          (ts: TaskStatus) =>
+                                                              ts.keyID
+                                                      )
+                                                      .includes(key.id)
+                                                : false
+                                        }
+                                    />
+                                );
+                            } else return null;
+                        })}
+                    </Styled.ThirdDiv>
+                </Styled.MainContent>
+            </Styled.ContentWrapper>
+        </Styled.Wrapper>
+    );
 };
 
 export default DaoGate;

@@ -24,8 +24,8 @@ export const AddNewKeyContainer = styled.div`
     background-color: transparent;
     height: 100%;
     position: relative;
-
-    overflow-x: hidden;
+    width: 100%;
+    overflow: hidden;
 
     &:before {
         position: absolute;

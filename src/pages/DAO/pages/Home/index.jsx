@@ -30,7 +30,7 @@ const DAOHome = (props) => {
     return (
         <>
             <Styled.SearchTermContainer>
-                <BackButton url='/search/all'>Go Back</BackButton>
+                <BackButton url='/search/'>Go Back</BackButton>
             </Styled.SearchTermContainer>
 
             {!loaded && (

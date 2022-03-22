@@ -72,4 +72,31 @@ export const GlobalTheme = createGlobalStyle`
     a {
         text-decoration: none;
     }
+    a:hover {
+        color: inherit;
+    }
+
+    // data-title
+    * [data-title]:hover:after {
+        content: attr(data-title);
+        position: absolute;
+        padding: 2px 6px;
+        width: max-content;
+        height: -webkit-fill-available;
+        top: 30px;
+        z-index: 5;
+
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+
+        display: flex;
+        align-items: center;
+
+        background: #220a38;
+        border: 1px solid #7e3bdc;
+        color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+    }
 `;

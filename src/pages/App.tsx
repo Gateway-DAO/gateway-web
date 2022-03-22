@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from '../components/ScrollToTop';
@@ -26,8 +27,8 @@ import KeyCompletedPage from './Gate/pages/KeyCompleted';
 import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz';
 
 // Profile
-import {
-	ProfileUpdate,
+import Profile, {
+	Home as ProfileUpdate,
 	AddAbout,
 	AddExperiences,
 	AddLanguage,
@@ -35,7 +36,6 @@ import {
 	CompleteProfile,
 	AddKnowledge,
 	AddAttitude,
-	Credentials,
 } from './ProfilePage';
 
 const DAO = React.lazy(() => import('./DAO'));
@@ -149,10 +149,11 @@ const App: React.FC = () => {
 							/>
 						</Route>
 
+						<Route path='/search' element={<Search />} />
 						<Route path='/search/:query' element={<Search />} />
 
 						{/* User Profile */}
-						<Route path='/profile'>
+						<Route path='/profile' element={<Profile />}>
 							<Route path='' element={<ProfileUpdate />} />
 
 							<Route path='add-about' element={<AddAbout />} />
@@ -180,10 +181,6 @@ const App: React.FC = () => {
 							<Route
 								path='edit-profile'
 								element={<CompleteProfile />}
-							/>
-							<Route
-								path='profile-credentials'
-								element={<Credentials />}
 							/>
 
 							<Route
@@ -222,10 +219,6 @@ const App: React.FC = () => {
 							<Route
 								path=':username/edit-profile'
 								element={<CompleteProfile />}
-							/>
-							<Route
-								path=':username/profile-credentials'
-								element={<Credentials />}
 							/>
 						</Route>
 

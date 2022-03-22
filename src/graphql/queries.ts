@@ -161,7 +161,6 @@ export const getUser = /* GraphQL */ `
                     id
                     issuerID
                     targetID
-                    gateID
                     organizationID
                     name
                     description
@@ -190,6 +189,7 @@ export const listUsers = /* GraphQL */ `
         listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
             items {
                 id
+                ip
                 wallet
                 username
                 name
@@ -272,31 +272,70 @@ export const listUsers = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -307,6 +346,7 @@ export const listUsers = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -1135,6 +1175,7 @@ export const getPost = /* GraphQL */ `
             userID
             user {
                 id
+                ip
                 wallet
                 username
                 name
@@ -1217,31 +1258,70 @@ export const getPost = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -1252,6 +1332,7 @@ export const getPost = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -1322,6 +1403,7 @@ export const listPosts = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -1382,6 +1464,7 @@ export const getComment = /* GraphQL */ `
             userID
             user {
                 id
+                ip
                 wallet
                 username
                 name
@@ -1464,31 +1547,70 @@ export const getComment = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -1499,6 +1621,7 @@ export const getComment = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -1526,6 +1649,7 @@ export const listComments = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -2033,6 +2157,7 @@ export const getManualTaskSubmission = /* GraphQL */ `
             userID
             user {
                 id
+                ip
                 wallet
                 username
                 name
@@ -2115,31 +2240,70 @@ export const getManualTaskSubmission = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -2150,6 +2314,7 @@ export const getManualTaskSubmission = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -2252,6 +2417,7 @@ export const listManualTaskSubmissions = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -2298,6 +2464,7 @@ export const getGateStatus = /* GraphQL */ `
             userID
             user {
                 id
+                ip
                 wallet
                 username
                 name
@@ -2380,31 +2547,70 @@ export const getGateStatus = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -2415,6 +2621,7 @@ export const getGateStatus = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -2512,6 +2719,7 @@ export const listGateStatuss = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -2570,6 +2778,7 @@ export const getTaskStatus = /* GraphQL */ `
             userID
             user {
                 id
+                ip
                 wallet
                 username
                 name
@@ -2652,31 +2861,70 @@ export const getTaskStatus = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -2687,6 +2935,7 @@ export const getTaskStatus = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -2849,6 +3098,7 @@ export const listTaskStatuss = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -2911,6 +3161,7 @@ export const getCredential = /* GraphQL */ `
             issuerID
             issuer {
                 id
+                ip
                 wallet
                 username
                 name
@@ -2993,31 +3244,70 @@ export const getCredential = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -3028,6 +3318,7 @@ export const getCredential = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -3037,6 +3328,7 @@ export const getCredential = /* GraphQL */ `
             targetID
             target {
                 id
+                ip
                 wallet
                 username
                 name
@@ -3119,31 +3411,70 @@ export const getCredential = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -3154,67 +3485,15 @@ export const getCredential = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
                 createdAt
                 updatedAt
             }
-            gateID
             gate {
-                id
-                daoID
-                dao {
-                    id
-                    dao
-                    name
-                    accomplishments
-                    snapshotID
-                    backgroundURL
-                    youtubeURL
-                    logoURL
-                    categories
-                    tags
-                    description
-                    howToJoin
-                    missionAndVision
-                    whatDoWeDo
-                    upcomingHangouts
-                    tokenAddress
-                    whitelistedAddresses
-                    chains
-                    createdAt
-                    updatedAt
-                }
                 name
-                description
-                categories
-                skills
-                knowledge
-                attitudes
-                admins
-                keysNumber
-                keys {
-                    nextToken
-                }
-                published
-                badge {
-                    nftURL
-                    ipfsURL
-                    name
-                }
-                preRequisites {
-                    completedGates
-                }
-                retroactiveEarners
-                links {
-                    name
-                    link
-                }
-                holders
-                nftType
-                createdAt
-                updatedAt
             }
             organizationID
             organization {
@@ -3336,6 +3615,7 @@ export const listCredentials = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -3355,6 +3635,7 @@ export const listCredentials = /* GraphQL */ `
                 targetID
                 target {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -3371,24 +3652,8 @@ export const listCredentials = /* GraphQL */ `
                     createdAt
                     updatedAt
                 }
-                gateID
                 gate {
-                    id
-                    daoID
                     name
-                    description
-                    categories
-                    skills
-                    knowledge
-                    attitudes
-                    admins
-                    keysNumber
-                    published
-                    retroactiveEarners
-                    holders
-                    nftType
-                    createdAt
-                    updatedAt
                 }
                 organizationID
                 organization {
@@ -3528,31 +3793,70 @@ export const getUserByAddress = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -3563,6 +3867,7 @@ export const getUserByAddress = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -3673,31 +3978,70 @@ export const getUserByUsername = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -3708,6 +4052,7 @@ export const getUserByUsername = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -4369,6 +4714,7 @@ export const getPostsByChannelId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -4442,6 +4788,7 @@ export const getCommentsByPostId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -4662,6 +5009,7 @@ export const getManualTaskSubmissionByUserId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -4721,6 +5069,7 @@ export const getManualTaskSubmissionByKeyId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -4780,6 +5129,7 @@ export const getGateStatusByUserId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -4855,6 +5205,7 @@ export const getGateStatusByGateId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -4926,6 +5277,7 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5001,6 +5353,7 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5076,6 +5429,7 @@ export const getTaskStatusByKeyId = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5151,6 +5505,7 @@ export const getCredentialByIssuerId = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5170,6 +5525,7 @@ export const getCredentialByIssuerId = /* GraphQL */ `
                 targetID
                 target {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5186,24 +5542,8 @@ export const getCredentialByIssuerId = /* GraphQL */ `
                     createdAt
                     updatedAt
                 }
-                gateID
                 gate {
-                    id
-                    daoID
                     name
-                    description
-                    categories
-                    skills
-                    knowledge
-                    attitudes
-                    admins
-                    keysNumber
-                    published
-                    retroactiveEarners
-                    holders
-                    nftType
-                    createdAt
-                    updatedAt
                 }
                 organizationID
                 organization {
@@ -5263,6 +5603,7 @@ export const getCredentialByTargetId = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5282,6 +5623,7 @@ export const getCredentialByTargetId = /* GraphQL */ `
                 targetID
                 target {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5298,24 +5640,8 @@ export const getCredentialByTargetId = /* GraphQL */ `
                     createdAt
                     updatedAt
                 }
-                gateID
                 gate {
-                    id
-                    daoID
                     name
-                    description
-                    categories
-                    skills
-                    knowledge
-                    attitudes
-                    admins
-                    keysNumber
-                    published
-                    retroactiveEarners
-                    holders
-                    nftType
-                    createdAt
-                    updatedAt
                 }
                 organizationID
                 organization {
@@ -5375,6 +5701,7 @@ export const getCredentialByOrganizationId = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5394,6 +5721,7 @@ export const getCredentialByOrganizationId = /* GraphQL */ `
                 targetID
                 target {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -5410,136 +5738,8 @@ export const getCredentialByOrganizationId = /* GraphQL */ `
                     createdAt
                     updatedAt
                 }
-                gateID
                 gate {
-                    id
-                    daoID
                     name
-                    description
-                    categories
-                    skills
-                    knowledge
-                    attitudes
-                    admins
-                    keysNumber
-                    published
-                    retroactiveEarners
-                    holders
-                    nftType
-                    createdAt
-                    updatedAt
-                }
-                organizationID
-                organization {
-                    id
-                    dao
-                    name
-                    accomplishments
-                    snapshotID
-                    backgroundURL
-                    youtubeURL
-                    logoURL
-                    categories
-                    tags
-                    description
-                    howToJoin
-                    missionAndVision
-                    whatDoWeDo
-                    upcomingHangouts
-                    tokenAddress
-                    whitelistedAddresses
-                    chains
-                    createdAt
-                    updatedAt
-                }
-                name
-                description
-                image
-                pow
-                skills
-                knowledges
-                attitudes
-                ceramicStream
-                createdAt
-                updatedAt
-            }
-            nextToken
-        }
-    }
-`;
-export const getCredentialByGateId = /* GraphQL */ `
-    query GetCredentialByGateId(
-        $gateID: ID
-        $sortDirection: ModelSortDirection
-        $filter: ModelCredentialFilterInput
-        $limit: Int
-        $nextToken: String
-    ) {
-        getCredentialByGateID(
-            gateID: $gateID
-            sortDirection: $sortDirection
-            filter: $filter
-            limit: $limit
-            nextToken: $nextToken
-        ) {
-            items {
-                id
-                issuerID
-                issuer {
-                    id
-                    wallet
-                    username
-                    name
-                    bio
-                    daos_ids
-                    init
-                    nonce
-                    pfp
-                    about
-                    skills
-                    attitudes
-                    languages
-                    knowledges
-                    createdAt
-                    updatedAt
-                }
-                targetID
-                target {
-                    id
-                    wallet
-                    username
-                    name
-                    bio
-                    daos_ids
-                    init
-                    nonce
-                    pfp
-                    about
-                    skills
-                    attitudes
-                    languages
-                    knowledges
-                    createdAt
-                    updatedAt
-                }
-                gateID
-                gate {
-                    id
-                    daoID
-                    name
-                    description
-                    categories
-                    skills
-                    knowledge
-                    attitudes
-                    admins
-                    keysNumber
-                    published
-                    retroactiveEarners
-                    holders
-                    nftType
-                    createdAt
-                    updatedAt
                 }
                 organizationID
                 organization {
@@ -5596,6 +5796,7 @@ export const searchUsers = /* GraphQL */ `
         ) {
             items {
                 id
+                ip
                 wallet
                 username
                 name
@@ -5678,31 +5879,70 @@ export const searchUsers = /* GraphQL */ `
                     items {
                         id
                         issuerID
-                        targetID
-                        gateID
-                        gate {
+                        issuer {
                             id
+                            ip
+                            wallet
+                            username
                             name
-                            description
-                            categories
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
                             skills
-                            knowledge
                             attitudes
-                            keysNumber
-                            badge {
-                                ipfsURL
-                                name
-                            }
-                            nftType
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        targetID
+                        target {
+                            id
+                            ip
+                            wallet
+                            username
+                            name
+                            bio
+                            daos_ids
+                            init
+                            nonce
+                            pfp
+                            about
+                            skills
+                            attitudes
+                            languages
+                            knowledges
+                            createdAt
+                            updatedAt
+                        }
+                        gate {
+                            name
                         }
                         organizationID
                         organization {
                             id
                             dao
                             name
+                            accomplishments
                             snapshotID
+                            backgroundURL
+                            youtubeURL
                             logoURL
+                            categories
+                            tags
                             description
+                            howToJoin
+                            missionAndVision
+                            whatDoWeDo
+                            upcomingHangouts
+                            tokenAddress
+                            whitelistedAddresses
+                            chains
+                            createdAt
+                            updatedAt
                         }
                         name
                         description
@@ -5713,6 +5953,7 @@ export const searchUsers = /* GraphQL */ `
                         attitudes
                         ceramicStream
                         createdAt
+                        updatedAt
                     }
                     nextToken
                 }
@@ -5934,6 +6175,7 @@ export const searchPosts = /* GraphQL */ `
                 userID
                 user {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -6059,6 +6301,7 @@ export const searchCredentials = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -6078,6 +6321,7 @@ export const searchCredentials = /* GraphQL */ `
                 targetID
                 target {
                     id
+                    ip
                     wallet
                     username
                     name
@@ -6094,29 +6338,8 @@ export const searchCredentials = /* GraphQL */ `
                     createdAt
                     updatedAt
                 }
-                gateID
                 gate {
-                    id
-                    daoID
                     name
-                    description
-                    categories
-                    skills
-                    knowledge
-                    attitudes
-                    admins
-                    keysNumber
-                    published
-                    retroactiveEarners
-                    holders
-                    nftType
-                    badge {
-                        nftURL
-                        ipfsURL
-                        name
-                    }
-                    createdAt
-                    updatedAt
                 }
                 organizationID
                 organization {

@@ -8,7 +8,7 @@ const NftBadge = ({ nft }) => {
                     src={`https://gateway.pinata.cloud/ipfs/${nft.ipfsURL}`}
                 />
                 <Styled.CardBody>
-                    <Styled.CardBadge>NFT Badge</Styled.CardBadge>
+                    <Styled.CardBadge>Badge</Styled.CardBadge>
                     <Styled.CardBadgeText>
                         {nft.name.slice(0, 24) +
                             (nft.name.length > 24 ? '...' : '')}

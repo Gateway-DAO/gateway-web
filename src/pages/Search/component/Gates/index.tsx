@@ -29,7 +29,7 @@ const GateTab = ({ query }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            ...((query !== 'all' || query !== '') && {
+            ...(query?.length && {
                 filter: {
                     or: [
                         {
@@ -45,9 +45,8 @@ const GateTab = ({ query }) => {
 
     useEffect(() => {
         setHits(!searchLoading ? searchData?.searchGates?.items : []);
-        console.log(searchData?.searchGates?.items);
         setPageCount(
-            Math.ceil(searchData?.searchGates?.items.length / resultPerPage)
+            Math.ceil(searchData?.searchGates?.total / resultPerPage)
         );
     }, [query, searchLoading, pageNumber]);
 
@@ -63,7 +62,7 @@ const GateTab = ({ query }) => {
         return (
             <SearchStyled.TextBox>
                 <SearchStyled.MainText>
-                    Oops! There's no "{query}" gate on our records :/
+                    Oops! There are no {query?.length && `"${query}"`} gates on our records :/
                 </SearchStyled.MainText>
                 <SearchStyled.SmallText>
                     We couldn't find what you're looking for. Try again later!

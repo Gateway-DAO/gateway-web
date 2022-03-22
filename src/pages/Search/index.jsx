@@ -40,7 +40,6 @@ const Search = (props) => {
     };
 
     const ActiveFilter = () => {
-        console.log('selectionTab', selectionTab);
         switch (selectionTab) {
             case 'DAOs':
                 return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;

@@ -89,6 +89,20 @@ export const SubText = styled.p`
     color: rgba(229, 229, 229, 0.6);
 `;
 
+export const ErrorText = styled.p`
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 18px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+
+    width: 100%;
+    font-size: .875em;
+    color: #dc3545;
+`
+
 /** CONTAINERS **/
 export const FormBox = styled.form`
     max-width: 100%;
