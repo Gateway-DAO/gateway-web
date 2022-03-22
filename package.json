@@ -5,9 +5,16 @@
     "repository": {
         "url": "https://github.com/Gateway-DAO/gateway-web"
     },
-    "author": {
-        "name": "Orest Tarasiuk"
-    },
+    "contributors": [
+        {
+            "name": "Nuno Carvalho",
+            "email": "nuno@mygateway.xyz"
+        },
+        {
+            "name": "Orest Tarasiuk",
+            "email": "orest@mygateway.xyz"
+        }
+    ],
     "dependencies": {
         "@3id/connect": "^0.2.5",
         "@apollo/client": "^3.5.6",
