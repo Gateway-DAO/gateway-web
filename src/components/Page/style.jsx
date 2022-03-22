@@ -3,11 +3,14 @@ import styled from 'styled-components';
 export const Container = styled.main`
     min-height: 100vh;
     overflow-x: hidden;
-    width: auto;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     position: relative;
+
+    padding: 0;
+    overflow: hidden;
 
     /* &:before {
         position: absolute;

@@ -1,12 +1,13 @@
 import * as Styled from './style';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../contexts/UserContext';
 import { useClickAway } from 'react-use';
 import { useRef } from 'react';
 
 const DropDown = ({ toggle }) => {
     const navigate = useNavigate();
-    const { signIn, loggedIn, loading, userSignOut } = useAuth();
+    const location = useLocation();
+    const { loggedIn, userSignOut, walletConnected } = useAuth();
     const ref = useRef(null);
 
     useClickAway(ref, () => {
@@ -19,15 +20,22 @@ const DropDown = ({ toggle }) => {
                 <Styled.ItemTextContainer onClick={() => navigate('/profile')}>
                     Profile
                 </Styled.ItemTextContainer>
-                {loggedIn && (
+                {walletConnected && (
                     <>
                         <Styled.BorderLine />
-                        <Styled.ItemTextContainer onClick={userSignOut}>
+                        <Styled.ItemTextContainer
+                            onClick={() => {
+                                location.pathname == '/profile' &&
+                                    navigate('/');
+                                userSignOut();
+                                toggle();
+                            }}
+                        >
                             Disconnect
                         </Styled.ItemTextContainer>
                     </>
                 )}
-                {!loggedIn && (
+                {/* !loggedIn && (
                     <>
                         <Styled.BorderLine />
                         <Styled.ItemTextContainer
@@ -38,7 +46,7 @@ const DropDown = ({ toggle }) => {
                             Authorize Metamask
                         </Styled.ItemTextContainer>
                     </>
-                )}
+                ) */}
             </Styled.ItemsContainer>
         </Styled.DropDownContainer>
     );

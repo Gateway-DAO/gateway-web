@@ -38,11 +38,9 @@ const Subcategories = ({
             {!viewAsMember && (
                 <Styled.WhitelistButtonDiv>
                     <Styled.Text>
-                        As
-                        <Styled.BoldText2>
-                            whitelisted address
-                        </Styled.BoldText2>{' '}
-                        you can add gates
+                        As an
+                        <Styled.BoldText2>admin</Styled.BoldText2> you can add
+                        gates
                     </Styled.Text>
                     <Styled.WhitelistButton onClick={addGate}>
                         <Styled.ButtonText>ADD GATES</Styled.ButtonText>

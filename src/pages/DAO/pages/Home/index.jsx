@@ -31,17 +31,6 @@ const DAOHome = (props) => {
         <>
             <Styled.SearchTermContainer>
                 <BackButton url='/search/all'>Go Back</BackButton>
-                <Styled.SearchInputBox>
-                    <Styled.SearchInput
-                        type='text'
-                        placeholder='Search DAO'
-                        value={inputVal}
-                        onChange={(e) => setInputVal(e.target.value)}
-                        onKeyPress={handleEnter}
-                    />
-
-                    <Styled.WrappedFiSearch />
-                </Styled.SearchInputBox>
             </Styled.SearchTermContainer>
 
             {!loaded && (

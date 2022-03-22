@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import * as Styled from './style';
 
 // Hooks
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 // Components
 import Header from '../../components/Header';

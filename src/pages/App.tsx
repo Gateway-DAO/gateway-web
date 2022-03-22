@@ -23,16 +23,24 @@ import AddManualTask from './Gate/pages/AddNewKey/pages/AddManualTask';
 import AddNewKeyHome from './Gate/pages/AddNewKey/pages/Home';
 import AddContractInteraction from './Gate/pages/AddNewKey/pages/AddContractInteraction';
 import KeyCompletedPage from './Gate/pages/KeyCompleted';
+import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz';
 
 // Profile
-import AddExperience from './AddExperience';
-import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz';
+import {
+    ProfileUpdate,
+    AddAbout,
+    AddExperiences,
+    AddLanguage,
+    AddSkill,
+    CompleteProfile,
+    AddKnowledge,
+    AddAttitude,
+} from './ProfilePage';
 
 const DAO = React.lazy(() => import('./DAO'));
 const Gate = React.lazy(() => import('./Gate'));
 const AddNewKey = React.lazy(() => import('./Gate/pages/AddNewKey'));
-const Search = React.lazy(() => import('./Search/index'));
-const ProfilePage = React.lazy(() => import('./ProfilePage'));
+const Search = React.lazy(() => import('./Search'));
 const SignIn = React.lazy(() => import('./SignIn'));
 const CreateProfile = React.lazy(() => import('./CreateProfile'));
 const AboutDAOs = React.lazy(() => import('./AboutDAOs'));
@@ -52,12 +60,6 @@ const App: React.FC = () => {
                         <Route path='/' element={<Home />} />
                         <Route path='/about-us' element={<About />} />
                         <Route path='/what-are-daos' element={<AboutDAOs />} />
-
-                        {/* Add New Key Routes start */}
-                        <Route
-                            path='/profile/add-experience'
-                            element={<AddExperience />}
-                        />
 
                         {/* DAO Routes */}
                         <Route path='dao/:id' element={<DAO />}>
@@ -147,12 +149,77 @@ const App: React.FC = () => {
                         </Route>
 
                         <Route path='/search/:query' element={<Search />} />
-                        <Route path='/profile/' element={<ProfilePage />}>
+
+                        {/* User Profile */}
+                        <Route path='/profile'>
+                            <Route path='' element={<ProfileUpdate />} />
+
+                            <Route path='add-about' element={<AddAbout />} />
                             <Route
-                                path=':searchTerm'
-                                element={<ProfilePage />}
+                                path='add-experiences'
+                                element={<AddExperiences />}
+                            />
+                            <Route
+                                path='add-language'
+                                element={<AddLanguage />}
+                            />
+                            <Route path='add-skills' element={<AddSkill />} />
+                            <Route
+                                path='add-knowledge'
+                                element={<AddKnowledge />}
+                            />
+                            <Route
+                                path='add-attitude'
+                                element={<AddAttitude />}
+                            />
+                            <Route
+                                path='complete-profile'
+                                element={<CompleteProfile />}
+                            />
+                            <Route
+                                path='edit-profile'
+                                element={<CompleteProfile />}
+                            />
+
+                            <Route
+                                path=':username'
+                                element={<ProfileUpdate />}
+                            />
+
+                            <Route
+                                path=':username/add-about'
+                                element={<AddAbout />}
+                            />
+                            <Route
+                                path=':username/add-experiences'
+                                element={<AddExperiences />}
+                            />
+                            <Route
+                                path=':username/add-language'
+                                element={<AddLanguage />}
+                            />
+                            <Route
+                                path=':username/add-skills'
+                                element={<AddSkill />}
+                            />
+                            <Route
+                                path=':username/add-knowledge'
+                                element={<AddKnowledge />}
+                            />
+                            <Route
+                                path=':username/add-attitude'
+                                element={<AddAttitude />}
+                            />
+                            <Route
+                                path=':username/complete-profile'
+                                element={<CompleteProfile />}
+                            />
+                            <Route
+                                path=':username/edit-profile'
+                                element={<CompleteProfile />}
                             />
                         </Route>
+
                         <Route path='/sign-in' element={<SignIn />} />
                         <Route
                             path='/create-profile'

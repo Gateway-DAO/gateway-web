@@ -2,19 +2,24 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // Web3
-import { CONNECTORS, shortenAddress } from '../utils/web3';
+import { shortenAddress } from '../utils/web3';
 import { useWeb3React } from '@web3-react/core';
-import useUpdateUser from '../api/database/useUpdateUser';
-import useCreateUser from '../api/database/useCreateUser';
+import {
+    updateUser as UPDATE_USER,
+    createUser as CREATE_USER,
+} from '../graphql/mutations';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import Portis from '@portis/web3';
 
 // AWS/GraphQL
 import awsconfig from '../aws-exports';
 import { getNonce } from '../api/database/getNonce';
 import { getUserByAddress as getUserByAddressQuery } from '../graphql/queries';
-import { useLazyQuery, gql } from '@apollo/client';
+import { useLazyQuery, gql, useMutation } from '@apollo/client';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
+import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 // import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
@@ -86,44 +91,33 @@ export const useSignedAuth = (deps = []) => {
  * @returns None
  */
 export const UserProvider = ({ children }) => {
-    /* State */
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [walletConnected, setWalletConnected] = useState(false);
-    const [loggingIn, setLoggingIn] = useState(false);
-    const [loadingWallet, setLoadingWallet] = useState(false);
-    const [userInfo, setUserInfo] = useState(null);
-
     // Hooks
     const web3 = useWeb3React();
     // const threeID = use3ID();
     const { showErrorModal } = useModal();
 
     // Database
-    const [
-        getUserByAddress,
-        { data: userBAData, loading: userBALoading, called: userBACalled },
-    ] = useLazyQuery(gql(getUserByAddressQuery), {
-        fetchPolicy: 'no-cache',
-        variables: {
-            wallet: web3.account,
-        },
-    });
-
-    const {
-        updateUser,
-        data: userUpdateData,
-        error: userUpdateError,
-        loading: userUpdateLoading,
-    } = useUpdateUser();
-
-    const {
-        createUser,
-        data: userCreateData,
-        error: userCreateError,
-        loading: userCreateLoading,
-    } = useCreateUser();
+    const [getUserByAddress, { data: fetchedUserData }] = useLazyQuery(
+        gql(getUserByAddressQuery),
+        {
+            variables: {
+                wallet: web3.account,
+            },
+        }
+    );
+    const [updateUser] = useMutation(gql(UPDATE_USER));
+    const [createUser] = useMutation(gql(CREATE_USER));
 
     const { getFile } = useGetFile();
+
+    /* State */
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [walletConnected, setWalletConnected] = useState(false);
+    const [loggingIn, setLoggingIn] = useState(false);
+    const [loadingWallet, setLoadingWallet] = useState(false);
+    const [userInfo, setUserInfo] = useState(
+        fetchedUserData?.getUserByAddress?.items[0] || null
+    );
 
     /**
      * Activates Metamask/injected wallet provider.
@@ -132,7 +126,28 @@ export const UserProvider = ({ children }) => {
     const activateWeb3 = async () => {
         try {
             setLoadingWallet(true);
-            await web3.activate(CONNECTORS.Injected);
+
+            const providerOptions = {
+                walletconnect: {
+                    package: WalletConnectProvider,
+                    options: {
+                        infuraId: '19128174ace8471f88c08ca304b087e9', // required
+                    },
+                },
+                portis: {
+                    package: Portis, // required
+                    options: {
+                        id: '05880af7-bb63-4795-b558-4b6f9ba21288', // required
+                    },
+                },
+            };
+
+            const connector = new Web3ModalConnector({
+                providerOptions,
+            });
+
+            await web3.activate(connector);
+
             setLoadingWallet(false);
         } catch (err) {
             console.log(`Error connecting to wallet: ${err}`);
@@ -164,9 +179,10 @@ export const UserProvider = ({ children }) => {
      */
     const userSignOut = async () => {
         await Auth.signOut();
+        await web3.deactivate();
         setLoggedIn(false);
         setLoggingIn(false);
-        // setUserInfo(null);
+        setUserInfo(null);
     };
 
     /**
@@ -181,7 +197,10 @@ export const UserProvider = ({ children }) => {
             },
         });
 
-        setUserInfo(user.data.updateUser);
+        setUserInfo((prev) => ({
+            ...prev,
+            ...info,
+        }));
     };
 
     /**
@@ -236,7 +255,7 @@ export const UserProvider = ({ children }) => {
             const signer = web3.library.getSigner();
 
             const signature = await signer.signMessage(
-                data.getAuthenticationNonce.nonce
+                `Welcome to Gateway!\n\nPlease sign this message for access: ${data.getAuthenticationNonce.nonce}`
             );
 
             const user = await Auth.signIn(data.getAuthenticationNonce.userId);
