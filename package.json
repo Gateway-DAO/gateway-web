@@ -6,7 +6,7 @@
         "url": "https://github.com/Gateway-DAO/gateway-web"
     },
     "author": {
-        "name": "Orest Tarasiuk"
+        "name": "Manish Rawat"
     },
     "dependencies": {
         "@3id/connect": "^0.2.5",
