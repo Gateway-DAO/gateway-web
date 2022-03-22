@@ -262,6 +262,7 @@ const AddNewKey = () => {
                                 name='keysRewarded'
                                 onChange={formik.handleChange}
                                 placeholder='0'
+                                min={0}
                                 value={
                                     formik.values.keysRewarded > 0
                                         ? formik.values.keysRewarded

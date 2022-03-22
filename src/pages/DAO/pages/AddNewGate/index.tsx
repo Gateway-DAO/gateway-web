@@ -628,7 +628,7 @@ const AddGateForm = () => {
 
                             <FormStyled.Fieldset>
                                 <FormStyled.Label>
-                                    Would you like to have pre-requisites/keys?
+                                    Would you like to have keys?
                                 </FormStyled.Label>
                                 <FormStyled.GridBox
                                     cols={2}

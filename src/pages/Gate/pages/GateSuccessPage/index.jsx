@@ -19,14 +19,12 @@ const GateSuccessPage = (props) => {
             window.location.href = `/gate/${gateData.id}/`;
         }
 
-        if (loaded) {
-            const clear = setTimeout(() => {
-                window.location.href = `/gate/${gateData.id}/`;
-            }, 3000);
+        const clear = setTimeout(() => {
+            window.location.href = `/gate/${gateData.id}/`;
+        }, 3000);
 
-            return () => clearTimeout(clear);
-        }
-    }, [loaded]);
+        return () => clearTimeout(clear);
+    }, []);
 
     useEffect(
         () => space(window.innerHeight, window.innerWidth),
@@ -36,9 +34,7 @@ const GateSuccessPage = (props) => {
     return (
         <Styled.Container>
             <ThemeStyled.SpaceBox id='space-canvas' />
-            {loaded ? (
-                <>
-                    <ThemeStyled.MainText>
+            <ThemeStyled.MainText>
                         Congratulations!
                     </ThemeStyled.MainText>
                     <Styled.Text>
@@ -54,10 +50,6 @@ const GateSuccessPage = (props) => {
                     <Styled.SmallTextContainer>
                         Redirecting...
                     </Styled.SmallTextContainer>
-                </>
-            ) : (
-                <Loader />
-            )}
         </Styled.Container>
     );
 };
