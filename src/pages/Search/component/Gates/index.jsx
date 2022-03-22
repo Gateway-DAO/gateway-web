@@ -9,12 +9,11 @@ import Pagination from '../Pagination';
 
 // Hooks
 import { useEffect, useState } from 'react';
-import { useSearchUsers } from '../../../../api/database/useSearchUser';
-import useUserLength from '../../../../api/database/useUserLength';
+import useSearchGates from '../../../../api/database/useSearchGates';
 
 import { Navigate } from 'react-router-dom';
 
-const UserTab = ({ filterQuery }) => {
+const GateTab = ({ filterQuery }) => {
     const [hits, setHits] = useState([]);
 
     const [pageCount, setPageCount] = useState(0);
@@ -26,11 +25,11 @@ const UserTab = ({ filterQuery }) => {
         loading: listLoading,
         error: listError,
         called: listCalled,
-    } = useSearchUsers({
+    } = useSearchGates({
         variables: {
             limit: resultPerPage,
             from: from,
-            filter: { init: { eq: true } },
+            // filter: { init: { eq: true } },
         },
     });
 
@@ -39,7 +38,7 @@ const UserTab = ({ filterQuery }) => {
         loading: searchLoading,
         error: searchError,
         called: searchCalled,
-    } = useSearchUsers({
+    } = useSearchGates({
         variables: {
             limit: resultPerPage,
             from: from,
@@ -47,28 +46,24 @@ const UserTab = ({ filterQuery }) => {
         },
     });
 
-    const {
-        data: lengthData,
-        loading: lengthDataLoading,
-        error: userLengthError,
-        called: userLengthCalled,
-    } = useUserLength({
-        variables: {
-            filter: filterQuery,
-        },
-    });
-
     useEffect(() => {
         if (Object.keys(filterQuery).length === 0) {
-            setHits(!listLoading ? listData?.searchUsers.items : []);
+            console.log('listData', listData);
+            setHits(
+                !listLoading && !listError ? listData?.searchGates.items : []
+            );
             setPageCount(
-                Math.ceil(listData?.searchUsers.total / resultPerPage)
+                Math.ceil(listData?.searchGates.total / resultPerPage)
             );
         } else {
-            setHits(!searchLoading ? searchData.searchUsers.items : []);
+            setHits(
+                !searchLoading && !searchError
+                    ? searchData.searchGates.items
+                    : []
+            );
 
             setPageCount(
-                Math.ceil(lengthData?.searchUsers.items.length / resultPerPage)
+                Math.ceil(searchData?.searchGates.items.length / resultPerPage)
             );
         }
     }, [
@@ -76,7 +71,8 @@ const UserTab = ({ filterQuery }) => {
         searchLoading,
         listLoading,
         pageNumber,
-        lengthDataLoading,
+        listError,
+        searchError,
     ]);
 
     const searchOrListLoading =
@@ -129,4 +125,4 @@ const UserTab = ({ filterQuery }) => {
     );
 };
 
-export default UserTab;
+export default GateTab;

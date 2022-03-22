@@ -35,9 +35,18 @@ export const Text = styled.p`
     margin-right: 10px;
 `;
 
-export const BoldText2 = styled(Text)`
+export const BoldText2 = styled.span`
     margin-left: 5px;
+    margin-right: 10px;
     font-weight: bold;
+    font-family: Be Vietnam;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    color: #e5e5e5;
 `;
 
 export const WhitelistButtonDiv = styled.div`

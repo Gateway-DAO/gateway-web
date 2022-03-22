@@ -21,11 +21,12 @@ const Gates = (props) => {
                 viewAsMember={props.viewAsMember}
             />
             <Styled.GatesContainer>
-                {gates.map((gate) => {
+                {gates.map((gate, idx) => {
                     if (!props.viewAsMember) {
                         return (
                             <GateCard
                                 gate={gate}
+                                key={idx}
                                 viewAsMember={props.viewAsMember}
                             />
                         );
@@ -38,6 +39,7 @@ const Gates = (props) => {
                         return (
                             <GateCard
                                 gate={gate}
+                                key={idx}
                                 viewAsMember={props.viewAsMember}
                             />
                         );

@@ -31,7 +31,7 @@ import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQ
 const DAO = React.lazy(() => import('./DAO'));
 const Gate = React.lazy(() => import('./Gate'));
 const AddNewKey = React.lazy(() => import('./Gate/pages/AddNewKey'));
-const Search = React.lazy(() => import('./Search'));
+const Search = React.lazy(() => import('./Search/index'));
 const ProfilePage = React.lazy(() => import('./ProfilePage'));
 const SignIn = React.lazy(() => import('./SignIn'));
 const CreateProfile = React.lazy(() => import('./CreateProfile'));
