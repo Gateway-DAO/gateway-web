@@ -560,8 +560,7 @@ const updateKey = async (input) => {
         keys: input.keys,
         peopleLimit: input.peopleLimit,
         unlimited: input.unlimited,
-        createdAt: input.createdAt || new Date().toISOString(),
-        updatedAt: input.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         task: input.task,
     };
 
@@ -642,15 +641,21 @@ const updateKey = async (input) => {
         default:
     }
 
-    const newItem = await docClient
+    console.log(Item);
+
+    await docClient.delete({
+        TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+        Key: {
+            id: input.id
+        }
+    })
+
+    await docClient
         .put({
             TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
             Item,
-            ConditionExpression: 'attribute_exists(id)',
         })
         .promise();
-
-    console.log(`New Item: ${JSON.stringify(newItem)}`);
 
     return Item;
 };
