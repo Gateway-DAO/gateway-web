@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import { FormStyled } from '../../../../components/Form';
+import { components } from 'react-select';
+
+const { Option } = components;
 
 export const Page = styled.div`
     // background-color: #170627;
@@ -259,3 +262,7 @@ export const IconBox = styled.div<IIconBoxProps>`
     margin-left: ${(props) => props.ml};
     cursor: pointer;
 `;
+
+export const FlexOption = styled(Option)`
+    background-color: red;
+`

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // Styling
@@ -41,7 +41,7 @@ import {
 // Components
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
-import Page from '../../../../components/Page';
+import { ProfilePicture } from './Components/SearchedAdmin/style';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -52,6 +52,7 @@ interface GateData extends Gate {
     taskStatus: TaskStatus[];
     adminList: User[];
     preRequisitesList: Gate[];
+    retroactiveEarnersList: User[];
 }
 
 /* Defining a type for the admin object. */
@@ -93,8 +94,18 @@ const AddGateForm = () => {
     const [description, setDescription] = useState<string>(
         edit ? gateData.description : ''
     );
-    const [retroactiveEarners, setRetroactiveEarners] = useState<string[]>(
-        edit ? gateData.retroactiveEarners : ['']
+    const [retroactiveEarnersQuery, setRetroactiveEarnersQuery] =
+        useState<string>('');
+    const [retroactiveEarners, setRetroactiveEarners] = useState<IAdmin[]>(
+        edit
+            ? gateData.retroactiveEarnersList.map((retro) => ({
+                  name: retro?.name || '',
+                  username: retro?.username || '',
+                  pfp: retro?.pfp || '',
+                  id: retro?.id || '',
+                  wallet: retro?.wallet || '',
+              }))
+            : []
     );
     const [uploadFile, setUploadFile] = useState(null);
     const [category, setCategory] = useState<string>('');
@@ -174,30 +185,26 @@ const AddGateForm = () => {
                     { name: { wildcard: `*${admin.toLowerCase()}*` } },
                     { username: { wildcard: `*${admin.toLowerCase()}*` } },
                     { bio: { wildcard: `*${admin.toLowerCase()}*` } },
+                    { wallet: { wildcard: `*${admin.toLowerCase()}*` } },
                 ],
             },
         },
     });
 
-    const [
-        searchByGates,
-        {
-            data: searchGateData,
-            called: searchGateCalled,
-        },
-    ] = useLazyQuery(gql(searchGates), {
-        variables: {
-            filter: {
-                or: [
-                    {
-                        name: {
-                            wildcard: `*${prerequisite.toLowerCase()}*`,
+    const [searchByGates, { data: searchGateData, called: searchGateCalled }] =
+        useLazyQuery(gql(searchGates), {
+            variables: {
+                filter: {
+                    or: [
+                        {
+                            name: {
+                                wildcard: `*${prerequisite.toLowerCase()}*`,
+                            },
                         },
-                    },
-                ],
+                    ],
+                },
             },
-        },
-    });
+        });
 
     const navigate = useNavigate();
 
@@ -288,13 +295,10 @@ const AddGateForm = () => {
         setPrerequisiteList((prev) => prev.filter((gate) => gate.id !== id));
     };
 
-    /**
-     * It adds an admin to the list of admins.
-     */
-    const addAdmin = (admin: IAdmin) => {
-        setAdminList([...adminList, admin]);
-        setAdminSearch((prev) => prev.filter((adm) => adm.id !== admin.id));
-    };
+    /* Creating a function that will be called when the adminList is updated. */
+    const handleAdmin = useCallback((adminList) => {
+        setAdminList(adminList);
+    }, []);
 
     /**
      * It removes the admin from the list of admins.
@@ -302,27 +306,16 @@ const AddGateForm = () => {
     const removeAdmin = (id: string) => {
         setAdminList((prev) => prev.filter((adm) => adm.id !== id));
     };
-
-    const updateRetroactiveEarner = (e: string, idx: number) => {
-        const add = retroactiveEarners.map((value, i) => {
-            if (idx === i) {
-                return e;
-            }
-            return value;
-        });
-
-        setRetroactiveEarners(add);
-    };
+    /* Creating a function that will be called when the retroactiveEarners list is updated. */
+    const handleEarner = useCallback((earnerList) => {
+        setRetroactiveEarners(earnerList);
+    }, []);
 
     /* The removeRetroactiveEarner function is called when the user clicks the remove button. It
     removes the retroactive earner at the index of the button that was clicked. */
-    const removeRetroactiveEarner = (idx: number) => {
-        if (retroactiveEarners.length === 1) {
-            alert('You have to put at least one retroactive earner');
-            return false;
-        }
-        setRetroactiveEarners(
-            retroactiveEarners.filter((value, i) => i !== idx)
+    const removeRetroactiveEarner = (idx: string) => {
+        setRetroactiveEarners((prev) =>
+            prev.filter((value) => value.id !== idx)
         );
     };
 
@@ -474,22 +467,6 @@ const AddGateForm = () => {
     }, [admin]);
 
     useEffect(() => {
-        if (searchUserCalled && !!searchUserData) {
-            const query = searchUserData.searchUsers.items;
-            const results = query.slice(0, 5).map((user: User) => {
-                return {
-                    name: user.name,
-                    username: user.username,
-                    id: user.id,
-                    pfp: user.pfp,
-                    wallet: user.wallet,
-                };
-            });
-            setAdminSearch(results);
-        }
-    }, [searchUserData]);
-
-    useEffect(() => {
         const clear = setTimeout(() => {
             searchByGates();
         }, 2000);
@@ -509,6 +486,38 @@ const AddGateForm = () => {
             setPrereqsSearch(results);
         }
     }, [searchGateData]);
+
+    const getOptions = async (param) => {
+        return (
+            await searchByUsers({
+                variables: {
+                    filter: {
+                        or: [
+                            { name: { wildcard: `*${param.toLowerCase()}*` } },
+                            {
+                                username: {
+                                    wildcard: `*${param.toLowerCase()}*`,
+                                },
+                            },
+                            { bio: { wildcard: `*${param.toLowerCase()}*` } },
+                            { bio: { wildcard: `*${param.toLowerCase()}*` } },
+                        ],
+                    },
+                },
+            })
+        ).data.searchUsers.items.map((user) => ({
+            ...user,
+            label: user.name,
+            value: user,
+        }));
+    };
+
+    const UserOption = (props) => (
+        <Styled.FlexOption {...props}>
+            <ProfilePicture src={props.data.pfp} />
+            <span>{props.data.label}</span>
+        </Styled.FlexOption>
+    );
 
     return (
         <Styled.Page>
@@ -553,7 +562,9 @@ const AddGateForm = () => {
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
-                                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                    onKeyPress={(e) => {
+                                        e.key === 'Enter' && e.preventDefault();
+                                    }}
                                     value={description}
                                     name='description'
                                     placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
@@ -666,7 +677,10 @@ const AddGateForm = () => {
                                         KEYS REQUIRED*
                                     </FormStyled.Label>
                                     <Styled.InputSmall
-                                        onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                        onKeyPress={(e) => {
+                                            e.key === 'Enter' &&
+                                                e.preventDefault();
+                                        }}
                                         onChange={(e) => {
                                             e.preventDefault();
                                             setKeyRequired(e.target.value);
@@ -845,7 +859,10 @@ const AddGateForm = () => {
                                                 e.preventDefault();
                                                 setBadgeName(e.target.value);
                                             }}
-                                            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                            onKeyPress={(e) => {
+                                                e.key === 'Enter' &&
+                                                    e.preventDefault();
+                                            }}
                                             type='text'
                                             id='badgeName'
                                             name='badgeName'
@@ -857,20 +874,23 @@ const AddGateForm = () => {
                                 </>
                             )}
                             <FormStyled.Fieldset>
-                                <FormStyled.Label htmlFor='title'>
+                                <FormStyled.Label htmlFor='admins'>
                                     Admin Privileges*
                                 </FormStyled.Label>
-                                <FormStyled.SearchInput
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setAdmin(e.target.value);
+                                <FormStyled.AsyncSelect
+                                    id={`admins`}
+                                    isMulti
+                                    controlShouldRenderValue={false}
+                                    onInputChange={(e) => setAdmin(e)}
+                                    onChange={handleAdmin}
+                                    loadOptions={async () =>
+                                        await getOptions(admin)
+                                    }
+                                    defaultValue={adminList}
+                                    value={adminList}
+                                    components={{
+                                        Option: UserOption,
                                     }}
-                                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                    type='text'
-                                    id='admin'
-                                    name='admin'
-                                    placeholder='Search for admins'
-                                    value={admin}
                                 />
 
                                 {adminList.length > 0 && (
@@ -884,104 +904,52 @@ const AddGateForm = () => {
                                         ))}
                                     </Styled.CategoryList>
                                 )}
-
-                                {searchUserLoading ? (
-                                    <Styled.CentralizedLoader>
-                                        <Loader color='white' size={32} />
-                                    </Styled.CentralizedLoader>
-                                ) : (
-                                    admin.length > 0 &&
-                                    adminSearch.length > 0 && (
-                                        <Styled.SearchBox>
-                                            {adminSearch.map((admin) => (
-                                                <SearchRes
-                                                    res={admin}
-                                                    addAdmin={addAdmin}
-                                                />
-                                            ))}
-                                        </Styled.SearchBox>
-                                    )
-                                )}
                             </FormStyled.Fieldset>
 
                             {(!edit ||
                                 gateData?.published ===
                                     PublishedState.NOT_PUBLISHED) && (
                                 <FormStyled.Fieldset>
-                                    <FormStyled.Label htmlFor='retroactiveLearner'>
+                                    <FormStyled.Label htmlFor='retroactiveEarners'>
                                         {wantPreReqs === YesNo.YES
                                             ? 'RETROACTIVE'
                                             : ''}{' '}
                                         EARNER
                                     </FormStyled.Label>
-                                    {retroactiveEarners.map(
-                                        (retroactiveEarner, idx) => {
-                                            return (
-                                                <FormStyled.InputWrapper>
-                                                    <FormStyled.Input
-                                                        id={`retroactiveEarners-${idx}`}
-                                                        type='text'
-                                                        value={
-                                                            retroactiveEarner
-                                                        }
-                                                        placeholder='Enter wallet/ens address'
-                                                        onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                                                        onChange={(e) => {
-                                                            e.preventDefault();
-                                                            updateRetroactiveEarner(
-                                                                e.target.value,
-                                                                idx
-                                                            );
-                                                        }}
-                                                        name='retroactiveEarners'
-                                                    />
-                                                    <Styled.IconBox
-                                                        ml='10px'
-                                                        onClick={
-                                                            retroactiveEarners.length >
-                                                            1
-                                                                ? () =>
-                                                                      removeRetroactiveEarner(
-                                                                          idx
-                                                                      )
-                                                                : undefined
-                                                        }
-                                                    >
-                                                        {retroactiveEarners.length >
-                                                        1 ? (
-                                                            <FaTrashAlt
-                                                                style={{
-                                                                    color: 'white',
-                                                                }}
-                                                            />
-                                                        ) : (
-                                                            <FaTrashAlt
-                                                                style={{
-                                                                    color: 'rgba(255,255,255,0.2)',
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Styled.IconBox>
-                                                </FormStyled.InputWrapper>
-                                            );
+                                    <FormStyled.AsyncSelect
+                                        id={`retroactiveEarners`}
+                                        isMulti
+                                        controlShouldRenderValue={false}
+                                        onInputChange={(e) =>
+                                            setRetroactiveEarnersQuery(e)
                                         }
+                                        onChange={handleEarner}
+                                        defaultValue={retroactiveEarners}
+                                        value={retroactiveEarners}
+                                        loadOptions={async () =>
+                                            await getOptions(
+                                                retroactiveEarnersQuery
+                                            )
+                                        }
+                                        components={{
+                                            Option: UserOption,
+                                        }}
+                                    />
+                                    {retroactiveEarners.length > 0 && (
+                                        <Styled.CategoryList>
+                                            {retroactiveEarners.map(
+                                                (earner) => (
+                                                    <SearchedAdmin
+                                                        val={earner}
+                                                        id={earner.id}
+                                                        removeAdmin={
+                                                            removeRetroactiveEarner
+                                                        }
+                                                    />
+                                                )
+                                            )}
+                                        </Styled.CategoryList>
                                     )}
-                                    <FormStyled.IconButton
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            setRetroactiveEarners([
-                                                ...retroactiveEarners,
-                                                '',
-                                            ]);
-                                        }}
-                                        style={{
-                                            width: 'fit-content',
-                                            alignSelf: 'center',
-                                        }}
-                                        type='button'
-                                    >
-                                        <FaPlus />
-                                    </FormStyled.IconButton>
                                 </FormStyled.Fieldset>
                             )}
 
