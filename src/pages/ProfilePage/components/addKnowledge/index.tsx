@@ -31,13 +31,13 @@ const suggestedOptions = [
 
 const AddKnowledge = () => {
 	// State
-    const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
+	const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
 
-    // Hooks
-    const navigate = useNavigate();
+	// Hooks
+	const navigate = useNavigate();
 	const {
-        updateUserInfo,
-    }: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
+		updateUserInfo,
+	}: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
 	const [redirect, setRedirect] = useState(false);
 
 	const [selectedKnowledge, setSelectedKnowledge] = useState(userInfo?.knowledges?.map(knowledge => ({
@@ -68,7 +68,7 @@ const AddKnowledge = () => {
 		if (handleCheck(knowledge) == false) {
 			setSelectedKnowledge(prev => [...prev, knowledge]);
 		}
-	}, []);
+	}, [selectedKnowledge]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -88,12 +88,12 @@ const AddKnowledge = () => {
 	};
 
 	if (redirect) {
-        return <Navigate to='/profile' />;
-    }
+		return <Navigate to='/profile' />;
+	}
 
-    if (!canEdit) {
-        return <Navigate to='/404' />;
-    }
+	if (!canEdit) {
+		return <Navigate to='/404' />;
+	}
 
 	return (
 		<Space>
