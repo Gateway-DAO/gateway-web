@@ -159,7 +159,7 @@ const AddLanguage: React.FC = () => {
 									<div className='selected-options'>
 										{selectedLanguage.length > 0 &&
 											selectedLanguage.map((item) => (
-												<p key={item}>
+												<p key={item.value}>
 													{item.label}
 													<span
 														onClick={removeLanguage(
