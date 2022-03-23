@@ -26,7 +26,7 @@ export const UserImage = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-color: #181818;
+    background-color: #170627;
 
     width: 100%;
     height: 400px;
