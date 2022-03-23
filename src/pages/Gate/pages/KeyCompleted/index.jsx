@@ -32,7 +32,7 @@ const KeyCompletedPage = (props) => {
             } else {
                 window.location.href = `/gate/${gateData.id}/`;
             }
-        }, 3000);
+        }, 1000);
 
         return () => clearTimeout(clear);
     }, []);

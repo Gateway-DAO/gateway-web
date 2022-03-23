@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import Subcategories from './Subcategories';
 import GateCard from '../../../GateCard';
 import { GradientSVG } from '../../../ProgressCircle';
-// import { useAdmin } from '../../../../hooks/useAdmin';
+import { useAdmin } from '../../../../hooks/useAdmin';
 import { PublishedState } from '../../../../graphql/API';
 
 const Gates = (props) => {
     const [activeCategory, setActiveCategory] = useState('All');
     const gates = props.gates.items || [];
-    // const { isAdmin } = useAdmin(props.whitelistedAddresses);
+    const { isAdmin } = useAdmin(props.whitelistedAddresses);
 
     return (
         <Styled.Wrapper>
@@ -21,8 +21,8 @@ const Gates = (props) => {
                 viewAsMember={props.viewAsMember}
             />
             <Styled.GatesContainer>
-                {gates.map((gate, idx) => {
-                    if (!props.viewAsMember) {
+                {gates.map((gate) => {
+                    if (isAdmin && !props.viewAsMember) {
                         return (
                             <GateCard
                                 gate={gate}

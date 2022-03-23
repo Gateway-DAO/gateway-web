@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+const FilledEditor = `
+    background: #220A38;
+    border: 1px solid #7E3BDC;
+    box-sizing: border-box;
+`;
+
 export const RichEditor = styled.div`
     font-family: Be Vietnam;
     font-style: normal;

@@ -41,6 +41,7 @@ import {
 // Components
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
+import Page from '../../../../components/Page';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -182,8 +183,6 @@ const AddGateForm = () => {
         searchByGates,
         {
             data: searchGateData,
-            loading: searchGateLoading,
-            refetch: searchGateRefetch,
             called: searchGateCalled,
         },
     ] = useLazyQuery(gql(searchGates), {
@@ -207,6 +206,7 @@ const AddGateForm = () => {
     the input. */
     const addCategories = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             setCategoryList([...categoryList, category]);
             setCategory('');
         }
@@ -224,6 +224,7 @@ const AddGateForm = () => {
     the input. */
     const addSkills = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             setSkillList([...skillList, skill]);
             setSkill('');
         }
@@ -241,6 +242,7 @@ const AddGateForm = () => {
     the input. */
     const addKnowledge = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             setKnowledgeList([...knowledgeList, knowledge]);
             setKnowledge('');
         }
@@ -258,6 +260,7 @@ const AddGateForm = () => {
     the input. */
     const addAttitude = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             setAttitudeList([...attitudeList, attitude]);
             setAttitude('');
         }
@@ -329,10 +332,10 @@ const AddGateForm = () => {
      * @returns The `createGate` mutation returns a `Gate` object.
      */
     const onSave = async (e: React.FormEvent) => {
+        e.preventDefault();
         setUpdateeLoading(true);
-        try {
-            e.preventDefault();
 
+        try {
             if (!uploadFile) {
                 alert('Please upload an NFT');
                 return false;
@@ -394,8 +397,9 @@ const AddGateForm = () => {
      * @returns The return value is the `updateGate` mutation.
      */
     const onEdit = async (e) => {
-        setUpdateeLoading(true);
         e.preventDefault();
+        setUpdateeLoading(true);
+
         if (uploadFile && NFTupdated) {
             try {
                 const form = new FormData();
@@ -517,7 +521,7 @@ const AddGateForm = () => {
                 >
                     Back to Onboarding
                 </BackButton>
-                <Styled.Container onSubmit={edit ? onEdit : onSave}>
+                <Styled.FormContainer onSubmit={edit ? onEdit : onSave}>
                     <Styled.Header>
                         {edit ? `Edit Gate` : `Create a New Gate`}
                     </Styled.Header>
@@ -549,6 +553,7 @@ const AddGateForm = () => {
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
+                                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                     value={description}
                                     name='description'
                                     placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
@@ -593,7 +598,7 @@ const AddGateForm = () => {
 
                             <FormStyled.Fieldset>
                                 <FormStyled.Label>
-                                    Type of NFT*
+                                    Type of Badge*
                                 </FormStyled.Label>
                                 <FormStyled.GridBox
                                     cols={2}
@@ -623,7 +628,7 @@ const AddGateForm = () => {
 
                             <FormStyled.Fieldset>
                                 <FormStyled.Label>
-                                    Would you like to have pre-requisites/keys?
+                                    Would you like to have keys?
                                 </FormStyled.Label>
                                 <FormStyled.GridBox
                                     cols={2}
@@ -661,9 +666,11 @@ const AddGateForm = () => {
                                         KEYS REQUIRED*
                                     </FormStyled.Label>
                                     <Styled.InputSmall
-                                        onChange={(e) =>
-                                            setKeyRequired(e.target.value)
-                                        }
+                                        onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                        onChange={(e) => {
+                                            e.preventDefault();
+                                            setKeyRequired(e.target.value);
+                                        }}
                                         type='number'
                                         id='keyReq'
                                         name='keyReq'
@@ -680,41 +687,6 @@ const AddGateForm = () => {
                                 gateData?.published ===
                                     PublishedState.NOT_PUBLISHED) && (
                                 <>
-                                    <FormStyled.Fieldset>
-                                        <FormStyled.Label htmlFor='title'>
-                                            Category*
-                                        </FormStyled.Label>
-                                        <FormStyled.Input
-                                            onChange={(e) =>
-                                                setCategory(e.target.value)
-                                            }
-                                            type='text'
-                                            id='category'
-                                            name='category'
-                                            placeholder='Search Category'
-                                            onKeyPress={addCategories}
-                                            value={category}
-                                        />
-
-                                        {categoryList.length > 0 && (
-                                            <Styled.CategoryList>
-                                                {categoryList.map(
-                                                    (category, id) => {
-                                                        return (
-                                                            <SearchedItem
-                                                                val={category}
-                                                                id={id}
-                                                                remove={
-                                                                    removeCategories
-                                                                }
-                                                            />
-                                                        );
-                                                    }
-                                                )}
-                                            </Styled.CategoryList>
-                                        )}
-                                    </FormStyled.Fieldset>
-
                                     {NFTType === 'Reward' && (
                                         <>
                                             <FormStyled.Fieldset>
@@ -722,9 +694,12 @@ const AddGateForm = () => {
                                                     Skills
                                                 </FormStyled.Label>
                                                 <FormStyled.Input
-                                                    onChange={(e) =>
-                                                        setSkill(e.target.value)
-                                                    }
+                                                    onChange={(e) => {
+                                                        e.preventDefault();
+                                                        setSkill(
+                                                            e.target.value
+                                                        );
+                                                    }}
                                                     type='text'
                                                     id='skills'
                                                     name='skills'
@@ -759,11 +734,12 @@ const AddGateForm = () => {
                                                     Knowledge
                                                 </FormStyled.Label>
                                                 <FormStyled.Input
-                                                    onChange={(e) =>
+                                                    onChange={(e) => {
+                                                        e.preventDefault();
                                                         setKnowledge(
                                                             e.target.value
-                                                        )
-                                                    }
+                                                        );
+                                                    }}
                                                     type='text'
                                                     id='knowledge'
                                                     name='knowledge'
@@ -798,11 +774,12 @@ const AddGateForm = () => {
                                                     Attitudes
                                                 </FormStyled.Label>
                                                 <FormStyled.Input
-                                                    onChange={(e) =>
+                                                    onChange={(e) => {
+                                                        e.preventDefault();
                                                         setAttitude(
                                                             e.target.value
-                                                        )
-                                                    }
+                                                        );
+                                                    }}
                                                     type='text'
                                                     id='attitude'
                                                     name='attitude'
@@ -838,14 +815,14 @@ const AddGateForm = () => {
                                         {edit ? (
                                             <ImageUpload
                                                 htmlFor='ProfileImage'
-                                                label='Upload Badge or NFT*'
+                                                label='Upload Badge Image*'
                                                 setImage={setUploadFile}
                                                 defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
                                             />
                                         ) : (
                                             <ImageUpload
                                                 htmlFor='ProfileImage'
-                                                label='Upload Badge or NFT*'
+                                                label='Upload Badge Image*'
                                                 setImage={setUploadFile}
                                             />
                                         )}
@@ -861,12 +838,14 @@ const AddGateForm = () => {
 
                                     <FormStyled.Fieldset>
                                         <FormStyled.Label htmlFor='title'>
-                                            BADGE/NFT Name*
+                                            Badge Name*
                                         </FormStyled.Label>
                                         <FormStyled.Input
-                                            onChange={(e) =>
-                                                setBadgeName(e.target.value)
-                                            }
+                                            onChange={(e) => {
+                                                e.preventDefault();
+                                                setBadgeName(e.target.value);
+                                            }}
+                                            onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                             type='text'
                                             id='badgeName'
                                             name='badgeName'
@@ -882,7 +861,11 @@ const AddGateForm = () => {
                                     Admin Privileges*
                                 </FormStyled.Label>
                                 <FormStyled.SearchInput
-                                    onChange={(e) => setAdmin(e.target.value)}
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setAdmin(e.target.value);
+                                    }}
+                                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                     type='text'
                                     id='admin'
                                     name='admin'
@@ -942,12 +925,14 @@ const AddGateForm = () => {
                                                             retroactiveEarner
                                                         }
                                                         placeholder='Enter wallet/ens address'
-                                                        onChange={(e) =>
+                                                        onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                                        onChange={(e) => {
+                                                            e.preventDefault();
                                                             updateRetroactiveEarner(
                                                                 e.target.value,
                                                                 idx
-                                                            )
-                                                        }
+                                                            );
+                                                        }}
                                                         name='retroactiveEarners'
                                                     />
                                                     <Styled.IconBox
@@ -993,11 +978,14 @@ const AddGateForm = () => {
                                             width: 'fit-content',
                                             alignSelf: 'center',
                                         }}
+                                        type='button'
                                     >
                                         <FaPlus />
                                     </FormStyled.IconButton>
                                 </FormStyled.Fieldset>
                             )}
+
+                            {/*
                             <FormStyled.Fieldset>
                                 <FormStyled.Label htmlFor='title'>
                                     Prerequisite
@@ -1048,6 +1036,7 @@ const AddGateForm = () => {
                                     )
                                 )}
                             </FormStyled.Fieldset>
+                                            */}
 
                             <FormStyled.Button type='submit'>
                                 {updateLoading && <Loader color='white' />}
@@ -1055,7 +1044,7 @@ const AddGateForm = () => {
                             </FormStyled.Button>
                         </>
                     )}
-                </Styled.Container>
+                </Styled.FormContainer>
             </Space>
         </Styled.Page>
     );

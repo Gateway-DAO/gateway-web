@@ -40,6 +40,8 @@ import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg';
 
 const NewCard = (props) => {
     const web3 = useWeb3React();
+    const { isAdmin } = useAdmin(props.whitelistedAddresses);
+    const [viewAsMember, setViewAsMember] = useState(!isAdmin);
 
     useEffect(() => {
         if (props.tokenAddress && props.showTokenFeed) {
@@ -59,27 +61,19 @@ const NewCard = (props) => {
                 }
             };
 
-            web3.active && web3.library && getBalance(props.tokenAddress);
+            web3.active && web3.library && getBalance(props.tokenAddress) && setViewAsMember(!isAdmin);
+            !web3.active && setViewAsMember(true);
         }
 
         return () => {};
     }, [web3.active, props.id, props]);
 
     const [balance, setBalance] = useState(0);
-    const [viewAsMember, setViewAsMember] = useState(true);
-    const { isAdmin } = useAdmin(props.whitelistedAddresses);
     const [showEditModal, setShowEditModal] = useState(false);
     const iconHover = useRef(null);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [activeTab, setActiveTab] = useState(
-        searchParams.get('tab') || 'gates'
-    );
-    console.log({ isAdmin });
-    useEffect(() => {
-        setViewAsMember(!isAdmin);
-        console.log({ viewAsMember });
-    }, [isAdmin]);
+
     const Modals = () => (
         <>
             {React.createElement(EditCardModal, {
@@ -282,7 +276,7 @@ const NewCard = (props) => {
             case 'Plugins':
                 return <Plugins {...props} />;
             default:
-                return <Gates {...props} />;
+                return <Gates {...props} viewAsMember={viewAsMember} />;
         }
     };
 
@@ -307,8 +301,8 @@ const NewCard = (props) => {
                             </Styled.DaoTagContainer>
                             <Styled.Title>
                                 {props?.name}{' '}
-                                <Styled.EditContainer data-title='Edit Dao'>
-                                    {!viewAsMember && (
+                                <Styled.EditContainer>
+                                    {(isAdmin && !viewAsMember) && (
                                         <FaPencilAlt
                                             onClick={toggleEditModal}
                                         />

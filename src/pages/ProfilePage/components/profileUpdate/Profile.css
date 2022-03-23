@@ -25,10 +25,17 @@ section.gateway-profile {
     margin-top: 3rem;
 }
 
+.gateway-profile-left {
+    height: 100%;
+    top: 10px;
+}
 .gateway-profile-left img {
     border-radius: 20px;
     height: 262px;
     object-fit: cover;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 10px;
 }
 .gateway-profile-middle-inner-top {
     display: flex;
@@ -156,8 +163,8 @@ section.gateway-profile {
     display: flex;
     flex-direction: column;
     height: auto;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 55px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding-bottom: 25px !important;
     word-break: break-all;
 }
 .gateway-profile-right {
@@ -166,6 +173,7 @@ section.gateway-profile {
     height: auto;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 22px;
+    justify-content: space-between;
 }
 .gway-prfile-col-progress .progress {
     border-radius: 20px;
@@ -326,6 +334,10 @@ section.gateway-profile {
 .about-content {
     color: #fff;
     font-size: 20px;
+    font-family: 'Be Vietnam';
+}
+.about-content strong {
+    font-weight: bold;
 }
 ul.daos-like-ul li a {
     font-style: normal;
@@ -442,12 +454,12 @@ ul.daos-like-ul li a img {
 .gway-skill-col ul li a:hover,
 .gway-skill-col ul li a:focus {
     color: #fff;
-    background: linear-gradient(
+    /* background: linear-gradient(
         to top,
         #ff00b8 0%,
         #7e3bdc 50.5%,
         #0075ff 100%
-    );
+    ); */
     transition: 0.3s;
     min-height: 40px;
     border: none;
@@ -728,6 +740,7 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 .experience-profile-section {
     position: relative;
+    margin-bottom: 80px;
 }
 .experience-profile-section:before {
     position: absolute;
@@ -754,16 +767,19 @@ a.profile-toggle:focus + .profile-dropdown {
     font-size: 21px;
     color: #e5e5e5;
     font-weight: 700;
+    font-family: 'Be Vietnam';
 }
 .experience-profile-section .finance-date p {
     font-size: 16px;
     color: #e5e5e5;
     display: block;
     letter-spacing: 0.05em;
+    font-family: 'Be Vietnam';
 }
 .experience-profile-section .finance-date p span {
     display: block;
     color: #a29ba9;
+    font-family: 'Be Vietnam';
 }
 .creative-see-more {
     background: linear-gradient(270deg, #ff00b8 41.87%, #7e3bdc 100%);
@@ -776,24 +792,24 @@ a.profile-toggle:focus + .profile-dropdown {
     padding: 0 60px;
 }
 .nft .accordion-header .accordion-button {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0 15px;
     background: none;
     border: none;
     font-size: 16px;
     color: #e5e5e5;
     letter-spacing: 0.05em;
     font-weight: 600;
-    box-shadow: none;
+    box-shadow: #305e97;
+    font-family: 'Be Vietnam';
 }
 .nft .accordion-button::after {
     margin-left: 5px;
     filter: brightness(0) invert(1);
-    background-image: url(https://gateway.devcmitexpert.com/profile/top-chevron.svg);
     width: 13px;
     height: 8px;
-    background-size: 13px;
+    background-size: 15px;
     transform: rotate(180deg);
+    padding-bottom: 15px;
 }
 .nft .accordion-item {
     background: none;
@@ -834,6 +850,7 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 .nft .accordion-body {
     padding: 0;
+    margin-top: 30px;
 }
 .nft .img-box {
     display: flex;
@@ -899,6 +916,7 @@ a.profile-toggle:focus + .profile-dropdown {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 15px;
 }
 .experience-profile-heading a {
     width: 40px;
@@ -1034,4 +1052,55 @@ a.profile-toggle:focus + .profile-dropdown {
     section.gateway-profile .row .col-md-3 .gway-skill-col {
         order: 6;
     }
+}
+
+.accordion-button:focus {
+    /* border: solid 2px #305e97 !important; */
+    border-radius: 20px !important;
+    background-color: #2e1f3d !important;
+    outline: none !important;
+    border: none !important;
+}
+
+.sc-kGrBqp.bjZppV {
+    overflow: unset;
+}
+
+/*button hover styles*/
+.dropdown-toggle.btn.btn-success,
+.gateway-profile-middle-btn-grp a,
+.gway-skill-col-hd a,
+.gway-about-hd a,
+.arrow-back,
+.btn.btn-primary,
+.gateway-profile-right-top a {
+    background: none !important;
+    border: solid 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+.dropdown-toggle.btn.btn-success:hover,
+/* .gateway-profile-middle-btn-grp a:hover, */
+.clipboard-cpy-btn:hover,
+.gway-skill-col-hd a:hover,
+.gway-about-hd a:hover,
+.arrow-back:hover,
+.btn.btn-primary:hover,
+.gateway-profile-right-top a:hover {
+    background: linear-gradient(#170627, #170627) padding-box,
+        linear-gradient(to right, #e153f2, #6a39f3, #495be0) border-box !important;
+}
+.sc-crHmcD.lkEPeg {
+    position: absolute !important;
+    right: 10px !important;
+}
+
+.hostName {
+    font-family: 'Be Vietnam';
+    margin-bottom: 44px;
+}
+.hostName a {
+    color: #eaeaea;
+}
+.hostName a:hover {
+    color: #fc01b7;
 }

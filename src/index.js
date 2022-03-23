@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './pages/App.tsx';
-import { store } from './state/store';
 
 /* AOS CSS animation */
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 /* Providers */
-import { Provider as ReduxProvider } from 'react-redux';
 import { ThemeProvider, GlobalTheme } from './theme';
 import { Web3ReactProvider } from '@web3-react/core';
 import { Web3Provider } from '@ethersproject/providers';
@@ -35,18 +33,16 @@ function getLibrary(provider, connector) {
 
 ReactDOM.render(
     <ApolloAppSyncProvider>
-        <ReduxProvider store={store}>
-            <Web3ReactProvider getLibrary={getLibrary}>
-                <ThemeProvider>
-                    <ModalProvider>
-                        <UserProvider>
-                            <GlobalTheme />
-                            <App />
-                        </UserProvider>
-                    </ModalProvider>
-                </ThemeProvider>
-            </Web3ReactProvider>
-        </ReduxProvider>
+        <Web3ReactProvider getLibrary={getLibrary}>
+            <ThemeProvider>
+                <ModalProvider>
+                    <UserProvider>
+                        <GlobalTheme />
+                        <App />
+                    </UserProvider>
+                </ModalProvider>
+            </ThemeProvider>
+        </Web3ReactProvider>
     </ApolloAppSyncProvider>,
     document.getElementById('root')
 );

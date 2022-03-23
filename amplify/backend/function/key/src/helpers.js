@@ -238,6 +238,31 @@ const getGateStatus = async (userID, gateID) => {
 };
 
 /**
+ * Get the task status associated with an user
+ * @param userID - The userID of the user who owns the gate.
+ * @param gateID - The ID of the gate that the user is trying to access.
+ * @returns The status of the gate.
+ */
+const getTaskStatus = async (userID, gateID) => {
+    const { Items: status } = await docClient
+        .scan({
+            TableName: `TaskStatus-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+            FilterExpression: '#gateID = :id and #userID = :userID',
+            ExpressionAttributeNames: {
+                '#gateID': 'gateID',
+                '#userID': 'userID',
+            },
+            ExpressionAttributeValues: {
+                ':id': gateID,
+                ':userID': userID,
+            },
+        })
+        .promise();
+
+    return status;
+};
+
+/**
  * Mark a gate as completed and issues a credential.
  * @param gsID - The ID of the gate status to mark as completed.
  * @returns The status of the gate.
@@ -263,16 +288,28 @@ const markGateAsCompleted = async (gsID, userID, gate) => {
             })
             .promise();
 
+        // Get task status
+        const taskStatus = await getTaskStatus(userID, gate.id);
+        const pow = await Promise.all(
+            taskStatus.map(async (ts) => {
+                const key = await getKey(ts.keyID);
+
+                return {
+                    information: key.information,
+                    task: key.task,
+                };
+            })
+        );
+
         // Issue credential
-        const Item = {
+        let Item = {
             id: uuidv4(),
-            issuerID:
-                process.env.ENV == 'main'
-                    ? '21696527-0fe3-40fc-86d5-d85f650ae3fe'
-                    : '70a52c4e-f333-4f6c-b528-993ad166ad10',
             targetID: userID,
             organizationID: gate.daoID,
-            gateID: gate.id,
+            gate: {
+                name: gate.name,
+                type: gate.nftType
+            },
             name: gate.badge.name,
             description: gate.description,
             image: gate.badge.ipfsURL,
@@ -280,7 +317,9 @@ const markGateAsCompleted = async (gsID, userID, gate) => {
             knowledges: gate.knowledge || [],
             attitudes: gate.attitudes || [],
             ceramicStream: 'ceramic://',
+            pow,
             createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         };
 
         console.log(Item);
@@ -289,7 +328,7 @@ const markGateAsCompleted = async (gsID, userID, gate) => {
             .put({
                 TableName: `Credential-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
                 Item,
-                ConditionExpression: 'attribute_not_exists(id)',
+                ConditionExpression: 'attribute_not_exists(id)'
             })
             .promise();
 
@@ -521,8 +560,7 @@ const updateKey = async (input) => {
         keys: input.keys,
         peopleLimit: input.peopleLimit,
         unlimited: input.unlimited,
-        createdAt: input.createdAt || new Date().toISOString(),
-        updatedAt: input.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
         task: input.task,
     };
 
@@ -603,14 +641,21 @@ const updateKey = async (input) => {
         default:
     }
 
-    const newItem = await docClient
+    console.log(Item);
+
+    await docClient.delete({
+        TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
+        Key: {
+            id: input.id
+        }
+    })
+
+    await docClient
         .put({
             TableName: `Key-${API_GATEWAY_GRAPHQL}-${process.env.ENV}`,
             Item,
         })
         .promise();
-
-    console.log(`New Item: ${JSON.stringify(newItem)}`);
 
     return Item;
 };

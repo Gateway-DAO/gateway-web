@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ScrollToTop from '../components/ScrollToTop';
@@ -26,15 +27,16 @@ import KeyCompletedPage from './Gate/pages/KeyCompleted';
 import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQuiz';
 
 // Profile
-import {
-    ProfileUpdate,
-    AddAbout,
-    AddExperiences,
-    AddLanguage,
-    AddSkill,
-    CompleteProfile,
-    AddKnowledge,
-    AddAttitude,
+import Profile, {
+	Home as ProfileUpdate,
+	AddAbout,
+	AddExperiences,
+	AddLanguage,
+	AddSkill,
+	CompleteProfile,
+	AddKnowledge,
+	AddAttitude,
+	Credentials,
 } from './ProfilePage';
 
 const DAO = React.lazy(() => import('./DAO'));
@@ -52,194 +54,203 @@ const AddNewGate = React.lazy(() => import('./DAO/pages/AddNewGate'));
 const AddLinks = React.lazy(() => import('./Gate/pages/AddLinks'));
 
 const App: React.FC = () => {
-    return (
-        <Router>
-            <React.Suspense fallback={<FallbackPage />}>
-                <ScrollToTop>
-                    <Routes>
-                        <Route path='/' element={<Home />} />
-                        <Route path='/about-us' element={<About />} />
-                        <Route path='/what-are-daos' element={<AboutDAOs />} />
+	return (
+		<Router>
+			<React.Suspense fallback={<FallbackPage />}>
+				<ScrollToTop>
+					<Routes>
+						<Route path='/' element={<Home />} />
+						<Route path='/about-us' element={<About />} />
+						<Route path='/what-are-daos' element={<AboutDAOs />} />
 
-                        {/* DAO Routes */}
-                        <Route path='dao/:id' element={<DAO />}>
-                            <Route index element={<DAOHome />} />
-                            <Route path='add-gate' element={<AddNewGate />} />
-                            <Route path='edit-gate' element={<AddNewGate />} />
-                        </Route>
+						{/* DAO Routes */}
+						<Route path='dao/:id' element={<DAO />}>
+							<Route index element={<DAOHome />} />
+							<Route path='add-gate' element={<AddNewGate />} />
+							<Route path='edit-gate' element={<AddNewGate />} />
+						</Route>
 
-                        {/* Gate Routes */}
-                        <Route path='gate/:gate' element={<Gate />}>
-                            <Route index element={<DaoGate />} />
-                            <Route path='quiz/:id' element={<NewQuiz />} />
-                            <Route path='add-links' element={<AddLinks />} />
-                            <Route
-                                path='edit-links'
-                                element={<AddLinks edit />}
-                            />
-                            <Route path='add-key' element={<AddNewKey />}>
-                                <Route index element={<AddNewKeyHome />} />
-                                <Route
-                                    path='token'
-                                    element={<AddHoldToken />}
-                                />
-                                <Route
-                                    path='manual'
-                                    element={<AddManualTask />}
-                                />
-                                <Route
-                                    path='governance'
-                                    element={<AddGovernanceSnapshot />}
-                                />
-                                <Route
-                                    path='sc-interaction'
-                                    element={<AddContractInteraction />}
-                                />
-                                <Route
-                                    path='success'
-                                    element={<AddKeySuccess />}
-                                />
-                                <Route path='quiz' element={<KeyQuiz />} />
+						{/* Gate Routes */}
+						<Route path='gate/:gate' element={<Gate />}>
+							<Route index element={<DaoGate />} />
+							<Route path='quiz/:id' element={<NewQuiz />} />
+							<Route path='add-links' element={<AddLinks />} />
+							<Route
+								path='edit-links'
+								element={<AddLinks edit />}
+							/>
+							<Route path='add-key' element={<AddNewKey />}>
+								<Route index element={<AddNewKeyHome />} />
+								<Route
+									path='token'
+									element={<AddHoldToken />}
+								/>
+								<Route
+									path='manual'
+									element={<AddManualTask />}
+								/>
+								<Route
+									path='governance'
+									element={<AddGovernanceSnapshot />}
+								/>
+								<Route
+									path='sc-interaction'
+									element={<AddContractInteraction />}
+								/>
+								<Route
+									path='success'
+									element={<AddKeySuccess />}
+								/>
+								<Route path='quiz' element={<KeyQuiz />} />
 
-                                <Route
-                                    path='meeting-code'
-                                    element={<AddMeetingCode />}
-                                />
-                            </Route>
+								<Route
+									path='meeting-code'
+									element={<AddMeetingCode />}
+								/>
+							</Route>
 
-                            <Route path='edit-key' element={<AddNewKey edit />}>
-                                <Route index element={<AddNewKeyHome />} />
-                                <Route
-                                    path='token-hold'
-                                    element={<AddHoldToken />}
-                                />
-                                <Route
-                                    path='manual'
-                                    element={<AddManualTask />}
-                                />
-                                <Route
-                                    path='snapshot-governance'
-                                    element={<AddGovernanceSnapshot />}
-                                />
-                                <Route
-                                    path='contract-interaction'
-                                    element={<AddContractInteraction />}
-                                />
-                                <Route
-                                    path='success'
-                                    element={<AddKeySuccess />}
-                                />
-                                <Route path='quiz' element={<KeyQuiz />} />
+							<Route path='edit-key' element={<AddNewKey edit />}>
+								<Route index element={<AddNewKeyHome />} />
+								<Route
+									path='token-hold'
+									element={<AddHoldToken />}
+								/>
+								<Route
+									path='manual'
+									element={<AddManualTask />}
+								/>
+								<Route
+									path='snapshot-governance'
+									element={<AddGovernanceSnapshot />}
+								/>
+								<Route
+									path='contract-interaction'
+									element={<AddContractInteraction />}
+								/>
+								<Route
+									path='success'
+									element={<AddKeySuccess />}
+								/>
+								<Route path='quiz' element={<KeyQuiz />} />
 
-                                <Route
-                                    path='meeting-code'
-                                    element={<AddMeetingCode />}
-                                />
-                            </Route>
+								<Route
+									path='meeting-code'
+									element={<AddMeetingCode />}
+								/>
+							</Route>
 
-                            <Route
-                                path='gate-success'
-                                element={<GateSuccessPage />}
-                            />
+							<Route
+								path='gate-success'
+								element={<GateSuccessPage />}
+							/>
 
-                            <Route
-                                path='key-completed'
-                                element={<KeyCompletedPage />}
-                            />
-                        </Route>
+							<Route
+								path='key-completed'
+								element={<KeyCompletedPage />}
+							/>
+						</Route>
 
-                        <Route path='/search/:query' element={<Search />} />
+						<Route path='/search' element={<Search />} />
+						<Route path='/search/:query' element={<Search />} />
 
-                        {/* User Profile */}
-                        <Route path='/profile'>
-                            <Route path='' element={<ProfileUpdate />} />
+						{/* User Profile */}
+						<Route path='/profile' element={<Profile />}>
+							<Route path='' element={<ProfileUpdate />} />
 
-                            <Route path='add-about' element={<AddAbout />} />
-                            <Route
-                                path='add-experiences'
-                                element={<AddExperiences />}
-                            />
-                            <Route
-                                path='add-language'
-                                element={<AddLanguage />}
-                            />
-                            <Route path='add-skills' element={<AddSkill />} />
-                            <Route
-                                path='add-knowledge'
-                                element={<AddKnowledge />}
-                            />
-                            <Route
-                                path='add-attitude'
-                                element={<AddAttitude />}
-                            />
-                            <Route
-                                path='complete-profile'
-                                element={<CompleteProfile />}
-                            />
-                            <Route
-                                path='edit-profile'
-                                element={<CompleteProfile />}
-                            />
+							<Route path='add-about' element={<AddAbout />} />
+							<Route
+								path='add-experiences'
+								element={<AddExperiences />}
+							/>
+							<Route
+								path='add-language'
+								element={<AddLanguage />}
+							/>
+							<Route path='add-skills' element={<AddSkill />} />
+							<Route
+								path='add-knowledge'
+								element={<AddKnowledge />}
+							/>
+							<Route
+								path='add-attitude'
+								element={<AddAttitude />}
+							/>
+							<Route
+								path='complete-profile'
+								element={<CompleteProfile />}
+							/>
+							<Route
+								path='edit-profile'
+								element={<CompleteProfile />}
+							/>
+							<Route
+								path='profile-credentials'
+								element={<Credentials />}
+							/>
 
-                            <Route
-                                path=':username'
-                                element={<ProfileUpdate />}
-                            />
+							<Route
+								path=':username'
+								element={<ProfileUpdate />}
+							/>
 
-                            <Route
-                                path=':username/add-about'
-                                element={<AddAbout />}
-                            />
-                            <Route
-                                path=':username/add-experiences'
-                                element={<AddExperiences />}
-                            />
-                            <Route
-                                path=':username/add-language'
-                                element={<AddLanguage />}
-                            />
-                            <Route
-                                path=':username/add-skills'
-                                element={<AddSkill />}
-                            />
-                            <Route
-                                path=':username/add-knowledge'
-                                element={<AddKnowledge />}
-                            />
-                            <Route
-                                path=':username/add-attitude'
-                                element={<AddAttitude />}
-                            />
-                            <Route
-                                path=':username/complete-profile'
-                                element={<CompleteProfile />}
-                            />
-                            <Route
-                                path=':username/edit-profile'
-                                element={<CompleteProfile />}
-                            />
-                        </Route>
+							<Route
+								path=':username/add-about'
+								element={<AddAbout />}
+							/>
+							<Route
+								path=':username/add-experiences'
+								element={<AddExperiences />}
+							/>
+							<Route
+								path=':username/add-language'
+								element={<AddLanguage />}
+							/>
+							<Route
+								path=':username/add-skills'
+								element={<AddSkill />}
+							/>
+							<Route
+								path=':username/add-knowledge'
+								element={<AddKnowledge />}
+							/>
+							<Route
+								path=':username/add-attitude'
+								element={<AddAttitude />}
+							/>
+							<Route
+								path=':username/complete-profile'
+								element={<CompleteProfile />}
+							/>
+							<Route
+								path=':username/edit-profile'
+								element={<CompleteProfile />}
+							/>
+							<Route
+								path=':username/profile-credentials'
+								element={<Credentials />}
+							/>
+						</Route>
 
-                        <Route path='/sign-in' element={<SignIn />} />
-                        <Route
-                            path='/create-profile'
-                            element={<CreateProfile />}
-                        />
-                        <Route
-                            path='/add-community'
-                            element={<AddCommunity />}
-                        />
-                        <Route
-                            path='/new-community/:name'
-                            element={<SubmitPage />}
-                        />
+						<Route path='/sign-in' element={<SignIn />} />
+						<Route
+							path='/create-profile'
+							element={<CreateProfile />}
+						/>
+						<Route
+							path='/add-community'
+							element={<AddCommunity />}
+						/>
+						<Route
+							path='/new-community/:name'
+							element={<SubmitPage />}
+						/>
 
-                        <Route path='*' element={<Page404 />} />
-                    </Routes>
-                </ScrollToTop>
-            </React.Suspense>
-        </Router>
-    );
+						<Route path='*' element={<Page404 />} />
+					</Routes>
+				</ScrollToTop>
+			</React.Suspense>
+		</Router>
+	);
 };
 
 export default App;

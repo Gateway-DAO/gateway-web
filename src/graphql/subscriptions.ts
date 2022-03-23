@@ -6,6 +6,7 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       id
+      ip
       wallet
       username
       name
@@ -98,7 +99,6 @@ export const onCreateUser = /* GraphQL */ `
           id
           issuerID
           targetID
-          gateID
           organizationID
           name
           description
@@ -122,6 +122,7 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       id
+      ip
       wallet
       username
       name
@@ -214,7 +215,6 @@ export const onUpdateUser = /* GraphQL */ `
           id
           issuerID
           targetID
-          gateID
           organizationID
           name
           description
@@ -238,6 +238,7 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       id
+      ip
       wallet
       username
       name
@@ -330,7 +331,6 @@ export const onDeleteUser = /* GraphQL */ `
           id
           issuerID
           targetID
-          gateID
           organizationID
           name
           description
@@ -1325,6 +1325,7 @@ export const onCreatePost = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -1484,6 +1485,7 @@ export const onUpdatePost = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -1643,6 +1645,7 @@ export const onDeletePost = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -1723,6 +1726,7 @@ export const onCreateComment = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -1790,6 +1794,7 @@ export const onUpdateComment = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -1857,6 +1862,7 @@ export const onDeleteComment = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -2562,6 +2568,7 @@ export const onCreateManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -2700,6 +2707,7 @@ export const onUpdateManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -2838,6 +2846,7 @@ export const onDeleteManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -2976,6 +2985,7 @@ export const onCreateGateStatus = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -3113,6 +3123,7 @@ export const onUpdateGateStatus = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -3250,6 +3261,7 @@ export const onDeleteGateStatus = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -3387,6 +3399,7 @@ export const onCreateTaskStatus = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -3578,6 +3591,7 @@ export const onUpdateTaskStatus = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -3769,6 +3783,7 @@ export const onDeleteTaskStatus = /* GraphQL */ `
       userID
       user {
         id
+        ip
         wallet
         username
         name
@@ -3960,6 +3975,7 @@ export const onCreateCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
+        ip
         wallet
         username
         name
@@ -4014,6 +4030,7 @@ export const onCreateCredential = /* GraphQL */ `
       targetID
       target {
         id
+        ip
         wallet
         username
         name
@@ -4065,61 +4082,8 @@ export const onCreateCredential = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      gateID
       gate {
-        id
-        daoID
-        dao {
-          id
-          dao
-          name
-          accomplishments
-          snapshotID
-          backgroundURL
-          youtubeURL
-          logoURL
-          categories
-          tags
-          description
-          howToJoin
-          missionAndVision
-          whatDoWeDo
-          upcomingHangouts
-          tokenAddress
-          whitelistedAddresses
-          chains
-          createdAt
-          updatedAt
-        }
         name
-        description
-        categories
-        skills
-        knowledge
-        attitudes
-        admins
-        keysNumber
-        keys {
-          nextToken
-        }
-        published
-        badge {
-          nftURL
-          ipfsURL
-          name
-        }
-        preRequisites {
-          completedGates
-        }
-        retroactiveEarners
-        links {
-          name
-          link
-        }
-        holders
-        nftType
-        createdAt
-        updatedAt
       }
       organizationID
       organization {
@@ -4188,6 +4152,7 @@ export const onUpdateCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
+        ip
         wallet
         username
         name
@@ -4242,6 +4207,7 @@ export const onUpdateCredential = /* GraphQL */ `
       targetID
       target {
         id
+        ip
         wallet
         username
         name
@@ -4293,61 +4259,8 @@ export const onUpdateCredential = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      gateID
       gate {
-        id
-        daoID
-        dao {
-          id
-          dao
-          name
-          accomplishments
-          snapshotID
-          backgroundURL
-          youtubeURL
-          logoURL
-          categories
-          tags
-          description
-          howToJoin
-          missionAndVision
-          whatDoWeDo
-          upcomingHangouts
-          tokenAddress
-          whitelistedAddresses
-          chains
-          createdAt
-          updatedAt
-        }
         name
-        description
-        categories
-        skills
-        knowledge
-        attitudes
-        admins
-        keysNumber
-        keys {
-          nextToken
-        }
-        published
-        badge {
-          nftURL
-          ipfsURL
-          name
-        }
-        preRequisites {
-          completedGates
-        }
-        retroactiveEarners
-        links {
-          name
-          link
-        }
-        holders
-        nftType
-        createdAt
-        updatedAt
       }
       organizationID
       organization {
@@ -4416,6 +4329,7 @@ export const onDeleteCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
+        ip
         wallet
         username
         name
@@ -4470,6 +4384,7 @@ export const onDeleteCredential = /* GraphQL */ `
       targetID
       target {
         id
+        ip
         wallet
         username
         name
@@ -4521,61 +4436,8 @@ export const onDeleteCredential = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      gateID
       gate {
-        id
-        daoID
-        dao {
-          id
-          dao
-          name
-          accomplishments
-          snapshotID
-          backgroundURL
-          youtubeURL
-          logoURL
-          categories
-          tags
-          description
-          howToJoin
-          missionAndVision
-          whatDoWeDo
-          upcomingHangouts
-          tokenAddress
-          whitelistedAddresses
-          chains
-          createdAt
-          updatedAt
-        }
         name
-        description
-        categories
-        skills
-        knowledge
-        attitudes
-        admins
-        keysNumber
-        keys {
-          nextToken
-        }
-        published
-        badge {
-          nftURL
-          ipfsURL
-          name
-        }
-        preRequisites {
-          completedGates
-        }
-        retroactiveEarners
-        links {
-          name
-          link
-        }
-        holders
-        nftType
-        createdAt
-        updatedAt
       }
       organizationID
       organization {

@@ -36,7 +36,7 @@ const GateTab = ({ filterQuery }) => {
     useEffect(() => {
         setHits(!searchLoading ? searchData?.searchGates?.items : []);
         setPageCount(
-            Math.ceil(searchData?.searchGates.items.length / resultPerPage)
+            Math.ceil(searchData?.searchGates?.total / resultPerPage)
         );
     }, [filterQuery, searchLoading, pageNumber]);
 

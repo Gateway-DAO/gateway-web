@@ -22,18 +22,6 @@ const DAOTab = ({ filterQuery }) => {
     let from = pageNumber * 8;
 
     const {
-        data: listData,
-        loading: listLoading,
-        error: listError,
-        called: listCalled,
-    } = useSearchDAO({
-        variables: {
-            limit: resultPerPage,
-            from: from,
-        },
-    });
-
-    const {
         data: searchData,
         loading: searchLoading,
         error: searchError,
@@ -42,60 +30,54 @@ const DAOTab = ({ filterQuery }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            filter: filterQuery,
-        },
-    });
-
-    const {
-        data: searchDaosLength,
-        loading: searchDaosLengthLoading,
-        error: searchDaosLengthError,
-        called: searchDaosLengthCalled,
-    } = useDAOLength({
-        variables: {
-            filter: filterQuery,
+            ...(Object.keys(filterQuery).length
+                ? { filter: filterQuery }
+                : query?.length
+                ? {
+                      filter: {
+                          or: [
+                            {
+                                dao: {
+                                    wildcard: `*${query.toLowerCase()}*`,
+                                },
+                            },
+                            {
+                                name: {
+                                    wildcard: `*${query.toLowerCase()}*`,
+                                },
+                            },
+                            {
+                                description: {
+                                    wildcard: `*${query.toLowerCase()}*`,
+                                },
+                            },
+                        ]
+                      },
+                  }
+                : {}),
         },
     });
 
     useEffect(() => {
-        if (Object.keys(filterQuery).length === 0) {
-            setHits(!listLoading ? listData.searchDAOs.items : []);
-            setPageCount(Math.ceil(listData?.searchDAOs.total / resultPerPage));
-        } else {
-            setHits(!searchLoading ? searchData.searchDAOs.items : []);
-            setPageCount(
-                Math.ceil(
-                    searchDaosLength?.searchDAOs.items.length / resultPerPage
-                )
-            );
-        }
-    }, [
-        query,
-        searchLoading,
-        listLoading,
-        searchDaosLengthLoading,
-        pageNumber,
-    ]);
+        setHits(!searchLoading ? searchData?.searchDAOs?.items : []);
+        setPageCount(
+            Math.ceil(searchData?.searchDAOs?.items.length / resultPerPage)
+        );
+    }, [query, searchLoading, pageNumber]);
 
-    if (searchError || listError) {
+    if (searchError) {
         return <Navigate to='/404' />;
     }
 
-    const searchOrListLoading =
-        Object.keys(filterQuery).length === 0 ? listLoading : searchLoading;
-
-    const searchOrListCalled =
-        Object.keys(filterQuery).length === 0 ? listCalled : searchCalled;
-
     return (
         <>
-            {searchOrListLoading && (
+            {searchLoading && (
                 <SearchStyled.LoaderBox>
                     <Loader color='white' size={35} />
                 </SearchStyled.LoaderBox>
             )}
 
-            {!hits.length && !searchOrListLoading && searchOrListCalled && (
+            {!searchData?.searchDAOs?.items.length && !searchLoading && searchCalled && (
                 <SearchStyled.TextBox>
                     <SearchStyled.MainText>
                         Oops! There's no "{query}" DAO on our records :/

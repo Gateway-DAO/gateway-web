@@ -112,7 +112,6 @@ export const GroupLink = styled.div`
 
 export const SearchInputBox = styled.div`
     padding-left: 30px;
-    background: #170627;
     justify-content: space-between;
     align-items: center;
     display: flex;
@@ -120,6 +119,7 @@ export const SearchInputBox = styled.div`
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 100px;
+
     @media only screen and (max-width: 945px) {
         margin: 0;
     }
@@ -133,15 +133,29 @@ export const SearchInputBox = styled.div`
 
 export const SearchInput = styled.input`
     border: none;
-    background: #170627;
-    color: #ffffff;
+    background-color: transparent;
     outline: none;
     flex: 1;
     padding: 12px 0;
+    margin-right: 15px;
+
+    font-family: 'Be Vietnam';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+
+    color: #E5E5E5;
+
+    &::placeholder {
+        color: #E5E5E5;
+    }
 `;
 
 export const WrappedFiSearch = styled(FiSearch)`
-    font-size: 20px;
+    font-size: 32pt;
     padding-right: 20px;
     color: #e5e5e5;
 `;

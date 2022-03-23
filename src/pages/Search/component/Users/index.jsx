@@ -88,7 +88,7 @@ const UserTab = ({ filterQuery }) => {
         return <Navigate to='/404' />;
     }
 
-    if (searchOrListLoading) {
+    if (searchLoading) {
         return (
             <SearchStyled.LoaderBox>
                 <Loader color='white' size={35} />
@@ -96,7 +96,7 @@ const UserTab = ({ filterQuery }) => {
         );
     }
 
-    if (!hits.length && !searchOrListLoading && searchOrListCalled) {
+    if (!hits.length && !searchLoading && searchCalled) {
         return (
             <SearchStyled.TextBox>
                 <SearchStyled.MainText>

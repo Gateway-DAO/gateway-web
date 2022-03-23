@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Dropdown } from 'react-bootstrap';
+
 export const DropDownContainer = styled.div`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
