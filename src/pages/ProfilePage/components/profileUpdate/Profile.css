@@ -641,8 +641,8 @@ ul.daos-like-ul li a:focus {
     transition: 0.3s;
 }
 .gateway-profile-right-top a {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
@@ -1096,11 +1096,26 @@ a.profile-toggle:focus + .profile-dropdown {
 
 .hostName {
     font-family: 'Be Vietnam';
-    margin-bottom: 44px;
+    margin-bottom: 30px;
 }
 .hostName a {
     color: #eaeaea;
 }
 .hostName a:hover {
     color: #fc01b7;
+}
+.gway-prfile-col p {
+    margin-bottom: 0 !important;
+}
+.gateway-profile {
+    padding: 0 40px !important;
+}
+.gateway-profile-right-content h3 {
+    text-transform: lowercase;
+}
+.gateway-profile-right-content p {
+    text-transform: uppercase;
+}
+.gateway-profile-right-top a {
+    width: 35px;
 }
