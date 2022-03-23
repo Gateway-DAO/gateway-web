@@ -301,42 +301,48 @@ const ProfileUpdate = () => {
                                     </div>
                                 </Col>
                                 <Col md={4}>
-                                    <div className='gateway-profile-middle-inner-top'>
-                                        <img
-                                            src='/profile/eth-icon.svg'
-                                            alt='image'
-                                        />
-                                        <p>{shortenAddress(userInfo.wallet)}</p>
-                                        <div className='gateway-profile-middle-btn-grp'>
-                                            <a
-                                                className='clipboard-cpy-btn'
-                                                onClick={() => {
-                                                    handleCopy();
-                                                }}
-                                            >
-                                                <BiCopy color='white' />
-                                            </a>
-                                            {userInfo.init && canEdit ? (
-                                                <Dropdown>
-                                                    <Dropdown.Toggle
-                                                        variant='success'
-                                                        id='dropdown-basic'
-                                                    >
-                                                        <MdEdit color='white' />
-                                                    </Dropdown.Toggle>
+                                    {canEdit ? (
+                                        <div className='gateway-profile-middle-inner-top'>
+                                            <img
+                                                src='/profile/eth-icon.svg'
+                                                alt='image'
+                                            />
+                                            <p>
+                                                {shortenAddress(
+                                                    userInfo.wallet
+                                                )}
+                                            </p>
+                                            <div className='gateway-profile-middle-btn-grp'>
+                                                <a
+                                                    className='clipboard-cpy-btn'
+                                                    onClick={() => {
+                                                        handleCopy();
+                                                    }}
+                                                >
+                                                    <BiCopy color='white' />
+                                                </a>
+                                                {userInfo.init && (
+                                                    <Dropdown>
+                                                        <Dropdown.Toggle
+                                                            variant='success'
+                                                            id='dropdown-basic'
+                                                        >
+                                                            <MdEdit color='white' />
+                                                        </Dropdown.Toggle>
 
-                                                    <Dropdown.Menu>
-                                                        <Link to='edit-profile'>
-                                                            Edit Profile
-                                                        </Link>
-                                                        {/* <Link to='/'>
+                                                        <Dropdown.Menu>
+                                                            <Link to='edit-profile'>
+                                                                Edit Profile
+                                                            </Link>
+                                                            {/* <Link to='/'>
 																Manage Wallets
 															</Link> */}
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
-                                            ) : null}
+                                                        </Dropdown.Menu>
+                                                    </Dropdown>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : null}
                                 </Col>
                             </Row>
                         </div>
