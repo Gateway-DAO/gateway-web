@@ -7,10 +7,15 @@
     },
     "contributors": [
         {
-            "name": "Orest Tarasiuk"
+            "name": "Manish Rawat"
         },
         {
-            "name": "Manish Rawat"
+            "name": "Nuno Carvalho",
+            "email": "nuno@mygateway.xyz"
+        },
+        {
+            "name": "Orest Tarasiuk",
+            "email": "orest@mygateway.xyz"
         }
     ],
     "dependencies": {
