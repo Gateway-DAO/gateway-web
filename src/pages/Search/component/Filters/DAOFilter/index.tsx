@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import * as Styled from '../../../style';
 import FilterDropdown from '../../FilterDropdown';
 
@@ -37,6 +38,7 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
     const [categoryMatches, setCategoryMatches] = useState<string[]>([]);
     const [chainMatches, setChainMatches] = useState<string[]>([]);
     const [sizeMatches, setSizeMatches] = useState<string[]>([]);
+    const { query: searchTerm } = useParams();
 
     const showResult = () => {
         // const query = [];
@@ -53,7 +55,7 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
         //         },
         //     });
         // setDaoFilterQuery(query);
-        const query = {};
+        let query = {};
 
         if (categoryMatches.length > 1) {
             query['or'] = [];
@@ -96,9 +98,24 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
             }
         }
 
+        if (!query['or']) {
+            query['or'] = []
+        }
+
+        query['or'].push(...[
+            { dao: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
+            { name: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
+            {
+                description: {
+                    wildcard: `*${(searchTerm || "").toLowerCase()}*`,
+                },
+            },
+        ])
+
         setDaoFilterQuery(query);
-        console.log(categoryMatches, chainMatches, sizeMatches);
     };
+
+    useEffect(showResult, [searchTerm]);
 
     return (
         <Styled.FilterBox>

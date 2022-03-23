@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSearchCredentials } from '../../../../../api/database/useSearchCredentials';
 import useSearchDAO from '../../../../../api/database/useSearchDAO';
 import * as Styled from '../../../style';
@@ -18,6 +19,8 @@ const UserFilter = function ({ setUserFilterQuery }) {
     const [connectionMatches, setConnectionMatches] = useState<string[]>([]);
     const [membershipMatches, setMembershipMatches] = useState<string[]>([]);
     const [credentialMatches, setCredentialMatches] = useState<string[]>([]);
+
+    const { query: searchTerm } = useParams();
 
     const showResult = () => {
         const query = {};
@@ -63,9 +66,24 @@ const UserFilter = function ({ setUserFilterQuery }) {
             }
         }
 
+        if (!query['or']) {
+            query['or'] = []
+        }
+
+        query['or'].push(...[
+            { bio: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
+            { name: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
+            {
+                wallet: {
+                    wildcard: `*${(searchTerm || "").toLowerCase()}*`,
+                },
+            },
+        ])
+
         setUserFilterQuery(query);
-        console.log(connectionMatches, membershipMatches, credentialMatches);
     };
+
+    useEffect(showResult, [searchTerm]);
 
     const {
         data: listData,

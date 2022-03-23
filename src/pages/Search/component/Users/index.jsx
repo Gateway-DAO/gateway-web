@@ -12,10 +12,11 @@ import { useEffect, useState } from 'react';
 import { useSearchUsers } from '../../../../api/database/useSearchUser';
 import useUserLength from '../../../../api/database/useUserLength';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 const UserTab = ({ filterQuery }) => {
     const [hits, setHits] = useState([]);
+    const { query } = useParams();
 
     const [pageCount, setPageCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);
@@ -43,46 +44,46 @@ const UserTab = ({ filterQuery }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            filter: filterQuery,
-        },
-    });
-
-    const {
-        data: lengthData,
-        loading: lengthDataLoading,
-        error: userLengthError,
-        called: userLengthCalled,
-    } = useUserLength({
-        variables: {
-            filter: filterQuery,
+            ...(Object.keys(filterQuery).length
+                ? { filter: filterQuery }
+                : query?.length
+                ? {
+                      filter: {
+                          or: [
+                              {
+                                  bio: {
+                                      wildcard: `*${(
+                                          query || ''
+                                      ).toLowerCase()}*`,
+                                  },
+                              },
+                              {
+                                  name: {
+                                      wildcard: `*${(
+                                          query || ''
+                                      ).toLowerCase()}*`,
+                                  },
+                              },
+                              {
+                                  wallet: {
+                                      wildcard: `*${(
+                                          query || ''
+                                      ).toLowerCase()}*`,
+                                  },
+                              },
+                          ],
+                      },
+                  }
+                : {}),
         },
     });
 
     useEffect(() => {
-        if (Object.keys(filterQuery).length === 0) {
-            setHits(!listLoading ? listData?.searchUsers.items : []);
-            setPageCount(
-                Math.ceil(listData?.searchUsers.total / resultPerPage)
-            );
-        } else {
-            setHits(!searchLoading ? searchData.searchUsers.items : []);
-
-            setPageCount(
-                Math.ceil(lengthData?.searchUsers.items.length / resultPerPage)
-            );
-        }
-    }, [
-        filterQuery,
-        searchLoading,
-        listLoading,
-        pageNumber,
-        lengthDataLoading,
-    ]);
-
-    const searchOrListLoading =
-        Object.keys(filterQuery).length === 0 ? listLoading : searchLoading;
-    const searchOrListCalled =
-        Object.keys(filterQuery).length === 0 ? listCalled : searchCalled;
+        setHits(!searchLoading ? searchData?.searchUsers?.items : []);
+        setPageCount(
+            Math.ceil(searchData?.searchUsers?.items.length / resultPerPage)
+        );
+    }, [query, searchLoading, pageNumber, filterQuery]);
 
     if (searchError || listError) {
         return <Navigate to='/404' />;
