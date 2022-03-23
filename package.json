@@ -7,7 +7,12 @@
     },
     "contributors": [
         {
-            "name": "Orest Tarasiuk"
+            "name": "Nuno Carvalho",
+            "email": "nuno@mygateway.xyz"
+        },
+        {
+            "name": "Orest Tarasiuk",
+            "email": "orest@mygateway.xyz"
         }
     ],
     "dependencies": {
