@@ -1065,3 +1065,42 @@ a.profile-toggle:focus + .profile-dropdown {
 .sc-kGrBqp.bjZppV {
     overflow: unset;
 }
+
+/*button hover styles*/
+.dropdown-toggle.btn.btn-success,
+.gateway-profile-middle-btn-grp a,
+.gway-skill-col-hd a,
+.gway-about-hd a,
+.arrow-back,
+.btn.btn-primary,
+.gateway-profile-right-top a {
+    background: none !important;
+    border: solid 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+.dropdown-toggle.btn.btn-success:hover,
+/* .gateway-profile-middle-btn-grp a:hover, */
+.clipboard-cpy-btn:hover,
+.gway-skill-col-hd a:hover,
+.gway-about-hd a:hover,
+.arrow-back:hover,
+.btn.btn-primary:hover,
+.gateway-profile-right-top a:hover {
+    background: linear-gradient(#170627, #170627) padding-box,
+        linear-gradient(to right, #e153f2, #6a39f3, #495be0) border-box !important;
+}
+.sc-crHmcD.lkEPeg {
+    position: absolute !important;
+    right: 10px !important;
+}
+
+.hostName {
+    font-family: 'Be Vietnam';
+    margin-bottom: 44px;
+}
+.hostName a {
+    color: #eaeaea;
+}
+.hostName a:hover {
+    color: #fc01b7;
+}

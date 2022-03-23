@@ -72,7 +72,6 @@ const ProfileUpdate = () => {
 	const { userInfo, currentLocation, canEdit }: Record<string, any> = useOutletContext();
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [weatherData, setWeatherData] = useState([]);
-	console.log({ userInfo });
 
 	// Hooks
 	const [ref, { height: heightPfp }] = useMeasure();
@@ -260,6 +259,11 @@ const ProfileUpdate = () => {
 										<div className='user-bio'>
 											{userInfo.bio}
 										</div>
+										<div className='hostName'>
+											<a href='#'>
+												www.mygateway.xyz
+											</a>
+										</div>
 										<div className='social'>
 											{userInfo.socials &&
 												userInfo.socials.map((item) => (
@@ -272,6 +276,7 @@ const ProfileUpdate = () => {
 													</a>
 												))}
 										</div>
+
 										{!userInfo.init && canEdit ? (
 											<Link
 												to='complete-profile'
@@ -294,6 +299,7 @@ const ProfileUpdate = () => {
 										<p>{shortenAddress(userInfo.wallet)}</p>
 										<div className='gateway-profile-middle-btn-grp'>
 											<a
+												className='clipboard-cpy-btn'
 												onClick={() => {
 													handleCopy();
 												}}
@@ -531,6 +537,7 @@ const ProfileUpdate = () => {
 								</a>
 							</div>
 							<div className='gateway-profile-right-content'>
+								<img src='/profile/weather.svg' />
 								{getWeatherIcon()}
 								<h3>
 									{currentTime.toLocaleTimeString('en-US', {

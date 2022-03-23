@@ -25,13 +25,13 @@ const suggestedOptions = [
 
 const AddAttitude: React.FC = () => {
 	// State
-    const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
+	const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
 
-    // Hooks
-    const navigate = useNavigate();
+	// Hooks
+	const navigate = useNavigate();
 	const {
-        updateUserInfo,
-    }: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
+		updateUserInfo,
+	}: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
 	const [selectedAttitude, setSelectedAttitude] = useState(userInfo?.attitudes?.map(attitude => ({
 		label: attitude,
 		value: attitude
@@ -61,7 +61,7 @@ const AddAttitude: React.FC = () => {
 		if (handleCheck(attitude) == false) {
 			setSelectedAttitude(prev => [...prev, attitude]);
 		}
-	}, []);
+	}, [selectedAttitude]);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -81,12 +81,12 @@ const AddAttitude: React.FC = () => {
 	};
 
 	if (redirect) {
-        return <Navigate to='/profile' />;
-    }
+		return <Navigate to='/profile' />;
+	}
 
-    if (!canEdit) {
-        return <Navigate to='/404' />;
-    }
+	if (!canEdit) {
+		return <Navigate to='/404' />;
+	}
 
 	return (
 		<Space>

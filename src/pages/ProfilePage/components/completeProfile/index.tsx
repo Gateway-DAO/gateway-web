@@ -21,6 +21,7 @@ import { usernameGenerator } from '../../../../utils/functions';
 import Space from '../../../../components/Space';
 
 const platforms = [
+	{ label: 'Select', value: 'select' },
 	{ label: 'Twitter', value: 'twitter' },
 	{ label: 'Telegram', value: 'telegram' },
 	{ label: 'Discord', value: 'discord' },
@@ -90,8 +91,8 @@ const CompleteProfile: React.FC = () => {
 			errors.userName = 'The username is too short!';
 		else if (user.userName.length > 50)
 			errors.userName = 'The username is too long!';
-		else if (!/^[a-z0-9_\.]+$/.test(user.userName))
-			errors.userName = 'The username is in the wrong format!';
+		// else if (!/^[a-z0-9_\.]+$/.test(user.userName))
+		// 	errors.userName = 'The username is in the wrong format!';
 
 		const { data } = await getUser({
 			variables: {
@@ -181,13 +182,13 @@ const CompleteProfile: React.FC = () => {
 			try {
 				// Upload files to S3
 				const avatarURL =
-					file ? defaultPfp : (await uploadFile(
+					file ? (await uploadFile(
 						`users/${userInfo.id}/profile.${file.name
 							.split('.')
 							.pop()}`,
 						file,
 						{ contentType: `image` }
-					));
+					)) : defaultPfp;
 
 				await updateUserInfo({
 					name: user.displayName,
@@ -200,7 +201,7 @@ const CompleteProfile: React.FC = () => {
 							forceHttps: true,
 						}),
 					})),
-					init: true,
+					// init: true,
 				});
 
 				// redirect
