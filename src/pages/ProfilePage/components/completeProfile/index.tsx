@@ -187,8 +187,9 @@ const CompleteProfile: React.FC = () => {
 							.split('.')
 							.pop()}`,
 						file,
-						{ contentType: `image` }
+						{ contentType: `image/jpeg` }
 					)) : defaultPfp;
+				console.log({ avatarURL });
 
 				await updateUserInfo({
 					name: user.displayName,

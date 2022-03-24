@@ -91,7 +91,7 @@ const AddAbout: React.FC = () => {
 										value={about}
 										set={setAbout}
 										toolbar={[
-											['bold', 'italic', 'underline'],
+											// ['bold', 'italic', 'underline'],
 											['emoji'],
 										]}
 									/>

@@ -26,7 +26,6 @@ const Gates = (props) => {
                         return (
                             <GateCard
                                 gate={gate}
-                                key={idx}
                                 viewAsMember={props.viewAsMember}
                             />
                         );
@@ -39,7 +38,6 @@ const Gates = (props) => {
                         return (
                             <GateCard
                                 gate={gate}
-                                key={idx}
                                 viewAsMember={props.viewAsMember}
                             />
                         );
