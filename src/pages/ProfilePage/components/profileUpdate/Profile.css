@@ -756,7 +756,7 @@ a.profile-toggle:focus + .profile-dropdown {
     border: 1px dashed rgba(255, 255, 255, 0.2);
     background-size: 100%;
     width: 2px;
-    height: 100%;
+    height: 93%;
     z-index: -1;
 }
 .creative-icon {
@@ -767,6 +767,7 @@ a.profile-toggle:focus + .profile-dropdown {
     border-radius: 100%;
     object-fit: cover;
     height: 41px;
+    margin-top: -8px;
 }
 /* .experience-profile-section h3 img{margin-right: 19px;} */
 .experience-profile-section h3 {
@@ -1128,4 +1129,19 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 .gateway-profile-right-top a {
     width: 35px;
+}
+
+.accordion-body,
+.accordion .accordion-item:last-child .accordion-body {
+    position: relative;
+}
+.accordion-body:before,
+.accordion .accordion-item:last-child .accordion-body:before {
+    position: absolute;
+    content: '';
+    left: -45px;
+    top: -45px;
+    width: 10px;
+    height: calc(100% + 45px);
+    background: #170627;
 }
