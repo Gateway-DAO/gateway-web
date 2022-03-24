@@ -7,7 +7,8 @@
     },
     "contributors": [
         {
-            "name": "Manish Rawat"
+            "name": "Manish Rawat",
+            "email": "manish@mygateway.xyz"
         },
         {
             "name": "Nuno Carvalho",
@@ -92,6 +93,7 @@
         "react-geocode": "^0.2.3",
         "react-icons": "^4.3.1",
         "react-markdown": "^7.1.0",
+        "react-notifications-component": "^3.4.1",
         "react-paginate": "^8.1.0",
         "react-particles-js": "^3.5.3",
         "react-quill": "^1.3.5",

@@ -11,8 +11,10 @@ import Pagination from '../Pagination';
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { searchGates } from '../../../../graphql/queries';
+import { useParams } from 'react-router';
 
 const GateTab = ({ filterQuery }) => {
+    const { query } = useParams();
     const [hits, setHits] = useState([]);
 
     const [pageCount, setPageCount] = useState(0);
@@ -29,7 +31,20 @@ const GateTab = ({ filterQuery }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            ...(Object.keys(filterQuery).length !== 0 && filterQuery),
+            ...(Object.keys(filterQuery).length !== 0
+                ? filterQuery
+                : query?.length
+                ? {
+                    filter: {
+                        or: [
+                            {
+                                name: {
+                                    wildcard: `*${query.toLowerCase()}*`,
+                                },
+                            },
+                        ],
+                    },
+                } : {}),
         },
     });
 
