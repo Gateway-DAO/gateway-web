@@ -12,11 +12,11 @@ import { useEffect, useState } from 'react';
 import { useSearchUsers } from '../../../../api/database/useSearchUser';
 import useUserLength from '../../../../api/database/useUserLength';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
-const UserTab = ({ query }) => {
+const UserTab = ({ filterQuery }) => {
     const [hits, setHits] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { query } = useParams();
 
     const [pageCount, setPageCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);
@@ -44,26 +44,46 @@ const UserTab = ({ query }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            ...(query?.length && {
-                filter: {
-                    or: [
-                        { daos_ids: { wildcard: `*${query.toLowerCase()}*` } },
-                        { username: { wildcard: `*${query.toLowerCase()}*` } },
-                        { bio: { wildcard: `*${query.toLowerCase()}*` } },
-                        { id: { wildcard: `*${query.toLowerCase()}*` } },
-                        { name: { wildcard: `*${query.toLowerCase()}*` } },
-                    ],
-                },
-            }),
+            ...(Object.keys(filterQuery).length
+                ? { filter: filterQuery }
+                : query?.length
+                ? {
+                      filter: {
+                          or: [
+                              {
+                                  bio: {
+                                      wildcard: `*${(
+                                          query || ''
+                                      ).toLowerCase()}*`,
+                                  },
+                              },
+                              {
+                                  name: {
+                                      wildcard: `*${(
+                                          query || ''
+                                      ).toLowerCase()}*`,
+                                  },
+                              },
+                              {
+                                  wallet: {
+                                      wildcard: `*${(
+                                          query || ''
+                                      ).toLowerCase()}*`,
+                                  },
+                              },
+                          ],
+                      },
+                  }
+                : {}),
         },
     });
 
     useEffect(() => {
-        setHits(!searchLoading ? searchData.searchUsers.items : []);
+        setHits(!searchLoading ? searchData?.searchUsers?.items : []);
         setPageCount(
-            Math.ceil(searchData?.searchUsers.total / resultPerPage)
+            Math.ceil(searchData?.searchUsers?.items.length / resultPerPage)
         );
-    }, [query, searchLoading, listLoading, pageNumber]);
+    }, [query, searchLoading, pageNumber, filterQuery]);
 
     if (searchError || listError) {
         return <Navigate to='/404' />;
@@ -81,7 +101,7 @@ const UserTab = ({ query }) => {
         return (
             <SearchStyled.TextBox>
                 <SearchStyled.MainText>
-                    Oops! There's no "{query}" user on our records :/
+                    Oops! There's no user on our records :/
                 </SearchStyled.MainText>
                 <SearchStyled.SmallText>
                     We couldn't find what you're looking for. Try again later!
@@ -93,15 +113,17 @@ const UserTab = ({ query }) => {
     return (
         <>
             <Styled.UserCardBox>
-                {hits?.map((item) => (
-                    <UserCard
-                        key={item.nonce}
-                        name={item.name}
-                        username={item.username}
-                        pfp={item.pfp}
-                        daos={item.daos}
-                    />
-                ))}
+                <Styled.UserContent>
+                    {hits?.map((item) => (
+                        <UserCard
+                            key={item.nonce}
+                            name={item.name}
+                            username={item.username}
+                            pfp={item.pfp}
+                            daos={item.daos}
+                        />
+                    ))}
+                </Styled.UserContent>
             </Styled.UserCardBox>
             <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
         </>

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Styles
 import * as Styled from './style';
 
 // Hooks
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 // Components
 import Header from '../../components/Header';
@@ -19,21 +19,22 @@ import { DAOFilter, GateFilter, UserFilter } from './component/Filters';
 // import { gql, useQuery } from '@apollo/client';
 // import { searchDaos } from '../../graphql/queries';
 
-const Search = (props) => {
-    const { query } = useParams();
-    const location = useLocation();
+const Search = () => {
+    const location: any = useLocation();
 
     const [selectionTab, setSelectionTab] = useState('DAOs');
     const [daoFilterQuery, setDaoFilterQuery] = useState({});
+    const [userFilterQuery, setUserFilterQuery] = useState({});
+    const [gateFilterQuery, setGateFilterQuery] = useState({});
 
     const ActiveTab = () => {
         switch (selectionTab) {
             case 'DAOs':
                 return <DAOTab filterQuery={daoFilterQuery} />;
             case 'Users':
-                return <UserTab query={query} />;
+                return <UserTab filterQuery={userFilterQuery} />;
             case 'Gates':
-                return <GateTab query={query} />;
+                return <GateTab filterQuery={gateFilterQuery} />;
             default:
                 return <DAOTab filterQuery={daoFilterQuery} />;
         }
@@ -44,13 +45,15 @@ const Search = (props) => {
             case 'DAOs':
                 return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
             case 'Users':
-                return <UserFilter query={query} />;
+                return <UserFilter setUserFilterQuery={setUserFilterQuery} />;
             case 'Gates':
-                return <GateFilter query={query} />;
+                return <GateFilter setGateFilterQuery={setGateFilterQuery} />;
             default:
                 return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
         }
     };
+
+    const FilterComponent = React.useMemo(() => ActiveFilter, [selectionTab]);
 
     useEffect(() => {
         if (location.state && location.state.tab) {
@@ -66,7 +69,7 @@ const Search = (props) => {
                 <Styled.DAOAndUserSelectionContainer>
                     <Styled.SelectContainer
                         active={'DAOs' === selectionTab}
-                        onClick={(e) => setSelectionTab('DAOs')}
+                        onClick={() => setSelectionTab('DAOs')}
                     >
                         <Styled.SelectContainerText>
                             DAOs
@@ -74,7 +77,7 @@ const Search = (props) => {
                     </Styled.SelectContainer>
                     <Styled.SelectContainer
                         active={'Users' === selectionTab}
-                        onClick={(e) => setSelectionTab('Users')}
+                        onClick={() => setSelectionTab('Users')}
                     >
                         <Styled.SelectContainerText>
                             Users
@@ -82,7 +85,7 @@ const Search = (props) => {
                     </Styled.SelectContainer>
                     <Styled.SelectContainer
                         active={'Gates' === selectionTab}
-                        onClick={(e) => setSelectionTab('Gates')}
+                        onClick={() => setSelectionTab('Gates')}
                     >
                         <Styled.SelectContainerText>
                             Gates
@@ -91,7 +94,7 @@ const Search = (props) => {
                 </Styled.DAOAndUserSelectionContainer>
                 <Styled.LeftNav>
                     <Styled.FilterText>Filter:</Styled.FilterText>
-                    <ActiveFilter />
+                    <FilterComponent />
                 </Styled.LeftNav>
             </Styled.Nav>
             <ActiveTab />

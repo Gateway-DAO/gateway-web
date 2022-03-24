@@ -11,8 +11,10 @@ import Pagination from '../Pagination';
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { searchGates } from '../../../../graphql/queries';
+import { useParams } from 'react-router';
 
-const GateTab = ({ query }) => {
+const GateTab = ({ filterQuery }) => {
+    const { query } = useParams();
     const [hits, setHits] = useState([]);
 
     const [pageCount, setPageCount] = useState(0);
@@ -29,17 +31,20 @@ const GateTab = ({ query }) => {
         variables: {
             limit: resultPerPage,
             from: from,
-            ...(query?.length && {
-                filter: {
-                    or: [
-                        {
-                            name: {
-                                wildcard: `*${query.toLowerCase()}*`,
+            ...(Object.keys(filterQuery).length !== 0
+                ? filterQuery
+                : query?.length
+                ? {
+                    filter: {
+                        or: [
+                            {
+                                name: {
+                                    wildcard: `*${query.toLowerCase()}*`,
+                                },
                             },
-                        },
-                    ],
-                },
-            }),
+                        ],
+                    },
+                } : {}),
         },
     });
 
@@ -48,7 +53,7 @@ const GateTab = ({ query }) => {
         setPageCount(
             Math.ceil(searchData?.searchGates?.total / resultPerPage)
         );
-    }, [query, searchLoading, pageNumber]);
+    }, [filterQuery, searchLoading, pageNumber]);
 
     if (searchLoading) {
         return (
@@ -62,7 +67,7 @@ const GateTab = ({ query }) => {
         return (
             <SearchStyled.TextBox>
                 <SearchStyled.MainText>
-                    Oops! There are no {query?.length && `"${query}"`} gates on our records :/
+                    Oops! There's no gate on our records :/
                 </SearchStyled.MainText>
                 <SearchStyled.SmallText>
                     We couldn't find what you're looking for. Try again later!
