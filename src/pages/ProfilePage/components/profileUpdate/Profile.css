@@ -318,12 +318,12 @@ section.gateway-profile {
     z-index: -1;
     margin: -1px;
     border-radius: inherit;
-    background: linear-gradient(
+    /* background: linear-gradient(
         to right,
         #ff00b8 0%,
         #7e3bdc 50.52%,
         #0075ff 100%
-    );
+    ); */
 }
 .gway-about-hd {
     display: flex;
@@ -336,8 +336,14 @@ section.gateway-profile {
     font-size: 20px;
     font-family: 'Be Vietnam';
 }
+.about-content p {
+    margin-bottom: 0 !important;
+}
 .about-content strong {
     font-weight: bold;
+}
+.add-about-btn {
+    margin-top: 40px;
 }
 ul.daos-like-ul li a {
     font-style: normal;
@@ -479,12 +485,12 @@ ul.daos-like-ul li a:focus {
     z-index: -1;
     margin: -1px;
     border-radius: inherit;
-    background: linear-gradient(
+    /* background: linear-gradient(
         to right,
         #ff00b8 0%,
         #7e3bdc 50.52%,
         #0075ff 100%
-    );
+    ); */
 }
 .gateway-profile-middle-inner-content a.complete-profile-btn {
     position: relative;
@@ -525,7 +531,7 @@ ul.daos-like-ul li a:focus {
     margin-right: 5px;
     transition: 0.3s;
 }
-.gateway-profile-middle-inner-content .social a:hover,
+/* .gateway-profile-middle-inner-content .social a:hover,
 .gateway-profile-middle-inner-content .social a:focus {
     background: linear-gradient(
         to top,
@@ -546,7 +552,7 @@ ul.daos-like-ul li a:focus {
         #0075ff 100%
     );
     transition: 0.3s;
-}
+} */
 .gateway-profile-middle-btn-grp a {
     width: 40px;
     height: 40px;
@@ -1073,7 +1079,10 @@ a.profile-toggle:focus + .profile-dropdown {
 .gway-about-hd a,
 .arrow-back,
 .btn.btn-primary,
-.gateway-profile-right-top a {
+.gateway-profile-right-top a,
+.social a,
+.complete-profile-btn,
+.add-now-btn {
     background: none !important;
     border: solid 1px rgba(255, 255, 255, 0.2) !important;
 }
@@ -1085,7 +1094,10 @@ a.profile-toggle:focus + .profile-dropdown {
 .gway-about-hd a:hover,
 .arrow-back:hover,
 .btn.btn-primary:hover,
-.gateway-profile-right-top a:hover {
+.gateway-profile-right-top a:hover,
+.social a:hover,
+.complete-profile-btn:hover,
+.add-now-btn:hover {
     background: linear-gradient(#170627, #170627) padding-box,
         linear-gradient(to right, #e153f2, #6a39f3, #495be0) border-box !important;
 }
@@ -1104,9 +1116,7 @@ a.profile-toggle:focus + .profile-dropdown {
 .hostName a:hover {
     color: #fc01b7;
 }
-.gway-prfile-col p {
-    margin-bottom: 0 !important;
-}
+
 .gateway-profile {
     padding: 0 40px !important;
 }

@@ -349,21 +349,25 @@ const ProfileUpdate = () => {
 										{parser(userInfo.about)}
 									</div>
 								) : (
-									<p>
-										You can write about your years of
-										experience, industry, or skills. People
-										also talk about their achievements or
-										previous job experiences.
-									</p>
+									<div className='about-content'>
+										<p>
+											You can write about your years of
+											experience, industry, or skills. People
+											also talk about their achievements or
+											previous job experiences.
+										</p>
+									</div>
 								)}
-								{!userInfo.about && canEdit ? (
-									<Link
-										to='add-about'
-										className='add-now-btn'
-									>
-										ADD NOW
-									</Link>
-								) : null}
+								<div className='add-about-btn'>
+									{!userInfo.about && canEdit ? (
+										<Link
+											to='add-about'
+											className='add-now-btn'
+										>
+											ADD NOW
+										</Link>
+									) : null}
+								</div>
 							</div>
 						)}
 
