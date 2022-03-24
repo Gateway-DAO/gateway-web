@@ -9,7 +9,6 @@ import AddSkill from './components/addSkill';
 import CompleteProfile from './components/completeProfile';
 import AddKnowledge from './components/addKnowledge';
 import AddAttitude from './components/addAttitude';
-import Credentials from './components/credentials/Credentials';
 
 // Other components
 import Page from '../../components/Page';
@@ -181,6 +180,5 @@ export {
 	AddSkill,
 	CompleteProfile,
 	AddKnowledge,
-	AddAttitude,
-	Credentials
+	AddAttitude
 };
