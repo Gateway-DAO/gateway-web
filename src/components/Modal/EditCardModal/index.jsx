@@ -20,7 +20,7 @@ const EditCardModal = (props) => {
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress);
     const [description, setDescription] = useState(props.description);
     const [categories, setCategories] = useState(props.categories);
-    const [socials, setSocials] = useState(props.socials);
+    const [socials, setSocials] = useState(props.socials || []);
     const [snapshotID, setSnapshotID] = useState(props.snapshotID);
     const [chains, setChains] = useState(props.chains || []);
     const [whitelistedAddresses, setWhitelistedAddresses] = useState(
