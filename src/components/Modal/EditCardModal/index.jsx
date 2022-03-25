@@ -13,10 +13,10 @@ import { ytVideoID } from '../../../utils/functions';
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name);
-    const [backgroundFile, setBackgroundFile] = useState(props.backgroundURL);
+    const [backgroundFile, setBackgroundFile] = useState(null);
     const [youtubeURL, setYoutubeURL] = useState(props.youtubeURL || '');
     const [validYoutubeURL, setValidYoutubeURL] = useState(true);
-    const [logoFile, setLogoFile] = useState(props.logoURL);
+    const [logoFile, setLogoFile] = useState(null);
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress);
     const [description, setDescription] = useState(props.description);
     const [categories, setCategories] = useState(props.categories);
@@ -38,7 +38,7 @@ const EditCardModal = (props) => {
         setUpdateLoading(true);
         try {
             // Upload files to S3
-            if (logoFile === null || backgroundFile === null) {
+            if ((logoFile === null && props.logoURL === null) || (backgroundFile === null && props.backgroundURL === null)) {
                 setErrorMessage('Files not uploaded');
                 console.log(logoFile);
                 console.log(backgroundFile);
@@ -53,19 +53,19 @@ const EditCardModal = (props) => {
                 throw 'tokenAddress cannot be empty';
             }
             const logoURL =
-                logoFile &&
+                logoFile ?
                 (await uploadFile(
                     `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
                     logoFile
-                ));
+                )) : props.logoURL;
             const backgroundURL =
-                backgroundFile &&
+                backgroundFile ?
                 (await uploadFile(
                     `daos/${props.id}/background.${backgroundFile.name
                         .split('.')
                         .pop()}`,
                     backgroundFile
-                ));
+                )) : props.backgroundURL;
 
             const newInfo = {
                 name,
