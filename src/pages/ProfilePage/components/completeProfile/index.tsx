@@ -196,13 +196,13 @@ const CompleteProfile: React.FC = () => {
 					username: user.userName.toLowerCase(),
 					pfp: avatarURL,
 					bio: user.userBio,
-					socials: user.socials.map((social) => ({
+					socials: user.socials.filter((social) => social.platform_value !== null).map((social) => ({
 						network: social.platform_name,
 						url: normalizeUrl(social.platform_value, {
 							forceHttps: true,
 						}),
 					})),
-					// init: true,
+					init: true,
 				});
 
 				// redirect
