@@ -235,6 +235,7 @@ const ProfileUpdate = () => {
 	};
 
 	const handleCopy = async () => {
+		copy(userInfo?.wallet || '');
 		Store.addNotification({
 			title: 'Wallet address copied!',
 			type: 'success',
