@@ -272,14 +272,14 @@ const ProfileUpdate = () => {
 										<div className='user-bio'>
 											{userInfo.bio}
 										</div>
-										{userInfo.socials.filter((item: SocialInput) => item.network == 'website').length > 0 && (
+										{userInfo.socials?.filter((item: SocialInput) => item.network == 'website').length > 0 && (
 											<div className='hostName'>
-												<a href={userInfo.socials.filter((item: SocialInput) => item.network == 'website')[0].url}>{userInfo.socials.filter((item: SocialInput) => item.network == 'website')[0].url}</a>
+												<a href={userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}>{userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}</a>
 											</div>
 										)}
 										<div className='social'>
 											{userInfo.socials &&
-												userInfo.socials.map((item) => (
+												userInfo.socials?.map((item) => (
 													<a
 														href={item.url}
 														key={item.network}
