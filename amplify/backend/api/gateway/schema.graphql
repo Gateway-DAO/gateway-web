@@ -747,6 +747,7 @@ input ChangeKeyInput {
     peopleLimit: Int! # 0 for unlimited
     unlimited: Boolean!
     task: AWSJSON # this can be customized depending on the update needs
+    createdAt: AWSDateTime
 }
 
 ### CUSTOM QUERIES ###
