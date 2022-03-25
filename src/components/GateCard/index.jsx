@@ -28,7 +28,7 @@ const GateCard = ({ gate, viewAsMember }) => {
 
     // Hooks
     // const { !viewAsMember } = useAdmin(gate.admins || []);
-    const { userInfo, activateWeb3 } = useAuth();
+    const { userInfo, activateWeb3, walletConnected } = useAuth();
     const { isAdmin } = useGateAdmin(gate.admins);
     const navigate = useNavigate();
     const [update] = useMutation(gql(updateGate));
@@ -119,8 +119,8 @@ const GateCard = ({ gate, viewAsMember }) => {
     };
 
     const goToGate = async () => {
-        let activated = false;
-        if (!userInfo?.walletConnected) activated = await activateWeb3();
+        let activated = walletConnected;
+        if (!walletConnected) activated = await activateWeb3();
         if (activated) {
             if (userInfo?.init) navigate(`/gate/${gate.id}`);
             else navigate(`/profile/complete-profile?to=/gate/${gate.id}`);
