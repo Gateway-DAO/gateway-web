@@ -106,11 +106,11 @@ const CredentialPage = () => {
                                                     {data.getCredential.description}
                                                 </h5>
                                             </div>
-                                            <div className='credentials-tag'>
-                                                <button>Contributor</button>
-                                                <button>Educational</button>
-                                                <button>Beginner</button>
-                                            </div>
+                                            {/* <div className='credentials-tag'>
+                                                    <button>Contributor</button>
+                                                    <button>Educational</button>
+                                                    <button>Beginner</button>
+                                                </div> */}
                                         </Row>
                                     </div>
                                 </Col>
