@@ -158,8 +158,6 @@ const AddNewKey = ({ edit = false }) => {
         validate,
         onSubmit: async (values) => {
             try {
-                console.log(mutation);
-                console.log(taskDBInput());
                 await pushToDB({
                     variables: {
                         input: {
