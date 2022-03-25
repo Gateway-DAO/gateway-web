@@ -135,6 +135,7 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
                 showResult={showResult}
                 handleSelected={(options) => setChainMatches(options)}
             />
+            {/*
             <FilterDropdown
                 title='Size'
                 options={sizeFilterOptions}
@@ -142,6 +143,7 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
                 showResult={showResult}
                 handleSelected={(options) => setSizeMatches(options)}
             />
+            */}
         </Styled.FilterBox>
     );
 };

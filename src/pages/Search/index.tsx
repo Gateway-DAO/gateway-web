@@ -46,6 +46,7 @@ const Search = () => {
                 return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
             case 'Users':
                 return <UserFilter setUserFilterQuery={setUserFilterQuery} />;
+                return null;
             case 'Gates':
                 return <GateFilter setGateFilterQuery={setGateFilterQuery} />;
             default:
@@ -92,10 +93,12 @@ const Search = () => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
-                <Styled.LeftNav>
-                    <Styled.FilterText>Filter:</Styled.FilterText>
-                    <FilterComponent />
-                </Styled.LeftNav>
+                {selectionTab === 'DAOs' && (
+                    <Styled.LeftNav>
+                        <Styled.FilterText>Filter:</Styled.FilterText>
+                        <FilterComponent />
+                    </Styled.LeftNav>
+                )}
             </Styled.Nav>
             <ActiveTab />
             <Footer />
