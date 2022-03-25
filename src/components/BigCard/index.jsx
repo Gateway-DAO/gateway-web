@@ -87,7 +87,7 @@ const NewCard = (props) => {
 
     const removeHover = () => {};
 
-    const socials = props.socials.map((social, idx) => {
+    const socials = props.socials ? props.socials?.map((social, idx) => {
         switch (social.network) {
             case 'discord':
                 return (
@@ -154,7 +154,7 @@ const NewCard = (props) => {
                     </Styled.Social>
                 );
         }
-    });
+    }) : [];
 
     const chains =
         props.chains &&
