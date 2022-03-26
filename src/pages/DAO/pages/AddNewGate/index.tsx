@@ -8,17 +8,12 @@ import { FormStyled } from '../../../../components/Form';
 // Components
 import SearchedItem from './Components/SearhedItem';
 import SearchedAdmin from './Components/SearchedAdmin';
-import SearchRes from './Components/SearchRes';
-import SearchResGate from './Components/SearchResGate';
 import { ImageUpload } from '../../../../components/Form';
 
 // Hooks
 import { useCreateGate } from '../../../../api/database/useCreateGate';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../../contexts/UserContext';
-
-// Icons
-import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 
 // Utils
 import { uploadFileToIPFS } from '../../../../api/IPFSFileUpload';
@@ -172,12 +167,6 @@ const AddGateForm = () => {
 
     const [
         searchByUsers,
-        {
-            data: searchUserData,
-            loading: searchUserLoading,
-            refetch: searchUserRefetch,
-            called: searchUserCalled,
-        },
     ] = useLazyQuery(gql(searchUsers), {
         variables: {
             filter: {
@@ -884,7 +873,12 @@ const AddGateForm = () => {
                                     onInputChange={(e) => setAdmin(e)}
                                     onChange={handleAdmin}
                                     loadOptions={async () =>
-                                        await getOptions(admin)
+                                        (await getOptions(admin)).filter(
+                                            (user: User) =>
+                                                !adminList
+                                                    .map((admins) => admins.id)
+                                                    .includes(user.id)
+                                        )
                                     }
                                     defaultValue={adminList}
                                     value={adminList}

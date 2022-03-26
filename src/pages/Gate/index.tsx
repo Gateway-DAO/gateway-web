@@ -63,6 +63,25 @@ const GatePage: React.FC = () => {
     });
 
     const {
+        data: earnersData,
+        loading: earnersLoading,
+        error: earnersError,
+    } = useQuery(gql(listUsers), {
+        variables: {
+            filter: {
+                ...(dbData &&
+                    dbData?.getGate.admins.length > 0 && {
+                        or: dbData?.getGate.retroactiveEarners.map((admin) => ({
+                            wallet: {
+                                eq: admin,
+                            },
+                        })),
+                    }),
+            },
+        },
+    });
+
+    const {
         data: preRequisitesData,
         loading: preRequisitesLoading,
         error: preRequisitesError,
@@ -103,6 +122,7 @@ const GatePage: React.FC = () => {
             : []
     );
     const [admins, setAdmins] = useState<User[]>(adminsData?.listUsers.items);
+    const [earners, setEarners] = useState<User[]>(earnersData?.listUsers.items);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [preRequisites, setPreRequisites] = useState<Gate[]>(
         preRequisitesData?.listGates.items
@@ -164,6 +184,11 @@ const GatePage: React.FC = () => {
             setPreRequisites(preRequisitesData?.listGates.items);
     }, [gate, preRequisitesData]);
 
+    useEffect(() => {
+        earnersData &&
+            setEarners(earnersData?.listGates.items);
+    }, [gate, earnersData]);
+
     /* This is a catch-all error handler. If there is an error, it will be logged to the console and
     the user will be redirected to the 404 page. */
     if (error) {
@@ -203,6 +228,7 @@ const GatePage: React.FC = () => {
                         taskStatus,
                         adminList: admins || [],
                         preRequisitesList: preRequisites || [],
+                        retroactiveEarnersList: earners || [],
                     },
                     setGateData,
                     loading: internalLoading,

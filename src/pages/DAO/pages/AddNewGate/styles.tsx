@@ -264,5 +264,7 @@ export const IconBox = styled.div<IIconBoxProps>`
 `;
 
 export const FlexOption = styled(Option)`
-    background-color: red;
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
 `
