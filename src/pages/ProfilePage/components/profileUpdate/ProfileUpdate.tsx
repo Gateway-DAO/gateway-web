@@ -685,7 +685,7 @@ const ProfileUpdate = () => {
 								)}
 							</ListGroup>
 						</div>
-						<div className='gway-skill-col'>
+						{/*<div className='gway-skill-col'>
 							<div className='gway-skill-col-hd'>
 								<h3>DAOs you might like</h3>
 							</div>
@@ -736,7 +736,7 @@ const ProfileUpdate = () => {
 									</a>
 								</ListGroup.Item>
 							</ListGroup>
-						</div>
+						</div>*/}
 					</Col>
 				</Row>
 			</Container>

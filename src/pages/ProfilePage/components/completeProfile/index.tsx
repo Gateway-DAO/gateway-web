@@ -304,7 +304,7 @@ const CompleteProfile: React.FC = () => {
 										{errors.userName}
 									</Form.Control.Feedback>
 
-									<FormStyled.Button
+									{/* <FormStyled.Button
 										type='button'
 										onClick={() =>
 											setUser((prev) => ({
@@ -314,7 +314,7 @@ const CompleteProfile: React.FC = () => {
 										}
 									>
 										Generate Username
-									</FormStyled.Button>
+									</FormStyled.Button> */}
 								</Form.Group>
 							</div>
 							<div className='mb-3 row'>
