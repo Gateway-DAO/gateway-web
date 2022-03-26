@@ -187,7 +187,7 @@ const CompleteProfile: React.FC = () => {
 							.split('.')
 							.pop()}`,
 						file,
-						{ contentType: `image/jpeg` }
+						{ contentType: `image` }
 					)) : defaultPfp;
 				console.log({ avatarURL });
 
@@ -324,7 +324,7 @@ const CompleteProfile: React.FC = () => {
 								>
 									<Form.Label>AVATAR</Form.Label>
 									<RawImageUpload
-										defaultImageURL={defaultPfp}
+										defaultImageURL={`${defaultPfp}?${Date.now()}`}
 										setImage={setFile}
 									/>
 								</Form.Group>

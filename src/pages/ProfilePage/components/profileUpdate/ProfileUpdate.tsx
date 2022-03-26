@@ -256,7 +256,7 @@ const ProfileUpdate = () => {
 				<Row>
 					<Col md={2}>
 						<div className='gateway-profile-left' ref={ref}>
-							<img src={userInfo.pfp} />
+							<img src={`${userInfo.pfp}?${Date.now()}`} />
 						</div>
 					</Col>
 					<Col md={7}>
