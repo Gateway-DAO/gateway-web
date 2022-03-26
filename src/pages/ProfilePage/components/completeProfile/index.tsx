@@ -187,7 +187,7 @@ const CompleteProfile: React.FC = () => {
 							.split('.')
 							.pop()}`,
 						file,
-						{ contentType: `image/jpeg` }
+						{ contentType: `image` }
 					)) : defaultPfp;
 				console.log({ avatarURL });
 
@@ -196,13 +196,13 @@ const CompleteProfile: React.FC = () => {
 					username: user.userName.toLowerCase(),
 					pfp: avatarURL,
 					bio: user.userBio,
-					socials: user.socials.map((social) => ({
+					socials: user.socials.filter((social) => social.platform_value !== null).map((social) => ({
 						network: social.platform_name,
 						url: normalizeUrl(social.platform_value, {
 							forceHttps: true,
 						}),
 					})),
-					// init: true,
+					init: true,
 				});
 
 				// redirect
@@ -304,7 +304,7 @@ const CompleteProfile: React.FC = () => {
 										{errors.userName}
 									</Form.Control.Feedback>
 
-									<FormStyled.Button
+									{/* <FormStyled.Button
 										type='button'
 										onClick={() =>
 											setUser((prev) => ({
@@ -314,7 +314,7 @@ const CompleteProfile: React.FC = () => {
 										}
 									>
 										Generate Username
-									</FormStyled.Button>
+									</FormStyled.Button> */}
 								</Form.Group>
 							</div>
 							<div className='mb-3 row'>
@@ -324,7 +324,7 @@ const CompleteProfile: React.FC = () => {
 								>
 									<Form.Label>AVATAR</Form.Label>
 									<RawImageUpload
-										defaultImageURL={defaultPfp}
+										defaultImageURL={`${defaultPfp}?${Date.now()}`}
 										setImage={setFile}
 									/>
 								</Form.Group>

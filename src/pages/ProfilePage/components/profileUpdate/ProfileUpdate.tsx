@@ -256,7 +256,7 @@ const ProfileUpdate = () => {
 				<Row>
 					<Col md={2}>
 						<div className='gateway-profile-left' ref={ref}>
-							<img src={userInfo.pfp} />
+							<img src={`${userInfo.pfp}?${Date.now()}`} />
 						</div>
 					</Col>
 					<Col md={7}>
@@ -685,7 +685,7 @@ const ProfileUpdate = () => {
 								)}
 							</ListGroup>
 						</div>
-						<div className='gway-skill-col'>
+						{/*<div className='gway-skill-col'>
 							<div className='gway-skill-col-hd'>
 								<h3>DAOs you might like</h3>
 							</div>
@@ -736,7 +736,7 @@ const ProfileUpdate = () => {
 									</a>
 								</ListGroup.Item>
 							</ListGroup>
-						</div>
+						</div>*/}
 					</Col>
 				</Row>
 			</Container>
