@@ -15,6 +15,10 @@ import { ModalProvider } from './contexts/ModalContext';
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider';
 import { ReactNotifications } from 'react-notifications-component'
 
+// Sentry
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
 // Styling
 import 'react-notifications-component/dist/theme.css'
 
@@ -30,6 +34,17 @@ Amplify.configure(awsconfig);
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
 
 AOS.init();
+
+// Initialize Sentry
+Sentry.init({
+    dsn: "https://08ae49f058df40458896182ea0bc7805@o1179770.ingest.sentry.io/6292063",
+    integrations: [new BrowserTracing()],
+  
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
 
 function getLibrary(provider, connector) {
     return new Web3Provider(provider); // this will vary according to whether you use e.g. ethers or web3.js
