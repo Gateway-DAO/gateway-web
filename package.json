@@ -21,6 +21,10 @@
         {
             "name": "Primoz Bernard",
             "email": "primoz@mygateway.xyz"
+        },
+        {
+            "name": "Ashish Goyal",
+            "email": "ashish@mygateway.xyz"
         }
     ],
     "dependencies": {
