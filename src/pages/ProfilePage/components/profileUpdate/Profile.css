@@ -1104,8 +1104,18 @@ a.profile-toggle:focus + .profile-dropdown {
         linear-gradient(to right, #e153f2, #6a39f3, #495be0) border-box !important;
 }
 .sc-crHmcD.lkEPeg {
-    position: absolute !important;
-    right: 10px !important;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+.sc-gsDKAQ.sc-eCImPb.hbTvDU.ckCPyM {
+    max-width: 300px;
+    position: relative;
+    display: inline-block;
+}
+.sc-iwjdpV.dwJwgB {
+    display: inline-block !important;
 }
 
 .hostName {
