@@ -28,10 +28,12 @@ const CredentialCard: React.FC<IProps> = ({ credential }: IProps) => (
     <Col md={4}>
         <div className='cNFT'>
             <div className='img-box'>
-                <img
-                    src={`https://gateway.pinata.cloud/ipfs/${credential.image}`}
-                    alt={credential.name}
-                />
+                <Link to='profile-credentials'>
+                    <img
+                        src={`https://gateway.pinata.cloud/ipfs/${credential.image}`}
+                        alt={credential.name}
+                    />
+                </Link>
             </div>
             <div className='content-box'>
                 <div className='nft-heading'>
