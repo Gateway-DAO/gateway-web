@@ -164,3 +164,26 @@ export const WrappedFiSearch = styled(FiSearch)`
     padding-right: 20px;
     color: #e5e5e5;
 `;
+
+export const NotificationBox = styled(Box)`
+    position: relative;
+    margin-right: 16px;
+
+    cursor: pointer;
+`;
+
+export const NotificationCard = styled.div`
+    display: absolute;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 360px;
+    height: 420px;
+    right: 120px;
+    top: 80px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    z-index: 5;
+`;
