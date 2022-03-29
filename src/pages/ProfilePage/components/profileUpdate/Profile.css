@@ -1075,6 +1075,7 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 
 /*button hover styles*/
+.gway-send-connection a
 .dropdown-toggle.btn.btn-success,
 .gateway-profile-middle-btn-grp a,
 .gway-skill-col-hd a,
@@ -1089,6 +1090,7 @@ a.profile-toggle:focus + .profile-dropdown {
     border: solid 1px rgba(255, 255, 255, 0.2) !important;
 }
 
+.gway-send-connection a:hover,
 .dropdown-toggle.btn.btn-success:hover,
 /* .gateway-profile-middle-btn-grp a:hover, */
 .clipboard-cpy-btn:hover,
@@ -1156,4 +1158,32 @@ a.profile-toggle:focus + .profile-dropdown {
     width: 10px;
     height: calc(100% + 45px);
     background: #170627;
+}
+.gway-send-connection a:hover {
+    cursor: pointer;
+}
+
+.gway-send-connection a {
+    border-radius: 20px;
+    position: absolute;
+    border: 2px solid #6F6F6F;
+    
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 19px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #e5e5e5;
+
+    margin: 120px -50px;
+    padding: 5px 10px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    cursor: pointer;
 }

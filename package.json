@@ -39,6 +39,7 @@
         "@ceramicnetwork/http-client": "^1.5.7",
         "@ckeditor/ckeditor5-build-classic": "^32.0.0",
         "@ckeditor/ckeditor5-react": "^4.0.0",
+        "@cyberlab/cyberconnect": "^4.4.1",
         "@draft-js-plugins/emoji": "^4.5.5",
         "@draft-js-plugins/image": "^4.1.2",
         "@metamask/eth-sig-util": "^4.0.0",
@@ -123,6 +124,7 @@
         "styled-components": "^5.3.1",
         "typescript": "^4.5.5",
         "typewriter-effect": "^2.18.2",
+        "use-async-effect": "^2.2.5",
         "use-callback-ref": "^1.2.5",
         "uuid": "^8.3.2",
         "web-vitals": "^1.0.1",
@@ -151,16 +153,9 @@
         "react-error-overlay": "6.0.9",
         "did-jwt": "5.1.0"
     },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    }
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+    ]
 }
