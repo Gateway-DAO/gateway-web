@@ -11,7 +11,8 @@ import Pagination from '../Pagination';
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import { searchGates } from '../../../../graphql/queries';
-import { useParams } from 'react-router';
+
+import { Navigate, useParams } from 'react-router-dom';
 
 const GateTab = ({ filterQuery }) => {
     const { query } = useParams();
@@ -21,6 +22,9 @@ const GateTab = ({ filterQuery }) => {
     const [pageNumber, setPageNumber] = useState(0);
     const resultPerPage = 8;
     const from = pageNumber * 8;
+
+    // if (!filterQuery['and']) filterQuery['and'] = [];
+    // filterQuery['and'].push({ published: { match: 'PUBLISHED' } });
 
     const {
         data: searchData,
@@ -32,7 +36,7 @@ const GateTab = ({ filterQuery }) => {
             limit: resultPerPage,
             from: from,
             ...(Object.keys(filterQuery).length !== 0
-                ? filterQuery
+                ? { filter: filterQuery }
                 : query?.length
                 ? {
                     filter: {
@@ -53,34 +57,32 @@ const GateTab = ({ filterQuery }) => {
         setPageCount(
             Math.ceil(searchData?.searchGates?.total / resultPerPage)
         );
-    }, [filterQuery, searchLoading, pageNumber]);
+    }, [searchData, searchLoading, resultPerPage]);
 
-    if (searchLoading) {
-        return (
-            <SearchStyled.LoaderBox>
-                <Loader color='white' size={35} />
-            </SearchStyled.LoaderBox>
-        );
-    }
-
-    if ((!hits.length && !searchLoading && searchCalled) || searchError) {
-        return (
-            <SearchStyled.TextBox>
-                <SearchStyled.MainText>
-                    Oops! There's no gate on our records :/
-                </SearchStyled.MainText>
-                <SearchStyled.SmallText>
-                    We couldn't find what you're looking for. Try again later!
-                </SearchStyled.SmallText>
-            </SearchStyled.TextBox>
-        );
+    if (searchError) {
+        return <Navigate to='/404' />;
     }
 
     return (
         <>
+            {searchLoading && (
+                <SearchStyled.LoaderBox>
+                    <Loader color='white' size={35} />
+                </SearchStyled.LoaderBox>
+            )}
+            {!hits.length && !searchLoading && searchCalled && (
+                <SearchStyled.TextBox>
+                    <SearchStyled.MainText>
+                        Oops! There's no gate on our records :/
+                    </SearchStyled.MainText>
+                    <SearchStyled.SmallText>
+                        We couldn't find what you're looking for. Try again later!
+                    </SearchStyled.SmallText>
+                </SearchStyled.TextBox>
+            )}
             <Styled.GateCardBox>
-                {hits?.map((item) => (
-                    <GateCard gate={item} viewAsMember={true} />
+                {hits?.map((item, idx) => (
+                    <GateCard key={idx} gate={item} viewAsMember={true} />
                 ))}
             </Styled.GateCardBox>
             <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />

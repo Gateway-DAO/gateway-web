@@ -30,5 +30,6 @@ export const UserCardBox = styled.section`
 export const UserContent = styled.div`
     margin-left: -14px;
     margin-right: -14px;
-    display: flow-root;
+    display: -webkit-box;
+    flex-wrap: wrap;
 `;

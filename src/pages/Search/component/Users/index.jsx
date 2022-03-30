@@ -81,50 +81,46 @@ const UserTab = ({ filterQuery }) => {
     useEffect(() => {
         setHits(!searchLoading ? searchData?.searchUsers?.items : []);
         setPageCount(
-            Math.ceil(searchData?.searchUsers?.items.length / resultPerPage)
+            Math.ceil(searchData?.searchUsers?.total / resultPerPage)
         );
-    }, [query, searchLoading, pageNumber, filterQuery]);
+    }, [searchLoading, searchData, resultPerPage]);
 
     if (searchError || listError) {
         return <Navigate to='/404' />;
     }
 
-    if (searchLoading) {
-        return (
-            <SearchStyled.LoaderBox>
-                <Loader color='white' size={35} />
-            </SearchStyled.LoaderBox>
-        );
-    }
-
-    if (!hits.length && !searchLoading && searchCalled) {
-        return (
-            <SearchStyled.TextBox>
-                <SearchStyled.MainText>
-                    Oops! There's no user on our records :/
-                </SearchStyled.MainText>
-                <SearchStyled.SmallText>
-                    We couldn't find what you're looking for. Try again later!
-                </SearchStyled.SmallText>
-            </SearchStyled.TextBox>
-        );
-    }
-
     return (
         <>
-            <Styled.UserCardBox>
-                <Styled.UserContent>
-                    {hits?.map((item) => (
-                        <UserCard
-                            key={item.nonce}
-                            name={item.name}
-                            username={item.username}
-                            pfp={item.pfp}
-                            daos={item.daos}
-                        />
-                    ))}
-                </Styled.UserContent>
-            </Styled.UserCardBox>
+            {searchLoading && (
+                <SearchStyled.LoaderBox>
+                    <Loader color='white' size={35} />
+                </SearchStyled.LoaderBox>
+            )}
+            {!hits.length && !searchLoading && searchCalled && (
+                <SearchStyled.TextBox>
+                    <SearchStyled.MainText>
+                        Oops! There's no user on our records :/
+                    </SearchStyled.MainText>
+                    <SearchStyled.SmallText>
+                        We couldn't find what you're looking for. Try again later!
+                    </SearchStyled.SmallText>
+                </SearchStyled.TextBox>
+            )}
+            {!!hits.length && (
+                <Styled.UserCardBox>
+                    <Styled.UserContent>
+                        {hits?.map((item, idx) => (
+                            <UserCard
+                                key={idx}
+                                name={item.name}
+                                username={item.username}
+                                pfp={item.pfp}
+                                daos={item.daos}
+                            />
+                        ))}
+                    </Styled.UserContent>
+                </Styled.UserCardBox>
+            )}
             <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
         </>
     );
