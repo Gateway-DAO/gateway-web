@@ -13,7 +13,7 @@ const Footer = (props) => {
                 </Styled.LogoBox>
                 <Styled.SocialsBox>
                     <Styled.SocialBtn
-                        href='https://discord.gg/dsrjqPRfNj'
+                        href='https://discord.gg/FU4x47sUk3'
                         target='_blank'
                     >
                         <FaDiscord color='white' size={24} />

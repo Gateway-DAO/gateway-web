@@ -62,7 +62,7 @@ const Header = (props) => {
 								</Styled.Text>
 							</Styled.OptionLink>
 							<Styled.OptionLink
-								to='//discord.gg/78wuJuKFVK'
+								to='https://discord.gg/FU4x47sUk3'
 								target='__blank'
 							>
 								<Styled.Text color='#E5E5E5'>
