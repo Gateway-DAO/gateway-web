@@ -1108,6 +1108,7 @@ a.profile-toggle:focus + .profile-dropdown {
     left: 0;
     right: 0;
     width: 100%;
+    top: 50px !important;
 }
 .sc-gsDKAQ.sc-eCImPb.hbTvDU.ckCPyM {
     max-width: 300px;
