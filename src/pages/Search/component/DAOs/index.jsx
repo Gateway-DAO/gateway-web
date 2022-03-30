@@ -61,9 +61,9 @@ const DAOTab = ({ filterQuery }) => {
     useEffect(() => {
         setHits(!searchLoading ? searchData?.searchDAOs?.items : []);
         setPageCount(
-            Math.ceil(searchData?.searchDAOs?.items.length / resultPerPage)
+            Math.ceil(searchData?.searchDAOs?.total / resultPerPage)
         );
-    }, [query, searchLoading, pageNumber]);
+    }, [searchLoading, searchData, resultPerPage]);
 
     if (searchError) {
         return <Navigate to='/404' />;
