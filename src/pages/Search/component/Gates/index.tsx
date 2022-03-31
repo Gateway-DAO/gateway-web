@@ -73,7 +73,7 @@ const GateTab = ({ filterQuery }) => {
             {!hits.length && !searchLoading && searchCalled && (
                 <SearchStyled.TextBox>
                     <SearchStyled.MainText>
-                        Oops! There's no gate on our records :/
+                        Oops! There's no {query && `"${query}"`} gate on our records :/
                     </SearchStyled.MainText>
                     <SearchStyled.SmallText>
                         We couldn't find what you're looking for. Try again later!

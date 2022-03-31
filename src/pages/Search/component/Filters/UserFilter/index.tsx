@@ -66,11 +66,11 @@ const UserFilter = function ({ setUserFilterQuery }) {
             }
         }
 
-        if (!query['or']) {
+        if (searchTerm && !query['or']) {
             query['or'] = []
         }
 
-        query['or'].push(...[
+        searchTerm && query['or'].push(...[
             { bio: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
             { name: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
             {
