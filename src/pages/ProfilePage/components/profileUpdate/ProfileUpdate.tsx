@@ -60,7 +60,7 @@ import parser from 'html-react-parser';
 import { Store } from 'react-notifications-component';
 
 // Types
-import { Credential, Social, SocialInput } from '../../../../graphql/API';
+import { Social } from '../../../../graphql/API';
 import copy from 'copy-to-clipboard';
 import { MONTHS } from '../../../../utils/constants';
 
@@ -256,7 +256,7 @@ const ProfileUpdate = () => {
 				<Row>
 					<Col md={2}>
 						<div className='gateway-profile-left' ref={ref}>
-							<img src={`${userInfo.pfp}?${Date.now()}`} />
+							<img src={userInfo.pfp} />
 						</div>
 					</Col>
 					<Col md={7}>
@@ -272,14 +272,12 @@ const ProfileUpdate = () => {
 										<div className='user-bio'>
 											{userInfo.bio}
 										</div>
-										{userInfo.socials?.filter((item: SocialInput) => item.network == 'website').length > 0 && (
-											<div className='hostName'>
-												<a href={userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}>{userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}</a>
-											</div>
-										)}
+										<div className='hostName'>
+											<a href='#'>www.mygateway.xyz</a>
+										</div>
 										<div className='social'>
 											{userInfo.socials &&
-												userInfo.socials?.map((item) => (
+												userInfo.socials.map((item) => (
 													<a
 														href={item.url}
 														key={item.network}
@@ -393,7 +391,7 @@ const ProfileUpdate = () => {
 						)}
 
 						{/* Gateway Profile - Credentials */}
-						{userInfo?.credentials?.items?.length > 0 && (
+						{userInfo.daos.length > 0 && (
 							<div className='gway-prfile-col'>
 								<div className='gway-about-hd'>
 									<h2>Experience</h2>
@@ -419,12 +417,12 @@ const ProfileUpdate = () => {
 								</div>
 								*/}
 
-								{userInfo.credentials.items.map((credential: Credential) => (
+								{userInfo.daos.map((credential) => (
 									<div className='experience-profile-section'>
 										<div className='experience-profile-inner-section'>
 											<div className='creative-icon'>
 												<img
-													src={credential.organization.logoURL}
+													src={credential.logoURL}
 													alt='image'
 												/>
 											</div>
@@ -438,7 +436,7 @@ const ProfileUpdate = () => {
 														) */}
 												</div>
 												<p>
-													{credential.organization.name}
+													{credential.name}
 													{/*<span>
                                                             Nov 2021 — Present •
                                                             15h/week
@@ -467,10 +465,14 @@ const ProfileUpdate = () => {
 										</div>
 										<div className='nft'>
 											<Accordion defaultActiveKey='0'>
+												{
+													// credential.gate.nftType ==
+													// 	'CONTRIBUTOR' ?
 													<Accordion.Item eventKey='0'>
 														<div className='accordion-top-header'>
 															<Accordion.Header>
-																{(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL
+																CONTRIBUTOR
+																CREDENTIAL
 															</Accordion.Header>
 															{/*<Link
                                                                     to='/'
@@ -489,6 +491,25 @@ const ProfileUpdate = () => {
 															</Row>
 														</Accordion.Body>
 													</Accordion.Item>
+													// :
+													// (
+													// 	<Accordion.Item eventKey='0'>
+													// 		<Accordion.Header>
+													// 			REWARD
+													// 			CREDENTIAL
+													// 		</Accordion.Header>
+													// 		<Accordion.Body>
+													// 			<Row className='justify-content-md-left'>
+													// 				<CredentialCard
+													// 					credential={
+													// 						credential
+													// 					}
+													// 				/>
+													// 			</Row>
+													// 		</Accordion.Body>
+													// 	</Accordion.Item>
+													// )
+												}
 											</Accordion>
 										</div>
 									</div>
@@ -579,7 +600,7 @@ const ProfileUpdate = () => {
 									userInfo.skills.length > 0 ? (
 									userInfo.skills.length > 0 &&
 									userInfo.skills.map((item) => (
-										<ListGroup.Item as='li' key={item}>
+										<ListGroup.Item as='li' key={item.value}>
 											<a className='gway-btn'>{item}</a>
 										</ListGroup.Item>
 									))
@@ -610,7 +631,7 @@ const ProfileUpdate = () => {
 									userInfo.knowledges.length > 0 ? (
 									userInfo.knowledges.length > 0 &&
 									userInfo.knowledges.map((item) => (
-										<ListGroup.Item as='li' key={item}>
+										<ListGroup.Item as='li' key={item.value}>
 											<a className='gway-btn'>{item}</a>
 										</ListGroup.Item>
 									))
@@ -641,7 +662,7 @@ const ProfileUpdate = () => {
 									userInfo.attitudes.length > 0 ? (
 									userInfo.attitudes.length > 0 &&
 									userInfo.attitudes.map((item) => (
-										<ListGroup.Item as='li' key={item}>
+										<ListGroup.Item as='li' key={item.value}>
 											<a className='gway-btn'>{item}</a>
 										</ListGroup.Item>
 									))
@@ -672,7 +693,7 @@ const ProfileUpdate = () => {
 									userInfo.languages.length > 0 ? (
 									userInfo.languages.length > 0 &&
 									userInfo.languages.map((item) => (
-										<ListGroup.Item as='li' key={item}>
+										<ListGroup.Item as='li' key={item.value}>
 											<a className='gway-btn'>{item}</a>
 										</ListGroup.Item>
 									))
@@ -685,7 +706,7 @@ const ProfileUpdate = () => {
 								)}
 							</ListGroup>
 						</div>
-						{/*<div className='gway-skill-col'>
+						<div className='gway-skill-col'>
 							<div className='gway-skill-col-hd'>
 								<h3>DAOs you might like</h3>
 							</div>
@@ -736,7 +757,7 @@ const ProfileUpdate = () => {
 									</a>
 								</ListGroup.Item>
 							</ListGroup>
-						</div>*/}
+						</div>
 					</Col>
 				</Row>
 			</Container>
