@@ -1,67 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta
+            name="description"
+            content="Are you hungry to find your online community? We provide you all the information you need to make your decision all in one spot. Let us be your Gateway."
+        />
 
-<head>
-	<meta charset="utf-8" />
-	<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="theme-color" content="#000000" />
-	<meta name="description" content="Are you hungry to find your online community? We provide you all the information you need to make your decision all in one spot. Let us be your Gateway." />
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://mygateway.xyz/" />
+        <meta property="og:title" content="Gateway - Find your Community" />
+        <meta
+            property="og:description"
+            content="Are you hungry to find your online community? We provide you all the information you need to make your decision all in one spot. Let us be your Gateway."
+        />
+        <meta property="og:image" content="%PUBLIC_URL%/social.png" />
 
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://mygateway.xyz/">
-	<meta property="og:title" content="Gateway - Find your Community">
-	<meta property="og:description" content="Are you hungry to find your online community? We provide you all the information you need to make your decision all in one spot. Let us be your Gateway.">
-	<meta property="og:image" content="%PUBLIC_URL%/social.png">
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://mygateway.xyz/" />
+        <meta
+            property="twitter:title"
+            content="Gateway - Find your Community"
+        />
+        <meta
+            property="twitter:description"
+            content="Are you hungry to find your online community? We provide you all the information you need to make your decision all in one spot. Let us be your Gateway."
+        />
+        <meta property="twitter:image" content="%PUBLIC_URL%/social.png" />
 
-	<!-- Twitter -->
-	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:url" content="https://mygateway.xyz/">
-	<meta property="twitter:title" content="Gateway - Find your Community">
-	<meta property="twitter:description" content="Are you hungry to find your online community? We provide you all the information you need to make your decision all in one spot. Let us be your Gateway.">
-	<meta property="twitter:image" content="%PUBLIC_URL%/social.png">
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.1.0/gl-matrix.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.4.6/bluebird.min.js"></script>
 
-	<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-	<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.1.0/gl-matrix.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.4.6/bluebird.min.js"></script>
+        <!-- Hotjar Tracking Code for https://beta.mygateway.xyz -->
+        <script>
+            (function (h, o, t, j, a, r) {
+                h.hj =
+                    h.hj ||
+                    function () {
+                        (h.hj.q = h.hj.q || []).push(arguments);
+                    };
+                h._hjSettings = { hjid: 2901503, hjsv: 6 };
+                a = o.getElementsByTagName('head')[0];
+                r = o.createElement('script');
+                r.async = 1;
+                r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(
+                window,
+                document,
+                'https://static.hotjar.com/c/hotjar-',
+                '.js?sv='
+            );
+        </script>
 
-	<!-- Hotjar Tracking Code for https://beta.mygateway.xyz -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:2901503,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
+        <!-- Heap Code-->
+        <script type="text/javascript">
+            (window.heap = window.heap || []),
+                (heap.load = function (e, t) {
+                    (window.heap.appid = e), (window.heap.config = t = t || {});
+                    var r = document.createElement('script');
+                    (r.type = 'text/javascript'),
+                        (r.async = !0),
+                        (r.src =
+                            'https://cdn.heapanalytics.com/js/heap-' +
+                            e +
+                            '.js');
+                    var a = document.getElementsByTagName('script')[0];
+                    a.parentNode.insertBefore(r, a);
+                    for (
+                        var n = function (e) {
+                                return function () {
+                                    heap.push(
+                                        [e].concat(
+                                            Array.prototype.slice.call(
+                                                arguments,
+                                                0
+                                            )
+                                        )
+                                    );
+                                };
+                            },
+                            p = [
+                                'addEventProperties',
+                                'addUserProperties',
+                                'clearEventProperties',
+                                'identify',
+                                'resetIdentity',
+                                'removeEventProperty',
+                                'setEventProperties',
+                                'track',
+                                'unsetEventProperty',
+                            ],
+                            o = 0;
+                        o < p.length;
+                        o++
+                    )
+                        heap[p[o]] = n(p[o]);
+                });
+            heap.load('321702453');
+        </script>
 
-<!-- Heap Code-->
-<script type="text/javascript">
-	window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};
-	heap.load("321702453");
-  </script>
+        <title>Gateway</title>
 
-	<title>Gateway</title>
+        <style>
+            /* Montserrat Font */
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-	<style>
-		/* Montserrat Font */
-		@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+            /* Poppins Font */
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-		/* Poppins Font */
-		@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+            /* Be Vietnam Font */
+            @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+        </style>
+    </head>
 
-		/* Be Vietnam Font */
-		@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam:ital,wght@0,100;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
-	</style>
-</head>
-
-<body>
-	<noscript>You need to enable JavaScript to run this app.</noscript>
-	<div id="root"></div>
-</body>
-
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+    </body>
 </html>
