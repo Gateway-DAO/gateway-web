@@ -2,6 +2,7 @@ import { FaDiscord, FaTwitter, FaMedium, FaLinkedin } from 'react-icons/fa';
 import * as Styled from './style';
 
 import logo from '../../assets/Gateway.svg';
+import SOCIALS from '../../utils/constants';
 
 const Footer = (props) => {
     return (
@@ -13,25 +14,25 @@ const Footer = (props) => {
                 </Styled.LogoBox>
                 <Styled.SocialsBox>
                     <Styled.SocialBtn
-                        href='https://discord.gg/FU4x47sUk3'
+                        href= {SOCIALS.Discord}
                         target='_blank'
                     >
                         <FaDiscord color='white' size={24} />
                     </Styled.SocialBtn>
                     <Styled.SocialBtn
-                        href='https://twitter.com/Gateway_DAO'
+                        href= {SOCIALS.Twitter}
                         target='_blank'
                     >
                         <FaTwitter color='white' size={24} />
                     </Styled.SocialBtn>
                     <Styled.SocialBtn
-                        href='https://medium.com/@gatewaydao'
+                        href=  {SOCIALS.Medium}
                         target='_blank'
                     >
                         <FaMedium color='white' size={24} />
                     </Styled.SocialBtn>
                     <Styled.SocialBtn
-                        href='https://www.linkedin.com/company/mygateway'
+                        href= {SOCIALS.Linkedln}
                         target='_blank'
                     >
                         <FaLinkedin color='white' size={24} />

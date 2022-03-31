@@ -5,6 +5,7 @@ import useMediaQueries from '../../hooks/useMediaQueries';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocation } from 'react-use';
+import SOCIALS from '../../utils/constants';
 
 const Header = (props) => {
 	const { xs } = useMediaQueries();
@@ -62,7 +63,7 @@ const Header = (props) => {
 								</Styled.Text>
 							</Styled.OptionLink>
 							<Styled.OptionLink
-								to='https://discord.gg/FU4x47sUk3'
+								to= {SOCIALS.Discord}
 								target='__blank'
 							>
 								<Styled.Text color='#E5E5E5'>
