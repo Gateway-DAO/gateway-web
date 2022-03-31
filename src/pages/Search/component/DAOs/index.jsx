@@ -80,7 +80,7 @@ const DAOTab = ({ filterQuery }) => {
             {!searchData?.searchDAOs?.items.length && !searchLoading && searchCalled && (
                 <SearchStyled.TextBox>
                     <SearchStyled.MainText>
-                        Oops! There's no "{query}" DAO on our records :/
+                        Oops! There's no {query && `"${query}"`} DAO on our records :/
                     </SearchStyled.MainText>
                     <SearchStyled.SmallText>
                         We couldn't find what you're looking for. Try again

@@ -99,7 +99,7 @@ const UserTab = ({ filterQuery }) => {
             {!hits.length && !searchLoading && searchCalled && (
                 <SearchStyled.TextBox>
                     <SearchStyled.MainText>
-                        Oops! There's no user on our records :/
+                        Oops! There's no {query && `"${query}"`} user on our records :/
                     </SearchStyled.MainText>
                     <SearchStyled.SmallText>
                         We couldn't find what you're looking for. Try again later!

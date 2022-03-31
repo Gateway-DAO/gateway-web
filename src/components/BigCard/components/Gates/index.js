@@ -21,10 +21,11 @@ const Gates = (props) => {
                 viewAsMember={props.viewAsMember}
             />
             <Styled.GatesContainer>
-                {gates.map((gate) => {
+                {gates.map((gate, idx) => {
                     if (isAdmin && !props.viewAsMember) {
                         return (
                             <GateCard
+                                key={idx}
                                 gate={gate}
                                 viewAsMember={props.viewAsMember}
                             />
@@ -37,6 +38,7 @@ const Gates = (props) => {
                     ) {
                         return (
                             <GateCard
+                                key={idx}
                                 gate={gate}
                                 viewAsMember={props.viewAsMember}
                             />

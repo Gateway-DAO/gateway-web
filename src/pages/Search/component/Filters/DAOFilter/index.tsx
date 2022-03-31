@@ -98,11 +98,11 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
             }
         }
 
-        if (!query['or']) {
+        if (searchTerm && !query['or']) {
             query['or'] = []
         }
 
-        query['or'].push(...[
+        searchTerm && query['or'].push(...[
             { dao: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
             { name: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
             {
