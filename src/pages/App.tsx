@@ -43,7 +43,7 @@ const DAO = React.lazy(() => import('./DAO'));
 const Gate = React.lazy(() => import('./Gate'));
 const AddNewKey = React.lazy(() => import('./Gate/pages/AddNewKey'));
 const Search = React.lazy(() => import('./Search'));
-const SignIn = React.lazy(() => import('./SignIn'));
+const NotAuthorized = React.lazy(() => import('./NotAuthorized'));
 const CreateProfile = React.lazy(() => import('./CreateProfile'));
 const AboutDAOs = React.lazy(() => import('./AboutDAOs'));
 const About = React.lazy(() => import('./About'));
@@ -231,7 +231,7 @@ const App: React.FC = () => {
 							/>
 						</Route>
 
-						<Route path='/sign-in' element={<SignIn />} />
+						<Route path='/not-authorized' element={<NotAuthorized />} />
 						<Route
 							path='/create-profile'
 							element={<CreateProfile />}

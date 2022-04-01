@@ -99,7 +99,7 @@ export const SocialContainer = styled.div`
     margin-top: 10px;
 `;
 
-export const Button = styled.a`
+export const Button = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 20px;

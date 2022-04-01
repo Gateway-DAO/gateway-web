@@ -104,74 +104,6 @@ const BackButton: React.FC<Props> = ({
                     ? PublishedState.PUBLISHED
                     : published;
 
-            /*
-            if (
-                published === PublishedState.NOT_PUBLISHED &&
-                published_INTERNAL === PublishedState.PUBLISHED
-            ) {
-                // Published for the first time
-                const nftType = gateData.nftType;
-                const dao = gateData.dao;
-
-                let contract: string | null = dao.nftContracts
-                    ? dao.nftContracts[(nftType as string).toLowerCase()]
-                    : null;
-
-                // Step 1. check if there's the contract
-                if (
-                    dao.nftContracts == null ||
-                    (dao.nftContracts &&
-                        dao.nftContracts[(nftType as string).toLowerCase()] ==
-                            null)
-                ) {
-                    // There's no contract for the current NFT type
-                    contract = await mintNFTContract(
-                        nftType,
-                        gateData.badge.name,
-                        [
-                            ...gateData.adminList.map((admin) => admin.wallet),
-                            userInfo.wallet,
-                        ]
-                    );
-
-                    // Update DAO with the new contract information
-                    await updateDAO({
-                        variables: {
-                            input: {
-                                id: dao.id,
-                                nftContracts: {
-                                    contributor: dao.nftContracts?.contributor,
-                                    reward: dao.nftContracts?.reward,
-                                    [(nftType as string).toLowerCase()]:
-                                        contract,
-                                },
-                            },
-                        },
-                    });
-                }
-
-                // Step 2. mint the NFT
-
-                // Step 2.1. stream the credential to Ceramic
-                const credential = {
-                    issuerId:
-                        'did:key:z6Mkjeb28dgUpbAEMgjiP3KcVmVgNNUqynimDBKS4G1K1fUe',
-                    competencies: [],
-                    issueeId: '',
-                    name: gateData.badge.name,
-                    description: gateData.description,
-                    organization: gateData.dao.id,
-                };
-
-                gateData.retroactiveEarners.length &&
-                    (await batchMint(
-                        contract,
-                        gateData.retroactiveEarners.map((re) => credential),
-                        gateData.retroactiveEarners
-                    ));
-            }
-            */
-
             setPublished(published_INTERNAL);
 
             await updateGate({
@@ -186,7 +118,9 @@ const BackButton: React.FC<Props> = ({
             discardModal();
         } catch (e) {
             setShowPublish(false);
+
             discardModal();
+
             showErrorModal(
                 'We are facing some issues. Please try again later.'
             );
@@ -197,21 +131,9 @@ const BackButton: React.FC<Props> = ({
     /**
      * It updates the published state of the gate.
      */
-    const handleUpdate = () => {
-        // const ConfirmModal = () => (
-        //     <div>
-        //         <Theam.MainText>
-        //             Are you sure you want to publish
-        //         </Theam.MainText>
-        //         <p>
-        //             After publishing, you will only be able to add new key,
-        //             admins and pre-requisites. EveryThing else will be locked
-        //         </p>
-        //         <Theam.Buttom onClick={confirm}>Confirm</Theam.Buttom>
-        //     </div>
-        // );
-        // showModal(<ConfirmModal />);
-        confirm();
+    const handleUpdate = async () => {
+        await confirm();
+        setShowPublish(false);
     };
 
     /**

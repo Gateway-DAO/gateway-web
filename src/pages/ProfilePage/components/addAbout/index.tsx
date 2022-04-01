@@ -20,6 +20,7 @@ const AddAbout: React.FC = () => {
 	const [redirect, setRedirect] = useState(false);
 	const [about, setAbout] = useState(userInfo?.about || '');
 	const [isValid, setValid] = useState<boolean>(true);
+	const [isAboutFilled, setIsAboutFilled] = useState<boolean>(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -40,6 +41,18 @@ const AddAbout: React.FC = () => {
 			} catch (err) {
 				console.log(err);
 			}
+		}
+	};
+
+	useEffect(() => {
+		handleAboutFilled();
+	}, [about]);
+
+	const handleAboutFilled = () => {
+		if (about.length > 0) {
+			setIsAboutFilled(true);
+		} else {
+			setIsAboutFilled(false);
 		}
 	};
 
@@ -72,32 +85,45 @@ const AddAbout: React.FC = () => {
 				<div className='gt-about-section'>
 					<Container>
 						<h1>About</h1>
-						<div
-							className={`text-editor ${isValid ? 'invalid' : ''
-								}`}
-						>
+						<div className={`text-editor ${isValid ? 'invalid' : ''}`}>
 							<div className='counting-number'>
 								{about.replace(/<(.|\n)*?>/g, '').trim().length}
 								/400
 							</div>
-							<Form
-								className='add-about'
-								noValidate
-								validated={isValid}
-								onSubmit={handleSubmit}
-							>
-								<div className='mb-5'>
+							<Form className='add-about' noValidate validated={isValid} onSubmit={handleSubmit}>
+								{/* <div className='mb-5'>
 									<RichEditor
 										value={about}
 										set={setAbout}
 										toolbar={[
-											['bold', 'italic', 'underline'],
+											// ['bold', 'italic', 'underline'],
 											['emoji'],
 										]}
 									/>
 									{!isValid && (
 										<FormStyled.ErrorText>The about section should be filled!</FormStyled.ErrorText>
 									)}
+								</div> */}
+								<div>
+									{!isValid && (
+										<FormStyled.ErrorText>The about section should be filled!</FormStyled.ErrorText>
+									)}
+									<Form.Control
+										required
+										className={`${isAboutFilled
+											? 'change-background-to-fill mb-5'
+											: 'mb-5'
+											}`}
+										as="textarea"
+										maxLength={400}
+										id="about-content"
+										name="textarea"
+										value={about}
+										onChange={(e) => {
+											setAbout(e.target.value);
+										}}
+										rows={12}
+									/>
 								</div>
 
 								<Button variant='primary' type='submit'>

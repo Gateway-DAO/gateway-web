@@ -91,8 +91,8 @@ const CompleteProfile: React.FC = () => {
 			errors.userName = 'The username is too short!';
 		else if (user.userName.length > 50)
 			errors.userName = 'The username is too long!';
-		// else if (!/^[a-z0-9_\.]+$/.test(user.userName))
-		// 	errors.userName = 'The username is in the wrong format!';
+		else if (!/^[a-z0-9-\.]+$/.test(user.userName))
+			errors.userName = 'Usernames need to be all lower-caps and can only contain letters(a-z), numbers(0-9) and dashes(-)';
 
 		const { data } = await getUser({
 			variables: {
@@ -102,6 +102,7 @@ const CompleteProfile: React.FC = () => {
 
 		if (
 			user.userName !== userInfo?.username &&
+			user.userName.length != 0 &&
 			data.getUserByUsername.items.length > 0
 		)
 			errors.userName = 'This username is already taken!';
@@ -167,6 +168,20 @@ const CompleteProfile: React.FC = () => {
 		setUser((prev) => ({ ...prev, [name]: value }));
 	};
 
+	const handleNameChange = async (event) => {
+		event.preventDefault();
+		const { name, value } = event.target;
+		setUser((prev) => ({ ...prev, [name]: value }));
+		const nameFormErrors = await checkErrors();
+		if (Object.keys(nameFormErrors).length) {
+			setErrors(nameFormErrors);
+			setIsValidated(false);
+		} else {
+			setErrors({});
+			setIsValidated(true);
+		}
+	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -189,19 +204,20 @@ const CompleteProfile: React.FC = () => {
 						file,
 						{ contentType: `image` }
 					)) : defaultPfp;
+				console.log({ avatarURL });
 
 				await updateUserInfo({
 					name: user.displayName,
 					username: user.userName.toLowerCase(),
 					pfp: avatarURL,
 					bio: user.userBio,
-					socials: user.socials.map((social) => ({
+					socials: user.socials.filter((social) => social.platform_value !== null).map((social) => ({
 						network: social.platform_name,
 						url: normalizeUrl(social.platform_value, {
 							forceHttps: true,
 						}),
 					})),
-					// init: true,
+					init: true,
 				});
 
 				// redirect
@@ -285,7 +301,7 @@ const CompleteProfile: React.FC = () => {
 								>
 									<Form.Label>Username</Form.Label>
 									<Form.Control
-										className={`${user.userName &&
+										className={`${user.userName && isValidated &&
 											'change-background-to-fill'
 											}`}
 										required
@@ -294,7 +310,7 @@ const CompleteProfile: React.FC = () => {
 										type='text'
 										placeholder='mygateway.xyz/username'
 										onChange={(e) => {
-											handleChange(e);
+											handleNameChange(e);
 										}}
 										value={user.userName}
 										isInvalid={!!errors.userName}
@@ -303,7 +319,7 @@ const CompleteProfile: React.FC = () => {
 										{errors.userName}
 									</Form.Control.Feedback>
 
-									<FormStyled.Button
+									{/* <FormStyled.Button
 										type='button'
 										onClick={() =>
 											setUser((prev) => ({
@@ -313,7 +329,7 @@ const CompleteProfile: React.FC = () => {
 										}
 									>
 										Generate Username
-									</FormStyled.Button>
+									</FormStyled.Button> */}
 								</Form.Group>
 							</div>
 							<div className='mb-3 row'>
@@ -323,7 +339,7 @@ const CompleteProfile: React.FC = () => {
 								>
 									<Form.Label>AVATAR</Form.Label>
 									<RawImageUpload
-										defaultImageURL={defaultPfp}
+										defaultImageURL={`${defaultPfp}?${Date.now()}`}
 										setImage={setFile}
 									/>
 								</Form.Group>

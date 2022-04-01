@@ -6373,7 +6373,6 @@ export const searchCredentials = /* GraphQL */ `
                 attitudes
                 ceramicStream
                 createdAt
-                updatedAt
             }
             nextToken
             total

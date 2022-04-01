@@ -562,6 +562,7 @@ const updateKey = async (input) => {
         unlimited: input.unlimited,
         updatedAt: new Date().toISOString(),
         task: input.task,
+        createdAt: input.createdAt || new Date().toISOString(),
     };
 
     switch (input.task.type) {

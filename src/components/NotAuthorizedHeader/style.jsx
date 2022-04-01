@@ -160,3 +160,20 @@ export const WrappedFiSearch = styled(FiSearch)`
     padding-right: 20px;
     color: #e5e5e5;
 `;
+
+export const Close = styled.span`
+    font-family: 'Be Vietnam';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+
+    color: #ff00b8;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;

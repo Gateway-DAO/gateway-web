@@ -57,9 +57,10 @@ import { useMeasure } from 'react-use';
 // Utils
 import { shortenAddress } from '../../../../utils/web3';
 import parser from 'html-react-parser';
+import { Store } from 'react-notifications-component';
 
 // Types
-import { Social } from '../../../../graphql/API';
+import { Credential, Social, SocialInput } from '../../../../graphql/API';
 import copy from 'copy-to-clipboard';
 import { MONTHS } from '../../../../utils/constants';
 
@@ -69,7 +70,8 @@ let offset = new Date().getTimezoneOffset(),
 
 const ProfileUpdate = () => {
 	// State
-	const { userInfo, currentLocation, canEdit }: Record<string, any> = useOutletContext();
+	const { userInfo, currentLocation, canEdit }: Record<string, any> =
+		useOutletContext();
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [weatherData, setWeatherData] = useState([]);
 
@@ -234,7 +236,18 @@ const ProfileUpdate = () => {
 
 	const handleCopy = async () => {
 		copy(userInfo?.wallet || '');
-		alert('Wallet Address Copied!');
+		Store.addNotification({
+			title: 'Wallet address copied!',
+			type: 'success',
+			insert: 'top',
+			container: 'top-center',
+			animationIn: ['animate__animated', 'animate__fadeIn'],
+			animationOut: ['animate__animated', 'animate__fadeOut'],
+			dismiss: {
+				duration: 5000,
+				onScreen: true,
+			},
+		});
 	};
 
 	return (
@@ -243,7 +256,7 @@ const ProfileUpdate = () => {
 				<Row>
 					<Col md={2}>
 						<div className='gateway-profile-left' ref={ref}>
-							<img src={userInfo.pfp} />
+							<img src={`${userInfo.pfp}`} />
 						</div>
 					</Col>
 					<Col md={7}>
@@ -259,14 +272,14 @@ const ProfileUpdate = () => {
 										<div className='user-bio'>
 											{userInfo.bio}
 										</div>
-										<div className='hostName'>
-											<a href='#'>
-												www.mygateway.xyz
-											</a>
-										</div>
+										{userInfo.socials?.filter((item: SocialInput) => item.network == 'website').length > 0 && (
+											<div className='hostName'>
+												<a href={userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}>{userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}</a>
+											</div>
+										)}
 										<div className='social'>
 											{userInfo.socials &&
-												userInfo.socials.map((item) => (
+												userInfo.socials?.map((item) => (
 													<a
 														href={item.url}
 														key={item.network}
@@ -291,42 +304,48 @@ const ProfileUpdate = () => {
 									</div>
 								</Col>
 								<Col md={4}>
-									<div className='gateway-profile-middle-inner-top'>
-										<img
-											src='/profile/eth-icon.svg'
-											alt='image'
-										/>
-										<p>{shortenAddress(userInfo.wallet)}</p>
-										<div className='gateway-profile-middle-btn-grp'>
-											<a
-												className='clipboard-cpy-btn'
-												onClick={() => {
-													handleCopy();
-												}}
-											>
-												<BiCopy color='white' />
-											</a>
-											{userInfo.init && canEdit ? (
-												<Dropdown>
-													<Dropdown.Toggle
-														variant='success'
-														id='dropdown-basic'
-													>
-														<MdEdit color='white' />
-													</Dropdown.Toggle>
+									{canEdit ? (
+										<div className='gateway-profile-middle-inner-top'>
+											<img
+												src='/profile/eth-icon.svg'
+												alt='image'
+											/>
+											<p>
+												{shortenAddress(
+													userInfo.wallet
+												)}
+											</p>
+											<div className='gateway-profile-middle-btn-grp'>
+												<a
+													className='clipboard-cpy-btn'
+													onClick={() => {
+														handleCopy();
+													}}
+												>
+													<BiCopy color='white' />
+												</a>
+												{userInfo.init && (
+													<Dropdown>
+														<Dropdown.Toggle
+															variant='success'
+															id='dropdown-basic'
+														>
+															<MdEdit color='white' />
+														</Dropdown.Toggle>
 
-													<Dropdown.Menu>
-														<Link to='edit-profile'>
-															Edit Profile
-														</Link>
-														{/* <Link to='/'>
+														<Dropdown.Menu>
+															<Link to='edit-profile'>
+																Edit Profile
+															</Link>
+															{/* <Link to='/'>
 																Manage Wallets
 															</Link> */}
-													</Dropdown.Menu>
-												</Dropdown>
-											) : null}
+														</Dropdown.Menu>
+													</Dropdown>
+												)}
+											</div>
 										</div>
-									</div>
+									) : null}
 								</Col>
 							</Row>
 						</div>
@@ -346,29 +365,35 @@ const ProfileUpdate = () => {
 								</div>
 								{userInfo.about ? (
 									<div className='about-content'>
-										{parser(userInfo.about)}
+										<p>
+											{parser(userInfo.about.replace(/(?:\r\n|\r|\n)/g, '<br />'))}
+										</p>
 									</div>
 								) : (
-									<p>
-										You can write about your years of
-										experience, industry, or skills. People
-										also talk about their achievements or
-										previous job experiences.
-									</p>
+									<div className='about-content'>
+										<p>
+											You can write about your years of
+											experience, industry, or skills. People
+											also talk about their achievements or
+											previous job experiences.
+										</p>
+									</div>
 								)}
-								{!userInfo.about && canEdit ? (
-									<Link
-										to='add-about'
-										className='add-now-btn'
-									>
-										ADD NOW
-									</Link>
-								) : null}
+								<div className='add-about-btn'>
+									{!userInfo.about && canEdit ? (
+										<Link
+											to='add-about'
+											className='add-now-btn'
+										>
+											ADD NOW
+										</Link>
+									) : null}
+								</div>
 							</div>
 						)}
 
 						{/* Gateway Profile - Credentials */}
-						{userInfo.daos.length > 0 && (
+						{userInfo?.credentials?.items?.length > 0 && (
 							<div className='gway-prfile-col'>
 								<div className='gway-about-hd'>
 									<h2>Experience</h2>
@@ -394,117 +419,80 @@ const ProfileUpdate = () => {
 								</div>
 								*/}
 
-								{userInfo.daos.map(
-									(credential) => (
-										<div className='experience-profile-section'>
-											<div className='experience-profile-inner-section'>
-												<div className='creative-icon'>
-													<img
-														src={
-															credential
-																.logoURL
-														}
-														alt='image'
-													/>
-												</div>
-												<div className='finance-date'>
-													<div className='experience-profile-heading'>
-														<h3>
-															{credential.name}
-														</h3>
-														{/* canEdit && (
+								{userInfo.credentials.items.map((credential: Credential) => (
+									<div className='experience-profile-section'>
+										<div className='experience-profile-inner-section'>
+											<div className='creative-icon'>
+												<img
+													src={credential.organization.logoURL}
+													alt='image'
+												/>
+											</div>
+											<div className='finance-date'>
+												<div className='experience-profile-heading'>
+													<h3>{credential.name}</h3>
+													{/* canEdit && (
                                                             <Link to='/'>
                                                                 <MdEdit color='white' />
                                                             </Link>
 														) */}
-													</div>
-													<p>
-														{
-															credential
-																.name
-														}
-														{/*<span>
+												</div>
+												<p>
+													{credential.organization.name}
+													{/*<span>
                                                             Nov 2021 — Present •
                                                             15h/week
                                                         </span>*/}
-														<span>
-															{MONTHS[
-																new Date(
-																	credential.createdAt
-																).getMonth()
-															].slice(0, 3)}{' '}
-															{new Date(
+													<span>
+														{MONTHS[
+															new Date(
 																credential.createdAt
-															).getFullYear()}
-														</span>
-													</p>
-													<p>
-														{
-															credential.description
-														}
-														{/* <Link
+															).getMonth()
+														].slice(0, 3)}{' '}
+														{new Date(
+															credential.createdAt
+														).getFullYear()}
+													</span>
+												</p>
+												<p>
+													{parser(credential.description)}
+													{/* <Link
                                                             to='/contact'
                                                             className='creative-see-more'
                                                         >
                                                             See more
 														</Link> */}
-													</p>
-												</div>
+												</p>
 											</div>
-											<div className='nft'>
-												<Accordion defaultActiveKey='0'>
-													{
-														// credential.gate.nftType ==
-														// 	'CONTRIBUTOR' ?
-														(
-															<Accordion.Item eventKey='0'>
-																<div className='accordion-top-header'>
-																	<Accordion.Header>
-																		CONTRIBUTOR
-																		CREDENTIAL
-																	</Accordion.Header>
-																	{/*<Link
+										</div>
+										<div className='nft'>
+											<Accordion defaultActiveKey='0'>
+													<Accordion.Item eventKey='0'>
+														<div className='accordion-top-header'>
+															<Accordion.Header>
+																{(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL
+															</Accordion.Header>
+															{/*<Link
                                                                     to='/'
                                                                     className='accordion-see-all-btn'
                                                                 >
                                                                     See all
 																</Link>*/}
-																</div>
-																<Accordion.Body>
-																	<Row className='justify-content-md-left'>
-																		<CredentialCard
-																			credential={
-																				credential
-																			}
-																		/>
-																	</Row>
-																</Accordion.Body>
-															</Accordion.Item>
-														)
-														// :
-														// (
-														// 	<Accordion.Item eventKey='0'>
-														// 		<Accordion.Header>
-														// 			REWARD
-														// 			CREDENTIAL
-														// 		</Accordion.Header>
-														// 		<Accordion.Body>
-														// 			<Row className='justify-content-md-left'>
-														// 				<CredentialCard
-														// 					credential={
-														// 						credential
-														// 					}
-														// 				/>
-														// 			</Row>
-														// 		</Accordion.Body>
-														// 	</Accordion.Item>
-														// )
-													}
-												</Accordion>
-											</div>
+														</div>
+														<Accordion.Body>
+															<Row className='justify-content-md-left'>
+																<CredentialCard
+																	credential={
+																		credential
+																	}
+																/>
+															</Row>
+														</Accordion.Body>
+													</Accordion.Item>
+											</Accordion>
 										</div>
-									)
-								)}
+									</div>
+								))}
 							</div>
 						)}
 						{/*
@@ -697,7 +685,7 @@ const ProfileUpdate = () => {
 								)}
 							</ListGroup>
 						</div>
-						<div className='gway-skill-col'>
+						{/*<div className='gway-skill-col'>
 							<div className='gway-skill-col-hd'>
 								<h3>DAOs you might like</h3>
 							</div>
@@ -748,7 +736,7 @@ const ProfileUpdate = () => {
 									</a>
 								</ListGroup.Item>
 							</ListGroup>
-						</div>
+						</div>*/}
 					</Col>
 				</Row>
 			</Container>

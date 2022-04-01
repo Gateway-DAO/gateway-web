@@ -52,8 +52,8 @@ const ConfirmationModal: React.FC<IProps> = ({
             <Styled.Title>{title}</Styled.Title>
             <Styled.Body>{body}</Styled.Body>
             <Styled.ButtonContainer>
-                {buttons.map((button) => (
-                    <Styled.Button onClick={button.handler}>
+                {buttons.map((button, idx) => (
+                    <Styled.Button key={idx} onClick={button.handler}>
                         {button.button}
                     </Styled.Button>
                 ))}
