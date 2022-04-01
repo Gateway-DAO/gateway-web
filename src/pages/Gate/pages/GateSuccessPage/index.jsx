@@ -62,7 +62,7 @@ const GateSuccessPage = (props) => {
       </Styled.BoxContainer>
       <Styled.Buttons>
         <Styled.CheckProfileBtn
-          onClick={() => navigate('/profile')}
+          href="/profile"
         >
           check your profile
         </Styled.CheckProfileBtn>
