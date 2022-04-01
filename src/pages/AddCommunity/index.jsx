@@ -167,7 +167,7 @@ const AddCommunity = () => {
     };
 
     if (!walletConnected) {
-        return <Navigate to='/sign-in' />;
+        return <Navigate to='/not-authorized' />;
     }
 
     return data && called ? (
