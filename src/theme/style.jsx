@@ -16,8 +16,8 @@ export const MainText = styled.h1`
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 96px;
-    line-height: 150px;
+    font-size: 72px;
+    line-height: 90px;
     /* or 94% */
 
     text-align: center;
