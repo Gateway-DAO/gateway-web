@@ -101,6 +101,7 @@ export const CheckProfileBtn = styled.a`
 		font-weight: 700;
 		text-transform: uppercase;
 		margin-right: 10px;
+    cursor: pointer;
 		&:hover {
 			color: #fff;
 			box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
@@ -117,6 +118,7 @@ export const CloseBtn = styled.a`
 		font-family: 'Poppins';
 		font-weight: 700;
 		text-transform: uppercase;
+    cursor: pointer;
 		&:hover {
 			color: #fff;
 			box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
