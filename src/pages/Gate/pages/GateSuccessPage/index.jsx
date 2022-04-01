@@ -70,9 +70,6 @@ const GateSuccessPage = (props) => {
           close
         </Styled.CloseBtn>
       </Styled.Buttons>
-      {/* <Styled.SmallTextContainer>
-        Redirecting...
-      </Styled.SmallTextContainer> */}
     </Styled.Container >
   );
 };
