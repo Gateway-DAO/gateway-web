@@ -17,18 +17,6 @@ const GateSuccessPage = (props) => {
   const { gateData, loaded } = useOutletContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (gateData === undefined) {
-      window.location.href = `/gate/${gateData.id}/`;
-    }
-
-    // const clear = setTimeout(() => {
-    //     window.location.href = `/gate/${gateData.id}/`;
-    // }, 3000);
-
-    // return () => clearTimeout(clear);
-  }, []);
-
   useEffect(
     () => space(window.innerHeight, window.innerWidth),
     [window.innerHeight, window.innerWidth]
@@ -74,7 +62,6 @@ const GateSuccessPage = (props) => {
       </Styled.BoxContainer>
       <Styled.Buttons>
         <Styled.CheckProfileBtn
-          href="https://staging.mygateway.xyz/profile/"
           onClick={() => navigate('/profile')}
         >
           check your profile

@@ -11,8 +11,6 @@ export const Container = styled.main`
 export const BoxContainer = styled.div`
     display: flex;
     flex-direction: column;
-    /* justify-content: center;
-    align-items: center; */
 		margin-top: 52px;
 		border-radius: 20px;
 		background: #ffffff;
@@ -35,8 +33,6 @@ export const PurpleText = styled(Text)`
 `;
 
 export const NFT = styled.img`
-    /* margin-top: 52px;
-    border-radius: 20px; */
 		border-top-right-radius: 20px;
 		border-top-left-radius: 20px;
 		height: 350px;
