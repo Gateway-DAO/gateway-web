@@ -5,7 +5,7 @@ import useMediaQueries from '../../hooks/useMediaQueries';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocation } from 'react-use';
-import SOCIALS from '../../utils/constants';
+import { SOCIALS } from '../../utils/constants';
 
 const Header = (props) => {
 	const { xs } = useMediaQueries();
@@ -62,14 +62,14 @@ const Header = (props) => {
 									People
 								</Styled.Text>
 							</Styled.OptionLink>
-							<Styled.OptionLink
-								to= {SOCIALS.Discord}
+							<Styled.OptionAnchor
+								href={SOCIALS.Discord}
 								target='__blank'
 							>
 								<Styled.Text color='#E5E5E5'>
 									Join Discord
 								</Styled.Text>
-							</Styled.OptionLink>
+							</Styled.OptionAnchor>
 						</Styled.GroupLink>
 					)}
 				</Styled.HeaderContent>

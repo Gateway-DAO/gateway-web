@@ -2,7 +2,7 @@ import { FaDiscord, FaTwitter, FaMedium, FaLinkedin } from 'react-icons/fa';
 import * as Styled from './style';
 
 import logo from '../../assets/Gateway.svg';
-import SOCIALS from '../../utils/constants';
+import { SOCIALS } from '../../utils/constants';
 
 const Footer = (props) => {
     return (

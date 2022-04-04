@@ -95,6 +95,10 @@ export const OptionLink = styled(Link)`
     text-decoration: none;
 `;
 
+export const OptionAnchor = styled.a`
+    text-decoration: none;
+`
+
 export const HeaderContent = styled.div`
     display: flex;
     align-items: center;

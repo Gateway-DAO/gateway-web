@@ -14,13 +14,12 @@ export const MONTHS: string[] = [
     'December',
 ];
 
-const SOCIALS = {
+export const SOCIALS = {
     Discord : 'https://discord.gg/FU4x47sUk3',
     Twitter : 'https://twitter.com/Gateway_DAO',
     Medium : 'https://medium.com/@gatewaydao',
     Linkedln : 'https://www.linkedin.com/company/mygateway',
-} 
-export default SOCIALS;
+}
 
 export const LANGUAGES: { code: string; name: string; nativeName: string }[] = [
     { code: 'ab', name: 'Abkhaz', nativeName: 'аҧсуа' },
