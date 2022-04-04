@@ -350,7 +350,7 @@ const AddGateForm = () => {
                         published: 'NOT_PUBLISHED',
                         holders: 0,
                         links: [],
-                        retroactiveEarners,
+                        retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                         preRequisites: {
                             completedGates: prerequisiteList.map(
                                 (prereq) => prereq.id
@@ -399,7 +399,7 @@ const AddGateForm = () => {
                             admins: adminList.map((admin) => admin.id),
                             keysNumber: keyRequired,
                             published: gateData.published,
-                            retroactiveEarners,
+                            retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
                                 name: badgeName,
                                 ipfsURL: gateData.badge.ipfsURL,
@@ -430,7 +430,7 @@ const AddGateForm = () => {
                             admins: adminList.map((admin) => admin.id),
                             keysNumber: keyRequired,
                             published: gateData.published,
-                            retroactiveEarners,
+                            retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
                                 name: badgeName,
                                 ipfsURL: gateData.badge.ipfsURL,
