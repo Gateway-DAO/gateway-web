@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import * as Styled from './style';
 
 // Hooks
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // Components
 import Header from '../../components/Header';
@@ -58,7 +58,6 @@ const Search = () => {
     useEffect(() => {
         if (location.state && location.state.tab) {
             setSelectionTab(location.state.tab);
-            window.history.replaceState({}, document.title);
         }
     }, [location]);
 
