@@ -68,7 +68,7 @@ const RelatedDAOSection = ({ name, categories }) => {
                         onClick={(e) => {
                             e.preventDefault();
                             navigate('/search');
-                            history.push('/search', { relatedCategories: categories })
+                            history.push('/search', { categorySearch: categories })
                         }}
                     >
                         View all

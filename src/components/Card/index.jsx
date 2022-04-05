@@ -36,10 +36,13 @@ const Card = (props) => {
                 <Styled.CardDesc>{desc}</Styled.CardDesc>
             </Styled.CardBody>
             <Styled.CategoryList>
-                {props.categories.map((e, idx) => (
+                {props.categories.map((category, idx) => (
                     <Styled.Category key={idx}>
-                        <Styled.CategoryLink to={`/search/${e}`}>
-                            {e}
+                        <Styled.CategoryLink
+                            to={`#`}
+                            onClick={(e) => { e.preventDefault() }}
+                        >
+                            {category}
                         </Styled.CategoryLink>
                     </Styled.Category>
                 ))}
