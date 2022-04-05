@@ -100,10 +100,6 @@ const AddKnowledge = () => {
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
-						{/* <Link to="/profiles">
-								<div className="arrow-back"><img src="/left-arrow-icon.svg" alt="" /></div>
-								<p>Back to Profile</p>
-							</Link> */}
 						<a>
 							<div
 								className='arrow-back'
@@ -136,6 +132,7 @@ const AddKnowledge = () => {
 										hideSelectedOptions={false}
 										controlShouldRenderValue={false}
 										isMulti
+										closeMenuOnSelect={false}
 										options={options}
 										className='basic-multi-select'
 										classNamePrefix='select'
