@@ -118,13 +118,13 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
     useEffect(showResult, [searchTerm]);
 
     useEffect(() => {
-        if (window.history.state.usr && window.history.state.usr.relatedCategories) {
-            setCategoryMatches(window.history.state.usr.relatedCategories);
+        if (window.history.state.usr && window.history.state.usr.categorySearch) {
+            setCategoryMatches(window.history.state.usr.categorySearch);
         }
     }, [window.history]);
     
     useEffect(() => {
-        if (categoryMatches.length && window.history.state.usr && window.history.state.usr.relatedCategories) {
+        if (categoryMatches.length && window.history.state.usr && window.history.state.usr.categorySearch) {
             showResult();
             window.history.replaceState({}, undefined, '/search');
         }

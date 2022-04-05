@@ -33,6 +33,8 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
         called: listCalled,
     } = useSearchDAO();
 
+    const showResult = () => {}
+
     useEffect(() => {
         if (!listLoading && !listError) {
             const daoList = [];
@@ -54,17 +56,20 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
                 filterable
                 options={organizationFilterOptions}
                 selected={[]}
+                showResult={showResult}
             />
             <FilterDropdown
                 title='Category'
                 filterable
                 options={categoryFilterOptions}
                 selected={[]}
+                showResult={showResult}
             />
             <FilterDropdown
                 title='Posted'
                 options={postedFilterOptions}
                 selected={[]}
+                showResult={showResult}
             />
         </Styled.FilterBox>
     );

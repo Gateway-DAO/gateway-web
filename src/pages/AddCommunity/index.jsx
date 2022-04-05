@@ -312,7 +312,6 @@ const AddCommunity = () => {
                                 >
                                     <option
                                         value='twitter'
-                                        selected={social.network === 'twitter'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('twitter')}
@@ -321,7 +320,6 @@ const AddCommunity = () => {
                                     </option>
                                     <option
                                         value='telegram'
-                                        selected={social.network === 'telegram'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('telegram')}
@@ -330,7 +328,6 @@ const AddCommunity = () => {
                                     </option>
                                     <option
                                         value='medium'
-                                        selected={social.network === 'medium'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('medium')}
@@ -339,7 +336,6 @@ const AddCommunity = () => {
                                     </option>
                                     <option
                                         value='github'
-                                        selected={social.network === 'github'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('github')}
@@ -348,7 +344,6 @@ const AddCommunity = () => {
                                     </option>
                                     <option
                                         value='discord'
-                                        selected={social.network === 'discord'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('discord')}
@@ -357,7 +352,6 @@ const AddCommunity = () => {
                                     </option>
                                     <option
                                         value='website'
-                                        selected={social.network === 'website'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('website')}
@@ -366,19 +360,13 @@ const AddCommunity = () => {
                                     </option>
                                     <option
                                         value='chat'
-                                        selected={social.network === 'chat'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('chat')}
                                     >
                                         Chat
                                     </option>
-                                    <option
-                                        value='other'
-                                        selected={social.network.startsWith(
-                                            'any'
-                                        )}
-                                    >
+                                    <option value='other'>
                                         Other
                                     </option>
                                 </FormStyled.Select>
