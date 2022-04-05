@@ -15,7 +15,22 @@ export const BoxContainer = styled.div`
 		border-radius: 20px;
 		background: #ffffff;
 `;
+export const MainBox = styled.section`
+    position: absolute;
+    display: flex;
+    height: calc(100vh - 90px);
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+`;
 
+export const SpaceBox = styled.canvas`
+    position: absolute;
+    top: 0px;
+    z-index: -1;
+    left: 0;
+    width: 100%;
+`;
 export const Text = styled.span`
     font-family: Be Vietnam;
     font-size: 18px;

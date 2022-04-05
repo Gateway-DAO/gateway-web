@@ -24,15 +24,17 @@ const GateSuccessPage = (props) => {
 
   return (
     <Styled.Container>
-      <ThemeStyled.SpaceBox id='space-canvas' />
-      <CTAStyled.Sparkles />
-      <CTAStyled.Dots />
-      <CTAStyled.Stars />
-      <CTAStyled.LbOne />
-      <CTAStyled.LbTwo />
-      <CTAStyled.LbThree />
-      <CTAStyled.RbOne />
-      <CTAStyled.RbTwo />
+      <Styled.MainBox>
+        <Styled.SpaceBox id='space-canvas' />
+        <CTAStyled.Sparkles />
+        <CTAStyled.Dots />
+        <CTAStyled.Stars />
+        <CTAStyled.LbOne />
+        <CTAStyled.LbTwo />
+        <CTAStyled.LbThree />
+        <CTAStyled.RbOne />
+        <CTAStyled.RbTwo />
+      </Styled.MainBox>
       <ThemeStyled.MainText>
         Congratulations!
       </ThemeStyled.MainText>
@@ -43,7 +45,7 @@ const GateSuccessPage = (props) => {
         </Styled.PurpleText>
         {' '}Badge from{' '}
         <Styled.DaoIcon
-          src={gateData.dao.backgroundURL}
+          src={gateData.dao.logoURL}
         />
         {' '}{gateData.dao.name}
       </Styled.Text>
