@@ -198,7 +198,7 @@ const CompleteProfile: React.FC = () => {
 				// Upload files to S3
 				const avatarURL =
 					file ? (await uploadFile(
-						`users/${userInfo.id}/profile.${file.name
+						`users/${userInfo.id}/${Date.now()}/file.name
 							.split('.')
 							.pop()}`,
 						file,
