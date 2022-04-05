@@ -37,18 +37,7 @@ const GateTab = ({ filterQuery }) => {
             from: from,
             ...(Object.keys(filterQuery).length !== 0
                 ? { filter: filterQuery }
-                : query?.length
-                ? {
-                    filter: {
-                        or: [
-                            {
-                                name: {
-                                    wildcard: `*${query.toLowerCase()}*`,
-                                },
-                            },
-                        ],
-                    },
-                } : {}),
+                : {}),
         },
     });
 

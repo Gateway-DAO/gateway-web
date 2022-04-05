@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import useSearchDAO from '../../../../../api/database/useSearchDAO';
 import * as Styled from '../../../style';
 import FilterDropdown from '../../FilterDropdown';
@@ -27,18 +28,36 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
     >([]);
 
     const {
-        data: listData,
+        data: organizationData,
         loading: listLoading,
         error: listError,
         called: listCalled,
     } = useSearchDAO();
 
-    const showResult = () => {}
+    var { query: searchTerm } = useParams();
+
+    if (searchTerm && searchTerm.toLowerCase().trim() === 'all') searchTerm = '';
+
+    const showResult = () => {
+        let query = {};
+
+        if (searchTerm && !query['or']) {
+            query['or'] = []
+        }
+
+        searchTerm && query['or'].push(...[
+            { name: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
+        ])
+
+        setGateFilterQuery(query);
+    }
+
+    useEffect(showResult, [searchTerm]);
 
     useEffect(() => {
         if (!listLoading && !listError) {
             const daoList = [];
-            listData.searchDAOs.items.map((item: any) => {
+            organizationData.searchDAOs.items.map((item: any) => {
                 daoList.push({
                     value: item.dao,
                     label: item.name,
@@ -47,7 +66,7 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
 
             setOrganizationFilterOptions(daoList);
         }
-    }, [listData, listError, listLoading]);
+    }, [organizationData, listError, listLoading]);
 
     return (
         <Styled.FilterBox>

@@ -46,34 +46,6 @@ const UserTab = ({ filterQuery }) => {
             from: from,
             ...(Object.keys(filterQuery).length
                 ? { filter: filterQuery }
-                : query?.length
-                ? {
-                      filter: {
-                          or: [
-                              {
-                                  bio: {
-                                      wildcard: `*${(
-                                          query || ''
-                                      ).toLowerCase()}*`,
-                                  },
-                              },
-                              {
-                                  name: {
-                                      wildcard: `*${(
-                                          query || ''
-                                      ).toLowerCase()}*`,
-                                  },
-                              },
-                              {
-                                  wallet: {
-                                      wildcard: `*${(
-                                          query || ''
-                                      ).toLowerCase()}*`,
-                                  },
-                              },
-                          ],
-                      },
-                  }
                 : {}),
         },
     });

@@ -32,28 +32,6 @@ const DAOTab = ({ filterQuery }) => {
             from: from,
             ...(Object.keys(filterQuery).length
                 ? { filter: filterQuery }
-                : query?.length
-                ? {
-                      filter: {
-                          or: [
-                            {
-                                dao: {
-                                    wildcard: `*${query.toLowerCase()}*`,
-                                },
-                            },
-                            {
-                                name: {
-                                    wildcard: `*${query.toLowerCase()}*`,
-                                },
-                            },
-                            {
-                                description: {
-                                    wildcard: `*${query.toLowerCase()}*`,
-                                },
-                            },
-                        ]
-                      },
-                  }
                 : {}),
         },
     });
