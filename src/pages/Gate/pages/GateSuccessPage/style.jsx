@@ -71,6 +71,9 @@ export const SmallTextContainer = styled.p`
 export const DaoIcon = styled.img`
 		justify-content: center;
 		height: 20px;
+		border-radius: 100%;
+		width: 20px;
+		object-fit: cover;
 `
 export const BadgeBottomText = styled.div`
 		padding: 20px 15px;
