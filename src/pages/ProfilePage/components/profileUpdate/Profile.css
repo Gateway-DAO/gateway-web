@@ -1075,7 +1075,6 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 
 /*button hover styles*/
-.gway-send-connection a
 .dropdown-toggle.btn.btn-success,
 .gateway-profile-middle-btn-grp a,
 .gway-skill-col-hd a,
@@ -1090,7 +1089,6 @@ a.profile-toggle:focus + .profile-dropdown {
     border: solid 1px rgba(255, 255, 255, 0.2) !important;
 }
 
-.gway-send-connection a:hover,
 .dropdown-toggle.btn.btn-success:hover,
 /* .gateway-profile-middle-btn-grp a:hover, */
 .clipboard-cpy-btn:hover,
@@ -1164,26 +1162,42 @@ a.profile-toggle:focus + .profile-dropdown {
 }
 
 .gway-send-connection a {
+    background: #170627;
+    box-shadow: 0px 6px 15px rgb(255 0 184 / 30%);
     border-radius: 20px;
-    position: absolute;
-    border: 2px solid #6F6F6F;
-    
-    font-family: Poppins;
     font-style: normal;
     font-weight: bold;
     font-size: 13px;
     line-height: 19px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-
     color: #e5e5e5;
+    padding: 10px 23px 10px 23px;
+    margin-top: 16px;
+    text-decoration: none;
+    position: relative;
+    transition: 0.3s;
+}
 
-    margin: 120px -50px;
-    padding: 5px 10px;
+.gway-send-connection a:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    margin: -1px;
+    border-radius: inherit;
+}
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    cursor: pointer;
+.gway-send-connection a:hover,
+.gway-send-connection a:focus {
+    background: linear-gradient(
+        to right,
+        #ff00b8 0%,
+        #7e3bdc 50.52%,
+        #0075ff 100%
+    );
+    transition: 0.3s;
 }

@@ -373,6 +373,13 @@ const ProfileUpdate = () => {
 												))}
 										</div>
 
+										{walletConnected && !canEdit && (
+										<div className='gway-send-connection'>
+											<a className='gway-send-connection' onClick={handleConnectionClick}>
+												{connectionButtonText}
+											</a>
+										</div>)}
+
 										{!userInfo.init && canEdit ? (
 											<Link
 												to='complete-profile'
@@ -429,13 +436,6 @@ const ProfileUpdate = () => {
 											</div>
 										</div>
 									) : null}
-
-									{walletConnected && !canEdit && (
-										<div className='gway-send-connection'>
-											<a className='gway-send-connection' onClick={handleConnectionClick}>
-												{connectionButtonText}
-											</a>
-										</div>)}
 								</Col>
 							</Row>
 						</div>

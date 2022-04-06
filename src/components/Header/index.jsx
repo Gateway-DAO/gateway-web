@@ -102,17 +102,17 @@ const Header = (props) => {
                     )}
                 </Styled.HeaderContent>
             </Styled.LogoBox>
+            {walletConnected && <Styled.NotificationBox>
+                <BellIcon onClick={toggleConnectionRequests} size={40} hasNotifications={pendingUserData.length > 0} />
+            </Styled.NotificationBox>}
+            {showConnectionRequests && <Styled.NotificationCard >
+                {<Notifications pendingUserData={pendingUserData} />}
+            </Styled.NotificationCard>}
             <Styled.WalletBox>
-                {walletConnected && <Styled.NotificationBox>
-                    <BellIcon onClick={toggleConnectionRequests} size={40} hasNotifications={pendingUserData.length > 0} />
-                </Styled.NotificationBox>}
-                {showConnectionRequests && <Styled.NotificationCard >
-                    {<Notifications pendingUserData={pendingUserData} />}
-                </Styled.NotificationCard>}
                 <Wallet />
             </Styled.WalletBox>
-		</Styled.HeaderDiv>
-	);
+        </Styled.HeaderDiv>
+    );
 };
 
 export default Header;
