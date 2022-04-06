@@ -166,7 +166,7 @@ export const WrappedFiSearch = styled(FiSearch)`
 `;
 
 export const NotificationBox = styled(Box)`
-    position: relative;
+    position: flex;
     margin-right: 16px;
 
     cursor: pointer;
@@ -179,7 +179,7 @@ export const NotificationCard = styled.div`
     position: absolute;
     width: 360px;
     height: 420px;
-    right: 120px;
+    right: 150px;
     top: 80px;
 
     background: #FFFFFF;
