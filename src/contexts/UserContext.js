@@ -23,6 +23,7 @@ import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import getIPLocation, { getIP } from '../api/getIPLocation';
 import { usernameGenerator } from '../utils/functions';
 // import use3ID from '../hooks/use3ID';
+import CyberConnect, { Env, Blockchain } from "@cyberlab/cyberconnect";
 
 Amplify.configure(awsconfig);
 Auth.configure(awsconfig);
@@ -120,6 +121,21 @@ export const UserProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState(
         fetchedUserData?.getUserByAddress?.items[0] || null
     );
+    const [cyberConnectInstance, setCyberConnectInstance] = useState(null)
+    
+    /**
+     * Initialises an instance of Cyber Connect.
+     * @returns Cyber Connect instance.
+     */
+    const initCyberConnect = (provider) => {
+        return new CyberConnect({
+            namespace: "GatewayDAO",
+            env: Env.PROD,
+            chain: Blockchain.ETH,
+            provider: provider,
+            signingMessageEntity: "GatewayDAO",
+        })
+    }
 
     /**
      * Activates Metamask/injected wallet provider.
@@ -201,6 +217,7 @@ export const UserProvider = ({ children }) => {
         setLoggedIn(false);
         setLoggingIn(false);
         setUserInfo(null);
+        setCyberConnectInstance(null)
     };
 
     /**
@@ -300,6 +317,8 @@ export const UserProvider = ({ children }) => {
             );
             console.log(err);
         });
+        const cyberConnectInstance = initCyberConnect(web3.library)
+        setCyberConnectInstance(cyberConnectInstance);
         setLoggingIn(false);
     };
 
@@ -338,6 +357,8 @@ export const UserProvider = ({ children }) => {
                     userInfo_INTERNAL = await createNewUser();
                 }
 
+                const cyberConnectInstance = initCyberConnect(web3.library)
+                setCyberConnectInstance(cyberConnectInstance);
                 setWalletConnected(true);
 
                 // 2. check Cognito
@@ -413,6 +434,7 @@ export const UserProvider = ({ children }) => {
             wallet: web3.wallet,
             activateWeb3,
             loadingWallet,
+            cyberConnectInstance,
         }),
         [
             walletConnected,
@@ -421,6 +443,7 @@ export const UserProvider = ({ children }) => {
             loadingWallet,
             loggedIn,
             loggingIn,
+            cyberConnectInstance,
         ]
     );
 

@@ -48,7 +48,7 @@ import {
 	Dropdown,
 	Accordion,
 } from 'react-bootstrap';
-import { NavLink as Link, useOutletContext } from 'react-router-dom';
+import { NavLink as Link, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import CredentialCard from './components/CredentialCard';
 
 // Hooks
@@ -60,20 +60,62 @@ import parser from 'html-react-parser';
 import { Store } from 'react-notifications-component';
 
 // Types
-import { Credential, Social, SocialInput } from '../../../../graphql/API';
+import { Credential, Social, SocialInput, User } from '../../../../graphql/API';
 import copy from 'copy-to-clipboard';
 import { MONTHS } from '../../../../utils/constants';
+import { useLazyQuery } from '@apollo/client';
+import { getAddress } from '@ethersproject/address';
+import { useWeb3React } from '@web3-react/core';
+import gql from 'graphql-tag';
+import { useAuth } from '../../../../contexts/UserContext';
+import { getUserByUsername } from '../../../../graphql/queries';
 
 /* Creating a variable called offset and setting it to the timezone offset of the current date. */
 let offset = new Date().getTimezoneOffset(),
 	o = Math.abs(offset);
 
 const ProfileUpdate = () => {
+	// Hooks
+	const { username }: { username?: string } = useParams();
+	const {
+		userInfo: signedUser,
+		loadingWallet,
+		walletConnected,
+		cyberConnectInstance,
+	}: {
+		userInfo?: User;
+		loadingWallet?: boolean;
+		walletConnected?: boolean;
+		cyberConnectInstance?: any;
+	} = useAuth();
+	const navigate = useNavigate();
+
+	// API Calls
+	const [getUser, { data, loading: userLoading, error: userError }] =
+		useLazyQuery(gql(getUserByUsername), {
+			variables: {
+				username,
+			},
+		});
+
+	const handleConnectionClick = () => {
+		if (!cyberConnectInstance) {
+			throw {
+				code: 'FollowError',
+				message: 'Can not find the connect instance',
+			}
+		}
+		cyberConnectInstance.connect(userInfo.wallet)
+		setConnectionButtonText("Connection pending")
+	}
+
 	// State
 	const { userInfo, currentLocation, canEdit }: Record<string, any> =
 		useOutletContext();
 	const [currentTime, setCurrentTime] = useState(new Date());
 	const [weatherData, setWeatherData] = useState([]);
+	const [connectionButtonText, setConnectionButtonText] = useState("Connect");
+	const { account } = useWeb3React();
 
 	// Hooks
 	const [ref, { height: heightPfp }] = useMeasure();
@@ -107,6 +149,47 @@ const ProfileUpdate = () => {
 	useEffect(() => {
 		return clearInterval(timerID);
 	}, []);
+
+	useEffect(() => {
+		if (signedUser === undefined || userInfo === undefined || loadingWallet || canEdit) {
+			return
+		}
+		const followStatusQuery = `
+			query FollowStatusQuery {
+				connections(
+				fromAddr: "${signedUser.wallet}"
+				toAddrList: ["${userInfo.wallet}"]
+				network: ETH
+				) {
+				fromAddr
+				toAddr
+				followStatus {
+					isFollowed
+					isFollowing
+				}
+				}
+			}
+		`
+		fetch("https://api.cybertino.io/connect/", {
+			method: "POST",
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ "query": followStatusQuery })
+		}).then(res => {
+			return res.json()
+		}).then(res => {
+			const data: any = res;
+			return data?.data?.connections[0]?.followStatus
+		}).then(followStatus => {
+			if (followStatus?.isFollowing && !followStatus?.isFollowed) {
+				setConnectionButtonText("Connection pending")
+			} else if (followStatus?.isFollowing && followStatus?.isFollowed) {
+				setConnectionButtonText("Connected")
+			}
+			else {
+				setConnectionButtonText("Connect")
+			}
+		})
+	}, [signedUser, userInfo]);
 
 	/**
 	 * It takes the weather data and returns the appropriate icon.
@@ -290,6 +373,13 @@ const ProfileUpdate = () => {
 												))}
 										</div>
 
+										{walletConnected && !canEdit && (
+										<div className='gway-send-connection'>
+											<a className='gway-send-connection' onClick={handleConnectionClick}>
+												{connectionButtonText}
+											</a>
+										</div>)}
+
 										{!userInfo.init && canEdit ? (
 											<Link
 												to='complete-profile'
@@ -467,28 +557,28 @@ const ProfileUpdate = () => {
 										</div>
 										<div className='nft'>
 											<Accordion defaultActiveKey='0'>
-													<Accordion.Item eventKey='0'>
-														<div className='accordion-top-header'>
-															<Accordion.Header>
-																{(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL
-															</Accordion.Header>
-															{/*<Link
+												<Accordion.Item eventKey='0'>
+													<div className='accordion-top-header'>
+														<Accordion.Header>
+															{(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL
+														</Accordion.Header>
+														{/*<Link
                                                                     to='/'
                                                                     className='accordion-see-all-btn'
                                                                 >
                                                                     See all
 																</Link>*/}
-														</div>
-														<Accordion.Body>
-															<Row className='justify-content-md-left'>
-																<CredentialCard
-																	credential={
-																		credential
-																	}
-																/>
-															</Row>
-														</Accordion.Body>
-													</Accordion.Item>
+													</div>
+													<Accordion.Body>
+														<Row className='justify-content-md-left'>
+															<CredentialCard
+																credential={
+																	credential
+																}
+															/>
+														</Row>
+													</Accordion.Body>
+												</Accordion.Item>
 											</Accordion>
 										</div>
 									</div>
