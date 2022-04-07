@@ -45,7 +45,7 @@ const GateTab = ({ filterQuery }) => {
     useEffect(() => {
         setHits(!searchLoading ? searchData?.searchGates?.items : []);
         setPageCount(
-            Math.ceil(searchData?.searchGates?.total / resultPerPage)
+            Math.ceil(!searchLoading ? searchData?.searchGates?.items.length / resultPerPage : 0)
         );
     }, [searchData, searchLoading, resultPerPage]);
 
@@ -72,7 +72,7 @@ const GateTab = ({ filterQuery }) => {
             )}
             <Styled.GateCardBox>
                 {hits?.map((item, idx) => item.published === PublishedState.PUBLISHED && (
-                    <GateCard key={idx} gate={item} viewAsMember={true} />
+                    <GateCard key={idx} gate={item} viewAsMember={true} toSearch={true} />
                 ))}
             </Styled.GateCardBox>
             <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />

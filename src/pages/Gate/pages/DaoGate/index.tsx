@@ -16,6 +16,7 @@ import { useGateAdmin } from '../../../../hooks/useAdmin';
 
 // Types
 import { DAO, Gate, Key, TaskStatus, User } from '../../../../graphql/API';
+import { useLocation } from 'react-use';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -43,6 +44,9 @@ const DaoGate: React.FC = () => {
         useOutletContext();
     const dao: DAO = gateData.dao;
     const navigate = useNavigate();
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const toSearch = params.get('toSearch');
 
     const handleClick = () => {
         navigate('add-key');
@@ -51,11 +55,12 @@ const DaoGate: React.FC = () => {
     return (
         <Styled.Wrapper>
             <BackButtonDiv
-                url={`/dao/${dao.dao}?tab=gates`}
+                url={toSearch && toSearch === 'false' ? `/dao/${dao.dao}?tab=gates` : `/search`}
                 published={gateData.published}
                 id={gateData.id}
                 daoData={dao}
                 gateData={gateData}
+                state={toSearch && toSearch === 'true' && { tab: 'Gates' }}
             >
                 Back to DAO Gates
             </BackButtonDiv>

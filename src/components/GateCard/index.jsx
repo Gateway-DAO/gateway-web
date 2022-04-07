@@ -21,7 +21,7 @@ import { searchUsers } from '../../graphql/queries';
 import { useGateAdmin } from '../../hooks/useAdmin';
 
 /* This is a card that displays information about a gate. */
-const GateCard = ({ gate, viewAsMember }) => {
+const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
     // State
     const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
     const [numberOfWords, setNumberOfWords] = useState(130);
@@ -122,7 +122,7 @@ const GateCard = ({ gate, viewAsMember }) => {
         let activated = walletConnected;
         if (!walletConnected) activated = await activateWeb3();
         if (activated) {
-            if (userInfo?.init) navigate(`/gate/${gate.id}`);
+            if (userInfo?.init) navigate(`/gate/${gate.id}?toSearch=${toSearch}`);
             else navigate(`/profile/complete-profile?to=/gate/${gate.id}`);
         }
     };
