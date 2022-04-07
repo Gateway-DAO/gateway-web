@@ -47,34 +47,34 @@ const UserTab = ({ filterQuery }) => {
             ...(Object.keys(filterQuery).length
                 ? { filter: filterQuery }
                 : query?.length
-                ? {
-                      filter: {
-                          or: [
-                              {
-                                  bio: {
-                                      wildcard: `*${(
-                                          query || ''
-                                      ).toLowerCase()}*`,
-                                  },
-                              },
-                              {
-                                  name: {
-                                      wildcard: `*${(
-                                          query || ''
-                                      ).toLowerCase()}*`,
-                                  },
-                              },
-                              {
-                                  wallet: {
-                                      wildcard: `*${(
-                                          query || ''
-                                      ).toLowerCase()}*`,
-                                  },
-                              },
-                          ],
-                      },
-                  }
-                : {}),
+                    ? {
+                        filter: {
+                            or: [
+                                {
+                                    bio: {
+                                        wildcard: `*${(
+                                            query || ''
+                                        ).toLowerCase()}*`,
+                                    },
+                                },
+                                {
+                                    name: {
+                                        wildcard: `*${(
+                                            query || ''
+                                        ).toLowerCase()}*`,
+                                    },
+                                },
+                                {
+                                    wallet: {
+                                        wildcard: `*${(
+                                            query || ''
+                                        ).toLowerCase()}*`,
+                                    },
+                                },
+                            ],
+                        },
+                    }
+                    : {}),
         },
     });
 
@@ -109,15 +109,23 @@ const UserTab = ({ filterQuery }) => {
             {!!hits.length && (
                 <Styled.UserCardBox>
                     <Styled.UserContent>
-                        {hits?.map((item, idx) => (
-                            <UserCard
-                                key={idx}
-                                name={item.name}
-                                username={item.username}
-                                pfp={item.pfp}
-                                daos={item.daos}
-                            />
-                        ))}
+                        {hits?.
+                            filter(item => (
+                                !(item.pfp == "https://gateway9189b056d1a34c419355d6ada6e1b9d8184152-dev.s3.us-east-1.amazonaws.com/public/logo.png") &&
+                                item.pfp &&
+                                !(item.pfp == "null") &&
+                                !(item.username?.includes("0x")) &&
+                                !(item.name?.includes("0x")))
+                            ).
+                            map((item, idx) => (
+                                <UserCard
+                                    key={idx}
+                                    name={item.name}
+                                    username={item.username}
+                                    pfp={item.pfp}
+                                    daos={item.daos}
+                                />
+                            ))}
                     </Styled.UserContent>
                 </Styled.UserCardBox>
             )}

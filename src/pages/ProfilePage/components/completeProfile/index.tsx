@@ -61,7 +61,7 @@ const CompleteProfile: React.FC = () => {
 		displayName: userInfo?.name || '',
 		userName: userInfo?.username || '',
 		avatar: userInfo?.pfp || '',
-		userBio: userInfo?.bio || '',
+		userBio: userInfo?.bio || 'headline',
 		socials:
 			userInfo?.socials?.length > 0
 				? userInfo.socials.map((social) => ({
@@ -344,109 +344,113 @@ const CompleteProfile: React.FC = () => {
 									/>
 								</Form.Group>
 							</div>
-							<div className='mb-3 row'>
-								<Form.Group className='col' controlId='userBio'>
-									<Form.Label>Headline</Form.Label>
-									<Form.Control
-										className={`${user.userBio &&
-											'change-background-to-fill'
-											}`}
-										required
-										name='userBio'
-										value={user.userBio}
-										onChange={(e) => {
-											handleChange(e);
-										}}
-										isInvalid={!!errors.userBio}
-									/>
-									<Form.Control.Feedback type='invalid'>
-										{errors.userBio}
-									</Form.Control.Feedback>
-								</Form.Group>
-							</div>
-							<Form.Group className='col' controlId='formBasic'>
-								<Form.Label>SOCIALS</Form.Label>
-								<div className='gway-socialurl-add'>
-									{user.socials.map((x, i) => {
-										return (
-											<div
-												className='gway-socialurl-row'
-												key={i}
-											>
-												<div className='gway-socialurl-col-left'>
-													<Form.Select
-														required
-														name='platform_name'
-														size='sm'
-														value={x.platform_name}
-														onChange={(e) =>
-															handleSocialChange(
-																e,
-																i
-															)
-														}
-													>
-														{platforms.length > 0 &&
-															platforms.map(
-																(item) => (
-																	<option
-																		key={
-																			item.value
-																		}
-																		value={
-																			item.value
-																		}
-																	>
-																		{
-																			item.label
-																		}
-																	</option>
-																)
-															)}
-													</Form.Select>
-												</div>
-												<div className='gway-socialurl-col-center'>
-													<Form.Control
-														className={`${user.socials[i] &&
-															'change-background-to-fill'
-															}`}
-														required
-														name='platform_value'
-														size='lg'
-														type='text'
-														value={x.platform_value}
-														onChange={(e) =>
-															handleSocialChange(
-																e,
-																i
-															)
-														}
-														placeholder={
-															x.placeholder
-														}
-													/>
-												</div>
-												<div className='gway-socialurl-col-right'>
-													<a
-														onClick={() =>
-															handleRemoveSocial(
-																i
-															)
-														}
-													>
-														<FaTrashAlt color='white' />
-													</a>
-												</div>
-											</div>
-										);
-									})}
-									<div className='add-social-row'>
-										<a onClick={handleAddSocial}>
-											<img src='/completeprofile/plus-btn.svg' />
-										</a>
-									</div>
+							{userInfo.init && canEdit ? (
+								<div className='mb-3 row'>
+									<Form.Group className='col' controlId='userBio'>
+										<Form.Label>Headline</Form.Label>
+										<Form.Control
+											className={`${user.userBio &&
+												'change-background-to-fill'
+												}`}
+											required
+											name='userBio'
+											value={user.userBio}
+											onChange={(e) => {
+												handleChange(e);
+											}}
+											isInvalid={!!errors.userBio}
+										/>
+										<Form.Control.Feedback type='invalid'>
+											{errors.userBio}
+										</Form.Control.Feedback>
+									</Form.Group>
 								</div>
-							</Form.Group>
+							) : null}
+							{userInfo.init && canEdit ? (
+								<Form.Group className='col' controlId='formBasic'>
+									<Form.Label>SOCIALS</Form.Label>
+									<div className='gway-socialurl-add'>
+										{user.socials.map((x, i) => {
+											return (
+												<div
+													className='gway-socialurl-row'
+													key={i}
+												>
+													<div className='gway-socialurl-col-left'>
+														<Form.Select
+															required
+															name='platform_name'
+															size='sm'
+															value={x.platform_name}
+															onChange={(e) =>
+																handleSocialChange(
+																	e,
+																	i
+																)
+															}
+														>
+															{platforms.length > 0 &&
+																platforms.map(
+																	(item) => (
+																		<option
+																			key={
+																				item.value
+																			}
+																			value={
+																				item.value
+																			}
+																		>
+																			{
+																				item.label
+																			}
+																		</option>
+																	)
+																)}
+														</Form.Select>
+													</div>
+													<div className='gway-socialurl-col-center'>
+														<Form.Control
+															className={`${user.socials[i] &&
+																'change-background-to-fill'
+																}`}
+															required
+															name='platform_value'
+															size='lg'
+															type='text'
+															value={x.platform_value}
+															onChange={(e) =>
+																handleSocialChange(
+																	e,
+																	i
+																)
+															}
+															placeholder={
+																x.placeholder
+															}
+														/>
+													</div>
+													<div className='gway-socialurl-col-right'>
+														<a
+															onClick={() =>
+																handleRemoveSocial(
+																	i
+																)
+															}
+														>
+															<FaTrashAlt color='white' />
+														</a>
+													</div>
+												</div>
+											);
+										})}
+										<div className='add-social-row'>
+											<a onClick={handleAddSocial}>
+												<img src='/completeprofile/plus-btn.svg' />
+											</a>
+										</div>
+									</div>
+								</Form.Group>
+							) : null}
 							<Button variant='primary' type='submit'>
 								SAVE
 							</Button>
