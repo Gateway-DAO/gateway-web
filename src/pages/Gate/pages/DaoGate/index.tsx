@@ -106,8 +106,9 @@ const DaoGate: React.FC = () => {
                                     PRE REQUISITE
                                 </Styled.BoldTextHeading>
                                 <Styled.ContentContainer>
-                                    {gateData.preRequisitesList.map((gate) => (
+                                    {gateData.preRequisitesList.map((gate, idx) => (
                                         <Styled.InsideLink
+                                            key={idx}
                                             to={`/gate/${gate.id}`}
                                         >
                                             {gate.badge.name} ⬈
@@ -122,9 +123,10 @@ const DaoGate: React.FC = () => {
                             </Styled.BoldTextHeading>
                             <Styled.ContentContainer>
                                 {gateData.links.length > 0 &&
-                                    gateData.links.map((link) => {
+                                    gateData.links.map((link, idx) => {
                                         return (
                                             <Styled.OutsideLink
+                                                key={idx}
                                                 href={link.link}
                                                 target='_blank'
                                             >
@@ -187,7 +189,7 @@ const DaoGate: React.FC = () => {
                                 </Styled.StartButton>
                             </Styled.Box>
                         )}
-                        {gateData?.keys?.items?.map((key: Key) => {
+                        {gateData?.keys?.items?.map((key: Key, idx: number) => {
                             const LIMIT_REACHED =
                                 !key.unlimited && key.peopleLimit === 0;
 
@@ -200,6 +202,7 @@ const DaoGate: React.FC = () => {
                             ) {
                                 return (
                                     <KeyBox
+                                        key={idx}
                                         data={key}
                                         gateData={gateData}
                                         blocked={

@@ -13,6 +13,7 @@ import { gql, useQuery } from '@apollo/client';
 import { searchGates } from '../../../../graphql/queries';
 
 import { Navigate, useParams } from 'react-router-dom';
+import { PublishedState } from '../../../../graphql/API';
 
 const GateTab = ({ filterQuery }) => {
     const { query } = useParams();
@@ -70,7 +71,7 @@ const GateTab = ({ filterQuery }) => {
                 </SearchStyled.TextBox>
             )}
             <Styled.GateCardBox>
-                {hits?.map((item, idx) => (
+                {hits?.map((item, idx) => item.published === PublishedState.PUBLISHED && (
                     <GateCard key={idx} gate={item} viewAsMember={true} />
                 ))}
             </Styled.GateCardBox>

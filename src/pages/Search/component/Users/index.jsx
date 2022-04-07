@@ -10,7 +10,6 @@ import Pagination from '../Pagination';
 // Hooks
 import { useEffect, useState } from 'react';
 import { useSearchUsers } from '../../../../api/database/useSearchUser';
-import useUserLength from '../../../../api/database/useUserLength';
 
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -22,18 +21,6 @@ const UserTab = ({ filterQuery }) => {
     const [pageNumber, setPageNumber] = useState(0);
     const resultPerPage = 8;
     let from = pageNumber * 8;
-    const {
-        data: listData,
-        loading: listLoading,
-        error: listError,
-        called: listCalled,
-    } = useSearchUsers({
-        variables: {
-            limit: resultPerPage,
-            from: from,
-            filter: { init: { eq: true } },
-        },
-    });
 
     const {
         data: searchData,
@@ -57,7 +44,7 @@ const UserTab = ({ filterQuery }) => {
         );
     }, [searchLoading, searchData, resultPerPage]);
 
-    if (searchError || listError) {
+    if (searchError) {
         return <Navigate to='/404' />;
     }
 
