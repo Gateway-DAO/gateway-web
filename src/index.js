@@ -28,29 +28,29 @@ import { BrowserRouter } from 'react-router-dom';
 
 Amplify.configure(awsconfig);
 
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
+// ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
 
 AOS.init();
 
 function getLibrary(provider, connector) {
-    return new Web3Provider(provider); // this will vary according to whether you use e.g. ethers or web3.js
+	return new Web3Provider(provider); // this will vary according to whether you use e.g. ethers or web3.js
 }
 
 ReactDOM.render(
-    <ApolloAppSyncProvider>
-        <Web3ReactProvider getLibrary={getLibrary}>
-            <ThemeProvider>
-                <ModalProvider>
-                    <BrowserRouter>
-                        <UserProvider>
-                            <ReactNotifications />
-                            <GlobalTheme />
-                            <App />
-                        </UserProvider>
-                    </BrowserRouter>
-                </ModalProvider>
-            </ThemeProvider>
-        </Web3ReactProvider>
-    </ApolloAppSyncProvider>,
-    document.getElementById('root')
+	<ApolloAppSyncProvider>
+		<Web3ReactProvider getLibrary={getLibrary}>
+			<ThemeProvider>
+				<ModalProvider>
+					<BrowserRouter>
+						<UserProvider>
+							<ReactNotifications />
+							<GlobalTheme />
+							<App />
+						</UserProvider>
+					</BrowserRouter>
+				</ModalProvider>
+			</ThemeProvider>
+		</Web3ReactProvider>
+	</ApolloAppSyncProvider>,
+	document.getElementById('root')
 );
