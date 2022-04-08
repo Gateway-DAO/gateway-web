@@ -1103,13 +1103,6 @@ a.profile-toggle:focus + .profile-dropdown {
     background: linear-gradient(#170627, #170627) padding-box,
         linear-gradient(to right, #e153f2, #6a39f3, #495be0) border-box !important;
 }
-.sc-crHmcD.lkEPeg {
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 100%;
-    top: 50px !important;
-}
 .sc-gsDKAQ.sc-eCImPb.hbTvDU.ckCPyM {
     max-width: 300px;
     position: relative;
