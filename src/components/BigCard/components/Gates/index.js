@@ -12,7 +12,7 @@ const Gates = (props) => {
     const [activeCategory, setActiveCategory] = useState('All');
     const [gates, setGates] = useState([]);
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
-    const resultPerPage = 4;
+    const resultPerPage = 9;
     const pageCount = Math.ceil((props.gates.items?.length || 0) / resultPerPage);
     const from = pageNumber * resultPerPage;
     const to = from + resultPerPage;
@@ -35,11 +35,12 @@ const Gates = (props) => {
                 {gates.map((gate, idx) => {
                     if (isAdmin && !props.viewAsMember) {
                         return (
-                            <GateCard
-                                key={idx}
-                                gate={gate}
-                                viewAsMember={props.viewAsMember}
-                            />
+                            <Styled.GateItem key={idx}>
+                                <GateCard
+                                    gate={gate}
+                                    viewAsMember={props.viewAsMember}
+                                />
+                            </Styled.GateItem>
                         );
                     }
 
@@ -48,11 +49,12 @@ const Gates = (props) => {
                         gate.published === PublishedState.PUBLISHED
                     ) {
                         return (
-                            <GateCard
-                                key={idx}
-                                gate={gate}
-                                viewAsMember={props.viewAsMember}
-                            />
+                            <Styled.GateItem key={idx}>
+                                <GateCard
+                                    gate={gate}
+                                    viewAsMember={props.viewAsMember}
+                                />
+                            </Styled.GateItem>
                         );
                     }
 
