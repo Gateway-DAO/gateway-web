@@ -34,11 +34,6 @@ const Home = (props) => {
             activateWeb3();
         }
     };
-    if (
-        active
-    ) {
-        navigate('/profile/complete-profile');
-    }
 
     return (
         <Styled.HomeContainer>

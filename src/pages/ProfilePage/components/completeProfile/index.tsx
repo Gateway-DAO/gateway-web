@@ -61,7 +61,7 @@ const CompleteProfile: React.FC = () => {
 		displayName: userInfo?.name || '',
 		userName: userInfo?.username || '',
 		avatar: userInfo?.pfp || '',
-		userBio: userInfo?.bio || 'headline',
+		userBio: userInfo?.bio || '',
 		socials:
 			userInfo?.socials?.length > 0
 				? userInfo.socials.map((social) => ({
@@ -107,7 +107,7 @@ const CompleteProfile: React.FC = () => {
 		)
 			errors.userName = 'This username is already taken!';
 
-		if (user.userBio.length < 3)
+		if (user.userBio && user.userBio.length < 3)
 			errors.userBio = 'The headline is too short!';
 		else if (user.userBio.length > 120)
 			errors.userBio = 'The headline is too long!';

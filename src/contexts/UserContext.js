@@ -374,6 +374,15 @@ export const UserProvider = ({ children }) => {
         JSON.parse(localStorage.getItem('gateway-wallet')) && activateWeb3();
     }, []);
 
+    useEffect(() => {
+        if (userInfo && !userInfo.init) {
+            navigate('/profile/complete-profile');
+        }
+        else if ((userInfo && userInfo.init)) {
+            navigate('/profile');
+        }
+    }, [userInfo]);
+
     /**
      * When the user signs in, get the user's information from the database and set it in the state.
      * When the user signs out, set states to false.
