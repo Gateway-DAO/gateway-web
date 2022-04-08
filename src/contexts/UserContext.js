@@ -22,6 +22,7 @@ import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import getIPLocation, { getIP } from '../api/getIPLocation';
 import { usernameGenerator } from '../utils/functions';
+import { useNavigate } from 'react-router-dom';
 // import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
@@ -95,6 +96,7 @@ export const useSignedAuth = (deps = []) => {
 export const UserProvider = ({ children }) => {
     // Hooks
     const web3 = useWeb3React();
+    const navigate = useNavigate();
     // const threeID = use3ID();
     const { showErrorModal } = useModal();
 
