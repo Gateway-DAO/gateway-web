@@ -27,7 +27,7 @@ import { useWeb3React } from '@web3-react/core';
 import { getUserByUsername } from '../../graphql/queries';
 
 // Utils
-import getIPLocation from '../../api/getIPLocation';
+import getIPLocation, { IPError, Metadata } from '../../api/getIPLocation';
 import Loader from '../../components/Loader';
 
 /* A type definition for a user. It is a combination of the User type and the UserInfo type. */
@@ -93,28 +93,31 @@ const Profile: React.FC = (props) => {
 
 	// API Calls
 	const [getUser, { data, loading: userLoading, error: userError }] =
-		useLazyQuery(gql(getUserByUsername), {
-			variables: {
-				username,
-			},
-		});
+		useLazyQuery(gql(getUserByUsername));
 
 	/**
 	 * Get the current location of the user and set the state of the component to reflect that location
 	 */
 	const getAddress = async () => {
-		const data = await getIPLocation(signedUser.ip || null);
-		setCurrentLocation((prev) => ({
-			lat: data.latitude.toString(),
-			long: data.longitude.toString(),
-			city: data.city,
-			state: data.region,
-			country: data.country,
-			tz: {
-				name: data.timezone.name,
-				abbreviated: data.timezone.abbreviation,
-			},
-		}));
+		try {
+			let data = await getIPLocation(signedUser.ip || null);
+			if ((data as IPError).error) throw (data as IPError).error.message;
+
+			setCurrentLocation((prev) => ({
+				lat: (data as Metadata).latitude.toString(),
+				long: (data as Metadata).longitude.toString(),
+				city: (data as Metadata).city,
+				state: (data as Metadata).region,
+				country: (data as Metadata).country,
+				tz: {
+					name: (data as Metadata).timezone.name,
+					abbreviated: (data as Metadata).timezone.abbreviation,
+				},
+			}));
+		}
+		catch (err) {
+			console.error(`[PROFILE] Couldn't get user location: ${err}`);
+		}
 	};
 
 	/* Fetching the user info from the database and setting it to the state. */
@@ -131,7 +134,11 @@ const Profile: React.FC = (props) => {
 				}
 			} else {
 				try {
-					await getUser();
+					await getUser({
+						variables: {
+							username: username,
+						},
+					});
 					setUserInfo((prev) => ({
 						...prev,
 						...data?.getUserByUsername?.items[0],
@@ -149,7 +156,7 @@ const Profile: React.FC = (props) => {
 
 	/* Checking if there is an error. If there is an error, it will return a 404 page. */
 	if (userError) {
-		console.log(userError);
+		console.error(`[PROFILE] An error occurred while fetching the user: ${userError}`);
 		return <Navigate to='/404' />;
 	}
 

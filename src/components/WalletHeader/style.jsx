@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { AiOutlineLoading } from 'react-icons/ai';
 
+export const RelativeContainer = styled.span`position: relative;`
+
 export const ConnectToWallet = styled.a`
     border-radius: 20px;
     position: relative;

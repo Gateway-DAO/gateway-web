@@ -44,22 +44,34 @@ export interface Metadata {
     };
 }
 
-export const getIP = async (): Promise<{ ip: string; }> => {
-    return await (await fetch('https://api.ipify.org?format=json')).json();
+export interface IPError {
+    error: {
+        code: string;
+        details?: string;
+        message: string;
+    };
 }
+
+export const getIP = async (): Promise<{ ip: string }> => {
+    return await (await fetch('https://api.ipify.org?format=json')).json();
+};
 
 /**
  * It returns the location of the user's IP address.
  * @returns The response is a JSON object with the following keys:
  */
-export const getIPLocation = async (ip?: string): Promise<Metadata> => {
+export const getIPLocation = async (
+    ip?: string
+): Promise<Metadata | IPError> => {
     // TODO: make this private; generate a new key
     const API_KEY = 'bfd582cd1fc6423491aaded0d9e36a02';
     const ENDPOINT = `https://ipgeolocation.abstractapi.com/v1/?api_key=${API_KEY}${
         ip ? `&ip_address=${ip}` : ''
     }`;
     const res = await fetch(ENDPOINT);
-    return await res.json();
+    const obj = await res.json();
+    if (res.ok) return obj as Metadata;
+    else return obj as IPError;
 };
 
 export default getIPLocation;
