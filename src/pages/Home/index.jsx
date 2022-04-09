@@ -29,7 +29,7 @@ const Home = (props) => {
 
     const enterGateway = () => {
         if (active) {
-            navigate('/search/all', { state: { tab: 'Gates' } });
+            navigate('/search/', { state: { tab: 'Gates' } });
         } else {
             activateWeb3();
         }
