@@ -61,7 +61,7 @@ const Gates = (props) => {
                     return null;
                 })}
             </Styled.GatesContainer>
-            <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
+            {gates.length && <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />}
         </Styled.Wrapper>
     );
 };
