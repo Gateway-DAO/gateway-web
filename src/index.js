@@ -23,7 +23,6 @@ import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 // Analytics
-import ReactGA from 'react-ga';
 import { BrowserRouter } from 'react-router-dom';
 
 Amplify.configure(awsconfig);

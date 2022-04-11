@@ -378,9 +378,6 @@ export const UserProvider = ({ children }) => {
         if (userInfo && !userInfo.init) {
             navigate('/profile/complete-profile');
         }
-        else if ((userInfo && userInfo.init)) {
-            navigate('/profile');
-        }
     }, [userInfo]);
 
     /**
