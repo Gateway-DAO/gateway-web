@@ -37,28 +37,38 @@ export const SpaceBox = styled.canvas`
 `;
 
 export const MainText = styled.h1`
-    font-family: Poppins;
+    font-family: 'Poppins';
     font-style: normal;
-    font-weight: bold;
+    font-weight: 700;
     font-size: 96px;
-    line-height: 150px;
+    line-height: 90px;
     /* or 94% */
 
     text-align: center;
     letter-spacing: -0.05em;
 
-    /* Background */
-    background: linear-gradient(
-        88.04deg,
-        #ee787b 22.54%,
-        #e153f2 41.08%,
-        #495be0 65.25%,
-        #6a39f3 86.1%
-    );
+    background: linear-gradient(88.04deg, #EE787B 22.54%, #E153F2 41.08%, #495BE0 65.25%, #6A39F3 86.1%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+
+    width: 50%;
+`;
+
+export const SubText = styled.p`
+    font-family: 'Be Vietnam';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+
+    color: #ffffff;
+
+    margin-top: 34px;
 `;
 
 export const Button = styled.a`

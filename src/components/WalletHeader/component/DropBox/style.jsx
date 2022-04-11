@@ -10,6 +10,10 @@ export const DropDownContainer = styled.div`
     justify-content: center;
     position: absolute;
     top: 80px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    position: absolute;
     border: double 1px transparent;
 
     background-image: linear-gradient(#170627, #170627),

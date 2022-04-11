@@ -188,7 +188,7 @@ const GatePage: React.FC = () => {
             (gateData.published == 'NOT_PUBLISHED' ||
                 gateData.published == 'PAUSED')
         ) ) {
-            return <Navigate to='/404' />;
+            return <Navigate to='/not-authorized' />;
         }
     }
 
