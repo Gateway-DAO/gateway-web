@@ -50,7 +50,7 @@ const Wallet = (props) => {
     }
 
     return (
-        <Styled.RelativeContainer>
+        <Styled.Container>
             <Styled.ConnectToWallet
                 onClick={active ? () => setHidden(!hidden) : activateWeb3}
             >
@@ -77,7 +77,7 @@ const Wallet = (props) => {
                 </Styled.ConnectText>
             </Styled.ConnectToWallet>
             {hidden ? <DropDown toggle={setHidden} /> : null}
-        </Styled.RelativeContainer>
+        </Styled.Container>
     );
 };
 
