@@ -54,10 +54,12 @@ const Search = () => {
     };
 
     const FilterComponent = React.useMemo(() => ActiveFilter, [selectionTab]);
+    const TabComponent = React.useMemo(() => ActiveTab, [selectionTab]);
 
     useEffect(() => {
         if (location.state && location.state.tab) {
             setSelectionTab(location.state.tab);
+            window.history.replaceState({}, undefined, '/search');
         }
     }, [location]);
 
@@ -98,7 +100,7 @@ const Search = () => {
                     </Styled.LeftNav>
                 }
             </Styled.Nav>
-            <ActiveTab />
+            <TabComponent />
             <Footer />
         </Styled.Container>
     );

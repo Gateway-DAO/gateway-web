@@ -309,6 +309,7 @@ const AddCommunity = () => {
                                     onChange={(e) =>
                                         changeSocialName(idx, e.target.value)
                                     }
+                                    value={social.network}
                                 >
                                     <option
                                         value='twitter'
