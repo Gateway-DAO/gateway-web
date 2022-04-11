@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Dropdown } from 'react-bootstrap';
-
 export const DropDownContainer = styled.div`
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
     border-radius: 20px;
@@ -12,7 +10,6 @@ export const DropDownContainer = styled.div`
     justify-content: center;
     position: absolute;
     top: 80px;
-    width: 200px;
     border: double 1px transparent;
 
     background-image: linear-gradient(#170627, #170627),
@@ -23,10 +20,19 @@ export const DropDownContainer = styled.div`
     &:hover {
         cursor: pointer;
     }
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: 50px !important;
 `;
 
 export const ItemsContainer = styled.div`
     margin: 10px 0;
+
+    position: relative;
+    display: inline-block;
 `;
 
 export const ItemTextContainer = styled.h3`
