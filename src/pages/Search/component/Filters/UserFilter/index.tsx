@@ -20,7 +20,9 @@ const UserFilter = function ({ setUserFilterQuery }) {
     const [membershipMatches, setMembershipMatches] = useState<string[]>([]);
     const [credentialMatches, setCredentialMatches] = useState<string[]>([]);
 
-    const { query: searchTerm } = useParams();
+    var { query: searchTerm } = useParams();
+
+    if (searchTerm && searchTerm.toLowerCase().trim() === 'all') searchTerm = '';
 
     const showResult = () => {
         const query = {};
@@ -66,11 +68,11 @@ const UserFilter = function ({ setUserFilterQuery }) {
             }
         }
 
-        if (!query['or']) {
+        if (searchTerm && !query['or']) {
             query['or'] = []
         }
 
-        query['or'].push(...[
+        searchTerm && query['or'].push(...[
             { bio: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
             { name: { wildcard: `*${(searchTerm || "").toLowerCase()}*` } },
             {

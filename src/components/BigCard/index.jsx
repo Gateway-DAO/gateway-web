@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import * as Styled from './style';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 import {
     FaDiscord,
@@ -14,6 +14,7 @@ import {
 import { FiGlobe } from 'react-icons/fi';
 import { BsChatTextFill } from 'react-icons/bs';
 import useAdmin from '../../hooks/useAdmin';
+import { createBrowserHistory } from "history";
 
 //components
 import Plugins from './components/Plugins';
@@ -40,6 +41,8 @@ import METAMASK_FOX from '../../assets/icons/MetaMaskFox.svg';
 
 const NewCard = (props) => {
     const web3 = useWeb3React();
+    const navigate = useNavigate();
+    const history = createBrowserHistory();
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
     const [viewAsMember, setViewAsMember] = useState(!isAdmin);
 
@@ -87,7 +90,7 @@ const NewCard = (props) => {
 
     const removeHover = () => {};
 
-    const socials = props.socials.map((social, idx) => {
+    const socials = props.socials ? props.socials?.map((social, idx) => {
         switch (social.network) {
             case 'discord':
                 return (
@@ -154,7 +157,7 @@ const NewCard = (props) => {
                     </Styled.Social>
                 );
         }
-    });
+    }) : [];
 
     const chains =
         props.chains &&
@@ -289,12 +292,17 @@ const NewCard = (props) => {
                         <Styled.ProfileImageContainer src={props?.logoURL} />
                         <Styled.DaoBioInfo>
                             <Styled.DaoTagContainer>
-                                {props.categories.map((e, idx) => (
+                                {props.categories.map((category, idx) => (
                                     <Styled.Category key={idx}>
                                         <Styled.CategoryLink
-                                            to={`/search/${e}`}
+                                            to={`/search/${category}`}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                navigate('/search');
+                                                history.push('/search', { categorySearch: [category] })
+                                            }}
                                         >
-                                            {e}
+                                            {category}
                                         </Styled.CategoryLink>
                                     </Styled.Category>
                                 ))}

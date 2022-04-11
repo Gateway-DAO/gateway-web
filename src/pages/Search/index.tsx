@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import * as Styled from './style';
 
 // Hooks
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // Components
 import Header from '../../components/Header';
@@ -54,11 +54,12 @@ const Search = () => {
     };
 
     const FilterComponent = React.useMemo(() => ActiveFilter, [selectionTab]);
+    const TabComponent = React.useMemo(() => ActiveTab, [selectionTab]);
 
     useEffect(() => {
         if (location.state && location.state.tab) {
             setSelectionTab(location.state.tab);
-            window.history.replaceState({}, document.title);
+            window.history.replaceState({}, undefined, '/search');
         }
     }, [location]);
 
@@ -92,12 +93,14 @@ const Search = () => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
-                <Styled.LeftNav>
-                    <Styled.FilterText>Filter:</Styled.FilterText>
-                    <FilterComponent />
-                </Styled.LeftNav>
+                {
+                    <Styled.LeftNav>
+                        <Styled.FilterText>Filter:</Styled.FilterText>
+                        <FilterComponent />
+                    </Styled.LeftNav>
+                }
             </Styled.Nav>
-            <ActiveTab />
+            <TabComponent />
             <Footer />
         </Styled.Container>
     );

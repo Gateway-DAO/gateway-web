@@ -261,3 +261,7 @@ span.avatar-upload-action {
     background: #220a38 !important;
     border-color: rgb(126, 59, 220) !important;
 }
+.invalid-feedback {
+    width: 100% !important;
+    line-height: 17px;
+}

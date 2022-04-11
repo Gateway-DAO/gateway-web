@@ -95,10 +95,6 @@ export const OptionLink = styled(Link)`
     text-decoration: none;
 `;
 
-export const OptionAnchor = styled.a`
-    text-decoration: none;
-`
-
 export const HeaderContent = styled.div`
     display: flex;
     align-items: center;
@@ -163,4 +159,21 @@ export const WrappedFiSearch = styled(FiSearch)`
     font-size: 32pt;
     padding-right: 20px;
     color: #e5e5e5;
+`;
+
+export const Close = styled.span`
+    font-family: 'Be Vietnam';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 19px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+
+    color: #ff00b8;
+
+    &:hover {
+        cursor: pointer;
+    }
 `;

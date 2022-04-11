@@ -17,6 +17,18 @@
         {
             "name": "Orest Tarasiuk",
             "email": "orest@mygateway.xyz"
+        },
+        {
+            "name": "Primoz Bernard",
+            "email": "primoz@mygateway.xyz"
+        },
+        {
+            "name": "Ashish Goyal",
+            "email": "ashish@mygateway.xyz"
+        },
+        {
+            "name": "Daniel Cooley",
+            "email": "daniel@mygateway.xyz"
         }
     ],
     "dependencies": {
@@ -61,17 +73,10 @@
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.28.0",
         "ethers": "^5.5.4",
-        "filepond": "^4.30.3",
-        "filepond-plugin-file-encode": "^2.1.10",
-        "filepond-plugin-file-poster": "^2.5.1",
-        "filepond-plugin-file-validate-type": "^1.2.6",
-        "filepond-plugin-image-exif-orientation": "^1.0.11",
-        "filepond-plugin-image-preview": "^4.6.10",
         "firebase": "^9.1.1",
         "firebase-admin": "^10.0.0",
         "form-data": "^4.0.0",
         "formik": "^2.2.9",
-        "graphql-algolia-transformer": "^1.5.0",
         "html-react-parser": "^1.4.0",
         "jwt-decode": "^3.1.2",
         "key-did-provider-ed25519": "^1.1.0",
@@ -88,8 +93,6 @@
         "react-collapsible": "^2.8.4",
         "react-dom": "^17.0.2",
         "react-draft-wysiwyg": "^1.14.7",
-        "react-filepond": "^7.1.1",
-        "react-ga": "^3.3.0",
         "react-geocode": "^0.2.3",
         "react-icons": "^4.3.1",
         "react-markdown": "^7.1.0",

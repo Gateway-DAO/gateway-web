@@ -23,11 +23,11 @@ import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 // Analytics
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga'; // @TODO: Re-add these
 
 Amplify.configure(awsconfig);
 
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
+// ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
 
 AOS.init();
 

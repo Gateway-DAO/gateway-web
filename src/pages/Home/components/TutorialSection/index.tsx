@@ -7,22 +7,22 @@ const data = [
     {
         id: '1',
         title: 'Create Your Profile',
-        video: 'https://download.blender.org/peach/trailer/trailer_1080p.ogg',
+        video: 'videos/tutorial_1.mp4',
     },
     {
         id: '2',
         title: 'Earn Credentials',
-        video: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+        video: 'videos/tutorial_1.mp4',
     },
     {
         id: '3',
         title: 'Build Your Digital Resume',
-        video: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+        video: 'videos/tutorial_1.mp4',
     },
     {
         id: '4',
         title: 'Discover Your Friends',
-        video: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+        video: 'videos/tutorial_1.mp4',
     },
 ];
 

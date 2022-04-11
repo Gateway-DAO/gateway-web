@@ -20,7 +20,7 @@ const TOOLBAR_OPTIONS = [
 const RichEditor = ({ value, set, toolbar = {}, className = '' }) => {
     return (
         <Styled.RichEditor
-            filled={!!value.replace(/<(.|\n)*?>/g, '').trim().length}
+            filled={!!value?.replace(/<(.|\n)*?>/g, '').trim().length}
             className={className}
         >
             <ReactQuill

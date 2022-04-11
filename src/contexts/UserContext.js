@@ -149,9 +149,13 @@ export const UserProvider = ({ children }) => {
                 cacheProvider: true,
             });
 
-            await web3.activate(connector, error => {
-                throw error;
-            }, true);
+            await web3.activate(
+                connector,
+                (error) => {
+                    throw error;
+                },
+                true
+            );
 
             setLoadingWallet(false);
             localStorage.setItem('gateway-wallet', '1');
@@ -324,8 +328,12 @@ export const UserProvider = ({ children }) => {
                         isAdmin: false,
                     };
 
-                    const { ip } = await getIP();
-                    await updateUserInfo({ id: userInfo_INTERNAL.id, ip });
+                    try {
+                        const { ip } = await getIP();
+                        await updateUserInfo({ id: userInfo_INTERNAL.id, ip });
+                    } catch (err) {
+                        console.log(`[sign-in] Can't get IP: ${err}`);
+                    }
                 } else {
                     userInfo_INTERNAL = await createNewUser();
                 }
