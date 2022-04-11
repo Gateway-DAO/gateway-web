@@ -1070,10 +1070,6 @@ a.profile-toggle:focus + .profile-dropdown {
     border: none !important;
 }
 
-.sc-kGrBqp.bjZppV {
-    overflow: unset;
-}
-
 /*button hover styles*/
 .dropdown-toggle.btn.btn-success,
 .gateway-profile-middle-btn-grp a,
@@ -1102,9 +1098,6 @@ a.profile-toggle:focus + .profile-dropdown {
 .add-now-btn:hover {
     background: linear-gradient(#170627, #170627) padding-box,
         linear-gradient(to right, #e153f2, #6a39f3, #495be0) border-box !important;
-}
-.sc-iwjdpV.dwJwgB {
-    display: inline-block !important;
 }
 
 .hostName {
