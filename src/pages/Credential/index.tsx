@@ -37,17 +37,17 @@ const CredentialPage = () => {
         },
     });
 
-	if (credentialLoading) {
-		return (
-			<Page>
-				<section>
+    if (credentialLoading) {
+        return (
+            <Page>
+                <section>
                     <div className='gateway-profile-loader-box'>
                         <Loader color='white' size={35} />
                     </div>
                 </section>
-			</Page>
-		)
-	}
+            </Page>
+        )
+    }
 
     /* Checking if there is an error. If there is an error, it will return a 404 page. */
     if (credentialError) {
@@ -81,14 +81,18 @@ const CredentialPage = () => {
                     </Container>
                     <Container>
                         <Row>
-                            <Col md={3} className='credentials-img'>
-                                <div className='gateway-profile-left'>
+                            <Col md={4} className='credentials-img'>
+                                <div className='credentials-profile-left'>
                                     <img
                                         src={`https://gateway.pinata.cloud/ipfs/${data.getCredential.image}`}
                                     />
+                                    <div className='nft-heading'>
+                                        <span>NFT Badge</span>
+                                        <h4>{data.getCredential.name}</h4>
+                                    </div>
                                 </div>
                             </Col>
-                            <Col md={9} className='credentials-contents'>
+                            <Col md={8} className='credentials-contents'>
                                 {/* Gateway Profile - Header */}
                                 <Col sm={12} className='credentials-header'>
                                     <div className='gateway-profile-middle'>
@@ -125,10 +129,10 @@ const CredentialPage = () => {
                                             </div>
                                             <ListGroup as='ul'>
                                                 {!!data.getCredential.skills &&
-                                                data.getCredential.skills.length >
+                                                    data.getCredential.skills.length >
                                                     0 ? (
                                                     data.getCredential.skills.length >
-                                                        0 &&
+                                                    0 &&
                                                     data.getCredential.skills.map(
                                                         (item) => (
                                                             <ListGroup.Item
@@ -158,7 +162,7 @@ const CredentialPage = () => {
                                             </div>
                                             <ListGroup as='ul'>
                                                 {!!data.getCredential.knowledges &&
-                                                data.getCredential.knowledges.length >
+                                                    data.getCredential.knowledges.length >
                                                     0 ? (
                                                     data.getCredential.knowledges
                                                         .length > 0 &&
@@ -191,7 +195,7 @@ const CredentialPage = () => {
                                             </div>
                                             <ListGroup as='ul'>
                                                 {!!data.getCredential.attitudes &&
-                                                data.getCredential.attitudes.length >
+                                                    data.getCredential.attitudes.length >
                                                     0 ? (
                                                     data.getCredential.attitudes
                                                         .length > 0 &&
@@ -245,26 +249,26 @@ const CredentialPage = () => {
                                 <Col sm={12} className='credentials-keys'>
                                     <h1 className='key-title'>Keys</h1>
                                     {data.getCredential.pow.map(pow => {
-										const parsed = JSON.parse(pow);
+                                        const parsed = JSON.parse(pow);
 
-										console.log(parsed);
+                                        console.log(parsed);
 
-										return (
-											<div className='credentials-keys-content'>
-												{parsed.information.map(info => (
-													<>
-														<h1 className='title'>
-															{info.title}
-														</h1>
-														<h5 className='content'>
-															{parser(info.description)}
-														</h5>
-													</>
-												))}
-												<button>DETAILS</button>
-											</div>
-										)
-									})}
+                                        return (
+                                            <div className='credentials-keys-content'>
+                                                {parsed.information.map(info => (
+                                                    <>
+                                                        <h1 className='title'>
+                                                            {info.title}
+                                                        </h1>
+                                                        <h5 className='content'>
+                                                            {parser(info.description)}
+                                                        </h5>
+                                                    </>
+                                                ))}
+                                                <button>DETAILS</button>
+                                            </div>
+                                        )
+                                    })}
                                 </Col>
                             </Col>
                         </Row>
