@@ -38,7 +38,9 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
     const [categoryMatches, setCategoryMatches] = useState<string[]>([]);
     const [chainMatches, setChainMatches] = useState<string[]>([]);
     // const [sizeMatches, setSizeMatches] = useState<string[]>([]);
-    const { query: searchTerm } = useParams();
+    var { query: searchTerm } = useParams();
+
+    if (searchTerm && searchTerm.toLowerCase().trim() === 'all') searchTerm = '';
 
     const showResult = () => {
         // const query = [];

@@ -13,6 +13,7 @@ import { gql, useQuery } from '@apollo/client';
 import { searchGates } from '../../../../graphql/queries';
 
 import { Navigate, useParams } from 'react-router-dom';
+import { PublishedState } from '../../../../graphql/API';
 
 const GateTab = ({ filterQuery }) => {
     const { query } = useParams();
@@ -37,25 +38,14 @@ const GateTab = ({ filterQuery }) => {
             from: from,
             ...(Object.keys(filterQuery).length !== 0
                 ? { filter: filterQuery }
-                : query?.length
-                ? {
-                    filter: {
-                        or: [
-                            {
-                                name: {
-                                    wildcard: `*${query.toLowerCase()}*`,
-                                },
-                            },
-                        ],
-                    },
-                } : {}),
+                : {}),
         },
     });
 
     useEffect(() => {
         setHits(!searchLoading ? searchData?.searchGates?.items : []);
         setPageCount(
-            Math.ceil(searchData?.searchGates?.total / resultPerPage)
+            Math.ceil(!searchLoading ? searchData?.searchGates?.items.length / resultPerPage : 0)
         );
     }, [searchData, searchLoading, resultPerPage]);
 
@@ -81,8 +71,8 @@ const GateTab = ({ filterQuery }) => {
                 </SearchStyled.TextBox>
             )}
             <Styled.GateCardBox>
-                {hits?.map((item, idx) => (
-                    <GateCard key={idx} gate={item} viewAsMember={true} />
+                {hits?.map((item, idx) => item.published === PublishedState.PUBLISHED && (
+                    <GateCard key={idx} gate={item} viewAsMember={true} toSearch={true} />
                 ))}
             </Styled.GateCardBox>
             <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
