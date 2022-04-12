@@ -53,11 +53,13 @@ interface Props {
     gateData: GateData;
     daoData: DAO;
     published: PublishedState;
+    state?: object;
 }
 
 const BackButton: React.FC<Props> = ({
     url = -1,
     children = 'Go Back',
+    state={},
     ...props
 }) => {
     const gateData: GateData = props.gateData;
@@ -161,7 +163,7 @@ const BackButton: React.FC<Props> = ({
                 },
             },
         });
-        navigate(url as To);
+        navigate(url as To, { state: state });
     };
 
     return (
@@ -193,7 +195,7 @@ const BackButton: React.FC<Props> = ({
                 ]}
             />
             <Styled.Wrapper>
-                <Styled.Div onClick={() => navigate(url as To)}>
+                <Styled.Div onClick={() => navigate(url as To, { state: state })}>
                     <Styled.ButtonWrapper>
                         <img src={BackIcon} alt='Back' />
                     </Styled.ButtonWrapper>

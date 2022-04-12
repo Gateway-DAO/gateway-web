@@ -12,7 +12,7 @@ const GateSuccessPage = (props) => {
 
     useEffect(() => {
         const clear = setTimeout(() => {
-            window.location.href = `/gate/${state.usr.gate.id}/`;
+            window.location.href = `/profile`;
         }, 3000);
 
         return () => clearTimeout(clear);

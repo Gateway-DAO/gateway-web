@@ -4,8 +4,13 @@ import * as Styled from './style';
 import React, { useEffect, useState } from 'react';
 
 import { useLazySearchDAO } from '../../../../api/database/useSearchDAO';
+import { useNavigate } from 'react-router-dom';
+import { createBrowserHistory } from "history";
 
 const RelatedDAOSection = ({ name, categories }) => {
+    const navigate = useNavigate();
+    const history = createBrowserHistory();
+
     const [limitedCards, setLimitedCards] = useState([]);
 
     const {
@@ -58,7 +63,14 @@ const RelatedDAOSection = ({ name, categories }) => {
             <Styled.RelatedContainer>
                 <Styled.BoxContainer>
                     <Styled.MediumText>Related DAOs</Styled.MediumText>
-                    <Styled.StyledShowAllButton to={`/search/${categories[0]}`}>
+                    <Styled.StyledShowAllButton
+                        to={`/search`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            navigate('/search');
+                            history.push('/search', { categorySearch: categories })
+                        }}
+                    >
                         View all
                     </Styled.StyledShowAllButton>
                 </Styled.BoxContainer>

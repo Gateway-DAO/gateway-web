@@ -318,10 +318,10 @@ const EditCardModal = (props) => {
                                     onChange={(e) =>
                                         changeSocialName(idx, e.target.value)
                                     }
+                                    value={social.network}
                                 >
                                     <option
                                         value='twitter'
-                                        selected={social.network === 'twitter'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('twitter')}
@@ -330,7 +330,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='telegram'
-                                        selected={social.network === 'telegram'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('telegram')}
@@ -339,7 +338,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='medium'
-                                        selected={social.network === 'medium'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('medium')}
@@ -348,7 +346,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='github'
-                                        selected={social.network === 'github'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('github')}
@@ -357,7 +354,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='discord'
-                                        selected={social.network === 'discord'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('discord')}
@@ -366,7 +362,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='website'
-                                        selected={social.network === 'website'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('website')}
@@ -375,7 +370,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='chat'
-                                        selected={social.network === 'chat'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('chat')}
@@ -384,9 +378,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='other'
-                                        selected={social.network.startsWith(
-                                            'any'
-                                        )}
                                     >
                                         Other
                                     </option>
