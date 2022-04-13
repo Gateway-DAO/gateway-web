@@ -250,16 +250,13 @@ const ProfileUpdate = () => {
 		});
 	};
 
-	var daos: any = {}
+	var daos: Record<string, any> = {}
 	userInfo?.credentials?.items?.map(item => {
 		if (daos[item.organizationID] == undefined) {
 			daos[item.organizationID] = [];
 		}
 		daos[item.organizationID].push(item);
 	});
-	// console.log(userInfo.credentials);
-	// console.log({ daos });
-	// Object.entries(daos).map(([key, value]) => console.log(key, value))
 
 	return (
 		<section className='gateway-profile'>
@@ -467,51 +464,36 @@ const ProfileUpdate = () => {
 												</p>
 											</div>
 										</div>
-										{daos.value?.map((credential: Credential) => (
-											<div className='nft'>
-												<Accordion defaultActiveKey='0'>
-													<Accordion.Item eventKey='0'>
-														<div className='accordion-top-header'>
-															<Accordion.Header>
-																{(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL
-															</Accordion.Header>
-														</div>
-														<Accordion.Body>
-															<Row className='justify-content-md-left'>
-																<CredentialCard
-																	credential={
-																		credential
-																	}
-																/>
-															</Row>
-														</Accordion.Body>
-													</Accordion.Item>
-												</Accordion>
-											</div>
-										))}
+
+										<div className='nft'>
+											<Accordion defaultActiveKey='0'>
+												<Accordion.Item eventKey='0'>
+													<div className='accordion-top-header'>
+														<Accordion.Header>
+															{/* {(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL */}
+															CONTRIBUTOR CREDENTIAL
+														</Accordion.Header>
+													</div>
+													<div className='accordion-body-content' style={{ display: "flex" }}>
+														{value?.map((credential: Credential) => (
+															<Accordion.Body>
+																<Row className='justify-content-md-left'>
+																	<CredentialCard
+																		credential={
+																			credential
+																		}
+																	/>
+																</Row>
+															</Accordion.Body>))}
+													</div>
+												</Accordion.Item>
+											</Accordion>
+										</div>
+
 									</div>
 								))}
 							</div>
 						)}
-						{/*
-                            <div className='gway-prfile-col'>
-                                <div className='gway-about-hd'>
-                                    <h2>Activity</h2>
-                                    {canEdit && (
-                                        <a href='#'>
-                                            <FaPlus color='white' />
-                                        </a>
-                                    )}
-                                </div>
-                                <p>
-                                    Share articles you created or whatever align
-                                    to you beliefs with you network.
-                                </p>
-                                <a href='#' className='add-now-btn'>
-                                    ADD NOW
-                                </a>
-                            </div>
-                            */}
 					</Col>
 
 					<Col md={3}>
@@ -682,58 +664,6 @@ const ProfileUpdate = () => {
 								)}
 							</ListGroup>
 						</div>
-						{/*<div className='gway-skill-col'>
-							<div className='gway-skill-col-hd'>
-								<h3>DAOs you might like</h3>
-							</div>
-							<ListGroup as='ul' className='daos-like-ul'>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/seed.png'
-											alt='image'
-										/>
-										<span>Seed Club</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/Buildspace.png'
-											alt='image'
-										/>
-										<span>Buildspace</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/Friends.png'
-											alt='image'
-										/>
-										<span>Friends with Benefits</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/unishap.png'
-											alt='image'
-										/>
-										<span>Uniswap</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/pleasr.png'
-											alt='image'
-										/>
-										<span>PleasrDAO</span>
-									</a>
-								</ListGroup.Item>
-							</ListGroup>
-						</div>*/}
 					</Col>
 				</Row>
 			</Container>
