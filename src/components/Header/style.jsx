@@ -67,7 +67,7 @@ export const LogoText = styled.h1`
 
 export const Text = styled.p`
     color: ${(props) => props.color};
-    font-family: Poppins, sans-serif;
+    font-family: Be Vuetnam, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -95,6 +95,10 @@ export const OptionLink = styled(Link)`
     text-decoration: none;
 `;
 
+export const OptionAnchor = styled.a`
+    text-decoration: none;
+`
+
 export const HeaderContent = styled.div`
     display: flex;
     align-items: center;
@@ -119,6 +123,7 @@ export const SearchInputBox = styled.div`
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 100px;
+		width: 30%;
 
     @media only screen and (max-width: 945px) {
         margin: 0;

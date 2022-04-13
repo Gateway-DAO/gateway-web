@@ -20,7 +20,10 @@ export const getUser = /* GraphQL */ `
     query GetUser($id: ID!) {
         getUser(id: $id) {
             id
-            ip
+            timezone {
+                shouldTrack
+                tz
+            }
             wallet
             username
             name
@@ -189,7 +192,10 @@ export const listUsers = /* GraphQL */ `
         listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
             items {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -274,7 +280,6 @@ export const listUsers = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -294,7 +299,6 @@ export const listUsers = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -1175,7 +1179,10 @@ export const getPost = /* GraphQL */ `
             userID
             user {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -1260,7 +1267,6 @@ export const getPost = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -1280,7 +1286,6 @@ export const getPost = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -1403,7 +1408,6 @@ export const listPosts = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -1423,29 +1427,6 @@ export const listPosts = /* GraphQL */ `
                 content
                 comments {
                     nextToken
-                    items {
-                        id
-                        postID
-                        userID
-                        user {
-                            id
-                            wallet
-                            username
-                            name
-                            bio
-                            daos_ids
-                            init
-                            nonce
-                            pfp
-                            createdAt
-                            updatedAt
-                        }
-                        content
-                        upvotes
-                        downvotes
-                        createdAt
-                        updatedAt
-                    }
                 }
                 upvotes
                 downvotes
@@ -1464,7 +1445,10 @@ export const getComment = /* GraphQL */ `
             userID
             user {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -1549,7 +1533,6 @@ export const getComment = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -1569,7 +1552,6 @@ export const getComment = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -1649,7 +1631,6 @@ export const listComments = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -2157,7 +2138,10 @@ export const getManualTaskSubmission = /* GraphQL */ `
             userID
             user {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -2242,7 +2226,6 @@ export const getManualTaskSubmission = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -2262,7 +2245,6 @@ export const getManualTaskSubmission = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -2417,7 +2399,6 @@ export const listManualTaskSubmissions = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -2464,7 +2445,10 @@ export const getGateStatus = /* GraphQL */ `
             userID
             user {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -2549,7 +2533,6 @@ export const getGateStatus = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -2569,7 +2552,6 @@ export const getGateStatus = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -2719,7 +2701,6 @@ export const listGateStatuss = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -2778,7 +2759,10 @@ export const getTaskStatus = /* GraphQL */ `
             userID
             user {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -2863,7 +2847,6 @@ export const getTaskStatus = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -2883,7 +2866,6 @@ export const getTaskStatus = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -3098,7 +3080,6 @@ export const listTaskStatuss = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -3161,7 +3142,10 @@ export const getCredential = /* GraphQL */ `
             issuerID
             issuer {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -3246,7 +3230,6 @@ export const getCredential = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -3266,7 +3249,6 @@ export const getCredential = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -3328,7 +3310,10 @@ export const getCredential = /* GraphQL */ `
             targetID
             target {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -3413,7 +3398,6 @@ export const getCredential = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -3433,7 +3417,6 @@ export const getCredential = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -3494,6 +3477,7 @@ export const getCredential = /* GraphQL */ `
             }
             gate {
                 name
+                type
             }
             organizationID
             organization {
@@ -3615,7 +3599,6 @@ export const listCredentials = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -3635,7 +3618,6 @@ export const listCredentials = /* GraphQL */ `
                 targetID
                 target {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -3654,6 +3636,7 @@ export const listCredentials = /* GraphQL */ `
                 }
                 gate {
                     name
+                    type
                 }
                 organizationID
                 organization {
@@ -3710,7 +3693,10 @@ export const getUserByAddress = /* GraphQL */ `
         ) {
             items {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -3795,7 +3781,6 @@ export const getUserByAddress = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -3815,7 +3800,6 @@ export const getUserByAddress = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -3895,7 +3879,10 @@ export const getUserByUsername = /* GraphQL */ `
         ) {
             items {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -3980,7 +3967,6 @@ export const getUserByUsername = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -4000,7 +3986,6 @@ export const getUserByUsername = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -4138,114 +4123,6 @@ export const getDaoById = /* GraphQL */ `
                 chains
                 channels {
                     nextToken
-                    items {
-                        id
-                        name
-                        daoID
-                        dao {
-                            id
-                            dao
-                            youtubeURL
-                            chains
-                            name
-                            accomplishments
-                            backgroundURL
-                            logoURL
-                            categories
-                            tags
-                            description
-                            howToJoin
-                            missionAndVision
-                            whatDoWeDo
-                            upcomingHangouts
-                            tokenAddress
-                            whitelistedAddresses
-                            createdAt
-                            updatedAt
-                        }
-                        posts {
-                            items {
-                                id
-                                daoID
-                                dao {
-                                    id
-                                    dao
-                                    youtubeURL
-                                    chains
-                                    name
-                                    accomplishments
-                                    backgroundURL
-                                    logoURL
-                                    categories
-                                    tags
-                                    description
-                                    howToJoin
-                                    missionAndVision
-                                    whatDoWeDo
-                                    upcomingHangouts
-                                    tokenAddress
-                                    whitelistedAddresses
-                                    createdAt
-                                    updatedAt
-                                }
-                                channelID
-                                channel {
-                                    id
-                                    name
-                                    daoID
-                                    createdAt
-                                    updatedAt
-                                }
-                                userID
-                                user {
-                                    id
-                                    wallet
-                                    username
-                                    name
-                                    bio
-                                    daos_ids
-                                    init
-                                    nonce
-                                    pfp
-                                    createdAt
-                                    updatedAt
-                                }
-                                content
-                                comments {
-                                    items {
-                                        id
-                                        postID
-                                        userID
-                                        user {
-                                            id
-                                            wallet
-                                            username
-                                            name
-                                            bio
-                                            daos_ids
-                                            init
-                                            nonce
-                                            pfp
-                                            createdAt
-                                            updatedAt
-                                        }
-                                        content
-                                        upvotes
-                                        downvotes
-                                        createdAt
-                                        updatedAt
-                                    }
-                                }
-                                upvotes
-                                downvotes
-                                createdAt
-                                updatedAt
-                            }
-                            nextToken
-                        }
-                        createdAt
-                        updatedAt
-                    }
                 }
                 gates {
                     items {
@@ -4359,114 +4236,6 @@ export const getDaoByName = /* GraphQL */ `
                 chains
                 channels {
                     nextToken
-                    items {
-                        id
-                        name
-                        daoID
-                        dao {
-                            id
-                            dao
-                            youtubeURL
-                            chains
-                            name
-                            accomplishments
-                            backgroundURL
-                            logoURL
-                            categories
-                            tags
-                            description
-                            howToJoin
-                            missionAndVision
-                            whatDoWeDo
-                            upcomingHangouts
-                            tokenAddress
-                            whitelistedAddresses
-                            createdAt
-                            updatedAt
-                        }
-                        posts {
-                            items {
-                                id
-                                daoID
-                                dao {
-                                    id
-                                    dao
-                                    youtubeURL
-                                    chains
-                                    name
-                                    accomplishments
-                                    backgroundURL
-                                    logoURL
-                                    categories
-                                    tags
-                                    description
-                                    howToJoin
-                                    missionAndVision
-                                    whatDoWeDo
-                                    upcomingHangouts
-                                    tokenAddress
-                                    whitelistedAddresses
-                                    createdAt
-                                    updatedAt
-                                }
-                                channelID
-                                channel {
-                                    id
-                                    name
-                                    daoID
-                                    createdAt
-                                    updatedAt
-                                }
-                                userID
-                                user {
-                                    id
-                                    wallet
-                                    username
-                                    name
-                                    bio
-                                    daos_ids
-                                    init
-                                    nonce
-                                    pfp
-                                    createdAt
-                                    updatedAt
-                                }
-                                content
-                                comments {
-                                    items {
-                                        id
-                                        postID
-                                        userID
-                                        user {
-                                            id
-                                            wallet
-                                            username
-                                            name
-                                            bio
-                                            daos_ids
-                                            init
-                                            nonce
-                                            pfp
-                                            createdAt
-                                            updatedAt
-                                        }
-                                        content
-                                        upvotes
-                                        downvotes
-                                        createdAt
-                                        updatedAt
-                                    }
-                                }
-                                upvotes
-                                downvotes
-                                createdAt
-                                updatedAt
-                            }
-                            nextToken
-                        }
-                        createdAt
-                        updatedAt
-                    }
                 }
                 gates {
                     items {
@@ -4714,7 +4483,6 @@ export const getPostsByChannelId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -4734,29 +4502,6 @@ export const getPostsByChannelId = /* GraphQL */ `
                 content
                 comments {
                     nextToken
-                    items {
-                        id
-                        postID
-                        userID
-                        user {
-                            id
-                            wallet
-                            username
-                            name
-                            bio
-                            daos_ids
-                            init
-                            nonce
-                            pfp
-                            createdAt
-                            updatedAt
-                        }
-                        content
-                        upvotes
-                        downvotes
-                        createdAt
-                        updatedAt
-                    }
                 }
                 upvotes
                 downvotes
@@ -4788,7 +4533,6 @@ export const getCommentsByPostId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5009,7 +4753,6 @@ export const getManualTaskSubmissionByUserId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5069,7 +4812,6 @@ export const getManualTaskSubmissionByKeyId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5129,7 +4871,6 @@ export const getGateStatusByUserId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5205,7 +4946,6 @@ export const getGateStatusByGateId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5277,7 +5017,6 @@ export const getTaskStatusByUserId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5353,7 +5092,6 @@ export const getTaskStatusByGateId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5429,7 +5167,6 @@ export const getTaskStatusByKeyId = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5505,7 +5242,6 @@ export const getCredentialByIssuerId = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5525,7 +5261,6 @@ export const getCredentialByIssuerId = /* GraphQL */ `
                 targetID
                 target {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5544,6 +5279,7 @@ export const getCredentialByIssuerId = /* GraphQL */ `
                 }
                 gate {
                     name
+                    type
                 }
                 organizationID
                 organization {
@@ -5603,7 +5339,6 @@ export const getCredentialByTargetId = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5623,7 +5358,6 @@ export const getCredentialByTargetId = /* GraphQL */ `
                 targetID
                 target {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5642,6 +5376,7 @@ export const getCredentialByTargetId = /* GraphQL */ `
                 }
                 gate {
                     name
+                    type
                 }
                 organizationID
                 organization {
@@ -5701,7 +5436,6 @@ export const getCredentialByOrganizationId = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5721,7 +5455,6 @@ export const getCredentialByOrganizationId = /* GraphQL */ `
                 targetID
                 target {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -5740,6 +5473,7 @@ export const getCredentialByOrganizationId = /* GraphQL */ `
                 }
                 gate {
                     name
+                    type
                 }
                 organizationID
                 organization {
@@ -5796,7 +5530,10 @@ export const searchUsers = /* GraphQL */ `
         ) {
             items {
                 id
-                ip
+                timezone {
+                    shouldTrack
+                    tz
+                }
                 wallet
                 username
                 name
@@ -5881,7 +5618,6 @@ export const searchUsers = /* GraphQL */ `
                         issuerID
                         issuer {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -5901,7 +5637,6 @@ export const searchUsers = /* GraphQL */ `
                         targetID
                         target {
                             id
-                            ip
                             wallet
                             username
                             name
@@ -6175,7 +5910,6 @@ export const searchPosts = /* GraphQL */ `
                 userID
                 user {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -6301,7 +6035,6 @@ export const searchCredentials = /* GraphQL */ `
                 issuerID
                 issuer {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -6321,7 +6054,6 @@ export const searchCredentials = /* GraphQL */ `
                 targetID
                 target {
                     id
-                    ip
                     wallet
                     username
                     name
@@ -6340,6 +6072,7 @@ export const searchCredentials = /* GraphQL */ `
                 }
                 gate {
                     name
+                    type
                 }
                 organizationID
                 organization {

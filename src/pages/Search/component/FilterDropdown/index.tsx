@@ -3,13 +3,18 @@ import * as Styled from './style';
 import { useClickAway } from 'react-use';
 import FilterCheckbox from '../../../../components/FilterCheckbox';
 
+interface ItemProps {
+    value: string;
+    label: string;
+}
+
 interface Props {
     title: string;
     filterable?: boolean;
-    options: string[];
+    options: ItemProps[];
     selected: string[];
     showResult?: () => void;
-    handleSelected?: (options: string[]) => void;
+    handleSelected?: (options: any) => void;
 }
 
 export default function FilterDropdown(props: Props) {
@@ -25,12 +30,12 @@ export default function FilterDropdown(props: Props) {
         handleVisible(!visible);
     };
 
-    const onSelect = (item: string) => {
+    const onSelect = (value: string) => {
         const newFilterOptions: string[] = [...props.selected];
-        const index = newFilterOptions.indexOf(item);
+        const index = newFilterOptions.indexOf(value);
 
         if (index < 0) {
-            newFilterOptions.push(item);
+            newFilterOptions.push(value);
         } else {
             newFilterOptions.splice(index, 1);
         }
@@ -54,12 +59,13 @@ export default function FilterDropdown(props: Props) {
                         <Styled.WrappedFiSearch />
                     </Styled.FilterBox>
                 ) : null}
-                {props.options.map((item, idx) => (
+                {props.options.map((item: ItemProps, idx: number) => (
                     <Styled.DropdownItem key={idx}>
                         <FilterCheckbox
-                            onChange={onSelect}
-                            checked={!(props.selected.indexOf(item) < 0)}
-                            label={item}
+                            onChange={(value: string) => onSelect(value)}
+                            checked={!(props.selected.indexOf(item.value) < 0)}
+                            label={item.label}
+                            value={item.value}
                         />
                     </Styled.DropdownItem>
                 ))}
@@ -67,7 +73,12 @@ export default function FilterDropdown(props: Props) {
                     <Styled.CancelButton onClick={toggle}>
                         Cancel
                     </Styled.CancelButton>
-                    <Styled.SearchButton onClick={props.showResult}>
+                    <Styled.SearchButton
+                        onClick={() => {
+                            props.showResult();
+                            toggle();
+                        }}
+                    >
                         Show Results
                     </Styled.SearchButton>
                 </Styled.FilterAction>

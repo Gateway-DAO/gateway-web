@@ -16,6 +16,7 @@ import { useGateAdmin } from '../../../../hooks/useAdmin';
 
 // Types
 import { DAO, Gate, Key, TaskStatus, User } from '../../../../graphql/API';
+import { useLocation } from 'react-use';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -43,6 +44,9 @@ const DaoGate: React.FC = () => {
         useOutletContext();
     const dao: DAO = gateData.dao;
     const navigate = useNavigate();
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const toSearch = params.get('toSearch');
 
     const handleClick = () => {
         navigate('add-key');
@@ -51,11 +55,12 @@ const DaoGate: React.FC = () => {
     return (
         <Styled.Wrapper>
             <BackButtonDiv
-                url={`/dao/${dao.dao}?tab=gates`}
+                url={toSearch && toSearch === 'false' ? `/dao/${dao.dao}?tab=gates` : `/search`}
                 published={gateData.published}
                 id={gateData.id}
                 daoData={dao}
                 gateData={gateData}
+                state={toSearch && toSearch === 'true' && { tab: 'Gates' }}
             >
                 Back to DAO Gates
             </BackButtonDiv>
@@ -106,8 +111,9 @@ const DaoGate: React.FC = () => {
                                     PRE REQUISITE
                                 </Styled.BoldTextHeading>
                                 <Styled.ContentContainer>
-                                    {gateData.preRequisitesList.map((gate) => (
+                                    {gateData.preRequisitesList.map((gate, idx) => (
                                         <Styled.InsideLink
+                                            key={idx}
                                             to={`/gate/${gate.id}`}
                                         >
                                             {gate.badge.name} ⬈
@@ -122,9 +128,10 @@ const DaoGate: React.FC = () => {
                             </Styled.BoldTextHeading>
                             <Styled.ContentContainer>
                                 {gateData.links.length > 0 &&
-                                    gateData.links.map((link) => {
+                                    gateData.links.map((link, idx) => {
                                         return (
                                             <Styled.OutsideLink
+                                                key={idx}
                                                 href={link.link}
                                                 target='_blank'
                                             >
@@ -187,7 +194,7 @@ const DaoGate: React.FC = () => {
                                 </Styled.StartButton>
                             </Styled.Box>
                         )}
-                        {gateData?.keys?.items?.map((key: Key) => {
+                        {gateData?.keys?.items?.map((key: Key, idx: number) => {
                             const LIMIT_REACHED =
                                 !key.unlimited && key.peopleLimit === 0;
 
@@ -200,6 +207,7 @@ const DaoGate: React.FC = () => {
                             ) {
                                 return (
                                     <KeyBox
+                                        key={idx}
                                         data={key}
                                         gateData={gateData}
                                         blocked={

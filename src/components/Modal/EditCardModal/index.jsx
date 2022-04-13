@@ -13,14 +13,14 @@ import { ytVideoID } from '../../../utils/functions';
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name);
-    const [backgroundFile, setBackgroundFile] = useState(props.backgroundURL);
+    const [backgroundFile, setBackgroundFile] = useState(null);
     const [youtubeURL, setYoutubeURL] = useState(props.youtubeURL || '');
     const [validYoutubeURL, setValidYoutubeURL] = useState(true);
-    const [logoFile, setLogoFile] = useState(props.logoURL);
+    const [logoFile, setLogoFile] = useState(null);
     const [tokenAddress, setTokenAddress] = useState(props.tokenAddress);
     const [description, setDescription] = useState(props.description);
     const [categories, setCategories] = useState(props.categories);
-    const [socials, setSocials] = useState(props.socials);
+    const [socials, setSocials] = useState(props.socials || []);
     const [snapshotID, setSnapshotID] = useState(props.snapshotID);
     const [chains, setChains] = useState(props.chains || []);
     const [whitelistedAddresses, setWhitelistedAddresses] = useState(
@@ -38,7 +38,7 @@ const EditCardModal = (props) => {
         setUpdateLoading(true);
         try {
             // Upload files to S3
-            if (logoFile === null || backgroundFile === null) {
+            if ((logoFile === null && props.logoURL === null) || (backgroundFile === null && props.backgroundURL === null)) {
                 setErrorMessage('Files not uploaded');
                 console.log(logoFile);
                 console.log(backgroundFile);
@@ -53,19 +53,19 @@ const EditCardModal = (props) => {
                 throw 'tokenAddress cannot be empty';
             }
             const logoURL =
-                logoFile &&
+                logoFile ?
                 (await uploadFile(
                     `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
                     logoFile
-                ));
+                )) : props.logoURL;
             const backgroundURL =
-                backgroundFile &&
+                backgroundFile ?
                 (await uploadFile(
                     `daos/${props.id}/background.${backgroundFile.name
                         .split('.')
                         .pop()}`,
                     backgroundFile
-                ));
+                )) : props.backgroundURL;
 
             const newInfo = {
                 name,
@@ -318,10 +318,10 @@ const EditCardModal = (props) => {
                                     onChange={(e) =>
                                         changeSocialName(idx, e.target.value)
                                     }
+                                    value={social.network}
                                 >
                                     <option
                                         value='twitter'
-                                        selected={social.network === 'twitter'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('twitter')}
@@ -330,7 +330,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='telegram'
-                                        selected={social.network === 'telegram'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('telegram')}
@@ -339,7 +338,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='medium'
-                                        selected={social.network === 'medium'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('medium')}
@@ -348,7 +346,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='github'
-                                        selected={social.network === 'github'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('github')}
@@ -357,7 +354,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='discord'
-                                        selected={social.network === 'discord'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('discord')}
@@ -366,7 +362,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='website'
-                                        selected={social.network === 'website'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('website')}
@@ -375,7 +370,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='chat'
-                                        selected={social.network === 'chat'}
                                         disabled={socials
                                             .map((social) => social.network)
                                             .includes('chat')}
@@ -384,9 +378,6 @@ const EditCardModal = (props) => {
                                     </option>
                                     <option
                                         value='other'
-                                        selected={social.network.startsWith(
-                                            'any'
-                                        )}
                                     >
                                         Other
                                     </option>

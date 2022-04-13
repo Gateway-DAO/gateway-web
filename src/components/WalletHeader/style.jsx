@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { AiOutlineLoading } from 'react-icons/ai';
 
+export const Container = styled.div`
+    position: relative;
+`
+
 export const ConnectToWallet = styled.a`
     border-radius: 20px;
     position: relative;
@@ -23,6 +27,8 @@ export const ConnectToWallet = styled.a`
     &:hover {
         cursor: pointer;
     }
+
+    display: inline-block !important;
 `;
 
 export const ConnectText = styled.p`

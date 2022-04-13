@@ -318,12 +318,12 @@ section.gateway-profile {
     z-index: -1;
     margin: -1px;
     border-radius: inherit;
-    background: linear-gradient(
+    /* background: linear-gradient(
         to right,
         #ff00b8 0%,
         #7e3bdc 50.52%,
         #0075ff 100%
-    );
+    ); */
 }
 .gway-about-hd {
     display: flex;
@@ -335,9 +335,16 @@ section.gateway-profile {
     color: #fff;
     font-size: 20px;
     font-family: 'Be Vietnam';
+    line-height: 30px;
+}
+.about-content p {
+    margin-bottom: 0 !important;
 }
 .about-content strong {
     font-weight: bold;
+}
+.add-about-btn {
+    margin-top: 40px;
 }
 ul.daos-like-ul li a {
     font-style: normal;
@@ -479,12 +486,12 @@ ul.daos-like-ul li a:focus {
     z-index: -1;
     margin: -1px;
     border-radius: inherit;
-    background: linear-gradient(
+    /* background: linear-gradient(
         to right,
         #ff00b8 0%,
         #7e3bdc 50.52%,
         #0075ff 100%
-    );
+    ); */
 }
 .gateway-profile-middle-inner-content a.complete-profile-btn {
     position: relative;
@@ -525,7 +532,7 @@ ul.daos-like-ul li a:focus {
     margin-right: 5px;
     transition: 0.3s;
 }
-.gateway-profile-middle-inner-content .social a:hover,
+/* .gateway-profile-middle-inner-content .social a:hover,
 .gateway-profile-middle-inner-content .social a:focus {
     background: linear-gradient(
         to top,
@@ -546,7 +553,7 @@ ul.daos-like-ul li a:focus {
         #0075ff 100%
     );
     transition: 0.3s;
-}
+} */
 .gateway-profile-middle-btn-grp a {
     width: 40px;
     height: 40px;
@@ -641,8 +648,8 @@ ul.daos-like-ul li a:focus {
     transition: 0.3s;
 }
 .gateway-profile-right-top a {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     border: 1px solid rgba(255, 255, 255, 0.2);
     display: flex;
@@ -750,7 +757,7 @@ a.profile-toggle:focus + .profile-dropdown {
     border: 1px dashed rgba(255, 255, 255, 0.2);
     background-size: 100%;
     width: 2px;
-    height: 100%;
+    height: 93%;
     z-index: -1;
 }
 .creative-icon {
@@ -761,6 +768,7 @@ a.profile-toggle:focus + .profile-dropdown {
     border-radius: 100%;
     object-fit: cover;
     height: 41px;
+    margin-top: -8px;
 }
 /* .experience-profile-section h3 img{margin-right: 19px;} */
 .experience-profile-section h3 {
@@ -1062,10 +1070,6 @@ a.profile-toggle:focus + .profile-dropdown {
     border: none !important;
 }
 
-.sc-kGrBqp.bjZppV {
-    overflow: unset;
-}
-
 /*button hover styles*/
 .dropdown-toggle.btn.btn-success,
 .gateway-profile-middle-btn-grp a,
@@ -1073,7 +1077,10 @@ a.profile-toggle:focus + .profile-dropdown {
 .gway-about-hd a,
 .arrow-back,
 .btn.btn-primary,
-.gateway-profile-right-top a {
+.gateway-profile-right-top a,
+.social a,
+.complete-profile-btn,
+.add-now-btn {
     background: none !important;
     border: solid 1px rgba(255, 255, 255, 0.2) !important;
 }
@@ -1085,22 +1092,49 @@ a.profile-toggle:focus + .profile-dropdown {
 .gway-about-hd a:hover,
 .arrow-back:hover,
 .btn.btn-primary:hover,
-.gateway-profile-right-top a:hover {
+.gateway-profile-right-top a:hover,
+.social a:hover,
+.complete-profile-btn:hover,
+.add-now-btn:hover {
     background: linear-gradient(#170627, #170627) padding-box,
         linear-gradient(to right, #e153f2, #6a39f3, #495be0) border-box !important;
-}
-.sc-crHmcD.lkEPeg {
-    position: absolute !important;
-    right: 10px !important;
 }
 
 .hostName {
     font-family: 'Be Vietnam';
-    margin-bottom: 44px;
+    margin-bottom: 30px;
 }
 .hostName a {
     color: #eaeaea;
 }
 .hostName a:hover {
     color: #fc01b7;
+}
+
+.gateway-profile {
+    padding: 0 40px !important;
+}
+.gateway-profile-right-content h3 {
+    text-transform: lowercase;
+}
+.gateway-profile-right-content p {
+    text-transform: uppercase;
+}
+.gateway-profile-right-top a {
+    width: 35px;
+}
+
+.accordion-body,
+.accordion .accordion-item:last-child .accordion-body {
+    position: relative;
+}
+.accordion-body:before,
+.accordion .accordion-item:last-child .accordion-body:before {
+    position: absolute;
+    content: '';
+    left: -45px;
+    top: -45px;
+    width: 10px;
+    height: calc(100% + 45px);
+    background: #170627;
 }

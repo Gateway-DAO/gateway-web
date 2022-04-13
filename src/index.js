@@ -13,17 +13,21 @@ import { Web3Provider } from '@ethersproject/providers';
 import { UserProvider } from './contexts/UserContext';
 import { ModalProvider } from './contexts/ModalContext';
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider';
+import { ReactNotifications } from 'react-notifications-component'
+
+// Styling
+import 'react-notifications-component/dist/theme.css'
 
 // AWS
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 // Analytics
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga'; // @TODO: Re-add these
 
 Amplify.configure(awsconfig);
 
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
+// ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
 
 AOS.init();
 
@@ -37,6 +41,7 @@ ReactDOM.render(
             <ThemeProvider>
                 <ModalProvider>
                     <UserProvider>
+                        <ReactNotifications />
                         <GlobalTheme />
                         <App />
                     </UserProvider>

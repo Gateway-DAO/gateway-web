@@ -2,6 +2,31 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const GateCardBox = styled.div`
+    position: relative;
+    box-sizing: border-box;
+    padding: 14px;
+    float: left;
+    
+    width: 25%;
+
+    @media only screen and (max-width: 1200px) {
+        width: 33.3%;
+    }
+
+    @media only screen and (max-width: 992px) {
+        width: 50%;
+    }
+
+    @media only screen and (max-width: 768px) {
+        width: 50%;
+    }
+
+    @media only screen and (max-width: 615px) {
+        width: 100%;
+    }
+`;
+
+export const GateContainer = styled.div`
     background-color: white;
     border-radius: 20px;
     display: grid;
@@ -9,8 +34,7 @@ export const GateCardBox = styled.div`
     grid-template-rows: repeat(6, 1fr);
     cursor: pointer;
     // With the card bottom => height: 30em;
-    height: 37em;
-    width: 25em;
+    height: 33em;
 
     transition: margin 0.5s ease-in-out;
     transition: box-shadow 0.01s ease-in-out;
@@ -20,37 +44,19 @@ export const GateCardBox = styled.div`
         margin-top: -5px;
     }
 
-    @media only screen and (max-width: 1350px) {
-        width: 30em;
-    }
-
     @media only screen and (max-width: 1170px) {
         height: 30em;
-        width: 25em;
-    }
-
-    @media only screen and (max-width: 900px) {
-        height: 30em;
-        width: 22em;
     }
 
     @media only screen and (max-width: 785px) {
         height: 33em;
-        width: 29em;
     }
     // @media only screen and (max-width: 1000px) {
     //   min-width: calc(100%/3);
     //   max-width: calc(100%/2.5);
     // }
     @media only screen and (max-width: 550px) {
-        width: 100%;
-        max-width: 400px;
         height: 30em;
-    }
-
-    @media only screen and (max-width: 300px) {
-        min-width: 200px;
-        max-width: 200px;
     }
 `;
 export const GateBanner = styled.div`
