@@ -6,7 +6,10 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser {
     onCreateUser {
       id
-      ip
+      timezone {
+        shouldTrack
+        tz
+      }
       wallet
       username
       name
@@ -122,7 +125,10 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser {
     onUpdateUser {
       id
-      ip
+      timezone {
+        shouldTrack
+        tz
+      }
       wallet
       username
       name
@@ -238,7 +244,10 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
       id
-      ip
+      timezone {
+        shouldTrack
+        tz
+      }
       wallet
       username
       name
@@ -1325,7 +1334,10 @@ export const onCreatePost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -1485,7 +1497,10 @@ export const onUpdatePost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -1645,7 +1660,10 @@ export const onDeletePost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -1726,7 +1744,10 @@ export const onCreateComment = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -1794,7 +1815,10 @@ export const onUpdateComment = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -1862,7 +1886,10 @@ export const onDeleteComment = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -2568,7 +2595,10 @@ export const onCreateManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -2707,7 +2737,10 @@ export const onUpdateManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -2846,7 +2879,10 @@ export const onDeleteManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -2985,7 +3021,10 @@ export const onCreateGateStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3123,7 +3162,10 @@ export const onUpdateGateStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3261,7 +3303,10 @@ export const onDeleteGateStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3399,7 +3444,10 @@ export const onCreateTaskStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3591,7 +3639,10 @@ export const onUpdateTaskStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3783,7 +3834,10 @@ export const onDeleteTaskStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3975,7 +4029,10 @@ export const onCreateCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4030,7 +4087,10 @@ export const onCreateCredential = /* GraphQL */ `
       targetID
       target {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4084,6 +4144,7 @@ export const onCreateCredential = /* GraphQL */ `
       }
       gate {
         name
+        type
       }
       organizationID
       organization {
@@ -4152,7 +4213,10 @@ export const onUpdateCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4207,7 +4271,10 @@ export const onUpdateCredential = /* GraphQL */ `
       targetID
       target {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4261,6 +4328,7 @@ export const onUpdateCredential = /* GraphQL */ `
       }
       gate {
         name
+        type
       }
       organizationID
       organization {
@@ -4329,7 +4397,10 @@ export const onDeleteCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4384,7 +4455,10 @@ export const onDeleteCredential = /* GraphQL */ `
       targetID
       target {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4438,6 +4512,7 @@ export const onDeleteCredential = /* GraphQL */ `
       }
       gate {
         name
+        type
       }
       organizationID
       organization {
