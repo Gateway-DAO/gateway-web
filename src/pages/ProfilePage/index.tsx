@@ -9,6 +9,7 @@ import AddSkill from './components/addSkill';
 import CompleteProfile from './components/completeProfile';
 import AddKnowledge from './components/addKnowledge';
 import AddAttitude from './components/addAttitude';
+import Credentials from '../../pages/Credential';
 
 // Other components
 import Page from '../../components/Page';
@@ -74,11 +75,6 @@ const Profile: React.FC = (props) => {
 	// State
 	const [userInfo, setUserInfo] = useState<IUserInfo>(RAW_USER);
 	const [currentLocation, setCurrentLocation] = useState({
-		lat: '',
-		long: '',
-		city: '',
-		state: '',
-		country: '',
 		tz: {
 			name: '',
 			abbreviated: '',
@@ -97,25 +93,21 @@ const Profile: React.FC = (props) => {
 	/**
 	 * Get the current location of the user and set the state of the component to reflect that location
 	 */
-	const getAddress = async () => {
+	const getTimezone = async (timeZone = null) => {
 		try {
-			let data = await getIPLocation(signedUser.ip || null);
-			if ((data as IPError).error) throw (data as IPError).error.message;
+			const tz_info = Intl.DateTimeFormat('default', {
+				...(timeZone ? { timeZone } : {}),
+			}).resolvedOptions();
+			console.log(tz_info.timeZone);
 
-			setCurrentLocation((prev) => ({
-				lat: (data as Metadata).latitude.toString(),
-				long: (data as Metadata).longitude.toString(),
-				city: (data as Metadata).city,
-				state: (data as Metadata).region,
-				country: (data as Metadata).country,
+			setCurrentLocation({
 				tz: {
-					name: (data as Metadata).timezone.name,
-					abbreviated: (data as Metadata).timezone.abbreviation,
+					name: tz_info.timeZone,
+					abbreviated: tz_info.timeZoneName,
 				},
-			}));
-		}
-		catch (err) {
-			console.error(`[PROFILE] Couldn't get user location: ${err}`);
+			});
+		} catch (err) {
+			console.error(`[PROFILE] Couldn't get user timezone: ${err}`);
 		}
 	};
 
@@ -124,7 +116,7 @@ const Profile: React.FC = (props) => {
 		const callback = async () => {
 			if (!username) {
 				if (!loadingWallet && signedUser) {
-					!currentLocation.lat && (await getAddress());
+					await getTimezone();
 					setUserInfo((prev) => ({
 						...prev,
 						...signedUser,
@@ -135,13 +127,17 @@ const Profile: React.FC = (props) => {
 				try {
 					await getUser({
 						variables: {
-							username: username,
+							username: username.toLowerCase(),
 						},
 					});
 					setUserInfo((prev) => ({
 						...prev,
 						...data?.getUserByUsername?.items[0],
 					}));
+					data?.getUserByUsername?.items[0].timezone.shouldTrack &&
+						(await getTimezone(
+							data?.getUserByUsername?.items[0].timezone.tz
+						));
 					setInternalLoading(userLoading);
 				} catch (err) {
 					console.log('err', err);
@@ -155,7 +151,9 @@ const Profile: React.FC = (props) => {
 
 	/* Checking if there is an error. If there is an error, it will return a 404 page. */
 	if (userError) {
-		console.error(`[PROFILE] An error occurred while fetching the user: ${userError}`);
+		console.error(
+			`[PROFILE] An error occurred while fetching the user: ${userError}`
+		);
 		return <Navigate to='/404' />;
 	}
 
@@ -167,11 +165,13 @@ const Profile: React.FC = (props) => {
 		</Page>
 	) : (
 		<Page>
-			<Outlet context={{
-				userInfo,
-				currentLocation,
-				canEdit
-			}} />
+			<Outlet
+				context={{
+					userInfo,
+					currentLocation,
+					canEdit,
+				}}
+			/>
 		</Page>
 	);
 };
@@ -187,5 +187,6 @@ export {
 	AddSkill,
 	CompleteProfile,
 	AddKnowledge,
-	AddAttitude
+	AddAttitude,
+	Credentials,
 };

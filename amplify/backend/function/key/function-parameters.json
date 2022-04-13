@@ -50,9 +50,9 @@
     {
       "type": "ProjectLayer",
       "resourceName": "gatewayceramicLayer",
-      "env": "dev",
       "version": "Always choose latest version",
-      "isLatestVersionSelected": true
+      "isLatestVersionSelected": true,
+      "env": "dev"
     }
   ]
 }

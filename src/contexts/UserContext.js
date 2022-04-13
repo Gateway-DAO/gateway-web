@@ -249,6 +249,9 @@ export const UserProvider = ({ children }) => {
                         init: false,
                         nonce: Math.round(Math.random() * 1000000),
                         pfp: await getFile('logo.png'),
+                        timezone: {
+                            shouldTrack: false
+                        },
                         ...(info.variables.input || {}),
                     },
                 },
@@ -329,10 +332,15 @@ export const UserProvider = ({ children }) => {
                     };
 
                     try {
-                        const { ip } = await getIP();
-                        await updateUserInfo({ id: userInfo_INTERNAL.id, ip });
+                        const tz_info = Intl.DateTimeFormat().resolvedOptions();
+                        userInfo_INTERNAL.timezone.shouldTrack && await updateUserInfo({
+                            id: userInfo_INTERNAL.id,
+                            timezone: {
+                                tz: tz_info.timeZone,
+                            },
+                        });
                     } catch (err) {
-                        console.log(`[sign-in] Can't get IP: ${err}`);
+                        console.log(`[sign-in] Can't get timezone: ${err}`);
                     }
                 } else {
                     userInfo_INTERNAL = await createNewUser();

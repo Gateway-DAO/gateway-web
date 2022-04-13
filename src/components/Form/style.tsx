@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Form } from 'formik';
+import ReactSelect from 'react-select';
+import AsyncReactSelect from 'react-select/async';
 
 const InputDefault = `
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -99,9 +101,9 @@ export const ErrorText = styled.p`
     letter-spacing: 0.05em;
 
     width: 100%;
-    font-size: .875em;
+    font-size: 0.875em;
     color: #dc3545;
-`
+`;
 
 /** CONTAINERS **/
 export const FormBox = styled.form`
@@ -483,7 +485,7 @@ export const InputWrapper = styled.div`
     align-items: center;
 `;
 
-export const Select = styled.select`
+export const HTMLSelect = styled.select`
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-sizing: border-box;
     border-radius: 5px;
@@ -501,6 +503,65 @@ export const Select = styled.select`
     margin: 15px 0;
 
     ${(props) => (props.valid === false ? InvalidInput : '')}
+`;
+
+const __reactSelect = (props) => (
+    <ReactSelect {...props} classNamePrefix='select' />
+);
+
+const __asyncReactSelect = (props) => (
+    <AsyncReactSelect {...props} classNamePrefix='select' />
+);
+
+/* Adding a style to the select component. */
+const selectStyle = `
+    width: 100%;
+
+    & .select__control {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-sizing: border-box;
+        border-radius: 5px;
+        font-family: Be Vietnam;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+        letter-spacing: 0.05em;
+        background: #170627;
+        color: #e5e5e5;
+        margin: 15px 0;
+        padding: 10px 0;
+
+        ${(props) => (props.valid === false ? InvalidInput : '')}
+    }
+
+    & .select__control:focus {
+        border: 1px solid #7e3bdc !important;
+        background: #220a38 !important;
+        box-shadow: 0 0 0 1px #7e3bdc !important;
+    }
+
+    & .select__option {
+        background: #220a38;
+    }
+
+    & .select__option:hover, & .select__option:focus {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    & .select__menu {
+        z-index: 11;
+    }
+`;
+
+export const Select = styled(__reactSelect)`
+    ${selectStyle}
+`;
+
+export const AsyncSelect = styled(__asyncReactSelect)`
+    ${selectStyle}
 `;
 
 export const QuestionIcon = styled.a`

@@ -20,3 +20,7 @@ export const Container = styled.main`
         width: 100%;
     } */
 `;
+
+export const Children = styled.div`
+    flex: 1;
+`
