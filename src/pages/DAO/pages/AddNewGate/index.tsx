@@ -901,7 +901,7 @@ const AddGateForm = () => {
                                 )}
                             </FormStyled.Fieldset>
 
-                            {(!edit ||
+                            {/*(!edit ||
                                 gateData?.published ===
                                     PublishedState.NOT_PUBLISHED) && (
                                 <FormStyled.Fieldset>
