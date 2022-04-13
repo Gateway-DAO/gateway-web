@@ -377,16 +377,22 @@ const ProfileUpdate = () => {
 								{userInfo.about ? (
 									<div className='about-content'>
 										<p>
-											{parser(userInfo.about.replace(/(?:\r\n|\r|\n)/g, '<br />'))}
+											{parser(
+												userInfo.about.replace(
+													/(?:\r\n|\r|\n)/g,
+													'<br />'
+												)
+											)}
 										</p>
 									</div>
 								) : (
 									<div className='about-content'>
 										<p>
 											You can write about your years of
-											experience, industry, or skills. People
-											also talk about their achievements or
-											previous job experiences.
+											experience, industry, or skills.
+											People also talk about their
+											achievements or previous job
+											experiences.
 										</p>
 									</div>
 								)}
@@ -509,50 +515,49 @@ const ProfileUpdate = () => {
 					</Col>
 
 					<Col md={3}>
-						<div className='gateway-profile-right'>
-							<div className='gateway-profile-right-top'>
-								<p>Time Zone</p>
-								<a>
-									<FaMapMarkerAlt color='white' />
-								</a>
-							</div>
-							<div className='gateway-profile-right-content'>
-								<img src='/profile/weather.svg' />
-								{getWeatherIcon()}
-								<h3>
-									{currentTime.toLocaleTimeString('en-US', {
-										hour: 'numeric',
-										minute: 'numeric',
-										hour12: true,
-										...(currentLocation.tz.name && {
-											timeZone: currentLocation.tz.name,
-										}),
-									})}
-								</h3>
-								<p>
-									{currentLocation.city &&
-										currentLocation.state &&
-										currentLocation.country
-										? currentLocation.city +
-										', ' +
-										currentLocation.state +
-										', ' +
-										currentLocation.country
-										: 'Location not found'}
-								</p>
-								<span>
-									{currentLocation.tz.abbreviated} (
-									{
-										new Date()
-											.toLocaleTimeString('en-us', {
+						{(userInfo?.timezone?.shouldTrack || canEdit) && (
+							<div className='gateway-profile-right'>
+								<div className='gateway-profile-right-top'>
+									<p>Time Zone</p>
+									<a>
+										<FaMapMarkerAlt color='white' />
+									</a>
+								</div>
+								<div className='gateway-profile-right-content'>
+									<img src='/profile/weather.svg' />
+									{getWeatherIcon()}
+									<h3>
+										{currentTime.toLocaleTimeString(
+											'en-US',
+											{
+												hour: 'numeric',
+												minute: 'numeric',
+												hour12: true,
+												...(currentLocation.tz.name && {
+													timeZone:
+														currentLocation.tz.name,
+												}),
+											}
+										)}
+									</h3>
+									<span>
+										{currentLocation.tz.name}
+										{currentLocation.tz.abbreviated} (
+										{
+											new Date().toLocaleTimeString('en-us', {
 												timeZoneName: 'short',
+												...(currentLocation.tz.name && {
+													timeZone:
+														currentLocation.tz.name,
+												})
 											})
-											.split(' ')[2]
-									}
-									)
-								</span>
+												.split(' ')[2]
+										}
+										)
+									</span>
+								</div>
 							</div>
-						</div>
+						)}
 						<div className='gway-skill-col skill-second-sec'>
 							<div className='gway-skill-col-hd'>
 								<h3>Skills</h3>
