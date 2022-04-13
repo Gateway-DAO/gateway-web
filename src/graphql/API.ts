@@ -161,7 +161,7 @@ export type Post = {
 export type User = {
   __typename: "User",
   id?: string,
-  ip?: string | null,
+  timezone?: Timezone,
   wallet?: string,
   username?: string | null,
   name?: string | null,
@@ -182,6 +182,12 @@ export type User = {
   credentials?: ModelCredentialConnection,
   createdAt?: string | null,
   updatedAt?: string,
+};
+
+export type Timezone = {
+  __typename: "Timezone",
+  shouldTrack?: boolean,
+  tz?: string | null,
 };
 
 export type ModelGateStatusConnection = {
@@ -424,7 +430,7 @@ export type ModelCredentialConnection = {
 export type Credential = {
   __typename: "Credential",
   id?: string,
-  issuerID?: string,
+  issuerID?: string | null,
   issuer?: User,
   targetID?: string,
   target?: User,
@@ -445,7 +451,8 @@ export type Credential = {
 
 export type GateInfo = {
   __typename: "GateInfo",
-  name?: string | null,
+  name?: string,
+  type?: NFTType,
 };
 
 export type ModelCommentConnection = {
@@ -639,6 +646,7 @@ export type ChangeKeyInput = {
   peopleLimit: number,
   unlimited: boolean,
   task?: string | null,
+  createdAt?: string | null,
 };
 
 export type KeyVerificationResponse = TaskAndGateResponse | Error
@@ -716,7 +724,7 @@ export type SignatureError = {
 
 export type CreateUserInput = {
   id?: string | null,
-  ip?: string | null,
+  timezone?: TimezoneInput | null,
   wallet: string,
   username?: string | null,
   name?: string | null,
@@ -734,8 +742,12 @@ export type CreateUserInput = {
   createdAt?: string | null,
 };
 
+export type TimezoneInput = {
+  shouldTrack: boolean,
+  tz?: string | null,
+};
+
 export type ModelUserConditionInput = {
-  ip?: ModelStringInput | null,
   wallet?: ModelStringInput | null,
   username?: ModelStringInput | null,
   name?: ModelStringInput | null,
@@ -816,7 +828,7 @@ export type ModelIntInput = {
 
 export type UpdateUserInput = {
   id: string,
-  ip?: string | null,
+  timezone?: TimezoneInput | null,
   wallet?: string | null,
   username?: string | null,
   name?: string | null,
@@ -1393,7 +1405,7 @@ export type DeleteTaskStatusInput = {
 
 export type CreateCredentialInput = {
   id?: string | null,
-  issuerID: string,
+  issuerID?: string | null,
   targetID: string,
   gate?: GateInfoInput | null,
   organizationID?: string | null,
@@ -1410,7 +1422,8 @@ export type CreateCredentialInput = {
 };
 
 export type GateInfoInput = {
-  name?: string | null,
+  name: string,
+  type: NFTType,
 };
 
 export type ModelCredentialConditionInput = {
@@ -1465,7 +1478,6 @@ export type FetchCeramic = {
 
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
-  ip?: ModelStringInput | null,
   wallet?: ModelStringInput | null,
   username?: ModelStringInput | null,
   name?: ModelStringInput | null,
@@ -1693,7 +1705,6 @@ export enum ModelSortDirection {
 
 export type SearchableUserFilterInput = {
   id?: SearchableIDFilterInput | null,
-  ip?: SearchableStringFilterInput | null,
   wallet?: SearchableStringFilterInput | null,
   username?: SearchableStringFilterInput | null,
   name?: SearchableStringFilterInput | null,
@@ -1769,7 +1780,6 @@ export type SearchableUserSortInput = {
 
 export enum SearchableUserSortableFields {
   id = "id",
-  ip = "ip",
   wallet = "wallet",
   username = "username",
   name = "name",
@@ -2228,7 +2238,11 @@ export type VotePostMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -2413,7 +2427,11 @@ export type UnvotePostMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -3759,7 +3777,11 @@ export type CreateUserMutation = {
   createUser?:  {
     __typename: "User",
     id: string,
-    ip?: string | null,
+    timezone?:  {
+      __typename: "Timezone",
+      shouldTrack: boolean,
+      tz?: string | null,
+    } | null,
     wallet: string,
     username?: string | null,
     name?: string | null,
@@ -3865,7 +3887,7 @@ export type CreateUserMutation = {
       items:  Array< {
         __typename: "Credential",
         id: string,
-        issuerID: string,
+        issuerID?: string | null,
         targetID: string,
         organizationID?: string | null,
         name: string,
@@ -3895,7 +3917,11 @@ export type UpdateUserMutation = {
   updateUser?:  {
     __typename: "User",
     id: string,
-    ip?: string | null,
+    timezone?:  {
+      __typename: "Timezone",
+      shouldTrack: boolean,
+      tz?: string | null,
+    } | null,
     wallet: string,
     username?: string | null,
     name?: string | null,
@@ -4001,7 +4027,7 @@ export type UpdateUserMutation = {
       items:  Array< {
         __typename: "Credential",
         id: string,
-        issuerID: string,
+        issuerID?: string | null,
         targetID: string,
         organizationID?: string | null,
         name: string,
@@ -4031,7 +4057,11 @@ export type DeleteUserMutation = {
   deleteUser?:  {
     __typename: "User",
     id: string,
-    ip?: string | null,
+    timezone?:  {
+      __typename: "Timezone",
+      shouldTrack: boolean,
+      tz?: string | null,
+    } | null,
     wallet: string,
     username?: string | null,
     name?: string | null,
@@ -4137,7 +4167,7 @@ export type DeleteUserMutation = {
       items:  Array< {
         __typename: "Credential",
         id: string,
-        issuerID: string,
+        issuerID?: string | null,
         targetID: string,
         organizationID?: string | null,
         name: string,
@@ -5321,7 +5351,11 @@ export type CreatePostMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -5505,7 +5539,11 @@ export type UpdatePostMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -5689,7 +5727,11 @@ export type DeletePostMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -5783,7 +5825,11 @@ export type CreateCommentMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -5862,7 +5908,11 @@ export type UpdateCommentMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -5941,7 +5991,11 @@ export type DeleteCommentMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -6754,7 +6808,11 @@ export type CreateManualTaskSubmissionMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -6907,7 +6965,11 @@ export type UpdateManualTaskSubmissionMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -7060,7 +7122,11 @@ export type DeleteManualTaskSubmissionMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -7213,7 +7279,11 @@ export type CreateGateStatusMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -7371,7 +7441,11 @@ export type UpdateGateStatusMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -7529,7 +7603,11 @@ export type DeleteGateStatusMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -7687,7 +7765,11 @@ export type CreateTaskStatusMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -7899,7 +7981,11 @@ export type UpdateTaskStatusMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8111,7 +8197,11 @@ export type DeleteTaskStatusMutation = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8319,11 +8409,15 @@ export type CreateCredentialMutation = {
   createCredential?:  {
     __typename: "Credential",
     id: string,
-    issuerID: string,
+    issuerID?: string | null,
     issuer?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8384,7 +8478,11 @@ export type CreateCredentialMutation = {
     target?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8443,7 +8541,8 @@ export type CreateCredentialMutation = {
     } | null,
     gate?:  {
       __typename: "GateInfo",
-      name?: string | null,
+      name: string,
+      type: NFTType,
     } | null,
     organizationID?: string | null,
     organization?:  {
@@ -8522,11 +8621,15 @@ export type UpdateCredentialMutation = {
   updateCredential?:  {
     __typename: "Credential",
     id: string,
-    issuerID: string,
+    issuerID?: string | null,
     issuer?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8587,7 +8690,11 @@ export type UpdateCredentialMutation = {
     target?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8646,7 +8753,8 @@ export type UpdateCredentialMutation = {
     } | null,
     gate?:  {
       __typename: "GateInfo",
-      name?: string | null,
+      name: string,
+      type: NFTType,
     } | null,
     organizationID?: string | null,
     organization?:  {
@@ -8725,11 +8833,15 @@ export type DeleteCredentialMutation = {
   deleteCredential?:  {
     __typename: "Credential",
     id: string,
-    issuerID: string,
+    issuerID?: string | null,
     issuer?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8790,7 +8902,11 @@ export type DeleteCredentialMutation = {
     target?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -8849,7 +8965,8 @@ export type DeleteCredentialMutation = {
     } | null,
     gate?:  {
       __typename: "GateInfo",
-      name?: string | null,
+      name: string,
+      type: NFTType,
     } | null,
     organizationID?: string | null,
     organization?:  {
@@ -8945,7 +9062,11 @@ export type GetUserQuery = {
   getUser?:  {
     __typename: "User",
     id: string,
-    ip?: string | null,
+    timezone?:  {
+      __typename: "Timezone",
+      shouldTrack: boolean,
+      tz?: string | null,
+    } | null,
     wallet: string,
     username?: string | null,
     name?: string | null,
@@ -9051,7 +9172,7 @@ export type GetUserQuery = {
       items:  Array< {
         __typename: "Credential",
         id: string,
-        issuerID: string,
+        issuerID?: string | null,
         targetID: string,
         organizationID?: string | null,
         name: string,
@@ -9084,7 +9205,11 @@ export type ListUsersQuery = {
     items:  Array< {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -9811,7 +9936,11 @@ export type GetPostQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -9940,7 +10069,6 @@ export type ListPostsQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -9984,7 +10112,11 @@ export type GetCommentQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -10066,7 +10198,6 @@ export type ListCommentsQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -10508,7 +10639,11 @@ export type GetManualTaskSubmissionQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -10664,7 +10799,6 @@ export type ListManualTaskSubmissionsQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -10717,7 +10851,11 @@ export type GetGateStatusQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -10878,7 +11016,6 @@ export type ListGateStatussQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -10945,7 +11082,11 @@ export type GetTaskStatusQuery = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -11160,7 +11301,6 @@ export type ListTaskStatussQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -11226,11 +11366,15 @@ export type GetCredentialQuery = {
   getCredential?:  {
     __typename: "Credential",
     id: string,
-    issuerID: string,
+    issuerID?: string | null,
     issuer?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -11291,7 +11435,11 @@ export type GetCredentialQuery = {
     target?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -11350,7 +11498,8 @@ export type GetCredentialQuery = {
     } | null,
     gate?:  {
       __typename: "GateInfo",
-      name?: string | null,
+      name: string,
+      type: NFTType,
     } | null,
     organizationID?: string | null,
     organization?:  {
@@ -11432,11 +11581,10 @@ export type ListCredentialsQuery = {
     items:  Array< {
       __typename: "Credential",
       id: string,
-      issuerID: string,
+      issuerID?: string | null,
       issuer?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -11457,7 +11605,6 @@ export type ListCredentialsQuery = {
       target?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -11476,7 +11623,8 @@ export type ListCredentialsQuery = {
       } | null,
       gate?:  {
         __typename: "GateInfo",
-        name?: string | null,
+        name: string,
+        type: NFTType,
       } | null,
       organizationID?: string | null,
       organization?:  {
@@ -11531,7 +11679,11 @@ export type GetUserByAddressQuery = {
     items:  Array< {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -11606,7 +11758,11 @@ export type GetUserByUsernameQuery = {
     items:  Array< {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -12009,7 +12165,6 @@ export type GetPostsByChannelIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12059,7 +12214,6 @@ export type GetCommentsByPostIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12268,7 +12422,6 @@ export type GetManualTaskSubmissionByUserIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12327,7 +12480,6 @@ export type GetManualTaskSubmissionByKeyIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12386,7 +12538,6 @@ export type GetGateStatusByUserIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12459,7 +12610,6 @@ export type GetGateStatusByGateIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12532,7 +12682,6 @@ export type GetTaskStatusByUserIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12608,7 +12757,6 @@ export type GetTaskStatusByGateIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12684,7 +12832,6 @@ export type GetTaskStatusByKeyIdQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12756,11 +12903,10 @@ export type GetCredentialByIssuerIdQuery = {
     items:  Array< {
       __typename: "Credential",
       id: string,
-      issuerID: string,
+      issuerID?: string | null,
       issuer?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12781,7 +12927,6 @@ export type GetCredentialByIssuerIdQuery = {
       target?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12800,7 +12945,8 @@ export type GetCredentialByIssuerIdQuery = {
       } | null,
       gate?:  {
         __typename: "GateInfo",
-        name?: string | null,
+        name: string,
+        type: NFTType,
       } | null,
       organizationID?: string | null,
       organization?:  {
@@ -12855,11 +13001,10 @@ export type GetCredentialByTargetIdQuery = {
     items:  Array< {
       __typename: "Credential",
       id: string,
-      issuerID: string,
+      issuerID?: string | null,
       issuer?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12880,7 +13025,6 @@ export type GetCredentialByTargetIdQuery = {
       target?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12899,7 +13043,8 @@ export type GetCredentialByTargetIdQuery = {
       } | null,
       gate?:  {
         __typename: "GateInfo",
-        name?: string | null,
+        name: string,
+        type: NFTType,
       } | null,
       organizationID?: string | null,
       organization?:  {
@@ -12954,11 +13099,10 @@ export type GetCredentialByOrganizationIdQuery = {
     items:  Array< {
       __typename: "Credential",
       id: string,
-      issuerID: string,
+      issuerID?: string | null,
       issuer?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12979,7 +13123,6 @@ export type GetCredentialByOrganizationIdQuery = {
       target?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -12998,7 +13141,8 @@ export type GetCredentialByOrganizationIdQuery = {
       } | null,
       gate?:  {
         __typename: "GateInfo",
-        name?: string | null,
+        name: string,
+        type: NFTType,
       } | null,
       organizationID?: string | null,
       organization?:  {
@@ -13053,7 +13197,11 @@ export type SearchUsersQuery = {
     items:  Array< {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -13236,7 +13384,6 @@ export type SearchPostsQuery = {
       user?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -13359,11 +13506,10 @@ export type SearchCredentialsQuery = {
     items:  Array< {
       __typename: "Credential",
       id: string,
-      issuerID: string,
+      issuerID?: string | null,
       issuer?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -13384,7 +13530,6 @@ export type SearchCredentialsQuery = {
       target?:  {
         __typename: "User",
         id: string,
-        ip?: string | null,
         wallet: string,
         username?: string | null,
         name?: string | null,
@@ -13403,7 +13548,8 @@ export type SearchCredentialsQuery = {
       } | null,
       gate?:  {
         __typename: "GateInfo",
-        name?: string | null,
+        name: string,
+        type: NFTType,
       } | null,
       organizationID?: string | null,
       organization?:  {
@@ -13449,7 +13595,11 @@ export type OnCreateUserSubscription = {
   onCreateUser?:  {
     __typename: "User",
     id: string,
-    ip?: string | null,
+    timezone?:  {
+      __typename: "Timezone",
+      shouldTrack: boolean,
+      tz?: string | null,
+    } | null,
     wallet: string,
     username?: string | null,
     name?: string | null,
@@ -13555,7 +13705,7 @@ export type OnCreateUserSubscription = {
       items:  Array< {
         __typename: "Credential",
         id: string,
-        issuerID: string,
+        issuerID?: string | null,
         targetID: string,
         organizationID?: string | null,
         name: string,
@@ -13580,7 +13730,11 @@ export type OnUpdateUserSubscription = {
   onUpdateUser?:  {
     __typename: "User",
     id: string,
-    ip?: string | null,
+    timezone?:  {
+      __typename: "Timezone",
+      shouldTrack: boolean,
+      tz?: string | null,
+    } | null,
     wallet: string,
     username?: string | null,
     name?: string | null,
@@ -13686,7 +13840,7 @@ export type OnUpdateUserSubscription = {
       items:  Array< {
         __typename: "Credential",
         id: string,
-        issuerID: string,
+        issuerID?: string | null,
         targetID: string,
         organizationID?: string | null,
         name: string,
@@ -13711,7 +13865,11 @@ export type OnDeleteUserSubscription = {
   onDeleteUser?:  {
     __typename: "User",
     id: string,
-    ip?: string | null,
+    timezone?:  {
+      __typename: "Timezone",
+      shouldTrack: boolean,
+      tz?: string | null,
+    } | null,
     wallet: string,
     username?: string | null,
     name?: string | null,
@@ -13817,7 +13975,7 @@ export type OnDeleteUserSubscription = {
       items:  Array< {
         __typename: "Credential",
         id: string,
-        issuerID: string,
+        issuerID?: string | null,
         targetID: string,
         organizationID?: string | null,
         name: string,
@@ -14936,7 +15094,11 @@ export type OnCreatePostSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -15115,7 +15277,11 @@ export type OnUpdatePostSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -15294,7 +15460,11 @@ export type OnDeletePostSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -15383,7 +15553,11 @@ export type OnCreateCommentSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -15457,7 +15631,11 @@ export type OnUpdateCommentSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -15531,7 +15709,11 @@ export type OnDeleteCommentSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -16309,7 +16491,11 @@ export type OnCreateManualTaskSubmissionSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -16457,7 +16643,11 @@ export type OnUpdateManualTaskSubmissionSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -16605,7 +16795,11 @@ export type OnDeleteManualTaskSubmissionSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -16753,7 +16947,11 @@ export type OnCreateGateStatusSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -16906,7 +17104,11 @@ export type OnUpdateGateStatusSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -17059,7 +17261,11 @@ export type OnDeleteGateStatusSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -17212,7 +17418,11 @@ export type OnCreateTaskStatusSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -17419,7 +17629,11 @@ export type OnUpdateTaskStatusSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -17626,7 +17840,11 @@ export type OnDeleteTaskStatusSubscription = {
     user?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -17829,11 +18047,15 @@ export type OnCreateCredentialSubscription = {
   onCreateCredential?:  {
     __typename: "Credential",
     id: string,
-    issuerID: string,
+    issuerID?: string | null,
     issuer?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -17894,7 +18116,11 @@ export type OnCreateCredentialSubscription = {
     target?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -17953,7 +18179,8 @@ export type OnCreateCredentialSubscription = {
     } | null,
     gate?:  {
       __typename: "GateInfo",
-      name?: string | null,
+      name: string,
+      type: NFTType,
     } | null,
     organizationID?: string | null,
     organization?:  {
@@ -18027,11 +18254,15 @@ export type OnUpdateCredentialSubscription = {
   onUpdateCredential?:  {
     __typename: "Credential",
     id: string,
-    issuerID: string,
+    issuerID?: string | null,
     issuer?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -18092,7 +18323,11 @@ export type OnUpdateCredentialSubscription = {
     target?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -18151,7 +18386,8 @@ export type OnUpdateCredentialSubscription = {
     } | null,
     gate?:  {
       __typename: "GateInfo",
-      name?: string | null,
+      name: string,
+      type: NFTType,
     } | null,
     organizationID?: string | null,
     organization?:  {
@@ -18225,11 +18461,15 @@ export type OnDeleteCredentialSubscription = {
   onDeleteCredential?:  {
     __typename: "Credential",
     id: string,
-    issuerID: string,
+    issuerID?: string | null,
     issuer?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -18290,7 +18530,11 @@ export type OnDeleteCredentialSubscription = {
     target?:  {
       __typename: "User",
       id: string,
-      ip?: string | null,
+      timezone?:  {
+        __typename: "Timezone",
+        shouldTrack: boolean,
+        tz?: string | null,
+      } | null,
       wallet: string,
       username?: string | null,
       name?: string | null,
@@ -18349,7 +18593,8 @@ export type OnDeleteCredentialSubscription = {
     } | null,
     gate?:  {
       __typename: "GateInfo",
-      name?: string | null,
+      name: string,
+      type: NFTType,
     } | null,
     organizationID?: string | null,
     organization?:  {

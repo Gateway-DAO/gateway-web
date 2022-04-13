@@ -57,6 +57,7 @@ const CompleteProfile: React.FC = () => {
 	const [isValidated, setIsValidated] = useState(false);
 	const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
 	const [file, setFile] = useState(null);
+	const [tz, setTZ] = useState(false);
 	const [user, setUser] = useState({
 		displayName: userInfo?.name || '',
 		userName: userInfo?.username || '',
@@ -92,7 +93,8 @@ const CompleteProfile: React.FC = () => {
 		else if (user.userName.length > 50)
 			errors.userName = 'The username is too long!';
 		else if (!/^[a-z0-9-\.]+$/.test(user.userName))
-			errors.userName = 'Usernames need to be all lower-caps and can only contain letters(a-z), numbers(0-9) and dashes(-)';
+			errors.userName =
+				'Usernames need to be all lower-caps and can only contain letters(a-z), numbers(0-9) and dashes(-)';
 
 		const { data } = await getUser({
 			variables: {
@@ -196,14 +198,15 @@ const CompleteProfile: React.FC = () => {
 
 			try {
 				// Upload files to S3
-				const avatarURL =
-					file ? (await uploadFile(
+				const avatarURL = file
+					? await uploadFile(
 						`users/${userInfo.id}/${Date.now()}/file.name
 							.split('.')
 							.pop()}`,
 						file,
 						{ contentType: `image` }
-					)) : defaultPfp;
+					)
+					: defaultPfp;
 				console.log({ avatarURL });
 
 				await updateUserInfo({
@@ -211,12 +214,18 @@ const CompleteProfile: React.FC = () => {
 					username: user.userName.toLowerCase(),
 					pfp: avatarURL,
 					bio: user.userBio,
-					socials: user.socials.filter((social) => social.platform_value !== null).map((social) => ({
-						network: social.platform_name,
-						url: normalizeUrl(social.platform_value, {
-							forceHttps: true,
-						}),
-					})),
+					socials: user.socials
+						.filter((social) => social.platform_value !== null)
+						.map((social) => ({
+							network: social.platform_name,
+							url: normalizeUrl(social.platform_value, {
+								forceHttps: true,
+							}),
+						})),
+					timezone: {
+						shouldTrack: tz,
+						...(tz && { tz: Intl.DateTimeFormat().resolvedOptions().timeZone })
+					},
 					init: true,
 				});
 
@@ -301,7 +310,8 @@ const CompleteProfile: React.FC = () => {
 								>
 									<Form.Label>Username</Form.Label>
 									<Form.Control
-										className={`${user.userName && isValidated &&
+										className={`${user.userName &&
+											isValidated &&
 											'change-background-to-fill'
 											}`}
 										required
@@ -366,6 +376,37 @@ const CompleteProfile: React.FC = () => {
 									</Form.Group>
 								</div>
 							) : null}
+							<div className='mb-3 row'>
+								<Form.Group
+									className='col'
+									controlId='location'
+								>
+									<Form.Label>
+										Share your Timezone?
+									</Form.Label>
+									<FormStyled.GridBox
+										onChange={(e) => setTZ(JSON.parse(e.target.value))}
+									>
+										<FormStyled.Radio
+											id='tz-yes'
+											name='tz'
+											value={true}
+											label='Yes'
+											checked={tz}
+										/>
+										<FormStyled.Radio
+											id='tz-no'
+											name='tz'
+											value={false}
+											label='No'
+											checked={!tz}
+										/>
+									</FormStyled.GridBox>
+									<Form.Control.Feedback type='invalid'>
+										{errors.userBio}
+									</Form.Control.Feedback>
+								</Form.Group>
+							</div>
 							{userInfo.init && canEdit ? (
 								<Form.Group className='col' controlId='formBasic'>
 									<Form.Label>SOCIALS</Form.Label>

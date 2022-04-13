@@ -49,7 +49,7 @@ export const Cross = styled.div`
     background: #7e3bdc;
     border: 1px solid #ffffff;
     transform: rotate(45deg);
-    z-index: 10;
+    z-index: 1;
     font-weight: 500;
     color: #ffffff;
 `;
