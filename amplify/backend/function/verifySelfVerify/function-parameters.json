@@ -41,7 +41,7 @@
       "resourceName": "gatewayverifyKey",
       "version": "Always choose latest version",
       "isLatestVersionSelected": true,
-      "env": "nuno"
+      "env": "dev"
     }
   ]
 }
