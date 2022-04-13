@@ -13,7 +13,7 @@
       "resourceName": "gatewayceramicLayer",
       "version": "Always choose latest version",
       "isLatestVersionSelected": true,
-      "env": "nuno"
+      "env": "dev"
     }
   ],
   "secretNames": [
