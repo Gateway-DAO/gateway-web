@@ -885,6 +885,7 @@ const AddGateForm = () => {
                                     components={{
                                         Option: UserOption,
                                     }}
+                                    menuPortalTarget={document.body}
                                 />
 
                                 {adminList.length > 0 && (
@@ -900,7 +901,7 @@ const AddGateForm = () => {
                                 )}
                             </FormStyled.Fieldset>
 
-                            {/*(!edit ||
+                            {(!edit ||
                                 gateData?.published ===
                                     PublishedState.NOT_PUBLISHED) && (
                                 <FormStyled.Fieldset>
@@ -928,6 +929,7 @@ const AddGateForm = () => {
                                         components={{
                                             Option: UserOption,
                                         }}
+                                        menuPortalTarget={document.body}
                                     />
                                     {retroactiveEarners.length > 0 && (
                                         <Styled.CategoryList>
@@ -945,7 +947,7 @@ const AddGateForm = () => {
                                         </Styled.CategoryList>
                                     )}
                                 </FormStyled.Fieldset>
-                            )*/}
+                            )}
 
                             {/*
                             <FormStyled.Fieldset>
