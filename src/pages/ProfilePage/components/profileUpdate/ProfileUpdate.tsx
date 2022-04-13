@@ -250,6 +250,17 @@ const ProfileUpdate = () => {
 		});
 	};
 
+	var daos: any = {}
+	userInfo?.credentials?.items?.map(item => {
+		if (daos[item.organizationID] == undefined) {
+			daos[item.organizationID] = [];
+		}
+		daos[item.organizationID].push(item);
+	});
+	// console.log(userInfo.credentials);
+	// console.log({ daos });
+	// Object.entries(daos).map(([key, value]) => console.log(key, value))
+
 	return (
 		<section className='gateway-profile'>
 			<Container>
@@ -419,65 +430,45 @@ const ProfileUpdate = () => {
 								</div>
 								*/}
 
-								{userInfo.credentials.items.map((credential: Credential) => (
+								{Object.entries(daos)?.map(([key, value]) => (
 									<div className='experience-profile-section'>
 										<div className='experience-profile-inner-section'>
 											<div className='creative-icon'>
 												<img
-													src={credential.organization.logoURL}
+													src={value[0]?.organization?.logoURL}
 													alt='image'
 												/>
 											</div>
 											<div className='finance-date'>
 												<div className='experience-profile-heading'>
-													<h3>{credential.name}</h3>
-													{/* canEdit && (
-                                                            <Link to='/'>
-                                                                <MdEdit color='white' />
-                                                            </Link>
-														) */}
+													<h3>{value[0]?.organization?.name}</h3>
 												</div>
 												<p>
-													{credential.organization.name}
-													{/*<span>
-                                                            Nov 2021 — Present •
-                                                            15h/week
-                                                        </span>*/}
+													{/* {value[0]?.organization?.name} */}
 													<span>
 														{MONTHS[
 															new Date(
-																credential.createdAt
+																value[0]?.createdAt
 															).getMonth()
 														].slice(0, 3)}{' '}
 														{new Date(
-															credential.createdAt
+															value[0]?.createdAt
 														).getFullYear()}
 													</span>
 												</p>
 												<p>
-													{parser(credential.description)}
-													{/* <Link
-                                                            to='/contact'
-                                                            className='creative-see-more'
-                                                        >
-                                                            See more
-														</Link> */}
+													{parser(value[0]?.description)}
 												</p>
 											</div>
 										</div>
-										<div className='nft'>
-											<Accordion defaultActiveKey='0'>
+										{daos.value?.map((credential: Credential) => (
+											<div className='nft'>
+												<Accordion defaultActiveKey='0'>
 													<Accordion.Item eventKey='0'>
 														<div className='accordion-top-header'>
 															<Accordion.Header>
 																{(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL
 															</Accordion.Header>
-															{/*<Link
-                                                                    to='/'
-                                                                    className='accordion-see-all-btn'
-                                                                >
-                                                                    See all
-																</Link>*/}
 														</div>
 														<Accordion.Body>
 															<Row className='justify-content-md-left'>
@@ -489,8 +480,9 @@ const ProfileUpdate = () => {
 															</Row>
 														</Accordion.Body>
 													</Accordion.Item>
-											</Accordion>
-										</div>
+												</Accordion>
+											</div>
+										))}
 									</div>
 								))}
 							</div>
