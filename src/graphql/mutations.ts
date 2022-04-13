@@ -197,7 +197,10 @@ export const votePost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -357,7 +360,10 @@ export const unvotePost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -1566,7 +1572,10 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       id
-      ip
+      timezone {
+        shouldTrack
+        tz
+      }
       wallet
       username
       name
@@ -1685,7 +1694,10 @@ export const updateUser = /* GraphQL */ `
   ) {
     updateUser(input: $input, condition: $condition) {
       id
-      ip
+      timezone {
+        shouldTrack
+        tz
+      }
       wallet
       username
       name
@@ -1804,7 +1816,10 @@ export const deleteUser = /* GraphQL */ `
   ) {
     deleteUser(input: $input, condition: $condition) {
       id
-      ip
+      timezone {
+        shouldTrack
+        tz
+      }
       wallet
       username
       name
@@ -2930,7 +2945,10 @@ export const createPost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3093,7 +3111,10 @@ export const updatePost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3256,7 +3277,10 @@ export const deletePost = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3340,7 +3364,10 @@ export const createComment = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3411,7 +3438,10 @@ export const updateComment = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -3482,7 +3512,10 @@ export const deleteComment = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4209,7 +4242,10 @@ export const createManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4351,7 +4387,10 @@ export const updateManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4493,7 +4532,10 @@ export const deleteManualTaskSubmission = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4635,7 +4677,10 @@ export const createGateStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4776,7 +4821,10 @@ export const updateGateStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -4917,7 +4965,10 @@ export const deleteGateStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5058,7 +5109,10 @@ export const createTaskStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5253,7 +5307,10 @@ export const updateTaskStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5448,7 +5505,10 @@ export const deleteTaskStatus = /* GraphQL */ `
       userID
       user {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5643,7 +5703,10 @@ export const createCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5698,7 +5761,10 @@ export const createCredential = /* GraphQL */ `
       targetID
       target {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5752,6 +5818,7 @@ export const createCredential = /* GraphQL */ `
       }
       gate {
         name
+        type
       }
       organizationID
       organization {
@@ -5823,7 +5890,10 @@ export const updateCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5878,7 +5948,10 @@ export const updateCredential = /* GraphQL */ `
       targetID
       target {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -5932,6 +6005,7 @@ export const updateCredential = /* GraphQL */ `
       }
       gate {
         name
+        type
       }
       organizationID
       organization {
@@ -6003,7 +6077,10 @@ export const deleteCredential = /* GraphQL */ `
       issuerID
       issuer {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -6058,7 +6135,10 @@ export const deleteCredential = /* GraphQL */ `
       targetID
       target {
         id
-        ip
+        timezone {
+          shouldTrack
+          tz
+        }
         wallet
         username
         name
@@ -6112,6 +6192,7 @@ export const deleteCredential = /* GraphQL */ `
       }
       gate {
         name
+        type
       }
       organizationID
       organization {
