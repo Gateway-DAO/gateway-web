@@ -24,6 +24,9 @@ export const Col = styled.div`
 
     @media only screen and (max-width: 768px) {
         width: 100%;
+        padding-left: 10%;
+        padding-right: 10%;
+        margin-top: 5%;
     }
 `;
 
@@ -41,6 +44,23 @@ export const InvestorCard = styled.div`
 
     position: relative;
     overflow: hidden;
+    @media only screen and (max-width: 992px) {
+        height: 500px;
+    }
+    @media only screen and (max-width: 1200px) {
+        height: 500px;
+        width: 80%;
+    }
+    @media only screen and (max-width: 768px) {
+        height: 500px;
+        width: 70%;
+        margin: 0 auto;
+    }
+    @media only screen and (max-width: 431px) {
+        height: 400px;
+        width: 100%;
+        margin: 0 auto;
+    }
 
     &::before {
         position: absolute;
