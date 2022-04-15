@@ -22,6 +22,7 @@ import parser from 'html-react-parser';
 import { Credential } from '../../graphql/API';
 
 const CredentialPage = () => {
+    const [showDetail, setShowDetail] = useState(false);
     // Hooks
     const { id }: { id?: string } = useParams();
     const navigate = useNavigate();
@@ -64,7 +65,7 @@ const CredentialPage = () => {
                             <a>
                                 <div
                                     className='arrow-back'
-                                    onClick={() => navigate('..')}
+                                    onClick={() => navigate('/profile')}
                                 >
                                     <img src='/left-arrow-icon.svg' alt='' />
                                 </div>
@@ -254,19 +255,41 @@ const CredentialPage = () => {
                                         console.log(parsed);
 
                                         return (
-                                            <div className='credentials-keys-content'>
-                                                {parsed.information.map(info => (
-                                                    <>
-                                                        <h1 className='title'>
-                                                            {info.title}
-                                                        </h1>
-                                                        <h5 className='content'>
-                                                            {parser(info.description)}
-                                                        </h5>
-                                                    </>
-                                                ))}
-                                                <button>DETAILS</button>
-                                            </div>
+                                            <>
+                                                <div className='credentials-keys-content'>
+                                                    {parsed.information.map(info => (
+                                                        <>
+                                                            <h1 className='title'>
+                                                                {info.title}
+                                                            </h1>
+                                                            <h5 className='content'>
+                                                                {parser(info.description)}
+                                                            </h5>
+                                                        </>
+                                                    ))}
+                                                    <button onClick={() => setShowDetail(true)}>DETAILS</button>
+                                                </div>
+                                                {showDetail &&
+                                                    <div className='credentials-keys-content detail'>
+                                                        <>
+                                                            <h1 className='title'>
+                                                                {parsed.information[0].title}
+                                                            </h1>
+                                                            <h5 className='content'>
+                                                                {parser(parsed.information[0].description)}
+                                                            </h5>
+                                                        </>
+                                                        <div>
+                                                            <button onClick={() => setShowDetail(false)}>HIDE</button>
+                                                            <div className='credential-detail-keys-earned'>
+                                                                <p className='title'>KEYS EARNED</p>
+                                                                <p className='value'>50</p>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </>
                                         )
                                     })}
                                 </Col>
