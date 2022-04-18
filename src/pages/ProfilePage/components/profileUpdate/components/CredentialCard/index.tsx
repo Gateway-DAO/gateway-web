@@ -25,7 +25,7 @@ interface IProps {
  * @param {IProps}  - `credential`: The credential object that is passed in from the parent component.
  */
 const CredentialCard: React.FC<IProps> = ({ credential }: IProps) => (
-    <Col md={4}>
+    <Col md={12}>
         <div className='cNFT'>
             <div className='img-box'>
                 <img

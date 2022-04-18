@@ -72,7 +72,9 @@ const GateTab = ({ filterQuery }) => {
             )}
             <Styled.GateCardBox>
                 {hits?.map((item, idx) => item.published === PublishedState.PUBLISHED && (
-                    <GateCard key={idx} gate={item} viewAsMember={true} toSearch={true} />
+                    <Styled.GateItem key={idx}>
+                        <GateCard gate={item} viewAsMember={true} toSearch={true} />
+                    </Styled.GateItem>
                 ))}
             </Styled.GateCardBox>
             <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />
