@@ -153,7 +153,7 @@ const AddNewKey = () => {
                 </FormStyled.H1>
 
                 {formik.values.titleDescriptionPair.map((pair, idx) => (
-                    <>
+                    <React.Fragment key={idx}>
                         <FormStyled.Fieldset marginBottom='0px'>
                             <FormStyled.Label htmlFor='title'>
                                 Key Title*
@@ -194,7 +194,7 @@ const AddNewKey = () => {
                                 </FormStyled.TextLabel>
                             </FormStyled.DeleteWrapper>
                         )}
-                    </>
+                    </React.Fragment>
                 ))}
 
                 <FormStyled.AddWrapper>
