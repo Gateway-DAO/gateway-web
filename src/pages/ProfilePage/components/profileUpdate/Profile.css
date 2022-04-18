@@ -1138,3 +1138,7 @@ a.profile-toggle:focus + .profile-dropdown {
     height: calc(100% + 45px);
     background: #170627;
 }
+.accordion-collapse {
+    width: 30%;
+    margin-right: 50px;
+}
