@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.main`
-    margin: auto 15%;
-    margin-top: 50px;
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    height: calc(100vh - 150px);
 `;
 
 export const Heading = styled.h1`
