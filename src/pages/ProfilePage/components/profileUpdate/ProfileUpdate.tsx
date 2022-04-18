@@ -459,9 +459,6 @@ const ProfileUpdate = () => {
 														).getFullYear()}
 													</span>
 												</p>
-												<p>
-													{parser(value[0]?.description)}
-												</p>
 											</div>
 										</div>
 
