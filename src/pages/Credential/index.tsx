@@ -87,7 +87,7 @@ const CredentialPage = () => {
                                     <img
                                         src={`https://gateway.pinata.cloud/ipfs/${data.getCredential.image}`}
                                     />
-                                    <div className='nft-heading'>
+                                    <div className='credential-nft-heading'>
                                         <span>NFT Badge</span>
                                         <h4>{data.getCredential.name}</h4>
                                     </div>
@@ -256,38 +256,41 @@ const CredentialPage = () => {
 
                                         return (
                                             <>
-                                                <div className='credentials-keys-content'>
-                                                    {parsed.information.map(info => (
-                                                        <>
-                                                            <h1 className='title'>
-                                                                {info.title}
-                                                            </h1>
-                                                            <h5 className='content'>
-                                                                {parser(info.description)}
-                                                            </h5>
-                                                        </>
-                                                    ))}
-                                                    <button onClick={() => setShowDetail(true)}>DETAILS</button>
-                                                </div>
-                                                {showDetail &&
-                                                    <div className='credentials-keys-content detail'>
-                                                        <>
-                                                            <h1 className='title'>
-                                                                {parsed.information[0].title}
-                                                            </h1>
-                                                            <h5 className='content'>
-                                                                {parser(parsed.information[0].description)}
-                                                            </h5>
-                                                        </>
-                                                        <div>
-                                                            <button onClick={() => setShowDetail(false)}>HIDE</button>
-                                                            <div className='credential-detail-keys-earned'>
-                                                                <p className='title'>KEYS EARNED</p>
-                                                                <p className='value'>50</p>
-                                                            </div>
-
-                                                        </div>
+                                                {!showDetail ? (
+                                                    <div className='credentials-keys-content'>
+                                                        {parsed.information.map(info => (
+                                                            <>
+                                                                <h1 className='title'>
+                                                                    {info.title}
+                                                                </h1>
+                                                                <h5 className='content'>
+                                                                    {parser(info.description)}
+                                                                </h5>
+                                                            </>
+                                                        ))}
+                                                        <button onClick={() => setShowDetail(true)}>DETAILS</button>
                                                     </div>
+                                                ) :
+                                                    (
+                                                        <div className='credentials-keys-content detail'>
+                                                            <>
+                                                                <h1 className='title'>
+                                                                    {parsed.information[0].title}
+                                                                </h1>
+                                                                <h5 className='content'>
+                                                                    {parser(parsed.information[0].description)}
+                                                                </h5>
+                                                            </>
+                                                            <div>
+                                                                <button onClick={() => setShowDetail(false)}>HIDE</button>
+                                                                <div className='credential-detail-keys-earned'>
+                                                                    <p className='title'>KEYS EARNED</p>
+                                                                    <p className='value'>50</p>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    )
                                                 }
                                             </>
                                         )
