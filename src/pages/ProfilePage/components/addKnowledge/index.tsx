@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Navigate, useNavigate, useOutletContext } from 'react-router-dom';
 import Select from 'react-select';
-import { Container, Button, Form, Col } from 'react-bootstrap';
+import { Container, Button, Form, Col, Spinner } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
 import { useMutation, gql } from '@apollo/client';
@@ -32,6 +32,7 @@ const suggestedOptions = [
 const AddKnowledge = () => {
 	// State
 	const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	// Hooks
 	const navigate = useNavigate();
@@ -77,10 +78,12 @@ const AddKnowledge = () => {
 
 		// API should be call here
 		try {
+			setIsLoading(true);
 			await updateUserInfo({
 				knowledges: objKnowledges,
 			});
 
+			setIsLoading(false);
 			setRedirect(true);
 		} catch (err) {
 			console.log(err);
@@ -184,7 +187,17 @@ const AddKnowledge = () => {
 								</ul>
 								<Button variant='primary' type='submit'>
 									save
-								</Button>{' '}
+								</Button>
+								{!!isLoading && <Spinner
+									animation="border"
+									style={{
+										display: "block",
+										color: "#7e3bdc",
+										marginTop: "-36px",
+										marginLeft: "auto",
+										marginRight: "auto"
+									}}
+								/>}
 							</Form>
 						</div>
 					</Container>

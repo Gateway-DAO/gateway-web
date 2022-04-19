@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Navigate, useNavigate, useOutletContext } from 'react-router-dom';
 import Select from 'react-select';
-import { Container, Button, Form, Col } from 'react-bootstrap';
+import { Container, Button, Form, Col, Spinner } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
 import './AddSkill.css';
@@ -44,6 +44,8 @@ const AddSkill: React.FC = () => {
 		})) || []
 	);
 
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
 	/* This is a callback function that will be called when the user clicks on the remove button. */
 	const removeSkill = useCallback(
 		(val) => () => {
@@ -78,10 +80,12 @@ const AddSkill: React.FC = () => {
 
 		// API should be call here
 		try {
+			setIsLoading(true);
 			await updateUserInfo({
 				skills: objSkills,
 			});
 
+			setIsLoading(false);
 			setRedirect(true);
 		} catch (err) {
 			console.log(err);
@@ -183,7 +187,17 @@ const AddSkill: React.FC = () => {
 								</ul>
 								<Button variant='primary' type='submit'>
 									save
-								</Button>{' '}
+								</Button>
+								{!!isLoading && <Spinner
+									animation="border"
+									style={{
+										display: "block",
+										color: "#7e3bdc",
+										marginTop: "-36px",
+										marginLeft: "auto",
+										marginRight: "auto"
+									}}
+								/>}
 							</Form>
 						</div>
 					</Container>

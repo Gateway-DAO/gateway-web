@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate, useOutletContext } from 'react-router-dom';
-import { Container, Button, Form } from 'react-bootstrap';
+import { Container, Button, Form, Spinner } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 
 import './AddAbout.css';
@@ -21,6 +21,7 @@ const AddAbout: React.FC = () => {
 	const [about, setAbout] = useState(userInfo?.about || '');
 	const [isValid, setValid] = useState<boolean>(true);
 	const [isAboutFilled, setIsAboutFilled] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -32,10 +33,11 @@ const AddAbout: React.FC = () => {
 			setValid(true);
 
 			try {
+				setIsLoading(true);
 				await updateUserInfo({
 					about,
 				});
-
+				setIsLoading(false);
 				// redirect
 				setRedirect(true);
 			} catch (err) {
@@ -129,6 +131,16 @@ const AddAbout: React.FC = () => {
 								<Button variant='primary' type='submit'>
 									Save
 								</Button>
+								{!!isLoading && <Spinner
+									animation="border"
+									style={{
+										display: "block",
+										color: "#7e3bdc",
+										marginTop: "-36px",
+										marginLeft: "auto",
+										marginRight: "auto"
+									}}
+								/>}
 							</Form>
 						</div>
 					</Container>

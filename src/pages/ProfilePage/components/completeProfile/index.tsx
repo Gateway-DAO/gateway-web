@@ -6,7 +6,7 @@ import {
     useOutletContext,
     useSearchParams,
 } from 'react-router-dom';
-import { Container, Button, Form } from 'react-bootstrap';
+import { Container, Button, Form, Spinner } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 
 import useFileUpload from '../../../../api/useFileUpload';
@@ -66,19 +66,20 @@ const CompleteProfile: React.FC = () => {
         socials:
             userInfo?.socials?.length > 0
                 ? userInfo.socials.map((social) => ({
-                      platform_name: social.network,
-                      placeholder: social.url,
-                      platform_value: social.url,
-                  }))
+                    platform_name: social.network,
+                    placeholder: social.url,
+                    platform_value: social.url,
+                }))
                 : [
-                      {
-                          platform_name: 'other',
-                          placeholder: 'mygateway.xyz/profile',
-                          platform_value: null,
-                      },
-                  ],
+                    {
+                        platform_name: 'other',
+                        placeholder: 'mygateway.xyz/profile',
+                        platform_value: null,
+                    },
+                ],
     });
     const [errors, setErrors] = useState<IErrors>({});
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const checkErrors = async () => {
         let errors: IErrors = {};
@@ -198,16 +199,16 @@ const CompleteProfile: React.FC = () => {
 
             try {
                 // Upload files to S3
+                setIsLoading(true);
                 const avatarURL = file
                     ? await uploadFile(
-                          `users/${userInfo.id}/${Date.now()}/file.name
+                        `users/${userInfo.id}/${Date.now()}/file.name
 							.split('.')
 							.pop()}`,
-                          file,
-                          { contentType: `image` }
-                      )
+                        file,
+                        { contentType: `image` }
+                    )
                     : defaultPfp;
-                console.log({ avatarURL });
 
                 await updateUserInfo({
                     name: user.displayName,
@@ -222,13 +223,14 @@ const CompleteProfile: React.FC = () => {
                                 forceHttps: true,
                             }),
                         })),
-					timezone: {
-						shouldTrack: tz,
-						...(tz && { tz: Intl.DateTimeFormat().resolvedOptions().timeZone })
-					},
+                    timezone: {
+                        shouldTrack: tz,
+                        ...(tz && { tz: Intl.DateTimeFormat().resolvedOptions().timeZone })
+                    },
                     init: true,
                 });
 
+                setIsLoading(false);
                 // redirect
                 setRedirect(true);
             } catch (err) {
@@ -253,7 +255,7 @@ const CompleteProfile: React.FC = () => {
                         <a>
                             <div
                                 className='arrow-back'
-                                onClick={() => navigate('..')}
+                                onClick={() => navigate('/profile')}
                             >
                                 <img src='/left-arrow-icon.svg' alt='' />
                             </div>
@@ -267,7 +269,7 @@ const CompleteProfile: React.FC = () => {
                     <Container>
                         <h1>
                             {window.location.pathname !==
-                            '/profile/edit-profile'
+                                '/profile/edit-profile'
                                 ? 'Complete Profile'
                                 : 'Edit Profile'}
                         </h1>
@@ -284,10 +286,9 @@ const CompleteProfile: React.FC = () => {
                                 >
                                     <Form.Label>Display name</Form.Label>
                                     <Form.Control
-                                        className={`${
-                                            user.displayName &&
+                                        className={`${user.displayName &&
                                             'change-background-to-fill'
-                                        }`}
+                                            }`}
                                         required
                                         name='displayName'
                                         size='lg'
@@ -311,11 +312,10 @@ const CompleteProfile: React.FC = () => {
                                 >
                                     <Form.Label>Username</Form.Label>
                                     <Form.Control
-                                        className={`${
-                                            user.userName &&
+                                        className={`${user.userName &&
                                             isValidated &&
                                             'change-background-to-fill'
-                                        }`}
+                                            }`}
                                         required
                                         name='userName'
                                         size='lg'
@@ -360,10 +360,9 @@ const CompleteProfile: React.FC = () => {
                                 <Form.Group className='col' controlId='userBio'>
                                     <Form.Label>Headline</Form.Label>
                                     <Form.Control
-                                        className={`${
-                                            user.userBio &&
+                                        className={`${user.userBio &&
                                             'change-background-to-fill'
-                                        }`}
+                                            }`}
                                         required
                                         name='userBio'
                                         value={user.userBio}
@@ -393,14 +392,14 @@ const CompleteProfile: React.FC = () => {
                                             name='tz'
                                             value={true}
                                             label='Yes'
-											checked={tz}
+                                            checked={tz}
                                         />
                                         <FormStyled.Radio
                                             id='tz-no'
                                             name='tz'
                                             value={false}
                                             label='No'
-											checked={!tz}
+                                            checked={!tz}
                                         />
                                     </FormStyled.GridBox>
                                     <Form.Control.Feedback type='invalid'>
@@ -451,10 +450,9 @@ const CompleteProfile: React.FC = () => {
                                                 </div>
                                                 <div className='gway-socialurl-col-center'>
                                                     <Form.Control
-                                                        className={`${
-                                                            user.socials[i] &&
+                                                        className={`${user.socials[i] &&
                                                             'change-background-to-fill'
-                                                        }`}
+                                                            }`}
                                                         required
                                                         name='platform_value'
                                                         size='lg'
@@ -495,6 +493,16 @@ const CompleteProfile: React.FC = () => {
                             <Button variant='primary' type='submit'>
                                 SAVE
                             </Button>
+                            {!!isLoading && <Spinner
+                                animation="border"
+                                style={{
+                                    display: "block",
+                                    color: "#7e3bdc",
+                                    marginTop: "-36px",
+                                    marginLeft: "auto",
+                                    marginRight: "auto"
+                                }}
+                            />}
                         </Form>
                     </Container>
                 </div>

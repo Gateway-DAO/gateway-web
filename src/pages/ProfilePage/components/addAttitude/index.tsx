@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Navigate, useNavigate, useOutletContext } from 'react-router-dom';
 import Select from 'react-select';
-import { Container, Button, Form, Col } from 'react-bootstrap';
+import { Container, Button, Form, Col, Spinner } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
 import './AddAttitude.css';
@@ -26,6 +26,7 @@ const suggestedOptions = [
 const AddAttitude: React.FC = () => {
 	// State
 	const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	// Hooks
 	const navigate = useNavigate();
@@ -70,9 +71,11 @@ const AddAttitude: React.FC = () => {
 
 		// API should be call here
 		try {
+			setIsLoading(true);
 			await updateUserInfo({
 				attitudes: objAttitudes,
 			});
+			setIsLoading(false);
 
 			setRedirect(true);
 		} catch (err) {
@@ -177,7 +180,17 @@ const AddAttitude: React.FC = () => {
 								</ul>
 								<Button variant='primary' type='submit'>
 									save
-								</Button>{' '}
+								</Button>
+								{!!isLoading && <Spinner
+									animation="border"
+									style={{
+										display: "block",
+										color: "#7e3bdc",
+										marginTop: "-36px",
+										marginLeft: "auto",
+										marginRight: "auto"
+									}}
+								/>}
 							</Form>
 						</div>
 					</Container>
