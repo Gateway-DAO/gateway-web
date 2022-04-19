@@ -14,6 +14,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .back-link a .arrow-back img {
     width: 16px;
@@ -347,7 +348,7 @@ body {
 
 .main-about-section .container {
     position: relative;
-    z-index: 111;
+    z-index: 0;
 }
 
 @media (max-width: 767px) {
