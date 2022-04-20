@@ -24,7 +24,7 @@ import { useGateAdmin } from '../../hooks/useAdmin';
 const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
     // State
     const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
-    const [numberOfWords, setNumberOfWords] = useState(130);
+    const [numberOfWords, setNumberOfWords] = useState(100);
 
     // Hooks
     // const { !viewAsMember } = useAdmin(gate.admins || []);
