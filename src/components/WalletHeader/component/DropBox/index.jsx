@@ -25,8 +25,8 @@ const DropDown = ({ toggle }) => {
                         <Styled.BorderLine />
                         <Styled.ItemTextContainer
                             onClick={() => {
-                                location.pathname == '/profile' &&
-                                    navigate('/');
+                                // location.pathname == '/profile' &&
+                                navigate('/');
                                 userSignOut();
                                 toggle();
                             }}
