@@ -62,7 +62,6 @@ export default function SearchDropdown({ query }: Props) {
 	const goToAll = () => {
 		navigate(`/search/${query}`);
 	}
-	console.log('searchDaoLoading, searchUserLoading', searchDaoLoading, searchUserLoading);
 
 	return (
 		<Styled.Container>

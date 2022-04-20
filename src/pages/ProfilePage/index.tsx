@@ -134,9 +134,9 @@ const Profile: React.FC = (props) => {
                         ...prev,
                         ...data?.getUserByUsername?.items[0],
                     }));
-                    data?.getUserByUsername?.items[0].timezone.shouldTrack &&
+                    data?.getUserByUsername?.items[0]?.timezone?.shouldTrack &&
                         (await getTimezone(
-                            data?.getUserByUsername?.items[0].timezone.tz
+                            data?.getUserByUsername?.items[0]?.timezone?.tz
                         ));
                     setInternalLoading(userLoading);
                 } catch (err) {
