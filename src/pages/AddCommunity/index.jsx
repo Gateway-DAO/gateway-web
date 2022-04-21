@@ -23,6 +23,7 @@ import useFileUpload from '../../api/useFileUpload';
 // Utils
 import space from '../../utils/canvas';
 import { v4 as uuidv4 } from 'uuid';
+import { Form } from 'react-bootstrap';
 
 const AddCommunity = () => {
     const { userInfo, walletConnected } = useAuth();
@@ -304,7 +305,7 @@ const AddCommunity = () => {
                     {socials.map((social, idx) => {
                         return (
                             <FormStyled.InputWrapper key={idx}>
-                                <FormStyled.Select
+                                <Form.Select
                                     style={{ marginRight: '10px' }}
                                     onChange={(e) =>
                                         changeSocialName(idx, e.target.value)
@@ -370,7 +371,7 @@ const AddCommunity = () => {
                                     <option value='other'>
                                         Other
                                     </option>
-                                </FormStyled.Select>
+                                </Form.Select>
                                 <FormStyled.Input
                                     id={`social-${social.network}`}
                                     type='text'

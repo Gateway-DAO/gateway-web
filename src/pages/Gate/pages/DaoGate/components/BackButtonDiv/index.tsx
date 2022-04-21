@@ -32,6 +32,7 @@ import {
     updateDao,
 } from '../../../../../../graphql/mutations';
 import { useAuth } from '../../../../../../contexts/UserContext';
+import { Store } from 'react-notifications-component';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -166,6 +167,22 @@ const BackButton: React.FC<Props> = ({
         navigate(url as To, { state: state });
     };
 
+    const copyShareLink = async () => {
+        navigator.clipboard.writeText(window.location.href);
+        Store.addNotification({
+			title: 'Sharable Link has been copied!',
+			type: 'info',
+			insert: 'top',
+			container: 'top-center',
+			animationIn: ['animate__animated', 'animate__fadeIn'],
+			animationOut: ['animate__animated', 'animate__fadeOut'],
+			dismiss: {
+				duration: 2000,
+				onScreen: true,
+			},
+		});
+    }
+
     return (
         <>
             <ConfirmationModal
@@ -237,9 +254,7 @@ const BackButton: React.FC<Props> = ({
                         </>
                     )}
                     <Styled.ButtonWrapper
-                        onClick={() =>
-                            navigator.clipboard.writeText(window.location.href)
-                        }
+                        onClick={copyShareLink}
                         ml='20'
                         data-title='copy shareable link '
                     >

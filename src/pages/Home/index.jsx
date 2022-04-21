@@ -35,6 +35,10 @@ const Home = (props) => {
         }
     };
 
+    useEffect(() => {
+        navigate('/add-community')
+    }, [])
+
     return (
         <Styled.HomeContainer>
             <Header />
