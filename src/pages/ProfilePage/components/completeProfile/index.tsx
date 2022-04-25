@@ -57,7 +57,7 @@ const CompleteProfile: React.FC = () => {
     const [isValidated, setIsValidated] = useState(false);
     const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
     const [file, setFile] = useState(null);
-    const [tz, setTZ] = useState(false);
+    const [tz, setTZ] = useState(userInfo?.timezone?.shouldTrack || false);
     const [user, setUser] = useState({
         displayName: userInfo?.name || '',
         userName: userInfo?.username || '',
@@ -377,7 +377,7 @@ const CompleteProfile: React.FC = () => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </div>
-                            <div className='mb-3 row'>
+                            {/* <div className='mb-3 row'>
                                 <Form.Group
                                     className='col'
                                     controlId='location'
@@ -407,7 +407,7 @@ const CompleteProfile: React.FC = () => {
                                         {errors.userBio}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                            </div>
+                            </div> */}
                             <Form.Group className='col' controlId='formBasic'>
                                 <Form.Label>SOCIALS</Form.Label>
                                 <div className='gway-socialurl-add'>

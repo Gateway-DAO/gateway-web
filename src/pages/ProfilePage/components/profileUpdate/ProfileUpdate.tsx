@@ -494,7 +494,7 @@ const ProfileUpdate = () => {
 					</Col>
 
 					<Col md={3}>
-						{(userInfo?.timezone?.shouldTrack || canEdit) && (
+						{/* {(userInfo?.timezone?.shouldTrack || canEdit) && (
 							<div className='gateway-profile-right'>
 								<div className='gateway-profile-right-top'>
 									<p>Time Zone</p>
@@ -536,7 +536,7 @@ const ProfileUpdate = () => {
 									</span>
 								</div>
 							</div>
-						)}
+						)} */}
 						<div className='gway-skill-col skill-second-sec'>
 							<div className='gway-skill-col-hd'>
 								<h3>Skills</h3>
