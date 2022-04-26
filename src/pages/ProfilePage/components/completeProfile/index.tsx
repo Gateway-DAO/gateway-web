@@ -377,7 +377,7 @@ const CompleteProfile: React.FC = () => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </div>
-                            <div className='mb-3 row'>
+                            {/* <div className='mb-3 row'>
                                 <Form.Group
                                     className='col'
                                     controlId='location'
@@ -407,7 +407,7 @@ const CompleteProfile: React.FC = () => {
                                         {errors.userBio}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                            </div>
+                            </div> */}
                             <Form.Group className='col' controlId='formBasic'>
                                 <Form.Label>SOCIALS</Form.Label>
                                 <div className='gway-socialurl-add'>
