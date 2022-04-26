@@ -186,7 +186,7 @@ const GatePage: React.FC = () => {
 
     useEffect(() => {
         earnersData &&
-            setEarners(earnersData?.listGates.items);
+            setEarners(earnersData?.listUsers.items);
     }, [gate, earnersData]);
 
     /* This is a catch-all error handler. If there is an error, it will be logged to the console and

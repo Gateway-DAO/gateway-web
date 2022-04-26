@@ -14,7 +14,7 @@ type User
     )
     @searchable {
     id: ID!
-    ip: AWSIPAddress
+    timezone: Timezone
     wallet: String!
     username: String
     name: String
@@ -36,6 +36,11 @@ type User
         @connection(keyName: "taskStatusByUserID", fields: ["id"])
     credentials: [Credential] @connection(keyName: "credentialByTargetID", fields: ["id"])
     createdAt: AWSDateTime
+}
+
+type Timezone {
+    shouldTrack: Boolean!
+    tz: String
 }
 
 type DAO

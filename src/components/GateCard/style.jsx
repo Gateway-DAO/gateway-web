@@ -3,27 +3,6 @@ import { Link } from 'react-router-dom';
 
 export const GateCardBox = styled.div`
     position: relative;
-    box-sizing: border-box;
-    padding: 14px;
-    float: left;
-    
-    width: 25%;
-
-    @media only screen and (max-width: 1200px) {
-        width: 33.3%;
-    }
-
-    @media only screen and (max-width: 992px) {
-        width: 50%;
-    }
-
-    @media only screen and (max-width: 768px) {
-        width: 50%;
-    }
-
-    @media only screen and (max-width: 615px) {
-        width: 100%;
-    }
 `;
 
 export const GateContainer = styled.div`
@@ -31,7 +10,7 @@ export const GateContainer = styled.div`
     border-radius: 20px;
     display: grid;
 
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: repeat(7, 1fr);
     cursor: pointer;
     // With the card bottom => height: 30em;
     height: 33em;
@@ -45,18 +24,18 @@ export const GateContainer = styled.div`
     }
 
     @media only screen and (max-width: 1170px) {
-        height: 30em;
+        height: 35em;
     }
 
     @media only screen and (max-width: 785px) {
-        height: 33em;
+        height: 35em;
     }
     // @media only screen and (max-width: 1000px) {
     //   min-width: calc(100%/3);
     //   max-width: calc(100%/2.5);
     // }
     @media only screen and (max-width: 550px) {
-        height: 30em;
+        height: 35em;
     }
 `;
 export const GateBanner = styled.div`
@@ -182,7 +161,7 @@ export const CategoryLink = styled(Link)`
 
 export const CardBody = styled.div`
     margin-top: -10px;
-    grid-row: 5 / span 2;
+    grid-row: 5 / span 3;
     margin: 0 25px;
 `;
 

@@ -1,6 +1,5 @@
 // Styling
 import * as Styled from './style';
-import * as ThemeStyled from '../../../../../../theme/style';
 
 // Hooks
 import { useEffect } from 'react';
@@ -40,7 +39,6 @@ const KeySuccess: React.FC<AddKeySuccessProps> = ({ gate, edit = false }) => {
 
     return (
         <Styled.Container>
-            <ThemeStyled.SpaceBox id='space-canvas' />
             <Styled.Heading>
                 Key Successfully {edit ? 'Edited' : 'Added'}!
             </Styled.Heading>

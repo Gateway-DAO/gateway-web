@@ -250,6 +250,14 @@ const ProfileUpdate = () => {
 		});
 	};
 
+	var daos: Record<string, any> = {}
+	userInfo?.credentials?.items?.map(item => {
+		if (daos[item.organizationID] == undefined) {
+			daos[item.organizationID] = [];
+		}
+		daos[item.organizationID].push(item);
+	});
+
 	return (
 		<section className='gateway-profile'>
 			<Container>
@@ -366,16 +374,22 @@ const ProfileUpdate = () => {
 								{userInfo.about ? (
 									<div className='about-content'>
 										<p>
-											{parser(userInfo.about.replace(/(?:\r\n|\r|\n)/g, '<br />'))}
+											{parser(
+												userInfo.about.replace(
+													/(?:\r\n|\r|\n)/g,
+													'<br />'
+												)
+											)}
 										</p>
 									</div>
 								) : (
 									<div className='about-content'>
 										<p>
 											You can write about your years of
-											experience, industry, or skills. People
-											also talk about their achievements or
-											previous job experiences.
+											experience, industry, or skills.
+											People also talk about their
+											achievements or previous job
+											experiences.
 										</p>
 									</div>
 								)}
@@ -419,148 +433,110 @@ const ProfileUpdate = () => {
 								</div>
 								*/}
 
-								{userInfo.credentials.items.map((credential: Credential) => (
+								{Object.entries(daos)?.map(([key, value]) => (
 									<div className='experience-profile-section'>
 										<div className='experience-profile-inner-section'>
 											<div className='creative-icon'>
 												<img
-													src={credential.organization.logoURL}
+													src={value[0]?.organization?.logoURL}
 													alt='image'
 												/>
 											</div>
 											<div className='finance-date'>
 												<div className='experience-profile-heading'>
-													<h3>{credential.name}</h3>
-													{/* canEdit && (
-                                                            <Link to='/'>
-                                                                <MdEdit color='white' />
-                                                            </Link>
-														) */}
+													<h3>{value[0]?.organization?.name}</h3>
 												</div>
 												<p>
-													{credential.organization.name}
-													{/*<span>
-                                                            Nov 2021 — Present •
-                                                            15h/week
-                                                        </span>*/}
+													{/* {value[0]?.organization?.name} */}
 													<span>
 														{MONTHS[
 															new Date(
-																credential.createdAt
+																value[0]?.createdAt
 															).getMonth()
 														].slice(0, 3)}{' '}
 														{new Date(
-															credential.createdAt
+															value[0]?.createdAt
 														).getFullYear()}
 													</span>
 												</p>
-												<p>
-													{parser(credential.description)}
-													{/* <Link
-                                                            to='/contact'
-                                                            className='creative-see-more'
-                                                        >
-                                                            See more
-														</Link> */}
-												</p>
 											</div>
 										</div>
+
 										<div className='nft'>
 											<Accordion defaultActiveKey='0'>
-													<Accordion.Item eventKey='0'>
-														<div className='accordion-top-header'>
-															<Accordion.Header>
-																{(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL
-															</Accordion.Header>
-															{/*<Link
-                                                                    to='/'
-                                                                    className='accordion-see-all-btn'
-                                                                >
-                                                                    See all
-																</Link>*/}
-														</div>
-														<Accordion.Body>
-															<Row className='justify-content-md-left'>
-																<CredentialCard
-																	credential={
-																		credential
-																	}
-																/>
-															</Row>
-														</Accordion.Body>
-													</Accordion.Item>
+												<Accordion.Item eventKey='0'>
+													<div className='accordion-top-header'>
+														<Accordion.Header>
+															{/* {(credential.skills.length > 0 || credential.attitudes.length > 0 || credential.knowledges.length > 0) ? "REWARD" : "CONTRIBUTOR"} CREDENTIAL */}
+															CONTRIBUTOR CREDENTIAL
+														</Accordion.Header>
+													</div>
+													<div className='accordion-body-content' style={{ display: "flex" }}>
+														{value?.map((credential: Credential) => (
+															<Accordion.Body>
+																<Row className='justify-content-md-left'>
+																	<CredentialCard
+																		credential={
+																			credential
+																		}
+																	/>
+																</Row>
+															</Accordion.Body>))}
+													</div>
+												</Accordion.Item>
 											</Accordion>
 										</div>
+
 									</div>
 								))}
 							</div>
 						)}
-						{/*
-                            <div className='gway-prfile-col'>
-                                <div className='gway-about-hd'>
-                                    <h2>Activity</h2>
-                                    {canEdit && (
-                                        <a href='#'>
-                                            <FaPlus color='white' />
-                                        </a>
-                                    )}
-                                </div>
-                                <p>
-                                    Share articles you created or whatever align
-                                    to you beliefs with you network.
-                                </p>
-                                <a href='#' className='add-now-btn'>
-                                    ADD NOW
-                                </a>
-                            </div>
-                            */}
 					</Col>
 
 					<Col md={3}>
-						<div className='gateway-profile-right'>
-							<div className='gateway-profile-right-top'>
-								<p>Time Zone</p>
-								<a>
-									<FaMapMarkerAlt color='white' />
-								</a>
-							</div>
-							<div className='gateway-profile-right-content'>
-								<img src='/profile/weather.svg' />
-								{getWeatherIcon()}
-								<h3>
-									{currentTime.toLocaleTimeString('en-US', {
-										hour: 'numeric',
-										minute: 'numeric',
-										hour12: true,
-										...(currentLocation.tz.name && {
-											timeZone: currentLocation.tz.name,
-										}),
-									})}
-								</h3>
-								<p>
-									{currentLocation.city &&
-										currentLocation.state &&
-										currentLocation.country
-										? currentLocation.city +
-										', ' +
-										currentLocation.state +
-										', ' +
-										currentLocation.country
-										: 'Location not found'}
-								</p>
-								<span>
-									{currentLocation.tz.abbreviated} (
-									{
-										new Date()
-											.toLocaleTimeString('en-us', {
+						{(userInfo?.timezone?.shouldTrack || canEdit) && (
+							<div className='gateway-profile-right'>
+								<div className='gateway-profile-right-top'>
+									<p>Time Zone</p>
+									<a>
+										<FaMapMarkerAlt color='white' />
+									</a>
+								</div>
+								<div className='gateway-profile-right-content'>
+									<img src='/profile/weather.svg' />
+									{getWeatherIcon()}
+									<h3>
+										{currentTime.toLocaleTimeString(
+											'en-US',
+											{
+												hour: 'numeric',
+												minute: 'numeric',
+												hour12: true,
+												...(currentLocation.tz.name && {
+													timeZone:
+														currentLocation.tz.name,
+												}),
+											}
+										)}
+									</h3>
+									<span>
+										{currentLocation.tz.name}
+										{currentLocation.tz.abbreviated} (
+										{
+											new Date().toLocaleTimeString('en-us', {
 												timeZoneName: 'short',
+												...(currentLocation.tz.name && {
+													timeZone:
+														currentLocation.tz.name,
+												})
 											})
-											.split(' ')[2]
-									}
-									)
-								</span>
+												.split(' ')[2]
+										}
+										)
+									</span>
+								</div>
 							</div>
-						</div>
+						)}
 						<div className='gway-skill-col skill-second-sec'>
 							<div className='gway-skill-col-hd'>
 								<h3>Skills</h3>
@@ -685,58 +661,6 @@ const ProfileUpdate = () => {
 								)}
 							</ListGroup>
 						</div>
-						{/*<div className='gway-skill-col'>
-							<div className='gway-skill-col-hd'>
-								<h3>DAOs you might like</h3>
-							</div>
-							<ListGroup as='ul' className='daos-like-ul'>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/seed.png'
-											alt='image'
-										/>
-										<span>Seed Club</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/Buildspace.png'
-											alt='image'
-										/>
-										<span>Buildspace</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/Friends.png'
-											alt='image'
-										/>
-										<span>Friends with Benefits</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/unishap.png'
-											alt='image'
-										/>
-										<span>Uniswap</span>
-									</a>
-								</ListGroup.Item>
-								<ListGroup.Item as='li'>
-									<a className='daos-like'>
-										<img
-											src='/profile/pleasr.png'
-											alt='image'
-										/>
-										<span>PleasrDAO</span>
-									</a>
-								</ListGroup.Item>
-							</ListGroup>
-						</div>*/}
 					</Col>
 				</Row>
 			</Container>
