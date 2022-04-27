@@ -6,7 +6,7 @@ import {
     useOutletContext,
     useSearchParams,
 } from 'react-router-dom';
-import { Container, Button, Form, Spinner } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 
 import useFileUpload from '../../../../api/useFileUpload';
@@ -19,6 +19,7 @@ import { useLazyQuery, gql } from '@apollo/client';
 import { getUserByUsername } from '../../../../graphql/queries';
 import { usernameGenerator } from '../../../../utils/functions';
 import Space from '../../../../components/Space';
+import Loader from '../../../../components/Loader';
 
 const platforms = [
     { label: 'Select', value: 'select' },
@@ -491,18 +492,9 @@ const CompleteProfile: React.FC = () => {
                                 </div>
                             </Form.Group>
                             <Button variant='primary' type='submit'>
+                                {!!isLoading && <Loader color='white' />}
                                 SAVE
                             </Button>
-                            {!!isLoading && <Spinner
-                                animation="border"
-                                style={{
-                                    display: "block",
-                                    color: "#7e3bdc",
-                                    marginTop: "-36px",
-                                    marginLeft: "auto",
-                                    marginRight: "auto"
-                                }}
-                            />}
                         </Form>
                     </Container>
                 </div>

@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Navigate, useNavigate, useOutletContext } from 'react-router-dom';
 import Select from 'react-select';
-import { Container, Button, Form, Col, Spinner } from 'react-bootstrap';
+import { Container, Button, Form, Col } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
 import './AddLanguage.css';
 import { LANGUAGES } from '../../../../utils/constants';
 import Space from '../../../../components/Space';
+import Loader from '../../../../components/Loader';
 
 /* This is a list of all the languages that are supported by the app. */
 const options = LANGUAGES.map((lang) => ({
@@ -190,18 +191,9 @@ const AddLanguage: React.FC = () => {
 										))}
 								</ul>
 								<Button variant='primary' type='submit'>
-									save
+									{!!isLoading && <Loader color='white' />}
+									SAVE
 								</Button>
-								{!!isLoading && <Spinner
-									animation="border"
-									style={{
-										display: "block",
-										color: "#7e3bdc",
-										marginTop: "-36px",
-										marginLeft: "auto",
-										marginRight: "auto"
-									}}
-								/>}
 							</Form>
 						</div>
 					</Container>

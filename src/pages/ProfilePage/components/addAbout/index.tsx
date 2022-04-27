@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useNavigate, useOutletContext } from 'react-router-dom';
-import { Container, Button, Form, Spinner } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 
 import './AddAbout.css';
 import RichEditor from '../../../../components/RichTextEditor';
 import Space from '../../../../components/Space';
 import { FormStyled } from '../../../../components/Form';
+import Loader from '../../../../components/Loader';
 
 const AddAbout: React.FC = () => {
 	// State
@@ -127,20 +128,10 @@ const AddAbout: React.FC = () => {
 										rows={12}
 									/>
 								</div>
-
 								<Button variant='primary' type='submit'>
-									Save
+									{!!isLoading && <Loader color='white' />}
+									SAVE
 								</Button>
-								{!!isLoading && <Spinner
-									animation="border"
-									style={{
-										display: "block",
-										color: "#7e3bdc",
-										marginTop: "-36px",
-										marginLeft: "auto",
-										marginRight: "auto"
-									}}
-								/>}
 							</Form>
 						</div>
 					</Container>
