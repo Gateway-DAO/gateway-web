@@ -31,7 +31,7 @@ export const InvestorCard = styled.div`
     background: ${(props) =>
         props.background ? `url(${props.background})` : 'transparent'};
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
 
     width: 100%;
