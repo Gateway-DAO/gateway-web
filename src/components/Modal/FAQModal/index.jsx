@@ -16,7 +16,12 @@ import { updateDao } from '../../../graphql/mutations';
 import Loader from '../../Loader';
 
 const FAQModal = (props) => {
-    const [FAQ, setFAQ] = useState(props.data);
+    const [FAQ, setFAQ] = useState(
+        props.data.map((obj) => ({
+            question: obj.question,
+            answer: obj.answer,
+        }))
+    );
     const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
 
     const submitToDB = async () => {

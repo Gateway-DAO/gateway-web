@@ -43,7 +43,8 @@ const Profile = (props) => {
     const [UH, setUH] = useState(props.upcomingHangouts || '');
     const [MV, setMV] = useState(props.missionAndVision || '');
     const [ACC, setACC] = useState(props.accomplishments || '');
-    const [FAQ, setFAQ] = useState(props.FAQ || []);
+    const [FAQ, setFAQ] = useState(props.faq || []);
+    
 
     // Show modals
     const [showBountyModal, setShowBountyModal] = useState(false);
