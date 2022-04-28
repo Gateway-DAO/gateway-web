@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import * as Styled from './style';
 import { useNavigate } from 'react-router-dom';
 
@@ -62,7 +63,6 @@ export default function SearchDropdown({ query }: Props) {
 	const goToAll = () => {
 		navigate(`/search/${query}`);
 	}
-	console.log('searchDaoLoading, searchUserLoading', searchDaoLoading, searchUserLoading);
 
 	return (
 		<Styled.Container>
@@ -72,6 +72,15 @@ export default function SearchDropdown({ query }: Props) {
 					<Styled.LoadingBox>
 						<Loader color='#170627' size={35} />
 					</Styled.LoadingBox>
+				}
+				{
+					!searchDaoLoading &&
+					!searchUserLoading &&
+					!searchGateLoading &&
+					!searchDao.searchDAOs?.items.length &&
+					!searchUser.searchUsers?.items.length &&
+					!searchGate.searchGates?.items.length &&
+					<Styled.Text>{`There is no "${query}" on our records :/`}</Styled.Text>
 				}
 				{searchDao && searchDao.searchDAOs?.items.map((item, idx) => (
 					<Styled.DropdownItem key={idx} onClick={() => navigate(`/dao/${item.dao}`)}>

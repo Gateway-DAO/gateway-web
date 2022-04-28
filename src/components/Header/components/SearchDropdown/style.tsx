@@ -23,6 +23,7 @@ export const DropdownItem = styled.div`
     display: inline-flex;
     align-items: center;
     margin: 10px 0;
+    width: 100%;
 
     cursor: pointer;
 `;
@@ -82,6 +83,8 @@ export const Username = styled.span`
 export const Img = styled.img`
     width: 24px;
     height: 24px;
+    object-fit: cover;
+    object-position: center;
 
     border-radius: 50%;
 `;
@@ -116,4 +119,16 @@ export const LoadingBox = styled.div`
 
     flex: 1;
     width: 100%;
+`;
+
+export const Text = styled.p`
+    font-family: 'Be Vietnam';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.05em;
+    text-align: center;
+
+    color: #170627;
 `;
