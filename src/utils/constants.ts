@@ -16,7 +16,7 @@ export const MONTHS: string[] = [
 
 export const SOCIALS = {
     Discord : 'https://discord.gg/FU4x47sUk3',
-    Twitter : 'https://twitter.com/Gateway_DAO',
+    Twitter : 'https://twitter.com/Gateway_xyz',
     Medium : 'https://medium.com/@gatewaydao',
     Linkedln : 'https://www.linkedin.com/company/mygateway',
 }
