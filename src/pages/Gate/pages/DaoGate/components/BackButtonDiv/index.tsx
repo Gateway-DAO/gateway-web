@@ -10,28 +10,15 @@ import { FaTrashAlt } from 'react-icons/fa';
 
 //Hooks
 import { To, useNavigate } from 'react-router-dom';
-import useUpdateGate from '../../../../../../api/database/useUpdateGate';
-import useDeleteGate from '../../../../../../api/database/useDeleteGate';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 import { useWeb3 } from '../../../../../../hooks/useWeb3';
 
 // Types
-import {
-    DAO,
-    Gate,
-    PublishedState,
-    TaskStatus,
-    User,
-} from '../../../../../../graphql/API';
 import { gql, MutationFunctionOptions, useMutation } from '@apollo/client';
 import { useModal } from '../../../../../../contexts/ModalContext';
 import ConfirmationModal from '../../../../../../components/Modal/ConfirmationModal';
-import {
-    generatedNonceSignature,
-    streamToCeramic,
-    updateDao,
-} from '../../../../../../graphql/mutations';
 import { useAuth } from '../../../../../../contexts/UserContext';
+import { Daos, Users, Key_Progress, Gates as Gate, GatePublishedStatus, useDeleteGateMutation, useUpdateGateMutation } from '../../../../../../graphql';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -39,8 +26,8 @@ interface GateData extends Gate {
     holders: number;
     keysDone: number;
     keysNumber: number;
-    taskStatus: TaskStatus[];
-    adminList: User[];
+    taskStatus: Key_Progress[];
+    adminList: Users[];
     preRequisitesList: Gate[];
 }
 
@@ -51,45 +38,39 @@ interface Props {
     url?: number | string;
     children: string | React.ReactNode;
     gateData: GateData;
-    daoData: DAO;
-    published: PublishedState;
+    daoData: Daos;
+    published: GatePublishedStatus;
     state?: object;
 }
 
 const BackButton: React.FC<Props> = ({
     url = -1,
     children = 'Go Back',
-    state={},
+    state = {},
     ...props
 }) => {
     const gateData: GateData = props.gateData;
 
     //States
-    const [published, setPublished] = useState<PublishedState>(props.published);
+    const [published, setPublished] = useState<GatePublishedStatus>(props.published);
     const [showDelete, setShowDelete] = useState<boolean>(false);
     const [showPublish, setShowPublish] = useState<boolean>(false);
 
     //Hooks
-    const {
-        updateGate,
-    }: { updateGate(options: MutationFunctionOptions): Promise<any> } =
-        useUpdateGate();
+    const [updateGate] = useUpdateGateMutation();
     const navigate = useNavigate();
     const { userInfo }: Record<string, any> = useAuth();
     const { isAdmin } = useGateAdmin(gateData.admins);
-    const { deleteGate } = useDeleteGate();
+    const [deleteGate] = useDeleteGateMutation();
     // const { showModal } = useModal();
     const { showErrorModal, discardModal }: Record<string, any> = useModal();
     const { mintNFTContract, batchMint }: Record<string, any> = useWeb3();
-    const [updateDAO] = useMutation(gql(updateDao));
-    const [signNonce] = useMutation(gql(generatedNonceSignature));
-    const [streamData] = useMutation(gql(streamToCeramic));
 
     /**
      * It navigates to the edit-gate page.
      */
     const editGate = () => {
-        const link = '/dao/' + props.daoData.dao + '/edit-gate';
+        const link = '/dao/' + props.daoData.slug + '/edit-gate';
         navigate(link, {
             state: { gateData },
         });
@@ -98,13 +79,13 @@ const BackButton: React.FC<Props> = ({
     const confirm = async () => {
         try {
             const published_INTERNAL =
-                published === PublishedState.NOT_PUBLISHED
-                    ? PublishedState.PUBLISHED
-                    : published === PublishedState.PUBLISHED
-                    ? PublishedState.PAUSED
-                    : published === PublishedState.PAUSED
-                    ? PublishedState.PUBLISHED
-                    : published;
+                published === GatePublishedStatus.not_published
+                    ? GatePublishedStatus.published
+                    : published === GatePublishedStatus.published
+                        ? GatePublishedStatus.paused
+                        : published === GatePublishedStatus.paused
+                            ? GatePublishedStatus.published
+                            : published;
 
             setPublished(published_INTERNAL);
 
@@ -171,7 +152,7 @@ const BackButton: React.FC<Props> = ({
             <ConfirmationModal
                 show={showDelete}
                 toggle={showDeleteModal}
-                title={`Deleting "${gateData.name}"`}
+                title={`Deleting "${gateData.gate_name}"`}
                 body='Are you sure you want to delete the gate? This action is IRREVERSIBLE.'
                 buttons={[
                     { button: 'YES', handler: () => deleteGateFunc() },
@@ -184,7 +165,7 @@ const BackButton: React.FC<Props> = ({
             <ConfirmationModal
                 show={showPublish}
                 toggle={showPublishModal}
-                title={`Publishing "${gateData.name}"`}
+                title={`Publishing "${gateData.gate_name}"`}
                 body="Are you sure you want to publish the gate? You won't be able to change the majority of things in the future."
                 buttons={[
                     { button: 'YES', handler: () => handleUpdate() },

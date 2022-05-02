@@ -10,6 +10,7 @@ import {
 } from '../api/database/useVerifyKeys';
 import { useModal } from '../contexts/ModalContext';
 import { useAuth } from '../contexts/UserContext';
+import { useVerifyTaskMutation } from '../graphql';
 import * as ThemeStyled from '../theme/style';
 
 export const useKeyValidation = (data, gateData) => {
@@ -27,11 +28,7 @@ export const useKeyValidation = (data, gateData) => {
     const navigate = useNavigate();
 
     // Validation mutations
-    const { verifyMeetingCode } = useVerifyMeetingCode();
-    const { verifyContractInteraction } = useVerifyContractInteraction();
-    const { verifyHoldAToken } = useVerifyHoldAToken();
-    const { verifySelfVerify } = useVerifySelfVerify();
-    const { verifySnapshot } = useVerifySnapshot();
+    const [verifyTask, { data: validationData }] = useVerifyTaskMutation();
 
     useEffect(() => {
         switch (data?.task?.type) {
@@ -41,7 +38,7 @@ export const useKeyValidation = (data, gateData) => {
                     onClick: async () => {
                         try {
                             setLoading(true);
-                            const res = await verifyMeetingCode({
+                            const res = await verifyTask({
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
@@ -101,7 +98,7 @@ export const useKeyValidation = (data, gateData) => {
                         try {
                             setLoading(true);
                             console.log(userInfo);
-                            const res = await verifyContractInteraction({
+                            const res = await verifyTask({
                                 variables: {
                                     userID: userInfo?.id,
                                     keyID: data?.id,
@@ -165,7 +162,7 @@ export const useKeyValidation = (data, gateData) => {
                     onClick: async () => {
                         try {
                             setLoading(true);
-                            const res = await verifyHoldAToken({
+                            const res = await verifyTask({
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
@@ -234,7 +231,7 @@ export const useKeyValidation = (data, gateData) => {
                     onClick: async () => {
                         try {
                             setLoading(true);
-                            const res = await verifySelfVerify({
+                            const res = await verifyTask({
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,
@@ -291,7 +288,7 @@ export const useKeyValidation = (data, gateData) => {
                     onClick: async () => {
                         try {
                             setLoading(true);
-                            const res = await verifySnapshot({
+                            const res = await verifyTask({
                                 variables: {
                                     userID: userInfo.id,
                                     keyID: data.id,

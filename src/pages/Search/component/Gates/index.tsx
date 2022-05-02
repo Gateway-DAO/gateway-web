@@ -10,10 +10,9 @@ import Pagination from '../Pagination';
 // Hooks
 import { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import { searchGates } from '../../../../graphql/queries';
 
 import { Navigate, useParams } from 'react-router-dom';
-import { PublishedState } from '../../../../graphql/API';
+import { useSearchGatesQuery, GatePublishedStatus } from '../../../../graphql';
 
 const GateTab = ({ filterQuery }) => {
     const { query } = useParams();
@@ -21,8 +20,7 @@ const GateTab = ({ filterQuery }) => {
 
     const [pageCount, setPageCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);
-    const resultPerPage = 8;
-    const from = pageNumber * 8;
+    const hitsPerPage = 8;
 
     // if (!filterQuery['and']) filterQuery['and'] = [];
     // filterQuery['and'].push({ published: { match: 'PUBLISHED' } });
@@ -32,22 +30,22 @@ const GateTab = ({ filterQuery }) => {
         loading: searchLoading,
         error: searchError,
         called: searchCalled,
-    } = useQuery(gql(searchGates), {
+    } = useSearchGatesQuery({
         variables: {
-            limit: resultPerPage,
-            from: from,
-            ...(Object.keys(filterQuery).length !== 0
-                ? { filter: filterQuery }
-                : {}),
+            query: query,
+            pagination: {
+                page: pageNumber,
+                hitsPerPage
+            }
         },
     });
 
     useEffect(() => {
-        setHits(!searchLoading ? searchData?.searchGates?.items : []);
+        setHits(!searchLoading ? searchData?.search_gates?.hits : []);
         setPageCount(
-            Math.ceil(!searchLoading ? searchData?.searchGates?.items.length / resultPerPage : 0)
+            Math.ceil(!searchLoading ? searchData?.search_gates?.hits.length / hitsPerPage : 0)
         );
-    }, [searchData, searchLoading, resultPerPage]);
+    }, [searchData, searchLoading, hitsPerPage]);
 
     if (searchError) {
         return <Navigate to='/404' />;
@@ -71,7 +69,7 @@ const GateTab = ({ filterQuery }) => {
                 </SearchStyled.TextBox>
             )}
             <Styled.GateCardBox>
-                {hits?.map((item, idx) => item.published === PublishedState.PUBLISHED && (
+                {hits?.map((item, idx) => item.published === GatePublishedStatus.published && (
                     <Styled.GateItem key={idx}>
                         <GateCard gate={item} viewAsMember={true} toSearch={true} />
                     </Styled.GateItem>

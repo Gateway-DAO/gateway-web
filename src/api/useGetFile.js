@@ -1,19 +1,12 @@
 import { useState } from 'react';
-import Amplify, { Storage } from 'aws-amplify';
-import awsconfig from '../aws-exports';
 
-Amplify.configure(awsconfig);
+const BUCKET_NAME = process.env.IMAGES_BUCKET;
 
 export const useGetFile = () => {
     const [imgLoading, setImgLoading] = useState(false);
 
-    const getFile = async (key, config = {}) => {
-        setImgLoading(true);
-        const url = await Storage.get(key, {
-            level: config.level || 'public',
-        });
-        setImgLoading(false);
-        return url.split('?')[0].toString();
+    const getFile = (key, config = {}) => {
+        return `https://${BUCKET_NAME}.s3-us-east-1.amazonaws.com/${key}`;
     };
 
     return {

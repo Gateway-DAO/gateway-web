@@ -1,0 +1,22 @@
+query getUserByAddress($wallet: String) {
+    users(where: { wallet: { _eq: $wallet } }) {
+        about
+        attitudes
+        bio
+        blacklistedFlags
+        createdAt
+        device
+        id
+        init
+        knowledges
+        languages
+        name
+        pfp
+        skills
+        socials
+        updatedAt
+        username
+        wallet
+        whitelistedFlags
+    }
+}

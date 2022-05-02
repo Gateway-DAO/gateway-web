@@ -12,20 +12,14 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 
 // AWS/GraphQL
-import awsconfig from '../aws-exports';
-import { getNonce } from '../api/database/getNonce';
 import { getUserByAddress as getUserByAddressQuery } from '../graphql/queries';
 import { useLazyQuery, gql, useMutation } from '@apollo/client';
-import Amplify, { Hub, Auth } from 'aws-amplify';
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import getIPLocation, { getIP } from '../api/getIPLocation';
 import { usernameGenerator } from '../utils/functions';
 // import use3ID from '../hooks/use3ID';
-
-Amplify.configure(awsconfig);
-Auth.configure(awsconfig);
 
 export const userContext = createContext({});
 const { Provider } = userContext;
@@ -228,16 +222,6 @@ export const UserProvider = ({ children }) => {
      */
     const createNewUser = async (info = { variables: { input: {} } }) => {
         if (web3.active && !!web3.account) {
-            const id = uuidv4();
-
-            await Auth.signUp({
-                username: id,
-                password: 'password',
-                attributes: {
-                    email: 'no-reply@mygateway.xyz',
-                },
-            });
-
             const user = await createUser({
                 ...info,
                 variables: {
@@ -348,10 +332,6 @@ export const UserProvider = ({ children }) => {
 
                 setWalletConnected(true);
 
-                // 2. check Cognito
-                const { username, signInUserSession } =
-                    await Auth.currentAuthenticatedUser();
-
                 if (username) {
                     // Cognito has credentials
                     if (username === userInfo_INTERNAL?.id) {
@@ -379,35 +359,6 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         JSON.parse(localStorage.getItem('gateway-wallet')) && activateWeb3();
     }, []);
-
-    /**
-     * When the user signs in, get the user's information from the database and set it in the state.
-     * When the user signs out, set states to false.
-     * @returns None
-     */
-    const listener = async ({ payload: { event, data } }) => {
-        console.log('event', event);
-        switch (event) {
-            case 'signIn':
-                setUserInfo({
-                    ...userInfo,
-                    ...getUserGroups(data.signInUserSession),
-                });
-                setLoggedIn(true);
-                setLoggingIn(false);
-                break;
-            case 'signOut':
-                setLoggedIn(false);
-                setLoggingIn(false);
-                break;
-            default:
-        }
-    };
-
-    useEffect(() => {
-        Hub.listen('auth', listener);
-        return () => Hub.remove('auth', listener);
-    });
 
     const value = React.useMemo(
         () => ({

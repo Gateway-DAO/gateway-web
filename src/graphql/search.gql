@@ -1,0 +1,30 @@
+input AlgoliaPaginationInput {
+    page: Int
+    hitsPerPage: Int
+}
+
+### Search Queries ###
+
+query searchUsers($query: String!, $pagination: AlgoliaPaginationInput) {
+    search_users(query: $query, pagination: $pagination) {
+        hits
+    }
+}
+
+query searchGates($query: String!, $pagination: AlgoliaPaginationInput) {
+    search_gates(query: $query, pagination: $pagination) {
+        hits
+    }
+}
+
+query searchDAOs($query: String!, $pagination: AlgoliaPaginationInput) {
+    search_daos(query: $query, pagination: $pagination) {
+        hits
+    }
+}
+
+query searchCredentials($query: String!, $pagination: AlgoliaPaginationInput) {
+    search_credentials(query: $query, pagination: $pagination) {
+        hits
+    }
+}

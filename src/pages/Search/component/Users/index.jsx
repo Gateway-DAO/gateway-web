@@ -9,9 +9,9 @@ import Pagination from '../Pagination';
 
 // Hooks
 import { useEffect, useState } from 'react';
-import { useSearchUsers } from '../../../../api/database/useSearchUser';
 
 import { Navigate, useParams } from 'react-router-dom';
+import { useSearchUsersQuery } from '../../../../graphql';
 
 const UserTab = ({ filterQuery }) => {
     const [hits, setHits] = useState([]);
@@ -19,30 +19,29 @@ const UserTab = ({ filterQuery }) => {
 
     const [pageCount, setPageCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);
-    const resultPerPage = 8;
-    let from = pageNumber * 8;
+    const hitsPerPage = 8;
 
     const {
         data: searchData,
         loading: searchLoading,
         error: searchError,
         called: searchCalled,
-    } = useSearchUsers({
+    } = useSearchUsersQuery({
         variables: {
-            limit: resultPerPage,
-            from: from,
-            ...(Object.keys(filterQuery).length
-                ? { filter: filterQuery }
-                : {}),
+            query: query,
+            pagination: {
+                hitsPerPage,
+                page: pageNumber
+            }
         },
     });
 
     useEffect(() => {
-        setHits(!searchLoading ? searchData?.searchUsers?.items : []);
+        setHits(!searchLoading ? searchData?.search_users?.hits : []);
         setPageCount(
-            Math.ceil(searchData?.searchUsers?.total / resultPerPage)
+            Math.ceil(searchData?.search_users?.hits.length / hitsPerPage)
         );
-    }, [searchLoading, searchData, resultPerPage]);
+    }, [searchLoading, searchData, hitsPerPage]);
 
     if (searchError) {
         return <Navigate to='/404' />;

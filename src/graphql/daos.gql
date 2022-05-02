@@ -1,0 +1,21 @@
+query getDAO($id: uuid!) {
+    daos_by_pk(id: $id) {
+        youtube_url
+        whitelisted_flags
+        wdwd
+        updated_at
+        token_benefits
+        slug
+        mv
+        logo_url
+        id
+        how_to_join
+        hangouts
+        ens
+        description
+        created_at
+        categories
+        blacklisted_flags
+        background_url
+    }
+}

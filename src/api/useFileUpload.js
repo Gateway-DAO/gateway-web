@@ -1,20 +1,35 @@
 import { useState } from 'react';
-import Amplify, { Storage } from 'aws-amplify';
-import awsconfig from '../aws-exports';
+import { convertToBase64 } from '../utils/functions';
 
-Amplify.configure(awsconfig);
+const AWS = require('aws-sdk');
+const BUCKET_NAME = process.env.IMAGES_BUCKET;
+const s3 = new AWS.S3({});
+ 
+const config = {
+    bucketName: 'myBucket',
+    // dirName: 'media',
+    region: 'us-east-1',
+    // accessKeyId: 'JAJHAFJFHJDFJSDHFSDHFJKDSF',
+    // secretAccessKey: 'jhsdf99845fd98qwed42ebdyeqwd-3r98f373f=qwrq3rfr3rf',
+}
 
 export const useFileUpload = () => {
 	const [imgLoading, setImgLoading] = useState(false);
 
-	const uploadFile = async (fileName, file, config = {}) => {
+	const uploadFile = async (fileName, file, type) => {
+		const base64File = await convertToBase64(file);
+
+		const params = {
+			Bucket: `${BUCKET_NAME}/images`,
+			Key: fileName,
+			Body: base64File,
+			ContentType: type
+		};
+
 		setImgLoading(true);
-		await Storage.put(fileName, file, config);
-		const url = await Storage.get(fileName, {
-			level: config.level || 'public',
-		});
+		const data = await s3.upload(params).promise();
 		setImgLoading(false);
-		return url.split('?')[0].toString();
+		return data.location;
 	};
 
 	return {

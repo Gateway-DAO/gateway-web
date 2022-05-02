@@ -52,3 +52,18 @@ export const usernameGenerator = () => {
         Math.floor(Math.random() * 100)
     );
 };
+
+/**
+ * It takes a file and returns a promise that resolves to the base64 representation of the file
+ * @param file - The file to be converted to base64
+ * @returns A promise that resolves to a base64 string
+ */
+export const convertToBase64 = (file) => {
+    return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            resolve(reader.result.split(',')[1]);
+        }
+    })
+}

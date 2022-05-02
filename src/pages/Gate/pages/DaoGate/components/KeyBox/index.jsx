@@ -16,7 +16,7 @@ import Loader from '../../../../../../components/Loader';
 
 // API
 import { useMutation, gql } from '@apollo/client';
-import { deleteKey } from '../../../../../../graphql/mutations';
+import { DeleteKeyDocument } from '../../../../../../graphql/graphql';
 
 const parsedKeyName = (name) => {
     switch (name) {
@@ -50,7 +50,7 @@ const KeyBox = (props) => {
     const [showModal, setShowModal] = useState(false);
 
     // API
-    const [deleteMutation] = useMutation(gql(deleteKey), {
+    const [deleteMutation] = useMutation(DeleteKeyDocument, {
         variables: {
             input: {
                 id: data.id,
