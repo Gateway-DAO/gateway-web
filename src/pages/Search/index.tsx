@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import * as Styled from './style';
 
 // Hooks
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 // Components
 import Header from '../../components/Header';
@@ -20,20 +20,23 @@ import { DAOFilter, GateFilter, UserFilter } from './component/Filters';
 // import { searchDaos } from '../../graphql/queries';
 
 const Search = () => {
-    const location: any = useLocation();
+    const navigate = useNavigate();
+    const { tab }: any = useParams();
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const searchTerm: string = params.get("query");
 
-    const [selectionTab, setSelectionTab] = useState('DAOs');
     const [daoFilterQuery, setDaoFilterQuery] = useState({});
     const [userFilterQuery, setUserFilterQuery] = useState({});
     const [gateFilterQuery, setGateFilterQuery] = useState({});
 
     const ActiveTab = () => {
-        switch (selectionTab) {
-            case 'DAOs':
+        switch (tab) {
+            case 'daos':
                 return <DAOTab filterQuery={daoFilterQuery} />;
-            case 'Users':
+            case 'users':
                 return <UserTab filterQuery={userFilterQuery} />;
-            case 'Gates':
+            case 'gates':
                 return <GateTab filterQuery={gateFilterQuery} />;
             default:
                 return <DAOTab filterQuery={daoFilterQuery} />;
@@ -41,32 +44,25 @@ const Search = () => {
     };
 
     const ActiveFilter = () => {
-        switch (selectionTab) {
-            case 'DAOs':
+        switch (tab) {
+            case 'daos':
                 return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
-            case 'Users':
+            case 'users':
                 return <UserFilter setUserFilterQuery={setUserFilterQuery} />;
-            case 'Gates':
+            case 'gates':
                 return <GateFilter setGateFilterQuery={setGateFilterQuery} />;
             default:
                 return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
         }
     };
 
-    const FilterComponent = React.useMemo(() => ActiveFilter, [selectionTab]);
+    const FilterComponent = React.useMemo(() => ActiveFilter, [tab]);
     const TabComponent = React.useMemo(() => ActiveTab, [
-        selectionTab,
+        tab,
         daoFilterQuery,
         userFilterQuery,
         gateFilterQuery
     ]);
-
-    useEffect(() => {
-        if (location.state && location.state.tab) {
-            setSelectionTab(location.state.tab);
-            window.history.replaceState({}, undefined, '/search');
-        }
-    }, [location]);
 
     return (
         <Styled.Container>
@@ -74,24 +70,24 @@ const Search = () => {
             <Styled.Nav>
                 <Styled.DAOAndUserSelectionContainer>
                     <Styled.SelectContainer
-                        active={'DAOs' === selectionTab}
-                        onClick={() => setSelectionTab('DAOs')}
+                        active={'daos' === tab}
+                        onClick={() => navigate(`/search/daos${searchTerm ? `?query=${searchTerm}` : ''}`)}
                     >
                         <Styled.SelectContainerText>
                             DAOs
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                     <Styled.SelectContainer
-                        active={'Users' === selectionTab}
-                        onClick={() => setSelectionTab('Users')}
+                        active={'users' === tab}
+                        onClick={() => navigate(`/search/users${searchTerm ? `?query=${searchTerm}` : ''}`)}
                     >
                         <Styled.SelectContainerText>
                             Users
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                     <Styled.SelectContainer
-                        active={'Gates' === selectionTab}
-                        onClick={() => setSelectionTab('Gates')}
+                        active={'gates' === tab}
+                        onClick={() => navigate(`/search/gates${searchTerm ? `?query=${searchTerm}` : ''}`)}
                     >
                         <Styled.SelectContainerText>
                             Gates

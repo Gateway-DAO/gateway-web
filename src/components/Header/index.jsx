@@ -2,7 +2,7 @@ import * as Styled from './style';
 import logo from '../../assets/Gateway.svg';
 import useMediaQueries from '../../hooks/useMediaQueries';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import { useLocation, useClickAway } from 'react-use';
 import { SOCIALS } from '../../utils/constants';
 
@@ -15,11 +15,16 @@ var timeOut = null;
 const Header = (props) => {
 	const { xs } = useMediaQueries();
 	const location = useLocation();
-	const { query: searchQuery } = useParams();
-	const [flagDropdown, setFlagDropdown] = useState(false);
-	const [filterQuery, setFilterQuery] = useState(location.pathname.includes('/search') && searchQuery || "");
-	const [query, setQuery] = useState(location.pathname.includes('/search') && searchQuery || "");
 	const navigate = useNavigate();
+	const { tab } = useParams();
+
+	const params = new URLSearchParams(location.search);
+	const searchQuery = params.get("query");
+
+	const [flagDropdown, setFlagDropdown] = useState(false);
+	const [filterQuery, setFilterQuery] = useState("");
+	const [query, setQuery] = useState("");
+
 	const dropdownRef = useRef(null);
 
 	const search = (e) => {
@@ -36,13 +41,18 @@ const Header = (props) => {
 			setFlagDropdown(false);
 		}
 		if (e.key == 'Enter') {
-			navigate(`/search/${query}`, { tab: 'DAOs' });
+			navigate(`/search/${tab}${query && `?query=${query}`}`);
 		}
 	}
 
 	useClickAway(dropdownRef, () => {
 		setFlagDropdown(false);
 	});
+
+	useEffect(() => {
+		setQuery(location.pathname.includes('/search') && searchQuery || "")
+		setFilterQuery(location.pathname.includes('/search') && searchQuery || "")
+	}, [searchQuery])
 
 	const SearchDropDownComponent = useMemo(() => () => flagDropdown && <SearchDropdown query={filterQuery} />, [
 		filterQuery,
@@ -75,22 +85,13 @@ const Header = (props) => {
 					</Styled.SearchBox>
 					{!xs || (
 						<Styled.GroupLink>
-							<Styled.OptionLink
-								to='/search'
-								state={{ tab: 'DAOs' }}
-							>
+							<Styled.OptionLink to='/search/daos'>
 								<Styled.Text color='#E5E5E5'>DAOs</Styled.Text>
 							</Styled.OptionLink>
-							<Styled.OptionLink
-								to='/search'
-								state={{ tab: 'Gates' }}
-							>
+							<Styled.OptionLink to='/search/gates'>
 								<Styled.Text color='#E5E5E5'>Gates</Styled.Text>
 							</Styled.OptionLink>
-							<Styled.OptionLink
-								to='/search'
-								state={{ tab: 'Users' }}
-							>
+							<Styled.OptionLink to='/search/users'>
 								<Styled.Text color='#E5E5E5'>
 									People
 								</Styled.Text>

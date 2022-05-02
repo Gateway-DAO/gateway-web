@@ -11,11 +11,13 @@ import Pagination from '../Pagination';
 import { useEffect, useState } from 'react';
 import { useSearchUsers } from '../../../../api/database/useSearchUser';
 
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const UserTab = ({ filterQuery }) => {
     const [hits, setHits] = useState([]);
-    const { query } = useParams();
+    const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	const query = params.get("query");
 
     const [pageCount, setPageCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(0);

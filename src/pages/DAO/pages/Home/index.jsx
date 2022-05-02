@@ -23,14 +23,14 @@ const DAOHome = (props) => {
 
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            navigate(`/search/${e.target.value}`);
+            navigate(`/search/daos?query=${e.target.value}`);
         }
     };
 
     return (
         <>
             <Styled.SearchTermContainer>
-                <BackButton url='/search/' state={{ tab: 'DAOs' }}>Go Back</BackButton>
+                <BackButton url='/search/daos'>Go Back</BackButton>
             </Styled.SearchTermContainer>
 
             {!loaded && (

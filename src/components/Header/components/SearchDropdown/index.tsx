@@ -60,7 +60,7 @@ export default function SearchDropdown({ query }: Props) {
 	});
 
 	const goToAll = () => {
-		navigate(`/search/${query}`);
+		navigate(`/search/daos?query=${query}`);
 	}
 
 	return (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import useSearchDAO from '../../../../../api/database/useSearchDAO';
 import * as Styled from '../../../style';
 import FilterDropdown from '../../FilterDropdown';
@@ -34,7 +34,9 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
         called: listCalled,
     } = useSearchDAO();
 
-    var { query: searchTerm } = useParams();
+    const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	var searchTerm: string = params.get("query");
 
     if (searchTerm && searchTerm.toLowerCase().trim() === 'all') searchTerm = '';
 
