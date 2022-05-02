@@ -12,9 +12,9 @@ import Loader from '../../Loader';
 import { useSignedAuth } from '../../../contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { useFileUpload } from '../../../api/useFileUpload';
-import useSearchDAO from '../../../api/database/useSearchDAO';
 import { useLazyGetUserByUsername } from '../../../api/database/useGetUser';
 import { ImageUpload } from '../../Form';
+import { useSearchDaOsQuery } from '../../../graphql';
 
 const ProfileEditModal = (props) => {
     const [name, setName] = useState(props.name || '');
@@ -44,17 +44,11 @@ const ProfileEditModal = (props) => {
         loading: searchLoading,
         data: searchData,
         error: searchError,
-    } = useSearchDAO({
+    } = useSearchDaOsQuery({
         variables: {
-            filter: {
-                or: [
-                    { dao: { wildcard: `*${searchTerm}*` } },
-                    { name: { wildcard: `*${searchTerm}*` } },
-                    { description: { wildcard: `*${searchTerm}*` } },
-                ],
-            },
-        },
-    });
+            query: searchTerm
+        }
+    })
 
     const uploadPfp = async () => {
         const file = pfp;

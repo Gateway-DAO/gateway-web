@@ -4,63 +4,32 @@ import 'react-circular-progressbar/dist/styles.css';
 
 // Components
 import EditIcon from '../../theme/icons/Edit';
-import Switch from 'react-switch';
 import { CircularProgressbar } from 'react-circular-progressbar';
 
 // Hooks
 import { useState, useEffect } from 'react';
-// import useAdmin from '../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/UserContext';
-import { getGateStatusByUserId } from '../../graphql/queries';
-import { useQuery, gql, useMutation, useLazyQuery } from '@apollo/client';
-import { updateGate } from '../../graphql/mutations';
-import { PublishedState } from '../../graphql/API';
-// import { gql, useLazyQuery } from '@apollo/client';
-import { searchUsers } from '../../graphql/queries';
-import { useGateAdmin } from '../../hooks/useAdmin';
+import { useGetGateProgressQuery } from '../../graphql';
 
 /* This is a card that displays information about a gate. */
 const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
     // State
-    const [checked, setChecked] = useState(gate.published === 'PUBLISHED');
     const [numberOfWords, setNumberOfWords] = useState(100);
 
     // Hooks
-    // const { !viewAsMember } = useAdmin(gate.admins || []);
     const { userInfo, activateWeb3, walletConnected } = useAuth();
-    const { isAdmin } = useGateAdmin(gate.admins);
     const navigate = useNavigate();
-    const [update] = useMutation(gql(updateGate));
-    const { data } = useQuery(gql(getGateStatusByUserId), {
+    const { data } = useGetGateProgressQuery({
         variables: {
-            userID: userInfo?.id,
-            filter: {
-                gateID: {
-                    eq: gate.id,
-                },
-            },
-        },
-    });
-
-    const [
-        searchByUsers,
-        {
-            data: searchUserData,
-            loading: searchUserLoading,
-            refetch: searchUserRefetch,
-            called: searchUserCalled,
-        },
-    ] = useLazyQuery(gql(searchUsers), {
-        variables: {
-            filter: {
-                id: {
-                    eq: `*${gate.admins[0]}*`,
-                },
-            },
-        },
-    });
-    // console.log(searchUserData);
+            where: {
+                _and: [
+                    { gate_id: gate.id },
+                    { user_id: userInfo?.id }
+                ]
+            }
+        }
+    })
 
     useEffect(() => {
         if (window.innerWidth < 1171 && window.innerWidth > 900) {
@@ -75,35 +44,6 @@ const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
             setNumberOfWords(130);
         }
     }, [window.innerWidth]);
-    /**
-     * It toggles the published state of the gate.
-     */
-    const toggleGatePublished = async () => {
-        try {
-            const published_INTERNAL =
-                gate.published === PublishedState.NOT_PUBLISHED
-                    ? PublishedState.PUBLISHED
-                    : gate.published === PublishedState.PUBLISHED
-                    ? PublishedState.PAUSED
-                    : gate.published === PublishedState.PAUSED
-                    ? PublishedState.PUBLISHED
-                    : gate.published;
-
-            setChecked(published_INTERNAL === 'PUBLISHED');
-
-            await update({
-                variables: {
-                    input: {
-                        id: gate.id,
-                        published: published_INTERNAL,
-                    },
-                },
-            });
-        } catch (err) {
-            alert('An error ocurred');
-            console.log(err);
-        }
-    };
 
     /**
      * It returns the text for the button based on the status of the gate.

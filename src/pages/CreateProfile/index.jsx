@@ -13,11 +13,10 @@ import Loader from '../../components/Loader';
 import { ImageUpload } from '../../components/Form';
 
 // Hooks
-import { useSearchDAO } from '../../api/database/useSearchDAO';
-import { useListDAOs } from '../../api/database/useGetDAO';
 import { useFileUpload } from '../../api/useFileUpload';
 import { useGetFile } from '../../api/useGetFile';
 import { useAuth } from '../../contexts/UserContext';
+import { useSearchDaOsQuery } from '../../graphql';
 
 const CreateProfile = () => {
     const { userInfo, updateUserInfo } = useAuth();
@@ -35,32 +34,17 @@ const CreateProfile = () => {
     const [searchRes, setSearchRes] = useState([]);
     const [updateLoading, setUpdateLoading] = useState(false);
 
-    const {
-        loading: listLoading,
-        data: listData,
-        error: listError,
-    } = useListDAOs();
-
     // Search DAO
     const {
         loading: searchLoading,
         data: searchData,
         error: searchError,
-    } = useSearchDAO({
+    } = useSearchDaOsQuery({
         variables: {
-            filter: {
-                or: [
-                    { dao: { wildcard: `*${searchTerm.toLowerCase()}*` } },
-                    { name: { wildcard: `*${searchTerm.toLowerCase()}*` } },
-                    {
-                        description: {
-                            wildcard: `*${searchTerm.toLowerCase()}*`,
-                        },
-                    },
-                ],
-            },
-        },
-    });
+            query: searchTerm
+        }
+    })
+
     const [loading, setLoading] = useState(false);
 
     // Upload file hook

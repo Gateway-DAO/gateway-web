@@ -17,5 +17,64 @@ query getDAO($id: uuid!) {
         categories
         blacklisted_flags
         background_url
+        accomplishments
+        faq
+        token
     }
+}
+
+query listDAOs {
+    daos {
+        youtube_url
+        whitelisted_flags
+        wdwd
+        updated_at
+        token_benefits
+        slug
+        mv
+        logo_url
+        id
+        how_to_join
+        hangouts
+        ens
+        description
+        created_at
+        categories
+        blacklisted_flags
+        background_url
+        accomplishments
+        faq
+        token
+    }
+}
+
+mutation updateDAO($id: uuid!, $set: daos_set_input = {}) {
+  update_daos_by_pk(pk_columns: { id: $id }, _set: $set) {
+    background_url
+    blacklisted_flags
+    categories
+    created_at
+    description
+    ens
+    hangouts
+    how_to_join
+    id
+    logo_url
+    mv
+    slug
+    token_benefits
+    updated_at
+    wdwd
+    whitelisted_flags
+    youtube_url
+    accomplishments
+    faq
+    token
+  }
+}
+
+mutation deleteDAO($id: uuid!) {
+  delete_daos_by_pk(id: $id) {
+    id
+  }
 }

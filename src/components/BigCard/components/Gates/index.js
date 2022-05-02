@@ -4,7 +4,7 @@ import Subcategories from './Subcategories';
 import GateCard from '../../../GateCard';
 import { GradientSVG } from '../../../ProgressCircle';
 import { useAdmin } from '../../../../hooks/useAdmin';
-import { PublishedState } from '../../../../graphql/API';
+import { GatePublishedStatus } from '../../../../graphql';
 import Pagination from '../../../../pages/Search/component/Pagination';
 
 const Gates = (props) => {
@@ -46,7 +46,7 @@ const Gates = (props) => {
 
                     if (
                         props.viewAsMember &&
-                        gate.published === PublishedState.PUBLISHED
+                        gate.published === GatePublishedStatus.published
                     ) {
                         return (
                             <Styled.GateItem key={idx}>

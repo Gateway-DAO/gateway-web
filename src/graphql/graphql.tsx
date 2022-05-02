@@ -432,18 +432,21 @@ export enum Credentials_Update_Column {
 /** columns and relationships of "daos" */
 export type Daos = {
   __typename?: 'daos';
+  accomplishments?: Maybe<Scalars['String']>;
   background_url: Scalars['String'];
   blacklisted_flags: Scalars['_text'];
   categories?: Maybe<Scalars['_text']>;
   created_at: Scalars['timestamp'];
   description: Scalars['String'];
   ens?: Maybe<Scalars['String']>;
+  faq?: Maybe<Scalars['_json']>;
   hangouts?: Maybe<Scalars['_text']>;
   how_to_join?: Maybe<Scalars['_text']>;
   id: Scalars['uuid'];
   logo_url: Scalars['String'];
   mv?: Maybe<Scalars['_text']>;
   slug: Scalars['String'];
+  token?: Maybe<Scalars['String']>;
   token_benefits?: Maybe<Scalars['_token_benefit']>;
   updated_at: Scalars['timestamp'];
   wdwd?: Maybe<Scalars['String']>;
@@ -478,18 +481,21 @@ export type Daos_Bool_Exp = {
   _and?: InputMaybe<Array<Daos_Bool_Exp>>;
   _not?: InputMaybe<Daos_Bool_Exp>;
   _or?: InputMaybe<Array<Daos_Bool_Exp>>;
+  accomplishments?: InputMaybe<String_Comparison_Exp>;
   background_url?: InputMaybe<String_Comparison_Exp>;
   blacklisted_flags?: InputMaybe<_Text_Comparison_Exp>;
   categories?: InputMaybe<_Text_Comparison_Exp>;
   created_at?: InputMaybe<Timestamp_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   ens?: InputMaybe<String_Comparison_Exp>;
+  faq?: InputMaybe<_Json_Comparison_Exp>;
   hangouts?: InputMaybe<_Text_Comparison_Exp>;
   how_to_join?: InputMaybe<_Text_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   logo_url?: InputMaybe<String_Comparison_Exp>;
   mv?: InputMaybe<_Text_Comparison_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
+  token?: InputMaybe<String_Comparison_Exp>;
   token_benefits?: InputMaybe<_Token_Benefit_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
   wdwd?: InputMaybe<String_Comparison_Exp>;
@@ -511,18 +517,21 @@ export enum Daos_Constraint {
 
 /** input type for inserting data into table "daos" */
 export type Daos_Insert_Input = {
+  accomplishments?: InputMaybe<Scalars['String']>;
   background_url?: InputMaybe<Scalars['String']>;
   blacklisted_flags?: InputMaybe<Scalars['_text']>;
   categories?: InputMaybe<Scalars['_text']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
   description?: InputMaybe<Scalars['String']>;
   ens?: InputMaybe<Scalars['String']>;
+  faq?: InputMaybe<Scalars['_json']>;
   hangouts?: InputMaybe<Scalars['_text']>;
   how_to_join?: InputMaybe<Scalars['_text']>;
   id?: InputMaybe<Scalars['uuid']>;
   logo_url?: InputMaybe<Scalars['String']>;
   mv?: InputMaybe<Scalars['_text']>;
   slug?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
   token_benefits?: InputMaybe<Scalars['_token_benefit']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
   wdwd?: InputMaybe<Scalars['String']>;
@@ -533,6 +542,7 @@ export type Daos_Insert_Input = {
 /** aggregate max on columns */
 export type Daos_Max_Fields = {
   __typename?: 'daos_max_fields';
+  accomplishments?: Maybe<Scalars['String']>;
   background_url?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['timestamp']>;
   description?: Maybe<Scalars['String']>;
@@ -540,6 +550,7 @@ export type Daos_Max_Fields = {
   id?: Maybe<Scalars['uuid']>;
   logo_url?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamp']>;
   wdwd?: Maybe<Scalars['String']>;
   youtube_url?: Maybe<Scalars['String']>;
@@ -548,6 +559,7 @@ export type Daos_Max_Fields = {
 /** aggregate min on columns */
 export type Daos_Min_Fields = {
   __typename?: 'daos_min_fields';
+  accomplishments?: Maybe<Scalars['String']>;
   background_url?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['timestamp']>;
   description?: Maybe<Scalars['String']>;
@@ -555,6 +567,7 @@ export type Daos_Min_Fields = {
   id?: Maybe<Scalars['uuid']>;
   logo_url?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamp']>;
   wdwd?: Maybe<Scalars['String']>;
   youtube_url?: Maybe<Scalars['String']>;
@@ -578,18 +591,21 @@ export type Daos_On_Conflict = {
 
 /** Ordering options when selecting data from "daos". */
 export type Daos_Order_By = {
+  accomplishments?: InputMaybe<Order_By>;
   background_url?: InputMaybe<Order_By>;
   blacklisted_flags?: InputMaybe<Order_By>;
   categories?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   ens?: InputMaybe<Order_By>;
+  faq?: InputMaybe<Order_By>;
   hangouts?: InputMaybe<Order_By>;
   how_to_join?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   logo_url?: InputMaybe<Order_By>;
   mv?: InputMaybe<Order_By>;
   slug?: InputMaybe<Order_By>;
+  token?: InputMaybe<Order_By>;
   token_benefits?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   wdwd?: InputMaybe<Order_By>;
@@ -605,6 +621,8 @@ export type Daos_Pk_Columns_Input = {
 /** select columns of table "daos" */
 export enum Daos_Select_Column {
   /** column name */
+  Accomplishments = 'accomplishments',
+  /** column name */
   BackgroundUrl = 'background_url',
   /** column name */
   BlacklistedFlags = 'blacklisted_flags',
@@ -617,6 +635,8 @@ export enum Daos_Select_Column {
   /** column name */
   Ens = 'ens',
   /** column name */
+  Faq = 'faq',
+  /** column name */
   Hangouts = 'hangouts',
   /** column name */
   HowToJoin = 'how_to_join',
@@ -628,6 +648,8 @@ export enum Daos_Select_Column {
   Mv = 'mv',
   /** column name */
   Slug = 'slug',
+  /** column name */
+  Token = 'token',
   /** column name */
   TokenBenefits = 'token_benefits',
   /** column name */
@@ -642,18 +664,21 @@ export enum Daos_Select_Column {
 
 /** input type for updating data in table "daos" */
 export type Daos_Set_Input = {
+  accomplishments?: InputMaybe<Scalars['String']>;
   background_url?: InputMaybe<Scalars['String']>;
   blacklisted_flags?: InputMaybe<Scalars['_text']>;
   categories?: InputMaybe<Scalars['_text']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
   description?: InputMaybe<Scalars['String']>;
   ens?: InputMaybe<Scalars['String']>;
+  faq?: InputMaybe<Scalars['_json']>;
   hangouts?: InputMaybe<Scalars['_text']>;
   how_to_join?: InputMaybe<Scalars['_text']>;
   id?: InputMaybe<Scalars['uuid']>;
   logo_url?: InputMaybe<Scalars['String']>;
   mv?: InputMaybe<Scalars['_text']>;
   slug?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
   token_benefits?: InputMaybe<Scalars['_token_benefit']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
   wdwd?: InputMaybe<Scalars['String']>;
@@ -663,6 +688,8 @@ export type Daos_Set_Input = {
 
 /** update columns of table "daos" */
 export enum Daos_Update_Column {
+  /** column name */
+  Accomplishments = 'accomplishments',
   /** column name */
   BackgroundUrl = 'background_url',
   /** column name */
@@ -676,6 +703,8 @@ export enum Daos_Update_Column {
   /** column name */
   Ens = 'ens',
   /** column name */
+  Faq = 'faq',
+  /** column name */
   Hangouts = 'hangouts',
   /** column name */
   HowToJoin = 'how_to_join',
@@ -687,6 +716,8 @@ export enum Daos_Update_Column {
   Mv = 'mv',
   /** column name */
   Slug = 'slug',
+  /** column name */
+  Token = 'token',
   /** column name */
   TokenBenefits = 'token_benefits',
   /** column name */
@@ -2816,7 +2847,27 @@ export type GetDaoQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string } | null };
+export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } | null };
+
+export type ListDaOsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListDaOsQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null }> };
+
+export type UpdateDaoMutationVariables = Exact<{
+  id: Scalars['uuid'];
+  set?: InputMaybe<Daos_Set_Input>;
+}>;
+
+
+export type UpdateDaoMutation = { __typename?: 'mutation_root', update_daos_by_pk?: { __typename?: 'daos', background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, token_benefits?: any | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null, accomplishments?: string | null, faq?: any | null, token?: string | null } | null };
+
+export type DeleteDaoMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteDaoMutation = { __typename?: 'mutation_root', delete_daos_by_pk?: { __typename?: 'daos', id: any } | null };
 
 export type GetGateQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -2825,6 +2876,11 @@ export type GetGateQueryVariables = Exact<{
 
 export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links?: any | null, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null } | null };
 
+export type ListGatesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links?: any | null, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null }> };
+
 export type GetKeyQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -2832,8 +2888,23 @@ export type GetKeyQueryVariables = Exact<{
 
 export type GetKeyQuery = { __typename?: 'query_root', keys_by_pk?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null };
 
+export type GetGateProgressQueryVariables = Exact<{
+  where?: InputMaybe<Gate_Progress_Bool_Exp>;
+}>;
+
+
+export type GetGateProgressQuery = { __typename?: 'query_root', gate_progress: Array<{ __typename?: 'gate_progress', user_id: any, updated_at: any, status: any, id: any, gate_id: any, created_at: any }> };
+
+export type CreateGateMutationVariables = Exact<{
+  object?: InputMaybe<Gates_Insert_Input>;
+}>;
+
+
+export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links?: any | null, nft_type: any, published: any, skills?: any | null } | null };
+
 export type UpdateGateMutationVariables = Exact<{
   id: Scalars['uuid'];
+  set?: InputMaybe<Gates_Set_Input>;
 }>;
 
 
@@ -2845,6 +2916,13 @@ export type DeleteGateMutationVariables = Exact<{
 
 
 export type DeleteGateMutation = { __typename?: 'mutation_root', delete_gates_by_pk?: { __typename?: 'gates', id: any } | null };
+
+export type CreateKeyMutationVariables = Exact<{
+  object?: InputMaybe<Keys_Insert_Input>;
+}>;
+
+
+export type CreateKeyMutation = { __typename?: 'mutation_root', insert_keys_one?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null };
 
 export type DeleteKeyMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -2922,6 +3000,9 @@ export const GetDaoDocument = gql`
     categories
     blacklisted_flags
     background_url
+    accomplishments
+    faq
+    token
   }
 }
     `;
@@ -2953,6 +3034,145 @@ export function useGetDaoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetDaoQueryHookResult = ReturnType<typeof useGetDaoQuery>;
 export type GetDaoLazyQueryHookResult = ReturnType<typeof useGetDaoLazyQuery>;
 export type GetDaoQueryResult = Apollo.QueryResult<GetDaoQuery, GetDaoQueryVariables>;
+export const ListDaOsDocument = gql`
+    query listDAOs {
+  daos {
+    youtube_url
+    whitelisted_flags
+    wdwd
+    updated_at
+    token_benefits
+    slug
+    mv
+    logo_url
+    id
+    how_to_join
+    hangouts
+    ens
+    description
+    created_at
+    categories
+    blacklisted_flags
+    background_url
+    accomplishments
+    faq
+    token
+  }
+}
+    `;
+
+/**
+ * __useListDaOsQuery__
+ *
+ * To run a query within a React component, call `useListDaOsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListDaOsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListDaOsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListDaOsQuery(baseOptions?: Apollo.QueryHookOptions<ListDaOsQuery, ListDaOsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListDaOsQuery, ListDaOsQueryVariables>(ListDaOsDocument, options);
+      }
+export function useListDaOsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListDaOsQuery, ListDaOsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListDaOsQuery, ListDaOsQueryVariables>(ListDaOsDocument, options);
+        }
+export type ListDaOsQueryHookResult = ReturnType<typeof useListDaOsQuery>;
+export type ListDaOsLazyQueryHookResult = ReturnType<typeof useListDaOsLazyQuery>;
+export type ListDaOsQueryResult = Apollo.QueryResult<ListDaOsQuery, ListDaOsQueryVariables>;
+export const UpdateDaoDocument = gql`
+    mutation updateDAO($id: uuid!, $set: daos_set_input = {}) {
+  update_daos_by_pk(pk_columns: {id: $id}, _set: $set) {
+    background_url
+    blacklisted_flags
+    categories
+    created_at
+    description
+    ens
+    hangouts
+    how_to_join
+    id
+    logo_url
+    mv
+    slug
+    token_benefits
+    updated_at
+    wdwd
+    whitelisted_flags
+    youtube_url
+    accomplishments
+    faq
+    token
+  }
+}
+    `;
+export type UpdateDaoMutationFn = Apollo.MutationFunction<UpdateDaoMutation, UpdateDaoMutationVariables>;
+
+/**
+ * __useUpdateDaoMutation__
+ *
+ * To run a mutation, you first call `useUpdateDaoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateDaoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateDaoMutation, { data, loading, error }] = useUpdateDaoMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      set: // value for 'set'
+ *   },
+ * });
+ */
+export function useUpdateDaoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateDaoMutation, UpdateDaoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateDaoMutation, UpdateDaoMutationVariables>(UpdateDaoDocument, options);
+      }
+export type UpdateDaoMutationHookResult = ReturnType<typeof useUpdateDaoMutation>;
+export type UpdateDaoMutationResult = Apollo.MutationResult<UpdateDaoMutation>;
+export type UpdateDaoMutationOptions = Apollo.BaseMutationOptions<UpdateDaoMutation, UpdateDaoMutationVariables>;
+export const DeleteDaoDocument = gql`
+    mutation deleteDAO($id: uuid!) {
+  delete_daos_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteDaoMutationFn = Apollo.MutationFunction<DeleteDaoMutation, DeleteDaoMutationVariables>;
+
+/**
+ * __useDeleteDaoMutation__
+ *
+ * To run a mutation, you first call `useDeleteDaoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDaoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDaoMutation, { data, loading, error }] = useDeleteDaoMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteDaoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDaoMutation, DeleteDaoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteDaoMutation, DeleteDaoMutationVariables>(DeleteDaoDocument, options);
+      }
+export type DeleteDaoMutationHookResult = ReturnType<typeof useDeleteDaoMutation>;
+export type DeleteDaoMutationResult = Apollo.MutationResult<DeleteDaoMutation>;
+export type DeleteDaoMutationOptions = Apollo.BaseMutationOptions<DeleteDaoMutation, DeleteDaoMutationVariables>;
 export const GetGateDocument = gql`
     query getGate($id: uuid!) {
   gates_by_pk(id: $id) {
@@ -3000,6 +3220,52 @@ export function useGetGateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetGateQueryHookResult = ReturnType<typeof useGetGateQuery>;
 export type GetGateLazyQueryHookResult = ReturnType<typeof useGetGateLazyQuery>;
 export type GetGateQueryResult = Apollo.QueryResult<GetGateQuery, GetGateQueryVariables>;
+export const ListGatesDocument = gql`
+    query listGates {
+  gates {
+    skills
+    published
+    nft_type
+    links
+    knowledge
+    keys
+    id
+    gate_name
+    description
+    dao_id
+    categories
+    badge
+    attitudes
+  }
+}
+    `;
+
+/**
+ * __useListGatesQuery__
+ *
+ * To run a query within a React component, call `useListGatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListGatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListGatesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListGatesQuery(baseOptions?: Apollo.QueryHookOptions<ListGatesQuery, ListGatesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListGatesQuery, ListGatesQueryVariables>(ListGatesDocument, options);
+      }
+export function useListGatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListGatesQuery, ListGatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListGatesQuery, ListGatesQueryVariables>(ListGatesDocument, options);
+        }
+export type ListGatesQueryHookResult = ReturnType<typeof useListGatesQuery>;
+export type ListGatesLazyQueryHookResult = ReturnType<typeof useListGatesLazyQuery>;
+export type ListGatesQueryResult = Apollo.QueryResult<ListGatesQuery, ListGatesQueryVariables>;
 export const GetKeyDocument = gql`
     query getKey($id: uuid!) {
   keys_by_pk(id: $id) {
@@ -3042,9 +3308,94 @@ export function useGetKeyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetKeyQueryHookResult = ReturnType<typeof useGetKeyQuery>;
 export type GetKeyLazyQueryHookResult = ReturnType<typeof useGetKeyLazyQuery>;
 export type GetKeyQueryResult = Apollo.QueryResult<GetKeyQuery, GetKeyQueryVariables>;
+export const GetGateProgressDocument = gql`
+    query getGateProgress($where: gate_progress_bool_exp = {}) {
+  gate_progress(where: $where) {
+    user_id
+    updated_at
+    status
+    id
+    gate_id
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetGateProgressQuery__
+ *
+ * To run a query within a React component, call `useGetGateProgressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGateProgressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGateProgressQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGetGateProgressQuery(baseOptions?: Apollo.QueryHookOptions<GetGateProgressQuery, GetGateProgressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGateProgressQuery, GetGateProgressQueryVariables>(GetGateProgressDocument, options);
+      }
+export function useGetGateProgressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGateProgressQuery, GetGateProgressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGateProgressQuery, GetGateProgressQueryVariables>(GetGateProgressDocument, options);
+        }
+export type GetGateProgressQueryHookResult = ReturnType<typeof useGetGateProgressQuery>;
+export type GetGateProgressLazyQueryHookResult = ReturnType<typeof useGetGateProgressLazyQuery>;
+export type GetGateProgressQueryResult = Apollo.QueryResult<GetGateProgressQuery, GetGateProgressQueryVariables>;
+export const CreateGateDocument = gql`
+    mutation createGate($object: gates_insert_input = {}) {
+  insert_gates_one(object: $object) {
+    attitudes
+    badge
+    categories
+    dao_id
+    description
+    gate_name
+    id
+    keys
+    knowledge
+    links
+    nft_type
+    published
+    skills
+  }
+}
+    `;
+export type CreateGateMutationFn = Apollo.MutationFunction<CreateGateMutation, CreateGateMutationVariables>;
+
+/**
+ * __useCreateGateMutation__
+ *
+ * To run a mutation, you first call `useCreateGateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGateMutation, { data, loading, error }] = useCreateGateMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useCreateGateMutation(baseOptions?: Apollo.MutationHookOptions<CreateGateMutation, CreateGateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateGateMutation, CreateGateMutationVariables>(CreateGateDocument, options);
+      }
+export type CreateGateMutationHookResult = ReturnType<typeof useCreateGateMutation>;
+export type CreateGateMutationResult = Apollo.MutationResult<CreateGateMutation>;
+export type CreateGateMutationOptions = Apollo.BaseMutationOptions<CreateGateMutation, CreateGateMutationVariables>;
 export const UpdateGateDocument = gql`
-    mutation updateGate($id: uuid!) {
-  update_gates_by_pk(pk_columns: {id: $id}) {
+    mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
+  update_gates_by_pk(pk_columns: {id: ""}, _set: $set) {
     attitudes
     badge
     categories
@@ -3077,6 +3428,7 @@ export type UpdateGateMutationFn = Apollo.MutationFunction<UpdateGateMutation, U
  * const [updateGateMutation, { data, loading, error }] = useUpdateGateMutation({
  *   variables: {
  *      id: // value for 'id'
+ *      set: // value for 'set'
  *   },
  * });
  */
@@ -3120,6 +3472,46 @@ export function useDeleteGateMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteGateMutationHookResult = ReturnType<typeof useDeleteGateMutation>;
 export type DeleteGateMutationResult = Apollo.MutationResult<DeleteGateMutation>;
 export type DeleteGateMutationOptions = Apollo.BaseMutationOptions<DeleteGateMutation, DeleteGateMutationVariables>;
+export const CreateKeyDocument = gql`
+    mutation createKey($object: keys_insert_input = {}) {
+  insert_keys_one(object: $object) {
+    gate_id
+    id
+    information
+    keys
+    people_limit
+    task
+    task_type
+    unlimited
+  }
+}
+    `;
+export type CreateKeyMutationFn = Apollo.MutationFunction<CreateKeyMutation, CreateKeyMutationVariables>;
+
+/**
+ * __useCreateKeyMutation__
+ *
+ * To run a mutation, you first call `useCreateKeyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateKeyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createKeyMutation, { data, loading, error }] = useCreateKeyMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useCreateKeyMutation(baseOptions?: Apollo.MutationHookOptions<CreateKeyMutation, CreateKeyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateKeyMutation, CreateKeyMutationVariables>(CreateKeyDocument, options);
+      }
+export type CreateKeyMutationHookResult = ReturnType<typeof useCreateKeyMutation>;
+export type CreateKeyMutationResult = Apollo.MutationResult<CreateKeyMutation>;
+export type CreateKeyMutationOptions = Apollo.BaseMutationOptions<CreateKeyMutation, CreateKeyMutationVariables>;
 export const DeleteKeyDocument = gql`
     mutation deleteKey($id: uuid!) {
   delete_keys_by_pk(id: $id) {

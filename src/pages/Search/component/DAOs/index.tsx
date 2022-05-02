@@ -7,41 +7,39 @@ import Loader from '../../../../components/Loader';
 import { Navigate } from 'react-router-dom';
 
 // Hooks
-import useDAOLength from '../../../../api/database/useDAOLength';
-import { useSearchDAO } from '../../../../api/database/useSearchDAO';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Pagination from '../Pagination';
+import { useSearchDaOsQuery } from '../../../../graphql';
 
 const DAOTab = ({ filterQuery }) => {
     const [pageNumber, setPageNumber] = useState(0);
     const { query } = useParams();
     const [hits, setHits] = useState([]);
-    const resultPerPage = 8;
+    const hitsPerPage = 8;
     const [pageCount, setPageCount] = useState(0);
-    let from = pageNumber * 8;
 
     const {
         data: searchData,
         loading: searchLoading,
         error: searchError,
         called: searchCalled,
-    } = useSearchDAO({
+    } = useSearchDaOsQuery({
         variables: {
-            limit: resultPerPage,
-            from: from,
-            ...(Object.keys(filterQuery).length
-                ? { filter: filterQuery }
-                : {}),
-        },
-    });
+            query,
+            pagination: {
+                page: pageNumber,
+                hitsPerPage
+            }
+        }
+    })
 
     useEffect(() => {
-        setHits(!searchLoading ? searchData?.searchDAOs?.items : []);
+        setHits(!searchLoading ? searchData?.search_daos?.hits : []);
         setPageCount(
-            Math.ceil(searchData?.searchDAOs?.total / resultPerPage)
+            Math.ceil(searchData?.search_daos?.hits.length / hitsPerPage)
         );
-    }, [searchLoading, searchData, resultPerPage]);
+    }, [searchLoading, searchData, hitsPerPage]);
 
     if (searchError) {
         return <Navigate to='/404' />;
@@ -55,7 +53,7 @@ const DAOTab = ({ filterQuery }) => {
                 </SearchStyled.LoaderBox>
             )}
 
-            {!searchData?.searchDAOs?.items.length && !searchLoading && searchCalled && (
+            {!searchData?.search_daos?.hits.length && !searchLoading && searchCalled && (
                 <SearchStyled.TextBox>
                     <SearchStyled.MainText>
                         Oops! There's no {query && `"${query}"`} DAO on our records :/

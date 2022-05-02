@@ -11,7 +11,6 @@ import SearchedAdmin from './Components/SearchedAdmin';
 import { ImageUpload } from '../../../../components/Form';
 
 // Hooks
-import { useCreateGate } from '../../../../api/database/useCreateGate';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../../contexts/UserContext';
 
@@ -21,33 +20,22 @@ import FormData from 'form-data';
 import Loader from '../../../../components/Loader';
 import { useEffect } from 'react';
 
-// API
-import useUpdateGate from '../../../../api/database/useUpdateGate';
-import { gql, useLazyQuery } from '@apollo/client';
-import { searchGates, searchUsers } from '../../../../graphql/queries';
-import {
-    DAO,
-    Gate,
-    PublishedState,
-    TaskStatus,
-    User,
-} from '../../../../graphql/API';
-
 // Components
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
 import { ProfilePicture } from './Components/SearchedAdmin/style';
+import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus } from '../../../../graphql';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
-interface GateData extends Gate {
+interface GateData extends Gates {
     holders: number;
     keysDone: number;
     keysNumber: number;
-    taskStatus: TaskStatus[];
-    adminList: User[];
-    preRequisitesList: Gate[];
-    retroactiveEarnersList: User[];
+    taskStatus: Key_Progress[];
+    adminList: Users[];
+    preRequisitesList: Gates[];
+    retroactiveEarnersList: Users[];
 }
 
 /* Defining a type for the admin object. */
@@ -85,7 +73,7 @@ const AddGateForm = () => {
     const gateData: GateData | null = edit ? state.gateData : null;
 
     // State
-    const [title, setTitle] = useState<string>(edit ? gateData.name : '');
+    const [title, setTitle] = useState<string>(edit ? gateData.gate_name : '');
     const [description, setDescription] = useState<string>(
         edit ? gateData.description : ''
     );
@@ -94,12 +82,12 @@ const AddGateForm = () => {
     const [retroactiveEarners, setRetroactiveEarners] = useState<IAdmin[]>(
         edit
             ? gateData.retroactiveEarnersList.map((retro) => ({
-                  name: retro?.name || '',
-                  username: retro?.username || '',
-                  pfp: retro?.pfp || '',
-                  id: retro?.id || '',
-                  wallet: retro?.wallet || '',
-              }))
+                name: retro?.name || '',
+                username: retro?.username || '',
+                pfp: retro?.pfp || '',
+                id: retro?.id || '',
+                wallet: retro?.wallet || '',
+            }))
             : []
     );
     const [uploadFile, setUploadFile] = useState(null);
@@ -127,21 +115,21 @@ const AddGateForm = () => {
     const [adminList, setAdminList] = useState<IAdmin[]>(
         edit
             ? gateData.adminList.map((admin) => ({
-                  name: admin?.name || '',
-                  username: admin?.username || '',
-                  pfp: admin?.pfp || '',
-                  id: admin?.id || '',
-                  wallet: admin?.wallet || '',
-              }))
+                name: admin?.name || '',
+                username: admin?.username || '',
+                pfp: admin?.pfp || '',
+                id: admin?.id || '',
+                wallet: admin?.wallet || '',
+            }))
             : [
-                  {
-                      name: userInfo?.name || '',
-                      username: userInfo?.username || '',
-                      pfp: userInfo?.pfp || '',
-                      id: userInfo?.id || '',
-                      wallet: userInfo?.wallet || '',
-                  },
-              ]
+                {
+                    name: userInfo?.name || '',
+                    username: userInfo?.username || '',
+                    pfp: userInfo?.pfp || '',
+                    id: userInfo?.id || '',
+                    wallet: userInfo?.wallet || '',
+                },
+            ]
     );
     //const [adminIDList, setAdminIDList] = useState(edit?gateData.admins:[userInfo.id]);
     const [updateLoading, setUpdateeLoading] = useState<boolean>(false);
@@ -150,10 +138,10 @@ const AddGateForm = () => {
     const [prereqsSearch, setPrereqsSearch] = useState([]);
     const [NFTType, setNFTType] = useState<NFT | null>(
         edit
-            ? (((gateData.nftType as string).charAt(0).toUpperCase() +
-                  (gateData.nftType as string)
-                      .substring(1)
-                      .toLowerCase()) as NFT)
+            ? (((gateData.nft_type as string).charAt(0).toUpperCase() +
+                (gateData.nft_type as string)
+                    .substring(1)
+                    .toLowerCase()) as NFT)
             : null
     );
     const [wantPreReqs, setWantPreReqs] = useState<YesNo | null>(
@@ -161,39 +149,23 @@ const AddGateForm = () => {
     );
 
     // Hooks
-    const { daoData }: { daoData: DAO } = useOutletContext();
-    const { createGate } = useCreateGate();
-    const { updateGate } = useUpdateGate();
+    const { daoData }: { daoData: Daos } = useOutletContext();
+    const [createGate] = useCreateGateMutation();
+    const [updateGate] = useUpdateGateMutation();
 
     const [
         searchByUsers,
-    ] = useLazyQuery(gql(searchUsers), {
+    ] = useSearchUsersLazyQuery({
         variables: {
-            filter: {
-                or: [
-                    { name: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { username: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { bio: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { wallet: { wildcard: `*${admin.toLowerCase()}*` } },
-                ],
-            },
-        },
-    });
+            query: admin
+        }
+    })
 
-    const [searchByGates, { data: searchGateData, called: searchGateCalled }] =
-        useLazyQuery(gql(searchGates), {
-            variables: {
-                filter: {
-                    or: [
-                        {
-                            name: {
-                                wildcard: `*${prerequisite.toLowerCase()}*`,
-                            },
-                        },
-                    ],
-                },
-            },
-        });
+    const [searchByGates, { data: searchGateData, called: searchGateCalled }] = useSearchGatesLazyQuery({
+        variables: {
+            query: prerequisite
+        }
+    });
 
     const navigate = useNavigate();
 
@@ -331,15 +303,15 @@ const AddGateForm = () => {
 
             await createGate({
                 variables: {
-                    input: {
+                    object: {
                         id: gateID,
-                        daoID: daoData.id,
-                        name: title,
+                        dao_id: daoData.id,
+                        gate_name: title,
                         description,
                         categories: categoryList,
-                        admins: adminList.map((admin) => admin.id),
+                        // admins: adminList.map((admin) => admin.id),
                         ...(wantPreReqs && { keysNumber: keyRequired }),
-                        nftType: (NFTType as string).toUpperCase(),
+                        nft_type: (NFTType as string).toUpperCase(),
                         ...(skillList.length > 0 && { skills: skillList }),
                         ...(attitudeList.length > 0 && {
                             attitudes: attitudeList,
@@ -348,14 +320,13 @@ const AddGateForm = () => {
                             knowledge: knowledgeList,
                         }),
                         published: 'NOT_PUBLISHED',
-                        holders: 0,
                         links: [],
-                        retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
-                        preRequisites: {
+                        // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
+                        /* preRequisites: {
                             completedGates: prerequisiteList.map(
                                 (prereq) => prereq.id
                             ),
-                        },
+                        }, */
                         badge: {
                             name: badgeName,
                             ipfsURL: hash,
@@ -390,16 +361,17 @@ const AddGateForm = () => {
 
                 await updateGate({
                     variables: {
-                        input: {
+                         id: gateData.id,
+                        set: {
                             id: gateData.id,
-                            daoID: daoData.id,
-                            name: title,
+                            dao_id: daoData.id,
+                            gate_name: title,
                             description,
                             categories: categoryList,
-                            admins: adminList.map((admin) => admin.id),
-                            keysNumber: keyRequired,
+                            // admins: adminList.map((admin) => admin.id),
+                            keys: keyRequired,
                             published: gateData.published,
-                            retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
+                            // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
                                 name: badgeName,
                                 ipfsURL: gateData.badge.ipfsURL,
@@ -421,16 +393,17 @@ const AddGateForm = () => {
 
                 await updateGate({
                     variables: {
-                        input: {
+                        id: gateData.id,
+                        set: {
                             id: gateData.id,
-                            daoID: daoData.id,
-                            name: title,
+                            dao_id: daoData.id,
+                            gate_name: title,
                             description,
                             categories: categoryList,
-                            admins: adminList.map((admin) => admin.id),
-                            keysNumber: keyRequired,
+                            // admins: adminList.map((admin) => admin.id),
+                            keys: keyRequired,
                             published: gateData.published,
-                            retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
+                            // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
                                 name: badgeName,
                                 ipfsURL: gateData.badge.ipfsURL,
@@ -465,7 +438,7 @@ const AddGateForm = () => {
 
     useEffect(() => {
         if (searchGateCalled && !!searchGateData) {
-            const query = searchGateData.searchGates.items;
+            const query = searchGateData.search_gates.hits;
             const results = query.slice(0, 5).map((gate) => {
                 return {
                     name: gate.name,
@@ -480,21 +453,10 @@ const AddGateForm = () => {
         return (
             await searchByUsers({
                 variables: {
-                    filter: {
-                        or: [
-                            { name: { wildcard: `*${param.toLowerCase()}*` } },
-                            {
-                                username: {
-                                    wildcard: `*${param.toLowerCase()}*`,
-                                },
-                            },
-                            { bio: { wildcard: `*${param.toLowerCase()}*` } },
-                            { bio: { wildcard: `*${param.toLowerCase()}*` } },
-                        ],
-                    },
+                    query: param
                 },
             })
-        ).data.searchUsers.items.map((user) => ({
+        ).data.search_users.hits.map((user) => ({
             ...user,
             label: user.name,
             value: user,
@@ -512,7 +474,7 @@ const AddGateForm = () => {
         <Styled.Page>
             <Space>
                 <BackButton
-                    url={edit ? `/gate/${gateData.id}` : `/dao/${daoData.dao}`}
+                    url={edit ? `/gate/${gateData.id}` : `/dao/${daoData.slug}`}
                     style={{
                         marginTop: '20px',
                     }}
@@ -525,138 +487,138 @@ const AddGateForm = () => {
                     </Styled.Header>
                     {(!edit ||
                         gateData?.published ===
-                            PublishedState.NOT_PUBLISHED) && (
-                        <>
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label htmlFor='title'>
-                                    Gate Title*
-                                </FormStyled.Label>
-                                <FormStyled.Input
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    type='text'
-                                    id='title'
-                                    name='title'
-                                    placeholder='This will be the title of your Gate'
-                                    value={title}
-                                    required
-                                />
-                            </FormStyled.Fieldset>
-
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label htmlFor='description'>
-                                    Description*
-                                </FormStyled.Label>
-                                {/* <RichTextEditor value={description} set={setDescription} /> */}
-                                <FormStyled.Textarea
-                                    onChange={(e) =>
-                                        setDescription(e.target.value)
-                                    }
-                                    onKeyPress={(e) => {
-                                        e.key === 'Enter' && e.preventDefault();
-                                    }}
-                                    value={description}
-                                    name='description'
-                                    placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
-                                    required
-                                />
-                            </FormStyled.Fieldset>
-
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label htmlFor='title'>
-                                    Category*
-                                </FormStyled.Label>
-                                <FormStyled.Input
-                                    onChange={(e) =>
-                                        setCategory(e.target.value)
-                                    }
-                                    type='text'
-                                    id='category'
-                                    name='category'
-                                    placeholder='Search Category'
-                                    onKeyPress={addCategories}
-                                    value={category}
-                                />
-
-                                {categoryList.length > 0 && (
-                                    <Styled.CategoryList>
-                                        {categoryList.map((category, id) => {
-                                            return (
-                                                <React.Fragment key={id}>
-                                                    <SearchedItem
-                                                        val={category}
-                                                        id={id}
-                                                        remove={
-                                                            removeCategories
-                                                        }
-                                                    />
-                                                </React.Fragment>
-                                            );
-                                        })}
-                                    </Styled.CategoryList>
-                                )}
-                            </FormStyled.Fieldset>
-
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label>
-                                    Type of Badge*
-                                </FormStyled.Label>
-                                <FormStyled.GridBox
-                                    cols={2}
-                                    onChange={(e) =>
-                                        setNFTType(
-                                            (e.target as HTMLInputElement)
-                                                .value as NFT
-                                        )
-                                    }
-                                >
-                                    <FormStyled.Radio
-                                        id='nft-1'
-                                        name='nft'
-                                        value='Contributor'
-                                        label='Contributor'
-                                        checked={NFTType === 'Contributor'}
+                        GatePublishedStatus.not_published) && (
+                            <>
+                                <FormStyled.Fieldset>
+                                    <FormStyled.Label htmlFor='title'>
+                                        Gate Title*
+                                    </FormStyled.Label>
+                                    <FormStyled.Input
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        type='text'
+                                        id='title'
+                                        name='title'
+                                        placeholder='This will be the title of your Gate'
+                                        value={title}
+                                        required
                                     />
-                                    <FormStyled.Radio
-                                        id='nft-2'
-                                        name='nft'
-                                        value='Reward'
-                                        label='Reward'
-                                        checked={NFTType === 'Reward'}
-                                    />
-                                </FormStyled.GridBox>
-                            </FormStyled.Fieldset>
+                                </FormStyled.Fieldset>
 
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label>
-                                    Would you like to have keys?
-                                </FormStyled.Label>
-                                <FormStyled.GridBox
-                                    cols={2}
-                                    onChange={(e) =>
-                                        setWantPreReqs(
-                                            (e.target as HTMLInputElement)
-                                                .value as YesNo
-                                        )
-                                    }
-                                >
-                                    <FormStyled.Radio
-                                        id='wantPreReqs-1'
-                                        name='wantPreReqs'
-                                        value='Yes'
-                                        label='Yes'
-                                        checked={wantPreReqs === YesNo.YES}
+                                <FormStyled.Fieldset>
+                                    <FormStyled.Label htmlFor='description'>
+                                        Description*
+                                    </FormStyled.Label>
+                                    {/* <RichTextEditor value={description} set={setDescription} /> */}
+                                    <FormStyled.Textarea
+                                        onChange={(e) =>
+                                            setDescription(e.target.value)
+                                        }
+                                        onKeyPress={(e) => {
+                                            e.key === 'Enter' && e.preventDefault();
+                                        }}
+                                        value={description}
+                                        name='description'
+                                        placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
+                                        required
                                     />
-                                    <FormStyled.Radio
-                                        id='wantPreReqs-2'
-                                        name='wantPreReqs'
-                                        value='No'
-                                        label='No'
-                                        checked={wantPreReqs === YesNo.NO}
+                                </FormStyled.Fieldset>
+
+                                <FormStyled.Fieldset>
+                                    <FormStyled.Label htmlFor='title'>
+                                        Category*
+                                    </FormStyled.Label>
+                                    <FormStyled.Input
+                                        onChange={(e) =>
+                                            setCategory(e.target.value)
+                                        }
+                                        type='text'
+                                        id='category'
+                                        name='category'
+                                        placeholder='Search Category'
+                                        onKeyPress={addCategories}
+                                        value={category}
                                     />
-                                </FormStyled.GridBox>
-                            </FormStyled.Fieldset>
-                        </>
-                    )}
+
+                                    {categoryList.length > 0 && (
+                                        <Styled.CategoryList>
+                                            {categoryList.map((category, id) => {
+                                                return (
+                                                    <React.Fragment key={id}>
+                                                        <SearchedItem
+                                                            val={category}
+                                                            id={id}
+                                                            remove={
+                                                                removeCategories
+                                                            }
+                                                        />
+                                                    </React.Fragment>
+                                                );
+                                            })}
+                                        </Styled.CategoryList>
+                                    )}
+                                </FormStyled.Fieldset>
+
+                                <FormStyled.Fieldset>
+                                    <FormStyled.Label>
+                                        Type of Badge*
+                                    </FormStyled.Label>
+                                    <FormStyled.GridBox
+                                        cols={2}
+                                        onChange={(e) =>
+                                            setNFTType(
+                                                (e.target as HTMLInputElement)
+                                                    .value as NFT
+                                            )
+                                        }
+                                    >
+                                        <FormStyled.Radio
+                                            id='nft-1'
+                                            name='nft'
+                                            value='Contributor'
+                                            label='Contributor'
+                                            checked={NFTType === 'Contributor'}
+                                        />
+                                        <FormStyled.Radio
+                                            id='nft-2'
+                                            name='nft'
+                                            value='Reward'
+                                            label='Reward'
+                                            checked={NFTType === 'Reward'}
+                                        />
+                                    </FormStyled.GridBox>
+                                </FormStyled.Fieldset>
+
+                                <FormStyled.Fieldset>
+                                    <FormStyled.Label>
+                                        Would you like to have keys?
+                                    </FormStyled.Label>
+                                    <FormStyled.GridBox
+                                        cols={2}
+                                        onChange={(e) =>
+                                            setWantPreReqs(
+                                                (e.target as HTMLInputElement)
+                                                    .value as YesNo
+                                            )
+                                        }
+                                    >
+                                        <FormStyled.Radio
+                                            id='wantPreReqs-1'
+                                            name='wantPreReqs'
+                                            value='Yes'
+                                            label='Yes'
+                                            checked={wantPreReqs === YesNo.YES}
+                                        />
+                                        <FormStyled.Radio
+                                            id='wantPreReqs-2'
+                                            name='wantPreReqs'
+                                            value='No'
+                                            label='No'
+                                            checked={wantPreReqs === YesNo.NO}
+                                        />
+                                    </FormStyled.GridBox>
+                                </FormStyled.Fieldset>
+                            </>
+                        )}
 
                     {NFTType && wantPreReqs && (
                         <>
@@ -688,180 +650,180 @@ const AddGateForm = () => {
 
                             {(!edit ||
                                 gateData?.published ===
-                                    PublishedState.NOT_PUBLISHED) && (
-                                <>
-                                    {NFTType === 'Reward' && (
-                                        <>
-                                            <FormStyled.Fieldset>
-                                                <FormStyled.Label htmlFor='skills'>
-                                                    Skills
-                                                </FormStyled.Label>
-                                                <FormStyled.Input
-                                                    onChange={(e) => {
-                                                        e.preventDefault();
-                                                        setSkill(
-                                                            e.target.value
-                                                        );
-                                                    }}
-                                                    type='text'
-                                                    id='skills'
-                                                    name='skills'
-                                                    placeholder='Search Skills'
-                                                    onKeyPress={addSkills}
-                                                    value={skill}
-                                                />
+                                GatePublishedStatus.not_published) && (
+                                    <>
+                                        {NFTType === 'Reward' && (
+                                            <>
+                                                <FormStyled.Fieldset>
+                                                    <FormStyled.Label htmlFor='skills'>
+                                                        Skills
+                                                    </FormStyled.Label>
+                                                    <FormStyled.Input
+                                                        onChange={(e) => {
+                                                            e.preventDefault();
+                                                            setSkill(
+                                                                e.target.value
+                                                            );
+                                                        }}
+                                                        type='text'
+                                                        id='skills'
+                                                        name='skills'
+                                                        placeholder='Search Skills'
+                                                        onKeyPress={addSkills}
+                                                        value={skill}
+                                                    />
 
-                                                {skillList.length > 0 && (
-                                                    <Styled.CategoryList>
-                                                        {skillList.map(
-                                                            (skill, id) => {
-                                                                return (
-                                                                    <SearchedItem
-                                                                        val={
-                                                                            skill
-                                                                        }
-                                                                        id={id}
-                                                                        remove={
-                                                                            removeSkills
-                                                                        }
-                                                                    />
-                                                                );
-                                                            }
-                                                        )}
-                                                    </Styled.CategoryList>
-                                                )}
-                                            </FormStyled.Fieldset>
+                                                    {skillList.length > 0 && (
+                                                        <Styled.CategoryList>
+                                                            {skillList.map(
+                                                                (skill, id) => {
+                                                                    return (
+                                                                        <SearchedItem
+                                                                            val={
+                                                                                skill
+                                                                            }
+                                                                            id={id}
+                                                                            remove={
+                                                                                removeSkills
+                                                                            }
+                                                                        />
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </Styled.CategoryList>
+                                                    )}
+                                                </FormStyled.Fieldset>
 
-                                            <FormStyled.Fieldset>
-                                                <FormStyled.Label htmlFor='knowledge'>
-                                                    Knowledge
-                                                </FormStyled.Label>
-                                                <FormStyled.Input
-                                                    onChange={(e) => {
-                                                        e.preventDefault();
-                                                        setKnowledge(
-                                                            e.target.value
-                                                        );
-                                                    }}
-                                                    type='text'
-                                                    id='knowledge'
-                                                    name='knowledge'
-                                                    placeholder='Search Knowledge'
-                                                    onKeyPress={addKnowledge}
-                                                    value={knowledge}
-                                                />
+                                                <FormStyled.Fieldset>
+                                                    <FormStyled.Label htmlFor='knowledge'>
+                                                        Knowledge
+                                                    </FormStyled.Label>
+                                                    <FormStyled.Input
+                                                        onChange={(e) => {
+                                                            e.preventDefault();
+                                                            setKnowledge(
+                                                                e.target.value
+                                                            );
+                                                        }}
+                                                        type='text'
+                                                        id='knowledge'
+                                                        name='knowledge'
+                                                        placeholder='Search Knowledge'
+                                                        onKeyPress={addKnowledge}
+                                                        value={knowledge}
+                                                    />
 
-                                                {knowledgeList.length > 0 && (
-                                                    <Styled.CategoryList>
-                                                        {knowledgeList.map(
-                                                            (knowledge, id) => {
-                                                                return (
-                                                                    <SearchedItem
-                                                                        val={
-                                                                            knowledge
-                                                                        }
-                                                                        id={id}
-                                                                        remove={
-                                                                            removeKnowledge
-                                                                        }
-                                                                    />
-                                                                );
-                                                            }
-                                                        )}
-                                                    </Styled.CategoryList>
-                                                )}
-                                            </FormStyled.Fieldset>
+                                                    {knowledgeList.length > 0 && (
+                                                        <Styled.CategoryList>
+                                                            {knowledgeList.map(
+                                                                (knowledge, id) => {
+                                                                    return (
+                                                                        <SearchedItem
+                                                                            val={
+                                                                                knowledge
+                                                                            }
+                                                                            id={id}
+                                                                            remove={
+                                                                                removeKnowledge
+                                                                            }
+                                                                        />
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </Styled.CategoryList>
+                                                    )}
+                                                </FormStyled.Fieldset>
 
-                                            <FormStyled.Fieldset>
-                                                <FormStyled.Label htmlFor='attitudes'>
-                                                    Attitudes
-                                                </FormStyled.Label>
-                                                <FormStyled.Input
-                                                    onChange={(e) => {
-                                                        e.preventDefault();
-                                                        setAttitude(
-                                                            e.target.value
-                                                        );
-                                                    }}
-                                                    type='text'
-                                                    id='attitude'
-                                                    name='attitude'
-                                                    placeholder='Search Attitude'
-                                                    onKeyPress={addAttitude}
-                                                    value={attitude}
-                                                />
+                                                <FormStyled.Fieldset>
+                                                    <FormStyled.Label htmlFor='attitudes'>
+                                                        Attitudes
+                                                    </FormStyled.Label>
+                                                    <FormStyled.Input
+                                                        onChange={(e) => {
+                                                            e.preventDefault();
+                                                            setAttitude(
+                                                                e.target.value
+                                                            );
+                                                        }}
+                                                        type='text'
+                                                        id='attitude'
+                                                        name='attitude'
+                                                        placeholder='Search Attitude'
+                                                        onKeyPress={addAttitude}
+                                                        value={attitude}
+                                                    />
 
-                                                {attitudeList.length > 0 && (
-                                                    <Styled.CategoryList>
-                                                        {attitudeList.map(
-                                                            (attitude, id) => {
-                                                                return (
-                                                                    <SearchedItem
-                                                                        val={
-                                                                            attitude
-                                                                        }
-                                                                        id={id}
-                                                                        remove={
-                                                                            removeAttitude
-                                                                        }
-                                                                    />
-                                                                );
-                                                            }
-                                                        )}
-                                                    </Styled.CategoryList>
-                                                )}
-                                            </FormStyled.Fieldset>
-                                        </>
-                                    )}
-
-                                    <FormStyled.Fieldset>
-                                        {edit ? (
-                                            <ImageUpload
-                                                htmlFor='ProfileImage'
-                                                label='Upload Badge Image*'
-                                                setImage={setUploadFile}
-                                                defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
-                                            />
-                                        ) : (
-                                            <ImageUpload
-                                                htmlFor='ProfileImage'
-                                                label='Upload Badge Image*'
-                                                setImage={setUploadFile}
-                                            />
+                                                    {attitudeList.length > 0 && (
+                                                        <Styled.CategoryList>
+                                                            {attitudeList.map(
+                                                                (attitude, id) => {
+                                                                    return (
+                                                                        <SearchedItem
+                                                                            val={
+                                                                                attitude
+                                                                            }
+                                                                            id={id}
+                                                                            remove={
+                                                                                removeAttitude
+                                                                            }
+                                                                        />
+                                                                    );
+                                                                }
+                                                            )}
+                                                        </Styled.CategoryList>
+                                                    )}
+                                                </FormStyled.Fieldset>
+                                            </>
                                         )}
-                                        <Styled.AllowedFileType>
-                                            <p>Image files only.</p>
-                                            <p>
-                                                File supported: JPG, PNG, GIF,
-                                                SVG, WEBM
-                                            </p>
-                                            <p>Max size: 100 MB</p>
-                                        </Styled.AllowedFileType>
-                                    </FormStyled.Fieldset>
 
-                                    <FormStyled.Fieldset>
-                                        <FormStyled.Label htmlFor='title'>
-                                            Badge Name*
-                                        </FormStyled.Label>
-                                        <FormStyled.Input
-                                            onChange={(e) => {
-                                                e.preventDefault();
-                                                setBadgeName(e.target.value);
-                                            }}
-                                            onKeyPress={(e) => {
-                                                e.key === 'Enter' &&
+                                        <FormStyled.Fieldset>
+                                            {edit ? (
+                                                <ImageUpload
+                                                    htmlFor='ProfileImage'
+                                                    label='Upload Badge Image*'
+                                                    setImage={setUploadFile}
+                                                    defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
+                                                />
+                                            ) : (
+                                                <ImageUpload
+                                                    htmlFor='ProfileImage'
+                                                    label='Upload Badge Image*'
+                                                    setImage={setUploadFile}
+                                                />
+                                            )}
+                                            <Styled.AllowedFileType>
+                                                <p>Image files only.</p>
+                                                <p>
+                                                    File supported: JPG, PNG, GIF,
+                                                    SVG, WEBM
+                                                </p>
+                                                <p>Max size: 100 MB</p>
+                                            </Styled.AllowedFileType>
+                                        </FormStyled.Fieldset>
+
+                                        <FormStyled.Fieldset>
+                                            <FormStyled.Label htmlFor='title'>
+                                                Badge Name*
+                                            </FormStyled.Label>
+                                            <FormStyled.Input
+                                                onChange={(e) => {
                                                     e.preventDefault();
-                                            }}
-                                            type='text'
-                                            id='badgeName'
-                                            name='badgeName'
-                                            placeholder='Insert the name here'
-                                            value={badgeName}
-                                            required
-                                        />
-                                    </FormStyled.Fieldset>
-                                </>
-                            )}
+                                                    setBadgeName(e.target.value);
+                                                }}
+                                                onKeyPress={(e) => {
+                                                    e.key === 'Enter' &&
+                                                        e.preventDefault();
+                                                }}
+                                                type='text'
+                                                id='badgeName'
+                                                name='badgeName'
+                                                placeholder='Insert the name here'
+                                                value={badgeName}
+                                                required
+                                            />
+                                        </FormStyled.Fieldset>
+                                    </>
+                                )}
                             <FormStyled.Fieldset>
                                 <FormStyled.Label htmlFor='admins'>
                                     Admin Privileges*
@@ -874,7 +836,7 @@ const AddGateForm = () => {
                                     onChange={handleAdmin}
                                     loadOptions={async () =>
                                         (await getOptions(admin)).filter(
-                                            (user: User) =>
+                                            (user: Users) =>
                                                 !adminList
                                                     .map((admins) => admins.id)
                                                     .includes(user.id)

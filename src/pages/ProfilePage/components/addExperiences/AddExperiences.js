@@ -16,11 +16,10 @@ import './AddExperiences.css';
 import { createBrowserHistory } from 'history';
 import space from '../../../../utils/canvas';
 import { useAuth } from '../../../../contexts/UserContext';
-import { useSearchDAO } from '../../../../api/database/useSearchDAO';
-import Header from "../../../../components/Header";
 import Loader from '../../../../components/Loader';
 import { MONTHS } from '../../../../utils/constants';
 import Page from '../../../../components/Page';
+import { useSearchDaOsQuery } from '../../../../graphql';
 
 const history = createBrowserHistory();
 const years = [...Array(new Date().getFullYear() - 1989).keys()].map((e) => e + 1990);
@@ -58,21 +57,12 @@ const AddExperience = () => {
 		loading: searchLoading,
 		data: searchData,
 		error: searchError,
-	} = useSearchDAO({
+	} = useSearchDaOsQuery({
 		variables: {
-			filter: {
-				or: [
-					{ dao: { wildcard: `*${searchTerm.toLowerCase()}*` } },
-					{ name: { wildcard: `*${searchTerm.toLowerCase()}*` } },
-					{
-						description: {
-							wildcard: `*${searchTerm.toLowerCase()}*`,
-						},
-					},
-				],
-			},
-		},
-	});
+			query: searchTerm
+		}
+	})
+	
 	const [loading, setLoading] = useState(false);
 
 

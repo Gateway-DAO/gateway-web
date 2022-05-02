@@ -11,19 +11,18 @@ import Modal from '../index';
 import Loader from '../../Loader';
 import RichEditor from '../../RichTextEditor';
 
-// API
-import { useMutation, gql } from '@apollo/client';
-import { updateDao } from '../../../graphql/mutations';
+// Hooks
+import { useUpdateDaoMutation } from '../../../graphql'
 
 const AccomplishmentModal = (props) => {
     const [accomplish, setAccomplish] = useState(props.data);
-    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
+    const [updateDAO, { loading, error }] = useUpdateDaoMutation();
 
     const submitToDB = async () => {
         await updateDAO({
             variables: {
-                input: {
-                    id: props.id,
+                id: props.id,
+                set: {
                     accomplishments: accomplish,
                 },
             },

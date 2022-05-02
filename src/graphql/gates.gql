@@ -18,6 +18,24 @@ query getGate($id: uuid!) {
     }
 }
 
+query listGates {
+    gates {
+        skills
+        published
+        nft_type
+        links
+        knowledge
+        keys
+        id
+        gate_name
+        description
+        dao_id
+        categories
+        badge
+        attitudes
+    }
+}
+
 query getKey($id: uuid!) {
     keys_by_pk(id: $id) {
         gate_id
@@ -31,10 +49,40 @@ query getKey($id: uuid!) {
     }
 }
 
+query getGateProgress($where: gate_progress_bool_exp = {}) {
+  gate_progress(where: $where) {
+    user_id
+    updated_at
+    status
+    id
+    gate_id
+    created_at
+  }
+}
+
+
 ### Mutations ###
 
-mutation updateGate($id: uuid!) {
-    update_gates_by_pk(pk_columns: { id: $id }) {
+mutation createGate($object: gates_insert_input = {}) {
+    insert_gates_one(object: $object) {
+        attitudes
+        badge
+        categories
+        dao_id
+        description
+        gate_name
+        id
+        keys
+        knowledge
+        links
+        nft_type
+        published
+        skills
+    }
+}
+
+mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
+    update_gates_by_pk(pk_columns: { id: "" }, _set: $set) {
         attitudes
         badge
         categories
@@ -52,20 +100,33 @@ mutation updateGate($id: uuid!) {
 }
 
 mutation deleteGate($id: uuid!) {
-  delete_gates_by_pk(id: $id) {
-    id
-  }
+    delete_gates_by_pk(id: $id) {
+        id
+    }
+}
+
+mutation createKey($object: keys_insert_input = {}) {
+    insert_keys_one(object: $object) {
+        gate_id
+        id
+        information
+        keys
+        people_limit
+        task
+        task_type
+        unlimited
+    }
 }
 
 mutation deleteKey($id: uuid!) {
-  delete_keys_by_pk(id: $id) {
-    id
-  }
+    delete_keys_by_pk(id: $id) {
+        id
+    }
 }
 
 mutation verifyTask($key_id: uuid!, $user_id: uuid!, $info: json) {
-  verify_key(input: {key_id: $key_id, user_id: $user_id, info: $info}) {
-    completed_gate
-    task_info
-  }
+    verify_key(input: { key_id: $key_id, user_id: $user_id, info: $info }) {
+        completed_gate
+        task_info
+    }
 }
