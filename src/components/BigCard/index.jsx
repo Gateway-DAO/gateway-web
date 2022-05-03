@@ -173,7 +173,7 @@ const NewCard = (props) => {
                             onMouseLeave={removeHover}
                         >
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={ethereum}
@@ -187,7 +187,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='Solana'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img src={solana} width='22px' height='22px' />
                             </Styled.ChainLink>
@@ -197,7 +197,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='Polygon'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img src={polygon} width='22px' height='22px' />
                             </Styled.ChainLink>
@@ -207,7 +207,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='NEAR'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img src={near} width='22px' height='22px' />
                             </Styled.ChainLink>
@@ -217,7 +217,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='Avalanche'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={avalanche}
@@ -232,7 +232,7 @@ const NewCard = (props) => {
                         <Styled.Chain>
                             <Styled.ChainLink
                                 key={idx}
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={binance}
@@ -248,7 +248,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover}>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={btc}
@@ -298,11 +298,11 @@ const NewCard = (props) => {
                                 {props.categories.map((category, idx) => (
                                     <Styled.Category key={idx}>
                                         <Styled.CategoryLink
-                                            to={`/search/${category}`}
+                                            to={`/search/daos?query=${category}`}
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                navigate('/search');
-                                                history.push('/search', { categorySearch: [category] })
+                                                navigate('/search/daos');
+                                                history.push('/search/daos', { categorySearch: [category] })
                                             }}
                                         >
                                             {category}

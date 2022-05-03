@@ -151,7 +151,7 @@ const App: React.FC = () => {
 						</Route>
 
 						<Route path='/search' element={<Search />} />
-						<Route path='/search/:query' element={<Search />} />
+						<Route path='/search/:tab' element={<Search />} />
 
 						{/* User Profile */}
 						<Route path='/profile' element={<Profile />}>

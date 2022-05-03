@@ -58,7 +58,7 @@ const CompleteProfile: React.FC = () => {
     const [isValidated, setIsValidated] = useState(false);
     const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
     const [file, setFile] = useState(null);
-    const [tz, setTZ] = useState(false);
+    const [tz, setTZ] = useState(userInfo?.timezone?.shouldTrack || false);
     const [user, setUser] = useState({
         displayName: userInfo?.name || '',
         userName: userInfo?.username || '',

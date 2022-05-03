@@ -49,7 +49,7 @@ const DaoGate: React.FC = () => {
     const toSearch = params.get('toSearch');
     const viewAsMember = params.get('viewAsMember');
 
-    const goBackURL = toSearch && toSearch === 'true' ? `/search` : viewAsMember ? `/dao/${dao.dao}?tab=gates&viewAsMember=${viewAsMember}` : `/dao/${dao.dao}?tab=gates`;
+    const goBackURL = toSearch && toSearch === 'true' ? `/search/daos` : viewAsMember ? `/dao/${dao.dao}?tab=gates&viewAsMember=${viewAsMember}` : `/dao/${dao.dao}?tab=gates`;
 
     const handleClick = () => {
         navigate('add-key');

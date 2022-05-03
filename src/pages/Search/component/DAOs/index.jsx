@@ -4,18 +4,19 @@ import * as SearchStyled from '../../style';
 // Components
 import Card from '../../../../components/Card';
 import Loader from '../../../../components/Loader';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 // Hooks
 import useDAOLength from '../../../../api/database/useDAOLength';
 import { useSearchDAO } from '../../../../api/database/useSearchDAO';
-import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Pagination from '../Pagination';
 
 const DAOTab = ({ filterQuery }) => {
     const [pageNumber, setPageNumber] = useState(0);
-    const { query } = useParams();
+    const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	const query = params.get("query");
     const [hits, setHits] = useState([]);
     const resultPerPage = 8;
     const [pageCount, setPageCount] = useState(0);

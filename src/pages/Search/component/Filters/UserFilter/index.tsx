@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useSearchCredentials } from '../../../../../api/database/useSearchCredentials';
 import useSearchDAO from '../../../../../api/database/useSearchDAO';
 import * as Styled from '../../../style';
@@ -20,7 +20,9 @@ const UserFilter = function ({ setUserFilterQuery }) {
     const [membershipMatches, setMembershipMatches] = useState<string[]>([]);
     const [credentialMatches, setCredentialMatches] = useState<string[]>([]);
 
-    var { query: searchTerm } = useParams();
+    const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	var searchTerm: string = params.get("query");
 
     if (searchTerm && searchTerm.toLowerCase().trim() === 'all') searchTerm = '';
 
