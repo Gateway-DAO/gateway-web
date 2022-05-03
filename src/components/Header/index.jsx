@@ -35,11 +35,10 @@ const Header = (props) => {
 
 		timeOut = setTimeout(() => {
 			setFilterQuery(e.target.value);
-		}, 1000);
+		}, 500);
 
-		if (!e.target.value) {
-			setFlagDropdown(false);
-		}
+		!e.target.value && setFlagDropdown(false);
+
 		if (e.key == 'Enter') {
 			navigate(`/search/${tab}${query && `?query=${query}`}`);
 		}

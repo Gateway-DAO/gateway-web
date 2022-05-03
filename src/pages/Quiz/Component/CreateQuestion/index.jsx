@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 // Styling
 import * as Styled from './style';
@@ -207,7 +207,7 @@ const CreateQuestion = ({
     return (
         <>
             {questions.map((question, index) => (
-                <>
+                <Fragment key={index}>
                     <FormStyled.Fieldset>
                         <FormStyled.Label>
                             QUIZ QUESTION {index + 1}
@@ -307,7 +307,7 @@ const CreateQuestion = ({
                             </FormStyled.TextLabel>
                         </FormStyled.DeleteWrapper>
                     )}
-                </>
+                </Fragment>
             ))}
             <Styled.AddQuestionBox>
                 <Styled.Circle onClick={AddQuestionHandler}>
