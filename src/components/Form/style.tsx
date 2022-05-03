@@ -637,3 +637,23 @@ export const DeleteContent = styled.div`
 
     color: #e5e5e5;
 `;
+
+const InvalidFeedback = `
+    color: #FF003D;
+    font-size: 14px;
+    margin-top: -10px;
+`;
+
+const ValidFeedback = `
+    color: #7E3BDC;
+    font-size: 14px;
+    margin-top: -10px;
+`;
+
+export const InputFeedback = styled.div`
+    ${(props) => (
+        props.type === 'invalid'
+        ? InvalidFeedback
+        : ValidFeedback
+    )}
+`;

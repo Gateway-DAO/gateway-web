@@ -154,9 +154,11 @@ const CompleteProfile: React.FC = () => {
 
     const handleSocialChange = (e, index) => {
         const { name, value } = e.target;
+        console.log('name, value', name, value);
         const { socials } = user;
         const list = [...socials];
         list[index][name] = value;
+        console.log('list', list);
         setUser((prevState) => {
             return {
                 ...prevState,
@@ -377,7 +379,7 @@ const CompleteProfile: React.FC = () => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </div>
-                            <div className='mb-3 row'>
+                            {/* <div className='mb-3 row'>
                                 <Form.Group
                                     className='col'
                                     controlId='location'
@@ -407,84 +409,82 @@ const CompleteProfile: React.FC = () => {
                                         {errors.userBio}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                            </div>
+                            </div> */}
                             <Form.Group className='col' controlId='formBasic'>
                                 <Form.Label>SOCIALS</Form.Label>
                                 <div className='gway-socialurl-add'>
-                                    {user.socials.map((x, i) => {
-                                        return (
-                                            <div
-                                                className='gway-socialurl-row'
-                                                key={i}
-                                            >
-                                                <div className='gway-socialurl-col-left'>
-                                                    <Form.Select
-                                                        required
-                                                        name='platform_name'
-                                                        size='sm'
-                                                        value={x.platform_name}
-                                                        onChange={(e) =>
-                                                            handleSocialChange(
-                                                                e,
-                                                                i
+                                    {user.socials.map((x, i) => (
+                                        <div
+                                            className='gway-socialurl-row'
+                                            key={i}
+                                        >
+                                            <div className='gway-socialurl-col-left'>
+                                                <Form.Select
+                                                    required
+                                                    name='platform_name'
+                                                    size='sm'
+                                                    value={x.platform_name}
+                                                    onChange={(e) =>
+                                                        handleSocialChange(
+                                                            e,
+                                                            i
+                                                        )
+                                                    }
+                                                >
+                                                    {platforms.length > 0 &&
+                                                        platforms.map(
+                                                            (item) => (
+                                                                <option
+                                                                    key={
+                                                                        item.value
+                                                                    }
+                                                                    value={
+                                                                        item.value
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        item.label
+                                                                    }
+                                                                </option>
                                                             )
-                                                        }
-                                                    >
-                                                        {platforms.length > 0 &&
-                                                            platforms.map(
-                                                                (item) => (
-                                                                    <option
-                                                                        key={
-                                                                            item.value
-                                                                        }
-                                                                        value={
-                                                                            item.value
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            item.label
-                                                                        }
-                                                                    </option>
-                                                                )
-                                                            )}
-                                                    </Form.Select>
-                                                </div>
-                                                <div className='gway-socialurl-col-center'>
-                                                    <Form.Control
-                                                        className={`${
-                                                            user.socials[i] &&
-                                                            'change-background-to-fill'
-                                                        }`}
-                                                        required
-                                                        name='platform_value'
-                                                        size='lg'
-                                                        type='text'
-                                                        value={x.platform_value}
-                                                        onChange={(e) =>
-                                                            handleSocialChange(
-                                                                e,
-                                                                i
-                                                            )
-                                                        }
-                                                        placeholder={
-                                                            x.placeholder
-                                                        }
-                                                    />
-                                                </div>
-                                                <div className='gway-socialurl-col-right'>
-                                                    <a
-                                                        onClick={() =>
-                                                            handleRemoveSocial(
-                                                                i
-                                                            )
-                                                        }
-                                                    >
-                                                        <FaTrashAlt color='white' />
-                                                    </a>
-                                                </div>
+                                                        )}
+                                                </Form.Select>
                                             </div>
-                                        );
-                                    })}
+                                            <div className='gway-socialurl-col-center'>
+                                                <Form.Control
+                                                    className={`${
+                                                        user.socials[i] &&
+                                                        'change-background-to-fill'
+                                                    }`}
+                                                    required
+                                                    name='platform_value'
+                                                    size='lg'
+                                                    type='text'
+                                                    value={x.platform_value}
+                                                    onChange={(e) =>
+                                                        handleSocialChange(
+                                                            e,
+                                                            i
+                                                        )
+                                                    }
+                                                    placeholder={
+                                                        x.placeholder
+                                                    }
+                                                />
+                                            </div>
+                                            <div className='gway-socialurl-col-right'>
+                                                <a
+                                                    onClick={() =>
+                                                        handleRemoveSocial(
+                                                            i
+                                                        )
+                                                    }
+                                                >
+                                                    <FaTrashAlt color='white' />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    ))}
                                     <div className='add-social-row'>
                                         <a onClick={handleAddSocial}>
                                             <img src='/completeprofile/plus-btn.svg' />
