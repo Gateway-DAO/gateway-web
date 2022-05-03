@@ -122,7 +122,7 @@ const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
         let activated = walletConnected;
         if (!walletConnected) activated = await activateWeb3();
         if (activated) {
-            if (userInfo?.init) navigate(`/gate/${gate.id}?toSearch=${toSearch}`);
+            if (userInfo?.init) navigate(`/gate/${gate.id}?toSearch=${toSearch}&viewAsMember=${viewAsMember}`);
             else navigate(`/profile/complete-profile?to=/gate/${gate.id}`);
         }
     };

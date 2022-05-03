@@ -54,7 +54,12 @@ const Search = () => {
     };
 
     const FilterComponent = React.useMemo(() => ActiveFilter, [selectionTab]);
-    const TabComponent = React.useMemo(() => ActiveTab, [selectionTab]);
+    const TabComponent = React.useMemo(() => ActiveTab, [
+        selectionTab,
+        daoFilterQuery,
+        userFilterQuery,
+        gateFilterQuery
+    ]);
 
     useEffect(() => {
         if (location.state && location.state.tab) {

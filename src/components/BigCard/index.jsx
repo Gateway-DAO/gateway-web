@@ -46,6 +46,9 @@ const NewCard = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
     const [viewAsMember, setViewAsMember] = useState(!isAdmin);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchViewAsMember = searchParams.get('viewAsMember');
+
     useEffect(() => {
         if (props.tokenAddress && props.showTokenFeed) {
             const getBalance = async (tokenAddress) => {
@@ -63,19 +66,17 @@ const NewCard = (props) => {
                     setBalance(0);
                 }
             };
-
-            web3.active && web3.library && getBalance(props.tokenAddress) && setViewAsMember(!isAdmin);
+            web3.active && web3.library && getBalance(props.tokenAddress) && !searchViewAsMember && setViewAsMember(!isAdmin);
             !web3.active && setViewAsMember(true);
         }
 
         return () => {};
-    }, [web3.active, props.id, props]);
+    }, [web3.active, props.id, props, searchViewAsMember]);
 
     const [balance, setBalance] = useState(0);
     const [showEditModal, setShowEditModal] = useState(false);
     const iconHover = useRef(null);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
-    const [searchParams, setSearchParams] = useSearchParams();
 
     const Modals = () => (
         <>
@@ -282,6 +283,8 @@ const NewCard = (props) => {
                 return <Gates {...props} viewAsMember={viewAsMember} />;
         }
     };
+
+    useEffect(() => { searchViewAsMember && setViewAsMember(JSON.parse(searchViewAsMember)) }, [searchViewAsMember]);
 
     return (
         <>
