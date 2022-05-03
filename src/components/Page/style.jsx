@@ -9,7 +9,7 @@ export const Container = styled.main`
     position: relative;
 
     padding: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
 
     /* &:before {
         position: absolute;

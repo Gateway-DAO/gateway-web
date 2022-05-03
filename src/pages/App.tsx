@@ -36,11 +36,11 @@ import Profile, {
 	CompleteProfile,
 	AddKnowledge,
 	AddAttitude,
-	Credentials,
 } from './ProfilePage';
 
 const DAO = React.lazy(() => import('./DAO'));
 const Gate = React.lazy(() => import('./Gate'));
+const Credential = React.lazy(() => import('./Credential'));
 const AddNewKey = React.lazy(() => import('./Gate/pages/AddNewKey'));
 const Search = React.lazy(() => import('./Search'));
 const NotAuthorized = React.lazy(() => import('./NotAuthorized'));
@@ -183,10 +183,6 @@ const App: React.FC = () => {
 								path='edit-profile'
 								element={<CompleteProfile />}
 							/>
-							<Route
-								path='profile-credentials'
-								element={<Credentials />}
-							/>
 
 							<Route
 								path=':username'
@@ -225,13 +221,12 @@ const App: React.FC = () => {
 								path=':username/edit-profile'
 								element={<CompleteProfile />}
 							/>
-							<Route
-								path=':username/profile-credentials'
-								element={<Credentials />}
-							/>
 						</Route>
 
 						<Route path='/not-authorized' element={<NotAuthorized />} />
+
+						<Route path='credential/:id' element={<Credential />} />
+
 						<Route
 							path='/create-profile'
 							element={<CreateProfile />}
