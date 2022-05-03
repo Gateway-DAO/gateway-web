@@ -23,6 +23,32 @@ query getDAO($id: uuid!) {
     }
 }
 
+query getDAOBySlug($slug: String = "") {
+  daos(where: {slug: {_eq: $slug}}) {
+    accomplishments
+    background_url
+    blacklisted_flags
+    categories
+    created_at
+    description
+    ens
+    faq
+    hangouts
+    how_to_join
+    id
+    logo_url
+    mv
+    slug
+    token
+    token_benefits
+    updated_at
+    wdwd
+    whitelisted_flags
+    youtube_url
+  }
+}
+
+
 query listDAOs {
     daos {
         youtube_url

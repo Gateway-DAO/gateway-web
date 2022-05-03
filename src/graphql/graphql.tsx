@@ -24,6 +24,7 @@ export type Scalars = {
   jsonb: any;
   key_status: any;
   nft_type: any;
+  permission_types: any;
   task_type: any;
   timestamp: any;
   uuid: any;
@@ -181,6 +182,8 @@ export type Credentials = {
   attitudes?: Maybe<Scalars['_text']>;
   ceramic: Scalars['String'];
   created_at: Scalars['timestamp'];
+  /** An object relationship */
+  dao: Daos;
   dao_id: Scalars['uuid'];
   description: Scalars['String'];
   gate: Scalars['json'];
@@ -193,6 +196,10 @@ export type Credentials = {
   skills?: Maybe<Scalars['_text']>;
   target_id: Scalars['uuid'];
   updated_at: Scalars['timestamp'];
+  /** An object relationship */
+  user: Users;
+  /** An object relationship */
+  userByTargetId: Users;
 };
 
 
@@ -223,6 +230,20 @@ export type Credentials_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "credentials" */
+export type Credentials_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Credentials_Max_Order_By>;
+  min?: InputMaybe<Credentials_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "credentials" */
+export type Credentials_Arr_Rel_Insert_Input = {
+  data: Array<Credentials_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Credentials_On_Conflict>;
+};
+
 /** Boolean expression to filter rows from the table "credentials". All fields are combined with a logical 'AND'. */
 export type Credentials_Bool_Exp = {
   _and?: InputMaybe<Array<Credentials_Bool_Exp>>;
@@ -231,6 +252,7 @@ export type Credentials_Bool_Exp = {
   attitudes?: InputMaybe<_Text_Comparison_Exp>;
   ceramic?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  dao?: InputMaybe<Daos_Bool_Exp>;
   dao_id?: InputMaybe<Uuid_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
   gate?: InputMaybe<Json_Comparison_Exp>;
@@ -243,6 +265,8 @@ export type Credentials_Bool_Exp = {
   skills?: InputMaybe<_Text_Comparison_Exp>;
   target_id?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  userByTargetId?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "credentials" */
@@ -258,6 +282,7 @@ export type Credentials_Insert_Input = {
   attitudes?: InputMaybe<Scalars['_text']>;
   ceramic?: InputMaybe<Scalars['String']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
+  dao?: InputMaybe<Daos_Obj_Rel_Insert_Input>;
   dao_id?: InputMaybe<Scalars['uuid']>;
   description?: InputMaybe<Scalars['String']>;
   gate?: InputMaybe<Scalars['json']>;
@@ -270,6 +295,8 @@ export type Credentials_Insert_Input = {
   skills?: InputMaybe<Scalars['_text']>;
   target_id?: InputMaybe<Scalars['uuid']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  userByTargetId?: InputMaybe<Users_Obj_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -287,6 +314,20 @@ export type Credentials_Max_Fields = {
   updated_at?: Maybe<Scalars['timestamp']>;
 };
 
+/** order by max() on columns of table "credentials" */
+export type Credentials_Max_Order_By = {
+  ceramic?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  image?: InputMaybe<Order_By>;
+  issuer_id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  target_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Credentials_Min_Fields = {
   __typename?: 'credentials_min_fields';
@@ -300,6 +341,20 @@ export type Credentials_Min_Fields = {
   name?: Maybe<Scalars['String']>;
   target_id?: Maybe<Scalars['uuid']>;
   updated_at?: Maybe<Scalars['timestamp']>;
+};
+
+/** order by min() on columns of table "credentials" */
+export type Credentials_Min_Order_By = {
+  ceramic?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  image?: InputMaybe<Order_By>;
+  issuer_id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  target_id?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "credentials" */
@@ -323,6 +378,7 @@ export type Credentials_Order_By = {
   attitudes?: InputMaybe<Order_By>;
   ceramic?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
+  dao?: InputMaybe<Daos_Order_By>;
   dao_id?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
   gate?: InputMaybe<Order_By>;
@@ -335,6 +391,8 @@ export type Credentials_Order_By = {
   skills?: InputMaybe<Order_By>;
   target_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  userByTargetId?: InputMaybe<Users_Order_By>;
 };
 
 /** primary key columns input for table: credentials */
@@ -445,6 +503,7 @@ export type Daos = {
   id: Scalars['uuid'];
   logo_url: Scalars['String'];
   mv?: Maybe<Scalars['_text']>;
+  name: Scalars['String'];
   slug: Scalars['String'];
   token?: Maybe<Scalars['String']>;
   token_benefits?: Maybe<Scalars['_token_benefit']>;
@@ -494,6 +553,7 @@ export type Daos_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   logo_url?: InputMaybe<String_Comparison_Exp>;
   mv?: InputMaybe<_Text_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
   token?: InputMaybe<String_Comparison_Exp>;
   token_benefits?: InputMaybe<_Token_Benefit_Comparison_Exp>;
@@ -530,6 +590,7 @@ export type Daos_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   logo_url?: InputMaybe<Scalars['String']>;
   mv?: InputMaybe<Scalars['_text']>;
+  name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
   token_benefits?: InputMaybe<Scalars['_token_benefit']>;
@@ -549,6 +610,7 @@ export type Daos_Max_Fields = {
   ens?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   logo_url?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamp']>;
@@ -566,6 +628,7 @@ export type Daos_Min_Fields = {
   ens?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   logo_url?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamp']>;
@@ -580,6 +643,13 @@ export type Daos_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Daos>;
+};
+
+/** input type for inserting object relation for remote table "daos" */
+export type Daos_Obj_Rel_Insert_Input = {
+  data: Daos_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Daos_On_Conflict>;
 };
 
 /** on_conflict condition type for table "daos" */
@@ -604,6 +674,7 @@ export type Daos_Order_By = {
   id?: InputMaybe<Order_By>;
   logo_url?: InputMaybe<Order_By>;
   mv?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   slug?: InputMaybe<Order_By>;
   token?: InputMaybe<Order_By>;
   token_benefits?: InputMaybe<Order_By>;
@@ -647,6 +718,8 @@ export enum Daos_Select_Column {
   /** column name */
   Mv = 'mv',
   /** column name */
+  Name = 'name',
+  /** column name */
   Slug = 'slug',
   /** column name */
   Token = 'token',
@@ -677,6 +750,7 @@ export type Daos_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   logo_url?: InputMaybe<Scalars['String']>;
   mv?: InputMaybe<Scalars['_text']>;
+  name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
   token_benefits?: InputMaybe<Scalars['_token_benefit']>;
@@ -715,6 +789,8 @@ export enum Daos_Update_Column {
   /** column name */
   Mv = 'mv',
   /** column name */
+  Name = 'name',
+  /** column name */
   Slug = 'slug',
   /** column name */
   Token = 'token',
@@ -728,6 +804,170 @@ export enum Daos_Update_Column {
   WhitelistedFlags = 'whitelisted_flags',
   /** column name */
   YoutubeUrl = 'youtube_url'
+}
+
+/** columns and relationships of "earners" */
+export type Earners = {
+  __typename?: 'earners';
+  /** An object relationship */
+  gate: Gates;
+  gate_id: Scalars['uuid'];
+  id: Scalars['uuid'];
+  /** An object relationship */
+  user: Users;
+  user_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "earners" */
+export type Earners_Aggregate = {
+  __typename?: 'earners_aggregate';
+  aggregate?: Maybe<Earners_Aggregate_Fields>;
+  nodes: Array<Earners>;
+};
+
+/** aggregate fields of "earners" */
+export type Earners_Aggregate_Fields = {
+  __typename?: 'earners_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Earners_Max_Fields>;
+  min?: Maybe<Earners_Min_Fields>;
+};
+
+
+/** aggregate fields of "earners" */
+export type Earners_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Earners_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "earners" */
+export type Earners_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Earners_Max_Order_By>;
+  min?: InputMaybe<Earners_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "earners" */
+export type Earners_Arr_Rel_Insert_Input = {
+  data: Array<Earners_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Earners_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "earners". All fields are combined with a logical 'AND'. */
+export type Earners_Bool_Exp = {
+  _and?: InputMaybe<Array<Earners_Bool_Exp>>;
+  _not?: InputMaybe<Earners_Bool_Exp>;
+  _or?: InputMaybe<Array<Earners_Bool_Exp>>;
+  gate?: InputMaybe<Gates_Bool_Exp>;
+  gate_id?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "earners" */
+export enum Earners_Constraint {
+  /** unique or primary key constraint */
+  EarnersIdUindex = 'earners_id_uindex',
+  /** unique or primary key constraint */
+  EarnersPk = 'earners_pk'
+}
+
+/** input type for inserting data into table "earners" */
+export type Earners_Insert_Input = {
+  gate?: InputMaybe<Gates_Obj_Rel_Insert_Input>;
+  gate_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Earners_Max_Fields = {
+  __typename?: 'earners_max_fields';
+  gate_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "earners" */
+export type Earners_Max_Order_By = {
+  gate_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Earners_Min_Fields = {
+  __typename?: 'earners_min_fields';
+  gate_id?: Maybe<Scalars['uuid']>;
+  id?: Maybe<Scalars['uuid']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "earners" */
+export type Earners_Min_Order_By = {
+  gate_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "earners" */
+export type Earners_Mutation_Response = {
+  __typename?: 'earners_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Earners>;
+};
+
+/** on_conflict condition type for table "earners" */
+export type Earners_On_Conflict = {
+  constraint: Earners_Constraint;
+  update_columns?: Array<Earners_Update_Column>;
+  where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "earners". */
+export type Earners_Order_By = {
+  gate?: InputMaybe<Gates_Order_By>;
+  gate_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: earners */
+export type Earners_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "earners" */
+export enum Earners_Select_Column {
+  /** column name */
+  GateId = 'gate_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "earners" */
+export type Earners_Set_Input = {
+  gate_id?: InputMaybe<Scalars['uuid']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "earners" */
+export enum Earners_Update_Column {
+  /** column name */
+  GateId = 'gate_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  UserId = 'user_id'
 }
 
 /** columns and relationships of "gate_progress" */
@@ -761,6 +1001,20 @@ export type Gate_Progress_Aggregate_Fields = {
 export type Gate_Progress_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Gate_Progress_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "gate_progress" */
+export type Gate_Progress_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Gate_Progress_Max_Order_By>;
+  min?: InputMaybe<Gate_Progress_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "gate_progress" */
+export type Gate_Progress_Arr_Rel_Insert_Input = {
+  data: Array<Gate_Progress_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Gate_Progress_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "gate_progress". All fields are combined with a logical 'AND'. */
@@ -805,6 +1059,16 @@ export type Gate_Progress_Max_Fields = {
   user_id?: Maybe<Scalars['uuid']>;
 };
 
+/** order by max() on columns of table "gate_progress" */
+export type Gate_Progress_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  gate_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Gate_Progress_Min_Fields = {
   __typename?: 'gate_progress_min_fields';
@@ -814,6 +1078,16 @@ export type Gate_Progress_Min_Fields = {
   status?: Maybe<Scalars['gate_status']>;
   updated_at?: Maybe<Scalars['timestamp']>;
   user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "gate_progress" */
+export type Gate_Progress_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  gate_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "gate_progress" */
@@ -921,16 +1195,66 @@ export type Gates = {
   attitudes?: Maybe<Scalars['_text']>;
   badge: Scalars['badge_scalar'];
   categories: Scalars['_text'];
+  /** An object relationship */
+  dao: Daos;
   dao_id: Scalars['uuid'];
   description: Scalars['String'];
+  /** An array relationship */
+  earners: Array<Earners>;
+  /** An aggregate relationship */
+  earners_aggregate: Earners_Aggregate;
   gate_name: Scalars['String'];
   id: Scalars['uuid'];
   keys?: Maybe<Scalars['Int']>;
+  /** An array relationship */
+  keysByGateId: Array<Keys>;
+  /** An aggregate relationship */
+  keysByGateId_aggregate: Keys_Aggregate;
   knowledge?: Maybe<Scalars['_text']>;
-  links?: Maybe<Scalars['_text']>;
+  links: Scalars['_json'];
   nft_type: Scalars['nft_type'];
   published: Scalars['gate_state'];
   skills?: Maybe<Scalars['_text']>;
+};
+
+
+/** columns and relationships of "gates" */
+export type GatesEarnersArgs = {
+  distinct_on?: InputMaybe<Array<Earners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Earners_Order_By>>;
+  where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+
+/** columns and relationships of "gates" */
+export type GatesEarners_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Earners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Earners_Order_By>>;
+  where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+
+/** columns and relationships of "gates" */
+export type GatesKeysByGateIdArgs = {
+  distinct_on?: InputMaybe<Array<Keys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Keys_Order_By>>;
+  where?: InputMaybe<Keys_Bool_Exp>;
+};
+
+
+/** columns and relationships of "gates" */
+export type GatesKeysByGateId_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Keys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Keys_Order_By>>;
+  where?: InputMaybe<Keys_Bool_Exp>;
 };
 
 /** aggregated selection of "gates" */
@@ -977,13 +1301,16 @@ export type Gates_Bool_Exp = {
   attitudes?: InputMaybe<_Text_Comparison_Exp>;
   badge?: InputMaybe<Badge_Scalar_Comparison_Exp>;
   categories?: InputMaybe<_Text_Comparison_Exp>;
+  dao?: InputMaybe<Daos_Bool_Exp>;
   dao_id?: InputMaybe<Uuid_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
+  earners?: InputMaybe<Earners_Bool_Exp>;
   gate_name?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   keys?: InputMaybe<Int_Comparison_Exp>;
+  keysByGateId?: InputMaybe<Keys_Bool_Exp>;
   knowledge?: InputMaybe<_Text_Comparison_Exp>;
-  links?: InputMaybe<_Text_Comparison_Exp>;
+  links?: InputMaybe<_Json_Comparison_Exp>;
   nft_type?: InputMaybe<Nft_Type_Comparison_Exp>;
   published?: InputMaybe<Gate_State_Comparison_Exp>;
   skills?: InputMaybe<_Text_Comparison_Exp>;
@@ -1007,13 +1334,16 @@ export type Gates_Insert_Input = {
   attitudes?: InputMaybe<Scalars['_text']>;
   badge?: InputMaybe<Scalars['badge_scalar']>;
   categories?: InputMaybe<Scalars['_text']>;
+  dao?: InputMaybe<Daos_Obj_Rel_Insert_Input>;
   dao_id?: InputMaybe<Scalars['uuid']>;
   description?: InputMaybe<Scalars['String']>;
+  earners?: InputMaybe<Earners_Arr_Rel_Insert_Input>;
   gate_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
   keys?: InputMaybe<Scalars['Int']>;
+  keysByGateId?: InputMaybe<Keys_Arr_Rel_Insert_Input>;
   knowledge?: InputMaybe<Scalars['_text']>;
-  links?: InputMaybe<Scalars['_text']>;
+  links?: InputMaybe<Scalars['_json']>;
   nft_type?: InputMaybe<Scalars['nft_type']>;
   published?: InputMaybe<Scalars['gate_state']>;
   skills?: InputMaybe<Scalars['_text']>;
@@ -1054,6 +1384,13 @@ export type Gates_Mutation_Response = {
   returning: Array<Gates>;
 };
 
+/** input type for inserting object relation for remote table "gates" */
+export type Gates_Obj_Rel_Insert_Input = {
+  data: Gates_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Gates_On_Conflict>;
+};
+
 /** on_conflict condition type for table "gates" */
 export type Gates_On_Conflict = {
   constraint: Gates_Constraint;
@@ -1066,11 +1403,14 @@ export type Gates_Order_By = {
   attitudes?: InputMaybe<Order_By>;
   badge?: InputMaybe<Order_By>;
   categories?: InputMaybe<Order_By>;
+  dao?: InputMaybe<Daos_Order_By>;
   dao_id?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
+  earners_aggregate?: InputMaybe<Earners_Aggregate_Order_By>;
   gate_name?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   keys?: InputMaybe<Order_By>;
+  keysByGateId_aggregate?: InputMaybe<Keys_Aggregate_Order_By>;
   knowledge?: InputMaybe<Order_By>;
   links?: InputMaybe<Order_By>;
   nft_type?: InputMaybe<Order_By>;
@@ -1124,7 +1464,7 @@ export type Gates_Set_Input = {
   id?: InputMaybe<Scalars['uuid']>;
   keys?: InputMaybe<Scalars['Int']>;
   knowledge?: InputMaybe<Scalars['_text']>;
-  links?: InputMaybe<Scalars['_text']>;
+  links?: InputMaybe<Scalars['_json']>;
   nft_type?: InputMaybe<Scalars['nft_type']>;
   published?: InputMaybe<Scalars['gate_state']>;
   skills?: InputMaybe<Scalars['_text']>;
@@ -1447,11 +1787,39 @@ export type Keys_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "keys" */
+export type Keys_Aggregate_Order_By = {
+  avg?: InputMaybe<Keys_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Keys_Max_Order_By>;
+  min?: InputMaybe<Keys_Min_Order_By>;
+  stddev?: InputMaybe<Keys_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Keys_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Keys_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Keys_Sum_Order_By>;
+  var_pop?: InputMaybe<Keys_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Keys_Var_Samp_Order_By>;
+  variance?: InputMaybe<Keys_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "keys" */
+export type Keys_Arr_Rel_Insert_Input = {
+  data: Array<Keys_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Keys_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Keys_Avg_Fields = {
   __typename?: 'keys_avg_fields';
   keys?: Maybe<Scalars['Float']>;
   people_limit?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "keys" */
+export type Keys_Avg_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "keys". All fields are combined with a logical 'AND'. */
@@ -1505,6 +1873,15 @@ export type Keys_Max_Fields = {
   task_type?: Maybe<Scalars['task_type']>;
 };
 
+/** order by max() on columns of table "keys" */
+export type Keys_Max_Order_By = {
+  gate_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
+  task_type?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Keys_Min_Fields = {
   __typename?: 'keys_min_fields';
@@ -1513,6 +1890,15 @@ export type Keys_Min_Fields = {
   keys?: Maybe<Scalars['Int']>;
   people_limit?: Maybe<Scalars['Int']>;
   task_type?: Maybe<Scalars['task_type']>;
+};
+
+/** order by min() on columns of table "keys" */
+export type Keys_Min_Order_By = {
+  gate_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
+  task_type?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "keys" */
@@ -1587,11 +1973,23 @@ export type Keys_Stddev_Fields = {
   people_limit?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev() on columns of table "keys" */
+export type Keys_Stddev_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Keys_Stddev_Pop_Fields = {
   __typename?: 'keys_stddev_pop_fields';
   keys?: Maybe<Scalars['Float']>;
   people_limit?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "keys" */
+export type Keys_Stddev_Pop_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1601,11 +1999,23 @@ export type Keys_Stddev_Samp_Fields = {
   people_limit?: Maybe<Scalars['Float']>;
 };
 
+/** order by stddev_samp() on columns of table "keys" */
+export type Keys_Stddev_Samp_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
+};
+
 /** aggregate sum on columns */
 export type Keys_Sum_Fields = {
   __typename?: 'keys_sum_fields';
   keys?: Maybe<Scalars['Int']>;
   people_limit?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "keys" */
+export type Keys_Sum_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "keys" */
@@ -1635,6 +2045,12 @@ export type Keys_Var_Pop_Fields = {
   people_limit?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_pop() on columns of table "keys" */
+export type Keys_Var_Pop_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Keys_Var_Samp_Fields = {
   __typename?: 'keys_var_samp_fields';
@@ -1642,11 +2058,23 @@ export type Keys_Var_Samp_Fields = {
   people_limit?: Maybe<Scalars['Float']>;
 };
 
+/** order by var_samp() on columns of table "keys" */
+export type Keys_Var_Samp_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Keys_Variance_Fields = {
   __typename?: 'keys_variance_fields';
   keys?: Maybe<Scalars['Float']>;
   people_limit?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "keys" */
+export type Keys_Variance_Order_By = {
+  keys?: InputMaybe<Order_By>;
+  people_limit?: InputMaybe<Order_By>;
 };
 
 /** mutation root */
@@ -1660,6 +2088,10 @@ export type Mutation_Root = {
   delete_daos?: Maybe<Daos_Mutation_Response>;
   /** delete single row from the table: "daos" */
   delete_daos_by_pk?: Maybe<Daos>;
+  /** delete data from the table: "earners" */
+  delete_earners?: Maybe<Earners_Mutation_Response>;
+  /** delete single row from the table: "earners" */
+  delete_earners_by_pk?: Maybe<Earners>;
   /** delete data from the table: "gate_progress" */
   delete_gate_progress?: Maybe<Gate_Progress_Mutation_Response>;
   /** delete single row from the table: "gate_progress" */
@@ -1676,6 +2108,8 @@ export type Mutation_Root = {
   delete_keys?: Maybe<Keys_Mutation_Response>;
   /** delete single row from the table: "keys" */
   delete_keys_by_pk?: Maybe<Keys>;
+  /** delete data from the table: "permissions" */
+  delete_permissions?: Maybe<Permissions_Mutation_Response>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -1688,6 +2122,10 @@ export type Mutation_Root = {
   insert_daos?: Maybe<Daos_Mutation_Response>;
   /** insert a single row into the table: "daos" */
   insert_daos_one?: Maybe<Daos>;
+  /** insert data into the table: "earners" */
+  insert_earners?: Maybe<Earners_Mutation_Response>;
+  /** insert a single row into the table: "earners" */
+  insert_earners_one?: Maybe<Earners>;
   /** insert data into the table: "gate_progress" */
   insert_gate_progress?: Maybe<Gate_Progress_Mutation_Response>;
   /** insert a single row into the table: "gate_progress" */
@@ -1704,6 +2142,10 @@ export type Mutation_Root = {
   insert_keys?: Maybe<Keys_Mutation_Response>;
   /** insert a single row into the table: "keys" */
   insert_keys_one?: Maybe<Keys>;
+  /** insert data into the table: "permissions" */
+  insert_permissions?: Maybe<Permissions_Mutation_Response>;
+  /** insert a single row into the table: "permissions" */
+  insert_permissions_one?: Maybe<Permissions>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -1718,6 +2160,10 @@ export type Mutation_Root = {
   update_daos?: Maybe<Daos_Mutation_Response>;
   /** update single row of the table: "daos" */
   update_daos_by_pk?: Maybe<Daos>;
+  /** update data of the table: "earners" */
+  update_earners?: Maybe<Earners_Mutation_Response>;
+  /** update single row of the table: "earners" */
+  update_earners_by_pk?: Maybe<Earners>;
   /** update data of the table: "gate_progress" */
   update_gate_progress?: Maybe<Gate_Progress_Mutation_Response>;
   /** update single row of the table: "gate_progress" */
@@ -1734,6 +2180,8 @@ export type Mutation_Root = {
   update_keys?: Maybe<Keys_Mutation_Response>;
   /** update single row of the table: "keys" */
   update_keys_by_pk?: Maybe<Keys>;
+  /** update data of the table: "permissions" */
+  update_permissions?: Maybe<Permissions_Mutation_Response>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -1763,6 +2211,18 @@ export type Mutation_RootDelete_DaosArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Daos_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_EarnersArgs = {
+  where: Earners_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Earners_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -1816,6 +2276,12 @@ export type Mutation_RootDelete_Keys_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_PermissionsArgs = {
+  where: Permissions_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp;
 };
@@ -1852,6 +2318,20 @@ export type Mutation_RootInsert_DaosArgs = {
 export type Mutation_RootInsert_Daos_OneArgs = {
   object: Daos_Insert_Input;
   on_conflict?: InputMaybe<Daos_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_EarnersArgs = {
+  objects: Array<Earners_Insert_Input>;
+  on_conflict?: InputMaybe<Earners_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Earners_OneArgs = {
+  object: Earners_Insert_Input;
+  on_conflict?: InputMaybe<Earners_On_Conflict>;
 };
 
 
@@ -1912,6 +2392,20 @@ export type Mutation_RootInsert_Keys_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_PermissionsArgs = {
+  objects: Array<Permissions_Insert_Input>;
+  on_conflict?: InputMaybe<Permissions_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Permissions_OneArgs = {
+  object: Permissions_Insert_Input;
+  on_conflict?: InputMaybe<Permissions_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: InputMaybe<Users_On_Conflict>;
@@ -1956,6 +2450,20 @@ export type Mutation_RootUpdate_DaosArgs = {
 export type Mutation_RootUpdate_Daos_By_PkArgs = {
   _set?: InputMaybe<Daos_Set_Input>;
   pk_columns: Daos_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_EarnersArgs = {
+  _set?: InputMaybe<Earners_Set_Input>;
+  where: Earners_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Earners_By_PkArgs = {
+  _set?: InputMaybe<Earners_Set_Input>;
+  pk_columns: Earners_Pk_Columns_Input;
 };
 
 
@@ -2020,6 +2528,13 @@ export type Mutation_RootUpdate_Keys_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_PermissionsArgs = {
+  _set?: InputMaybe<Permissions_Set_Input>;
+  where: Permissions_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
   _set?: InputMaybe<Users_Set_Input>;
   where: Users_Bool_Exp;
@@ -2067,6 +2582,188 @@ export enum Order_By {
   DescNullsLast = 'desc_nulls_last'
 }
 
+/** Boolean expression to compare columns of type "permission_types". All fields are combined with logical 'AND'. */
+export type Permission_Types_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['permission_types']>;
+  _gt?: InputMaybe<Scalars['permission_types']>;
+  _gte?: InputMaybe<Scalars['permission_types']>;
+  _in?: InputMaybe<Array<Scalars['permission_types']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['permission_types']>;
+  _lte?: InputMaybe<Scalars['permission_types']>;
+  _neq?: InputMaybe<Scalars['permission_types']>;
+  _nin?: InputMaybe<Array<Scalars['permission_types']>>;
+};
+
+/** columns and relationships of "permissions" */
+export type Permissions = {
+  __typename?: 'permissions';
+  created_at: Scalars['timestamp'];
+  /** An object relationship */
+  dao?: Maybe<Daos>;
+  dao_id?: Maybe<Scalars['uuid']>;
+  /** An object relationship */
+  gate?: Maybe<Gates>;
+  gate_id?: Maybe<Scalars['uuid']>;
+  permission?: Maybe<Scalars['permission_types']>;
+  updated_at: Scalars['timestamp'];
+  /** An object relationship */
+  user: Users;
+  user_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "permissions" */
+export type Permissions_Aggregate = {
+  __typename?: 'permissions_aggregate';
+  aggregate?: Maybe<Permissions_Aggregate_Fields>;
+  nodes: Array<Permissions>;
+};
+
+/** aggregate fields of "permissions" */
+export type Permissions_Aggregate_Fields = {
+  __typename?: 'permissions_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Permissions_Max_Fields>;
+  min?: Maybe<Permissions_Min_Fields>;
+};
+
+
+/** aggregate fields of "permissions" */
+export type Permissions_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Permissions_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "permissions". All fields are combined with a logical 'AND'. */
+export type Permissions_Bool_Exp = {
+  _and?: InputMaybe<Array<Permissions_Bool_Exp>>;
+  _not?: InputMaybe<Permissions_Bool_Exp>;
+  _or?: InputMaybe<Array<Permissions_Bool_Exp>>;
+  created_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  dao?: InputMaybe<Daos_Bool_Exp>;
+  dao_id?: InputMaybe<Uuid_Comparison_Exp>;
+  gate?: InputMaybe<Gates_Bool_Exp>;
+  gate_id?: InputMaybe<Uuid_Comparison_Exp>;
+  permission?: InputMaybe<Permission_Types_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "permissions" */
+export enum Permissions_Constraint {
+  /** unique or primary key constraint */
+  PermissionsUserIdDaoIdGateIdKey = 'permissions_user_id_dao_id_gate_id_key',
+  /** unique or primary key constraint */
+  PermissionsUserIdUindex = 'permissions_user_id_uindex'
+}
+
+/** input type for inserting data into table "permissions" */
+export type Permissions_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  dao?: InputMaybe<Daos_Obj_Rel_Insert_Input>;
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  gate?: InputMaybe<Gates_Obj_Rel_Insert_Input>;
+  gate_id?: InputMaybe<Scalars['uuid']>;
+  permission?: InputMaybe<Scalars['permission_types']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type Permissions_Max_Fields = {
+  __typename?: 'permissions_max_fields';
+  created_at?: Maybe<Scalars['timestamp']>;
+  dao_id?: Maybe<Scalars['uuid']>;
+  gate_id?: Maybe<Scalars['uuid']>;
+  permission?: Maybe<Scalars['permission_types']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type Permissions_Min_Fields = {
+  __typename?: 'permissions_min_fields';
+  created_at?: Maybe<Scalars['timestamp']>;
+  dao_id?: Maybe<Scalars['uuid']>;
+  gate_id?: Maybe<Scalars['uuid']>;
+  permission?: Maybe<Scalars['permission_types']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "permissions" */
+export type Permissions_Mutation_Response = {
+  __typename?: 'permissions_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Permissions>;
+};
+
+/** on_conflict condition type for table "permissions" */
+export type Permissions_On_Conflict = {
+  constraint: Permissions_Constraint;
+  update_columns?: Array<Permissions_Update_Column>;
+  where?: InputMaybe<Permissions_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "permissions". */
+export type Permissions_Order_By = {
+  created_at?: InputMaybe<Order_By>;
+  dao?: InputMaybe<Daos_Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  gate?: InputMaybe<Gates_Order_By>;
+  gate_id?: InputMaybe<Order_By>;
+  permission?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "permissions" */
+export enum Permissions_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  GateId = 'gate_id',
+  /** column name */
+  Permission = 'permission',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "permissions" */
+export type Permissions_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  gate_id?: InputMaybe<Scalars['uuid']>;
+  permission?: InputMaybe<Scalars['permission_types']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "permissions" */
+export enum Permissions_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  GateId = 'gate_id',
+  /** column name */
+  Permission = 'permission',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
+}
+
 export type Query_Root = {
   __typename?: 'query_root';
   /** fetch data from the table: "credentials" */
@@ -2081,6 +2778,12 @@ export type Query_Root = {
   daos_aggregate: Daos_Aggregate;
   /** fetch data from the table: "daos" using primary key columns */
   daos_by_pk?: Maybe<Daos>;
+  /** An array relationship */
+  earners: Array<Earners>;
+  /** An aggregate relationship */
+  earners_aggregate: Earners_Aggregate;
+  /** fetch data from the table: "earners" using primary key columns */
+  earners_by_pk?: Maybe<Earners>;
   /** fetch data from the table: "gate_progress" */
   gate_progress: Array<Gate_Progress>;
   /** fetch aggregated fields from the table: "gate_progress" */
@@ -2105,6 +2808,10 @@ export type Query_Root = {
   keys_aggregate: Keys_Aggregate;
   /** fetch data from the table: "keys" using primary key columns */
   keys_by_pk?: Maybe<Keys>;
+  /** fetch data from the table: "permissions" */
+  permissions: Array<Permissions>;
+  /** fetch aggregated fields from the table: "permissions" */
+  permissions_aggregate: Permissions_Aggregate;
   /** search_credentials */
   search_credentials?: Maybe<AlgoliaSearchResults>;
   /** search_daos */
@@ -2164,6 +2871,29 @@ export type Query_RootDaos_AggregateArgs = {
 
 
 export type Query_RootDaos_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Query_RootEarnersArgs = {
+  distinct_on?: InputMaybe<Array<Earners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Earners_Order_By>>;
+  where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+
+export type Query_RootEarners_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Earners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Earners_Order_By>>;
+  where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+
+export type Query_RootEarners_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -2260,6 +2990,24 @@ export type Query_RootKeys_By_PkArgs = {
 };
 
 
+export type Query_RootPermissionsArgs = {
+  distinct_on?: InputMaybe<Array<Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Permissions_Order_By>>;
+  where?: InputMaybe<Permissions_Bool_Exp>;
+};
+
+
+export type Query_RootPermissions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Permissions_Order_By>>;
+  where?: InputMaybe<Permissions_Bool_Exp>;
+};
+
+
 export type Query_RootSearch_CredentialsArgs = {
   pagination?: InputMaybe<AlgoliaPaginationInput>;
   query: Scalars['String'];
@@ -2320,6 +3068,12 @@ export type Subscription_Root = {
   daos_aggregate: Daos_Aggregate;
   /** fetch data from the table: "daos" using primary key columns */
   daos_by_pk?: Maybe<Daos>;
+  /** An array relationship */
+  earners: Array<Earners>;
+  /** An aggregate relationship */
+  earners_aggregate: Earners_Aggregate;
+  /** fetch data from the table: "earners" using primary key columns */
+  earners_by_pk?: Maybe<Earners>;
   /** fetch data from the table: "gate_progress" */
   gate_progress: Array<Gate_Progress>;
   /** fetch aggregated fields from the table: "gate_progress" */
@@ -2344,6 +3098,10 @@ export type Subscription_Root = {
   keys_aggregate: Keys_Aggregate;
   /** fetch data from the table: "keys" using primary key columns */
   keys_by_pk?: Maybe<Keys>;
+  /** fetch data from the table: "permissions" */
+  permissions: Array<Permissions>;
+  /** fetch aggregated fields from the table: "permissions" */
+  permissions_aggregate: Permissions_Aggregate;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -2395,6 +3153,29 @@ export type Subscription_RootDaos_AggregateArgs = {
 
 
 export type Subscription_RootDaos_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootEarnersArgs = {
+  distinct_on?: InputMaybe<Array<Earners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Earners_Order_By>>;
+  where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+
+export type Subscription_RootEarners_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Earners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Earners_Order_By>>;
+  where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+
+export type Subscription_RootEarners_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
@@ -2491,6 +3272,24 @@ export type Subscription_RootKeys_By_PkArgs = {
 };
 
 
+export type Subscription_RootPermissionsArgs = {
+  distinct_on?: InputMaybe<Array<Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Permissions_Order_By>>;
+  where?: InputMaybe<Permissions_Bool_Exp>;
+};
+
+
+export type Subscription_RootPermissions_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Permissions_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Permissions_Order_By>>;
+  where?: InputMaybe<Permissions_Bool_Exp>;
+};
+
+
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -2558,7 +3357,15 @@ export type Users = {
   bio?: Maybe<Scalars['String']>;
   blacklistedFlags: Scalars['_text'];
   createdAt: Scalars['timestamp'];
+  /** An array relationship */
+  credentialsByTargetId: Array<Credentials>;
+  /** An aggregate relationship */
+  credentialsByTargetId_aggregate: Credentials_Aggregate;
   device?: Maybe<Scalars['String']>;
+  /** An array relationship */
+  gate_progresses: Array<Gate_Progress>;
+  /** An aggregate relationship */
+  gate_progresses_aggregate: Gate_Progress_Aggregate;
   id: Scalars['uuid'];
   init: Scalars['Boolean'];
   knowledges?: Maybe<Scalars['_text']>;
@@ -2571,6 +3378,46 @@ export type Users = {
   username?: Maybe<Scalars['String']>;
   wallet?: Maybe<Scalars['String']>;
   whitelistedFlags: Scalars['_text'];
+};
+
+
+/** columns and relationships of "users" */
+export type UsersCredentialsByTargetIdArgs = {
+  distinct_on?: InputMaybe<Array<Credentials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Credentials_Order_By>>;
+  where?: InputMaybe<Credentials_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersCredentialsByTargetId_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Credentials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Credentials_Order_By>>;
+  where?: InputMaybe<Credentials_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersGate_ProgressesArgs = {
+  distinct_on?: InputMaybe<Array<Gate_Progress_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Gate_Progress_Order_By>>;
+  where?: InputMaybe<Gate_Progress_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersGate_Progresses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Gate_Progress_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Gate_Progress_Order_By>>;
+  where?: InputMaybe<Gate_Progress_Bool_Exp>;
 };
 
 /** aggregated selection of "users" */
@@ -2605,7 +3452,9 @@ export type Users_Bool_Exp = {
   bio?: InputMaybe<String_Comparison_Exp>;
   blacklistedFlags?: InputMaybe<_Text_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamp_Comparison_Exp>;
+  credentialsByTargetId?: InputMaybe<Credentials_Bool_Exp>;
   device?: InputMaybe<String_Comparison_Exp>;
+  gate_progresses?: InputMaybe<Gate_Progress_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   init?: InputMaybe<Boolean_Comparison_Exp>;
   knowledges?: InputMaybe<_Text_Comparison_Exp>;
@@ -2641,7 +3490,9 @@ export type Users_Insert_Input = {
   bio?: InputMaybe<Scalars['String']>;
   blacklistedFlags?: InputMaybe<Scalars['_text']>;
   createdAt?: InputMaybe<Scalars['timestamp']>;
+  credentialsByTargetId?: InputMaybe<Credentials_Arr_Rel_Insert_Input>;
   device?: InputMaybe<Scalars['String']>;
+  gate_progresses?: InputMaybe<Gate_Progress_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   init?: InputMaybe<Scalars['Boolean']>;
   knowledges?: InputMaybe<Scalars['_text']>;
@@ -2693,6 +3544,13 @@ export type Users_Mutation_Response = {
   returning: Array<Users>;
 };
 
+/** input type for inserting object relation for remote table "users" */
+export type Users_Obj_Rel_Insert_Input = {
+  data: Users_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
 /** on_conflict condition type for table "users" */
 export type Users_On_Conflict = {
   constraint: Users_Constraint;
@@ -2707,7 +3565,9 @@ export type Users_Order_By = {
   bio?: InputMaybe<Order_By>;
   blacklistedFlags?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
+  credentialsByTargetId_aggregate?: InputMaybe<Credentials_Aggregate_Order_By>;
   device?: InputMaybe<Order_By>;
+  gate_progresses_aggregate?: InputMaybe<Gate_Progress_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   init?: InputMaybe<Order_By>;
   knowledges?: InputMaybe<Order_By>;
@@ -2849,6 +3709,13 @@ export type GetDaoQueryVariables = Exact<{
 
 export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } | null };
 
+export type GetDaoBySlugQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetDaoBySlugQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', accomplishments?: string | null, background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, faq?: any | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, token?: string | null, token_benefits?: any | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null }> };
+
 export type ListDaOsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2874,12 +3741,12 @@ export type GetGateQueryVariables = Exact<{
 }>;
 
 
-export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links?: any | null, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null } | null };
+export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
 
 export type ListGatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links?: any | null, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null }> };
+export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } }> };
 
 export type GetKeyQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -2900,7 +3767,7 @@ export type CreateGateMutationVariables = Exact<{
 }>;
 
 
-export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links?: any | null, nft_type: any, published: any, skills?: any | null } | null };
+export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
 
 export type UpdateGateMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -2908,7 +3775,7 @@ export type UpdateGateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links?: any | null, nft_type: any, published: any, skills?: any | null } | null };
+export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
 
 export type DeleteGateMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -2923,6 +3790,14 @@ export type CreateKeyMutationVariables = Exact<{
 
 
 export type CreateKeyMutation = { __typename?: 'mutation_root', insert_keys_one?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null };
+
+export type UpdateKeyMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['uuid']>;
+  set?: InputMaybe<Keys_Set_Input>;
+}>;
+
+
+export type UpdateKeyMutation = { __typename?: 'mutation_root', update_keys_by_pk?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null };
 
 export type DeleteKeyMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -2939,6 +3814,38 @@ export type VerifyTaskMutationVariables = Exact<{
 
 
 export type VerifyTaskMutation = { __typename?: 'mutation_root', verify_key?: { __typename?: 'VerifyOutput', completed_gate: boolean, task_info: any } | null };
+
+export type GetUserGatePermissionsQueryVariables = Exact<{
+  gate_id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+}>;
+
+
+export type GetUserGatePermissionsQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null }> };
+
+export type GetUserDaoPermissionsQueryVariables = Exact<{
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+}>;
+
+
+export type GetUserDaoPermissionsQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null }> };
+
+export type GetGateUsersQueryVariables = Exact<{
+  gate_id?: InputMaybe<Scalars['uuid']>;
+  permission?: InputMaybe<Scalars['permission_types']>;
+}>;
+
+
+export type GetGateUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null, user_id: any, updated_at: any, gate_id?: any | null, dao_id?: any | null, created_at: any, user: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } }> };
+
+export type GetDaoUsersQueryVariables = Exact<{
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  permission?: InputMaybe<Scalars['permission_types']>;
+}>;
+
+
+export type GetDaoUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null, user_id: any, updated_at: any, gate_id?: any | null, dao_id?: any | null, created_at: any, user: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } }> };
 
 export type SearchUsersQueryVariables = Exact<{
   query: Scalars['String'];
@@ -2972,12 +3879,46 @@ export type SearchCredentialsQueryVariables = Exact<{
 
 export type SearchCredentialsQuery = { __typename?: 'query_root', search_credentials?: { __typename?: 'AlgoliaSearchResults', hits: any } | null };
 
-export type GetUserByAddressQueryVariables = Exact<{
-  wallet?: InputMaybe<Scalars['String']>;
+export type GetUserByUsernameQueryVariables = Exact<{
+  username: Scalars['String'];
 }>;
 
 
-export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any }> };
+export type GetUserByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+
+export type GetUserByAddressQueryVariables = Exact<{
+  wallet: Scalars['String'];
+}>;
+
+
+export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+
+export type ListUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+
+export type CreateUserMutationVariables = Exact<{
+  object?: InputMaybe<Users_Insert_Input>;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } | null };
+
+export type UpdateUserMutationVariables = Exact<{
+  set?: InputMaybe<Users_Set_Input>;
+  id?: InputMaybe<Scalars['uuid']>;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } | null };
+
+export type DeleteUserMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteUserMutation = { __typename?: 'mutation_root', delete_users_by_pk?: { __typename?: 'users', id: any } | null };
 
 
 export const GetDaoDocument = gql`
@@ -3034,6 +3975,60 @@ export function useGetDaoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetDaoQueryHookResult = ReturnType<typeof useGetDaoQuery>;
 export type GetDaoLazyQueryHookResult = ReturnType<typeof useGetDaoLazyQuery>;
 export type GetDaoQueryResult = Apollo.QueryResult<GetDaoQuery, GetDaoQueryVariables>;
+export const GetDaoBySlugDocument = gql`
+    query getDAOBySlug($slug: String = "") {
+  daos(where: {slug: {_eq: $slug}}) {
+    accomplishments
+    background_url
+    blacklisted_flags
+    categories
+    created_at
+    description
+    ens
+    faq
+    hangouts
+    how_to_join
+    id
+    logo_url
+    mv
+    slug
+    token
+    token_benefits
+    updated_at
+    wdwd
+    whitelisted_flags
+    youtube_url
+  }
+}
+    `;
+
+/**
+ * __useGetDaoBySlugQuery__
+ *
+ * To run a query within a React component, call `useGetDaoBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDaoBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDaoBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetDaoBySlugQuery(baseOptions?: Apollo.QueryHookOptions<GetDaoBySlugQuery, GetDaoBySlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDaoBySlugQuery, GetDaoBySlugQueryVariables>(GetDaoBySlugDocument, options);
+      }
+export function useGetDaoBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDaoBySlugQuery, GetDaoBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDaoBySlugQuery, GetDaoBySlugQueryVariables>(GetDaoBySlugDocument, options);
+        }
+export type GetDaoBySlugQueryHookResult = ReturnType<typeof useGetDaoBySlugQuery>;
+export type GetDaoBySlugLazyQueryHookResult = ReturnType<typeof useGetDaoBySlugLazyQuery>;
+export type GetDaoBySlugQueryResult = Apollo.QueryResult<GetDaoBySlugQuery, GetDaoBySlugQueryVariables>;
 export const ListDaOsDocument = gql`
     query listDAOs {
   daos {
@@ -3178,6 +4173,43 @@ export const GetGateDocument = gql`
   gates_by_pk(id: $id) {
     skills
     published
+    earners {
+      gate_id
+      id
+      user_id
+    }
+    keysByGateId {
+      gate_id
+      id
+      information
+      keys
+      people_limit
+      task
+      task_type
+      unlimited
+    }
+    dao {
+      youtube_url
+      whitelisted_flags
+      wdwd
+      updated_at
+      token_benefits
+      slug
+      mv
+      logo_url
+      id
+      how_to_join
+      hangouts
+      ens
+      description
+      created_at
+      categories
+      blacklisted_flags
+      background_url
+      accomplishments
+      faq
+      token
+    }
     nft_type
     links
     knowledge
@@ -3225,6 +4257,43 @@ export const ListGatesDocument = gql`
   gates {
     skills
     published
+    earners {
+      gate_id
+      id
+      user_id
+    }
+    keysByGateId {
+      gate_id
+      id
+      information
+      keys
+      people_limit
+      task
+      task_type
+      unlimited
+    }
+    dao {
+      youtube_url
+      whitelisted_flags
+      wdwd
+      updated_at
+      token_benefits
+      slug
+      mv
+      logo_url
+      id
+      how_to_join
+      hangouts
+      ens
+      description
+      created_at
+      categories
+      blacklisted_flags
+      background_url
+      accomplishments
+      faq
+      token
+    }
     nft_type
     links
     knowledge
@@ -3363,6 +4432,43 @@ export const CreateGateDocument = gql`
     links
     nft_type
     published
+    earners {
+      gate_id
+      id
+      user_id
+    }
+    keysByGateId {
+      gate_id
+      id
+      information
+      keys
+      people_limit
+      task
+      task_type
+      unlimited
+    }
+    dao {
+      youtube_url
+      whitelisted_flags
+      wdwd
+      updated_at
+      token_benefits
+      slug
+      mv
+      logo_url
+      id
+      how_to_join
+      hangouts
+      ens
+      description
+      created_at
+      categories
+      blacklisted_flags
+      background_url
+      accomplishments
+      faq
+      token
+    }
     skills
   }
 }
@@ -3408,6 +4514,43 @@ export const UpdateGateDocument = gql`
     links
     nft_type
     published
+    earners {
+      gate_id
+      id
+      user_id
+    }
+    keysByGateId {
+      gate_id
+      id
+      information
+      keys
+      people_limit
+      task
+      task_type
+      unlimited
+    }
+    dao {
+      youtube_url
+      whitelisted_flags
+      wdwd
+      updated_at
+      token_benefits
+      slug
+      mv
+      logo_url
+      id
+      how_to_join
+      hangouts
+      ens
+      description
+      created_at
+      categories
+      blacklisted_flags
+      background_url
+      accomplishments
+      faq
+      token
+    }
     skills
   }
 }
@@ -3512,6 +4655,47 @@ export function useCreateKeyMutation(baseOptions?: Apollo.MutationHookOptions<Cr
 export type CreateKeyMutationHookResult = ReturnType<typeof useCreateKeyMutation>;
 export type CreateKeyMutationResult = Apollo.MutationResult<CreateKeyMutation>;
 export type CreateKeyMutationOptions = Apollo.BaseMutationOptions<CreateKeyMutation, CreateKeyMutationVariables>;
+export const UpdateKeyDocument = gql`
+    mutation updateKey($id: uuid = "", $set: keys_set_input = {}) {
+  update_keys_by_pk(pk_columns: {id: $id}, _set: $set) {
+    gate_id
+    id
+    information
+    keys
+    people_limit
+    task
+    task_type
+    unlimited
+  }
+}
+    `;
+export type UpdateKeyMutationFn = Apollo.MutationFunction<UpdateKeyMutation, UpdateKeyMutationVariables>;
+
+/**
+ * __useUpdateKeyMutation__
+ *
+ * To run a mutation, you first call `useUpdateKeyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateKeyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateKeyMutation, { data, loading, error }] = useUpdateKeyMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      set: // value for 'set'
+ *   },
+ * });
+ */
+export function useUpdateKeyMutation(baseOptions?: Apollo.MutationHookOptions<UpdateKeyMutation, UpdateKeyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateKeyMutation, UpdateKeyMutationVariables>(UpdateKeyDocument, options);
+      }
+export type UpdateKeyMutationHookResult = ReturnType<typeof useUpdateKeyMutation>;
+export type UpdateKeyMutationResult = Apollo.MutationResult<UpdateKeyMutation>;
+export type UpdateKeyMutationOptions = Apollo.BaseMutationOptions<UpdateKeyMutation, UpdateKeyMutationVariables>;
 export const DeleteKeyDocument = gql`
     mutation deleteKey($id: uuid!) {
   delete_keys_by_pk(id: $id) {
@@ -3581,6 +4765,200 @@ export function useVerifyTaskMutation(baseOptions?: Apollo.MutationHookOptions<V
 export type VerifyTaskMutationHookResult = ReturnType<typeof useVerifyTaskMutation>;
 export type VerifyTaskMutationResult = Apollo.MutationResult<VerifyTaskMutation>;
 export type VerifyTaskMutationOptions = Apollo.BaseMutationOptions<VerifyTaskMutation, VerifyTaskMutationVariables>;
+export const GetUserGatePermissionsDocument = gql`
+    query getUserGatePermissions($gate_id: uuid, $user_id: uuid) {
+  permissions(where: {gate_id: {_eq: $gate_id}, user_id: {_eq: $user_id}}) {
+    permission
+  }
+}
+    `;
+
+/**
+ * __useGetUserGatePermissionsQuery__
+ *
+ * To run a query within a React component, call `useGetUserGatePermissionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserGatePermissionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserGatePermissionsQuery({
+ *   variables: {
+ *      gate_id: // value for 'gate_id'
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useGetUserGatePermissionsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserGatePermissionsQuery, GetUserGatePermissionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserGatePermissionsQuery, GetUserGatePermissionsQueryVariables>(GetUserGatePermissionsDocument, options);
+      }
+export function useGetUserGatePermissionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserGatePermissionsQuery, GetUserGatePermissionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserGatePermissionsQuery, GetUserGatePermissionsQueryVariables>(GetUserGatePermissionsDocument, options);
+        }
+export type GetUserGatePermissionsQueryHookResult = ReturnType<typeof useGetUserGatePermissionsQuery>;
+export type GetUserGatePermissionsLazyQueryHookResult = ReturnType<typeof useGetUserGatePermissionsLazyQuery>;
+export type GetUserGatePermissionsQueryResult = Apollo.QueryResult<GetUserGatePermissionsQuery, GetUserGatePermissionsQueryVariables>;
+export const GetUserDaoPermissionsDocument = gql`
+    query getUserDAOPermissions($dao_id: uuid, $user_id: uuid) {
+  permissions(where: {dao_id: {_eq: $dao_id}, user_id: {_eq: $user_id}}) {
+    permission
+  }
+}
+    `;
+
+/**
+ * __useGetUserDaoPermissionsQuery__
+ *
+ * To run a query within a React component, call `useGetUserDaoPermissionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserDaoPermissionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserDaoPermissionsQuery({
+ *   variables: {
+ *      dao_id: // value for 'dao_id'
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useGetUserDaoPermissionsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserDaoPermissionsQuery, GetUserDaoPermissionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserDaoPermissionsQuery, GetUserDaoPermissionsQueryVariables>(GetUserDaoPermissionsDocument, options);
+      }
+export function useGetUserDaoPermissionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserDaoPermissionsQuery, GetUserDaoPermissionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserDaoPermissionsQuery, GetUserDaoPermissionsQueryVariables>(GetUserDaoPermissionsDocument, options);
+        }
+export type GetUserDaoPermissionsQueryHookResult = ReturnType<typeof useGetUserDaoPermissionsQuery>;
+export type GetUserDaoPermissionsLazyQueryHookResult = ReturnType<typeof useGetUserDaoPermissionsLazyQuery>;
+export type GetUserDaoPermissionsQueryResult = Apollo.QueryResult<GetUserDaoPermissionsQuery, GetUserDaoPermissionsQueryVariables>;
+export const GetGateUsersDocument = gql`
+    query getGateUsers($gate_id: uuid = "", $permission: permission_types = "admin") {
+  permissions(where: {gate_id: {_eq: $gate_id}, permission: {_eq: $permission}}) {
+    permission
+    user {
+      about
+      attitudes
+      bio
+      blacklistedFlags
+      createdAt
+      device
+      id
+      init
+      knowledges
+      languages
+      name
+      pfp
+      skills
+      socials
+      updatedAt
+      username
+      wallet
+      whitelistedFlags
+    }
+    user_id
+    updated_at
+    gate_id
+    dao_id
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetGateUsersQuery__
+ *
+ * To run a query within a React component, call `useGetGateUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGateUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGateUsersQuery({
+ *   variables: {
+ *      gate_id: // value for 'gate_id'
+ *      permission: // value for 'permission'
+ *   },
+ * });
+ */
+export function useGetGateUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetGateUsersQuery, GetGateUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGateUsersQuery, GetGateUsersQueryVariables>(GetGateUsersDocument, options);
+      }
+export function useGetGateUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGateUsersQuery, GetGateUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGateUsersQuery, GetGateUsersQueryVariables>(GetGateUsersDocument, options);
+        }
+export type GetGateUsersQueryHookResult = ReturnType<typeof useGetGateUsersQuery>;
+export type GetGateUsersLazyQueryHookResult = ReturnType<typeof useGetGateUsersLazyQuery>;
+export type GetGateUsersQueryResult = Apollo.QueryResult<GetGateUsersQuery, GetGateUsersQueryVariables>;
+export const GetDaoUsersDocument = gql`
+    query getDAOUsers($dao_id: uuid = "", $permission: permission_types = "admin") {
+  permissions(where: {dao_id: {_eq: $dao_id}, permission: {_eq: $permission}}) {
+    permission
+    user {
+      about
+      attitudes
+      bio
+      blacklistedFlags
+      createdAt
+      device
+      id
+      init
+      knowledges
+      languages
+      name
+      pfp
+      skills
+      socials
+      updatedAt
+      username
+      wallet
+      whitelistedFlags
+    }
+    user_id
+    updated_at
+    gate_id
+    dao_id
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetDaoUsersQuery__
+ *
+ * To run a query within a React component, call `useGetDaoUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDaoUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDaoUsersQuery({
+ *   variables: {
+ *      dao_id: // value for 'dao_id'
+ *      permission: // value for 'permission'
+ *   },
+ * });
+ */
+export function useGetDaoUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetDaoUsersQuery, GetDaoUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDaoUsersQuery, GetDaoUsersQueryVariables>(GetDaoUsersDocument, options);
+      }
+export function useGetDaoUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDaoUsersQuery, GetDaoUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDaoUsersQuery, GetDaoUsersQueryVariables>(GetDaoUsersDocument, options);
+        }
+export type GetDaoUsersQueryHookResult = ReturnType<typeof useGetDaoUsersQuery>;
+export type GetDaoUsersLazyQueryHookResult = ReturnType<typeof useGetDaoUsersLazyQuery>;
+export type GetDaoUsersQueryResult = Apollo.QueryResult<GetDaoUsersQuery, GetDaoUsersQueryVariables>;
 export const SearchUsersDocument = gql`
     query searchUsers($query: String!, $pagination: AlgoliaPaginationInput) {
   search_users(query: $query, pagination: $pagination) {
@@ -3725,9 +5103,185 @@ export function useSearchCredentialsLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type SearchCredentialsQueryHookResult = ReturnType<typeof useSearchCredentialsQuery>;
 export type SearchCredentialsLazyQueryHookResult = ReturnType<typeof useSearchCredentialsLazyQuery>;
 export type SearchCredentialsQueryResult = Apollo.QueryResult<SearchCredentialsQuery, SearchCredentialsQueryVariables>;
+export const GetUserByUsernameDocument = gql`
+    query getUserByUsername($username: String!) {
+  users(where: {username: {_eq: $username}}) {
+    about
+    attitudes
+    bio
+    blacklistedFlags
+    createdAt
+    device
+    id
+    init
+    knowledges
+    languages
+    name
+    pfp
+    skills
+    socials
+    updatedAt
+    username
+    wallet
+    whitelistedFlags
+    gate_progresses {
+      created_at
+      gate_id
+      id
+      status
+      updated_at
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserByUsernameQuery__
+ *
+ * To run a query within a React component, call `useGetUserByUsernameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByUsernameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByUsernameQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserByUsernameQuery(baseOptions: Apollo.QueryHookOptions<GetUserByUsernameQuery, GetUserByUsernameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByUsernameQuery, GetUserByUsernameQueryVariables>(GetUserByUsernameDocument, options);
+      }
+export function useGetUserByUsernameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByUsernameQuery, GetUserByUsernameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByUsernameQuery, GetUserByUsernameQueryVariables>(GetUserByUsernameDocument, options);
+        }
+export type GetUserByUsernameQueryHookResult = ReturnType<typeof useGetUserByUsernameQuery>;
+export type GetUserByUsernameLazyQueryHookResult = ReturnType<typeof useGetUserByUsernameLazyQuery>;
+export type GetUserByUsernameQueryResult = Apollo.QueryResult<GetUserByUsernameQuery, GetUserByUsernameQueryVariables>;
 export const GetUserByAddressDocument = gql`
-    query getUserByAddress($wallet: String) {
+    query getUserByAddress($wallet: String!) {
   users(where: {wallet: {_eq: $wallet}}) {
+    about
+    attitudes
+    bio
+    blacklistedFlags
+    createdAt
+    device
+    id
+    init
+    knowledges
+    languages
+    name
+    pfp
+    skills
+    socials
+    updatedAt
+    username
+    wallet
+    whitelistedFlags
+    gate_progresses {
+      created_at
+      gate_id
+      id
+      status
+      updated_at
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserByAddressQuery__
+ *
+ * To run a query within a React component, call `useGetUserByAddressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserByAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserByAddressQuery({
+ *   variables: {
+ *      wallet: // value for 'wallet'
+ *   },
+ * });
+ */
+export function useGetUserByAddressQuery(baseOptions: Apollo.QueryHookOptions<GetUserByAddressQuery, GetUserByAddressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserByAddressQuery, GetUserByAddressQueryVariables>(GetUserByAddressDocument, options);
+      }
+export function useGetUserByAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByAddressQuery, GetUserByAddressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserByAddressQuery, GetUserByAddressQueryVariables>(GetUserByAddressDocument, options);
+        }
+export type GetUserByAddressQueryHookResult = ReturnType<typeof useGetUserByAddressQuery>;
+export type GetUserByAddressLazyQueryHookResult = ReturnType<typeof useGetUserByAddressLazyQuery>;
+export type GetUserByAddressQueryResult = Apollo.QueryResult<GetUserByAddressQuery, GetUserByAddressQueryVariables>;
+export const ListUsersDocument = gql`
+    query listUsers {
+  users {
+    about
+    attitudes
+    bio
+    blacklistedFlags
+    createdAt
+    device
+    id
+    init
+    knowledges
+    languages
+    name
+    pfp
+    skills
+    socials
+    updatedAt
+    username
+    wallet
+    whitelistedFlags
+    gate_progresses {
+      created_at
+      gate_id
+      id
+      status
+      updated_at
+    }
+  }
+}
+    `;
+
+/**
+ * __useListUsersQuery__
+ *
+ * To run a query within a React component, call `useListUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListUsersQuery(baseOptions?: Apollo.QueryHookOptions<ListUsersQuery, ListUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListUsersQuery, ListUsersQueryVariables>(ListUsersDocument, options);
+      }
+export function useListUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListUsersQuery, ListUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListUsersQuery, ListUsersQueryVariables>(ListUsersDocument, options);
+        }
+export type ListUsersQueryHookResult = ReturnType<typeof useListUsersQuery>;
+export type ListUsersLazyQueryHookResult = ReturnType<typeof useListUsersLazyQuery>;
+export type ListUsersQueryResult = Apollo.QueryResult<ListUsersQuery, ListUsersQueryVariables>;
+export const CreateUserDocument = gql`
+    mutation createUser($object: users_insert_input = {}) {
+  insert_users_one(object: $object) {
     about
     attitudes
     bio
@@ -3749,31 +5303,113 @@ export const GetUserByAddressDocument = gql`
   }
 }
     `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
 
 /**
- * __useGetUserByAddressQuery__
+ * __useCreateUserMutation__
  *
- * To run a query within a React component, call `useGetUserByAddressQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserByAddressQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useGetUserByAddressQuery({
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
  *   variables: {
- *      wallet: // value for 'wallet'
+ *      object: // value for 'object'
  *   },
  * });
  */
-export function useGetUserByAddressQuery(baseOptions?: Apollo.QueryHookOptions<GetUserByAddressQuery, GetUserByAddressQueryVariables>) {
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserByAddressQuery, GetUserByAddressQueryVariables>(GetUserByAddressDocument, options);
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
       }
-export function useGetUserByAddressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserByAddressQuery, GetUserByAddressQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserByAddressQuery, GetUserByAddressQueryVariables>(GetUserByAddressDocument, options);
-        }
-export type GetUserByAddressQueryHookResult = ReturnType<typeof useGetUserByAddressQuery>;
-export type GetUserByAddressLazyQueryHookResult = ReturnType<typeof useGetUserByAddressLazyQuery>;
-export type GetUserByAddressQueryResult = Apollo.QueryResult<GetUserByAddressQuery, GetUserByAddressQueryVariables>;
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const UpdateUserDocument = gql`
+    mutation updateUser($set: users_set_input = {}, $id: uuid = "") {
+  update_users_by_pk(pk_columns: {id: $id}, _set: $set) {
+    about
+    attitudes
+    bio
+    blacklistedFlags
+    createdAt
+    device
+    id
+    init
+    knowledges
+    languages
+    name
+    pfp
+    skills
+    socials
+    updatedAt
+    username
+    wallet
+    whitelistedFlags
+  }
+}
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      set: // value for 'set'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const DeleteUserDocument = gql`
+    mutation deleteUser($id: uuid!) {
+  delete_users_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteUserMutationFn = Apollo.MutationFunction<DeleteUserMutation, DeleteUserMutationVariables>;
+
+/**
+ * __useDeleteUserMutation__
+ *
+ * To run a mutation, you first call `useDeleteUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteUserMutation, { data, loading, error }] = useDeleteUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteUserMutation(baseOptions?: Apollo.MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument, options);
+      }
+export type DeleteUserMutationHookResult = ReturnType<typeof useDeleteUserMutation>;
+export type DeleteUserMutationResult = Apollo.MutationResult<DeleteUserMutation>;
+export type DeleteUserMutationOptions = Apollo.BaseMutationOptions<DeleteUserMutation, DeleteUserMutationVariables>;

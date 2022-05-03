@@ -1,7 +1,6 @@
 // Components
 import BackButtonDiv from './components/BackButtonDiv';
 import NftBadge from './components/NftBadge';
-import Loader from '../../../../components/Loader';
 import KeyBox from './components/KeyBox';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { GradientSVG } from '../../../../components/ProgressCircle';
@@ -12,21 +11,20 @@ import * as Styled from './style';
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { useGateAdmin } from '../../../../hooks/useAdmin';
+import { useLocation } from 'react-use';
 
 // Types
-import { DAO, Gate, Key, TaskStatus, User } from '../../../../graphql/API';
-import { useLocation } from 'react-use';
+import { Daos, Gates, Keys, Key_Progress, Users } from '../../../../graphql';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
-interface GateData extends Gate {
+interface GateData extends Gates {
     holders: number;
     keysDone: number;
     keysNumber: number;
-    taskStatus: TaskStatus[];
-    adminList: User[];
-    preRequisitesList: Gate[];
+    taskStatus: Key_Progress[];
+    adminList: Users[];
+    preRequisitesList: Gates[];
 }
 
 /**
@@ -42,7 +40,7 @@ const DaoGate: React.FC = () => {
         isAdmin
     }: { gateData: GateData; isAdmin: boolean; } =
         useOutletContext();
-    const dao: DAO = gateData.dao;
+    const dao: Daos = gateData.dao;
     const navigate = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -55,7 +53,7 @@ const DaoGate: React.FC = () => {
     return (
         <Styled.Wrapper>
             <BackButtonDiv
-                url={toSearch && toSearch === 'false' ? `/dao/${dao.dao}?tab=gates` : `/search`}
+                url={toSearch && toSearch === 'false' ? `/dao/${dao.slug}?tab=gates` : `/search`}
                 published={gateData.published}
                 id={gateData.id}
                 daoData={dao}
@@ -69,10 +67,10 @@ const DaoGate: React.FC = () => {
                 <NftBadge nft={gateData.badge} />
                 <Styled.MainContent>
                     <Styled.FirstDiv>
-                        <Styled.SmallLogo src={dao.logoURL} />
+                        <Styled.SmallLogo src={dao.logo_url} />
                         <Styled.SmallText>{dao.name}</Styled.SmallText>
                     </Styled.FirstDiv>
-                    <Styled.HeadingDiv>{gateData.name}</Styled.HeadingDiv>
+                    <Styled.HeadingDiv>{gateData.gate_name}</Styled.HeadingDiv>
                     <Styled.Subheading>
                         {gateData.description}
                     </Styled.Subheading>
@@ -194,14 +192,14 @@ const DaoGate: React.FC = () => {
                                 </Styled.StartButton>
                             </Styled.Box>
                         )}
-                        {gateData?.keys?.items?.map((key: Key, idx: number) => {
+                        {gateData?.keysByGateId.map((key: Keys, idx: number) => {
                             const LIMIT_REACHED =
-                                !key.unlimited && key.peopleLimit === 0;
+                                !key.unlimited && key.people_limit === 0;
 
                             if (
                                 !LIMIT_REACHED ||
                                 gateData.taskStatus
-                                    .map((ts: TaskStatus) => ts.keyID)
+                                    .map((ts: Key_Progress) => ts.key_id)
                                     .includes(key.id) ||
                                 isAdmin
                             ) {
@@ -214,8 +212,8 @@ const DaoGate: React.FC = () => {
                                             gateData.taskStatus.length > 0
                                                 ? gateData.taskStatus
                                                       .map(
-                                                          (ts: TaskStatus) =>
-                                                              ts.keyID
+                                                          (ts: Key_Progress) =>
+                                                              ts.key_id
                                                       )
                                                       .includes(key.id)
                                                 : false

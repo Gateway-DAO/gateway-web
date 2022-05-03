@@ -15,23 +15,16 @@ import Credentials from './components/credentials/Credentials';
 import Page from '../../components/Page';
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 
-// Types
-import { User } from '../../graphql/API';
-
 // Hooks
 import { useAuth } from '../../contexts/UserContext';
-import { gql, useLazyQuery } from '@apollo/client';
+import { useGetUserByUsernameLazyQuery, Users } from '../../graphql';
 import { useWeb3React } from '@web3-react/core';
 
-// Queries
-import { getUserByUsername } from '../../graphql/queries';
-
 // Utils
-import getIPLocation, { IPError, Metadata } from '../../api/getIPLocation';
 import Loader from '../../components/Loader';
 
 /* A type definition for a user. It is a combination of the User type and the UserInfo type. */
-interface IUserInfo extends Omit<User, '__typename'> {
+interface IUserInfo extends Omit<Users, '__typename'> {
     userBio?: string;
 }
 
@@ -42,15 +35,26 @@ const RAW_USER: IUserInfo = {
     name: '',
     username: '',
     socials: [],
-    daos: [],
     about: '',
     skills: [],
     languages: [],
     knowledges: [],
     attitudes: [],
     pfp: '',
-    userBio: '',
     wallet: '',
+    blacklistedFlags: [],
+    whitelistedFlags: [],
+    init: true,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    credentialsByTargetId: [],
+    credentialsByTargetId_aggregate: {
+        nodes: []
+    },
+    gate_progresses: [],
+    gate_progresses_aggregate: {
+        nodes: []
+    }
 };
 
 /**
@@ -66,7 +70,7 @@ const Profile: React.FC = (props) => {
         loadingWallet,
         walletConnected,
     }: {
-        userInfo?: User;
+        userInfo?: Users;
         loadingWallet?: boolean;
         walletConnected?: boolean;
     } = useAuth();
@@ -87,8 +91,7 @@ const Profile: React.FC = (props) => {
     const canEdit = userInfo.wallet === account;
 
     // API Calls
-    const [getUser, { data, loading: userLoading, error: userError }] =
-        useLazyQuery(gql(getUserByUsername));
+    const [getUser, { data, loading: userLoading, error: userError }] = useGetUserByUsernameLazyQuery();
 
     /**
      * Get the current location of the user and set the state of the component to reflect that location
@@ -132,12 +135,8 @@ const Profile: React.FC = (props) => {
                     });
                     setUserInfo((prev) => ({
                         ...prev,
-                        ...data?.getUserByUsername?.items[0],
+                        ...data?.users[0],
                     }));
-                    data?.getUserByUsername?.items[0].timezone.shouldTrack &&
-                        (await getTimezone(
-                            data?.getUserByUsername?.items[0].timezone.tz
-                        ));
                     setInternalLoading(userLoading);
                 } catch (err) {
                     console.log('err', err);

@@ -4,21 +4,15 @@ import { v4 as uuidv4 } from 'uuid';
 // Web3
 import { shortenAddress } from '../utils/web3';
 import { useWeb3React } from '@web3-react/core';
-import {
-    updateUser as UPDATE_USER,
-    createUser as CREATE_USER,
-} from '../graphql/mutations';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 
-// AWS/GraphQL
-import { getUserByAddress as getUserByAddressQuery } from '../graphql/queries';
-import { useLazyQuery, gql, useMutation } from '@apollo/client';
+// GraphQL
 import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
-import getIPLocation, { getIP } from '../api/getIPLocation';
 import { usernameGenerator } from '../utils/functions';
+import { useGetUserByAddressLazyQuery, useUpdateUserMutation } from '../graphql';
 // import use3ID from '../hooks/use3ID';
 
 export const userContext = createContext({});
@@ -93,16 +87,13 @@ export const UserProvider = ({ children }) => {
     const { showErrorModal } = useModal();
 
     // Database
-    const [getUserByAddress, { data: fetchedUserData }] = useLazyQuery(
-        gql(getUserByAddressQuery),
-        {
-            variables: {
-                wallet: web3.account,
-            },
+    const [getUserByAddress, { data: fetchedUserData }] = useGetUserByAddressLazyQuery({
+        variables: {
+            wallet: web3.account,
         }
-    );
-    const [updateUser] = useMutation(gql(UPDATE_USER));
-    const [createUser] = useMutation(gql(CREATE_USER));
+    });
+    const [updateUser] = useUpdateUserMutation();
+    const [createUser] = useCreateUserMutation();
 
     const { getFile } = useGetFile();
 
@@ -112,7 +103,7 @@ export const UserProvider = ({ children }) => {
     const [loggingIn, setLoggingIn] = useState(false);
     const [loadingWallet, setLoadingWallet] = useState(false);
     const [userInfo, setUserInfo] = useState(
-        fetchedUserData?.getUserByAddress?.items[0] || null
+        fetchedUserData?.users[0] || null
     );
 
     /**
@@ -189,7 +180,6 @@ export const UserProvider = ({ children }) => {
      * @returns None
      */
     const userSignOut = async () => {
-        await Auth.signOut();
         await web3.deactivate();
         localStorage.setItem('gateway-wallet', '0');
         setLoggedIn(false);
@@ -205,7 +195,8 @@ export const UserProvider = ({ children }) => {
     const updateUserInfo = async (info) => {
         await updateUser({
             variables: {
-                input: { ...info, id: userInfo?.id || info?.id },
+                id: userInfo?.id || info?.id,
+                set: info,
             },
         });
 
@@ -225,7 +216,7 @@ export const UserProvider = ({ children }) => {
             const user = await createUser({
                 ...info,
                 variables: {
-                    input: {
+                    object: {
                         id: id,
                         wallet: web3.account,
                         username: usernameGenerator(),

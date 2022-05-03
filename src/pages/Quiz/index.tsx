@@ -14,7 +14,6 @@ import Percentage from './Component/Persentage';
 // Hooks
 import { useOutletContext } from 'react-router-dom';
 import { FormikContextType } from 'formik';
-import { QuizOptionInput } from '../../graphql/API';
 
 interface Key {
     taskLink: string;
@@ -30,7 +29,7 @@ interface Key {
         passedAt: number;
         questions: {
             question: string;
-            options: QuizOptionInput[];
+            options: Record<string, any>[];
             nrOfCorrectAnswers: number;
         }[];
     };

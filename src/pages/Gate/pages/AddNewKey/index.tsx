@@ -5,19 +5,9 @@ import * as Styled from './style';
 import { useFormik } from 'formik';
 import { gql, useMutation } from '@apollo/client';
 import { v4 as uuidv4 } from 'uuid';
-import { Gate } from '../../../../graphql/API';
-import {
-    changeKey,
-    createContractInteraction,
-    createManualTask,
-    createMeetingCode,
-    createQuiz,
-    createSelfVerify,
-    createSnapshotGovernance,
-    createTokenHold,
-} from '../../../../graphql/mutations';
 import KeySuccess from './pages/AddKeySuccess';
 import Space from '../../../../components/Space';
+import { Gates, useCreateKeyMutation } from '../../../../graphql';
 
 /**
  * It renders the Outlet component with the gateData context.
@@ -25,21 +15,16 @@ import Space from '../../../../components/Space';
  */
 const AddNewKey = ({ edit = false }) => {
     const { state }: Record<string, any> = useLocation();
-    const { gateData }: { gateData: Gate } = useOutletContext();
+    const { gateData }: { gateData: Gates } = useOutletContext();
 
     // State
     const [createdKey, setCreatedKey] = useState(false);
-    const [mutation, setMutation] = useState(changeKey);
+    const [pushToDB, { loading }] =  useCreateKeyMutation()
     const [backButton, setBackButton] = useState({
         text: 'Gate',
         url: `/gate/${gateData.id}`,
     });
     const [validator, setValidator] = useState(() => (values) => null);
-    const [input, setInput] = useState<Record<string, any>>({
-        type: 'SELF_VERIFY',
-    });
-
-    const [pushToDB, { loading }] = useMutation(gql(mutation));
 
     const taskDBInput = () => {
         switch (formik.values.taskLink) {
@@ -121,7 +106,7 @@ const AddNewKey = ({ edit = false }) => {
                       },
                   ],
             keysRewarded: state ? state.data.keys : 0,
-            peopleLimit: state ? state.data.peopleLimit : 0,
+            peopleLimit: state ? state.data.people_limit : 0,
             unlimited: state ? state.data.unlimited : false,
             chain: state ? state.data.task.chain : 1,
             address: state ? state.data.task.address : '',
@@ -160,15 +145,15 @@ const AddNewKey = ({ edit = false }) => {
             try {
                 await pushToDB({
                     variables: {
-                        input: {
-                            id: uuidv4(),
-                            gateID: gateData.id,
+                        object: {
+                            gate_id: gateData.id,
                             information: values.titleDescriptionPair,
-                            token: '',
-                            tokenAmount: 0,
                             keys: values.keysRewarded,
-                            peopleLimit: values.peopleLimit,
+                            people_limit: values.peopleLimit,
                             unlimited: values.unlimited,
+                            task_type: ((edit
+                            ? JSON.stringify(taskDBInput())
+                            : taskDBInput()) as Record<string, any>).type,
                             task: edit
                                 ? JSON.stringify(taskDBInput())
                                 : taskDBInput(),
@@ -182,31 +167,6 @@ const AddNewKey = ({ edit = false }) => {
             }
         },
     });
-
-    useEffect(() => {
-        const switchTask = () => {
-            switch (formik.values.taskLink) {
-                case 'self-verify':
-                    return createSelfVerify;
-                case 'quiz':
-                    return createQuiz;
-                case 'meeting-code':
-                    return createMeetingCode;
-                case 'token':
-                    return createTokenHold;
-                case 'sc-interaction':
-                    return createContractInteraction;
-                case 'governance':
-                    return createSnapshotGovernance;
-                case 'manual':
-                    return createManualTask;
-                default:
-                    return mutation;
-            }
-        };
-
-        setMutation(state ? changeKey : switchTask());
-    }, [formik.values.taskLink]);
 
     return (
         <Styled.Container>

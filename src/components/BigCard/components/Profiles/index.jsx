@@ -36,7 +36,6 @@ import RelatedDAOSection from '../../components/RelatedDAO';
 
 const Profile = (props) => {
     // const { isAdmin } = useAdmin(props.whitelistedAddresses);
-    const [bounties, setBounties] = useState(props.bounties.items || []);
     const [benefits, setBenefits] = useState(props.tokenBenefits.items || []);
     const [HTJ, setHTJ] = useState(props.howToJoin || '');
     const [WDWD, setWDWD] = useState(props.whatDoWeDo || '');
@@ -118,13 +117,6 @@ const Profile = (props) => {
                 toggle={toggleUHModal}
                 data={UH}
                 set={(newUH) => setUH(newUH)}
-            />
-            <BountyModal
-                id={props.id}
-                show={showBountyModal}
-                toggle={toggleBountyModal}
-                data={bounties}
-                set={(newBounties) => setBounties(newBounties)}
             />
             <TokenBenefitModal
                 id={props.id}
@@ -277,42 +269,6 @@ const Profile = (props) => {
                                     )}
 
                                     {!!HTJ.length && <HTJCard steps={HTJ} />}
-                                </Styled.CollapsibleChildren>
-                            </Collapsible>
-
-                            <Collapsible title='Bounties'>
-                                <Styled.CollapsibleChildren>
-                                    {!props.viewAsMember && (
-                                        <Styled.Button
-                                            onClick={toggleBountyModal}
-                                        >
-                                            Add Bounty
-                                        </Styled.Button>
-                                    )}
-
-                                    {bounties &&
-                                        bounties.map((bounty, idx) => {
-                                            return (
-                                                <React.Fragment key={idx}>
-                                                    <BountyCard
-                                                        id={props.id}
-                                                        bounties={bounties}
-                                                        idx={idx}
-                                                        set={(newBounties) =>
-                                                            setBounties(
-                                                                newBounties
-                                                            )
-                                                        }
-                                                        admin={
-                                                            !props.viewAsMember
-                                                        }
-                                                        showInfo={
-                                                            toggleBountyInfoModal
-                                                        }
-                                                    />
-                                                </React.Fragment>
-                                            );
-                                        })}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title='Governance Proposals'>

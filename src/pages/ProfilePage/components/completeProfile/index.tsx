@@ -15,10 +15,8 @@ import './CompleteProfile.css';
 import Page from '../../../../components/Page';
 import { FormStyled, RawImageUpload } from '../../../../components/Form';
 import { FaTrashAlt } from 'react-icons/fa';
-import { useLazyQuery, gql } from '@apollo/client';
-import { getUserByUsername } from '../../../../graphql/queries';
-import { usernameGenerator } from '../../../../utils/functions';
 import Space from '../../../../components/Space';
+import { useGetUserByUsernameLazyQuery } from '../../../../graphql';
 
 const platforms = [
     { label: 'Select', value: 'select' },
@@ -45,7 +43,7 @@ const CompleteProfile: React.FC = () => {
     // Hooks
     const { uploadFile } = useFileUpload();
     const navigate = useNavigate();
-    const [getUser, { data }] = useLazyQuery(gql(getUserByUsername));
+    const [getUser, { data }] = useGetUserByUsernameLazyQuery();
     const {
         updateUserInfo,
     }: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
@@ -105,7 +103,7 @@ const CompleteProfile: React.FC = () => {
         if (
             user.userName !== userInfo?.username &&
             user.userName.length != 0 &&
-            data.getUserByUsername.items.length > 0
+            data.users.length > 0
         )
             errors.userName = 'This username is already taken!';
 

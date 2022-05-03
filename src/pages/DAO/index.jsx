@@ -1,21 +1,13 @@
+import React from 'react';
 import { useParams, Navigate, Outlet } from 'react-router-dom';
-
-// import { useGetDAOByID } from '../../api/database/useGetDAO';
 
 // Components
 import Page from '../../components/Page';
 import { useState, useEffect } from 'react';
 import { getTokenFromAddress } from '../../api/coingecko';
-import React from 'react';
-import { gql, useQuery } from '@apollo/client';
-import { getDaoById } from '../../graphql/queries';
 
-// AWS
-/*
-import { API, graphqlOperation } from 'aws-amplify';
-import { gql } from '@apollo/client';
-import { onUpdateDao } from '../../graphql/subscriptions';
-*/
+// Hooks
+import { useGetDaoBySlugQuery } from '../../graphql';
 
 /**
  * It fetches data from the DAO's GraphQL API and renders the appropriate page
@@ -40,9 +32,9 @@ const DAO = (props) => {
         loading,
         error,
         called,
-    } = useQuery(gql(getDaoById), {
+    } = useGetDaoBySlugQuery({
         variables: {
-            dao: id,
+            slug: id,
         },
     });
     const [loaded, setLoaded] = useState(false);

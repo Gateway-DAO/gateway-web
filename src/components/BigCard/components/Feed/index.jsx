@@ -5,10 +5,7 @@ import EditChannelModal from '../../../Modal/EditChannelsModal';
 import MakePost from './FeedComponents/MakePost';
 import { sortPostsByVote } from './FeedComponents/Handlers';
 
-import { gql } from '@apollo/client';
-import { onCreatePost, onDeletePost } from '../../../../graphql/subscriptions';
-import { API, graphqlOperation } from 'aws-amplify';
-
+/*
 const Feed = (props) => {
     const [currentChannels, setCurrentChannels] = useState(
         props.channels.items
@@ -123,3 +120,4 @@ const Feed = (props) => {
 };
 
 export default Feed;
+*/

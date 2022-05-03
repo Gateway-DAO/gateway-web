@@ -14,8 +14,10 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 
 // Utils
 import space from '../../../../../../utils/canvas';
-import { Gate } from '../../../../../../graphql/API';
 import { FormikContextType } from 'formik';
+
+// Types
+import { Gates } from '../../../../../../graphql';
 
 /* Defining a type called Key. */
 interface Key {
@@ -34,7 +36,7 @@ const AddNewKey = () => {
         loading,
         state,
     }: {
-        gateData: Gate;
+        gateData: Gates;
         formik: FormikContextType<Key>;
         edit: boolean;
         loading: boolean;

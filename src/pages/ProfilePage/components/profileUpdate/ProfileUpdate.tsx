@@ -60,7 +60,6 @@ import parser from 'html-react-parser';
 import { Store } from 'react-notifications-component';
 
 // Types
-import { Credential, Social, SocialInput } from '../../../../graphql/API';
 import copy from 'copy-to-clipboard';
 import { MONTHS } from '../../../../utils/constants';
 
@@ -86,7 +85,7 @@ const ProfileUpdate = () => {
 	 * @param platform - The social media platform you want to share to.
 	 * @returns A function that returns a React component.
 	 */
-	const getSocialIcon = (platform: Social) => {
+	const getSocialIcon = (platform) => {
 		switch (platform.network) {
 			case 'twitter':
 				return <FaTwitter color='white' />;
@@ -280,9 +279,9 @@ const ProfileUpdate = () => {
 										<div className='user-bio'>
 											{userInfo.bio}
 										</div>
-										{userInfo.socials?.filter((item: SocialInput) => item.network == 'website').length > 0 && (
+										{userInfo.socials?.filter((item) => item.network == 'website').length > 0 && (
 											<div className='hostName'>
-												<a href={userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}>{userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}</a>
+												<a href={userInfo.socials?.filter((item) => item.network == 'website')[0].url}>{userInfo.socials?.filter((item) => item.network == 'website')[0].url}</a>
 											</div>
 										)}
 										<div className='social'>

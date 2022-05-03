@@ -16,8 +16,6 @@ import GateTab from './component/Gates';
 
 // API
 import { DAOFilter, GateFilter, UserFilter } from './component/Filters';
-// import { gql, useQuery } from '@apollo/client';
-// import { searchDaos } from '../../graphql/queries';
 
 const Search = () => {
     const location: any = useLocation();

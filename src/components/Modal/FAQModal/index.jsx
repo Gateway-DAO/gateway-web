@@ -9,11 +9,8 @@ import { FormStyled } from '../../Form';
 import { Navigate } from 'react-router-dom';
 import Modal from '../index';
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
-
-// API
-import { useMutation, gql } from '@apollo/client';
-import { updateDao } from '../../../graphql/mutations';
 import Loader from '../../Loader';
+import { useUpdateDaoMutation } from '../../../graphql';
 
 const FAQModal = (props) => {
     const [FAQ, setFAQ] = useState(
@@ -22,13 +19,13 @@ const FAQModal = (props) => {
             answer: obj.answer,
         }))
     );
-    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
+    const [updateDAO, { loading, error }] = useUpdateDaoMutation();
 
     const submitToDB = async () => {
         await updateDAO({
             variables: {
-                input: {
-                    id: props.id,
+                id: props.id,
+                set: {
                     faq: FAQ,
                 },
             },

@@ -16,17 +16,12 @@ import {
 } from 'react-bootstrap';
 import { Navigate, NavLink as Link, useNavigate } from 'react-router-dom';
 
-// API
-import { useLazyQuery, gql } from '@apollo/client';
-import { getUserByUsername } from '../../../../graphql/queries';
-
-
 // Types
-import { User } from '../../../../graphql/API';
 import { useWeb3React } from '@web3-react/core';
+import { useGetUserByUsernameLazyQuery, Users } from '../../../../graphql';
 
 /* A type definition for a user. It is a combination of the User type and the UserInfo type. */
-interface IUserInfo extends Omit<User, '__typename'> {
+interface IUserInfo extends Omit<Users, '__typename'> {
 	userBio?: string;
 }
 
@@ -37,7 +32,6 @@ const RAW_USER: IUserInfo = {
 	name: '',
 	username: '',
 	socials: [],
-	daos: [],
 	about: '',
 	skills: [],
 	languages: [],
@@ -45,6 +39,11 @@ const RAW_USER: IUserInfo = {
 	attitudes: [],
 	pfp: '',
 	wallet: '',
+	blacklistedFlags: [],
+	whitelistedFlags: [],
+	init: true,
+	createdAt: Date.now(),
+	updatedAt: Date.now(),
 };
 
 const Credentials = () => {
@@ -55,19 +54,14 @@ const Credentials = () => {
 		loadingWallet,
 		walletConnected,
 	}: {
-		userInfo?: User;
+		userInfo?: Users;
 		loadingWallet?: boolean;
 		walletConnected?: boolean;
 	} = useAuth();
 	const navigate = useNavigate();
 
 	// API Calls
-	const [getUser, { data, loading: userLoading, error: userError }] =
-		useLazyQuery(gql(getUserByUsername), {
-			variables: {
-				username,
-			},
-		});
+	const [getUser, { data, loading: userLoading, error: userError }] = useGetUserByUsernameLazyQuery();
 
 	// State
 	const [userInfo, setUserInfo] = useState<IUserInfo>(RAW_USER);
@@ -92,7 +86,7 @@ const Credentials = () => {
 					await getUser();
 					setUserInfo((prev) => ({
 						...prev,
-						...data?.getUserByUsername?.items[0],
+						...data?.users[0]
 					}));
 					setInternalLoading(userLoading);
 				} catch (err) {

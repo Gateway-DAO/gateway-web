@@ -1,9 +1,0 @@
-{
-  "event": {
-    "arguments": {
-      "wallet": "0x3b7634c58ba94D0135b2DF8FdCF6e937F8C765EE",
-      "scAddress": "0x7be8076f4ea4a4ad08075c2508e481d6c946d12b",
-      "method": "atomicMatch_"
-    }
-  }
-}
