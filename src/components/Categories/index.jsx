@@ -143,8 +143,8 @@ const Categories = (props) => {
     const navigate = useNavigate();
     const traverse = (e) => {
         if (activeCategory === 0) {
-            navigate(`/search/all`);
-        } else navigate(`/search/${DUMMY_CATEGORIES[activeCategory]}`);
+            navigate(`/search/daos?query=all`);
+        } else navigate(`/search/daos?query=${DUMMY_CATEGORIES[activeCategory]}`);
     };
 
     if (searchError || DAOError) {
@@ -169,7 +169,7 @@ const Categories = (props) => {
                         {cat}
                     </Styled.Category>
                 ))}
-                <Styled.AllButton to='/search/all'>All</Styled.AllButton>
+                <Styled.AllButton to='/search/daos?query=all'>All</Styled.AllButton>
             </Styled.CategoriesContainer>
 
             {searchLoading || DAOLoading ? (

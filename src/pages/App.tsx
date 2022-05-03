@@ -28,19 +28,19 @@ import NewQuiz from './Gate/pages/DaoGate/components/KeyBox/components/Quiz/NewQ
 
 // Profile
 import Profile, {
-    Home as ProfileUpdate,
-    AddAbout,
-    AddExperiences,
-    AddLanguage,
-    AddSkill,
-    CompleteProfile,
-    AddKnowledge,
-    AddAttitude,
-    Credentials,
+	Home as ProfileUpdate,
+	AddAbout,
+	AddExperiences,
+	AddLanguage,
+	AddSkill,
+	CompleteProfile,
+	AddKnowledge,
+	AddAttitude,
 } from './ProfilePage';
 
 const DAO = React.lazy(() => import('./DAO'));
 const Gate = React.lazy(() => import('./Gate'));
+const Credential = React.lazy(() => import('./Credential'));
 const AddNewKey = React.lazy(() => import('./Gate/pages/AddNewKey'));
 const Search = React.lazy(() => import('./Search'));
 const NotAuthorized = React.lazy(() => import('./NotAuthorized'));
@@ -131,85 +131,92 @@ const App: React.FC = () => {
                         />
                     </Route>
 
-                    <Route path='/search' element={<Search />} />
-                    <Route path='/search/:query' element={<Search />} />
+						<Route path='/search' element={<Search />} />
+						<Route path='/search/:tab' element={<Search />} />
 
                     {/* User Profile */}
                     <Route path='/profile' element={<Profile />}>
                         <Route path='' element={<ProfileUpdate />} />
 
-                        <Route path='add-about' element={<AddAbout />} />
-                        <Route
-                            path='add-experiences'
-                            element={<AddExperiences />}
-                        />
-                        <Route path='add-language' element={<AddLanguage />} />
-                        <Route path='add-skills' element={<AddSkill />} />
-                        <Route
-                            path='add-knowledge'
-                            element={<AddKnowledge />}
-                        />
-                        <Route path='add-attitude' element={<AddAttitude />} />
-                        <Route
-                            path='complete-profile'
-                            element={<CompleteProfile />}
-                        />
-                        <Route
-                            path='edit-profile'
-                            element={<CompleteProfile />}
-                        />
-                        <Route
-                            path='profile-credentials'
-                            element={<Credentials />}
-                        />
+							<Route path='add-about' element={<AddAbout />} />
+							<Route
+								path='add-experiences'
+								element={<AddExperiences />}
+							/>
+							<Route
+								path='add-language'
+								element={<AddLanguage />}
+							/>
+							<Route path='add-skills' element={<AddSkill />} />
+							<Route
+								path='add-knowledge'
+								element={<AddKnowledge />}
+							/>
+							<Route
+								path='add-attitude'
+								element={<AddAttitude />}
+							/>
+							<Route
+								path='complete-profile'
+								element={<CompleteProfile />}
+							/>
+							<Route
+								path='edit-profile'
+								element={<CompleteProfile />}
+							/>
 
                         <Route path=':username' element={<ProfileUpdate />} />
 
-                        <Route
-                            path=':username/add-about'
-                            element={<AddAbout />}
-                        />
-                        <Route
-                            path=':username/add-experiences'
-                            element={<AddExperiences />}
-                        />
-                        <Route
-                            path=':username/add-language'
-                            element={<AddLanguage />}
-                        />
-                        <Route
-                            path=':username/add-skills'
-                            element={<AddSkill />}
-                        />
-                        <Route
-                            path=':username/add-knowledge'
-                            element={<AddKnowledge />}
-                        />
-                        <Route
-                            path=':username/add-attitude'
-                            element={<AddAttitude />}
-                        />
-                        <Route
-                            path=':username/complete-profile'
-                            element={<CompleteProfile />}
-                        />
-                        <Route
-                            path=':username/edit-profile'
-                            element={<CompleteProfile />}
-                        />
-                        <Route
-                            path=':username/profile-credentials'
-                            element={<Credentials />}
-                        />
-                    </Route>
+							<Route
+								path=':username/add-about'
+								element={<AddAbout />}
+							/>
+							<Route
+								path=':username/add-experiences'
+								element={<AddExperiences />}
+							/>
+							<Route
+								path=':username/add-language'
+								element={<AddLanguage />}
+							/>
+							<Route
+								path=':username/add-skills'
+								element={<AddSkill />}
+							/>
+							<Route
+								path=':username/add-knowledge'
+								element={<AddKnowledge />}
+							/>
+							<Route
+								path=':username/add-attitude'
+								element={<AddAttitude />}
+							/>
+							<Route
+								path=':username/complete-profile'
+								element={<CompleteProfile />}
+							/>
+							<Route
+								path=':username/edit-profile'
+								element={<CompleteProfile />}
+							/>
+						</Route>
 
-                    <Route path='/not-authorized' element={<NotAuthorized />} />
-                    <Route path='/create-profile' element={<CreateProfile />} />
-                    <Route path='/add-community' element={<AddCommunity />} />
-                    <Route
-                        path='/new-community/:name'
-                        element={<SubmitPage />}
-                    />
+						<Route path='/not-authorized' element={<NotAuthorized />} />
+
+						<Route path='credential/:id' element={<Credential />} />
+
+						<Route
+							path='/create-profile'
+							element={<CreateProfile />}
+						/>
+						<Route
+							path='/add-community'
+							element={<AddCommunity />}
+						/>
+						<Route
+							path='/new-community/:name'
+							element={<SubmitPage />}
+						/>
 
                     <Route path='*' element={<Page404 />} />
                 </Routes>

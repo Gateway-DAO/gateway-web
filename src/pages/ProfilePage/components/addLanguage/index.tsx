@@ -7,6 +7,7 @@ import { FaTimes } from 'react-icons/fa';
 import './AddLanguage.css';
 import { LANGUAGES } from '../../../../utils/constants';
 import Space from '../../../../components/Space';
+import Loader from '../../../../components/Loader';
 
 /* This is a list of all the languages that are supported by the app. */
 const options = LANGUAGES.map((lang) => ({
@@ -31,6 +32,7 @@ const suggestedOptions = [
 const AddLanguage: React.FC = () => {
 	// State
 	const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	// Hooks
 	const navigate = useNavigate();
@@ -81,9 +83,11 @@ const AddLanguage: React.FC = () => {
 
 		// API should be call here
 		try {
+			setIsLoading(true);
 			await updateUserInfo({
 				languages: objLanguages,
 			});
+			setIsLoading(false);
 
 			setRedirect(true);
 		} catch (err) {
@@ -187,8 +191,9 @@ const AddLanguage: React.FC = () => {
 										))}
 								</ul>
 								<Button variant='primary' type='submit'>
-									save
-								</Button>{' '}
+									{!!isLoading && <Loader color='white' />}
+									SAVE
+								</Button>
 							</Form>
 						</div>
 					</Container>

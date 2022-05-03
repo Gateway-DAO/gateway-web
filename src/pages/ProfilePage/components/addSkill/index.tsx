@@ -7,6 +7,7 @@ import { FaTimes } from 'react-icons/fa';
 import './AddSkill.css';
 import { SKILLS } from '../../../../utils/constants';
 import Space from '../../../../components/Space';
+import Loader from '../../../../components/Loader';
 
 /* This is a helper function that will be used to generate the options for the skills dropdown. */
 const options = SKILLS.map((skill) => ({
@@ -44,6 +45,8 @@ const AddSkill: React.FC = () => {
 		})) || []
 	);
 
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
 	/* This is a callback function that will be called when the user clicks on the remove button. */
 	const removeSkill = useCallback(
 		(val) => () => {
@@ -78,10 +81,12 @@ const AddSkill: React.FC = () => {
 
 		// API should be call here
 		try {
+			setIsLoading(true);
 			await updateUserInfo({
 				skills: objSkills,
 			});
 
+			setIsLoading(false);
 			setRedirect(true);
 		} catch (err) {
 			console.log(err);
@@ -182,8 +187,9 @@ const AddSkill: React.FC = () => {
 										))}
 								</ul>
 								<Button variant='primary' type='submit'>
-									save
-								</Button>{' '}
+									{!!isLoading && <Loader color='white' />}
+									SAVE
+								</Button>
 							</Form>
 						</div>
 					</Container>

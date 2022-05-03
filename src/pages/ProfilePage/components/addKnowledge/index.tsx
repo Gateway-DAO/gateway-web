@@ -9,6 +9,7 @@ import { updateUser } from '../../../../graphql/mutations';
 import Page from '../../../../components/Page';
 import './AddKnowledge.css';
 import Space from '../../../../components/Space';
+import Loader from '../../../../components/Loader';
 
 const options = [
 	{ label: 'Development', value: 'Development' },
@@ -32,6 +33,7 @@ const suggestedOptions = [
 const AddKnowledge = () => {
 	// State
 	const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	// Hooks
 	const navigate = useNavigate();
@@ -77,10 +79,12 @@ const AddKnowledge = () => {
 
 		// API should be call here
 		try {
+			setIsLoading(true);
 			await updateUserInfo({
 				knowledges: objKnowledges,
 			});
 
+			setIsLoading(false);
 			setRedirect(true);
 		} catch (err) {
 			console.log(err);
@@ -183,8 +187,9 @@ const AddKnowledge = () => {
 										))}
 								</ul>
 								<Button variant='primary' type='submit'>
-									save
-								</Button>{' '}
+									{!!isLoading && <Loader color='white' />}
+									SAVE
+								</Button>
 							</Form>
 						</div>
 					</Container>

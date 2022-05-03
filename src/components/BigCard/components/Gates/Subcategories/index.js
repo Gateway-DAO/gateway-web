@@ -15,8 +15,6 @@ const Subcategories = ({
         navigate('add-gate');
     };
 
-    console.log(isAdmin, viewAsMember);
-
     return (
         <Styled.Wrapper>
             {/*<Styled.Categories>
