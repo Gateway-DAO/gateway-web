@@ -22,6 +22,7 @@ import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import getIPLocation, { getIP } from '../api/getIPLocation';
 import { usernameGenerator } from '../utils/functions';
+import { useNavigate } from 'react-router-dom';
 // import use3ID from '../hooks/use3ID';
 
 Amplify.configure(awsconfig);
@@ -95,6 +96,7 @@ export const useSignedAuth = (deps = []) => {
 export const UserProvider = ({ children }) => {
     // Hooks
     const web3 = useWeb3React();
+    const navigate = useNavigate();
     // const threeID = use3ID();
     const { showErrorModal } = useModal();
 
@@ -379,6 +381,12 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         JSON.parse(localStorage.getItem('gateway-wallet')) && activateWeb3();
     }, []);
+
+    useEffect(() => {
+        if (userInfo && !userInfo.init) {
+            navigate('/profile/complete-profile');
+        }
+    }, [userInfo]);
 
     /**
      * When the user signs in, get the user's information from the database and set it in the state.

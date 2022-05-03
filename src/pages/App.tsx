@@ -54,108 +54,89 @@ const AddNewGate = React.lazy(() => import('./DAO/pages/AddNewGate'));
 const AddLinks = React.lazy(() => import('./Gate/pages/AddLinks'));
 
 const App: React.FC = () => {
-	return (
-		<Router>
-			<React.Suspense fallback={<FallbackPage />}>
-				<ScrollToTop>
-					<Routes>
-						<Route path='/' element={<Home />} />
-						<Route path='/about-us' element={<About />} />
-						<Route path='/what-are-daos' element={<AboutDAOs />} />
+    return (
+        <React.Suspense fallback={<FallbackPage />}>
+            <ScrollToTop>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/about-us' element={<About />} />
+                    <Route path='/what-are-daos' element={<AboutDAOs />} />
 
-						{/* DAO Routes */}
-						<Route path='dao/:id' element={<DAO />}>
-							<Route index element={<DAOHome />} />
-							<Route path='add-gate' element={<AddNewGate />} />
-							<Route path='edit-gate' element={<AddNewGate />} />
-						</Route>
+                    {/* DAO Routes */}
+                    <Route path='dao/:id' element={<DAO />}>
+                        <Route index element={<DAOHome />} />
+                        <Route path='add-gate' element={<AddNewGate />} />
+                        <Route path='edit-gate' element={<AddNewGate />} />
+                    </Route>
 
-						{/* Gate Routes */}
-						<Route path='gate/:gate' element={<Gate />}>
-							<Route index element={<DaoGate />} />
-							<Route path='quiz/:id' element={<NewQuiz />} />
-							<Route path='add-links' element={<AddLinks />} />
-							<Route
-								path='edit-links'
-								element={<AddLinks edit />}
-							/>
-							<Route path='add-key' element={<AddNewKey />}>
-								<Route index element={<AddNewKeyHome />} />
-								<Route
-									path='token'
-									element={<AddHoldToken />}
-								/>
-								<Route
-									path='manual'
-									element={<AddManualTask />}
-								/>
-								<Route
-									path='governance'
-									element={<AddGovernanceSnapshot />}
-								/>
-								<Route
-									path='sc-interaction'
-									element={<AddContractInteraction />}
-								/>
-								<Route
-									path='success'
-									element={<AddKeySuccess />}
-								/>
-								<Route path='quiz' element={<KeyQuiz />} />
+                    {/* Gate Routes */}
+                    <Route path='gate/:gate' element={<Gate />}>
+                        <Route index element={<DaoGate />} />
+                        <Route path='quiz/:id' element={<NewQuiz />} />
+                        <Route path='add-links' element={<AddLinks />} />
+                        <Route path='edit-links' element={<AddLinks edit />} />
+                        <Route path='add-key' element={<AddNewKey />}>
+                            <Route index element={<AddNewKeyHome />} />
+                            <Route path='token' element={<AddHoldToken />} />
+                            <Route path='manual' element={<AddManualTask />} />
+                            <Route
+                                path='governance'
+                                element={<AddGovernanceSnapshot />}
+                            />
+                            <Route
+                                path='sc-interaction'
+                                element={<AddContractInteraction />}
+                            />
+                            <Route path='success' element={<AddKeySuccess />} />
+                            <Route path='quiz' element={<KeyQuiz />} />
 
-								<Route
-									path='meeting-code'
-									element={<AddMeetingCode />}
-								/>
-							</Route>
+                            <Route
+                                path='meeting-code'
+                                element={<AddMeetingCode />}
+                            />
+                        </Route>
 
-							<Route path='edit-key' element={<AddNewKey edit />}>
-								<Route index element={<AddNewKeyHome />} />
-								<Route
-									path='token-hold'
-									element={<AddHoldToken />}
-								/>
-								<Route
-									path='manual'
-									element={<AddManualTask />}
-								/>
-								<Route
-									path='snapshot-governance'
-									element={<AddGovernanceSnapshot />}
-								/>
-								<Route
-									path='contract-interaction'
-									element={<AddContractInteraction />}
-								/>
-								<Route
-									path='success'
-									element={<AddKeySuccess />}
-								/>
-								<Route path='quiz' element={<KeyQuiz />} />
+                        <Route path='edit-key' element={<AddNewKey edit />}>
+                            <Route index element={<AddNewKeyHome />} />
+                            <Route
+                                path='token-hold'
+                                element={<AddHoldToken />}
+                            />
+                            <Route path='manual' element={<AddManualTask />} />
+                            <Route
+                                path='snapshot-governance'
+                                element={<AddGovernanceSnapshot />}
+                            />
+                            <Route
+                                path='contract-interaction'
+                                element={<AddContractInteraction />}
+                            />
+                            <Route path='success' element={<AddKeySuccess />} />
+                            <Route path='quiz' element={<KeyQuiz />} />
 
-								<Route
-									path='meeting-code'
-									element={<AddMeetingCode />}
-								/>
-							</Route>
+                            <Route
+                                path='meeting-code'
+                                element={<AddMeetingCode />}
+                            />
+                        </Route>
 
-							<Route
-								path='gate-success'
-								element={<GateSuccessPage />}
-							/>
+                        <Route
+                            path='gate-success'
+                            element={<GateSuccessPage />}
+                        />
 
-							<Route
-								path='key-completed'
-								element={<KeyCompletedPage />}
-							/>
-						</Route>
+                        <Route
+                            path='key-completed'
+                            element={<KeyCompletedPage />}
+                        />
+                    </Route>
 
 						<Route path='/search' element={<Search />} />
 						<Route path='/search/:tab' element={<Search />} />
 
-						{/* User Profile */}
-						<Route path='/profile' element={<Profile />}>
-							<Route path='' element={<ProfileUpdate />} />
+                    {/* User Profile */}
+                    <Route path='/profile' element={<Profile />}>
+                        <Route path='' element={<ProfileUpdate />} />
 
 							<Route path='add-about' element={<AddAbout />} />
 							<Route
@@ -184,10 +165,7 @@ const App: React.FC = () => {
 								element={<CompleteProfile />}
 							/>
 
-							<Route
-								path=':username'
-								element={<ProfileUpdate />}
-							/>
+                        <Route path=':username' element={<ProfileUpdate />} />
 
 							<Route
 								path=':username/add-about'
@@ -240,12 +218,11 @@ const App: React.FC = () => {
 							element={<SubmitPage />}
 						/>
 
-						<Route path='*' element={<Page404 />} />
-					</Routes>
-				</ScrollToTop>
-			</React.Suspense>
-		</Router>
-	);
+                    <Route path='*' element={<Page404 />} />
+                </Routes>
+            </ScrollToTop>
+        </React.Suspense>
+    );
 };
 
 export default App;
