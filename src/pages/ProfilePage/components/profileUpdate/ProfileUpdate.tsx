@@ -432,8 +432,8 @@ const ProfileUpdate = () => {
 								</div>
 								*/}
 
-								{Object.entries(daos)?.map(([key, value]) => (
-									<div className='experience-profile-section'>
+								{Object.entries(daos)?.map(([key, value], idx) => (
+									<div className='experience-profile-section' key={idx}>
 										<div className='experience-profile-inner-section'>
 											<div className='creative-icon'>
 												<img
@@ -471,8 +471,8 @@ const ProfileUpdate = () => {
 														</Accordion.Header>
 													</div>
 													<div className='accordion-body-content' style={{ display: "flex" }}>
-														{value?.map((credential: Credential) => (
-															<Accordion.Body>
+														{value?.map((credential: Credential, idx: number) => (
+															<Accordion.Body key={idx}>
 																<Row className='justify-content-md-left'>
 																	<CredentialCard
 																		credential={
@@ -493,7 +493,7 @@ const ProfileUpdate = () => {
 					</Col>
 
 					<Col md={3}>
-						{(userInfo?.timezone?.shouldTrack || canEdit) && (
+						{/* {(userInfo?.timezone?.shouldTrack || canEdit) && (
 							<div className='gateway-profile-right'>
 								<div className='gateway-profile-right-top'>
 									<p>Time Zone</p>
@@ -535,8 +535,8 @@ const ProfileUpdate = () => {
 									</span>
 								</div>
 							</div>
-						)}
-						<div className='gway-skill-col skill-second-sec'>
+						)} */}
+						<div className='gateway-skill gway-skill-col skill-second-sec'>
 							<div className='gway-skill-col-hd'>
 								<h3>Skills</h3>
 								{canEdit && (

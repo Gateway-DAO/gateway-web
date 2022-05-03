@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSearchDaOsQuery } from '../../../../../graphql';
+import { useLocation } from 'react-router-dom';
 import * as Styled from '../../../style';
 import FilterDropdown from '../../FilterDropdown';
 
@@ -39,6 +40,10 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
             query: searchTerm
         }
     });
+
+    const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	var searchTerm: string = params.get("query");
 
     if (searchTerm && searchTerm.toLowerCase().trim() === 'all') searchTerm = '';
 

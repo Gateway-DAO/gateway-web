@@ -62,11 +62,11 @@ const RelatedDAOSection = ({ name, categories }) => {
                 <Styled.BoxContainer>
                     <Styled.MediumText>Related DAOs</Styled.MediumText>
                     <Styled.StyledShowAllButton
-                        to={`/search`}
+                        to={`/search/daos`}
                         onClick={(e) => {
                             e.preventDefault();
-                            navigate('/search');
-                            history.push('/search', { categorySearch: categories })
+                            navigate('/search/daos');
+                            history.push('/search/daos', { categorySearch: categories })
                         }}
                     >
                         View all

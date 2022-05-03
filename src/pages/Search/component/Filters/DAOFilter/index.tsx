@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import * as Styled from '../../../style';
 import FilterDropdown from '../../FilterDropdown';
 
@@ -38,7 +38,9 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
     const [categoryMatches, setCategoryMatches] = useState<string[]>([]);
     const [chainMatches, setChainMatches] = useState<string[]>([]);
     // const [sizeMatches, setSizeMatches] = useState<string[]>([]);
-    var { query: searchTerm } = useParams();
+    const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	var searchTerm: string = params.get("query");
 
     if (searchTerm && searchTerm.toLowerCase().trim() === 'all') searchTerm = '';
 
@@ -128,7 +130,7 @@ const DAOFilter = function ({ setDaoFilterQuery }: any) {
     useEffect(() => {
         if (categoryMatches.length && window.history.state.usr && window.history.state.usr.categorySearch) {
             showResult();
-            window.history.replaceState({}, undefined, '/search');
+            window.history.replaceState({}, undefined, '/search/daos');
         }
     }, [categoryMatches])
 

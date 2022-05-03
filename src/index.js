@@ -13,32 +13,32 @@ import { Web3Provider } from '@ethersproject/providers';
 import { UserProvider } from './contexts/UserContext';
 import { ModalProvider } from './contexts/ModalContext';
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider';
-import { ReactNotifications } from 'react-notifications-component'
+import { ReactNotifications } from 'react-notifications-component';
 
 // Styling
-import 'react-notifications-component/dist/theme.css'
-
-// ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
+import 'react-notifications-component/dist/theme.css';
 
 AOS.init();
 
 function getLibrary(provider, connector) {
-    return new Web3Provider(provider); // this will vary according to whether you use e.g. ethers or web3.js
+	return new Web3Provider(provider); // this will vary according to whether you use e.g. ethers or web3.js
 }
 
 ReactDOM.render(
-    <ApolloAppSyncProvider>
-        <Web3ReactProvider getLibrary={getLibrary}>
-            <ThemeProvider>
-                <ModalProvider>
-                    <UserProvider>
-                        <ReactNotifications />
-                        <GlobalTheme />
-                        <App />
-                    </UserProvider>
-                </ModalProvider>
-            </ThemeProvider>
-        </Web3ReactProvider>
-    </ApolloAppSyncProvider>,
-    document.getElementById('root')
+	<ApolloAppSyncProvider>
+		<Web3ReactProvider getLibrary={getLibrary}>
+			<ThemeProvider>
+				<ModalProvider>
+					<BrowserRouter>
+						<UserProvider>
+							<ReactNotifications />
+							<GlobalTheme />
+							<App />
+						</UserProvider>
+					</BrowserRouter>
+				</ModalProvider>
+			</ThemeProvider>
+		</Web3ReactProvider>
+	</ApolloAppSyncProvider>,
+	document.getElementById('root')
 );

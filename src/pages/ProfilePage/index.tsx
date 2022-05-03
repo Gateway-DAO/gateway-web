@@ -9,7 +9,7 @@ import AddSkill from './components/addSkill';
 import CompleteProfile from './components/completeProfile';
 import AddKnowledge from './components/addKnowledge';
 import AddAttitude from './components/addAttitude';
-import Credentials from './components/credentials/Credentials';
+import Credentials from '../../pages/Credential';
 
 // Other components
 import Page from '../../components/Page';
@@ -76,50 +76,49 @@ const Profile: React.FC = (props) => {
     } = useAuth();
     const navigate = useNavigate();
 
-    // State
-    const [userInfo, setUserInfo] = useState<IUserInfo>(RAW_USER);
-    const [currentLocation, setCurrentLocation] = useState({
-        tz: {
-            name: '',
-            abbreviated: '',
-        },
-    });
-    const [internalLoading, setInternalLoading] = useState(true);
-    const [weatherData, setWeatherData] = useState([]);
-    const { account } = useWeb3React();
+	// State
+	const [userInfo, setUserInfo] = useState<IUserInfo>(RAW_USER);
+	const [currentLocation, setCurrentLocation] = useState({
+		tz: {
+			name: '',
+			abbreviated: '',
+		},
+	});
+	const [internalLoading, setInternalLoading] = useState(true);
+	const [weatherData, setWeatherData] = useState([]);
+	const { account } = useWeb3React();
 
-    const canEdit = userInfo.wallet === account;
+	const canEdit = userInfo.wallet === account;
 
     // API Calls
     const [getUser, { data, loading: userLoading, error: userError }] = useGetUserByUsernameLazyQuery();
 
-    /**
-     * Get the current location of the user and set the state of the component to reflect that location
-     */
-    const getTimezone = async (timeZone = null) => {
-        try {
-            const tz_info = Intl.DateTimeFormat('default', {
-                ...(timeZone ? { timeZone } : {}),
-            }).resolvedOptions();
-            console.log(tz_info.timeZone);
+	/**
+	 * Get the current location of the user and set the state of the component to reflect that location
+	 */
+	const getTimezone = async (timeZone = null) => {
+		try {
+			const tz_info = Intl.DateTimeFormat('default', {
+				...(timeZone ? { timeZone } : {}),
+			}).resolvedOptions();
+			console.log(tz_info.timeZone);
 
-            setCurrentLocation({
-                tz: {
-                    name: tz_info.timeZone,
-                    abbreviated: tz_info.timeZoneName,
-                },
-            });
-        } catch (err) {
-            console.error(`[PROFILE] Couldn't get user timezone: ${err}`);
-        }
-    };
+			setCurrentLocation({
+				tz: {
+					name: tz_info.timeZone,
+					abbreviated: tz_info.timeZoneName,
+				},
+			});
+		} catch (err) {
+			console.error(`[PROFILE] Couldn't get user timezone: ${err}`);
+		}
+	};
 
     /* Fetching the user info from the database and setting it to the state. */
     useEffect(() => {
         const callback = async () => {
             if (!username) {
                 if (!loadingWallet && signedUser) {
-                    await getTimezone();
                     setUserInfo((prev) => ({
                         ...prev,
                         ...signedUser,
@@ -145,47 +144,47 @@ const Profile: React.FC = (props) => {
             }
         };
 
-        callback();
-    }, [username, loadingWallet, userLoading, signedUser]);
+		callback();
+	}, [username, loadingWallet, userLoading, signedUser]);
 
-    /* Checking if there is an error. If there is an error, it will return a 404 page. */
-    if (userError) {
-        console.error(
-            `[PROFILE] An error occurred while fetching the user: ${userError}`
-        );
-        return <Navigate to='/404' />;
-    }
+	/* Checking if there is an error. If there is an error, it will return a 404 page. */
+	if (userError) {
+		console.error(
+			`[PROFILE] An error occurred while fetching the user: ${userError}`
+		);
+		return <Navigate to='/404' />;
+	}
 
-    return internalLoading ? (
-        <Page>
-            <div className='gateway-profile-loader-box'>
-                <Loader color='white' size={35} />
-            </div>
-        </Page>
-    ) : (
-        <Page>
-            <Outlet
-                context={{
-                    userInfo,
-                    currentLocation,
-                    canEdit,
-                }}
-            />
-        </Page>
-    );
+	return internalLoading ? (
+		<Page>
+			<div className='gateway-profile-loader-box'>
+				<Loader color='white' size={35} />
+			</div>
+		</Page>
+	) : (
+		<Page>
+			<Outlet
+				context={{
+					userInfo,
+					currentLocation,
+					canEdit,
+				}}
+			/>
+		</Page>
+	);
 };
 
 export default Profile;
 
 export {
-    Profile,
-    Home,
-    AddAbout,
-    AddExperiences,
-    AddLanguage,
-    AddSkill,
-    CompleteProfile,
-    AddKnowledge,
-    AddAttitude,
-    Credentials,
+	Profile,
+	Home,
+	AddAbout,
+	AddExperiences,
+	AddLanguage,
+	AddSkill,
+	CompleteProfile,
+	AddKnowledge,
+	AddAttitude,
+	Credentials,
 };

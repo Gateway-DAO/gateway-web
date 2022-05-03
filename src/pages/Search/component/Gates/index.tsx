@@ -9,13 +9,13 @@ import Pagination from '../Pagination';
 
 // Hooks
 import { useEffect, useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-
-import { Navigate, useParams } from 'react-router-dom';
 import { useSearchGatesQuery, GatePublishedStatus } from '../../../../graphql';
+import { Navigate, useLocation } from 'react-router-dom';
 
 const GateTab = ({ filterQuery }) => {
-    const { query } = useParams();
+    const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	const query: string = params.get("query");
     const [hits, setHits] = useState([]);
 
     const [pageCount, setPageCount] = useState(0);

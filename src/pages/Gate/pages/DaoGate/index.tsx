@@ -45,6 +45,9 @@ const DaoGate: React.FC = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const toSearch = params.get('toSearch');
+    const viewAsMember = params.get('viewAsMember');
+
+    const goBackURL = toSearch && toSearch === 'true' ? `/search/daos` : viewAsMember ? `/dao/${dao.slug}?tab=gates&viewAsMember=${viewAsMember}` : `/dao/${dao.slug}?tab=gates`;
 
     const handleClick = () => {
         navigate('add-key');
@@ -53,7 +56,7 @@ const DaoGate: React.FC = () => {
     return (
         <Styled.Wrapper>
             <BackButtonDiv
-                url={toSearch && toSearch === 'false' ? `/dao/${dao.slug}?tab=gates` : `/search`}
+                url={goBackURL}
                 published={gateData.published}
                 id={gateData.id}
                 daoData={dao}

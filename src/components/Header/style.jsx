@@ -115,6 +115,7 @@ export const GroupLink = styled.div`
 `;
 
 export const SearchInputBox = styled.div`
+    flex: 1;
     padding-left: 30px;
     justify-content: space-between;
     align-items: center;
@@ -123,7 +124,6 @@ export const SearchInputBox = styled.div`
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 100px;
-		width: 30%;
 
     @media only screen and (max-width: 945px) {
         margin: 0;
@@ -163,4 +163,10 @@ export const WrappedFiSearch = styled(FiSearch)`
     font-size: 32pt;
     padding-right: 20px;
     color: #e5e5e5;
+`;
+
+export const SearchBox = styled.div`
+    position: relative;
+    display: flex;
+    width: 30%;
 `;

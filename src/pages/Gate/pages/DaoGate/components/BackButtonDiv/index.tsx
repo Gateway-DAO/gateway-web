@@ -18,6 +18,7 @@ import { useModal } from '../../../../../../contexts/ModalContext';
 import ConfirmationModal from '../../../../../../components/Modal/ConfirmationModal';
 import { useAuth } from '../../../../../../contexts/UserContext';
 import { Daos, Users, Key_Progress, Gates as Gate, GatePublishedStatus, useDeleteGateMutation, useUpdateGateMutation } from '../../../../../../graphql';
+import { Store } from 'react-notifications-component';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -58,8 +59,7 @@ const BackButton: React.FC<Props> = ({
     //Hooks
     const [updateGate] = useUpdateGateMutation();
     const navigate = useNavigate();
-    const { userInfo }: Record<string, any> = useAuth();
-    const { isAdmin } = useGateAdmin(gateData.admins);
+    const { isAdmin } = useGateAdmin(gateData.adminList);
     const [deleteGate] = useDeleteGateMutation();
     // const { showModal } = useModal();
     const { showErrorModal, discardModal }: Record<string, any> = useModal();
@@ -143,6 +143,22 @@ const BackButton: React.FC<Props> = ({
         navigate(url as To, { state: state });
     };
 
+    const copyShareLink = async () => {
+        navigator.clipboard.writeText(window.location.href);
+        Store.addNotification({
+			title: 'Sharable Link has been copied!',
+			type: 'info',
+			insert: 'top',
+			container: 'top-center',
+			animationIn: ['animate__animated', 'animate__fadeIn'],
+			animationOut: ['animate__animated', 'animate__fadeOut'],
+			dismiss: {
+				duration: 2000,
+				onScreen: true,
+			},
+		});
+    }
+
     return (
         <>
             <ConfirmationModal
@@ -214,9 +230,7 @@ const BackButton: React.FC<Props> = ({
                         </>
                     )}
                     <Styled.ButtonWrapper
-                        onClick={() =>
-                            navigator.clipboard.writeText(window.location.href)
-                        }
+                        onClick={copyShareLink}
                         ml='20'
                         data-title='copy shareable link '
                     >

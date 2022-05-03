@@ -13,6 +13,7 @@ import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import { usernameGenerator } from '../utils/functions';
 import { useGetUserByAddressLazyQuery, useUpdateUserMutation } from '../graphql';
+import { useNavigate } from 'react-router-dom';
 // import use3ID from '../hooks/use3ID';
 
 export const userContext = createContext({});
@@ -83,6 +84,7 @@ export const useSignedAuth = (deps = []) => {
 export const UserProvider = ({ children }) => {
     // Hooks
     const web3 = useWeb3React();
+    const navigate = useNavigate();
     // const threeID = use3ID();
     const { showErrorModal } = useModal();
 

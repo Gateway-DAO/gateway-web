@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Styling
 import * as Styled from './style';
@@ -28,6 +28,12 @@ interface Key {
     unlimited: boolean;
 }
 
+/* Defining a type for the errors object. */
+interface IErrors {
+    keysRewarded?: string;
+    peopleLimit?: string;
+}
+
 const AddNewKey = () => {
     const {
         gateData,
@@ -42,6 +48,11 @@ const AddNewKey = () => {
         loading: boolean;
         state: Record<string, any>;
     } = useOutletContext();
+
+    const [formErrors, setFormErrors] = useState<IErrors>({
+        keysRewarded: '',
+        peopleLimit: ''
+    })
 
     // Hooks
     const navigate = useNavigate();
@@ -119,6 +130,10 @@ const AddNewKey = () => {
     };
 
     const unlimitedClicked = () => {
+        setFormErrors({
+            ...formErrors,
+            peopleLimit: ''
+        })
         formik.setFieldValue('unlimited', !formik.values.unlimited);
         if (formik.values.unlimited) {
             formik.setFieldValue('peopleLimit', 0);
@@ -136,6 +151,13 @@ const AddNewKey = () => {
      */
     const submit = async (e) => {
         e.preventDefault();
+
+        setFormErrors({
+            keysRewarded: !formik.values.keysRewarded ? 'Keys Rewarded is required.' : '',
+            peopleLimit: !formik.values.unlimited && formik.values.peopleLimit <= 0 ? 'People limit can not be less than 0.' : ''
+        })
+
+        if (formErrors.keysRewarded || formErrors.peopleLimit) return;
 
         formik.values.taskLink !== 'self-verify'
             ? navigate(formik.values.taskLink, {
@@ -272,6 +294,7 @@ const AddNewKey = () => {
                                 }
                                 required
                             />
+                            <FormStyled.InputFeedback type='invalid'>{formErrors.keysRewarded}</FormStyled.InputFeedback>
                         </FormStyled.Fieldset>
 
                         <FormStyled.Fieldset>
@@ -284,6 +307,7 @@ const AddNewKey = () => {
                                         ? formik.values.peopleLimit
                                         : ''
                                 }
+                                valid={!formErrors.peopleLimit}
                             >
                                 <Styled.Input
                                     id='peopleLimit'
@@ -310,6 +334,7 @@ const AddNewKey = () => {
                                     Unlimited
                                 </Styled.UnlimitedBoxContainer>
                             </Styled.InputContainer>
+                            <FormStyled.InputFeedback type='invalid'>{formErrors.peopleLimit}</FormStyled.InputFeedback>
                         </FormStyled.Fieldset>
                     </FormStyled.FieldsetRow>
                 )}

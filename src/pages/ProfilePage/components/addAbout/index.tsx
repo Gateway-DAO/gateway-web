@@ -7,6 +7,7 @@ import './AddAbout.css';
 import RichEditor from '../../../../components/RichTextEditor';
 import Space from '../../../../components/Space';
 import { FormStyled } from '../../../../components/Form';
+import Loader from '../../../../components/Loader';
 
 const AddAbout: React.FC = () => {
 	// State
@@ -21,6 +22,7 @@ const AddAbout: React.FC = () => {
 	const [about, setAbout] = useState(userInfo?.about || '');
 	const [isValid, setValid] = useState<boolean>(true);
 	const [isAboutFilled, setIsAboutFilled] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -32,10 +34,11 @@ const AddAbout: React.FC = () => {
 			setValid(true);
 
 			try {
+				setIsLoading(true);
 				await updateUserInfo({
 					about,
 				});
-
+				setIsLoading(false);
 				// redirect
 				setRedirect(true);
 			} catch (err) {
@@ -125,9 +128,9 @@ const AddAbout: React.FC = () => {
 										rows={12}
 									/>
 								</div>
-
 								<Button variant='primary' type='submit'>
-									Save
+									{!!isLoading && <Loader color='white' />}
+									SAVE
 								</Button>
 							</Form>
 						</div>

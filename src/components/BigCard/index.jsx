@@ -46,6 +46,9 @@ const NewCard = (props) => {
     const { isAdmin } = useAdmin(props.whitelistedAddresses);
     const [viewAsMember, setViewAsMember] = useState(!isAdmin);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+    const searchViewAsMember = searchParams.get('viewAsMember');
+
     useEffect(() => {
         if (props.tokenAddress && props.showTokenFeed) {
             const getBalance = async (tokenAddress) => {
@@ -63,19 +66,17 @@ const NewCard = (props) => {
                     setBalance(0);
                 }
             };
-
-            web3.active && web3.library && getBalance(props.tokenAddress) && setViewAsMember(!isAdmin);
+            web3.active && web3.library && getBalance(props.tokenAddress) && !searchViewAsMember && setViewAsMember(!isAdmin);
             !web3.active && setViewAsMember(true);
         }
 
         return () => {};
-    }, [web3.active, props.id, props]);
+    }, [web3.active, props.id, props, searchViewAsMember]);
 
     const [balance, setBalance] = useState(0);
     const [showEditModal, setShowEditModal] = useState(false);
     const iconHover = useRef(null);
     const toggleEditModal = () => setShowEditModal(!showEditModal);
-    const [searchParams, setSearchParams] = useSearchParams();
 
     const Modals = () => (
         <>
@@ -172,7 +173,7 @@ const NewCard = (props) => {
                             onMouseLeave={removeHover}
                         >
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={ethereum}
@@ -186,7 +187,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='Solana'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img src={solana} width='22px' height='22px' />
                             </Styled.ChainLink>
@@ -196,7 +197,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='Polygon'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img src={polygon} width='22px' height='22px' />
                             </Styled.ChainLink>
@@ -206,7 +207,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='NEAR'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img src={near} width='22px' height='22px' />
                             </Styled.ChainLink>
@@ -216,7 +217,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover} id='Avalanche'>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={avalanche}
@@ -231,7 +232,7 @@ const NewCard = (props) => {
                         <Styled.Chain>
                             <Styled.ChainLink
                                 key={idx}
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={binance}
@@ -247,7 +248,7 @@ const NewCard = (props) => {
                     return (
                         <Styled.Chain key={idx} ref={iconHover}>
                             <Styled.ChainLink
-                                to={`/search/${props.chains[key]}`}
+                                to={`/search/daos?query=${props.chains[key]}`}
                             >
                                 <img
                                     src={btc}
@@ -283,6 +284,8 @@ const NewCard = (props) => {
         }
     };
 
+    useEffect(() => { searchViewAsMember && setViewAsMember(JSON.parse(searchViewAsMember)) }, [searchViewAsMember]);
+
     return (
         <>
             <Styled.DaoWrapper>
@@ -295,11 +298,11 @@ const NewCard = (props) => {
                                 {props.categories.map((category, idx) => (
                                     <Styled.Category key={idx}>
                                         <Styled.CategoryLink
-                                            to={`/search/${category}`}
+                                            to={`/search/daos?query=${category}`}
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                navigate('/search');
-                                                history.push('/search', { categorySearch: [category] })
+                                                navigate('/search/daos');
+                                                history.push('/search/daos', { categorySearch: [category] })
                                             }}
                                         >
                                             {category}

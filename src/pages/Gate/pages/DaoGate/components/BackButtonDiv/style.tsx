@@ -49,6 +49,7 @@ export const ButtonWrapper = styled.div<IButtonWrapperProps>`
         padding: 2px 10px;
 
         top: 56px;
+        right: 0px;
 
         font-family: Be Vietnam;
         font-style: normal;
