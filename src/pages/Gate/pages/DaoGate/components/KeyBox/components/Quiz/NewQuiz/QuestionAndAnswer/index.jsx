@@ -54,7 +54,7 @@ const QuestionAndAnswer = ({
             <Styled.QuestionText>{question.question}</Styled.QuestionText>
             <Styled.AnswerContainer>
                 {question.options.map((opt, idx) => (
-                    <Styled.Answers onClick={(e) => handleAnswer(idx)}>
+                    <Styled.Answers key={idx} onClick={(e) => handleAnswer(idx)}>
                         <Styled.Option active={answerList.includes(idx)}>
                             {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[idx]}
                         </Styled.Option>

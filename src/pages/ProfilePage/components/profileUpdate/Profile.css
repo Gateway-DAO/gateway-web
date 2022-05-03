@@ -221,6 +221,9 @@ section.gateway-profile {
     grid-column-gap: 2px;
     margin-top: 22px;
 }
+.gateway-skill {
+    padding-top: 0px !important;
+}
 .gway-skill-col-hd {
     display: flex;
     align-items: center;
