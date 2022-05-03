@@ -13,8 +13,8 @@ import { MdDelete } from 'react-icons/md';
 import { formatDistance } from 'date-fns';
 
 import { useAuth } from '../../../../../../contexts/UserContext';
-import { useDeletePost } from '../../../../../../api/database/useDeletePost';
 
+/*
 const PostCard = (props) => {
     let options = {
         year: 'numeric',
@@ -249,14 +249,12 @@ const PostCard = (props) => {
                                 {comments.length === 1 ? '' : 's'}
                             </span>
                         </Styled.ActivityTextContainer>
-                        {/*
                         <Styled.ActivityTextContainer>
                             Share
                         </Styled.ActivityTextContainer>
                         <Styled.ActivityTextContainer>
                             Save
                         </Styled.ActivityTextContainer>
-                        */}
                     </Styled.ActivityContainer>
                     {showCommentBox && (
                         <>
@@ -283,3 +281,4 @@ const PostCard = (props) => {
 };
 
 export default PostCard;
+*/

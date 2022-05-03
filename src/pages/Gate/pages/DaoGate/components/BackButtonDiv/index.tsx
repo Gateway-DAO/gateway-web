@@ -11,7 +11,6 @@ import { FaTrashAlt } from 'react-icons/fa';
 //Hooks
 import { To, useNavigate } from 'react-router-dom';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
-import { useWeb3 } from '../../../../../../hooks/useWeb3';
 
 // Types
 import { gql, MutationFunctionOptions, useMutation } from '@apollo/client';
@@ -64,7 +63,6 @@ const BackButton: React.FC<Props> = ({
     const [deleteGate] = useDeleteGateMutation();
     // const { showModal } = useModal();
     const { showErrorModal, discardModal }: Record<string, any> = useModal();
-    const { mintNFTContract, batchMint }: Record<string, any> = useWeb3();
 
     /**
      * It navigates to the edit-gate page.
@@ -91,8 +89,8 @@ const BackButton: React.FC<Props> = ({
 
             await updateGate({
                 variables: {
-                    input: {
-                        id: props.id,
+                    id: props.id,
+                    set: {
                         published: published_INTERNAL,
                     },
                 },
@@ -139,9 +137,7 @@ const BackButton: React.FC<Props> = ({
     const deleteGateFunc = async () => {
         const { data } = await deleteGate({
             variables: {
-                input: {
-                    id: props.id,
-                },
+                id: props.id
             },
         });
         navigate(url as To, { state: state });
@@ -190,14 +186,14 @@ const BackButton: React.FC<Props> = ({
                         <>
                             <Styled.ButtonWrapper
                                 onClick={
-                                    published == PublishedState.NOT_PUBLISHED
+                                    published == GatePublishedStatus.not_published
                                         ? showPublishModal
                                         : handleUpdate
                                 }
                                 width='182px'
                                 size='13px'
                             >
-                                {published == PublishedState.PUBLISHED
+                                {published == GatePublishedStatus.published
                                     ? 'Unpublish'
                                     : 'Publish'}
                             </Styled.ButtonWrapper>

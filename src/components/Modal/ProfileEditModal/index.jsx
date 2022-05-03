@@ -12,9 +12,8 @@ import Loader from '../../Loader';
 import { useSignedAuth } from '../../../contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { useFileUpload } from '../../../api/useFileUpload';
-import { useLazyGetUserByUsername } from '../../../api/database/useGetUser';
 import { ImageUpload } from '../../Form';
-import { useSearchDaOsQuery } from '../../../graphql';
+import { useSearchDaOsQuery, useGetUserByUsernameLazyQuery } from '../../../graphql';
 
 const ProfileEditModal = (props) => {
     const [name, setName] = useState(props.name || '');
@@ -37,7 +36,7 @@ const ProfileEditModal = (props) => {
     const { uploadFile } = useFileUpload();
 
     // Get user
-    const { getUser } = useLazyGetUserByUsername();
+    const [getUser] = useGetUserByUsernameLazyQuery();
 
     // Search DAO
     const {

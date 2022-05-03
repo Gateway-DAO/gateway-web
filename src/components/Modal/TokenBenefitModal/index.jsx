@@ -4,10 +4,10 @@ import * as ModalStyled from '../style';
 import { FormStyled } from '../../Form';
 import { useState } from 'react';
 import RichEditor from '../../RichTextEditor';
-import { useCreateTokenBenefit } from '../../../api/database/useCreateTokenBenefit';
 import { Navigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import Loader from '../../Loader';
+import { useInsertTokenBenefitMutation } from '../../../graphql';
 
 const TokenBenefitModal = (props) => {
     const [title, setTitle] = useState(null);
@@ -15,12 +15,11 @@ const TokenBenefitModal = (props) => {
     const [token, setToken] = useState(null);
     const [amount, setAmount] = useState(null);
 
-    const { createTokenBenefit, error, loading } = useCreateTokenBenefit();
+    const [createTokenBenefit, { error, loading }] = useInsertTokenBenefitMutation();
 
     const submitToDB = async () => {
         const newTB = {
-            id: uuidv4(),
-            daoID: props.id,
+            dao_id: props.id,
             title,
             description,
             token,
@@ -29,7 +28,7 @@ const TokenBenefitModal = (props) => {
 
         await createTokenBenefit({
             variables: {
-                input: newTB,
+                object: newTB,
             },
         });
 

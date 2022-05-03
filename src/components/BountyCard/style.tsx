@@ -40,8 +40,12 @@ export const BoldText = styled(Text)`
     font-weight: bold;
 `;
 
+interface BtnProps extends React.HTMLAttributes<HTMLElement> {
+    size: number;
+}
+
 // eslint-disable-next-line react/display-name
-export const TrashBtn = React.forwardRef((props, ref) => {
+export const TrashBtn: React.FC<BtnProps> = React.forwardRef((props, ref) => {
     const Icon = styled(FaTrashAlt)`
         position: absolute;
         top: 20px;

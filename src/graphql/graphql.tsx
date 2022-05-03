@@ -16,7 +16,6 @@ export type Scalars = {
   _json: any;
   _key_information: any;
   _text: any;
-  _token_benefit: any;
   badge_scalar: any;
   gate_state: any;
   gate_status: any;
@@ -150,19 +149,6 @@ export type _Text_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['_text']>>;
 };
 
-/** Boolean expression to compare columns of type "_token_benefit". All fields are combined with logical 'AND'. */
-export type _Token_Benefit_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['_token_benefit']>;
-  _gt?: InputMaybe<Scalars['_token_benefit']>;
-  _gte?: InputMaybe<Scalars['_token_benefit']>;
-  _in?: InputMaybe<Array<Scalars['_token_benefit']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['_token_benefit']>;
-  _lte?: InputMaybe<Scalars['_token_benefit']>;
-  _neq?: InputMaybe<Scalars['_token_benefit']>;
-  _nin?: InputMaybe<Array<Scalars['_token_benefit']>>;
-};
-
 /** Boolean expression to compare columns of type "badge_scalar". All fields are combined with logical 'AND'. */
 export type Badge_Scalar_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['badge_scalar']>;
@@ -175,6 +161,256 @@ export type Badge_Scalar_Comparison_Exp = {
   _neq?: InputMaybe<Scalars['badge_scalar']>;
   _nin?: InputMaybe<Array<Scalars['badge_scalar']>>;
 };
+
+/** columns and relationships of "bounties" */
+export type Bounties = {
+  __typename?: 'bounties';
+  categories: Scalars['_text'];
+  dao_id: Scalars['uuid'];
+  description?: Maybe<Scalars['String']>;
+  directions?: Maybe<Scalars['String']>;
+  end_date: Scalars['timestamp'];
+  headline: Scalars['String'];
+  id: Scalars['uuid'];
+  level: Scalars['String'];
+  links: Scalars['_text'];
+  post_date: Scalars['timestamp'];
+  reward: Scalars['String'];
+};
+
+/** aggregated selection of "bounties" */
+export type Bounties_Aggregate = {
+  __typename?: 'bounties_aggregate';
+  aggregate?: Maybe<Bounties_Aggregate_Fields>;
+  nodes: Array<Bounties>;
+};
+
+/** aggregate fields of "bounties" */
+export type Bounties_Aggregate_Fields = {
+  __typename?: 'bounties_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Bounties_Max_Fields>;
+  min?: Maybe<Bounties_Min_Fields>;
+};
+
+
+/** aggregate fields of "bounties" */
+export type Bounties_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Bounties_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "bounties" */
+export type Bounties_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Bounties_Max_Order_By>;
+  min?: InputMaybe<Bounties_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "bounties" */
+export type Bounties_Arr_Rel_Insert_Input = {
+  data: Array<Bounties_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Bounties_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "bounties". All fields are combined with a logical 'AND'. */
+export type Bounties_Bool_Exp = {
+  _and?: InputMaybe<Array<Bounties_Bool_Exp>>;
+  _not?: InputMaybe<Bounties_Bool_Exp>;
+  _or?: InputMaybe<Array<Bounties_Bool_Exp>>;
+  categories?: InputMaybe<_Text_Comparison_Exp>;
+  dao_id?: InputMaybe<Uuid_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  directions?: InputMaybe<String_Comparison_Exp>;
+  end_date?: InputMaybe<Timestamp_Comparison_Exp>;
+  headline?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  level?: InputMaybe<String_Comparison_Exp>;
+  links?: InputMaybe<_Text_Comparison_Exp>;
+  post_date?: InputMaybe<Timestamp_Comparison_Exp>;
+  reward?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "bounties" */
+export enum Bounties_Constraint {
+  /** unique or primary key constraint */
+  BountiesIdUindex = 'bounties_id_uindex',
+  /** unique or primary key constraint */
+  BountiesPk = 'bounties_pk'
+}
+
+/** input type for inserting data into table "bounties" */
+export type Bounties_Insert_Input = {
+  categories?: InputMaybe<Scalars['_text']>;
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  directions?: InputMaybe<Scalars['String']>;
+  end_date?: InputMaybe<Scalars['timestamp']>;
+  headline?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  level?: InputMaybe<Scalars['String']>;
+  links?: InputMaybe<Scalars['_text']>;
+  post_date?: InputMaybe<Scalars['timestamp']>;
+  reward?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Bounties_Max_Fields = {
+  __typename?: 'bounties_max_fields';
+  dao_id?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']>;
+  directions?: Maybe<Scalars['String']>;
+  end_date?: Maybe<Scalars['timestamp']>;
+  headline?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  level?: Maybe<Scalars['String']>;
+  post_date?: Maybe<Scalars['timestamp']>;
+  reward?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "bounties" */
+export type Bounties_Max_Order_By = {
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  directions?: InputMaybe<Order_By>;
+  end_date?: InputMaybe<Order_By>;
+  headline?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  level?: InputMaybe<Order_By>;
+  post_date?: InputMaybe<Order_By>;
+  reward?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Bounties_Min_Fields = {
+  __typename?: 'bounties_min_fields';
+  dao_id?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']>;
+  directions?: Maybe<Scalars['String']>;
+  end_date?: Maybe<Scalars['timestamp']>;
+  headline?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  level?: Maybe<Scalars['String']>;
+  post_date?: Maybe<Scalars['timestamp']>;
+  reward?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "bounties" */
+export type Bounties_Min_Order_By = {
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  directions?: InputMaybe<Order_By>;
+  end_date?: InputMaybe<Order_By>;
+  headline?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  level?: InputMaybe<Order_By>;
+  post_date?: InputMaybe<Order_By>;
+  reward?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "bounties" */
+export type Bounties_Mutation_Response = {
+  __typename?: 'bounties_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Bounties>;
+};
+
+/** on_conflict condition type for table "bounties" */
+export type Bounties_On_Conflict = {
+  constraint: Bounties_Constraint;
+  update_columns?: Array<Bounties_Update_Column>;
+  where?: InputMaybe<Bounties_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "bounties". */
+export type Bounties_Order_By = {
+  categories?: InputMaybe<Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  directions?: InputMaybe<Order_By>;
+  end_date?: InputMaybe<Order_By>;
+  headline?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  level?: InputMaybe<Order_By>;
+  links?: InputMaybe<Order_By>;
+  post_date?: InputMaybe<Order_By>;
+  reward?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: bounties */
+export type Bounties_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "bounties" */
+export enum Bounties_Select_Column {
+  /** column name */
+  Categories = 'categories',
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Directions = 'directions',
+  /** column name */
+  EndDate = 'end_date',
+  /** column name */
+  Headline = 'headline',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Level = 'level',
+  /** column name */
+  Links = 'links',
+  /** column name */
+  PostDate = 'post_date',
+  /** column name */
+  Reward = 'reward'
+}
+
+/** input type for updating data in table "bounties" */
+export type Bounties_Set_Input = {
+  categories?: InputMaybe<Scalars['_text']>;
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  directions?: InputMaybe<Scalars['String']>;
+  end_date?: InputMaybe<Scalars['timestamp']>;
+  headline?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  level?: InputMaybe<Scalars['String']>;
+  links?: InputMaybe<Scalars['_text']>;
+  post_date?: InputMaybe<Scalars['timestamp']>;
+  reward?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "bounties" */
+export enum Bounties_Update_Column {
+  /** column name */
+  Categories = 'categories',
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Directions = 'directions',
+  /** column name */
+  EndDate = 'end_date',
+  /** column name */
+  Headline = 'headline',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Level = 'level',
+  /** column name */
+  Links = 'links',
+  /** column name */
+  PostDate = 'post_date',
+  /** column name */
+  Reward = 'reward'
+}
 
 /** columns and relationships of "credentials" */
 export type Credentials = {
@@ -493,6 +729,10 @@ export type Daos = {
   accomplishments?: Maybe<Scalars['String']>;
   background_url: Scalars['String'];
   blacklisted_flags: Scalars['_text'];
+  /** An array relationship */
+  bounties: Array<Bounties>;
+  /** An aggregate relationship */
+  bounties_aggregate: Bounties_Aggregate;
   categories?: Maybe<Scalars['_text']>;
   created_at: Scalars['timestamp'];
   description: Scalars['String'];
@@ -506,11 +746,54 @@ export type Daos = {
   name: Scalars['String'];
   slug: Scalars['String'];
   token?: Maybe<Scalars['String']>;
-  token_benefits?: Maybe<Scalars['_token_benefit']>;
+  /** An array relationship */
+  token_benefits: Array<Token_Benefits>;
+  /** An aggregate relationship */
+  token_benefits_aggregate: Token_Benefits_Aggregate;
   updated_at: Scalars['timestamp'];
   wdwd?: Maybe<Scalars['String']>;
   whitelisted_flags: Scalars['_text'];
   youtube_url?: Maybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "daos" */
+export type DaosBountiesArgs = {
+  distinct_on?: InputMaybe<Array<Bounties_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Bounties_Order_By>>;
+  where?: InputMaybe<Bounties_Bool_Exp>;
+};
+
+
+/** columns and relationships of "daos" */
+export type DaosBounties_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Bounties_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Bounties_Order_By>>;
+  where?: InputMaybe<Bounties_Bool_Exp>;
+};
+
+
+/** columns and relationships of "daos" */
+export type DaosToken_BenefitsArgs = {
+  distinct_on?: InputMaybe<Array<Token_Benefits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Token_Benefits_Order_By>>;
+  where?: InputMaybe<Token_Benefits_Bool_Exp>;
+};
+
+
+/** columns and relationships of "daos" */
+export type DaosToken_Benefits_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Token_Benefits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Token_Benefits_Order_By>>;
+  where?: InputMaybe<Token_Benefits_Bool_Exp>;
 };
 
 /** aggregated selection of "daos" */
@@ -543,6 +826,7 @@ export type Daos_Bool_Exp = {
   accomplishments?: InputMaybe<String_Comparison_Exp>;
   background_url?: InputMaybe<String_Comparison_Exp>;
   blacklisted_flags?: InputMaybe<_Text_Comparison_Exp>;
+  bounties?: InputMaybe<Bounties_Bool_Exp>;
   categories?: InputMaybe<_Text_Comparison_Exp>;
   created_at?: InputMaybe<Timestamp_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
@@ -556,7 +840,7 @@ export type Daos_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   slug?: InputMaybe<String_Comparison_Exp>;
   token?: InputMaybe<String_Comparison_Exp>;
-  token_benefits?: InputMaybe<_Token_Benefit_Comparison_Exp>;
+  token_benefits?: InputMaybe<Token_Benefits_Bool_Exp>;
   updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
   wdwd?: InputMaybe<String_Comparison_Exp>;
   whitelisted_flags?: InputMaybe<_Text_Comparison_Exp>;
@@ -580,6 +864,7 @@ export type Daos_Insert_Input = {
   accomplishments?: InputMaybe<Scalars['String']>;
   background_url?: InputMaybe<Scalars['String']>;
   blacklisted_flags?: InputMaybe<Scalars['_text']>;
+  bounties?: InputMaybe<Bounties_Arr_Rel_Insert_Input>;
   categories?: InputMaybe<Scalars['_text']>;
   created_at?: InputMaybe<Scalars['timestamp']>;
   description?: InputMaybe<Scalars['String']>;
@@ -593,7 +878,7 @@ export type Daos_Insert_Input = {
   name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
-  token_benefits?: InputMaybe<Scalars['_token_benefit']>;
+  token_benefits?: InputMaybe<Token_Benefits_Arr_Rel_Insert_Input>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
   wdwd?: InputMaybe<Scalars['String']>;
   whitelisted_flags?: InputMaybe<Scalars['_text']>;
@@ -664,6 +949,7 @@ export type Daos_Order_By = {
   accomplishments?: InputMaybe<Order_By>;
   background_url?: InputMaybe<Order_By>;
   blacklisted_flags?: InputMaybe<Order_By>;
+  bounties_aggregate?: InputMaybe<Bounties_Aggregate_Order_By>;
   categories?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
@@ -677,7 +963,7 @@ export type Daos_Order_By = {
   name?: InputMaybe<Order_By>;
   slug?: InputMaybe<Order_By>;
   token?: InputMaybe<Order_By>;
-  token_benefits?: InputMaybe<Order_By>;
+  token_benefits_aggregate?: InputMaybe<Token_Benefits_Aggregate_Order_By>;
   updated_at?: InputMaybe<Order_By>;
   wdwd?: InputMaybe<Order_By>;
   whitelisted_flags?: InputMaybe<Order_By>;
@@ -724,8 +1010,6 @@ export enum Daos_Select_Column {
   /** column name */
   Token = 'token',
   /** column name */
-  TokenBenefits = 'token_benefits',
-  /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
   Wdwd = 'wdwd',
@@ -753,7 +1037,6 @@ export type Daos_Set_Input = {
   name?: InputMaybe<Scalars['String']>;
   slug?: InputMaybe<Scalars['String']>;
   token?: InputMaybe<Scalars['String']>;
-  token_benefits?: InputMaybe<Scalars['_token_benefit']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
   wdwd?: InputMaybe<Scalars['String']>;
   whitelisted_flags?: InputMaybe<Scalars['_text']>;
@@ -794,8 +1077,6 @@ export enum Daos_Update_Column {
   Slug = 'slug',
   /** column name */
   Token = 'token',
-  /** column name */
-  TokenBenefits = 'token_benefits',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -2080,6 +2361,10 @@ export type Keys_Variance_Order_By = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete data from the table: "bounties" */
+  delete_bounties?: Maybe<Bounties_Mutation_Response>;
+  /** delete single row from the table: "bounties" */
+  delete_bounties_by_pk?: Maybe<Bounties>;
   /** delete data from the table: "credentials" */
   delete_credentials?: Maybe<Credentials_Mutation_Response>;
   /** delete single row from the table: "credentials" */
@@ -2110,10 +2395,18 @@ export type Mutation_Root = {
   delete_keys_by_pk?: Maybe<Keys>;
   /** delete data from the table: "permissions" */
   delete_permissions?: Maybe<Permissions_Mutation_Response>;
+  /** delete data from the table: "token_benefits" */
+  delete_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
+  /** delete single row from the table: "token_benefits" */
+  delete_token_benefits_by_pk?: Maybe<Token_Benefits>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
+  /** insert data into the table: "bounties" */
+  insert_bounties?: Maybe<Bounties_Mutation_Response>;
+  /** insert a single row into the table: "bounties" */
+  insert_bounties_one?: Maybe<Bounties>;
   /** insert data into the table: "credentials" */
   insert_credentials?: Maybe<Credentials_Mutation_Response>;
   /** insert a single row into the table: "credentials" */
@@ -2146,12 +2439,20 @@ export type Mutation_Root = {
   insert_permissions?: Maybe<Permissions_Mutation_Response>;
   /** insert a single row into the table: "permissions" */
   insert_permissions_one?: Maybe<Permissions>;
+  /** insert data into the table: "token_benefits" */
+  insert_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
+  /** insert a single row into the table: "token_benefits" */
+  insert_token_benefits_one?: Maybe<Token_Benefits>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
   /** updateUser with enrichment */
   updateUser?: Maybe<UserBodyOutput>;
+  /** update data of the table: "bounties" */
+  update_bounties?: Maybe<Bounties_Mutation_Response>;
+  /** update single row of the table: "bounties" */
+  update_bounties_by_pk?: Maybe<Bounties>;
   /** update data of the table: "credentials" */
   update_credentials?: Maybe<Credentials_Mutation_Response>;
   /** update single row of the table: "credentials" */
@@ -2182,12 +2483,28 @@ export type Mutation_Root = {
   update_keys_by_pk?: Maybe<Keys>;
   /** update data of the table: "permissions" */
   update_permissions?: Maybe<Permissions_Mutation_Response>;
+  /** update data of the table: "token_benefits" */
+  update_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
+  /** update single row of the table: "token_benefits" */
+  update_token_benefits_by_pk?: Maybe<Token_Benefits>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
   update_users_by_pk?: Maybe<Users>;
   /** verify_key */
   verify_key?: Maybe<VerifyOutput>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_BountiesArgs = {
+  where: Bounties_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Bounties_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -2282,6 +2599,18 @@ export type Mutation_RootDelete_PermissionsArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Token_BenefitsArgs = {
+  where: Token_Benefits_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Token_Benefits_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp;
 };
@@ -2290,6 +2619,20 @@ export type Mutation_RootDelete_UsersArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_BountiesArgs = {
+  objects: Array<Bounties_Insert_Input>;
+  on_conflict?: InputMaybe<Bounties_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Bounties_OneArgs = {
+  object: Bounties_Insert_Input;
+  on_conflict?: InputMaybe<Bounties_On_Conflict>;
 };
 
 
@@ -2406,6 +2749,20 @@ export type Mutation_RootInsert_Permissions_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_Token_BenefitsArgs = {
+  objects: Array<Token_Benefits_Insert_Input>;
+  on_conflict?: InputMaybe<Token_Benefits_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Token_Benefits_OneArgs = {
+  object: Token_Benefits_Insert_Input;
+  on_conflict?: InputMaybe<Token_Benefits_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: InputMaybe<Users_On_Conflict>;
@@ -2422,6 +2779,20 @@ export type Mutation_RootInsert_Users_OneArgs = {
 /** mutation root */
 export type Mutation_RootUpdateUserArgs = {
   userBody: UserBodyInput;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_BountiesArgs = {
+  _set?: InputMaybe<Bounties_Set_Input>;
+  where: Bounties_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Bounties_By_PkArgs = {
+  _set?: InputMaybe<Bounties_Set_Input>;
+  pk_columns: Bounties_Pk_Columns_Input;
 };
 
 
@@ -2531,6 +2902,20 @@ export type Mutation_RootUpdate_Keys_By_PkArgs = {
 export type Mutation_RootUpdate_PermissionsArgs = {
   _set?: InputMaybe<Permissions_Set_Input>;
   where: Permissions_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Token_BenefitsArgs = {
+  _set?: InputMaybe<Token_Benefits_Set_Input>;
+  where: Token_Benefits_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Token_Benefits_By_PkArgs = {
+  _set?: InputMaybe<Token_Benefits_Set_Input>;
+  pk_columns: Token_Benefits_Pk_Columns_Input;
 };
 
 
@@ -2766,6 +3151,12 @@ export enum Permissions_Update_Column {
 
 export type Query_Root = {
   __typename?: 'query_root';
+  /** An array relationship */
+  bounties: Array<Bounties>;
+  /** An aggregate relationship */
+  bounties_aggregate: Bounties_Aggregate;
+  /** fetch data from the table: "bounties" using primary key columns */
+  bounties_by_pk?: Maybe<Bounties>;
   /** fetch data from the table: "credentials" */
   credentials: Array<Credentials>;
   /** fetch aggregated fields from the table: "credentials" */
@@ -2820,12 +3211,41 @@ export type Query_Root = {
   search_gates?: Maybe<AlgoliaSearchResults>;
   /** search_users */
   search_users?: Maybe<AlgoliaSearchResults>;
+  /** An array relationship */
+  token_benefits: Array<Token_Benefits>;
+  /** An aggregate relationship */
+  token_benefits_aggregate: Token_Benefits_Aggregate;
+  /** fetch data from the table: "token_benefits" using primary key columns */
+  token_benefits_by_pk?: Maybe<Token_Benefits>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
+};
+
+
+export type Query_RootBountiesArgs = {
+  distinct_on?: InputMaybe<Array<Bounties_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Bounties_Order_By>>;
+  where?: InputMaybe<Bounties_Bool_Exp>;
+};
+
+
+export type Query_RootBounties_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Bounties_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Bounties_Order_By>>;
+  where?: InputMaybe<Bounties_Bool_Exp>;
+};
+
+
+export type Query_RootBounties_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -3032,6 +3452,29 @@ export type Query_RootSearch_UsersArgs = {
 };
 
 
+export type Query_RootToken_BenefitsArgs = {
+  distinct_on?: InputMaybe<Array<Token_Benefits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Token_Benefits_Order_By>>;
+  where?: InputMaybe<Token_Benefits_Bool_Exp>;
+};
+
+
+export type Query_RootToken_Benefits_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Token_Benefits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Token_Benefits_Order_By>>;
+  where?: InputMaybe<Token_Benefits_Bool_Exp>;
+};
+
+
+export type Query_RootToken_Benefits_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3056,6 +3499,12 @@ export type Query_RootUsers_By_PkArgs = {
 
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** An array relationship */
+  bounties: Array<Bounties>;
+  /** An aggregate relationship */
+  bounties_aggregate: Bounties_Aggregate;
+  /** fetch data from the table: "bounties" using primary key columns */
+  bounties_by_pk?: Maybe<Bounties>;
   /** fetch data from the table: "credentials" */
   credentials: Array<Credentials>;
   /** fetch aggregated fields from the table: "credentials" */
@@ -3102,12 +3551,41 @@ export type Subscription_Root = {
   permissions: Array<Permissions>;
   /** fetch aggregated fields from the table: "permissions" */
   permissions_aggregate: Permissions_Aggregate;
+  /** An array relationship */
+  token_benefits: Array<Token_Benefits>;
+  /** An aggregate relationship */
+  token_benefits_aggregate: Token_Benefits_Aggregate;
+  /** fetch data from the table: "token_benefits" using primary key columns */
+  token_benefits_by_pk?: Maybe<Token_Benefits>;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
+};
+
+
+export type Subscription_RootBountiesArgs = {
+  distinct_on?: InputMaybe<Array<Bounties_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Bounties_Order_By>>;
+  where?: InputMaybe<Bounties_Bool_Exp>;
+};
+
+
+export type Subscription_RootBounties_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Bounties_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Bounties_Order_By>>;
+  where?: InputMaybe<Bounties_Bool_Exp>;
+};
+
+
+export type Subscription_RootBounties_By_PkArgs = {
+  id: Scalars['uuid'];
 };
 
 
@@ -3290,6 +3768,29 @@ export type Subscription_RootPermissions_AggregateArgs = {
 };
 
 
+export type Subscription_RootToken_BenefitsArgs = {
+  distinct_on?: InputMaybe<Array<Token_Benefits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Token_Benefits_Order_By>>;
+  where?: InputMaybe<Token_Benefits_Bool_Exp>;
+};
+
+
+export type Subscription_RootToken_Benefits_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Token_Benefits_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Token_Benefits_Order_By>>;
+  where?: InputMaybe<Token_Benefits_Bool_Exp>;
+};
+
+
+export type Subscription_RootToken_Benefits_By_PkArgs = {
+  id: Scalars['uuid'];
+};
+
+
 export type Subscription_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3337,6 +3838,225 @@ export type Timestamp_Comparison_Exp = {
   _neq?: InputMaybe<Scalars['timestamp']>;
   _nin?: InputMaybe<Array<Scalars['timestamp']>>;
 };
+
+/** columns and relationships of "token_benefits" */
+export type Token_Benefits = {
+  __typename?: 'token_benefits';
+  amount?: Maybe<Scalars['String']>;
+  created_at: Scalars['timestamp'];
+  dao_id: Scalars['uuid'];
+  description: Scalars['String'];
+  id: Scalars['uuid'];
+  title: Scalars['String'];
+  token?: Maybe<Scalars['String']>;
+  updated_at: Scalars['timestamp'];
+};
+
+/** aggregated selection of "token_benefits" */
+export type Token_Benefits_Aggregate = {
+  __typename?: 'token_benefits_aggregate';
+  aggregate?: Maybe<Token_Benefits_Aggregate_Fields>;
+  nodes: Array<Token_Benefits>;
+};
+
+/** aggregate fields of "token_benefits" */
+export type Token_Benefits_Aggregate_Fields = {
+  __typename?: 'token_benefits_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Token_Benefits_Max_Fields>;
+  min?: Maybe<Token_Benefits_Min_Fields>;
+};
+
+
+/** aggregate fields of "token_benefits" */
+export type Token_Benefits_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Token_Benefits_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "token_benefits" */
+export type Token_Benefits_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Token_Benefits_Max_Order_By>;
+  min?: InputMaybe<Token_Benefits_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "token_benefits" */
+export type Token_Benefits_Arr_Rel_Insert_Input = {
+  data: Array<Token_Benefits_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Token_Benefits_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "token_benefits". All fields are combined with a logical 'AND'. */
+export type Token_Benefits_Bool_Exp = {
+  _and?: InputMaybe<Array<Token_Benefits_Bool_Exp>>;
+  _not?: InputMaybe<Token_Benefits_Bool_Exp>;
+  _or?: InputMaybe<Array<Token_Benefits_Bool_Exp>>;
+  amount?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  dao_id?: InputMaybe<Uuid_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  token?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "token_benefits" */
+export enum Token_Benefits_Constraint {
+  /** unique or primary key constraint */
+  TokenBenefitsIdUindex = 'token_benefits_id_uindex',
+  /** unique or primary key constraint */
+  TokenBenefitsPk = 'token_benefits_pk'
+}
+
+/** input type for inserting data into table "token_benefits" */
+export type Token_Benefits_Insert_Input = {
+  amount?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  title?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+};
+
+/** aggregate max on columns */
+export type Token_Benefits_Max_Fields = {
+  __typename?: 'token_benefits_max_fields';
+  amount?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamp']>;
+  dao_id?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  title?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+};
+
+/** order by max() on columns of table "token_benefits" */
+export type Token_Benefits_Max_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  token?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Token_Benefits_Min_Fields = {
+  __typename?: 'token_benefits_min_fields';
+  amount?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamp']>;
+  dao_id?: Maybe<Scalars['uuid']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['uuid']>;
+  title?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+};
+
+/** order by min() on columns of table "token_benefits" */
+export type Token_Benefits_Min_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  token?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "token_benefits" */
+export type Token_Benefits_Mutation_Response = {
+  __typename?: 'token_benefits_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Token_Benefits>;
+};
+
+/** on_conflict condition type for table "token_benefits" */
+export type Token_Benefits_On_Conflict = {
+  constraint: Token_Benefits_Constraint;
+  update_columns?: Array<Token_Benefits_Update_Column>;
+  where?: InputMaybe<Token_Benefits_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "token_benefits". */
+export type Token_Benefits_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  token?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: token_benefits */
+export type Token_Benefits_Pk_Columns_Input = {
+  id: Scalars['uuid'];
+};
+
+/** select columns of table "token_benefits" */
+export enum Token_Benefits_Select_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  Token = 'token',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "token_benefits" */
+export type Token_Benefits_Set_Input = {
+  amount?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['uuid']>;
+  title?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+};
+
+/** update columns of table "token_benefits" */
+export enum Token_Benefits_Update_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  Description = 'description',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  Token = 'token',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
 
 export type UserBodyInput = {
   username: Scalars['String'];
@@ -3707,19 +4427,26 @@ export type GetDaoQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } | null };
+export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> } | null };
 
 export type GetDaoBySlugQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetDaoBySlugQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', accomplishments?: string | null, background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, faq?: any | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, token?: string | null, token_benefits?: any | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null }> };
+export type GetDaoBySlugQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', accomplishments?: string | null, background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, faq?: any | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, token?: string | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
 
 export type ListDaOsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListDaOsQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null }> };
+export type ListDaOsQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
+
+export type CreateDaoMutationVariables = Exact<{
+  object?: InputMaybe<Daos_Insert_Input>;
+}>;
+
+
+export type CreateDaoMutation = { __typename?: 'mutation_root', insert_daos_one?: { __typename?: 'daos', accomplishments?: string | null, background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, faq?: any | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, name: string, slug: string, token?: string | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null } | null };
 
 export type UpdateDaoMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -3727,7 +4454,7 @@ export type UpdateDaoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateDaoMutation = { __typename?: 'mutation_root', update_daos_by_pk?: { __typename?: 'daos', background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, token_benefits?: any | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null, accomplishments?: string | null, faq?: any | null, token?: string | null } | null };
+export type UpdateDaoMutation = { __typename?: 'mutation_root', update_daos_by_pk?: { __typename?: 'daos', background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null, accomplishments?: string | null, faq?: any | null, token?: string | null } | null };
 
 export type DeleteDaoMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -3736,17 +4463,45 @@ export type DeleteDaoMutationVariables = Exact<{
 
 export type DeleteDaoMutation = { __typename?: 'mutation_root', delete_daos_by_pk?: { __typename?: 'daos', id: any } | null };
 
+export type CreateBountyMutationVariables = Exact<{
+  object?: InputMaybe<Bounties_Insert_Input>;
+}>;
+
+
+export type CreateBountyMutation = { __typename?: 'mutation_root', insert_bounties_one?: { __typename?: 'bounties', categories: any, dao_id: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string } | null };
+
+export type DeleteBountyMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteBountyMutation = { __typename?: 'mutation_root', delete_bounties_by_pk?: { __typename?: 'bounties', id: any } | null };
+
+export type InsertTokenBenefitMutationVariables = Exact<{
+  object?: InputMaybe<Token_Benefits_Insert_Input>;
+}>;
+
+
+export type InsertTokenBenefitMutation = { __typename?: 'mutation_root', insert_token_benefits_one?: { __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any } | null };
+
+export type DeleteTokenBenefitMutationVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type DeleteTokenBenefitMutation = { __typename?: 'mutation_root', delete_token_benefits_by_pk?: { __typename?: 'token_benefits', id: any } | null };
+
 export type GetGateQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
+export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
 
 export type ListGatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } }> };
+export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } }> };
 
 export type GetKeyQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -3767,7 +4522,7 @@ export type CreateGateMutationVariables = Exact<{
 }>;
 
 
-export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
+export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
 
 export type UpdateGateMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -3775,7 +4530,7 @@ export type UpdateGateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, token_benefits?: any | null, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
+export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
 
 export type DeleteGateMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -3928,7 +4683,16 @@ export const GetDaoDocument = gql`
     whitelisted_flags
     wdwd
     updated_at
-    token_benefits
+    token_benefits {
+      amount
+      created_at
+      dao_id
+      description
+      id
+      title
+      token
+      updated_at
+    }
     slug
     mv
     logo_url
@@ -3944,6 +4708,18 @@ export const GetDaoDocument = gql`
     accomplishments
     faq
     token
+    bounties {
+      categories
+      description
+      directions
+      end_date
+      headline
+      id
+      level
+      links
+      post_date
+      reward
+    }
   }
 }
     `;
@@ -3993,11 +4769,32 @@ export const GetDaoBySlugDocument = gql`
     mv
     slug
     token
-    token_benefits
+    token_benefits {
+      amount
+      created_at
+      dao_id
+      description
+      id
+      title
+      token
+      updated_at
+    }
     updated_at
     wdwd
     whitelisted_flags
     youtube_url
+    bounties {
+      categories
+      description
+      directions
+      end_date
+      headline
+      id
+      level
+      links
+      post_date
+      reward
+    }
   }
 }
     `;
@@ -4036,7 +4833,16 @@ export const ListDaOsDocument = gql`
     whitelisted_flags
     wdwd
     updated_at
-    token_benefits
+    token_benefits {
+      amount
+      created_at
+      dao_id
+      description
+      id
+      title
+      token
+      updated_at
+    }
     slug
     mv
     logo_url
@@ -4052,6 +4858,18 @@ export const ListDaOsDocument = gql`
     accomplishments
     faq
     token
+    bounties {
+      categories
+      description
+      directions
+      end_date
+      headline
+      id
+      level
+      links
+      post_date
+      reward
+    }
   }
 }
     `;
@@ -4082,6 +4900,58 @@ export function useListDaOsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<L
 export type ListDaOsQueryHookResult = ReturnType<typeof useListDaOsQuery>;
 export type ListDaOsLazyQueryHookResult = ReturnType<typeof useListDaOsLazyQuery>;
 export type ListDaOsQueryResult = Apollo.QueryResult<ListDaOsQuery, ListDaOsQueryVariables>;
+export const CreateDaoDocument = gql`
+    mutation createDAO($object: daos_insert_input = {}) {
+  insert_daos_one(object: $object) {
+    accomplishments
+    background_url
+    blacklisted_flags
+    categories
+    created_at
+    description
+    ens
+    faq
+    hangouts
+    how_to_join
+    id
+    logo_url
+    mv
+    name
+    slug
+    token
+    updated_at
+    wdwd
+    whitelisted_flags
+    youtube_url
+  }
+}
+    `;
+export type CreateDaoMutationFn = Apollo.MutationFunction<CreateDaoMutation, CreateDaoMutationVariables>;
+
+/**
+ * __useCreateDaoMutation__
+ *
+ * To run a mutation, you first call `useCreateDaoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDaoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDaoMutation, { data, loading, error }] = useCreateDaoMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useCreateDaoMutation(baseOptions?: Apollo.MutationHookOptions<CreateDaoMutation, CreateDaoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDaoMutation, CreateDaoMutationVariables>(CreateDaoDocument, options);
+      }
+export type CreateDaoMutationHookResult = ReturnType<typeof useCreateDaoMutation>;
+export type CreateDaoMutationResult = Apollo.MutationResult<CreateDaoMutation>;
+export type CreateDaoMutationOptions = Apollo.BaseMutationOptions<CreateDaoMutation, CreateDaoMutationVariables>;
 export const UpdateDaoDocument = gql`
     mutation updateDAO($id: uuid!, $set: daos_set_input = {}) {
   update_daos_by_pk(pk_columns: {id: $id}, _set: $set) {
@@ -4097,7 +4967,6 @@ export const UpdateDaoDocument = gql`
     logo_url
     mv
     slug
-    token_benefits
     updated_at
     wdwd
     whitelisted_flags
@@ -4168,6 +5037,155 @@ export function useDeleteDaoMutation(baseOptions?: Apollo.MutationHookOptions<De
 export type DeleteDaoMutationHookResult = ReturnType<typeof useDeleteDaoMutation>;
 export type DeleteDaoMutationResult = Apollo.MutationResult<DeleteDaoMutation>;
 export type DeleteDaoMutationOptions = Apollo.BaseMutationOptions<DeleteDaoMutation, DeleteDaoMutationVariables>;
+export const CreateBountyDocument = gql`
+    mutation createBounty($object: bounties_insert_input = {}) {
+  insert_bounties_one(object: $object) {
+    categories
+    dao_id
+    description
+    directions
+    end_date
+    headline
+    id
+    level
+    links
+    post_date
+    reward
+  }
+}
+    `;
+export type CreateBountyMutationFn = Apollo.MutationFunction<CreateBountyMutation, CreateBountyMutationVariables>;
+
+/**
+ * __useCreateBountyMutation__
+ *
+ * To run a mutation, you first call `useCreateBountyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBountyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBountyMutation, { data, loading, error }] = useCreateBountyMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useCreateBountyMutation(baseOptions?: Apollo.MutationHookOptions<CreateBountyMutation, CreateBountyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBountyMutation, CreateBountyMutationVariables>(CreateBountyDocument, options);
+      }
+export type CreateBountyMutationHookResult = ReturnType<typeof useCreateBountyMutation>;
+export type CreateBountyMutationResult = Apollo.MutationResult<CreateBountyMutation>;
+export type CreateBountyMutationOptions = Apollo.BaseMutationOptions<CreateBountyMutation, CreateBountyMutationVariables>;
+export const DeleteBountyDocument = gql`
+    mutation deleteBounty($id: uuid!) {
+  delete_bounties_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteBountyMutationFn = Apollo.MutationFunction<DeleteBountyMutation, DeleteBountyMutationVariables>;
+
+/**
+ * __useDeleteBountyMutation__
+ *
+ * To run a mutation, you first call `useDeleteBountyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBountyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBountyMutation, { data, loading, error }] = useDeleteBountyMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteBountyMutation(baseOptions?: Apollo.MutationHookOptions<DeleteBountyMutation, DeleteBountyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteBountyMutation, DeleteBountyMutationVariables>(DeleteBountyDocument, options);
+      }
+export type DeleteBountyMutationHookResult = ReturnType<typeof useDeleteBountyMutation>;
+export type DeleteBountyMutationResult = Apollo.MutationResult<DeleteBountyMutation>;
+export type DeleteBountyMutationOptions = Apollo.BaseMutationOptions<DeleteBountyMutation, DeleteBountyMutationVariables>;
+export const InsertTokenBenefitDocument = gql`
+    mutation insertTokenBenefit($object: token_benefits_insert_input = {}) {
+  insert_token_benefits_one(object: $object) {
+    amount
+    created_at
+    dao_id
+    description
+    id
+    title
+    token
+    updated_at
+  }
+}
+    `;
+export type InsertTokenBenefitMutationFn = Apollo.MutationFunction<InsertTokenBenefitMutation, InsertTokenBenefitMutationVariables>;
+
+/**
+ * __useInsertTokenBenefitMutation__
+ *
+ * To run a mutation, you first call `useInsertTokenBenefitMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertTokenBenefitMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertTokenBenefitMutation, { data, loading, error }] = useInsertTokenBenefitMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useInsertTokenBenefitMutation(baseOptions?: Apollo.MutationHookOptions<InsertTokenBenefitMutation, InsertTokenBenefitMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertTokenBenefitMutation, InsertTokenBenefitMutationVariables>(InsertTokenBenefitDocument, options);
+      }
+export type InsertTokenBenefitMutationHookResult = ReturnType<typeof useInsertTokenBenefitMutation>;
+export type InsertTokenBenefitMutationResult = Apollo.MutationResult<InsertTokenBenefitMutation>;
+export type InsertTokenBenefitMutationOptions = Apollo.BaseMutationOptions<InsertTokenBenefitMutation, InsertTokenBenefitMutationVariables>;
+export const DeleteTokenBenefitDocument = gql`
+    mutation deleteTokenBenefit($id: uuid!) {
+  delete_token_benefits_by_pk(id: $id) {
+    id
+  }
+}
+    `;
+export type DeleteTokenBenefitMutationFn = Apollo.MutationFunction<DeleteTokenBenefitMutation, DeleteTokenBenefitMutationVariables>;
+
+/**
+ * __useDeleteTokenBenefitMutation__
+ *
+ * To run a mutation, you first call `useDeleteTokenBenefitMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTokenBenefitMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTokenBenefitMutation, { data, loading, error }] = useDeleteTokenBenefitMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTokenBenefitMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTokenBenefitMutation, DeleteTokenBenefitMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTokenBenefitMutation, DeleteTokenBenefitMutationVariables>(DeleteTokenBenefitDocument, options);
+      }
+export type DeleteTokenBenefitMutationHookResult = ReturnType<typeof useDeleteTokenBenefitMutation>;
+export type DeleteTokenBenefitMutationResult = Apollo.MutationResult<DeleteTokenBenefitMutation>;
+export type DeleteTokenBenefitMutationOptions = Apollo.BaseMutationOptions<DeleteTokenBenefitMutation, DeleteTokenBenefitMutationVariables>;
 export const GetGateDocument = gql`
     query getGate($id: uuid!) {
   gates_by_pk(id: $id) {
@@ -4193,7 +5211,6 @@ export const GetGateDocument = gql`
       whitelisted_flags
       wdwd
       updated_at
-      token_benefits
       slug
       mv
       logo_url
@@ -4277,7 +5294,6 @@ export const ListGatesDocument = gql`
       whitelisted_flags
       wdwd
       updated_at
-      token_benefits
       slug
       mv
       logo_url
@@ -4452,7 +5468,6 @@ export const CreateGateDocument = gql`
       whitelisted_flags
       wdwd
       updated_at
-      token_benefits
       slug
       mv
       logo_url
@@ -4534,7 +5549,6 @@ export const UpdateGateDocument = gql`
       whitelisted_flags
       wdwd
       updated_at
-      token_benefits
       slug
       mv
       logo_url

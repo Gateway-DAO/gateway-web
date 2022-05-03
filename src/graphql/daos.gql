@@ -4,7 +4,16 @@ query getDAO($id: uuid!) {
         whitelisted_flags
         wdwd
         updated_at
-        token_benefits
+        token_benefits {
+            amount
+            created_at
+            dao_id
+            description
+            id
+            title
+            token
+            updated_at
+        }
         slug
         mv
         logo_url
@@ -20,34 +29,66 @@ query getDAO($id: uuid!) {
         accomplishments
         faq
         token
+        bounties {
+            categories
+            description
+            directions
+            end_date
+            headline
+            id
+            level
+            links
+            post_date
+            reward
+        }
     }
 }
 
 query getDAOBySlug($slug: String = "") {
-  daos(where: {slug: {_eq: $slug}}) {
-    accomplishments
-    background_url
-    blacklisted_flags
-    categories
-    created_at
-    description
-    ens
-    faq
-    hangouts
-    how_to_join
-    id
-    logo_url
-    mv
-    slug
-    token
-    token_benefits
-    updated_at
-    wdwd
-    whitelisted_flags
-    youtube_url
-  }
+    daos(where: { slug: { _eq: $slug } }) {
+        accomplishments
+        background_url
+        blacklisted_flags
+        categories
+        created_at
+        description
+        ens
+        faq
+        hangouts
+        how_to_join
+        id
+        logo_url
+        mv
+        slug
+        token
+        token_benefits {
+            amount
+            created_at
+            dao_id
+            description
+            id
+            title
+            token
+            updated_at
+        }
+        updated_at
+        wdwd
+        whitelisted_flags
+        youtube_url
+        bounties {
+            categories
+            description
+            directions
+            end_date
+            headline
+            id
+            level
+            links
+            post_date
+            reward
+        }
+    }
 }
-
 
 query listDAOs {
     daos {
@@ -55,7 +96,16 @@ query listDAOs {
         whitelisted_flags
         wdwd
         updated_at
-        token_benefits
+        token_benefits {
+            amount
+            created_at
+            dao_id
+            description
+            id
+            title
+            token
+            updated_at
+        }
         slug
         mv
         logo_url
@@ -71,36 +121,117 @@ query listDAOs {
         accomplishments
         faq
         token
+        bounties {
+            categories
+            description
+            directions
+            end_date
+            headline
+            id
+            level
+            links
+            post_date
+            reward
+        }
+    }
+}
+
+mutation createDAO($object: daos_insert_input = {}) {
+    insert_daos_one(object: $object) {
+        accomplishments
+        background_url
+        blacklisted_flags
+        categories
+        created_at
+        description
+        ens
+        faq
+        hangouts
+        how_to_join
+        id
+        logo_url
+        mv
+        name
+        slug
+        token
+        updated_at
+        wdwd
+        whitelisted_flags
+        youtube_url
     }
 }
 
 mutation updateDAO($id: uuid!, $set: daos_set_input = {}) {
-  update_daos_by_pk(pk_columns: { id: $id }, _set: $set) {
-    background_url
-    blacklisted_flags
-    categories
-    created_at
-    description
-    ens
-    hangouts
-    how_to_join
-    id
-    logo_url
-    mv
-    slug
-    token_benefits
-    updated_at
-    wdwd
-    whitelisted_flags
-    youtube_url
-    accomplishments
-    faq
-    token
-  }
+    update_daos_by_pk(pk_columns: { id: $id }, _set: $set) {
+        background_url
+        blacklisted_flags
+        categories
+        created_at
+        description
+        ens
+        hangouts
+        how_to_join
+        id
+        logo_url
+        mv
+        slug
+        updated_at
+        wdwd
+        whitelisted_flags
+        youtube_url
+        accomplishments
+        faq
+        token
+    }
 }
 
 mutation deleteDAO($id: uuid!) {
-  delete_daos_by_pk(id: $id) {
-    id
-  }
+    delete_daos_by_pk(id: $id) {
+        id
+    }
+}
+
+### Bounties ###
+
+mutation createBounty($object: bounties_insert_input = {}) {
+    insert_bounties_one(object: $object) {
+        categories
+        dao_id
+        description
+        directions
+        end_date
+        headline
+        id
+        level
+        links
+        post_date
+        reward
+    }
+}
+
+mutation deleteBounty($id: uuid!) {
+    delete_bounties_by_pk(id: $id) {
+        id
+    }
+}
+
+### Token Benefits ###
+
+mutation insertTokenBenefit($object: token_benefits_insert_input = {}) {
+    insert_token_benefits_one(object: $object) {
+        amount
+        created_at
+        dao_id
+        description
+        id
+        title
+        token
+        updated_at
+    }
+}
+
+mutation deleteTokenBenefit($id: uuid!) {
+    delete_token_benefits_by_pk(id: $id) {
+        id
+    }
 }

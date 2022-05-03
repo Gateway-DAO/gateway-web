@@ -4,12 +4,12 @@ import * as ModalStyled from '../style';
 import { FormStyled, ImageUpload } from '../../Form';
 import { useState } from 'react';
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
-import { useUpdateDAO } from '../../../api/database/useUpdateDAO';
 import { Navigate } from 'react-router-dom';
 import useFileUpload from '../../../api/useFileUpload';
 import normalizeUrl from 'normalize-url';
 import Loader from '../../Loader';
 import { ytVideoID } from '../../../utils/functions';
+import { useUpdateDaoMutation } from '../../../graphql';
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name);
@@ -31,7 +31,7 @@ const EditCardModal = (props) => {
     );
     const [updateLoading, setUpdateLoading] = useState(false);
 
-    const { updateDAO, data, error, loading } = useUpdateDAO();
+    const [updateDAO, { data, error, loading }] = useUpdateDaoMutation();
     const { uploadFile } = useFileUpload();
 
     const submitToDB = async () => {

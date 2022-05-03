@@ -4,8 +4,8 @@ import Picker from 'emoji-picker-react';
 import { useState, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuth } from '../../../../../../contexts/UserContext';
-import { useCreateComment } from '../../../../../../api/database/useCreateComment';
 
+/*
 const MakeComment = (props) => {
     const { loggedIn, userInfo } = useAuth();
     const [commentMessage, setCommentMessage] = useState('');
@@ -92,9 +92,9 @@ const MakeComment = (props) => {
                             </Styled.EmojiContainer>
                         ) : null}
                     </Styled.ActivityEmojiContainer>
-                    {/* <Styled.ActivityTextContainer>
+                    <Styled.ActivityTextContainer>
                         <FiImage />
-                    </Styled.ActivityTextContainer> */}
+                    </Styled.ActivityTextContainer>
                 </Styled.ActivityContainer>
                 <Styled.PostButton onClick={submitComment}>
                     POST
@@ -105,3 +105,4 @@ const MakeComment = (props) => {
 };
 
 export default MakeComment;
+*/

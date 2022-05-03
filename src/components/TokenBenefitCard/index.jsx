@@ -1,20 +1,18 @@
 import * as Styled from './style';
 import parser from 'html-react-parser';
-import { useDeleteTokenBenefit } from '../../api/database/useDeleteTokenBenefit';
+import { useDeleteTokenBenefitMutation } from '../../graphql';
 
 const TokenBenefitCard = (props) => {
     const benefit = props.tbs[props.idx];
 
-    const { deleteTokenBenefit } = useDeleteTokenBenefit();
+    const [ deleteTokenBenefit ] = useDeleteTokenBenefitMutation();
 
     const deleteBenefit = async (e) => {
         e.stopPropagation();
 
         await deleteTokenBenefit({
             variables: {
-                input: {
-                    id: benefit.id,
-                },
+                id: benefit.id,
             },
         });
 

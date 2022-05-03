@@ -17,8 +17,8 @@ import { ImageUpload } from '../../components/Form';
 // Hooks
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/UserContext';
-import { useCreateDAOWithChannels } from '../../api/database/useCreateDAO';
 import useFileUpload from '../../api/useFileUpload';
+import { useCreateDaoMutation } from '../../graphql';
 
 // Utils
 import space from '../../utils/canvas';
@@ -51,8 +51,7 @@ const AddCommunity = () => {
     const [spaceId, setSpaceId] = useState('');
     const [updateLoading, setUpdateLoading] = useState(false);
 
-    const { createDAO, data, error, called, loading } =
-        useCreateDAOWithChannels();
+    const [createDAO, { data, error, called, loading }] = useCreateDaoMutation();
 
     useEffect(() => {
         if (walletConnected) {

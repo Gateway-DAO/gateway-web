@@ -24,7 +24,6 @@ query getGate($id: uuid!) {
             whitelisted_flags
             wdwd
             updated_at
-            token_benefits
             slug
             mv
             logo_url
@@ -79,7 +78,6 @@ query listGates {
             whitelisted_flags
             wdwd
             updated_at
-            token_benefits
             slug
             mv
             logo_url
@@ -170,7 +168,6 @@ mutation createGate($object: gates_insert_input = {}) {
             whitelisted_flags
             wdwd
             updated_at
-            token_benefits
             slug
             mv
             logo_url
@@ -225,7 +222,6 @@ mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
             whitelisted_flags
             wdwd
             updated_at
-            token_benefits
             slug
             mv
             logo_url

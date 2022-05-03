@@ -14,12 +14,12 @@ import * as Styled from './style';
 import * as Theam from '../../theme/style';
 
 // Hooks
-import { useListDAOs } from '../../api/database/useGetDAO';
 import React, { useState, useEffect } from 'react';
 import { useModal } from '../../contexts/ModalContext';
+import { useListDaOsQuery } from '../../graphql';
 
 const AboutDAOS = (props) => {
-    const { data, error, loading } = useListDAOs();
+    const { data, error, loading } = useListDaOsQuery();
     const [cards, setCards] = useState([]);
     const { showModal } = useModal();
 

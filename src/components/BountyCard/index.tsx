@@ -1,13 +1,23 @@
 import * as Styled from './style';
 import { Category, CategoryList } from '../BigCard/components/Profiles/style';
 import parser from 'html-react-parser';
-import { useDeleteBounty } from '../../api/database/useDeleteBounty';
 
-const BountyCard = (props) => {
-    const { deleteBounty } = useDeleteBounty();
+// Hooks
+import { Bounties, useDeleteBountyMutation } from '../../graphql';
+
+interface IProps {
+    bounties: Bounties[];
+    idx: number;
+    showInfo: (idx: number) => void;
+    set: (bounties: Bounties[]) => void;
+    admin: boolean;
+}
+
+const BountyCard: React.FC<IProps> = (props) => {
+    const [deleteBounty] = useDeleteBountyMutation();
 
     const bounty = props.bounties[props.idx];
-    let description = '';
+    let description: string | JSX.Element | JSX.Element[] = '';
 
     if (bounty.description) {
         description = parser(bounty.description);
@@ -18,9 +28,7 @@ const BountyCard = (props) => {
 
         await deleteBounty({
             variables: {
-                input: {
-                    id: bounty.id,
-                },
+                id: bounty.id
             },
         });
 
@@ -47,13 +55,13 @@ const BountyCard = (props) => {
                 <Styled.BountyInfo>
                     <Styled.Text>Posted</Styled.Text>
                     <Styled.BoldText>
-                        {new Date(bounty.postDate).toLocaleDateString('en-US')}
+                        {new Date(bounty.post_date).toLocaleDateString('en-US')}
                     </Styled.BoldText>
                 </Styled.BountyInfo>
                 <Styled.BountyInfo>
                     <Styled.Text>Due</Styled.Text>
                     <Styled.BoldText>
-                        {new Date(bounty.endDate).toLocaleDateString('en-US')}
+                        {new Date(bounty.end_date).toLocaleDateString('en-US')}
                     </Styled.BoldText>
                 </Styled.BountyInfo>
             </Styled.BountyInfoBox>
