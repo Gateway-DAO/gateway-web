@@ -4422,6 +4422,13 @@ export type Uuid_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['uuid']>>;
 };
 
+export type GetCredentialQueryVariables = Exact<{
+  id: Scalars['uuid'];
+}>;
+
+
+export type GetCredentialQuery = { __typename?: 'query_root', credentials_by_pk?: { __typename?: 'credentials', updated_at: any, target_id: any, skills?: any | null, pow?: any | null, name: string, knowledges?: any | null, issuer_id: any, image: string, id: any, gate: any, description: string, dao_id: any, created_at: any, ceramic: string, attitudes?: any | null, dao: { __typename?: 'daos', background_url: string, categories?: any | null, created_at: any, description: string, ens?: string | null, id: any, logo_url: string, name: string, slug: string } } | null };
+
 export type GetDaoQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
@@ -4676,6 +4683,66 @@ export type DeleteUserMutationVariables = Exact<{
 export type DeleteUserMutation = { __typename?: 'mutation_root', delete_users_by_pk?: { __typename?: 'users', id: any } | null };
 
 
+export const GetCredentialDocument = gql`
+    query getCredential($id: uuid!) {
+  credentials_by_pk(id: $id) {
+    updated_at
+    target_id
+    skills
+    pow
+    name
+    knowledges
+    issuer_id
+    image
+    id
+    gate
+    description
+    dao_id
+    created_at
+    ceramic
+    attitudes
+    dao {
+      background_url
+      categories
+      created_at
+      description
+      ens
+      id
+      logo_url
+      name
+      slug
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCredentialQuery__
+ *
+ * To run a query within a React component, call `useGetCredentialQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCredentialQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCredentialQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetCredentialQuery(baseOptions: Apollo.QueryHookOptions<GetCredentialQuery, GetCredentialQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCredentialQuery, GetCredentialQueryVariables>(GetCredentialDocument, options);
+      }
+export function useGetCredentialLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCredentialQuery, GetCredentialQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCredentialQuery, GetCredentialQueryVariables>(GetCredentialDocument, options);
+        }
+export type GetCredentialQueryHookResult = ReturnType<typeof useGetCredentialQuery>;
+export type GetCredentialLazyQueryHookResult = ReturnType<typeof useGetCredentialLazyQuery>;
+export type GetCredentialQueryResult = Apollo.QueryResult<GetCredentialQuery, GetCredentialQueryVariables>;
 export const GetDaoDocument = gql`
     query getDAO($id: uuid!) {
   daos_by_pk(id: $id) {

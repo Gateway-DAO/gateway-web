@@ -1,25 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // Styling
 import './Credentials.css';
 
 // Hooks
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../../contexts/UserContext';
 import Loader from '../../components/Loader';
 import Page from '../../components/Page';
 import { Container, Row, Col, ListGroup } from 'react-bootstrap';
-import { Navigate, NavLink as Link, useNavigate } from 'react-router-dom';
-
-// API
-import { useQuery, gql } from '@apollo/client';
-import { getCredential } from '../../graphql/queries';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useGetCredentialQuery } from '../../graphql';
 
 // Utils
 import parser from 'html-react-parser';
-
-// Types
-import { Credential } from '../../graphql/API';
 
 const CredentialPage = () => {
     const [showDetail, setShowDetail] = useState(false);
@@ -32,10 +25,10 @@ const CredentialPage = () => {
         data,
         loading: credentialLoading,
         error: credentialError,
-    } = useQuery(gql(getCredential), {
+    } = useGetCredentialQuery({
         variables: {
-            id,
-        },
+            id
+        }
     });
 
     if (credentialLoading) {
@@ -85,11 +78,11 @@ const CredentialPage = () => {
                             <Col md={4} className='credentials-img'>
                                 <div className='credentials-profile-left'>
                                     <img
-                                        src={`https://gateway.pinata.cloud/ipfs/${data.getCredential.image}`}
+                                        src={`https://gateway.pinata.cloud/ipfs/${data.credentials_by_pk.image}`}
                                     />
                                     <div className='credential-nft-heading'>
                                         <span>NFT Badge</span>
-                                        <h4>{data.getCredential.name}</h4>
+                                        <h4>{data.credentials_by_pk.name}</h4>
                                     </div>
                                 </div>
                             </Col>
@@ -100,15 +93,15 @@ const CredentialPage = () => {
                                         <Row>
                                             <div className='credentials-name'>
                                                 <h5>
-                                                    {data.getCredential.organization.name}
+                                                    {data.credentials_by_pk.dao.name}
                                                 </h5>
                                             </div>
                                             <div className='credentials-title'>
-                                                <h1>{data.getCredential.name}</h1>
+                                                <h1>{data.credentials_by_pk.name}</h1>
                                             </div>
                                             <div className='credentials-content'>
                                                 <h5>
-                                                    {data.getCredential.description}
+                                                    {data.credentials_by_pk.description}
                                                 </h5>
                                             </div>
                                             {/* <div className='credentials-tag'>
@@ -129,12 +122,12 @@ const CredentialPage = () => {
                                                 <h3>Skills</h3>
                                             </div>
                                             <ListGroup as='ul'>
-                                                {!!data.getCredential.skills &&
-                                                    data.getCredential.skills.length >
+                                                {!!data.credentials_by_pk.skills &&
+                                                    data.credentials_by_pk.skills.length >
                                                     0 ? (
-                                                    data.getCredential.skills.length >
+                                                    data.credentials_by_pk.skills.length >
                                                     0 &&
-                                                    data.getCredential.skills.map(
+                                                    data.credentials_by_pk.skills.map(
                                                         (item) => (
                                                             <ListGroup.Item
                                                                 as='li'
@@ -162,12 +155,12 @@ const CredentialPage = () => {
                                                 <h3>Knowledge</h3>
                                             </div>
                                             <ListGroup as='ul'>
-                                                {!!data.getCredential.knowledges &&
-                                                    data.getCredential.knowledges.length >
+                                                {!!data.credentials_by_pk.knowledges &&
+                                                    data.credentials_by_pk.knowledges.length >
                                                     0 ? (
-                                                    data.getCredential.knowledges
+                                                    data.credentials_by_pk.knowledges
                                                         .length > 0 &&
-                                                    data.getCredential.knowledges.map(
+                                                    data.credentials_by_pk.knowledges.map(
                                                         (item) => (
                                                             <ListGroup.Item
                                                                 as='li'
@@ -195,12 +188,12 @@ const CredentialPage = () => {
                                                 <h3>Attitudes</h3>
                                             </div>
                                             <ListGroup as='ul'>
-                                                {!!data.getCredential.attitudes &&
-                                                    data.getCredential.attitudes.length >
+                                                {!!data.credentials_by_pk.attitudes &&
+                                                    data.credentials_by_pk.attitudes.length >
                                                     0 ? (
-                                                    data.getCredential.attitudes
+                                                    data.credentials_by_pk.attitudes
                                                         .length > 0 &&
-                                                    data.getCredential.attitudes.map(
+                                                    data.credentials_by_pk.attitudes.map(
                                                         (item) => (
                                                             <ListGroup.Item
                                                                 as='li'
@@ -227,10 +220,10 @@ const CredentialPage = () => {
 										<h3>Languages</h3>
 									</div>
 									<ListGroup as='ul'>
-										{!!data.getCredential.languages &&
-											data.getCredential.languages.length > 0 ? (
-											data.getCredential.languages.length > 0 &&
-											data.getCredential.languages.map((item) => (
+										{!!data.credentials_by_pk.languages &&
+											data.credentials_by_pk.languages.length > 0 ? (
+											data.credentials_by_pk.languages.length > 0 &&
+											data.credentials_by_pk.languages.map((item) => (
 												<ListGroup.Item as='li' key={item}>
 													<a className='gway-btn'>
 														{item}
@@ -249,7 +242,7 @@ const CredentialPage = () => {
                                 </Col>
                                 <Col sm={12} className='credentials-keys'>
                                     <h1 className='key-title'>Keys</h1>
-                                    {data.getCredential.pow.map(pow => {
+                                    {data.credentials_by_pk.pow.map(pow => {
                                         const parsed = JSON.parse(pow);
 
                                         console.log(parsed);

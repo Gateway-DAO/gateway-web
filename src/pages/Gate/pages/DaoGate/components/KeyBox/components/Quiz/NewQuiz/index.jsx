@@ -11,10 +11,10 @@ import * as ThemeStyled from '../../../../../../../../../theme/style';
 // Hooks
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useVerifyQuiz } from '../../../../../../../../../api/database/useVerifyKeys';
 import { useAuth } from '../../../../../../../../../contexts/UserContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { useNavigate } from 'react-router-dom';
+import { useVerifyTaskMutation } from '../../../../../../../../../graphql';
 
 const Quiz = (props) => {
     // State
@@ -24,7 +24,7 @@ const Quiz = (props) => {
     const [clickAble, setClickAble] = useState(false);
 
     // Hooks
-    const { verifyQuiz } = useVerifyQuiz();
+    const [verifyQuiz] = useVerifyTaskMutation();
     const { state } = useLocation();
     const { userInfo } = useAuth();
     const navigate = useNavigate();
