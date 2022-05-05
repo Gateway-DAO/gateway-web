@@ -41,59 +41,6 @@ const AddNewKey = ({ edit = false }) => {
 
     const [pushToDB, { loading }] = useMutation(gql(mutation));
 
-    const taskDBInput = () => {
-        switch (formik.values.taskLink) {
-            case 'self-verify':
-                return {
-                    type: 'SELF_VERIFY',
-                };
-            case 'quiz':
-                return {
-                    type: 'QUIZ',
-                    title: formik.values.quiz.title,
-                    description: formik.values.quiz.description,
-                    questions: formik.values.quiz.questions,
-                    passedAt: Math.floor(
-                        formik.values.quiz.questions.length *
-                            formik.values.quiz.percentage
-                    ),
-                };
-            case 'meeting-code':
-                return {
-                    type: 'MEETING_CODE',
-                    code: formik.values.code,
-                    caseSensitive: true,
-                };
-            case 'token':
-                return {
-                    type: 'TOKEN_HOLD',
-                    chainID: 1,
-                    address: formik.values.address,
-                    amount: formik.values.amount,
-                };
-            case 'sc-interaction':
-                return {
-                    type: 'CONTRACT_INTERACTION',
-                    chainID: formik.values.chain,
-                    address: formik.values.address,
-                    methodName: formik.values.methodName || '',
-                };
-            case 'governance':
-                return {
-                    type: 'SNAPSHOT_GOVERNANCE',
-                    snapshotType: formik.values.govActive.toUpperCase(),
-                    spaceID: formik.values.spaceID,
-                    proposal: formik.values.proposal,
-                };
-            case 'manual':
-                return {
-                    type: 'MANUAL',
-                };
-            default:
-                return { type: '' };
-        }
-    };
-
     const validate = (values) => {
         // eslint-disable-next-line prefer-const
         let errors = {
@@ -207,6 +154,59 @@ const AddNewKey = ({ edit = false }) => {
 
         setMutation(state ? changeKey : switchTask());
     }, [formik.values.taskLink]);
+
+    const taskDBInput = () => {
+        switch (formik.values.taskLink) {
+            case 'self-verify':
+                return {
+                    type: 'SELF_VERIFY',
+                };
+            case 'quiz':
+                return {
+                    type: 'QUIZ',
+                    title: formik.values.quiz.title,
+                    description: formik.values.quiz.description,
+                    questions: formik.values.quiz.questions,
+                    passedAt: Math.floor(
+                        formik.values.quiz.questions.length *
+                            formik.values.quiz.percentage
+                    ),
+                };
+            case 'meeting-code':
+                return {
+                    type: 'MEETING_CODE',
+                    code: formik.values.code,
+                    caseSensitive: true,
+                };
+            case 'token':
+                return {
+                    type: 'TOKEN_HOLD',
+                    chainID: 1,
+                    address: formik.values.address,
+                    amount: formik.values.amount,
+                };
+            case 'sc-interaction':
+                return {
+                    type: 'CONTRACT_INTERACTION',
+                    chainID: formik.values.chain,
+                    address: formik.values.address,
+                    methodName: formik.values.methodName || '',
+                };
+            case 'governance':
+                return {
+                    type: 'SNAPSHOT_GOVERNANCE',
+                    snapshotType: formik.values.govActive.toUpperCase(),
+                    spaceID: formik.values.spaceID,
+                    proposal: formik.values.proposal,
+                };
+            case 'manual':
+                return {
+                    type: 'MANUAL',
+                };
+            default:
+                return { type: '' };
+        }
+    };
 
     return (
         <Styled.Container>
