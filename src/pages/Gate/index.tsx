@@ -44,7 +44,6 @@ const GatePage: React.FC = () => {
     const {
         data: adminsData,
         loading: adminsLoading,
-        error: adminsError,
     } = useGetGateUsersQuery({
         variables: {
             gate_id: dbData.gates_by_pk.id,
@@ -53,7 +52,7 @@ const GatePage: React.FC = () => {
     })
 
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
-    const [gateData, setGateData] = useState<Gates>(dbData.gates_by_pk);
+    const [gateData, setGateData] = useState<Partial<Gates>>(dbData);
     const [keysDone, setKeysDone] = useState<number>(
         userInfo?.gate_progresses.filter(
             (obj: Record<string, any>) => obj.gateID === gate
@@ -70,8 +69,8 @@ const GatePage: React.FC = () => {
                 )
             : []
     );
-    const [admins, setAdmins] = useState<Users[]>(adminsData?.listUsers.items);
-    const [earners, setEarners] = useState<Users[]>(earnersData?.listUsers.items);
+    const [admins, setAdmins] = useState<Partial<Users>[]>(adminsData?.permissions.map(perms => perms.user));
+    const [earners, setEarners] = useState<Partial<Users>[]>(earnersData?.listUsers.items);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
@@ -86,7 +85,7 @@ const GatePage: React.FC = () => {
         if (!loading && (dbData?.gates_by_pk || false)) {
             setGateData(dbData.gates_by_pk);
 
-            if (userInfo?.id && dbData?.gates_by_pk?.admins.includes(userInfo.id)) {
+            if (userInfo?.id && adminsData?.permissions.map(perms => perms.user_id).includes(userInfo.id)) {
                 setIsAdmin(true);
             }
         }

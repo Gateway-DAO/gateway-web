@@ -78,6 +78,7 @@ const AddSkill: React.FC = () => {
 		event.preventDefault();
 		event.stopPropagation();
 		let objSkills = selectedSkill.map((skill) => skill.value);
+		console.log(objSkills);
 
 		// API should be call here
 		try {

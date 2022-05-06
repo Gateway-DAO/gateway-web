@@ -14,6 +14,7 @@ import { UserProvider } from './contexts/UserContext';
 import { ModalProvider } from './contexts/ModalContext';
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider';
 import { ReactNotifications } from 'react-notifications-component';
+import { BrowserRouter } from 'react-router-dom';
 
 // Styling
 import 'react-notifications-component/dist/theme.css';

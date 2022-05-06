@@ -12,7 +12,7 @@ import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import { usernameGenerator } from '../utils/functions';
-import { useGetUserByAddressLazyQuery, useUpdateUserMutation } from '../graphql';
+import { useGetUserByAddressLazyQuery, useUpdateUserMutation, useCreateUserMutation } from '../graphql';
 import { useNavigate } from 'react-router-dom';
 // import use3ID from '../hooks/use3ID';
 
@@ -219,16 +219,11 @@ export const UserProvider = ({ children }) => {
                 ...info,
                 variables: {
                     object: {
-                        id: id,
                         wallet: web3.account,
                         username: usernameGenerator(),
                         name: shortenAddress(web3.account),
                         init: false,
-                        nonce: Math.round(Math.random() * 1000000),
-                        pfp: await getFile('logo.png'),
-                        timezone: {
-                            shouldTrack: false
-                        },
+                        pfp: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg", // TODO: change this
                         ...(info.variables.input || {}),
                     },
                 },
@@ -248,29 +243,7 @@ export const UserProvider = ({ children }) => {
         const callback = async () => {
             !web3.active && (await activateWeb3());
 
-            const { data } = await getNonce(web3.account);
-
-            const signer = web3.library.getSigner();
-
-            const signature = await signer.signMessage(
-                `Welcome to Gateway!\n\nPlease sign this message for access: ${data.getAuthenticationNonce.nonce}`
-            );
-
-            const user = await Auth.signIn(data.getAuthenticationNonce.userId);
-            const res = await Auth.sendCustomChallengeAnswer(
-                user,
-                JSON.stringify({
-                    signature,
-                    publicAddress: web3.account,
-                    nonce: data.getAuthenticationNonce.nonce,
-                })
-            );
-
-            if (!res.signInUserSession) {
-                showErrorModal(
-                    'An error occurred while signing in. Please try again later.'
-                );
-            }
+            // TODO: implement authentication system
         };
 
         setLoggingIn(true);
@@ -286,9 +259,7 @@ export const UserProvider = ({ children }) => {
     /* If the user has their wallet connected, get the user's info from the database. */
     useEffect(() => {
         const callback = async () => {
-            // Since state update is asynchrounous, let's keep track of the current value using an internal variable
-            let userInfo_INTERNAL = userInfo;
-
+            // TODO: implement authentication method
             if (web3.active && web3.account) {
                 // 1. fetch/create user based on the wallet
                 const userDB = await getUserByAddress({
@@ -297,50 +268,16 @@ export const UserProvider = ({ children }) => {
                     },
                 });
 
-                if (userDB.data.getUserByAddress.items.length > 0) {
+                if (userDB.data.users.length > 0) {
                     setUserInfo({
-                        ...userDB.data.getUserByAddress.items[0],
+                        ...userDB.data.users[0],
                         isAdmin: false,
                     });
-
-                    userInfo_INTERNAL = {
-                        ...userDB.data.getUserByAddress.items[0],
-                        isAdmin: false,
-                    };
-
-                    try {
-                        const tz_info = Intl.DateTimeFormat().resolvedOptions();
-                        userInfo_INTERNAL.timezone.shouldTrack && await updateUserInfo({
-                            id: userInfo_INTERNAL.id,
-                            timezone: {
-                                tz: tz_info.timeZone,
-                            },
-                        });
-                    } catch (err) {
-                        console.log(`[sign-in] Can't get timezone: ${err}`);
-                    }
                 } else {
-                    userInfo_INTERNAL = await createNewUser();
+                    await createNewUser();
                 }
 
                 setWalletConnected(true);
-
-                if (username) {
-                    // Cognito has credentials
-                    if (username === userInfo_INTERNAL?.id) {
-                        // If the Cognito session matches current user, mark them as logged in
-                        setUserInfo({
-                            ...userInfo_INTERNAL,
-                            ...getUserGroups(signInUserSession),
-                        });
-
-                        setLoggedIn(true);
-                    } else {
-                        // If the Cognito session doesn't match the current user, clean Cognito
-                        await Auth.signOut();
-                        setLoggedIn(false);
-                    }
-                }
             }
         };
 

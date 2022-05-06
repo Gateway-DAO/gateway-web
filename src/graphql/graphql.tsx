@@ -1477,7 +1477,7 @@ export type Gates = {
   badge: Scalars['badge_scalar'];
   categories: Scalars['_text'];
   /** An object relationship */
-  dao: Daos;
+  dao: Partial<Daos>;
   dao_id: Scalars['uuid'];
   description: Scalars['String'];
   /** An array relationship */
