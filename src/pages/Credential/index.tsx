@@ -21,6 +21,8 @@ import parser from 'html-react-parser';
 // Types
 import { Credential } from '../../graphql/API';
 
+import { Minter } from '../CredentialMint';
+
 const CredentialPage = () => {
     const [showDetail, setShowDetail] = useState(false);
     // Hooks
@@ -296,6 +298,7 @@ const CredentialPage = () => {
                                         )
                                     })}
                                 </Col>
+                                <Minter ></Minter>
                             </Col>
                         </Row>
                     </Container>
