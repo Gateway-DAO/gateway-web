@@ -95,10 +95,10 @@ const Search = () => {
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
                 {
-                    <Styled.LeftNav>
-                        <Styled.FilterText>Filter:</Styled.FilterText>
-                        <FilterComponent />
-                    </Styled.LeftNav>
+                    // <Styled.LeftNav>
+                    //     <Styled.FilterText>Filter:</Styled.FilterText>
+                    //     <FilterComponent />
+                    // </Styled.LeftNav>
                 }
             </Styled.Nav>
             <TabComponent />
