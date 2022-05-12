@@ -23,7 +23,6 @@ import { Store } from 'react-notifications-component';
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
 interface GateData extends Gate {
-    holders: number;
     keysDone: number;
     keysNumber: number;
     taskStatus: Key_Progress[];
@@ -59,7 +58,7 @@ const BackButton: React.FC<Props> = ({
     //Hooks
     const [updateGate] = useUpdateGateMutation();
     const navigate = useNavigate();
-    const { isAdmin } = useGateAdmin(gateData.adminList);
+    const { isAdmin } = useGateAdmin(gateData.adminList.map(admins => admins.id));
     const [deleteGate] = useDeleteGateMutation();
     // const { showModal } = useModal();
     const { showErrorModal, discardModal }: Record<string, any> = useModal();

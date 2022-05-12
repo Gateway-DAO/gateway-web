@@ -11,7 +11,7 @@ module.exports = {
             },
         },
     ],
-    documents: ['./src/**/*.tsx', './src/**/*.ts', './src/**/*.gql'],
+    documents: ['./src/**/*.gql'],
     overwrite: true,
     generates: {
         './src/graphql/graphql.tsx': {
@@ -25,6 +25,7 @@ module.exports = {
                 withHooks: true,
                 withHOC: false,
                 withComponent: false,
+                maybeValue: 'T | null | undefined',
             },
         },
         './graphql.schema.json': {

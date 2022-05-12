@@ -16,7 +16,10 @@ import { LoaderBox } from './pages/DaoGate/style';
 
 // API
 import { useWeb3React } from '@web3-react/core';
-import { Gates, useGetGateQuery, useGetGateUsersQuery, Users } from '../../graphql';
+import { Gates, Key_Progress, useGetGateQuery, useGetGateUsersQuery, useGetKeyProgressQuery, Users } from '../../graphql';
+
+// Types
+import { PartialDeep } from 'type-fest';
 
 /**
  * This function is responsible for rendering the page
@@ -42,35 +45,37 @@ const GatePage: React.FC = () => {
     });
 
     const {
+        data: keyProgressData,
+        loading: keyProgressLoading
+    } = useGetKeyProgressQuery({
+        variables: {
+            where: {
+                gate_id: {
+                    _eq: gate
+                },
+                user_id: {
+                    _eq: userInfo.id
+                }
+            }
+        }
+    })
+
+    const {
         data: adminsData,
         loading: adminsLoading,
     } = useGetGateUsersQuery({
         variables: {
-            gate_id: dbData.gates_by_pk.id,
+            gate_id: gate,
             permission: "admin"
         }
     })
 
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
-    const [gateData, setGateData] = useState<Partial<Gates>>(dbData);
-    const [keysDone, setKeysDone] = useState<number>(
-        userInfo?.gate_progresses.filter(
-            (obj: Record<string, any>) => obj.gateID === gate
-        )[0]?.keysDone || 0
-    );
-    const [taskStatus, setTaskStatus] = useState(
-        userInfo?.gate_progresses.filter(
-            (obj: Record<string, any>) => obj.gateID !== gate
-        ).length > 0
-            ? userInfo?.gate_progresses.filter((obj: Record<string, any>) => obj.gateID !== gate)[0]
-                .tasks?.items?.map(
-                    (obj: Record<string, any>) =>
-                        obj.userID === userInfo.id && obj
-                )
-            : []
-    );
+    const [gateData, setGateData] = useState<PartialDeep<Gates>>(dbData.gates_by_pk);
+    const [keysDone, setKeysDone] = useState<number>(keyProgressData.key_progress.filter(kp => kp.completed !== 'done').map(kp => kp.key.keys).reduce((total, num) => total + num));
+    const [taskStatus, setTaskStatus] = useState<PartialDeep<Key_Progress>[]>(keyProgressData.key_progress);
     const [admins, setAdmins] = useState<Partial<Users>[]>(adminsData?.permissions.map(perms => perms.user));
-    const [earners, setEarners] = useState<Partial<Users>[]>(earnersData?.listUsers.items);
+    const [earners, setEarners] = useState<Partial<Users>[]>(dbData.gates_by_pk.earners?.map(earner => earner.user));
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
@@ -93,38 +98,14 @@ const GatePage: React.FC = () => {
         setInternalLoading(loading);
     }, [gateLoading, dbData, loggingIn, userInfo, adminsLoading, admins]);
 
-    /* Fetching the data from the database. */
     useEffect(() => {
-        setKeysDone(
-            userInfo?.gate_progresses.filter(
-                (obj: Record<string, any>) => obj.gateID === gate
-            )[0]?.keysDone || 0
-        );
-        setTaskStatus(
-            userInfo?.gate_progresses.filter(
-                (obj: Record<string, any>) => obj.gateID === gate && obj
-            ).length > 0
-                ? userInfo?.gates?.items
-                    ?.filter(
-                        (obj: Record<string, any>) =>
-                            obj.gateID === gate && obj
-                    )[0]
-                    .tasks?.items?.filter(
-                        (obj: Record<string, any>) =>
-                            obj.userID === userInfo.id
-                    )
-                : []
-        );
-    }, [gate, userInfo]);
-
-    useEffect(() => {
-        adminsData && setAdmins(adminsData?.listUsers.items);
+        adminsData && setAdmins(adminsData.permissions.map(perm => perm.user));
     }, [gate, adminsData]);
 
     useEffect(() => {
-        earnersData &&
-            setEarners(earnersData?.listUsers.items);
-    }, [gate, earnersData]);
+        dbData &&
+            setEarners(dbData.gates_by_pk.earners.map(earner => earner.user));
+    }, [gate]);
 
     /* This is a catch-all error handler. If there is an error, it will be logged to the console and
     the user will be redirected to the 404 page. */
@@ -160,7 +141,7 @@ const GatePage: React.FC = () => {
                 context={{
                     gateData: {
                         ...gateData,
-                        holders: dbData?.gates_by_pk?.holders || 0,
+                        holders: dbData?.gates_by_pk.holders.length || 0,
                         keysDone,
                         taskStatus,
                         adminList: admins || [],

@@ -16,7 +16,7 @@ import { Credentials } from '../../../../../../graphql';
 /* This is a TypeScript interface. It is a way to define the shape of an object. In this case, the
 shape of the object is `IProps`. */
 interface IProps {
-    credential: Credentials;
+    credential: Partial<Credentials>;
 }
 
 /**

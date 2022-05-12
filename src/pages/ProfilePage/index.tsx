@@ -14,22 +14,18 @@ import Credentials from '../../pages/Credential';
 // Other components
 import Page from '../../components/Page';
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
+import Loader from '../../components/Loader';
 
 // Hooks
 import { useAuth } from '../../contexts/UserContext';
 import { useGetUserByUsernameLazyQuery, Users } from '../../graphql';
 import { useWeb3React } from '@web3-react/core';
 
-// Utils
-import Loader from '../../components/Loader';
-
-/* A type definition for a user. It is a combination of the User type and the UserInfo type. */
-interface IUserInfo extends Omit<Users, '__typename'> {
-    userBio?: string;
-}
+// Types
+import { PartialDeep } from 'type-fest';
 
 /* Creating a user object with all the information that is needed to be displayed. */
-const RAW_USER: IUserInfo = {
+const RAW_USER: PartialDeep<Users> = {
     id: '',
     bio: '',
     name: '',
@@ -77,7 +73,7 @@ const Profile: React.FC = (props) => {
     const navigate = useNavigate();
 
 	// State
-	const [userInfo, setUserInfo] = useState<IUserInfo>(RAW_USER);
+	const [userInfo, setUserInfo] = useState<PartialDeep<Users>>(RAW_USER);
 	const [currentLocation, setCurrentLocation] = useState({
 		tz: {
 			name: '',

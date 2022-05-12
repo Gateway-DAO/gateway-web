@@ -4,10 +4,19 @@ query getGate($id: uuid!) {
     gates_by_pk(id: $id) {
         skills
         published
+        holders {
+            id
+        }
         earners {
             gate_id
             id
             user_id
+            user {
+                id
+                wallet
+                name
+                pfp
+            }
         }
         keysByGateId {
             gate_id
@@ -58,6 +67,9 @@ query listGates {
     gates {
         skills
         published
+        holders {
+            id
+        }
         earners {
             gate_id
             id
@@ -121,6 +133,21 @@ query getKey($id: uuid!) {
     }
 }
 
+query getEarners($where: earners_bool_exp = {}) {
+  earners(where: $where) {
+    gate_id
+    id
+    user_id
+    user {
+      id
+      wallet
+      name
+      pfp
+    }
+  }
+}
+
+
 query getGateProgress($where: gate_progress_bool_exp = {}) {
     gate_progress(where: $where) {
         user_id
@@ -129,6 +156,21 @@ query getGateProgress($where: gate_progress_bool_exp = {}) {
         id
         gate_id
         created_at
+    }
+}
+
+query getKeyProgress($where: key_progress_bool_exp = {}) {
+    key_progress(where: $where) {
+        completed
+        created_at
+        gate_id
+        id
+        key_id
+        updated_at
+        user_id
+        key {
+            keys
+        }
     }
 }
 
@@ -148,6 +190,9 @@ mutation createGate($object: gates_insert_input = {}) {
         links
         nft_type
         published
+        holders {
+            id
+        }
         earners {
             gate_id
             id
@@ -189,7 +234,7 @@ mutation createGate($object: gates_insert_input = {}) {
 }
 
 mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
-    update_gates_by_pk(pk_columns: { id: "" }, _set: $set) {
+    update_gates_by_pk(pk_columns: { id: $id }, _set: $set) {
         attitudes
         badge
         categories
@@ -202,6 +247,9 @@ mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
         links
         nft_type
         published
+        holders {
+            id
+        }
         earners {
             gate_id
             id

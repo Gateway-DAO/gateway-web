@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type Maybe<T> = T | null | undefined;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -1477,7 +1477,7 @@ export type Gates = {
   badge: Scalars['badge_scalar'];
   categories: Scalars['_text'];
   /** An object relationship */
-  dao: Partial<Daos>;
+  dao: Daos;
   dao_id: Scalars['uuid'];
   description: Scalars['String'];
   /** An array relationship */
@@ -1485,6 +1485,8 @@ export type Gates = {
   /** An aggregate relationship */
   earners_aggregate: Earners_Aggregate;
   gate_name: Scalars['String'];
+  /** A computed field, executes function "get_gate_holders" */
+  holders?: Maybe<Array<Users>>;
   id: Scalars['uuid'];
   keys?: Maybe<Scalars['Int']>;
   /** An array relationship */
@@ -1516,6 +1518,16 @@ export type GatesEarners_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Earners_Order_By>>;
   where?: InputMaybe<Earners_Bool_Exp>;
+};
+
+
+/** columns and relationships of "gates" */
+export type GatesHoldersArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
 };
 
 
@@ -1587,6 +1599,7 @@ export type Gates_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   earners?: InputMaybe<Earners_Bool_Exp>;
   gate_name?: InputMaybe<String_Comparison_Exp>;
+  holders?: InputMaybe<Users_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   keys?: InputMaybe<Int_Comparison_Exp>;
   keysByGateId?: InputMaybe<Keys_Bool_Exp>;
@@ -1689,6 +1702,7 @@ export type Gates_Order_By = {
   description?: InputMaybe<Order_By>;
   earners_aggregate?: InputMaybe<Earners_Aggregate_Order_By>;
   gate_name?: InputMaybe<Order_By>;
+  holders_aggregate?: InputMaybe<Users_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   keys?: InputMaybe<Order_By>;
   keysByGateId_aggregate?: InputMaybe<Keys_Aggregate_Order_By>;
@@ -1843,6 +1857,8 @@ export type Key_Progress = {
   created_at: Scalars['timestamp'];
   gate_id: Scalars['uuid'];
   id: Scalars['uuid'];
+  /** An object relationship */
+  key: Keys;
   key_id: Scalars['uuid'];
   updated_at: Scalars['timestamp'];
   user_id: Scalars['uuid'];
@@ -1879,6 +1895,7 @@ export type Key_Progress_Bool_Exp = {
   created_at?: InputMaybe<Timestamp_Comparison_Exp>;
   gate_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  key?: InputMaybe<Keys_Bool_Exp>;
   key_id?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -1898,6 +1915,7 @@ export type Key_Progress_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamp']>;
   gate_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
+  key?: InputMaybe<Keys_Obj_Rel_Insert_Input>;
   key_id?: InputMaybe<Scalars['uuid']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
   user_id?: InputMaybe<Scalars['uuid']>;
@@ -1949,6 +1967,7 @@ export type Key_Progress_Order_By = {
   created_at?: InputMaybe<Order_By>;
   gate_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  key?: InputMaybe<Keys_Order_By>;
   key_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
@@ -2189,6 +2208,13 @@ export type Keys_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Keys>;
+};
+
+/** input type for inserting object relation for remote table "keys" */
+export type Keys_Obj_Rel_Insert_Input = {
+  data: Keys_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Keys_On_Conflict>;
 };
 
 /** on_conflict condition type for table "keys" */
@@ -4162,6 +4188,13 @@ export type Users_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "users" */
+export type Users_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Users_Max_Order_By>;
+  min?: InputMaybe<Users_Min_Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
 export type Users_Bool_Exp = {
   _and?: InputMaybe<Array<Users_Bool_Exp>>;
@@ -4241,6 +4274,19 @@ export type Users_Max_Fields = {
   wallet?: Maybe<Scalars['String']>;
 };
 
+/** order by max() on columns of table "users" */
+export type Users_Max_Order_By = {
+  bio?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  device?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  pfp?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+  username?: InputMaybe<Order_By>;
+  wallet?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Users_Min_Fields = {
   __typename?: 'users_min_fields';
@@ -4253,6 +4299,19 @@ export type Users_Min_Fields = {
   updatedAt?: Maybe<Scalars['timestamp']>;
   username?: Maybe<Scalars['String']>;
   wallet?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "users" */
+export type Users_Min_Order_By = {
+  bio?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  device?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  pfp?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+  username?: InputMaybe<Order_By>;
+  wallet?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "users" */
@@ -4427,33 +4486,33 @@ export type GetCredentialQueryVariables = Exact<{
 }>;
 
 
-export type GetCredentialQuery = { __typename?: 'query_root', credentials_by_pk?: { __typename?: 'credentials', updated_at: any, target_id: any, skills?: any | null, pow?: any | null, name: string, knowledges?: any | null, issuer_id: any, image: string, id: any, gate: any, description: string, dao_id: any, created_at: any, ceramic: string, attitudes?: any | null, dao: { __typename?: 'daos', background_url: string, categories?: any | null, created_at: any, description: string, ens?: string | null, id: any, logo_url: string, name: string, slug: string } } | null };
+export type GetCredentialQuery = { __typename?: 'query_root', credentials_by_pk?: { __typename?: 'credentials', updated_at: any, target_id: any, skills?: any | null | undefined, pow?: any | null | undefined, name: string, knowledges?: any | null | undefined, issuer_id: any, image: string, id: any, gate: any, description: string, dao_id: any, created_at: any, ceramic: string, attitudes?: any | null | undefined, dao: { __typename?: 'daos', background_url: string, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, id: any, logo_url: string, name: string, slug: string } } | null | undefined };
 
 export type GetDaoQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> } | null };
+export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags: any, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags: any, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> } | null | undefined };
 
 export type GetDaoBySlugQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetDaoBySlugQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', accomplishments?: string | null, background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, faq?: any | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, token?: string | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
+export type GetDaoBySlugQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', accomplishments?: string | null | undefined, background_url: string, blacklisted_flags: any, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, faq?: any | null | undefined, hangouts?: any | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, mv?: any | null | undefined, slug: string, token?: string | null | undefined, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags: any, youtube_url?: string | null | undefined, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
 
 export type ListDaOsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListDaOsQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
+export type ListDaOsQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags: any, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags: any, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
 
 export type CreateDaoMutationVariables = Exact<{
   object?: InputMaybe<Daos_Insert_Input>;
 }>;
 
 
-export type CreateDaoMutation = { __typename?: 'mutation_root', insert_daos_one?: { __typename?: 'daos', accomplishments?: string | null, background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, faq?: any | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, name: string, slug: string, token?: string | null, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null } | null };
+export type CreateDaoMutation = { __typename?: 'mutation_root', insert_daos_one?: { __typename?: 'daos', accomplishments?: string | null | undefined, background_url: string, blacklisted_flags: any, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, faq?: any | null | undefined, hangouts?: any | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, mv?: any | null | undefined, name: string, slug: string, token?: string | null | undefined, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags: any, youtube_url?: string | null | undefined } | null | undefined };
 
 export type UpdateDaoMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -4461,61 +4520,68 @@ export type UpdateDaoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateDaoMutation = { __typename?: 'mutation_root', update_daos_by_pk?: { __typename?: 'daos', background_url: string, blacklisted_flags: any, categories?: any | null, created_at: any, description: string, ens?: string | null, hangouts?: any | null, how_to_join?: any | null, id: any, logo_url: string, mv?: any | null, slug: string, updated_at: any, wdwd?: string | null, whitelisted_flags: any, youtube_url?: string | null, accomplishments?: string | null, faq?: any | null, token?: string | null } | null };
+export type UpdateDaoMutation = { __typename?: 'mutation_root', update_daos_by_pk?: { __typename?: 'daos', background_url: string, blacklisted_flags: any, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, hangouts?: any | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, mv?: any | null | undefined, slug: string, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags: any, youtube_url?: string | null | undefined, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } | null | undefined };
 
 export type DeleteDaoMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteDaoMutation = { __typename?: 'mutation_root', delete_daos_by_pk?: { __typename?: 'daos', id: any } | null };
+export type DeleteDaoMutation = { __typename?: 'mutation_root', delete_daos_by_pk?: { __typename?: 'daos', id: any } | null | undefined };
 
 export type CreateBountyMutationVariables = Exact<{
   object?: InputMaybe<Bounties_Insert_Input>;
 }>;
 
 
-export type CreateBountyMutation = { __typename?: 'mutation_root', insert_bounties_one?: { __typename?: 'bounties', categories: any, dao_id: any, description?: string | null, directions?: string | null, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string } | null };
+export type CreateBountyMutation = { __typename?: 'mutation_root', insert_bounties_one?: { __typename?: 'bounties', categories: any, dao_id: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string } | null | undefined };
 
 export type DeleteBountyMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteBountyMutation = { __typename?: 'mutation_root', delete_bounties_by_pk?: { __typename?: 'bounties', id: any } | null };
+export type DeleteBountyMutation = { __typename?: 'mutation_root', delete_bounties_by_pk?: { __typename?: 'bounties', id: any } | null | undefined };
 
 export type InsertTokenBenefitMutationVariables = Exact<{
   object?: InputMaybe<Token_Benefits_Insert_Input>;
 }>;
 
 
-export type InsertTokenBenefitMutation = { __typename?: 'mutation_root', insert_token_benefits_one?: { __typename?: 'token_benefits', amount?: string | null, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null, updated_at: any } | null };
+export type InsertTokenBenefitMutation = { __typename?: 'mutation_root', insert_token_benefits_one?: { __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any } | null | undefined };
 
 export type DeleteTokenBenefitMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteTokenBenefitMutation = { __typename?: 'mutation_root', delete_token_benefits_by_pk?: { __typename?: 'token_benefits', id: any } | null };
+export type DeleteTokenBenefitMutation = { __typename?: 'mutation_root', delete_token_benefits_by_pk?: { __typename?: 'token_benefits', id: any } | null | undefined };
 
 export type GetGateQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
+export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills?: any | null | undefined, published: any, nft_type: any, links: any, knowledge?: any | null | undefined, keys?: number | null | undefined, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null | undefined, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any, user: { __typename?: 'users', id: any, wallet?: string | null | undefined, name?: string | null | undefined, pfp: string } }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags: any, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags: any, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
 
 export type ListGatesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills?: any | null, published: any, nft_type: any, links: any, knowledge?: any | null, keys?: number | null, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } }> };
+export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills?: any | null | undefined, published: any, nft_type: any, links: any, knowledge?: any | null | undefined, keys?: number | null | undefined, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes?: any | null | undefined, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags: any, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags: any, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } }> };
 
 export type GetKeyQueryVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type GetKeyQuery = { __typename?: 'query_root', keys_by_pk?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null };
+export type GetKeyQuery = { __typename?: 'query_root', keys_by_pk?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null | undefined };
+
+export type GetEarnersQueryVariables = Exact<{
+  where?: InputMaybe<Earners_Bool_Exp>;
+}>;
+
+
+export type GetEarnersQuery = { __typename?: 'query_root', earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any, user: { __typename?: 'users', id: any, wallet?: string | null | undefined, name?: string | null | undefined, pfp: string } }> };
 
 export type GetGateProgressQueryVariables = Exact<{
   where?: InputMaybe<Gate_Progress_Bool_Exp>;
@@ -4524,12 +4590,19 @@ export type GetGateProgressQueryVariables = Exact<{
 
 export type GetGateProgressQuery = { __typename?: 'query_root', gate_progress: Array<{ __typename?: 'gate_progress', user_id: any, updated_at: any, status: any, id: any, gate_id: any, created_at: any }> };
 
+export type GetKeyProgressQueryVariables = Exact<{
+  where?: InputMaybe<Key_Progress_Bool_Exp>;
+}>;
+
+
+export type GetKeyProgressQuery = { __typename?: 'query_root', key_progress: Array<{ __typename?: 'key_progress', completed: any, created_at: any, gate_id: any, id: any, key_id: any, updated_at: any, user_id: any, key: { __typename?: 'keys', keys: number } }> };
+
 export type CreateGateMutationVariables = Exact<{
   object?: InputMaybe<Gates_Insert_Input>;
 }>;
 
 
-export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
+export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes?: any | null | undefined, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null | undefined, knowledge?: any | null | undefined, links: any, nft_type: any, published: any, skills?: any | null | undefined, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags: any, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags: any, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
 
 export type UpdateGateMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -4537,21 +4610,21 @@ export type UpdateGateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes?: any | null, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null, knowledge?: any | null, links: any, nft_type: any, published: any, skills?: any | null, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null, whitelisted_flags: any, wdwd?: string | null, updated_at: any, slug: string, mv?: any | null, logo_url: string, id: any, how_to_join?: any | null, hangouts?: any | null, ens?: string | null, description: string, created_at: any, categories?: any | null, blacklisted_flags: any, background_url: string, accomplishments?: string | null, faq?: any | null, token?: string | null } } | null };
+export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes?: any | null | undefined, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null | undefined, knowledge?: any | null | undefined, links: any, nft_type: any, published: any, skills?: any | null | undefined, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags: any, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags: any, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
 
 export type DeleteGateMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteGateMutation = { __typename?: 'mutation_root', delete_gates_by_pk?: { __typename?: 'gates', id: any } | null };
+export type DeleteGateMutation = { __typename?: 'mutation_root', delete_gates_by_pk?: { __typename?: 'gates', id: any } | null | undefined };
 
 export type CreateKeyMutationVariables = Exact<{
   object?: InputMaybe<Keys_Insert_Input>;
 }>;
 
 
-export type CreateKeyMutation = { __typename?: 'mutation_root', insert_keys_one?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null };
+export type CreateKeyMutation = { __typename?: 'mutation_root', insert_keys_one?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null | undefined };
 
 export type UpdateKeyMutationVariables = Exact<{
   id?: InputMaybe<Scalars['uuid']>;
@@ -4559,14 +4632,14 @@ export type UpdateKeyMutationVariables = Exact<{
 }>;
 
 
-export type UpdateKeyMutation = { __typename?: 'mutation_root', update_keys_by_pk?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null };
+export type UpdateKeyMutation = { __typename?: 'mutation_root', update_keys_by_pk?: { __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean } | null | undefined };
 
 export type DeleteKeyMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteKeyMutation = { __typename?: 'mutation_root', delete_keys_by_pk?: { __typename?: 'keys', id: any } | null };
+export type DeleteKeyMutation = { __typename?: 'mutation_root', delete_keys_by_pk?: { __typename?: 'keys', id: any } | null | undefined };
 
 export type VerifyTaskMutationVariables = Exact<{
   key_id: Scalars['uuid'];
@@ -4575,7 +4648,7 @@ export type VerifyTaskMutationVariables = Exact<{
 }>;
 
 
-export type VerifyTaskMutation = { __typename?: 'mutation_root', verify_key?: { __typename?: 'VerifyOutput', completed_gate: boolean, task_info: any } | null };
+export type VerifyTaskMutation = { __typename?: 'mutation_root', verify_key?: { __typename?: 'VerifyOutput', completed_gate: boolean, task_info: any } | null | undefined };
 
 export type GetUserGatePermissionsQueryVariables = Exact<{
   gate_id?: InputMaybe<Scalars['uuid']>;
@@ -4583,7 +4656,7 @@ export type GetUserGatePermissionsQueryVariables = Exact<{
 }>;
 
 
-export type GetUserGatePermissionsQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null }> };
+export type GetUserGatePermissionsQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined }> };
 
 export type GetUserDaoPermissionsQueryVariables = Exact<{
   dao_id?: InputMaybe<Scalars['uuid']>;
@@ -4591,7 +4664,7 @@ export type GetUserDaoPermissionsQueryVariables = Exact<{
 }>;
 
 
-export type GetUserDaoPermissionsQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null }> };
+export type GetUserDaoPermissionsQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined }> };
 
 export type GetGateUsersQueryVariables = Exact<{
   gate_id?: InputMaybe<Scalars['uuid']>;
@@ -4599,7 +4672,7 @@ export type GetGateUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetGateUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null, user_id: any, updated_at: any, gate_id?: any | null, dao_id?: any | null, created_at: any, user: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } }> };
+export type GetGateUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user_id: any, updated_at: any, gate_id?: any | null | undefined, dao_id?: any | null | undefined, created_at: any, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> };
 
 export type GetDaoUsersQueryVariables = Exact<{
   dao_id?: InputMaybe<Scalars['uuid']>;
@@ -4607,7 +4680,7 @@ export type GetDaoUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null, user_id: any, updated_at: any, gate_id?: any | null, dao_id?: any | null, created_at: any, user: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } }> };
+export type GetDaoUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user_id: any, updated_at: any, gate_id?: any | null | undefined, dao_id?: any | null | undefined, created_at: any, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> };
 
 export type SearchUsersQueryVariables = Exact<{
   query: Scalars['String'];
@@ -4615,7 +4688,7 @@ export type SearchUsersQueryVariables = Exact<{
 }>;
 
 
-export type SearchUsersQuery = { __typename?: 'query_root', search_users?: { __typename?: 'AlgoliaSearchResults', hits: any } | null };
+export type SearchUsersQuery = { __typename?: 'query_root', search_users?: { __typename?: 'AlgoliaSearchResults', hits: any } | null | undefined };
 
 export type SearchGatesQueryVariables = Exact<{
   query: Scalars['String'];
@@ -4623,7 +4696,7 @@ export type SearchGatesQueryVariables = Exact<{
 }>;
 
 
-export type SearchGatesQuery = { __typename?: 'query_root', search_gates?: { __typename?: 'AlgoliaSearchResults', hits: any } | null };
+export type SearchGatesQuery = { __typename?: 'query_root', search_gates?: { __typename?: 'AlgoliaSearchResults', hits: any } | null | undefined };
 
 export type SearchDaOsQueryVariables = Exact<{
   query: Scalars['String'];
@@ -4631,7 +4704,7 @@ export type SearchDaOsQueryVariables = Exact<{
 }>;
 
 
-export type SearchDaOsQuery = { __typename?: 'query_root', search_daos?: { __typename?: 'AlgoliaSearchResults', hits: any } | null };
+export type SearchDaOsQuery = { __typename?: 'query_root', search_daos?: { __typename?: 'AlgoliaSearchResults', hits: any } | null | undefined };
 
 export type SearchCredentialsQueryVariables = Exact<{
   query: Scalars['String'];
@@ -4639,33 +4712,33 @@ export type SearchCredentialsQueryVariables = Exact<{
 }>;
 
 
-export type SearchCredentialsQuery = { __typename?: 'query_root', search_credentials?: { __typename?: 'AlgoliaSearchResults', hits: any } | null };
+export type SearchCredentialsQuery = { __typename?: 'query_root', search_credentials?: { __typename?: 'AlgoliaSearchResults', hits: any } | null | undefined };
 
 export type GetUserByUsernameQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
 
-export type GetUserByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type GetUserByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type GetUserByAddressQueryVariables = Exact<{
   wallet: Scalars['String'];
 }>;
 
 
-export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type ListUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type ListUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type CreateUserMutationVariables = Exact<{
   object?: InputMaybe<Users_Insert_Input>;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } | null };
+export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } | null | undefined };
 
 export type UpdateUserMutationVariables = Exact<{
   set?: InputMaybe<Users_Set_Input>;
@@ -4673,14 +4746,14 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', about?: any | null, attitudes?: any | null, bio?: string | null, blacklistedFlags: any, createdAt: any, device?: string | null, id: any, init: boolean, knowledges?: any | null, languages?: any | null, name?: string | null, pfp: string, skills?: any | null, socials?: any | null, updatedAt: any, username?: string | null, wallet?: string | null, whitelistedFlags: any } | null };
+export type UpdateUserMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } | null | undefined };
 
 export type DeleteUserMutationVariables = Exact<{
   id: Scalars['uuid'];
 }>;
 
 
-export type DeleteUserMutation = { __typename?: 'mutation_root', delete_users_by_pk?: { __typename?: 'users', id: any } | null };
+export type DeleteUserMutation = { __typename?: 'mutation_root', delete_users_by_pk?: { __typename?: 'users', id: any } | null | undefined };
 
 
 export const GetCredentialDocument = gql`
@@ -5258,10 +5331,19 @@ export const GetGateDocument = gql`
   gates_by_pk(id: $id) {
     skills
     published
+    holders {
+      id
+    }
     earners {
       gate_id
       id
       user_id
+      user {
+        id
+        wallet
+        name
+        pfp
+      }
     }
     keysByGateId {
       gate_id
@@ -5341,6 +5423,9 @@ export const ListGatesDocument = gql`
   gates {
     skills
     published
+    holders {
+      id
+    }
     earners {
       gate_id
       id
@@ -5460,6 +5545,49 @@ export function useGetKeyLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get
 export type GetKeyQueryHookResult = ReturnType<typeof useGetKeyQuery>;
 export type GetKeyLazyQueryHookResult = ReturnType<typeof useGetKeyLazyQuery>;
 export type GetKeyQueryResult = Apollo.QueryResult<GetKeyQuery, GetKeyQueryVariables>;
+export const GetEarnersDocument = gql`
+    query getEarners($where: earners_bool_exp = {}) {
+  earners(where: $where) {
+    gate_id
+    id
+    user_id
+    user {
+      id
+      wallet
+      name
+      pfp
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetEarnersQuery__
+ *
+ * To run a query within a React component, call `useGetEarnersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEarnersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEarnersQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGetEarnersQuery(baseOptions?: Apollo.QueryHookOptions<GetEarnersQuery, GetEarnersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEarnersQuery, GetEarnersQueryVariables>(GetEarnersDocument, options);
+      }
+export function useGetEarnersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEarnersQuery, GetEarnersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEarnersQuery, GetEarnersQueryVariables>(GetEarnersDocument, options);
+        }
+export type GetEarnersQueryHookResult = ReturnType<typeof useGetEarnersQuery>;
+export type GetEarnersLazyQueryHookResult = ReturnType<typeof useGetEarnersLazyQuery>;
+export type GetEarnersQueryResult = Apollo.QueryResult<GetEarnersQuery, GetEarnersQueryVariables>;
 export const GetGateProgressDocument = gql`
     query getGateProgress($where: gate_progress_bool_exp = {}) {
   gate_progress(where: $where) {
@@ -5500,6 +5628,50 @@ export function useGetGateProgressLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type GetGateProgressQueryHookResult = ReturnType<typeof useGetGateProgressQuery>;
 export type GetGateProgressLazyQueryHookResult = ReturnType<typeof useGetGateProgressLazyQuery>;
 export type GetGateProgressQueryResult = Apollo.QueryResult<GetGateProgressQuery, GetGateProgressQueryVariables>;
+export const GetKeyProgressDocument = gql`
+    query getKeyProgress($where: key_progress_bool_exp = {}) {
+  key_progress(where: $where) {
+    completed
+    created_at
+    gate_id
+    id
+    key_id
+    updated_at
+    user_id
+    key {
+      keys
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetKeyProgressQuery__
+ *
+ * To run a query within a React component, call `useGetKeyProgressQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetKeyProgressQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetKeyProgressQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useGetKeyProgressQuery(baseOptions?: Apollo.QueryHookOptions<GetKeyProgressQuery, GetKeyProgressQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetKeyProgressQuery, GetKeyProgressQueryVariables>(GetKeyProgressDocument, options);
+      }
+export function useGetKeyProgressLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetKeyProgressQuery, GetKeyProgressQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetKeyProgressQuery, GetKeyProgressQueryVariables>(GetKeyProgressDocument, options);
+        }
+export type GetKeyProgressQueryHookResult = ReturnType<typeof useGetKeyProgressQuery>;
+export type GetKeyProgressLazyQueryHookResult = ReturnType<typeof useGetKeyProgressLazyQuery>;
+export type GetKeyProgressQueryResult = Apollo.QueryResult<GetKeyProgressQuery, GetKeyProgressQueryVariables>;
 export const CreateGateDocument = gql`
     mutation createGate($object: gates_insert_input = {}) {
   insert_gates_one(object: $object) {
@@ -5515,6 +5687,9 @@ export const CreateGateDocument = gql`
     links
     nft_type
     published
+    holders {
+      id
+    }
     earners {
       gate_id
       id
@@ -5583,7 +5758,7 @@ export type CreateGateMutationResult = Apollo.MutationResult<CreateGateMutation>
 export type CreateGateMutationOptions = Apollo.BaseMutationOptions<CreateGateMutation, CreateGateMutationVariables>;
 export const UpdateGateDocument = gql`
     mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
-  update_gates_by_pk(pk_columns: {id: ""}, _set: $set) {
+  update_gates_by_pk(pk_columns: {id: $id}, _set: $set) {
     attitudes
     badge
     categories
@@ -5596,6 +5771,9 @@ export const UpdateGateDocument = gql`
     links
     nft_type
     published
+    holders {
+      id
+    }
     earners {
       gate_id
       id

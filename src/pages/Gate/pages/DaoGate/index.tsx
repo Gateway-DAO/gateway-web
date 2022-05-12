@@ -19,7 +19,6 @@ import { Daos, Gates, Keys, Key_Progress, Users } from '../../../../graphql';
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
 interface GateData extends Gates {
-    holders: number;
     keysDone: number;
     keysNumber: number;
     taskStatus: Key_Progress[];

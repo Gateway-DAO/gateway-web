@@ -19,14 +19,10 @@ import { Navigate, NavLink as Link, useNavigate } from 'react-router-dom';
 // Types
 import { useWeb3React } from '@web3-react/core';
 import { useGetUserByUsernameLazyQuery, Users } from '../../../../graphql';
-
-/* A type definition for a user. It is a combination of the User type and the UserInfo type. */
-interface IUserInfo extends Omit<Users, '__typename'> {
-	userBio?: string;
-}
+import { PartialDeep } from 'type-fest';
 
 /* Creating a user object with all the information that is needed to be displayed. */
-const RAW_USER: IUserInfo = {
+const RAW_USER: PartialDeep<Users> = {
 	id: '',
 	bio: '',
 	name: '',
@@ -64,7 +60,7 @@ const Credentials = () => {
 	const [getUser, { data, loading: userLoading, error: userError }] = useGetUserByUsernameLazyQuery();
 
 	// State
-	const [userInfo, setUserInfo] = useState<IUserInfo>(RAW_USER);
+	const [userInfo, setUserInfo] = useState<PartialDeep<Users>>(RAW_USER);
 	const [internalLoading, setInternalLoading] = useState(true);
 	const { account } = useWeb3React();
 
