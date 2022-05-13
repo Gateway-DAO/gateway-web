@@ -74,8 +74,8 @@ const GatePage: React.FC = () => {
     const [gateData, setGateData] = useState<PartialDeep<Gates>>(dbData.gates_by_pk);
     const [keysDone, setKeysDone] = useState<number>(keyProgressData.key_progress.filter(kp => kp.completed !== 'done').map(kp => kp.key.keys).reduce((total, num) => total + num));
     const [taskStatus, setTaskStatus] = useState<PartialDeep<Key_Progress>[]>(keyProgressData.key_progress);
-    const [admins, setAdmins] = useState<Partial<Users>[]>(adminsData?.permissions.map(perms => perms.user));
-    const [earners, setEarners] = useState<Partial<Users>[]>(dbData.gates_by_pk.earners?.map(earner => earner.user));
+    const [admins, setAdmins] = useState<PartialDeep<Users>[]>(adminsData?.permissions.map(perms => perms.user));
+    const [earners, setEarners] = useState<PartialDeep<Users>[]>(dbData.gates_by_pk.earners?.map(earner => earner.user));
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {

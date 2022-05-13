@@ -41,14 +41,14 @@ interface IErrors {
 }
 
 const CompleteProfile: React.FC = () => {
-    // Hooks
-    const { uploadFile } = useFileUpload();
-    const navigate = useNavigate();
-    const [getUser, { data }] = useGetUserByUsernameLazyQuery();
-    const {
-        updateUserInfo,
-    }: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
-    const [searchParams, setSearchParams] = useSearchParams();
+	// Hooks
+	const { uploadFile } = useFileUpload();
+	const navigate = useNavigate();
+	const [getUser, { data }] = useGetUserByUsernameLazyQuery();
+	const {
+		updateUserInfo,
+	}: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	// State
 	const { userInfo, canEdit } = useOutletContext<Record<string, any>>();
@@ -56,7 +56,6 @@ const CompleteProfile: React.FC = () => {
 	const [isValidated, setIsValidated] = useState(false);
 	const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
 	const [file, setFile] = useState(null);
-	const [tz, setTZ] = useState(userInfo?.timezone?.shouldTrack || false);
 	const [user, setUser] = useState({
 		displayName: userInfo?.name || '',
 		userName: userInfo?.username || '',
@@ -102,12 +101,12 @@ const CompleteProfile: React.FC = () => {
 			},
 		});
 
-        if (
-            user.userName !== userInfo?.username &&
-            user.userName.length != 0 &&
-            data.users.length > 0
-        )
-            errors.userName = 'This username is already taken!';
+		if (
+			user.userName !== userInfo?.username &&
+			user.userName.length != 0 &&
+			data.users.length > 0
+		)
+			errors.userName = 'This username is already taken!';
 
 		if (user.userBio && user.userBio.length < 3)
 			errors.userBio = 'The headline is too short!';
@@ -221,11 +220,8 @@ const CompleteProfile: React.FC = () => {
 							url: normalizeUrl(social.platform_value, {
 								forceHttps: true,
 							}),
+							user_id: userInfo.id
 						})),
-					timezone: {
-						shouldTrack: tz,
-						...(tz && { tz: Intl.DateTimeFormat().resolvedOptions().timeZone })
-					},
 					init: true,
 				});
 

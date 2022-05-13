@@ -27,7 +27,10 @@ query getGateUsers($gate_id: uuid = "", $permission: permission_types = "admin")
       name
       pfp
       skills
-      socials
+      socials {
+        network
+        url
+      }
       updatedAt
       username
       wallet
@@ -58,7 +61,10 @@ query getDAOUsers($dao_id: uuid = "", $permission: permission_types = "admin") {
       name
       pfp
       skills
-      socials
+      socials {
+        network
+        url
+      }
       updatedAt
       username
       wallet

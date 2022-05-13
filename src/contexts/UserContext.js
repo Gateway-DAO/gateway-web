@@ -8,11 +8,10 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 
 // GraphQL
-import useGetFile from '../api/useGetFile';
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
 import { usernameGenerator } from '../utils/functions';
-import { useGetUserByAddressLazyQuery, useUpdateUserMutation, useCreateUserMutation } from '../graphql';
+import { useGetUserByAddressLazyQuery, useUpdateUserMutation, useCreateUserMutation, useUpdateSocialsMutation} from '../graphql';
 import { useNavigate } from 'react-router-dom';
 // import use3ID from '../hooks/use3ID';
 
@@ -96,9 +95,8 @@ export const UserProvider = ({ children }) => {
     });
     const [updateUser] = useUpdateUserMutation();
     const [createUser] = useCreateUserMutation();
-
-    const { getFile } = useGetFile();
-
+    const [updateSocials] = useUpdateSocialsMutation();
+    
     /* State */
     const [loggedIn, setLoggedIn] = useState(false);
     const [walletConnected, setWalletConnected] = useState(false);
@@ -159,25 +157,6 @@ export const UserProvider = ({ children }) => {
     };
 
     /**
-     * With the `signInUserSession` property, checks if loggedIn user is admin.
-     * @param signInUserSession - The user's sign-in session.
-     * @returns The object containing the `isAdmin` property.
-     */
-    const getUserGroups = (signInUserSession) => {
-        const rval = {};
-
-        if (
-            (
-                signInUserSession.idToken.payload['cognito:groups'] || []
-            ).includes('Admin')
-        ) {
-            rval.isAdmin = true;
-        }
-
-        return rval;
-    };
-
-    /**
      * Signs a user out of the platform, on Cognito.
      * @returns None
      */
@@ -195,12 +174,21 @@ export const UserProvider = ({ children }) => {
      * @returns None
      */
     const updateUserInfo = async (info) => {
+        const { socials, ...newInfo } = info;
         await updateUser({
             variables: {
                 id: userInfo?.id || info?.id,
-                set: info,
+                set: newInfo,
             },
         });
+
+        if (socials) {
+            await updateSocials({
+                variables: {
+                    objects: socials
+                }
+            })
+        }
 
         setUserInfo((prev) => ({
             ...prev,

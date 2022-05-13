@@ -89,27 +89,6 @@ const Profile: React.FC = (props) => {
     // API Calls
     const [getUser, { data, loading: userLoading, error: userError }] = useGetUserByUsernameLazyQuery();
 
-	/**
-	 * Get the current location of the user and set the state of the component to reflect that location
-	 */
-	const getTimezone = async (timeZone = null) => {
-		try {
-			const tz_info = Intl.DateTimeFormat('default', {
-				...(timeZone ? { timeZone } : {}),
-			}).resolvedOptions();
-			console.log(tz_info.timeZone);
-
-			setCurrentLocation({
-				tz: {
-					name: tz_info.timeZone,
-					abbreviated: tz_info.timeZoneName,
-				},
-			});
-		} catch (err) {
-			console.error(`[PROFILE] Couldn't get user timezone: ${err}`);
-		}
-	};
-
     /* Fetching the user info from the database and setting it to the state. */
     useEffect(() => {
         const callback = async () => {

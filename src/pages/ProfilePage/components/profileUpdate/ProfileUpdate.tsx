@@ -493,49 +493,6 @@ const ProfileUpdate = () => {
 					</Col>
 
 					<Col md={3}>
-						{/* {(userInfo?.timezone?.shouldTrack || canEdit) && (
-							<div className='gateway-profile-right'>
-								<div className='gateway-profile-right-top'>
-									<p>Time Zone</p>
-									<a>
-										<FaMapMarkerAlt color='white' />
-									</a>
-								</div>
-								<div className='gateway-profile-right-content'>
-									<img src='/profile/weather.svg' />
-									{getWeatherIcon()}
-									<h3>
-										{currentTime.toLocaleTimeString(
-											'en-US',
-											{
-												hour: 'numeric',
-												minute: 'numeric',
-												hour12: true,
-												...(currentLocation.tz.name && {
-													timeZone:
-														currentLocation.tz.name,
-												}),
-											}
-										)}
-									</h3>
-									<span>
-										{currentLocation.tz.name}
-										{currentLocation.tz.abbreviated} (
-										{
-											new Date().toLocaleTimeString('en-us', {
-												timeZoneName: 'short',
-												...(currentLocation.tz.name && {
-													timeZone:
-														currentLocation.tz.name,
-												})
-											})
-												.split(' ')[2]
-										}
-										)
-									</span>
-								</div>
-							</div>
-						)} */}
 						<div className='gateway-skill gway-skill-col skill-second-sec'>
 							<div className='gway-skill-col-hd'>
 								<h3>Skills</h3>

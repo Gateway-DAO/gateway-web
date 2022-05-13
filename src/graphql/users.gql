@@ -15,7 +15,10 @@ query getUserByUsername($username: String!) {
         name
         pfp
         skills
-        socials
+        socials {
+            network
+            url
+        }
         updatedAt
         username
         wallet
@@ -45,7 +48,10 @@ query getUserByAddress($wallet: String!) {
         name
         pfp
         skills
-        socials
+        socials {
+            network
+            url
+        }
         updatedAt
         username
         wallet
@@ -75,7 +81,10 @@ query listUsers {
         name
         pfp
         skills
-        socials
+        socials {
+            network
+            url
+        }
         updatedAt
         username
         wallet
@@ -107,7 +116,10 @@ mutation createUser($object: users_insert_input = {}) {
         name
         pfp
         skills
-        socials
+        socials {
+            network
+            url
+        }
         updatedAt
         username
         wallet
@@ -130,12 +142,21 @@ mutation updateUser($set: users_set_input = {}, $id: uuid = "") {
         name
         pfp
         skills
-        socials
+        socials {
+            network
+            url
+        }
         updatedAt
         username
         wallet
         whitelistedFlags
     }
+}
+
+mutation updateSocials($objects: [user_socials_insert_input!] = {}) {
+  insert_user_socials(objects: $objects, on_conflict: {constraint: user_socials_user_id_network_key, update_columns: url}) {
+    affected_rows
+  }
 }
 
 mutation deleteUser($id: uuid!) {

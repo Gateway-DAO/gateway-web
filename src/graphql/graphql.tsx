@@ -17,6 +17,7 @@ export type Scalars = {
   _key_information: any;
   _text: any;
   badge_scalar: any;
+  citext: any;
   gate_state: any;
   gate_status: any;
   json: any;
@@ -411,6 +412,39 @@ export enum Bounties_Update_Column {
   /** column name */
   Reward = 'reward'
 }
+
+/** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
+export type Citext_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['citext']>;
+  _gt?: InputMaybe<Scalars['citext']>;
+  _gte?: InputMaybe<Scalars['citext']>;
+  /** does the column match the given case-insensitive pattern */
+  _ilike?: InputMaybe<Scalars['citext']>;
+  _in?: InputMaybe<Array<Scalars['citext']>>;
+  /** does the column match the given POSIX regular expression, case insensitive */
+  _iregex?: InputMaybe<Scalars['citext']>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  /** does the column match the given pattern */
+  _like?: InputMaybe<Scalars['citext']>;
+  _lt?: InputMaybe<Scalars['citext']>;
+  _lte?: InputMaybe<Scalars['citext']>;
+  _neq?: InputMaybe<Scalars['citext']>;
+  /** does the column NOT match the given case-insensitive pattern */
+  _nilike?: InputMaybe<Scalars['citext']>;
+  _nin?: InputMaybe<Array<Scalars['citext']>>;
+  /** does the column NOT match the given POSIX regular expression, case insensitive */
+  _niregex?: InputMaybe<Scalars['citext']>;
+  /** does the column NOT match the given pattern */
+  _nlike?: InputMaybe<Scalars['citext']>;
+  /** does the column NOT match the given POSIX regular expression, case sensitive */
+  _nregex?: InputMaybe<Scalars['citext']>;
+  /** does the column NOT match the given SQL regular expression */
+  _nsimilar?: InputMaybe<Scalars['citext']>;
+  /** does the column match the given POSIX regular expression, case sensitive */
+  _regex?: InputMaybe<Scalars['citext']>;
+  /** does the column match the given SQL regular expression */
+  _similar?: InputMaybe<Scalars['citext']>;
+};
 
 /** columns and relationships of "credentials" */
 export type Credentials = {
@@ -2425,6 +2459,8 @@ export type Mutation_Root = {
   delete_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
   /** delete single row from the table: "token_benefits" */
   delete_token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** delete data from the table: "user_socials" */
+  delete_user_socials?: Maybe<User_Socials_Mutation_Response>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -2469,12 +2505,14 @@ export type Mutation_Root = {
   insert_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
   /** insert a single row into the table: "token_benefits" */
   insert_token_benefits_one?: Maybe<Token_Benefits>;
+  /** insert data into the table: "user_socials" */
+  insert_user_socials?: Maybe<User_Socials_Mutation_Response>;
+  /** insert a single row into the table: "user_socials" */
+  insert_user_socials_one?: Maybe<User_Socials>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
-  /** updateUser with enrichment */
-  updateUser?: Maybe<UserBodyOutput>;
   /** update data of the table: "bounties" */
   update_bounties?: Maybe<Bounties_Mutation_Response>;
   /** update single row of the table: "bounties" */
@@ -2513,6 +2551,8 @@ export type Mutation_Root = {
   update_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
   /** update single row of the table: "token_benefits" */
   update_token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** update data of the table: "user_socials" */
+  update_user_socials?: Maybe<User_Socials_Mutation_Response>;
   /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>;
   /** update single row of the table: "users" */
@@ -2633,6 +2673,12 @@ export type Mutation_RootDelete_Token_BenefitsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Token_Benefits_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_User_SocialsArgs = {
+  where: User_Socials_Bool_Exp;
 };
 
 
@@ -2789,6 +2835,20 @@ export type Mutation_RootInsert_Token_Benefits_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_User_SocialsArgs = {
+  objects: Array<User_Socials_Insert_Input>;
+  on_conflict?: InputMaybe<User_Socials_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_Socials_OneArgs = {
+  object: User_Socials_Insert_Input;
+  on_conflict?: InputMaybe<User_Socials_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>;
   on_conflict?: InputMaybe<Users_On_Conflict>;
@@ -2799,12 +2859,6 @@ export type Mutation_RootInsert_UsersArgs = {
 export type Mutation_RootInsert_Users_OneArgs = {
   object: Users_Insert_Input;
   on_conflict?: InputMaybe<Users_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateUserArgs = {
-  userBody: UserBodyInput;
 };
 
 
@@ -2946,7 +3000,15 @@ export type Mutation_RootUpdate_Token_Benefits_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_User_SocialsArgs = {
+  _set?: InputMaybe<User_Socials_Set_Input>;
+  where: User_Socials_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
+  _inc?: InputMaybe<Users_Inc_Input>;
   _set?: InputMaybe<Users_Set_Input>;
   where: Users_Bool_Exp;
 };
@@ -2954,6 +3016,7 @@ export type Mutation_RootUpdate_UsersArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Users_By_PkArgs = {
+  _inc?: InputMaybe<Users_Inc_Input>;
   _set?: InputMaybe<Users_Set_Input>;
   pk_columns: Users_Pk_Columns_Input;
 };
@@ -3243,6 +3306,10 @@ export type Query_Root = {
   token_benefits_aggregate: Token_Benefits_Aggregate;
   /** fetch data from the table: "token_benefits" using primary key columns */
   token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** fetch data from the table: "user_socials" */
+  user_socials: Array<User_Socials>;
+  /** fetch aggregated fields from the table: "user_socials" */
+  user_socials_aggregate: User_Socials_Aggregate;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -3501,6 +3568,24 @@ export type Query_RootToken_Benefits_By_PkArgs = {
 };
 
 
+export type Query_RootUser_SocialsArgs = {
+  distinct_on?: InputMaybe<Array<User_Socials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Socials_Order_By>>;
+  where?: InputMaybe<User_Socials_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Socials_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Socials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Socials_Order_By>>;
+  where?: InputMaybe<User_Socials_Bool_Exp>;
+};
+
+
 export type Query_RootUsersArgs = {
   distinct_on?: InputMaybe<Array<Users_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3583,6 +3668,10 @@ export type Subscription_Root = {
   token_benefits_aggregate: Token_Benefits_Aggregate;
   /** fetch data from the table: "token_benefits" using primary key columns */
   token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** fetch data from the table: "user_socials" */
+  user_socials: Array<User_Socials>;
+  /** fetch aggregated fields from the table: "user_socials" */
+  user_socials_aggregate: User_Socials_Aggregate;
   /** fetch data from the table: "users" */
   users: Array<Users>;
   /** fetch aggregated fields from the table: "users" */
@@ -3814,6 +3903,24 @@ export type Subscription_RootToken_Benefits_AggregateArgs = {
 
 export type Subscription_RootToken_Benefits_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUser_SocialsArgs = {
+  distinct_on?: InputMaybe<Array<User_Socials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Socials_Order_By>>;
+  where?: InputMaybe<User_Socials_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Socials_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Socials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Socials_Order_By>>;
+  where?: InputMaybe<User_Socials_Bool_Exp>;
 };
 
 
@@ -4084,16 +4191,152 @@ export enum Token_Benefits_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
-export type UserBodyInput = {
-  username: Scalars['String'];
+/** columns and relationships of "user_socials" */
+export type User_Socials = {
+  __typename?: 'user_socials';
+  network: Scalars['String'];
+  url: Scalars['String'];
+  user_id: Scalars['uuid'];
 };
 
-export type UserBodyOutput = {
-  __typename?: 'userBodyOutput';
-  hasAllHiddenFeatures: Scalars['Boolean'];
-  isBanned: Scalars['Boolean'];
-  username: Scalars['String'];
+/** aggregated selection of "user_socials" */
+export type User_Socials_Aggregate = {
+  __typename?: 'user_socials_aggregate';
+  aggregate?: Maybe<User_Socials_Aggregate_Fields>;
+  nodes: Array<User_Socials>;
 };
+
+/** aggregate fields of "user_socials" */
+export type User_Socials_Aggregate_Fields = {
+  __typename?: 'user_socials_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<User_Socials_Max_Fields>;
+  min?: Maybe<User_Socials_Min_Fields>;
+};
+
+
+/** aggregate fields of "user_socials" */
+export type User_Socials_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Socials_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "user_socials" */
+export type User_Socials_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<User_Socials_Max_Order_By>;
+  min?: InputMaybe<User_Socials_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "user_socials" */
+export type User_Socials_Arr_Rel_Insert_Input = {
+  data: Array<User_Socials_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<User_Socials_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "user_socials". All fields are combined with a logical 'AND'. */
+export type User_Socials_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Socials_Bool_Exp>>;
+  _not?: InputMaybe<User_Socials_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Socials_Bool_Exp>>;
+  network?: InputMaybe<String_Comparison_Exp>;
+  url?: InputMaybe<String_Comparison_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "user_socials" */
+export enum User_Socials_Constraint {
+  /** unique or primary key constraint */
+  UserSocialsUserIdNetworkKey = 'user_socials_user_id_network_key'
+}
+
+/** input type for inserting data into table "user_socials" */
+export type User_Socials_Insert_Input = {
+  network?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type User_Socials_Max_Fields = {
+  __typename?: 'user_socials_max_fields';
+  network?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "user_socials" */
+export type User_Socials_Max_Order_By = {
+  network?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type User_Socials_Min_Fields = {
+  __typename?: 'user_socials_min_fields';
+  network?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "user_socials" */
+export type User_Socials_Min_Order_By = {
+  network?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "user_socials" */
+export type User_Socials_Mutation_Response = {
+  __typename?: 'user_socials_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Socials>;
+};
+
+/** on_conflict condition type for table "user_socials" */
+export type User_Socials_On_Conflict = {
+  constraint: User_Socials_Constraint;
+  update_columns?: Array<User_Socials_Update_Column>;
+  where?: InputMaybe<User_Socials_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_socials". */
+export type User_Socials_Order_By = {
+  network?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "user_socials" */
+export enum User_Socials_Select_Column {
+  /** column name */
+  Network = 'network',
+  /** column name */
+  Url = 'url',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "user_socials" */
+export type User_Socials_Set_Input = {
+  network?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "user_socials" */
+export enum User_Socials_Update_Column {
+  /** column name */
+  Network = 'network',
+  /** column name */
+  Url = 'url',
+  /** column name */
+  UserId = 'user_id'
+}
 
 /** columns and relationships of "users" */
 export type Users = {
@@ -4108,6 +4351,7 @@ export type Users = {
   /** An aggregate relationship */
   credentialsByTargetId_aggregate: Credentials_Aggregate;
   device?: Maybe<Scalars['String']>;
+  email_address?: Maybe<Scalars['citext']>;
   /** An array relationship */
   gate_progresses: Array<Gate_Progress>;
   /** An aggregate relationship */
@@ -4117,9 +4361,14 @@ export type Users = {
   knowledges?: Maybe<Scalars['_text']>;
   languages?: Maybe<Scalars['_text']>;
   name?: Maybe<Scalars['String']>;
+  nonce: Scalars['Int'];
   pfp: Scalars['String'];
+  refresh_token?: Maybe<Scalars['String']>;
   skills?: Maybe<Scalars['_text']>;
-  socials?: Maybe<Scalars['_json']>;
+  /** An array relationship */
+  socials: Array<User_Socials>;
+  /** An aggregate relationship */
+  socials_aggregate: User_Socials_Aggregate;
   updatedAt: Scalars['timestamp'];
   username?: Maybe<Scalars['String']>;
   wallet?: Maybe<Scalars['String']>;
@@ -4166,6 +4415,26 @@ export type UsersGate_Progresses_AggregateArgs = {
   where?: InputMaybe<Gate_Progress_Bool_Exp>;
 };
 
+
+/** columns and relationships of "users" */
+export type UsersSocialsArgs = {
+  distinct_on?: InputMaybe<Array<User_Socials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Socials_Order_By>>;
+  where?: InputMaybe<User_Socials_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersSocials_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Socials_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Socials_Order_By>>;
+  where?: InputMaybe<User_Socials_Bool_Exp>;
+};
+
 /** aggregated selection of "users" */
 export type Users_Aggregate = {
   __typename?: 'users_aggregate';
@@ -4176,9 +4445,17 @@ export type Users_Aggregate = {
 /** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
   __typename?: 'users_aggregate_fields';
+  avg?: Maybe<Users_Avg_Fields>;
   count: Scalars['Int'];
   max?: Maybe<Users_Max_Fields>;
   min?: Maybe<Users_Min_Fields>;
+  stddev?: Maybe<Users_Stddev_Fields>;
+  stddev_pop?: Maybe<Users_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Users_Stddev_Samp_Fields>;
+  sum?: Maybe<Users_Sum_Fields>;
+  var_pop?: Maybe<Users_Var_Pop_Fields>;
+  var_samp?: Maybe<Users_Var_Samp_Fields>;
+  variance?: Maybe<Users_Variance_Fields>;
 };
 
 
@@ -4190,9 +4467,28 @@ export type Users_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "users" */
 export type Users_Aggregate_Order_By = {
+  avg?: InputMaybe<Users_Avg_Order_By>;
   count?: InputMaybe<Order_By>;
   max?: InputMaybe<Users_Max_Order_By>;
   min?: InputMaybe<Users_Min_Order_By>;
+  stddev?: InputMaybe<Users_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Users_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Users_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Users_Sum_Order_By>;
+  var_pop?: InputMaybe<Users_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Users_Var_Samp_Order_By>;
+  variance?: InputMaybe<Users_Variance_Order_By>;
+};
+
+/** aggregate avg on columns */
+export type Users_Avg_Fields = {
+  __typename?: 'users_avg_fields';
+  nonce?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "users" */
+export type Users_Avg_Order_By = {
+  nonce?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
@@ -4207,15 +4503,18 @@ export type Users_Bool_Exp = {
   createdAt?: InputMaybe<Timestamp_Comparison_Exp>;
   credentialsByTargetId?: InputMaybe<Credentials_Bool_Exp>;
   device?: InputMaybe<String_Comparison_Exp>;
+  email_address?: InputMaybe<Citext_Comparison_Exp>;
   gate_progresses?: InputMaybe<Gate_Progress_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   init?: InputMaybe<Boolean_Comparison_Exp>;
   knowledges?: InputMaybe<_Text_Comparison_Exp>;
   languages?: InputMaybe<_Text_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  nonce?: InputMaybe<Int_Comparison_Exp>;
   pfp?: InputMaybe<String_Comparison_Exp>;
+  refresh_token?: InputMaybe<String_Comparison_Exp>;
   skills?: InputMaybe<_Text_Comparison_Exp>;
-  socials?: InputMaybe<_Json_Comparison_Exp>;
+  socials?: InputMaybe<User_Socials_Bool_Exp>;
   updatedAt?: InputMaybe<Timestamp_Comparison_Exp>;
   username?: InputMaybe<String_Comparison_Exp>;
   wallet?: InputMaybe<String_Comparison_Exp>;
@@ -4231,10 +4530,19 @@ export enum Users_Constraint {
   /** unique or primary key constraint */
   UserWalletUindex = 'user_wallet_uindex',
   /** unique or primary key constraint */
+  UsersEmailAddressUindex = 'users_email_address_uindex',
+  /** unique or primary key constraint */
   UsersPk = 'users_pk',
+  /** unique or primary key constraint */
+  UsersRefreshTokenUindex = 'users_refresh_token_uindex',
   /** unique or primary key constraint */
   UsersWalletUindex = 'users_wallet_uindex'
 }
+
+/** input type for incrementing numeric columns in table "users" */
+export type Users_Inc_Input = {
+  nonce?: InputMaybe<Scalars['Int']>;
+};
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
@@ -4245,15 +4553,18 @@ export type Users_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamp']>;
   credentialsByTargetId?: InputMaybe<Credentials_Arr_Rel_Insert_Input>;
   device?: InputMaybe<Scalars['String']>;
+  email_address?: InputMaybe<Scalars['citext']>;
   gate_progresses?: InputMaybe<Gate_Progress_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   init?: InputMaybe<Scalars['Boolean']>;
   knowledges?: InputMaybe<Scalars['_text']>;
   languages?: InputMaybe<Scalars['_text']>;
   name?: InputMaybe<Scalars['String']>;
+  nonce?: InputMaybe<Scalars['Int']>;
   pfp?: InputMaybe<Scalars['String']>;
+  refresh_token?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Scalars['_text']>;
-  socials?: InputMaybe<Scalars['_json']>;
+  socials?: InputMaybe<User_Socials_Arr_Rel_Insert_Input>;
   updatedAt?: InputMaybe<Scalars['timestamp']>;
   username?: InputMaybe<Scalars['String']>;
   wallet?: InputMaybe<Scalars['String']>;
@@ -4266,9 +4577,12 @@ export type Users_Max_Fields = {
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamp']>;
   device?: Maybe<Scalars['String']>;
+  email_address?: Maybe<Scalars['citext']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  nonce?: Maybe<Scalars['Int']>;
   pfp?: Maybe<Scalars['String']>;
+  refresh_token?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamp']>;
   username?: Maybe<Scalars['String']>;
   wallet?: Maybe<Scalars['String']>;
@@ -4279,9 +4593,12 @@ export type Users_Max_Order_By = {
   bio?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   device?: InputMaybe<Order_By>;
+  email_address?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  nonce?: InputMaybe<Order_By>;
   pfp?: InputMaybe<Order_By>;
+  refresh_token?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
   username?: InputMaybe<Order_By>;
   wallet?: InputMaybe<Order_By>;
@@ -4293,9 +4610,12 @@ export type Users_Min_Fields = {
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamp']>;
   device?: Maybe<Scalars['String']>;
+  email_address?: Maybe<Scalars['citext']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  nonce?: Maybe<Scalars['Int']>;
   pfp?: Maybe<Scalars['String']>;
+  refresh_token?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamp']>;
   username?: Maybe<Scalars['String']>;
   wallet?: Maybe<Scalars['String']>;
@@ -4306,9 +4626,12 @@ export type Users_Min_Order_By = {
   bio?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   device?: InputMaybe<Order_By>;
+  email_address?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  nonce?: InputMaybe<Order_By>;
   pfp?: InputMaybe<Order_By>;
+  refresh_token?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
   username?: InputMaybe<Order_By>;
   wallet?: InputMaybe<Order_By>;
@@ -4346,15 +4669,18 @@ export type Users_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   credentialsByTargetId_aggregate?: InputMaybe<Credentials_Aggregate_Order_By>;
   device?: InputMaybe<Order_By>;
+  email_address?: InputMaybe<Order_By>;
   gate_progresses_aggregate?: InputMaybe<Gate_Progress_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   init?: InputMaybe<Order_By>;
   knowledges?: InputMaybe<Order_By>;
   languages?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  nonce?: InputMaybe<Order_By>;
   pfp?: InputMaybe<Order_By>;
+  refresh_token?: InputMaybe<Order_By>;
   skills?: InputMaybe<Order_By>;
-  socials?: InputMaybe<Order_By>;
+  socials_aggregate?: InputMaybe<User_Socials_Aggregate_Order_By>;
   updatedAt?: InputMaybe<Order_By>;
   username?: InputMaybe<Order_By>;
   wallet?: InputMaybe<Order_By>;
@@ -4381,6 +4707,8 @@ export enum Users_Select_Column {
   /** column name */
   Device = 'device',
   /** column name */
+  EmailAddress = 'email_address',
+  /** column name */
   Id = 'id',
   /** column name */
   Init = 'init',
@@ -4391,11 +4719,13 @@ export enum Users_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  Nonce = 'nonce',
+  /** column name */
   Pfp = 'pfp',
   /** column name */
-  Skills = 'skills',
+  RefreshToken = 'refresh_token',
   /** column name */
-  Socials = 'socials',
+  Skills = 'skills',
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
@@ -4414,18 +4744,64 @@ export type Users_Set_Input = {
   blacklistedFlags?: InputMaybe<Scalars['_text']>;
   createdAt?: InputMaybe<Scalars['timestamp']>;
   device?: InputMaybe<Scalars['String']>;
+  email_address?: InputMaybe<Scalars['citext']>;
   id?: InputMaybe<Scalars['uuid']>;
   init?: InputMaybe<Scalars['Boolean']>;
   knowledges?: InputMaybe<Scalars['_text']>;
   languages?: InputMaybe<Scalars['_text']>;
   name?: InputMaybe<Scalars['String']>;
+  nonce?: InputMaybe<Scalars['Int']>;
   pfp?: InputMaybe<Scalars['String']>;
+  refresh_token?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Scalars['_text']>;
-  socials?: InputMaybe<Scalars['_json']>;
   updatedAt?: InputMaybe<Scalars['timestamp']>;
   username?: InputMaybe<Scalars['String']>;
   wallet?: InputMaybe<Scalars['String']>;
   whitelistedFlags?: InputMaybe<Scalars['_text']>;
+};
+
+/** aggregate stddev on columns */
+export type Users_Stddev_Fields = {
+  __typename?: 'users_stddev_fields';
+  nonce?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "users" */
+export type Users_Stddev_Order_By = {
+  nonce?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Users_Stddev_Pop_Fields = {
+  __typename?: 'users_stddev_pop_fields';
+  nonce?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "users" */
+export type Users_Stddev_Pop_Order_By = {
+  nonce?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Users_Stddev_Samp_Fields = {
+  __typename?: 'users_stddev_samp_fields';
+  nonce?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "users" */
+export type Users_Stddev_Samp_Order_By = {
+  nonce?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Users_Sum_Fields = {
+  __typename?: 'users_sum_fields';
+  nonce?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "users" */
+export type Users_Sum_Order_By = {
+  nonce?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "users" */
@@ -4443,6 +4819,8 @@ export enum Users_Update_Column {
   /** column name */
   Device = 'device',
   /** column name */
+  EmailAddress = 'email_address',
+  /** column name */
   Id = 'id',
   /** column name */
   Init = 'init',
@@ -4453,11 +4831,13 @@ export enum Users_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  Nonce = 'nonce',
+  /** column name */
   Pfp = 'pfp',
   /** column name */
-  Skills = 'skills',
+  RefreshToken = 'refresh_token',
   /** column name */
-  Socials = 'socials',
+  Skills = 'skills',
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
@@ -4467,6 +4847,39 @@ export enum Users_Update_Column {
   /** column name */
   WhitelistedFlags = 'whitelistedFlags'
 }
+
+/** aggregate var_pop on columns */
+export type Users_Var_Pop_Fields = {
+  __typename?: 'users_var_pop_fields';
+  nonce?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "users" */
+export type Users_Var_Pop_Order_By = {
+  nonce?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Users_Var_Samp_Fields = {
+  __typename?: 'users_var_samp_fields';
+  nonce?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "users" */
+export type Users_Var_Samp_Order_By = {
+  nonce?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Users_Variance_Fields = {
+  __typename?: 'users_variance_fields';
+  nonce?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "users" */
+export type Users_Variance_Order_By = {
+  nonce?: InputMaybe<Order_By>;
+};
 
 /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
@@ -4672,7 +5085,7 @@ export type GetGateUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetGateUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user_id: any, updated_at: any, gate_id?: any | null | undefined, dao_id?: any | null | undefined, created_at: any, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> };
+export type GetGateUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user_id: any, updated_at: any, gate_id?: any | null | undefined, dao_id?: any | null | undefined, created_at: any, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }> } }> };
 
 export type GetDaoUsersQueryVariables = Exact<{
   dao_id?: InputMaybe<Scalars['uuid']>;
@@ -4680,7 +5093,7 @@ export type GetDaoUsersQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user_id: any, updated_at: any, gate_id?: any | null | undefined, dao_id?: any | null | undefined, created_at: any, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> };
+export type GetDaoUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user_id: any, updated_at: any, gate_id?: any | null | undefined, dao_id?: any | null | undefined, created_at: any, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }> } }> };
 
 export type SearchUsersQueryVariables = Exact<{
   query: Scalars['String'];
@@ -4719,26 +5132,26 @@ export type GetUserByUsernameQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type GetUserByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type GetUserByAddressQueryVariables = Exact<{
   wallet: Scalars['String'];
 }>;
 
 
-export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type ListUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type ListUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type CreateUserMutationVariables = Exact<{
   object?: InputMaybe<Users_Insert_Input>;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } | null | undefined };
+export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }> } | null | undefined };
 
 export type UpdateUserMutationVariables = Exact<{
   set?: InputMaybe<Users_Set_Input>;
@@ -4746,7 +5159,14 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, socials?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } | null | undefined };
+export type UpdateUserMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }> } | null | undefined };
+
+export type UpdateSocialsMutationVariables = Exact<{
+  objects?: InputMaybe<Array<User_Socials_Insert_Input> | User_Socials_Insert_Input>;
+}>;
+
+
+export type UpdateSocialsMutation = { __typename?: 'mutation_root', insert_user_socials?: { __typename?: 'user_socials_mutation_response', affected_rows: number } | null | undefined };
 
 export type DeleteUserMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -6114,7 +6534,10 @@ export const GetGateUsersDocument = gql`
       name
       pfp
       skills
-      socials
+      socials {
+        network
+        url
+      }
       updatedAt
       username
       wallet
@@ -6175,7 +6598,10 @@ export const GetDaoUsersDocument = gql`
       name
       pfp
       skills
-      socials
+      socials {
+        network
+        url
+      }
       updatedAt
       username
       wallet
@@ -6378,7 +6804,10 @@ export const GetUserByUsernameDocument = gql`
     name
     pfp
     skills
-    socials
+    socials {
+      network
+      url
+    }
     updatedAt
     username
     wallet
@@ -6437,7 +6866,10 @@ export const GetUserByAddressDocument = gql`
     name
     pfp
     skills
-    socials
+    socials {
+      network
+      url
+    }
     updatedAt
     username
     wallet
@@ -6496,7 +6928,10 @@ export const ListUsersDocument = gql`
     name
     pfp
     skills
-    socials
+    socials {
+      network
+      url
+    }
     updatedAt
     username
     wallet
@@ -6554,7 +6989,10 @@ export const CreateUserDocument = gql`
     name
     pfp
     skills
-    socials
+    socials {
+      network
+      url
+    }
     updatedAt
     username
     wallet
@@ -6604,7 +7042,10 @@ export const UpdateUserDocument = gql`
     name
     pfp
     skills
-    socials
+    socials {
+      network
+      url
+    }
     updatedAt
     username
     wallet
@@ -6639,6 +7080,42 @@ export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const UpdateSocialsDocument = gql`
+    mutation updateSocials($objects: [user_socials_insert_input!] = {}) {
+  insert_user_socials(
+    objects: $objects
+    on_conflict: {constraint: user_socials_user_id_network_key, update_columns: url}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type UpdateSocialsMutationFn = Apollo.MutationFunction<UpdateSocialsMutation, UpdateSocialsMutationVariables>;
+
+/**
+ * __useUpdateSocialsMutation__
+ *
+ * To run a mutation, you first call `useUpdateSocialsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSocialsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSocialsMutation, { data, loading, error }] = useUpdateSocialsMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *   },
+ * });
+ */
+export function useUpdateSocialsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSocialsMutation, UpdateSocialsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSocialsMutation, UpdateSocialsMutationVariables>(UpdateSocialsDocument, options);
+      }
+export type UpdateSocialsMutationHookResult = ReturnType<typeof useUpdateSocialsMutation>;
+export type UpdateSocialsMutationResult = Apollo.MutationResult<UpdateSocialsMutation>;
+export type UpdateSocialsMutationOptions = Apollo.BaseMutationOptions<UpdateSocialsMutation, UpdateSocialsMutationVariables>;
 export const DeleteUserDocument = gql`
     mutation deleteUser($id: uuid!) {
   delete_users_by_pk(id: $id) {
