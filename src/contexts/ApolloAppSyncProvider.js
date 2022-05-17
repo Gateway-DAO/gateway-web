@@ -11,7 +11,7 @@ import {
 
 const client = new ApolloClient({
     link: new HttpLink({
-      uri: 'https://gateway-dao-api.hasura.app/v1/graphql',
+      uri: process.env.REACT_APP_HASURA_ENDPOINT,
       headers: {
         Authorization: `Bearer ${process.env.REACT_APP_AUTH_TOKEN}`,
         'x-hasura-admin-secret': process.env.REACT_APP_AUTH_TOKEN

@@ -72,12 +72,12 @@ const DAOTab = ({ filterQuery }) => {
                         return (
                             <Card
                                 key={idx}
-                                id={card.dao}
+                                id={card.slug}
                                 title={card.name}
                                 description={card.description}
                                 categories={card.categories}
-                                logoURL={card.logoURL}
-                                bannerURL={card.backgroundURL}
+                                logoURL={card.logo_url}
+                                bannerURL={card.background_url}
                             />
                         );
                     })}

@@ -5,7 +5,7 @@ import { FormStyled, ImageUpload } from '../../Form';
 import { useState } from 'react';
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 import { Navigate } from 'react-router-dom';
-import useFileUpload from '../../../api/useFileUpload';
+import useFile from '../../../api/useFile';
 import normalizeUrl from 'normalize-url';
 import Loader from '../../Loader';
 import { ytVideoID } from '../../../utils/functions';
@@ -32,7 +32,7 @@ const EditCardModal = (props) => {
     const [updateLoading, setUpdateLoading] = useState(false);
 
     const [updateDAO, { data, error, loading }] = useUpdateDaoMutation();
-    const { uploadFile } = useFileUpload();
+    const { uploadFile } = useFile();
 
     const submitToDB = async () => {
         setUpdateLoading(true);
@@ -55,16 +55,14 @@ const EditCardModal = (props) => {
             const logoURL =
                 logoFile ?
                 (await uploadFile(
-                    `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
-                    logoFile
+                    logoFile,
+                    `/daos/${props.id}/`
                 )) : props.logoURL;
             const backgroundURL =
                 backgroundFile ?
                 (await uploadFile(
-                    `daos/${props.id}/background.${backgroundFile.name
-                        .split('.')
-                        .pop()}`,
-                    backgroundFile
+                    backgroundFile,
+                    `/daos/${props.id}/`
                 )) : props.backgroundURL;
 
             const newInfo = {

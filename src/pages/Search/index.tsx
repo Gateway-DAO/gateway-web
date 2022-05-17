@@ -92,12 +92,12 @@ const Search = () => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
-                {
+                {/*
                     <Styled.LeftNav>
                         <Styled.FilterText>Filter:</Styled.FilterText>
                         <FilterComponent />
                     </Styled.LeftNav>
-                }
+                */}
             </Styled.Nav>
             <TabComponent />
             <Footer />

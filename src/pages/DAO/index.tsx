@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react';
 import { getTokenFromAddress } from '../../api/coingecko';
 
 // Hooks
-import { useGetDaoBySlugQuery } from '../../graphql';
+import { Daos, useGetDaoBySlugQuery } from '../../graphql';
+import { PartialDeep } from 'type-fest';
 
 /**
  * It fetches data from the DAO's GraphQL API and renders the appropriate page
@@ -16,16 +17,13 @@ import { useGetDaoBySlugQuery } from '../../graphql';
  */
 const DAO = (props) => {
     const { id } = useParams();
-    const [daoData, setDaoData] = useState({
-        tokenAddress: '',
-        socials: {},
+    const [daoData, setDaoData] = useState<PartialDeep<Daos>>({
+        token: '',
         categories: [],
         bounties: [],
         description: '',
-        howToJoin: [],
-        tags: [],
-        tokenBenefits: [],
-        whitelistedAddresses: [],
+        how_to_join: [],
+        token_benefits: [],
     });
     const {
         data: dbData,
@@ -45,12 +43,12 @@ const DAO = (props) => {
     // In case the DAO's token address gets changed
     useEffect(() => {
         const fetchTokenInfo = async () => {
-            const cgData = daoData?.tokenAddress
-                ? await getCGData(daoData?.tokenAddress)
+            const cgData: Record<string, any> = daoData?.token
+                ? await getCGData(daoData?.token)
                 : {};
 
             const tokenData =
-                daoData.tokenAddress && cgData.market_data
+                daoData.token && cgData.market_data
                     ? {
                           symbol: cgData.symbol,
                           ranking: cgData.market_cap_rank,
@@ -77,21 +75,19 @@ const DAO = (props) => {
             setDaoData({ ...daoData, ...tokenData });
         };
 
-        daoData && daoData.tokenAddress && fetchTokenInfo();
-    }, [daoData.tokenAddress]);
+        daoData && daoData.token && fetchTokenInfo();
+    }, [daoData.token]);
 
     // Fetch data regarding these
     useEffect(() => {
         const handleData = async () => {
             if (daoData && !loading && !error) {
-                const cgData = dbData.tokenAddress
-                    ? await getCGData(dbData.tokenAddress).catch((e) => {
-                          console.log(e);
-                      })
+                const cgData: Record<string, any> = dbData.daos[0].token
+                    ? await getCGData(dbData.daos[0].token)
                     : {};
 
                 const tokenData =
-                    dbData.getDAOById.items[0].tokenAddress && cgData.symbol
+                    dbData.daos[0].token && cgData.symbol
                         ? {
                               symbol: cgData.symbol,
                               ranking: cgData.market_cap_rank,
@@ -118,7 +114,7 @@ const DAO = (props) => {
 
                 // Organize presentable data
                 const data = {
-                    ...dbData.getDAOById.items[0],
+                    ...dbData.daos[0],
                     ...tokenData,
                 };
 
@@ -135,7 +131,7 @@ const DAO = (props) => {
             dbData &&
             setDaoData({
                 ...daoData,
-                ...dbData.getDAOById.items[0],
+                ...dbData.daos[0],
             });
     }, [dbData, called]);
 

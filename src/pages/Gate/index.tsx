@@ -2,7 +2,6 @@
 import { useParams, Navigate, Outlet } from 'react-router-dom';
 
 // Hooks
-import { gql, useQuery } from '@apollo/client';
 import { useAuth } from '../../contexts/UserContext';
 
 // Components

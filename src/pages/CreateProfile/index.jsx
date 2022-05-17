@@ -13,8 +13,7 @@ import Loader from '../../components/Loader';
 import { ImageUpload } from '../../components/Form';
 
 // Hooks
-import { useFileUpload } from '../../api/useFileUpload';
-import { useGetFile } from '../../api/useGetFile';
+import { useFile } from '../../api/useFile';
 import { useAuth } from '../../contexts/UserContext';
 import { useSearchDaOsQuery } from '../../graphql';
 
@@ -48,8 +47,7 @@ const CreateProfile = () => {
     const [loading, setLoading] = useState(false);
 
     // Upload file hook
-    const { uploadFile, imgLoading } = useFileUpload();
-    const { getFile, imgLoading: getImgLoading } = useGetFile();
+    const { uploadFile, imgLoading } = useFile();
 
     // Handlers
     const changeSocial = (idx, e) => {
@@ -80,8 +78,8 @@ const CreateProfile = () => {
         const file = picture;
         // const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
         return await uploadFile(
-            `users/${userInfo.id}/profile.${file.name.split('.').pop()}`,
-            file
+            file,
+            `/users/${userInfo.id}/`
         );
     };
 

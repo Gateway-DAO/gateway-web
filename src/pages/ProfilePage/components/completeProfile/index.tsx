@@ -9,7 +9,7 @@ import {
 import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 
-import useFileUpload from '../../../../api/useFileUpload';
+import { useFile } from '../../../../api/useFile';
 import normalizeUrl from 'normalize-url';
 import './CompleteProfile.css';
 import Page from '../../../../components/Page';
@@ -42,7 +42,7 @@ interface IErrors {
 
 const CompleteProfile: React.FC = () => {
 	// Hooks
-	const { uploadFile } = useFileUpload();
+	const { uploadFile } = useFile();
 	const navigate = useNavigate();
 	const [getUser, { data }] = useGetUserByUsernameLazyQuery();
 	const {
@@ -198,20 +198,17 @@ const CompleteProfile: React.FC = () => {
 			try {
 				// Upload files to S3
 				setIsLoading(true);
-				const avatarURL = file
-					? await uploadFile(
-						`users/${userInfo.id}/${Date.now()}/file.name
-							.split('.')
-							.pop()}`,
+				const pfp = file
+					? `http://api.staging.mygateway.xyz/storage/file?key=${(await uploadFile(
 						file,
-						{ contentType: `image` }
-					)
+						`users/${userInfo.id}/${Date.now()}/`
+					)).key}`
 					: defaultPfp;
 
 				await updateUserInfo({
 					name: user.displayName,
 					username: user.userName.toLowerCase(),
-					pfp: avatarURL,
+					pfp,
 					bio: user.userBio,
 					socials: user.socials
 						.filter((social) => social.platform_value !== null)

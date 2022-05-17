@@ -11,7 +11,7 @@ import Loader from '../../Loader';
 // Hooks
 import { useSignedAuth } from '../../../contexts/UserContext';
 import { useEffect, useState } from 'react';
-import { useFileUpload } from '../../../api/useFileUpload';
+import { useFile } from '../../../api/useFile';
 import { ImageUpload } from '../../Form';
 import { useSearchDaOsQuery, useGetUserByUsernameLazyQuery } from '../../../graphql';
 
@@ -33,7 +33,7 @@ const ProfileEditModal = (props) => {
 
     const { loggedIn, userInfo, updateUserInfo, walletConnected, signIn } =
         useSignedAuth([props.show]);
-    const { uploadFile } = useFileUpload();
+    const { uploadFile } = useFile();
 
     // Get user
     const [getUser] = useGetUserByUsernameLazyQuery();
@@ -52,8 +52,8 @@ const ProfileEditModal = (props) => {
     const uploadPfp = async () => {
         const file = pfp;
         return await uploadFile(
-            `users/${userInfo.id}/profile.${file.name.split('.').pop()}`,
-            file
+            file,
+            `/users/${userInfo.id}/`
         );
     };
 
