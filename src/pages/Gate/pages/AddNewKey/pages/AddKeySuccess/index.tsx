@@ -20,11 +20,6 @@ interface AddKeySuccessProps {
  * @returns A React component.
  */
 const KeySuccess: React.FC<AddKeySuccessProps> = ({ gate, edit = false }) => {
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
-
     useEffect(() => {
         if (gate === undefined) {
             window.location.href = '/';

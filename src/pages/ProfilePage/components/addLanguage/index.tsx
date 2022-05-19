@@ -104,7 +104,7 @@ const AddLanguage: React.FC = () => {
 	}
 
 	return (
-		<Space>
+		<>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
@@ -199,7 +199,7 @@ const AddLanguage: React.FC = () => {
 					</Container>
 				</div>
 			</div>
-		</Space>
+		</>
 	);
 };
 

@@ -19,7 +19,7 @@ const AddNewKey = ({ edit = false }) => {
 
     // State
     const [createdKey, setCreatedKey] = useState(false);
-    const [pushToDB, { loading }] =  useCreateKeyMutation()
+    const [pushToDB, { loading }] = useCreateKeyMutation()
     const [backButton, setBackButton] = useState({
         text: 'Gate',
         url: `/gate/${gateData.id}`,
@@ -40,7 +40,7 @@ const AddNewKey = ({ edit = false }) => {
                     questions: formik.values.quiz.questions,
                     passedAt: Math.floor(
                         formik.values.quiz.questions.length *
-                            formik.values.quiz.percentage
+                        formik.values.quiz.percentage
                     ),
                 };
             case 'meeting-code':
@@ -96,15 +96,15 @@ const AddNewKey = ({ edit = false }) => {
                 : '',
             titleDescriptionPair: state
                 ? state.data.information.map((pair) => ({
-                      title: pair.title,
-                      description: pair.description,
-                  }))
+                    title: pair.title,
+                    description: pair.description,
+                }))
                 : [
-                      {
-                          title: '',
-                          description: '',
-                      },
-                  ],
+                    {
+                        title: '',
+                        description: '',
+                    },
+                ],
             keysRewarded: state ? state.data.keys : 0,
             peopleLimit: state ? state.data.people_limit : 0,
             unlimited: state ? state.data.unlimited : false,
@@ -123,21 +123,21 @@ const AddNewKey = ({ edit = false }) => {
                 questions: state
                     ? state.data.task.questions
                     : [
-                          {
-                              question: '',
-                              options: [
-                                  {
-                                      answer: '',
-                                      correct: false,
-                                  },
-                                  {
-                                      answer: '',
-                                      correct: false,
-                                  },
-                              ],
-                              nrOfCorrectAnswers: 0,
-                          },
-                      ],
+                        {
+                            question: '',
+                            options: [
+                                {
+                                    answer: '',
+                                    correct: false,
+                                },
+                                {
+                                    answer: '',
+                                    correct: false,
+                                },
+                            ],
+                            nrOfCorrectAnswers: 0,
+                        },
+                    ],
             },
         },
         validate,
@@ -152,8 +152,8 @@ const AddNewKey = ({ edit = false }) => {
                             people_limit: values.peopleLimit,
                             unlimited: values.unlimited,
                             task_type: ((edit
-                            ? JSON.stringify(taskDBInput())
-                            : taskDBInput()) as Record<string, any>).type,
+                                ? JSON.stringify(taskDBInput())
+                                : taskDBInput()) as Record<string, any>).type,
                             task: edit
                                 ? JSON.stringify(taskDBInput())
                                 : taskDBInput(),
@@ -170,28 +170,26 @@ const AddNewKey = ({ edit = false }) => {
 
     return (
         <Styled.Container>
-            <Space>
-                {createdKey ? (
-                    <KeySuccess edit={!!state} gate={gateData.id} />
-                ) : (
-                    <>
-                        <BackButton url={backButton.url}>
-                            Back to {backButton.text}
-                        </BackButton>
-                        <Outlet
-                            context={{
-                                gateData,
-                                formik,
-                                edit: !!state || edit,
-                                loading,
-                                setBackButton,
-                                setValidator,
-                                state,
-                            }}
-                        />
-                    </>
-                )}
-            </Space>
+            {createdKey ? (
+                <KeySuccess edit={!!state} gate={gateData.id} />
+            ) : (
+                <>
+                    <BackButton url={backButton.url}>
+                        Back to {backButton.text}
+                    </BackButton>
+                    <Outlet
+                        context={{
+                            gateData,
+                            formik,
+                            edit: !!state || edit,
+                            loading,
+                            setBackButton,
+                            setValidator,
+                            state,
+                        }}
+                    />
+                </>
+            )}
         </Styled.Container>
     );
 };

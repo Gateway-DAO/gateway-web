@@ -68,7 +68,7 @@ const AddAbout: React.FC = () => {
 	}
 
 	return (
-		<Space>
+		<>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
@@ -137,7 +137,7 @@ const AddAbout: React.FC = () => {
 					</Container>
 				</div>
 			</div>
-		</Space>
+		</>
 	);
 };
 

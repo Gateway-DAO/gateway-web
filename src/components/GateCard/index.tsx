@@ -56,7 +56,7 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
 
     // State
     const [numberOfWords, setNumberOfWords] = useState(100);
-    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0) || 0);
+    const keysDone = keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0);
 
     useEffect(() => {
         if (window.innerWidth < 1171 && window.innerWidth > 900) {

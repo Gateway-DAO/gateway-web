@@ -240,7 +240,7 @@ const CompleteProfile: React.FC = () => {
 	}
 
 	return (
-		<Space>
+		<>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
@@ -488,7 +488,7 @@ const CompleteProfile: React.FC = () => {
 					</Container>
 				</div>
 			</div>
-		</Space>
+		</>
 	);
 };
 

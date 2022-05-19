@@ -69,15 +69,15 @@ const DaoGate: React.FC = () => {
                 <NftBadge nft={gateData.badge} />
                 <Styled.MainContent>
                     <Styled.FirstDiv>
-                        <Styled.SmallLogo src={dao.logo_url} />
-                        <Styled.SmallText>{dao.name}</Styled.SmallText>
+                        <Styled.SmallLogo src={dao?.logo_url} />
+                        <Styled.SmallText>{dao?.name}</Styled.SmallText>
                     </Styled.FirstDiv>
                     <Styled.HeadingDiv>{gateData.gate_name}</Styled.HeadingDiv>
                     <Styled.Subheading>
-                        {gateData.description}
+                        {gateData?.description}
                     </Styled.Subheading>
                     <Styled.TagsDiv>
-                        {gateData.categories.map(
+                        {gateData?.categories?.map(
                             (category: string, idx: number) => (
                                 <Styled.Tag key={idx}>{category}</Styled.Tag>
                             )

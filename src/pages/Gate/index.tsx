@@ -66,10 +66,8 @@ const GatePage: React.FC = () => {
     })
 
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
-    const [gateData, setGateData] = useState<PartialDeep<Gates>>(dbData?.gates_by_pk);
-    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0));
-    const [earners, setEarners] = useState<PartialDeep<Users>[]>(dbData?.gates_by_pk.earners?.map(earner => earner.user));
     const { isEditor } = useGateAdmin(gate);
+    console.log(isEditor)
 
     useEffect(() => {
         !active && activateWeb3().then(setDidConnect);
@@ -104,8 +102,8 @@ const GatePage: React.FC = () => {
     } else {
         if ((
             !isEditor &&
-            (gateData.published == 'not_published' ||
-                gateData.published == 'paused')
+            (dbData?.gates_by_pk.published == 'not_published' ||
+                dbData?.gates_by_pk.published == 'paused')
         )) {
             return <Navigate to='/not-authorized' />;
         }
@@ -116,14 +114,13 @@ const GatePage: React.FC = () => {
             <Outlet
                 context={{
                     gateData: {
-                        ...gateData,
+                        ...dbData?.gates_by_pk,
                         holders: dbData?.gates_by_pk.holders.length || 0,
-                        keysDone,
+                        keysDone: keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0),
                         taskStatus: keyProgressData?.key_progress || [],
                         adminList: dbData?.gates_by_pk.permissions.map(perms => perms.user) || [],
-                        retroactiveEarnersList: earners || [],
+                        retroactiveEarnersList: dbData?.gates_by_pk.earners?.map(earner => earner.user) || [],
                     },
-                    setGateData,
                     loading: internalLoading,
                     isEditor,
                 }}

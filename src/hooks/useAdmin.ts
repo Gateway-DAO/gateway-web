@@ -16,14 +16,14 @@ export const useAdmin = (dao_id: string): Permissions => {
     })
 
     return {
-        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || null,
-        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'dao_editor') || null,
+        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || false,
+        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'dao_editor') || false,
     };
 };
 
 export const useGateAdmin = (gate_id: string): Permissions => {
     const { userInfo, walletConnected }: Record<string, any> = useAuth();
-    const { data } = useGetUserGatePermissionsQuery({
+    const { data, loading } = useGetUserGatePermissionsQuery({
         variables: {
             gate_id,
             user_id: userInfo?.id
@@ -31,8 +31,8 @@ export const useGateAdmin = (gate_id: string): Permissions => {
     })
 
     return {
-        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || null,
-        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'gate_editor') || null,
+        isAdmin: !loading ? userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') : null,
+        isEditor: !loading ? userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'gate_editor') : null,
     };
 };
 

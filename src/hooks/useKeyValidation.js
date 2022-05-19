@@ -53,7 +53,7 @@ export const useKeyValidation = (data, gateData) => {
                                         keysDone: gateData.keysDone + data.keys,
                                         completedGate:
                                             res.data.verifyMeetingCode
-                                                .completedGate,
+                                                .completed_gate,
                                     },
                                 });
                             } else {
@@ -103,7 +103,7 @@ export const useKeyValidation = (data, gateData) => {
 
                             if (
                                 res.data.verifyContractInteraction
-                                    .__typename !== 'Error'
+                                    .verify_key !== 'Error'
                             ) {
                                 navigate('key-completed', {
                                     state: {
@@ -112,7 +112,7 @@ export const useKeyValidation = (data, gateData) => {
                                         keysDone: gateData.keysDone + data.keys,
                                         completedGate:
                                             res.data.verifyContractInteraction
-                                                .completedGate,
+                                                .completed_gate,
                                     },
                                 });
                             } else {
@@ -166,7 +166,7 @@ export const useKeyValidation = (data, gateData) => {
                             });
 
                             if (
-                                res.data.verifyHoldAToken.__typename !== 'Error'
+                                res.data.verify_key.__typename !== 'Error'
                             ) {
                                 navigate('key-completed', {
                                     state: {
@@ -175,7 +175,7 @@ export const useKeyValidation = (data, gateData) => {
                                         keysDone: gateData.keysDone + data.keys,
                                         completedGate:
                                             res.data.verifyHoldAToken
-                                                .completedGate,
+                                                .completed_gate,
                                     },
                                 });
                             } else {
@@ -235,7 +235,7 @@ export const useKeyValidation = (data, gateData) => {
                             });
 
                             if (
-                                res.data.verifySelfVerify.__typename !== 'Error'
+                                res.data.verify_key.__typename !== 'Error'
                             ) {
                                 navigate('key-completed', {
                                     state: {
@@ -243,8 +243,8 @@ export const useKeyValidation = (data, gateData) => {
                                         gate: gateData,
                                         keysDone: gateData.keysDone + data.keys,
                                         completedGate:
-                                            res.data.verifySelfVerify
-                                                .completedGate,
+                                            res.data.verify_key
+                                                .completed_gate,
                                     },
                                 });
                             } else {
@@ -253,7 +253,7 @@ export const useKeyValidation = (data, gateData) => {
                                         <ThemeStyled.H2>
                                             An error occurred
                                         </ThemeStyled.H2>
-                                        <p>{res.data.verifySelfVerify.msg}</p>
+                                        <p>{res.data.verify_key.msg}</p>
                                     </div>
                                 );
                                 showModal(<Error />);
@@ -292,7 +292,7 @@ export const useKeyValidation = (data, gateData) => {
                             });
 
                             if (
-                                res.data.verifySnapshot.__typename !== 'Error'
+                                res.data.verify_key.__typename !== 'Error'
                             ) {
                                 navigate('key-completed', {
                                     state: {
@@ -301,7 +301,7 @@ export const useKeyValidation = (data, gateData) => {
                                         keysDone: gateData.keysDone + data.keys,
                                         completedGate:
                                             res.data.verifySnapshot
-                                                .completedGate,
+                                                .completed_gate,
                                     },
                                 });
                             } else {

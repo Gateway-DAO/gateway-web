@@ -97,7 +97,7 @@ const AddKnowledge = () => {
 	}
 
 	return (
-		<Space>
+		<>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
@@ -192,7 +192,7 @@ const AddKnowledge = () => {
 					</Container>
 				</div>
 			</div>
-		</Space>
+		</>
 	);
 };
 

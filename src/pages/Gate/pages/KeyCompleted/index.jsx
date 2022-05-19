@@ -12,9 +12,6 @@ import * as ThemeStyled from '../../../../theme/style';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-// Utils
-import space from '../../../../utils/canvas';
-
 const KeyCompletedPage = (props) => {
     // Hooks
     const { gateData } = useOutletContext();
@@ -37,14 +34,8 @@ const KeyCompletedPage = (props) => {
         return () => clearTimeout(clear);
     }, []);
 
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
-
     return (
         <Styled.Container>
-            <ThemeStyled.SpaceBox id='space-canvas' />
             <GradientSVG idCSS='circleGradient' />
             <Styled.Heading>
                 Congrats! {state.key.information[0].title} successfully
@@ -54,12 +45,12 @@ const KeyCompletedPage = (props) => {
                 <CircularProgressbarWithChildren
                     value={gateData.keysDone + state.key.keys}
                     minValue={0}
-                    maxValue={gateData.keysNumber}
+                    maxValue={gateData.keys}
                     strokeWidth={18}
                 >
                     <Styled.CircleText>
                         {gateData.keysDone + state.key.keys} out of{' '}
-                        {gateData.keysNumber}
+                        {gateData.keys}
                     </Styled.CircleText>
                 </CircularProgressbarWithChildren>
             </Styled.CircleBox>

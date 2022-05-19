@@ -485,398 +485,397 @@ const AddGateForm = () => {
 
     return (
         <Styled.Page>
-            <Space>
-                <BackButton
-                    url={edit ? `/gate/${gateData.id}` : `/dao/${daoData.slug}`}
-                    style={{
-                        marginTop: '20px',
-                    }}
-                >
-                    Back to Onboarding
-                </BackButton>
-                <Styled.FormContainer onSubmit={edit ? onEdit : onSave}>
-                    <Styled.Header>
-                        {edit ? `Edit Gate` : `Create a New Gate`}
-                    </Styled.Header>
-                    {(!edit ||
-                        gateData?.published ===
-                        GatePublishedStatus.not_published) && (
-                            <>
-                                <FormStyled.Fieldset>
-                                    <FormStyled.Label htmlFor='title'>
-                                        Gate Title*
-                                    </FormStyled.Label>
-                                    <FormStyled.Input
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        type='text'
-                                        id='title'
-                                        name='title'
-                                        placeholder='This will be the title of your Gate'
-                                        value={title}
-                                        required
-                                    />
-                                </FormStyled.Fieldset>
-
-                                <FormStyled.Fieldset>
-                                    <FormStyled.Label htmlFor='description'>
-                                        Description*
-                                    </FormStyled.Label>
-                                    {/* <RichTextEditor value={description} set={setDescription} /> */}
-                                    <FormStyled.Textarea
-                                        onChange={(e) =>
-                                            setDescription(e.target.value)
-                                        }
-                                        onKeyPress={(e) => {
-                                            e.key === 'Enter' && e.preventDefault();
-                                        }}
-                                        value={description}
-                                        name='description'
-                                        placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
-                                        required
-                                    />
-                                </FormStyled.Fieldset>
-
-                                <FormStyled.Fieldset>
-                                    <FormStyled.Label htmlFor='title'>
-                                        Category*
-                                    </FormStyled.Label>
-                                    <FormStyled.Input
-                                        onChange={(e) =>
-                                            setCategory(e.target.value)
-                                        }
-                                        type='text'
-                                        id='category'
-                                        name='category'
-                                        placeholder='Search Category'
-                                        onKeyPress={addCategories}
-                                        value={category}
-                                    />
-
-                                    {categoryList.length > 0 && (
-                                        <Styled.CategoryList>
-                                            {categoryList.map((category, id) => {
-                                                return (
-                                                    <React.Fragment key={id}>
-                                                        <SearchedItem
-                                                            val={category}
-                                                            id={id}
-                                                            remove={
-                                                                removeCategories
-                                                            }
-                                                        />
-                                                    </React.Fragment>
-                                                );
-                                            })}
-                                        </Styled.CategoryList>
-                                    )}
-                                </FormStyled.Fieldset>
-
-                                <FormStyled.Fieldset>
-                                    <FormStyled.Label>
-                                        Type of Badge*
-                                    </FormStyled.Label>
-                                    <FormStyled.GridBox
-                                        cols={2}
-                                        onChange={(e) =>
-                                            setNFTType(
-                                                (e.target as HTMLInputElement)
-                                                    .value as NFT
-                                            )
-                                        }
-                                    >
-                                        <FormStyled.Radio
-                                            id='nft-1'
-                                            name='nft'
-                                            value='Contributor'
-                                            label='Contributor'
-                                            checked={NFTType === 'Contributor'}
-                                        />
-                                        <FormStyled.Radio
-                                            id='nft-2'
-                                            name='nft'
-                                            value='Reward'
-                                            label='Reward'
-                                            checked={NFTType === 'Reward'}
-                                        />
-                                    </FormStyled.GridBox>
-                                </FormStyled.Fieldset>
-
-                                <FormStyled.Fieldset>
-                                    <FormStyled.Label>
-                                        Would you like to have keys?
-                                    </FormStyled.Label>
-                                    <FormStyled.GridBox
-                                        cols={2}
-                                        onChange={(e) =>
-                                            setWantPreReqs(
-                                                (e.target as HTMLInputElement)
-                                                    .value as YesNo
-                                            )
-                                        }
-                                    >
-                                        <FormStyled.Radio
-                                            id='wantPreReqs-1'
-                                            name='wantPreReqs'
-                                            value='Yes'
-                                            label='Yes'
-                                            checked={wantPreReqs === YesNo.YES}
-                                        />
-                                        <FormStyled.Radio
-                                            id='wantPreReqs-2'
-                                            name='wantPreReqs'
-                                            value='No'
-                                            label='No'
-                                            checked={wantPreReqs === YesNo.NO}
-                                        />
-                                    </FormStyled.GridBox>
-                                </FormStyled.Fieldset>
-                            </>
-                        )}
-
-                    {NFTType && wantPreReqs && (
+            <BackButton
+                url={edit ? `/gate/${gateData.id}` : `/dao/${daoData.slug}`}
+                style={{
+                    marginTop: '20px',
+                }}
+            >
+                Back to Onboarding
+            </BackButton>
+            <Styled.FormContainer onSubmit={edit ? onEdit : onSave}>
+                <Styled.Header>
+                    {edit ? `Edit Gate` : `Create a New Gate`}
+                </Styled.Header>
+                {(!edit ||
+                    gateData?.published ===
+                    GatePublishedStatus.not_published) && (
                         <>
-                            {wantPreReqs === YesNo.YES && (
-                                <FormStyled.Fieldset>
-                                    <FormStyled.Label htmlFor='title'>
-                                        KEYS REQUIRED*
-                                    </FormStyled.Label>
-                                    <Styled.InputSmall
-                                        onKeyPress={(e) => {
-                                            e.key === 'Enter' &&
-                                                e.preventDefault();
-                                        }}
-                                        onChange={(e) => {
-                                            e.preventDefault();
-                                            setKeyRequired(e.target.value);
-                                        }}
-                                        type='number'
-                                        id='keyReq'
-                                        name='keyReq'
-                                        placeholder='0'
-                                        value={
-                                            keyRequired > 0 ? keyRequired : null
-                                        }
-                                        required
-                                    />
-                                </FormStyled.Fieldset>
-                            )}
-
-                            {(!edit ||
-                                gateData?.published ===
-                                GatePublishedStatus.not_published) && (
-                                    <>
-                                        {NFTType === 'Reward' && (
-                                            <>
-                                                <FormStyled.Fieldset>
-                                                    <FormStyled.Label htmlFor='skills'>
-                                                        Skills
-                                                    </FormStyled.Label>
-                                                    <FormStyled.Input
-                                                        onChange={(e) => {
-                                                            e.preventDefault();
-                                                            setSkill(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                        type='text'
-                                                        id='skills'
-                                                        name='skills'
-                                                        placeholder='Search Skills'
-                                                        onKeyPress={addSkills}
-                                                        value={skill}
-                                                    />
-
-                                                    {skillList.length > 0 && (
-                                                        <Styled.CategoryList>
-                                                            {skillList.map(
-                                                                (skill, id) => {
-                                                                    return (
-                                                                        <SearchedItem
-                                                                            val={
-                                                                                skill
-                                                                            }
-                                                                            id={id}
-                                                                            remove={
-                                                                                removeSkills
-                                                                            }
-                                                                        />
-                                                                    );
-                                                                }
-                                                            )}
-                                                        </Styled.CategoryList>
-                                                    )}
-                                                </FormStyled.Fieldset>
-
-                                                <FormStyled.Fieldset>
-                                                    <FormStyled.Label htmlFor='knowledge'>
-                                                        Knowledge
-                                                    </FormStyled.Label>
-                                                    <FormStyled.Input
-                                                        onChange={(e) => {
-                                                            e.preventDefault();
-                                                            setKnowledge(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                        type='text'
-                                                        id='knowledge'
-                                                        name='knowledge'
-                                                        placeholder='Search Knowledge'
-                                                        onKeyPress={addKnowledge}
-                                                        value={knowledge}
-                                                    />
-
-                                                    {knowledgeList.length > 0 && (
-                                                        <Styled.CategoryList>
-                                                            {knowledgeList.map(
-                                                                (knowledge, id) => {
-                                                                    return (
-                                                                        <SearchedItem
-                                                                            val={
-                                                                                knowledge
-                                                                            }
-                                                                            id={id}
-                                                                            remove={
-                                                                                removeKnowledge
-                                                                            }
-                                                                        />
-                                                                    );
-                                                                }
-                                                            )}
-                                                        </Styled.CategoryList>
-                                                    )}
-                                                </FormStyled.Fieldset>
-
-                                                <FormStyled.Fieldset>
-                                                    <FormStyled.Label htmlFor='attitudes'>
-                                                        Attitudes
-                                                    </FormStyled.Label>
-                                                    <FormStyled.Input
-                                                        onChange={(e) => {
-                                                            e.preventDefault();
-                                                            setAttitude(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                        type='text'
-                                                        id='attitude'
-                                                        name='attitude'
-                                                        placeholder='Search Attitude'
-                                                        onKeyPress={addAttitude}
-                                                        value={attitude}
-                                                    />
-
-                                                    {attitudeList.length > 0 && (
-                                                        <Styled.CategoryList>
-                                                            {attitudeList.map(
-                                                                (attitude, id) => {
-                                                                    return (
-                                                                        <SearchedItem
-                                                                            val={
-                                                                                attitude
-                                                                            }
-                                                                            id={id}
-                                                                            remove={
-                                                                                removeAttitude
-                                                                            }
-                                                                        />
-                                                                    );
-                                                                }
-                                                            )}
-                                                        </Styled.CategoryList>
-                                                    )}
-                                                </FormStyled.Fieldset>
-                                            </>
-                                        )}
-
-                                        <FormStyled.Fieldset>
-                                            {edit ? (
-                                                <ImageUpload
-                                                    htmlFor='ProfileImage'
-                                                    label='Upload Badge Image*'
-                                                    setImage={setUploadFile}
-                                                    defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
-                                                />
-                                            ) : (
-                                                <ImageUpload
-                                                    htmlFor='ProfileImage'
-                                                    label='Upload Badge Image*'
-                                                    setImage={setUploadFile}
-                                                />
-                                            )}
-                                            <Styled.AllowedFileType>
-                                                <p>Image files only.</p>
-                                                <p>
-                                                    File supported: JPG, PNG, GIF,
-                                                    SVG, WEBM
-                                                </p>
-                                                <p>Max size: 100 MB</p>
-                                            </Styled.AllowedFileType>
-                                        </FormStyled.Fieldset>
-
-                                        <FormStyled.Fieldset>
-                                            <FormStyled.Label htmlFor='title'>
-                                                Badge Name*
-                                            </FormStyled.Label>
-                                            <FormStyled.Input
-                                                onChange={(e) => {
-                                                    e.preventDefault();
-                                                    setBadgeName(e.target.value);
-                                                }}
-                                                onKeyPress={(e) => {
-                                                    e.key === 'Enter' &&
-                                                        e.preventDefault();
-                                                }}
-                                                type='text'
-                                                id='badgeName'
-                                                name='badgeName'
-                                                placeholder='Insert the name here'
-                                                value={badgeName}
-                                                required
-                                            />
-                                        </FormStyled.Fieldset>
-                                    </>
-                                )}
                             <FormStyled.Fieldset>
-                                <FormStyled.Label htmlFor='admins'>
-                                    Admin Privileges*
+                                <FormStyled.Label htmlFor='title'>
+                                    Gate Title*
                                 </FormStyled.Label>
-                                <FormStyled.AsyncSelect
-                                    id={`admins`}
-                                    isMulti
-                                    controlShouldRenderValue={false}
-                                    onInputChange={(e) => setAdmin(e)}
-                                    onChange={handleAdmin}
-                                    loadOptions={async () =>
-                                        (await getOptions(admin)).filter(
-                                            (user: Users) =>
-                                                !adminList
-                                                    .map((admins) => admins.id)
-                                                    .includes(user.id)
-                                        )
+                                <FormStyled.Input
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    type='text'
+                                    id='title'
+                                    name='title'
+                                    placeholder='This will be the title of your Gate'
+                                    value={title}
+                                    required
+                                />
+                            </FormStyled.Fieldset>
+
+                            <FormStyled.Fieldset>
+                                <FormStyled.Label htmlFor='description'>
+                                    Description*
+                                </FormStyled.Label>
+                                {/* <RichTextEditor value={description} set={setDescription} /> */}
+                                <FormStyled.Textarea
+                                    onChange={(e) =>
+                                        setDescription(e.target.value)
                                     }
-                                    defaultValue={adminList}
-                                    value={adminList}
-                                    components={{
-                                        Option: UserOption,
+                                    onKeyPress={(e) => {
+                                        e.key === 'Enter' && e.preventDefault();
                                     }}
-                                    menuPortalTarget={document.body}
+                                    value={description}
+                                    name='description'
+                                    placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
+                                    required
+                                />
+                            </FormStyled.Fieldset>
+
+                            <FormStyled.Fieldset>
+                                <FormStyled.Label htmlFor='title'>
+                                    Category*
+                                </FormStyled.Label>
+                                <FormStyled.Input
+                                    onChange={(e) =>
+                                        setCategory(e.target.value)
+                                    }
+                                    type='text'
+                                    id='category'
+                                    name='category'
+                                    placeholder='Search Category'
+                                    onKeyPress={addCategories}
+                                    value={category}
                                 />
 
-                                {adminList.length > 0 && (
+                                {categoryList.length > 0 && (
                                     <Styled.CategoryList>
-                                        {adminList.map((admin) => (
-                                            <SearchedAdmin
-                                                val={admin}
-                                                id={admin.id}
-                                                removeAdmin={removeAdmin}
-                                            />
-                                        ))}
+                                        {categoryList.map((category, id) => {
+                                            return (
+                                                <React.Fragment key={id}>
+                                                    <SearchedItem
+                                                        val={category}
+                                                        id={id}
+                                                        remove={
+                                                            removeCategories
+                                                        }
+                                                    />
+                                                </React.Fragment>
+                                            );
+                                        })}
                                     </Styled.CategoryList>
                                 )}
                             </FormStyled.Fieldset>
 
-                            {/*(!edit ||
+                            <FormStyled.Fieldset>
+                                <FormStyled.Label>
+                                    Type of Badge*
+                                </FormStyled.Label>
+                                <FormStyled.GridBox
+                                    cols={2}
+                                    onChange={(e) =>
+                                        setNFTType(
+                                            (e.target as HTMLInputElement)
+                                                .value as NFT
+                                        )
+                                    }
+                                >
+                                    <FormStyled.Radio
+                                        id='nft-1'
+                                        name='nft'
+                                        value='Contributor'
+                                        label='Contributor'
+                                        checked={NFTType === 'Contributor'}
+                                    />
+                                    <FormStyled.Radio
+                                        id='nft-2'
+                                        name='nft'
+                                        value='Reward'
+                                        label='Reward'
+                                        checked={NFTType === 'Reward'}
+                                    />
+                                </FormStyled.GridBox>
+                            </FormStyled.Fieldset>
+
+                            <FormStyled.Fieldset>
+                                <FormStyled.Label>
+                                    Would you like to have keys?
+                                </FormStyled.Label>
+                                <FormStyled.GridBox
+                                    cols={2}
+                                    onChange={(e) =>
+                                        setWantPreReqs(
+                                            (e.target as HTMLInputElement)
+                                                .value as YesNo
+                                        )
+                                    }
+                                >
+                                    <FormStyled.Radio
+                                        id='wantPreReqs-1'
+                                        name='wantPreReqs'
+                                        value='Yes'
+                                        label='Yes'
+                                        checked={wantPreReqs === YesNo.YES}
+                                    />
+                                    <FormStyled.Radio
+                                        id='wantPreReqs-2'
+                                        name='wantPreReqs'
+                                        value='No'
+                                        label='No'
+                                        checked={wantPreReqs === YesNo.NO}
+                                    />
+                                </FormStyled.GridBox>
+                            </FormStyled.Fieldset>
+                        </>
+                    )}
+
+                {NFTType && wantPreReqs && (
+                    <>
+                        {wantPreReqs === YesNo.YES && (
+                            <FormStyled.Fieldset>
+                                <FormStyled.Label htmlFor='title'>
+                                    KEYS REQUIRED*
+                                </FormStyled.Label>
+                                <Styled.InputSmall
+                                    onKeyPress={(e) => {
+                                        e.key === 'Enter' &&
+                                            e.preventDefault();
+                                    }}
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setKeyRequired(e.target.value);
+                                    }}
+                                    type='number'
+                                    id='keyReq'
+                                    name='keyReq'
+                                    placeholder='0'
+                                    value={
+                                        keyRequired > 0 ? keyRequired : null
+                                    }
+                                    required
+                                />
+                            </FormStyled.Fieldset>
+                        )}
+
+                        {(!edit ||
+                            gateData?.published ===
+                            GatePublishedStatus.not_published) && (
+                                <>
+                                    {NFTType === 'Reward' && (
+                                        <>
+                                            <FormStyled.Fieldset>
+                                                <FormStyled.Label htmlFor='skills'>
+                                                    Skills
+                                                </FormStyled.Label>
+                                                <FormStyled.Input
+                                                    onChange={(e) => {
+                                                        e.preventDefault();
+                                                        setSkill(
+                                                            e.target.value
+                                                        );
+                                                    }}
+                                                    type='text'
+                                                    id='skills'
+                                                    name='skills'
+                                                    placeholder='Search Skills'
+                                                    onKeyPress={addSkills}
+                                                    value={skill}
+                                                />
+
+                                                {skillList.length > 0 && (
+                                                    <Styled.CategoryList>
+                                                        {skillList.map(
+                                                            (skill, id) => {
+                                                                return (
+                                                                    <SearchedItem
+                                                                        val={
+                                                                            skill
+                                                                        }
+                                                                        id={id}
+                                                                        remove={
+                                                                            removeSkills
+                                                                        }
+                                                                    />
+                                                                );
+                                                            }
+                                                        )}
+                                                    </Styled.CategoryList>
+                                                )}
+                                            </FormStyled.Fieldset>
+
+                                            <FormStyled.Fieldset>
+                                                <FormStyled.Label htmlFor='knowledge'>
+                                                    Knowledge
+                                                </FormStyled.Label>
+                                                <FormStyled.Input
+                                                    onChange={(e) => {
+                                                        e.preventDefault();
+                                                        setKnowledge(
+                                                            e.target.value
+                                                        );
+                                                    }}
+                                                    type='text'
+                                                    id='knowledge'
+                                                    name='knowledge'
+                                                    placeholder='Search Knowledge'
+                                                    onKeyPress={addKnowledge}
+                                                    value={knowledge}
+                                                />
+
+                                                {knowledgeList.length > 0 && (
+                                                    <Styled.CategoryList>
+                                                        {knowledgeList.map(
+                                                            (knowledge, id) => {
+                                                                return (
+                                                                    <SearchedItem
+                                                                        val={
+                                                                            knowledge
+                                                                        }
+                                                                        id={id}
+                                                                        remove={
+                                                                            removeKnowledge
+                                                                        }
+                                                                    />
+                                                                );
+                                                            }
+                                                        )}
+                                                    </Styled.CategoryList>
+                                                )}
+                                            </FormStyled.Fieldset>
+
+                                            <FormStyled.Fieldset>
+                                                <FormStyled.Label htmlFor='attitudes'>
+                                                    Attitudes
+                                                </FormStyled.Label>
+                                                <FormStyled.Input
+                                                    onChange={(e) => {
+                                                        e.preventDefault();
+                                                        setAttitude(
+                                                            e.target.value
+                                                        );
+                                                    }}
+                                                    type='text'
+                                                    id='attitude'
+                                                    name='attitude'
+                                                    placeholder='Search Attitude'
+                                                    onKeyPress={addAttitude}
+                                                    value={attitude}
+                                                />
+
+                                                {attitudeList.length > 0 && (
+                                                    <Styled.CategoryList>
+                                                        {attitudeList.map(
+                                                            (attitude, id) => {
+                                                                return (
+                                                                    <SearchedItem
+                                                                        val={
+                                                                            attitude
+                                                                        }
+                                                                        id={id}
+                                                                        remove={
+                                                                            removeAttitude
+                                                                        }
+                                                                    />
+                                                                );
+                                                            }
+                                                        )}
+                                                    </Styled.CategoryList>
+                                                )}
+                                            </FormStyled.Fieldset>
+                                        </>
+                                    )}
+
+                                    <FormStyled.Fieldset>
+                                        {edit ? (
+                                            <ImageUpload
+                                                htmlFor='ProfileImage'
+                                                label='Upload Badge Image*'
+                                                setImage={setUploadFile}
+                                                defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
+                                            />
+                                        ) : (
+                                            <ImageUpload
+                                                htmlFor='ProfileImage'
+                                                label='Upload Badge Image*'
+                                                setImage={setUploadFile}
+                                            />
+                                        )}
+                                        <Styled.AllowedFileType>
+                                            <p>Image files only.</p>
+                                            <p>
+                                                File supported: JPG, PNG, GIF,
+                                                SVG, WEBM
+                                            </p>
+                                            <p>Max size: 100 MB</p>
+                                        </Styled.AllowedFileType>
+                                    </FormStyled.Fieldset>
+
+                                    <FormStyled.Fieldset>
+                                        <FormStyled.Label htmlFor='title'>
+                                            Badge Name*
+                                        </FormStyled.Label>
+                                        <FormStyled.Input
+                                            onChange={(e) => {
+                                                e.preventDefault();
+                                                setBadgeName(e.target.value);
+                                            }}
+                                            onKeyPress={(e) => {
+                                                e.key === 'Enter' &&
+                                                    e.preventDefault();
+                                            }}
+                                            type='text'
+                                            id='badgeName'
+                                            name='badgeName'
+                                            placeholder='Insert the name here'
+                                            value={badgeName}
+                                            required
+                                        />
+                                    </FormStyled.Fieldset>
+                                </>
+                            )}
+                        <FormStyled.Fieldset>
+                            <FormStyled.Label htmlFor='admins'>
+                                Admin Privileges*
+                            </FormStyled.Label>
+                            <FormStyled.AsyncSelect
+                                id={`admins`}
+                                isMulti
+                                controlShouldRenderValue={false}
+                                onInputChange={(e) => setAdmin(e)}
+                                onChange={handleAdmin}
+                                loadOptions={async () =>
+                                    (await getOptions(admin)).filter(
+                                        (user: Users) =>
+                                            !adminList
+                                                .map((admins) => admins.id)
+                                                .includes(user.id)
+                                    )
+                                }
+                                defaultValue={adminList}
+                                value={adminList}
+                                components={{
+                                    Option: UserOption,
+                                }}
+                                menuPortalTarget={document.body}
+                            />
+
+                            {adminList.length > 0 && (
+                                <Styled.CategoryList>
+                                    {adminList.map((admin) => (
+                                        <SearchedAdmin
+                                            val={admin}
+                                            id={admin.id}
+                                            removeAdmin={removeAdmin}
+                                        />
+                                    ))}
+                                </Styled.CategoryList>
+                            )}
+                        </FormStyled.Fieldset>
+
+                        {/*(!edit ||
                                 gateData?.published ===
                                     PublishedState.NOT_PUBLISHED) && (
                                 <FormStyled.Fieldset>
@@ -977,14 +976,13 @@ const AddGateForm = () => {
                             </FormStyled.Fieldset>
                                             */}
 
-                            <FormStyled.Button type='submit'>
-                                {updateLoading && <Loader color='white' />}
-                                Submit
-                            </FormStyled.Button>
-                        </>
-                    )}
-                </Styled.FormContainer>
-            </Space>
+                        <FormStyled.Button type='submit'>
+                            {updateLoading && <Loader color='white' />}
+                            Submit
+                        </FormStyled.Button>
+                    </>
+                )}
+            </Styled.FormContainer>
         </Styled.Page>
     );
 };

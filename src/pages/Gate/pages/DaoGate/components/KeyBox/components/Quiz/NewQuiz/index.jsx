@@ -46,13 +46,15 @@ const Quiz = (props) => {
 
                 const res = await verifyQuiz({
                     variables: {
-                        userID: userInfo.id,
-                        keyID: state.id,
-                        questions: answers,
+                        user_id: userInfo.id,
+                        key_id: state.id,
+                        info: {
+                            questions: answers
+                        },
                     },
                 });
                 console.log('res', res);
-                if (res.data.verifyQuiz.__typename !== 'Error') {
+                if (res.data.verify_key.__typename !== 'Error') {
                     navigate(`/gate/${state.gateData.id}/key-completed`, {
                         state: {
                             key: state,
