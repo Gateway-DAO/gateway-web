@@ -211,15 +211,15 @@ export const UserProvider = ({ children }) => {
                         username: usernameGenerator(),
                         name: shortenAddress(web3.account),
                         init: false,
-                        pfp: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Cristiano_Ronaldo_2018.jpg", // TODO: change this
+                        pfp: `https://api.staging.mygateway.xyz/storage/file?key=logo.png`,
                         ...(info.variables.input || {}),
                     },
                 },
             });
 
-            setUserInfo(user.data.createUser);
+            setUserInfo(user.data.insert_users_one);
 
-            return user.data.createUser;
+            return user.data.insert_users_one;
         }
     };
 

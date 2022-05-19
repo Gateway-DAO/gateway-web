@@ -22,9 +22,6 @@ const GateTab = ({ filterQuery }) => {
     const [pageNumber, setPageNumber] = useState(0);
     const hitsPerPage = 8;
 
-    // if (!filterQuery['and']) filterQuery['and'] = [];
-    // filterQuery['and'].push({ published: { match: 'PUBLISHED' } });
-
     const {
         data: searchData,
         loading: searchLoading,
@@ -41,7 +38,7 @@ const GateTab = ({ filterQuery }) => {
     });
 
     useEffect(() => {
-        setHits(!searchLoading ? searchData?.search_gates?.hits : []);
+        setHits(!searchLoading ? searchData?.search_gates?.hits?.filter(item => item.published === GatePublishedStatus.published) : []);
         setPageCount(
             Math.ceil(!searchLoading ? searchData?.search_gates?.hits.length / hitsPerPage : 0)
         );
@@ -69,7 +66,7 @@ const GateTab = ({ filterQuery }) => {
                 </SearchStyled.TextBox>
             )}
             <Styled.GateCardBox>
-                {hits?.map((item, idx) => item.published === GatePublishedStatus.published && (
+                {hits?.map((item, idx) => (
                     <Styled.GateItem key={idx}>
                         <GateCard gate={item} viewAsMember={true} toSearch={true} />
                     </Styled.GateItem>

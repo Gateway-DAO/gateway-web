@@ -15,6 +15,7 @@ import { useLocation } from 'react-use';
 
 // Types
 import { Daos, Gates, Keys, Key_Progress, Users } from '../../../../graphql';
+import { PartialDeep } from 'type-fest';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -35,17 +36,17 @@ interface GateData extends Gates {
 const DaoGate: React.FC = () => {
     const {
         gateData,
-        isAdmin
-    }: { gateData: GateData; isAdmin: boolean; } =
+        isEditor
+    }: { gateData: GateData; isEditor: boolean; } =
         useOutletContext();
-    const dao: Daos = gateData.dao;
+    const dao: PartialDeep<Daos> = gateData.dao;
     const navigate = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const toSearch = params.get('toSearch');
     const viewAsMember = params.get('viewAsMember');
 
-    const goBackURL = toSearch && toSearch === 'true' ? `/search/daos` : viewAsMember ? `/dao/${dao.slug}?tab=gates&viewAsMember=${viewAsMember}` : `/dao/${dao.slug}?tab=gates`;
+    const goBackURL = toSearch && toSearch === 'true' ? `/search/daos` : viewAsMember ? `/dao/${dao?.slug}?tab=gates&viewAsMember=${viewAsMember}` : `/dao/${dao?.slug}?tab=gates`;
 
     const handleClick = () => {
         navigate('add-key');
@@ -124,7 +125,7 @@ const DaoGate: React.FC = () => {
                                             </Styled.OutsideLink>
                                         );
                                     })}
-                                {isAdmin && (
+                                {isEditor && (
                                     <Styled.InsideLink
                                         to={`${
                                             gateData.links.length > 0
@@ -168,7 +169,7 @@ const DaoGate: React.FC = () => {
                         </Styled.SecondDiv>
                     )}
                     <Styled.ThirdDiv>
-                        {isAdmin && (
+                        {isEditor && (
                             <Styled.Box>
                                 <Styled.BigText>
                                     Let’s create the Keys for your Gate.
@@ -189,7 +190,7 @@ const DaoGate: React.FC = () => {
                                 gateData.taskStatus
                                     .map((ts: Key_Progress) => ts.key_id)
                                     .includes(key.id) ||
-                                isAdmin
+                                isEditor
                             ) {
                                 return (
                                     <KeyBox

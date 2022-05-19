@@ -19,20 +19,19 @@ import { useDeleteKeyMutation } from '../../../../../../graphql';
 
 const parsedKeyName = (name) => {
     switch (name) {
-        case 'MEETING_CODE':
+        case 'meeting_code':
             return 'Meeting Code';
-        case 'SNAPSHOT_GOVERNANCE':
+        case 'snapshot':
             return 'Snapshot Governance';
-        case 'MANUAL_TASK':
+        case 'manual':
             return 'Manual';
-        case 'QUIZ':
+        case 'quiz':
             return 'Quiz';
-        case 'SELF_VERIFY':
+        case 'self_verify':
             return 'Self Verify';
-        case 'TOKEN_HOLD':
+        case 'token_hold':
             return 'Hold A Token';
-        case 'SC_INTERACTION':
-        case 'CONTRACT_INTERACTION':
+        case 'contract_interaction':
             return 'Contract Interaction';
         default:
             return null;
@@ -90,16 +89,16 @@ const KeyBox = (props) => {
      */
     const Task = () => {
         switch (data.task.type) {
-            case 'MEETING_CODE':
+            case 'meeting_code':
                 return (
                     <MeetingCode
                         data={data}
                         setInfo={(info) => keyValidation.setInfo(info)}
                     />
                 );
-            case 'SNAPSHOT_GOVERNANCE':
+            case 'snapshot':
                 return <Snapshot data={data} />;
-            case 'MANUAL_TASK':
+            case 'manual_task':
                 return (
                     <ManualTask
                         data={data}
@@ -110,9 +109,9 @@ const KeyBox = (props) => {
                         keyValidation={keyValidation}
                     />
                 );
-            case 'QUIZ':
-            case 'SELF_VERIFY':
-            case 'SC_INTERACTION':
+            case 'quiz':
+            case 'self_verify':
+            case 'contract_interaction':
             default:
                 return null;
         }

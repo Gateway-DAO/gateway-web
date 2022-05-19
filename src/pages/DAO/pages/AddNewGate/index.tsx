@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
 import { ProfilePicture } from './Components/SearchedAdmin/style';
-import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus } from '../../../../graphql';
+import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus, Permissions_Constraint, Permissions_Update_Column, Earners_Constraint, Earners_Update_Column } from '../../../../graphql';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -298,12 +298,10 @@ const AddGateForm = () => {
             form.append('file', uploadFile, 'image.png');
 
             const hash = await uploadFileToIPFS(form);
-            const gateID = uuidv4();
 
-            await createGate({
+            const res = await createGate({
                 variables: {
                     object: {
-                        id: gateID,
                         dao_id: daoData.id,
                         gate_name: title,
                         description,
@@ -319,12 +317,30 @@ const AddGateForm = () => {
                             knowledge: knowledgeList,
                         }),
                         links: [],
-                        // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
+                        permissions: {
+                            data: adminList.map(admin => ({
+                                user_id: admin.id,
+                                permission: 'admin'
+                            })),
+                            on_conflict: {
+                                constraint: Permissions_Constraint.PermissionsUserIdDaoIdGateIdKey,
+                                update_columns: [Permissions_Update_Column.Permission],
+                            }
+                        },
                         /* preRequisites: {
                             completedGates: prerequisiteList.map(
                                 (prereq) => prereq.id
                             ),
                         }, */
+                        earners: {
+                            data: retroactiveEarners.map(earner => ({
+                                user_id: earner.id
+                            })),
+                            on_conflict: {
+                                constraint: Earners_Constraint.EarnersPk,
+                                update_columns: [Earners_Update_Column.GateId, Earners_Update_Column.UserId],
+                            }
+                        },
                         badge: {
                             name: badgeName,
                             ipfsURL: hash,
@@ -333,7 +349,7 @@ const AddGateForm = () => {
                 },
             });
 
-            navigate(`/gate/${gateID}`);
+            navigate(`/gate/${res.data.insert_gates_one.id}`);
         } catch (err) {
             alert('An error occurred. Please try again later!');
             console.log(err);

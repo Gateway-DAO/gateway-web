@@ -14,7 +14,6 @@ export type Scalars = {
   Int: number;
   Float: number;
   _json: any;
-  _key_information: any;
   _text: any;
   citext: any;
   gate_state: any;
@@ -63,6 +62,25 @@ export type Int_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['Int']>;
   _neq?: InputMaybe<Scalars['Int']>;
   _nin?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export type LoginOutput = {
+  __typename?: 'LoginOutput';
+  refresh_token: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type NonceOutput = {
+  __typename?: 'NonceOutput';
+  address: Scalars['String'];
+  nonce: Scalars['Int'];
+};
+
+export type SignUpOutput = {
+  __typename?: 'SignUpOutput';
+  refresh_token: Scalars['String'];
+  token: Scalars['String'];
+  user_id: Scalars['uuid'];
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -121,19 +139,6 @@ export type _Json_Comparison_Exp = {
   _lte?: InputMaybe<Scalars['_json']>;
   _neq?: InputMaybe<Scalars['_json']>;
   _nin?: InputMaybe<Array<Scalars['_json']>>;
-};
-
-/** Boolean expression to compare columns of type "_key_information". All fields are combined with logical 'AND'. */
-export type _Key_Information_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['_key_information']>;
-  _gt?: InputMaybe<Scalars['_key_information']>;
-  _gte?: InputMaybe<Scalars['_key_information']>;
-  _in?: InputMaybe<Array<Scalars['_key_information']>>;
-  _is_null?: InputMaybe<Scalars['Boolean']>;
-  _lt?: InputMaybe<Scalars['_key_information']>;
-  _lte?: InputMaybe<Scalars['_key_information']>;
-  _neq?: InputMaybe<Scalars['_key_information']>;
-  _nin?: InputMaybe<Array<Scalars['_key_information']>>;
 };
 
 /** Boolean expression to compare columns of type "_text". All fields are combined with logical 'AND'. */
@@ -910,7 +915,7 @@ export type Daos = {
   gates: Array<Gates>;
   /** An aggregate relationship */
   gates_aggregate: Gates_Aggregate;
-  hangouts?: Maybe<Scalars['jsonb']>;
+  hangouts?: Maybe<Scalars['String']>;
   how_to_join?: Maybe<Scalars['jsonb']>;
   id: Scalars['uuid'];
   logo_url: Scalars['String'];
@@ -998,12 +1003,6 @@ export type DaosGates_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Gates_Order_By>>;
   where?: InputMaybe<Gates_Bool_Exp>;
-};
-
-
-/** columns and relationships of "daos" */
-export type DaosHangoutsArgs = {
-  path?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1112,7 +1111,6 @@ export type Daos_Append_Input = {
   categories?: InputMaybe<Scalars['jsonb']>;
   chains?: InputMaybe<Scalars['jsonb']>;
   faq?: InputMaybe<Scalars['jsonb']>;
-  hangouts?: InputMaybe<Scalars['jsonb']>;
   how_to_join?: InputMaybe<Scalars['jsonb']>;
   mv?: InputMaybe<Scalars['jsonb']>;
   whitelisted_flags?: InputMaybe<Scalars['jsonb']>;
@@ -1134,7 +1132,7 @@ export type Daos_Bool_Exp = {
   ens?: InputMaybe<String_Comparison_Exp>;
   faq?: InputMaybe<Jsonb_Comparison_Exp>;
   gates?: InputMaybe<Gates_Bool_Exp>;
-  hangouts?: InputMaybe<Jsonb_Comparison_Exp>;
+  hangouts?: InputMaybe<String_Comparison_Exp>;
   how_to_join?: InputMaybe<Jsonb_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   logo_url?: InputMaybe<String_Comparison_Exp>;
@@ -1169,7 +1167,6 @@ export type Daos_Delete_At_Path_Input = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   chains?: InputMaybe<Array<Scalars['String']>>;
   faq?: InputMaybe<Array<Scalars['String']>>;
-  hangouts?: InputMaybe<Array<Scalars['String']>>;
   how_to_join?: InputMaybe<Array<Scalars['String']>>;
   mv?: InputMaybe<Array<Scalars['String']>>;
   whitelisted_flags?: InputMaybe<Array<Scalars['String']>>;
@@ -1181,7 +1178,6 @@ export type Daos_Delete_Elem_Input = {
   categories?: InputMaybe<Scalars['Int']>;
   chains?: InputMaybe<Scalars['Int']>;
   faq?: InputMaybe<Scalars['Int']>;
-  hangouts?: InputMaybe<Scalars['Int']>;
   how_to_join?: InputMaybe<Scalars['Int']>;
   mv?: InputMaybe<Scalars['Int']>;
   whitelisted_flags?: InputMaybe<Scalars['Int']>;
@@ -1193,7 +1189,6 @@ export type Daos_Delete_Key_Input = {
   categories?: InputMaybe<Scalars['String']>;
   chains?: InputMaybe<Scalars['String']>;
   faq?: InputMaybe<Scalars['String']>;
-  hangouts?: InputMaybe<Scalars['String']>;
   how_to_join?: InputMaybe<Scalars['String']>;
   mv?: InputMaybe<Scalars['String']>;
   whitelisted_flags?: InputMaybe<Scalars['String']>;
@@ -1212,7 +1207,7 @@ export type Daos_Insert_Input = {
   ens?: InputMaybe<Scalars['String']>;
   faq?: InputMaybe<Scalars['jsonb']>;
   gates?: InputMaybe<Gates_Arr_Rel_Insert_Input>;
-  hangouts?: InputMaybe<Scalars['jsonb']>;
+  hangouts?: InputMaybe<Scalars['String']>;
   how_to_join?: InputMaybe<Scalars['jsonb']>;
   id?: InputMaybe<Scalars['uuid']>;
   logo_url?: InputMaybe<Scalars['String']>;
@@ -1237,6 +1232,7 @@ export type Daos_Max_Fields = {
   created_at?: Maybe<Scalars['timestamp']>;
   description?: Maybe<Scalars['String']>;
   ens?: Maybe<Scalars['String']>;
+  hangouts?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   logo_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -1255,6 +1251,7 @@ export type Daos_Min_Fields = {
   created_at?: Maybe<Scalars['timestamp']>;
   description?: Maybe<Scalars['String']>;
   ens?: Maybe<Scalars['String']>;
+  hangouts?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   logo_url?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -1329,7 +1326,6 @@ export type Daos_Prepend_Input = {
   categories?: InputMaybe<Scalars['jsonb']>;
   chains?: InputMaybe<Scalars['jsonb']>;
   faq?: InputMaybe<Scalars['jsonb']>;
-  hangouts?: InputMaybe<Scalars['jsonb']>;
   how_to_join?: InputMaybe<Scalars['jsonb']>;
   mv?: InputMaybe<Scalars['jsonb']>;
   whitelisted_flags?: InputMaybe<Scalars['jsonb']>;
@@ -1392,7 +1388,7 @@ export type Daos_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   ens?: InputMaybe<Scalars['String']>;
   faq?: InputMaybe<Scalars['jsonb']>;
-  hangouts?: InputMaybe<Scalars['jsonb']>;
+  hangouts?: InputMaybe<Scalars['String']>;
   how_to_join?: InputMaybe<Scalars['jsonb']>;
   id?: InputMaybe<Scalars['uuid']>;
   logo_url?: InputMaybe<Scalars['String']>;
@@ -1514,8 +1510,6 @@ export type Earners_Bool_Exp = {
 
 /** unique or primary key constraints on table "earners" */
 export enum Earners_Constraint {
-  /** unique or primary key constraint */
-  EarnersIdUindex = 'earners_id_uindex',
   /** unique or primary key constraint */
   EarnersPk = 'earners_pk'
 }
@@ -1684,7 +1678,9 @@ export enum Gate_Progress_Constraint {
   /** unique or primary key constraint */
   GateProgressIdUindex = 'gate_progress_id_uindex',
   /** unique or primary key constraint */
-  GateProgressPk = 'gate_progress_pk'
+  GateProgressPk = 'gate_progress_pk',
+  /** unique or primary key constraint */
+  GateProgressUserIdGateIdUindex = 'gate_progress_user_id_gate_id_uindex'
 }
 
 /** input type for inserting data into table "gate_progress" */
@@ -2497,8 +2493,6 @@ export type Key_Progress_Bool_Exp = {
 /** unique or primary key constraints on table "key_progress" */
 export enum Key_Progress_Constraint {
   /** unique or primary key constraint */
-  KeyProgressIdUindex = 'key_progress_id_uindex',
-  /** unique or primary key constraint */
   KeyProgressPk = 'key_progress_pk'
 }
 
@@ -2636,12 +2630,18 @@ export type Keys = {
   __typename?: 'keys';
   gate_id: Scalars['uuid'];
   id: Scalars['uuid'];
-  information: Scalars['_key_information'];
+  information: Scalars['jsonb'];
   keys: Scalars['Int'];
   people_limit: Scalars['Int'];
-  task: Scalars['json'];
+  task: Scalars['jsonb'];
   task_type: Scalars['task_type'];
   unlimited: Scalars['Boolean'];
+};
+
+
+/** columns and relationships of "keys" */
+export type KeysInformationArgs = {
+  path?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -2695,6 +2695,12 @@ export type Keys_Aggregate_Order_By = {
   variance?: InputMaybe<Keys_Variance_Order_By>;
 };
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Keys_Append_Input = {
+  information?: InputMaybe<Scalars['jsonb']>;
+  task?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** input type for inserting array relation for remote table "keys" */
 export type Keys_Arr_Rel_Insert_Input = {
   data: Array<Keys_Insert_Input>;
@@ -2722,10 +2728,10 @@ export type Keys_Bool_Exp = {
   _or?: InputMaybe<Array<Keys_Bool_Exp>>;
   gate_id?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  information?: InputMaybe<_Key_Information_Comparison_Exp>;
+  information?: InputMaybe<Jsonb_Comparison_Exp>;
   keys?: InputMaybe<Int_Comparison_Exp>;
   people_limit?: InputMaybe<Int_Comparison_Exp>;
-  task?: InputMaybe<Json_Comparison_Exp>;
+  task?: InputMaybe<Jsonb_Comparison_Exp>;
   task_type?: InputMaybe<Task_Type_Comparison_Exp>;
   unlimited?: InputMaybe<Boolean_Comparison_Exp>;
 };
@@ -2738,6 +2744,24 @@ export enum Keys_Constraint {
   KeysPk = 'keys_pk'
 }
 
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Keys_Delete_At_Path_Input = {
+  information?: InputMaybe<Array<Scalars['String']>>;
+  task?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Keys_Delete_Elem_Input = {
+  information?: InputMaybe<Scalars['Int']>;
+  task?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Keys_Delete_Key_Input = {
+  information?: InputMaybe<Scalars['String']>;
+  task?: InputMaybe<Scalars['String']>;
+};
+
 /** input type for incrementing numeric columns in table "keys" */
 export type Keys_Inc_Input = {
   keys?: InputMaybe<Scalars['Int']>;
@@ -2748,10 +2772,10 @@ export type Keys_Inc_Input = {
 export type Keys_Insert_Input = {
   gate_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  information?: InputMaybe<Scalars['_key_information']>;
+  information?: InputMaybe<Scalars['jsonb']>;
   keys?: InputMaybe<Scalars['Int']>;
   people_limit?: InputMaybe<Scalars['Int']>;
-  task?: InputMaybe<Scalars['json']>;
+  task?: InputMaybe<Scalars['jsonb']>;
   task_type?: InputMaybe<Scalars['task_type']>;
   unlimited?: InputMaybe<Scalars['Boolean']>;
 };
@@ -2834,6 +2858,12 @@ export type Keys_Pk_Columns_Input = {
   id: Scalars['uuid'];
 };
 
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Keys_Prepend_Input = {
+  information?: InputMaybe<Scalars['jsonb']>;
+  task?: InputMaybe<Scalars['jsonb']>;
+};
+
 /** select columns of table "keys" */
 export enum Keys_Select_Column {
   /** column name */
@@ -2858,10 +2888,10 @@ export enum Keys_Select_Column {
 export type Keys_Set_Input = {
   gate_id?: InputMaybe<Scalars['uuid']>;
   id?: InputMaybe<Scalars['uuid']>;
-  information?: InputMaybe<Scalars['_key_information']>;
+  information?: InputMaybe<Scalars['jsonb']>;
   keys?: InputMaybe<Scalars['Int']>;
   people_limit?: InputMaybe<Scalars['Int']>;
-  task?: InputMaybe<Scalars['json']>;
+  task?: InputMaybe<Scalars['jsonb']>;
   task_type?: InputMaybe<Scalars['task_type']>;
   unlimited?: InputMaybe<Scalars['Boolean']>;
 };
@@ -3078,6 +3108,10 @@ export type Mutation_Root = {
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
   insert_users_one?: Maybe<Users>;
+  /** login */
+  login?: Maybe<LoginOutput>;
+  /** sign_up */
+  sign_up?: Maybe<SignUpOutput>;
   /** update data of the table: "bounties" */
   update_bounties?: Maybe<Bounties_Mutation_Response>;
   /** update single row of the table: "bounties" */
@@ -3450,6 +3484,20 @@ export type Mutation_RootInsert_Users_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootLoginArgs = {
+  signature: Scalars['String'];
+  wallet: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootSign_UpArgs = {
+  signature: Scalars['String'];
+  wallet: Scalars['String'];
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_BountiesArgs = {
   _set?: InputMaybe<Bounties_Set_Input>;
   where: Bounties_Bool_Exp;
@@ -3578,7 +3626,12 @@ export type Mutation_RootUpdate_Key_Progress_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_KeysArgs = {
+  _append?: InputMaybe<Keys_Append_Input>;
+  _delete_at_path?: InputMaybe<Keys_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Keys_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Keys_Delete_Key_Input>;
   _inc?: InputMaybe<Keys_Inc_Input>;
+  _prepend?: InputMaybe<Keys_Prepend_Input>;
   _set?: InputMaybe<Keys_Set_Input>;
   where: Keys_Bool_Exp;
 };
@@ -3586,7 +3639,12 @@ export type Mutation_RootUpdate_KeysArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_Keys_By_PkArgs = {
+  _append?: InputMaybe<Keys_Append_Input>;
+  _delete_at_path?: InputMaybe<Keys_Delete_At_Path_Input>;
+  _delete_elem?: InputMaybe<Keys_Delete_Elem_Input>;
+  _delete_key?: InputMaybe<Keys_Delete_Key_Input>;
   _inc?: InputMaybe<Keys_Inc_Input>;
+  _prepend?: InputMaybe<Keys_Prepend_Input>;
   _set?: InputMaybe<Keys_Set_Input>;
   pk_columns: Keys_Pk_Columns_Input;
 };
@@ -3765,9 +3823,7 @@ export type Permissions_Bool_Exp = {
 /** unique or primary key constraints on table "permissions" */
 export enum Permissions_Constraint {
   /** unique or primary key constraint */
-  PermissionsUserIdDaoIdGateIdKey = 'permissions_user_id_dao_id_gate_id_key',
-  /** unique or primary key constraint */
-  PermissionsUserIdUindex = 'permissions_user_id_uindex'
+  PermissionsUserIdDaoIdGateIdKey = 'permissions_user_id_dao_id_gate_id_key'
 }
 
 /** input type for inserting data into table "permissions" */
@@ -3938,6 +3994,8 @@ export type Query_Root = {
   gates_aggregate: Gates_Aggregate;
   /** fetch data from the table: "gates" using primary key columns */
   gates_by_pk?: Maybe<Gates>;
+  /** get_nonce */
+  get_nonce?: Maybe<NonceOutput>;
   /** fetch data from the table: "key_progress" */
   key_progress: Array<Key_Progress>;
   /** fetch aggregated fields from the table: "key_progress" */
@@ -4134,6 +4192,11 @@ export type Query_RootGates_AggregateArgs = {
 
 export type Query_RootGates_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootGet_NonceArgs = {
+  wallet: Scalars['String'];
 };
 
 
@@ -5711,7 +5774,7 @@ export type GetDaoQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, chains: any, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, name: string, faq?: any | null | undefined, token?: string | null | undefined, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, gates: Array<{ __typename?: 'gates', id: any, keys?: number | null | undefined, attitudes: any, knowledge: any, links: any, nft_type: any, published: any, gate_name: string, badge: any, categories: any, description: string, holders?: Array<{ __typename?: 'users', id: any, name?: string | null | undefined }> | null | undefined }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> } | null | undefined };
+export type GetDaoQuery = { __typename?: 'query_root', daos_by_pk?: { __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, chains: any, id: any, how_to_join?: any | null | undefined, hangouts?: string | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, name: string, faq?: any | null | undefined, token?: string | null | undefined, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, gates: Array<{ __typename?: 'gates', id: any, keys?: number | null | undefined, attitudes: any, knowledge: any, links: any, nft_type: any, published: any, gate_name: string, badge: any, categories: any, description: string, holders?: Array<{ __typename?: 'users', id: any, name?: string | null | undefined }> | null | undefined }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> } | null | undefined };
 
 export type GetDaoBySlugQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']>;
@@ -5719,21 +5782,21 @@ export type GetDaoBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetDaoBySlugQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', accomplishments?: string | null | undefined, name: string, description: string, background_url: string, blacklisted_flags?: any | null | undefined, categories?: any | null | undefined, created_at: any, ens?: string | null | undefined, faq?: any | null | undefined, hangouts?: any | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, chains: any, mv?: any | null | undefined, slug: string, token?: string | null | undefined, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags?: any | null | undefined, youtube_url?: string | null | undefined, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, gates: Array<{ __typename?: 'gates', id: any, keys?: number | null | undefined, attitudes: any, knowledge: any, links: any, nft_type: any, published: any, gate_name: string, badge: any, categories: any, description: string, holders?: Array<{ __typename?: 'users', id: any, name?: string | null | undefined }> | null | undefined }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
+export type GetDaoBySlugQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', accomplishments?: string | null | undefined, name: string, description: string, background_url: string, blacklisted_flags?: any | null | undefined, categories?: any | null | undefined, created_at: any, ens?: string | null | undefined, faq?: any | null | undefined, hangouts?: string | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, chains: any, mv?: any | null | undefined, slug: string, token?: string | null | undefined, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags?: any | null | undefined, youtube_url?: string | null | undefined, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, gates: Array<{ __typename?: 'gates', id: any, keys?: number | null | undefined, attitudes: any, knowledge: any, links: any, nft_type: any, published: any, gate_name: string, badge: any, categories: any, description: string, holders?: Array<{ __typename?: 'users', id: any, name?: string | null | undefined }> | null | undefined }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
 
 export type ListDaOsQueryVariables = Exact<{
   permissions_where?: InputMaybe<Permissions_Bool_Exp>;
 }>;
 
 
-export type ListDaOsQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, chains: any, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, name: string, faq?: any | null | undefined, token?: string | null | undefined, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, gates: Array<{ __typename?: 'gates', id: any, keys?: number | null | undefined, attitudes: any, knowledge: any, links: any, nft_type: any, published: any, gate_name: string, badge: any, categories: any, description: string, holders?: Array<{ __typename?: 'users', id: any, name?: string | null | undefined }> | null | undefined }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
+export type ListDaOsQuery = { __typename?: 'query_root', daos: Array<{ __typename?: 'daos', youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, chains: any, id: any, how_to_join?: any | null | undefined, hangouts?: string | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, name: string, faq?: any | null | undefined, token?: string | null | undefined, token_benefits: Array<{ __typename?: 'token_benefits', amount?: string | null | undefined, created_at: any, dao_id: any, description: string, id: any, title: string, token?: string | null | undefined, updated_at: any }>, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, gates: Array<{ __typename?: 'gates', id: any, keys?: number | null | undefined, attitudes: any, knowledge: any, links: any, nft_type: any, published: any, gate_name: string, badge: any, categories: any, description: string, holders?: Array<{ __typename?: 'users', id: any, name?: string | null | undefined }> | null | undefined }>, bounties: Array<{ __typename?: 'bounties', categories: any, description?: string | null | undefined, directions?: string | null | undefined, end_date: any, headline: string, id: any, level: string, links: any, post_date: any, reward: string }> }> };
 
 export type CreateDaoMutationVariables = Exact<{
   object?: InputMaybe<Daos_Insert_Input>;
 }>;
 
 
-export type CreateDaoMutation = { __typename?: 'mutation_root', insert_daos_one?: { __typename?: 'daos', accomplishments?: string | null | undefined, name: string, description: string, background_url: string, blacklisted_flags?: any | null | undefined, categories?: any | null | undefined, created_at: any, ens?: string | null | undefined, faq?: any | null | undefined, hangouts?: any | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, chains: any, mv?: any | null | undefined, slug: string, token?: string | null | undefined, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags?: any | null | undefined, youtube_url?: string | null | undefined, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> } | null | undefined };
+export type CreateDaoMutation = { __typename?: 'mutation_root', insert_daos_one?: { __typename?: 'daos', accomplishments?: string | null | undefined, name: string, description: string, background_url: string, blacklisted_flags?: any | null | undefined, categories?: any | null | undefined, created_at: any, ens?: string | null | undefined, faq?: any | null | undefined, hangouts?: string | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, chains: any, mv?: any | null | undefined, slug: string, token?: string | null | undefined, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags?: any | null | undefined, youtube_url?: string | null | undefined, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> } | null | undefined };
 
 export type UpdateDaoMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -5741,7 +5804,7 @@ export type UpdateDaoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateDaoMutation = { __typename?: 'mutation_root', update_daos_by_pk?: { __typename?: 'daos', background_url: string, blacklisted_flags?: any | null | undefined, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, hangouts?: any | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, chains: any, mv?: any | null | undefined, slug: string, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags?: any | null | undefined, youtube_url?: string | null | undefined, accomplishments?: string | null | undefined, name: string, faq?: any | null | undefined, token?: string | null | undefined, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> } | null | undefined };
+export type UpdateDaoMutation = { __typename?: 'mutation_root', update_daos_by_pk?: { __typename?: 'daos', background_url: string, blacklisted_flags?: any | null | undefined, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, hangouts?: string | null | undefined, how_to_join?: any | null | undefined, id: any, logo_url: string, chains: any, mv?: any | null | undefined, slug: string, updated_at: any, wdwd?: string | null | undefined, whitelisted_flags?: any | null | undefined, youtube_url?: string | null | undefined, accomplishments?: string | null | undefined, name: string, faq?: any | null | undefined, token?: string | null | undefined, socials: Array<{ __typename?: 'dao_socials', network: string, url: string }>, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }> } | null | undefined };
 
 export type DeleteDaoMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -5791,14 +5854,14 @@ export type GetGateQueryVariables = Exact<{
 }>;
 
 
-export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills: any, published: any, nft_type: any, links: any, knowledge: any, keys?: number | null | undefined, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any, user: { __typename?: 'users', id: any, wallet?: string | null | undefined, name?: string | null | undefined, pfp: string } }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
+export type GetGateQuery = { __typename?: 'query_root', gates_by_pk?: { __typename?: 'gates', skills: any, published: any, nft_type: any, links: any, knowledge: any, keys?: number | null | undefined, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any, user: { __typename?: 'users', id: any, wallet?: string | null | undefined, name?: string | null | undefined, pfp: string } }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: string | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
 
 export type ListGatesQueryVariables = Exact<{
   permissions_where?: InputMaybe<Permissions_Bool_Exp>;
 }>;
 
 
-export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills: any, published: any, nft_type: any, links: any, knowledge: any, keys?: number | null | undefined, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } }> };
+export type ListGatesQuery = { __typename?: 'query_root', gates: Array<{ __typename?: 'gates', skills: any, published: any, nft_type: any, links: any, knowledge: any, keys?: number | null | undefined, id: any, gate_name: string, description: string, dao_id: any, categories: any, badge: any, attitudes: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: string | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } }> };
 
 export type GetKeyQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -5833,7 +5896,7 @@ export type CreateGateMutationVariables = Exact<{
 }>;
 
 
-export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes: any, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null | undefined, knowledge: any, links: any, nft_type: any, published: any, skills: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
+export type CreateGateMutation = { __typename?: 'mutation_root', insert_gates_one?: { __typename?: 'gates', attitudes: any, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null | undefined, knowledge: any, links: any, nft_type: any, published: any, skills: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: string | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
 
 export type UpdateGateMutationVariables = Exact<{
   id: Scalars['uuid'];
@@ -5842,7 +5905,7 @@ export type UpdateGateMutationVariables = Exact<{
 }>;
 
 
-export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes: any, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null | undefined, knowledge: any, links: any, nft_type: any, published: any, skills: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: any | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
+export type UpdateGateMutation = { __typename?: 'mutation_root', update_gates_by_pk?: { __typename?: 'gates', attitudes: any, badge: any, categories: any, dao_id: any, description: string, gate_name: string, id: any, keys?: number | null | undefined, knowledge: any, links: any, nft_type: any, published: any, skills: any, holders?: Array<{ __typename?: 'users', id: any }> | null | undefined, permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any } }>, earners: Array<{ __typename?: 'earners', gate_id: any, id: any, user_id: any }>, keysByGateId: Array<{ __typename?: 'keys', gate_id: any, id: any, information: any, keys: number, people_limit: number, task: any, task_type: any, unlimited: boolean }>, dao: { __typename?: 'daos', name: string, youtube_url?: string | null | undefined, whitelisted_flags?: any | null | undefined, wdwd?: string | null | undefined, updated_at: any, slug: string, mv?: any | null | undefined, logo_url: string, id: any, how_to_join?: any | null | undefined, hangouts?: string | null | undefined, ens?: string | null | undefined, description: string, created_at: any, categories?: any | null | undefined, blacklisted_flags?: any | null | undefined, background_url: string, accomplishments?: string | null | undefined, faq?: any | null | undefined, token?: string | null | undefined } } | null | undefined };
 
 export type DeleteGateMutationVariables = Exact<{
   id: Scalars['uuid'];

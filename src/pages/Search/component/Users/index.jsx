@@ -43,7 +43,7 @@ const UserTab = ({ filterQuery }) => {
                 ? searchData?.search_users?.hits?.filter(
                       (item) =>
                           item.pfp !=
-                              'https://gateway9189b056d1a34c419355d6ada6e1b9d8184152-dev.s3.us-east-1.amazonaws.com/public/logo.png' &&
+                              'https://api.staging.mygateway.xyz/storage/file?key=logo.png' &&
                           item.pfp &&
                           !(item.pfp == 'null') &&
                           !item.username?.includes('0x') &&

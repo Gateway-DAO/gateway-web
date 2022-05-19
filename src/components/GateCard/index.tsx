@@ -27,8 +27,12 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
         variables: {
             where: {
                 _and: [
-                    { gate_id: gate.id },
-                    { user_id: userInfo?.id }
+                    { gate_id: {
+                        _eq: gate.id
+                    } },
+                    { user_id: {
+                        _eq: userInfo?.id
+                    } }
                 ]
             }
         }
@@ -52,7 +56,7 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
 
     // State
     const [numberOfWords, setNumberOfWords] = useState(100);
-    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed !== 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0) || 0);
+    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0) || 0);
 
     useEffect(() => {
         if (window.innerWidth < 1171 && window.innerWidth > 900) {
@@ -73,7 +77,7 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
      * @returns The status of the gate.
      */
     const getButtonText = () => {
-        switch (data?.gate_progress[0].status) {
+        switch (data?.gate_progress[0]?.status) {
             case 'completed':
                 return 'Done';
             default:

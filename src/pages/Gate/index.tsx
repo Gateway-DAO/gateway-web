@@ -19,6 +19,7 @@ import { Gates, Key_Progress, useGetGateQuery, useGetGateUsersQuery, useGetKeyPr
 
 // Types
 import { PartialDeep } from 'type-fest';
+import { useGateAdmin } from '../../hooks/useAdmin';
 
 /**
  * This function is responsible for rendering the page
@@ -40,6 +41,11 @@ const GatePage: React.FC = () => {
     } = useGetGateQuery({
         variables: {
             id: gate,
+            permissions_where: {
+                permission: {
+                    _in: ["admin", "gate_editor"]
+                }
+            }
         }
     });
 
@@ -59,23 +65,11 @@ const GatePage: React.FC = () => {
         }
     })
 
-    const {
-        data: adminsData,
-        loading: adminsLoading,
-    } = useGetGateUsersQuery({
-        variables: {
-            gate_id: gate,
-            permission: "admin"
-        }
-    })
-
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
     const [gateData, setGateData] = useState<PartialDeep<Gates>>(dbData?.gates_by_pk);
-    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed !== 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0) || 0);
-    const [taskStatus, setTaskStatus] = useState<PartialDeep<Key_Progress>[]>(keyProgressData?.key_progress);
-    const [admins, setAdmins] = useState<PartialDeep<Users>[]>(adminsData?.permissions.map(perms => perms.user));
+    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0));
     const [earners, setEarners] = useState<PartialDeep<Users>[]>(dbData?.gates_by_pk.earners?.map(earner => earner.user));
-    const [isAdmin, setIsAdmin] = useState<boolean>(false);
+    const { isEditor } = useGateAdmin(gate);
 
     useEffect(() => {
         !active && activateWeb3().then(setDidConnect);
@@ -84,27 +78,10 @@ const GatePage: React.FC = () => {
     /* This is a React Hook that is being used to check if the data has been loaded. If the data has
     been loaded, then the `loaded` state is set to `true`. */
     useEffect(() => {
-        let loading = (gateLoading && !dbData?.gates_by_pk) || ((loadingWallet || loggingIn) || typeof userInfo === "undefined") || (adminsLoading && !adminsData?.permissions);
-
-        if (!loading && (dbData?.gates_by_pk || false)) {
-            setGateData(dbData.gates_by_pk);
-
-            if (userInfo?.id && adminsData?.permissions.map(perms => perms.user_id).includes(userInfo.id)) {
-                setIsAdmin(true);
-            }
-        }
+        let loading = (gateLoading && !dbData?.gates_by_pk) || ((loadingWallet || loggingIn) || typeof userInfo === "undefined") || isEditor == null;
 
         setInternalLoading(loading);
-    }, [gateLoading, dbData, loggingIn, userInfo, adminsLoading, admins]);
-
-    useEffect(() => {
-        adminsData && setAdmins(adminsData.permissions.map(perm => perm.user));
-    }, [gate, adminsData]);
-
-    useEffect(() => {
-        dbData &&
-            setEarners(dbData.gates_by_pk.earners.map(earner => earner.user));
-    }, [gate]);
+    }, [gateLoading, dbData, loggingIn, userInfo, isEditor]);
 
     /* This is a catch-all error handler. If there is an error, it will be logged to the console and
     the user will be redirected to the 404 page. */
@@ -125,15 +102,13 @@ const GatePage: React.FC = () => {
             </Page>
         );
     } else {
-        /* TODO: remove
         if ((
-            !isAdmin &&
+            !isEditor &&
             (gateData.published == 'not_published' ||
                 gateData.published == 'paused')
         )) {
             return <Navigate to='/not-authorized' />;
         }
-        */
     }
 
     return (
@@ -144,13 +119,13 @@ const GatePage: React.FC = () => {
                         ...gateData,
                         holders: dbData?.gates_by_pk.holders.length || 0,
                         keysDone,
-                        taskStatus,
-                        adminList: admins || [],
+                        taskStatus: keyProgressData?.key_progress || [],
+                        adminList: dbData?.gates_by_pk.permissions.map(perms => perms.user) || [],
                         retroactiveEarnersList: earners || [],
                     },
                     setGateData,
                     loading: internalLoading,
-                    isAdmin,
+                    isEditor,
                 }}
             />
         </Page>

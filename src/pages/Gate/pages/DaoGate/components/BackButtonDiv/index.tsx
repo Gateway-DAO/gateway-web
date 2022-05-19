@@ -17,6 +17,7 @@ import { useModal } from '../../../../../../contexts/ModalContext';
 import ConfirmationModal from '../../../../../../components/Modal/ConfirmationModal';
 import { Daos, Users, Key_Progress, Gates as Gate, GatePublishedStatus, useDeleteGateMutation, useUpdateGateMutation } from '../../../../../../graphql';
 import { Store } from 'react-notifications-component';
+import { PartialDeep } from 'type-fest';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -34,7 +35,7 @@ interface Props {
     url?: number | string;
     children: string | React.ReactNode;
     gateData: GateData;
-    daoData: Daos;
+    daoData: PartialDeep<Daos>;
     published: GatePublishedStatus;
     state?: object;
 }

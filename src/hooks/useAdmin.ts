@@ -16,8 +16,8 @@ export const useAdmin = (dao_id: string): Permissions => {
     })
 
     return {
-        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || false,
-        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'dao_editor') || false,
+        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || null,
+        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'dao_editor') || null,
     };
 };
 
@@ -31,8 +31,8 @@ export const useGateAdmin = (gate_id: string): Permissions => {
     })
 
     return {
-        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || false,
-        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'dao_editor') || false,
+        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || null,
+        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'gate_editor') || null,
     };
 };
 

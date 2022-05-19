@@ -25,7 +25,7 @@ export const useKeyValidation = (data, gateData) => {
 
     useEffect(() => {
         switch (data?.task?.type) {
-            case 'MEETING_CODE':
+            case 'meeting_code':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
@@ -33,10 +33,12 @@ export const useKeyValidation = (data, gateData) => {
                             setLoading(true);
                             const res = await verifyTask({
                                 variables: {
-                                    userID: userInfo.id,
-                                    keyID: data.id,
-                                    gateID: gateData.id,
-                                    meetingCode: taskInformation.current,
+                                    user_id: userInfo.id,
+                                    key_id: data.id,
+                                    gate_id: gateData.id,
+                                    info: {
+                                        meetingCode: taskInformation.current
+                                    },
                                 },
                             });
 
@@ -84,7 +86,7 @@ export const useKeyValidation = (data, gateData) => {
                     },
                 }));
                 break;
-            case 'CONTRACT_INTERACTION':
+            case 'contract_interaction':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
@@ -93,9 +95,9 @@ export const useKeyValidation = (data, gateData) => {
                             console.log(userInfo);
                             const res = await verifyTask({
                                 variables: {
-                                    userID: userInfo?.id,
-                                    keyID: data?.id,
-                                    gateID: gateData?.id,
+                                    user_id: userInfo?.id,
+                                    key_id: data?.id,
+                                    gate_id: gateData?.id,
                                 },
                             });
 
@@ -149,7 +151,7 @@ export const useKeyValidation = (data, gateData) => {
                     },
                 }));
                 break;
-            case 'TOKEN_HOLD':
+            case 'token_hold':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
@@ -157,9 +159,9 @@ export const useKeyValidation = (data, gateData) => {
                             setLoading(true);
                             const res = await verifyTask({
                                 variables: {
-                                    userID: userInfo.id,
-                                    keyID: data.id,
-                                    gateID: gateData.id,
+                                    user_id: userInfo.id,
+                                    key_id: data.id,
+                                    gate_id: gateData.id,
                                 },
                             });
 
@@ -206,7 +208,7 @@ export const useKeyValidation = (data, gateData) => {
                     },
                 }));
                 break;
-            case 'QUIZ':
+            case 'quiz':
                 setButtonBehavior({
                     title: 'Start Quiz',
                     onClick: () =>
@@ -218,7 +220,7 @@ export const useKeyValidation = (data, gateData) => {
                         }),
                 });
                 break;
-            case 'SELF_VERIFY':
+            case 'self_verify':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
@@ -226,9 +228,9 @@ export const useKeyValidation = (data, gateData) => {
                             setLoading(true);
                             const res = await verifyTask({
                                 variables: {
-                                    userID: userInfo.id,
-                                    keyID: data.id,
-                                    gateID: gateData.id,
+                                    user_id: userInfo.id,
+                                    key_id: data.id,
+                                    gate_id: gateData.id,
                                 },
                             });
 
@@ -275,7 +277,7 @@ export const useKeyValidation = (data, gateData) => {
                     },
                 }));
                 break;
-            case 'SNAPSHOT_GOVERNANCE':
+            case 'snapshot':
                 setButtonBehavior((prev) => ({
                     ...prev,
                     onClick: async () => {
@@ -283,9 +285,9 @@ export const useKeyValidation = (data, gateData) => {
                             setLoading(true);
                             const res = await verifyTask({
                                 variables: {
-                                    userID: userInfo.id,
-                                    keyID: data.id,
-                                    gateID: gateData.id,
+                                    user_id: userInfo.id,
+                                    key_id: data.id,
+                                    gate_id: gateData.id,
                                 },
                             });
 
