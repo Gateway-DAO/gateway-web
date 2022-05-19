@@ -5977,6 +5977,28 @@ export type GetDaoUsersQueryVariables = Exact<{
 
 export type GetDaoUsersQuery = { __typename?: 'query_root', permissions: Array<{ __typename?: 'permissions', permission?: any | null | undefined, user_id: any, updated_at: any, gate_id?: any | null | undefined, dao_id?: any | null | undefined, created_at: any, user: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }> } }> };
 
+export type UpdateGatePermissionsMutationVariables = Exact<{
+  objects?: InputMaybe<Array<Permissions_Insert_Input> | Permissions_Insert_Input>;
+}>;
+
+
+export type UpdateGatePermissionsMutation = { __typename?: 'mutation_root', insert_permissions?: { __typename?: 'permissions_mutation_response', affected_rows: number } | null | undefined };
+
+export type DeleteGatePermissionMutationVariables = Exact<{
+  user_id?: InputMaybe<Scalars['uuid']>;
+  gate_id?: InputMaybe<Scalars['uuid']>;
+}>;
+
+
+export type DeleteGatePermissionMutation = { __typename?: 'mutation_root', delete_permissions?: { __typename?: 'permissions_mutation_response', affected_rows: number } | null | undefined };
+
+export type DeleteAllGatePermissionsMutationVariables = Exact<{
+  gate_id?: InputMaybe<Scalars['uuid']>;
+}>;
+
+
+export type DeleteAllGatePermissionsMutation = { __typename?: 'mutation_root', delete_permissions?: { __typename?: 'permissions_mutation_response', affected_rows: number } | null | undefined };
+
 export type SearchUsersQueryVariables = Exact<{
   query: Scalars['String'];
   pagination?: InputMaybe<AlgoliaPaginationInput>;
@@ -7835,6 +7857,109 @@ export function useGetDaoUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type GetDaoUsersQueryHookResult = ReturnType<typeof useGetDaoUsersQuery>;
 export type GetDaoUsersLazyQueryHookResult = ReturnType<typeof useGetDaoUsersLazyQuery>;
 export type GetDaoUsersQueryResult = Apollo.QueryResult<GetDaoUsersQuery, GetDaoUsersQueryVariables>;
+export const UpdateGatePermissionsDocument = gql`
+    mutation updateGatePermissions($objects: [permissions_insert_input!] = {}) {
+  insert_permissions(
+    objects: $objects
+    on_conflict: {constraint: permissions_user_id_dao_id_gate_id_key, update_columns: [permission]}
+  ) {
+    affected_rows
+  }
+}
+    `;
+export type UpdateGatePermissionsMutationFn = Apollo.MutationFunction<UpdateGatePermissionsMutation, UpdateGatePermissionsMutationVariables>;
+
+/**
+ * __useUpdateGatePermissionsMutation__
+ *
+ * To run a mutation, you first call `useUpdateGatePermissionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGatePermissionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGatePermissionsMutation, { data, loading, error }] = useUpdateGatePermissionsMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *   },
+ * });
+ */
+export function useUpdateGatePermissionsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateGatePermissionsMutation, UpdateGatePermissionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateGatePermissionsMutation, UpdateGatePermissionsMutationVariables>(UpdateGatePermissionsDocument, options);
+      }
+export type UpdateGatePermissionsMutationHookResult = ReturnType<typeof useUpdateGatePermissionsMutation>;
+export type UpdateGatePermissionsMutationResult = Apollo.MutationResult<UpdateGatePermissionsMutation>;
+export type UpdateGatePermissionsMutationOptions = Apollo.BaseMutationOptions<UpdateGatePermissionsMutation, UpdateGatePermissionsMutationVariables>;
+export const DeleteGatePermissionDocument = gql`
+    mutation deleteGatePermission($user_id: uuid, $gate_id: uuid) {
+  delete_permissions(where: {user_id: {_eq: $user_id}, gate_id: {_eq: $gate_id}}) {
+    affected_rows
+  }
+}
+    `;
+export type DeleteGatePermissionMutationFn = Apollo.MutationFunction<DeleteGatePermissionMutation, DeleteGatePermissionMutationVariables>;
+
+/**
+ * __useDeleteGatePermissionMutation__
+ *
+ * To run a mutation, you first call `useDeleteGatePermissionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGatePermissionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteGatePermissionMutation, { data, loading, error }] = useDeleteGatePermissionMutation({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *      gate_id: // value for 'gate_id'
+ *   },
+ * });
+ */
+export function useDeleteGatePermissionMutation(baseOptions?: Apollo.MutationHookOptions<DeleteGatePermissionMutation, DeleteGatePermissionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteGatePermissionMutation, DeleteGatePermissionMutationVariables>(DeleteGatePermissionDocument, options);
+      }
+export type DeleteGatePermissionMutationHookResult = ReturnType<typeof useDeleteGatePermissionMutation>;
+export type DeleteGatePermissionMutationResult = Apollo.MutationResult<DeleteGatePermissionMutation>;
+export type DeleteGatePermissionMutationOptions = Apollo.BaseMutationOptions<DeleteGatePermissionMutation, DeleteGatePermissionMutationVariables>;
+export const DeleteAllGatePermissionsDocument = gql`
+    mutation deleteAllGatePermissions($gate_id: uuid) {
+  delete_permissions(where: {gate_id: {_eq: $gate_id}}) {
+    affected_rows
+  }
+}
+    `;
+export type DeleteAllGatePermissionsMutationFn = Apollo.MutationFunction<DeleteAllGatePermissionsMutation, DeleteAllGatePermissionsMutationVariables>;
+
+/**
+ * __useDeleteAllGatePermissionsMutation__
+ *
+ * To run a mutation, you first call `useDeleteAllGatePermissionsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAllGatePermissionsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAllGatePermissionsMutation, { data, loading, error }] = useDeleteAllGatePermissionsMutation({
+ *   variables: {
+ *      gate_id: // value for 'gate_id'
+ *   },
+ * });
+ */
+export function useDeleteAllGatePermissionsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAllGatePermissionsMutation, DeleteAllGatePermissionsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAllGatePermissionsMutation, DeleteAllGatePermissionsMutationVariables>(DeleteAllGatePermissionsDocument, options);
+      }
+export type DeleteAllGatePermissionsMutationHookResult = ReturnType<typeof useDeleteAllGatePermissionsMutation>;
+export type DeleteAllGatePermissionsMutationResult = Apollo.MutationResult<DeleteAllGatePermissionsMutation>;
+export type DeleteAllGatePermissionsMutationOptions = Apollo.BaseMutationOptions<DeleteAllGatePermissionsMutation, DeleteAllGatePermissionsMutationVariables>;
 export const SearchUsersDocument = gql`
     query searchUsers($query: String!, $pagination: AlgoliaPaginationInput) {
   search_users(query: $query, pagination: $pagination) {

@@ -23,7 +23,7 @@ export const useAdmin = (dao_id: string): Permissions => {
 
 export const useGateAdmin = (gate_id: string): Permissions => {
     const { userInfo, walletConnected }: Record<string, any> = useAuth();
-    const { data, loading } = useGetUserGatePermissionsQuery({
+    const { data, loading, called } = useGetUserGatePermissionsQuery({
         variables: {
             gate_id,
             user_id: userInfo?.id
@@ -31,8 +31,8 @@ export const useGateAdmin = (gate_id: string): Permissions => {
     })
 
     return {
-        isAdmin: !loading ? userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') : null,
-        isEditor: !loading ? userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'gate_editor') : null,
+        isAdmin: (!loading && called) ? userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') : null,
+        isEditor: (!loading && called) ? userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'gate_editor') : null,
     };
 };
 

@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
 import { ProfilePicture } from './Components/SearchedAdmin/style';
-import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus, Permissions_Constraint, Permissions_Update_Column, Earners_Constraint, Earners_Update_Column } from '../../../../graphql';
+import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus, Permissions_Constraint, Permissions_Update_Column, Earners_Constraint, Earners_Update_Column, useDeleteAllGatePermissionsMutation, useUpdateGatePermissionsMutation } from '../../../../graphql';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -132,7 +132,6 @@ const AddGateForm = () => {
     );
     //const [adminIDList, setAdminIDList] = useState(edit?gateData.admins:[userInfo.id]);
     const [updateLoading, setUpdateeLoading] = useState<boolean>(false);
-    const [adminSearch, setAdminSearch] = useState([]);
     const [NFTupdated, setNFTupdated] = useState<boolean>(edit);
     const [prereqsSearch, setPrereqsSearch] = useState([]);
     const [NFTType, setNFTType] = useState<NFT | null>(
@@ -151,6 +150,12 @@ const AddGateForm = () => {
     const { daoData }: { daoData: Daos } = useOutletContext();
     const [createGate] = useCreateGateMutation();
     const [updateGate] = useUpdateGateMutation();
+    const [updateAdmins] = useUpdateGatePermissionsMutation();
+    const [deleteAllAdmins] = useDeleteAllGatePermissionsMutation({
+        variables: {
+            gate_id: edit ? gateData.id : null
+        }
+    });
 
     const [
         searchByUsers,
@@ -393,6 +398,17 @@ const AddGateForm = () => {
                         },
                     },
                 });
+
+                await deleteAllAdmins();
+
+                await updateAdmins({
+                    variables: {
+                        objects: adminList.map(admin => ({
+                            user_id: admin.id,
+                            permission: 'admin'
+                        })),
+                    }
+                })
                 navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
@@ -424,6 +440,17 @@ const AddGateForm = () => {
                         },
                     },
                 });
+
+                await deleteAllAdmins();
+
+                await updateAdmins({
+                    variables: {
+                        objects: adminList.map(admin => ({
+                            user_id: admin.id,
+                            permission: 'admin'
+                        })),
+                    }
+                })
                 navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
