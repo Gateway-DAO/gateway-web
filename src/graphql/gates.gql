@@ -1,11 +1,33 @@
 ### Queries ###
 
-query getGate($id: uuid!) {
+query getGate($id: uuid!, $permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
     gates_by_pk(id: $id) {
         skills
         published
         holders {
             id
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
         }
         earners {
             gate_id
@@ -29,6 +51,7 @@ query getGate($id: uuid!) {
             unlimited
         }
         dao {
+            name
             youtube_url
             whitelisted_flags
             wdwd
@@ -63,12 +86,34 @@ query getGate($id: uuid!) {
     }
 }
 
-query listGates {
+query listGates($permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
     gates {
         skills
         published
         holders {
             id
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
         }
         earners {
             gate_id
@@ -86,6 +131,7 @@ query listGates {
             unlimited
         }
         dao {
+            name
             youtube_url
             whitelisted_flags
             wdwd
@@ -209,6 +255,7 @@ mutation createGate($object: gates_insert_input = {}) {
             unlimited
         }
         dao {
+            name
             youtube_url
             whitelisted_flags
             wdwd
@@ -233,7 +280,7 @@ mutation createGate($object: gates_insert_input = {}) {
     }
 }
 
-mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
+mutation updateGate($id: uuid!, $set: gates_set_input = {}, $permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
     update_gates_by_pk(pk_columns: { id: $id }, _set: $set) {
         attitudes
         badge
@@ -249,6 +296,28 @@ mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
         published
         holders {
             id
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
         }
         earners {
             gate_id
@@ -266,6 +335,7 @@ mutation updateGate($id: uuid!, $set: gates_set_input = {}) {
             unlimited
         }
         dao {
+            name
             youtube_url
             whitelisted_flags
             wdwd

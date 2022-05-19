@@ -53,7 +53,7 @@ const GatePage: React.FC = () => {
                     _eq: gate
                 },
                 user_id: {
-                    _eq: userInfo.id
+                    _eq: userInfo?.id
                 }
             }
         }
@@ -70,11 +70,11 @@ const GatePage: React.FC = () => {
     })
 
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
-    const [gateData, setGateData] = useState<PartialDeep<Gates>>(dbData.gates_by_pk);
-    const [keysDone, setKeysDone] = useState<number>(keyProgressData.key_progress.filter(kp => kp.completed !== 'done').map(kp => kp.key.keys).reduce((total, num) => total + num));
-    const [taskStatus, setTaskStatus] = useState<PartialDeep<Key_Progress>[]>(keyProgressData.key_progress);
+    const [gateData, setGateData] = useState<PartialDeep<Gates>>(dbData?.gates_by_pk);
+    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed !== 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0) || 0);
+    const [taskStatus, setTaskStatus] = useState<PartialDeep<Key_Progress>[]>(keyProgressData?.key_progress);
     const [admins, setAdmins] = useState<PartialDeep<Users>[]>(adminsData?.permissions.map(perms => perms.user));
-    const [earners, setEarners] = useState<PartialDeep<Users>[]>(dbData.gates_by_pk.earners?.map(earner => earner.user));
+    const [earners, setEarners] = useState<PartialDeep<Users>[]>(dbData?.gates_by_pk.earners?.map(earner => earner.user));
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
@@ -125,13 +125,15 @@ const GatePage: React.FC = () => {
             </Page>
         );
     } else {
+        /* TODO: remove
         if ((
             !isAdmin &&
-            (gateData.published == 'NOT_PUBLISHED' ||
-                gateData.published == 'PAUSED')
+            (gateData.published == 'not_published' ||
+                gateData.published == 'paused')
         )) {
             return <Navigate to='/not-authorized' />;
         }
+        */
     }
 
     return (

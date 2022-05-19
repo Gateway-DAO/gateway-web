@@ -1,14 +1,12 @@
 import * as Styled from './style';
 import { useNavigate } from 'react-router-dom';
-import { useGateAdmin, useAdmin } from '../../../../../hooks/useAdmin';
+import { useAdmin } from '../../../../../hooks/useAdmin';
 
 const Subcategories = ({
-    whitelisted,
-    activeCategory,
-    setActiveCategory,
+    id,
     viewAsMember,
 }) => {
-    const { isAdmin } = useAdmin(whitelisted);
+    const { isAdmin } = useAdmin(id);
 
     const navigate = useNavigate();
     const addGate = () => {
@@ -17,16 +15,6 @@ const Subcategories = ({
 
     return (
         <Styled.Wrapper>
-            {/*<Styled.Categories>
-                {categories.map((category) => (
-                    <Styled.Category
-                        onClick={() => setActiveCategory(category)}
-                        active={activeCategory === category}
-                    >
-                        {category}
-                    </Styled.Category>
-                ))}
-                </Styled.Categories>*/}
             {(isAdmin && !viewAsMember) && (
                 <Styled.WhitelistButtonDiv>
                     <Styled.Text>

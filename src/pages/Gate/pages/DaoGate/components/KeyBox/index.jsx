@@ -45,7 +45,7 @@ const KeyBox = (props) => {
     const [startBox, setStartBox] = useState(false);
     const data = props.data;
     const keyValidation = useKeyValidation(data, props.gateData);
-    const { isAdmin } = useGateAdmin(props.gateData.admins);
+    const { isAdmin } = useGateAdmin(props.gateData.id);
     const [showModal, setShowModal] = useState(false);
 
     // API

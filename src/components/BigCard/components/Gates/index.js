@@ -11,14 +11,14 @@ const Gates = (props) => {
     const [pageNumber, setPageNumber] = useState(0);
     const [activeCategory, setActiveCategory] = useState('All');
     const [gates, setGates] = useState([]);
-    const { isAdmin } = useAdmin(props.whitelistedAddresses);
+    const { isAdmin } = useAdmin(props.id);
     const resultPerPage = 9;
-    const pageCount = Math.ceil((props.gates.items?.length || 0) / resultPerPage);
+    const pageCount = Math.ceil((props.gates?.length || 0) / resultPerPage);
     const from = pageNumber * resultPerPage;
     const to = from + resultPerPage;
 
     useEffect(() => {
-        const slicedGates = props.gates.items.slice(from, to);
+        const slicedGates = props.gates.slice(from, to);
         setGates(slicedGates);
     }, [from])
 
@@ -28,7 +28,7 @@ const Gates = (props) => {
             <Subcategories
                 activeCategory={activeCategory}
                 setActiveCategory={setActiveCategory}
-                whitelisted={props.whitelistedAddresses}
+                id={props.id}
                 viewAsMember={props.viewAsMember}
             />
             <Styled.GatesContainer>

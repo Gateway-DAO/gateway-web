@@ -13,10 +13,8 @@ import { To, useNavigate } from 'react-router-dom';
 import { useGateAdmin } from '../../../../../../hooks/useAdmin';
 
 // Types
-import { gql, MutationFunctionOptions, useMutation } from '@apollo/client';
 import { useModal } from '../../../../../../contexts/ModalContext';
 import ConfirmationModal from '../../../../../../components/Modal/ConfirmationModal';
-import { useAuth } from '../../../../../../contexts/UserContext';
 import { Daos, Users, Key_Progress, Gates as Gate, GatePublishedStatus, useDeleteGateMutation, useUpdateGateMutation } from '../../../../../../graphql';
 import { Store } from 'react-notifications-component';
 
@@ -27,7 +25,6 @@ interface GateData extends Gate {
     keysNumber: number;
     taskStatus: Key_Progress[];
     adminList: Users[];
-    preRequisitesList: Gate[];
 }
 
 /* A type definition for the GateData interface. It is used to make sure that the data that is passed
@@ -58,9 +55,8 @@ const BackButton: React.FC<Props> = ({
     //Hooks
     const [updateGate] = useUpdateGateMutation();
     const navigate = useNavigate();
-    const { isAdmin } = useGateAdmin(gateData.adminList.map(admins => admins.id));
+    const { isAdmin } = useGateAdmin(gateData?.id);
     const [deleteGate] = useDeleteGateMutation();
-    // const { showModal } = useModal();
     const { showErrorModal, discardModal }: Record<string, any> = useModal();
 
     /**

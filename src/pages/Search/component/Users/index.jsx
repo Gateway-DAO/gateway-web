@@ -32,13 +32,26 @@ const UserTab = ({ filterQuery }) => {
             query: query,
             pagination: {
                 hitsPerPage,
-                page: pageNumber
-            }
+                page: pageNumber,
+            },
         },
     });
 
     useEffect(() => {
-        setHits(!searchLoading ? searchData?.search_users?.hits : []);
+        setHits(
+            !searchLoading
+                ? searchData?.search_users?.hits?.filter(
+                      (item) =>
+                          item.pfp !=
+                              'https://gateway9189b056d1a34c419355d6ada6e1b9d8184152-dev.s3.us-east-1.amazonaws.com/public/logo.png' &&
+                          item.pfp &&
+                          !(item.pfp == 'null') &&
+                          !item.username?.includes('0x') &&
+                          !item.name?.includes('0x') &&
+                          item.username
+                  )
+                : []
+        );
         setPageCount(
             Math.ceil(searchData?.search_users?.hits.length / hitsPerPage)
         );
@@ -70,27 +83,14 @@ const UserTab = ({ filterQuery }) => {
             {!!hits.length && (
                 <Styled.UserCardBox>
                     <Styled.UserContent>
-                        {hits
-                            ?.filter(
-                                (item) =>
-                                    !(
-                                        item.pfp ==
-                                        'https://gateway9189b056d1a34c419355d6ada6e1b9d8184152-dev.s3.us-east-1.amazonaws.com/public/logo.png'
-                                    ) &&
-                                    item.pfp &&
-                                    !(item.pfp == 'null') &&
-                                    !item.username?.includes('0x') &&
-                                    !item.name?.includes('0x')
-                            )
-                            .map((item, idx) => (
-                                <UserCard
-                                    key={idx}
-                                    name={item.name}
-                                    username={item.username}
-                                    pfp={item.pfp}
-                                    daos={item.daos}
-                                />
-                            ))}
+                        {hits.map((item, idx) => (
+                            <UserCard
+                                key={idx}
+                                name={item.name}
+                                username={item.username}
+                                pfp={item.pfp}
+                            />
+                        ))}
                     </Styled.UserContent>
                 </Styled.UserCardBox>
             )}

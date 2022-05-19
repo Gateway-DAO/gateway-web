@@ -309,8 +309,8 @@ const AddGateForm = () => {
                         description,
                         categories: categoryList,
                         // admins: adminList.map((admin) => admin.id),
-                        ...(wantPreReqs && { keysNumber: keyRequired }),
-                        nft_type: (NFTType as string).toUpperCase(),
+                        ...(wantPreReqs && { keys: keyRequired }),
+                        nft_type: (NFTType as string).toLowerCase(),
                         ...(skillList.length > 0 && { skills: skillList }),
                         ...(attitudeList.length > 0 && {
                             attitudes: attitudeList,
@@ -318,7 +318,6 @@ const AddGateForm = () => {
                         ...(knowledgeList.length > 0 && {
                             knowledge: knowledgeList,
                         }),
-                        published: 'NOT_PUBLISHED',
                         links: [],
                         // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                         /* preRequisites: {
@@ -360,7 +359,7 @@ const AddGateForm = () => {
 
                 await updateGate({
                     variables: {
-                         id: gateData.id,
+                        id: gateData.id,
                         set: {
                             id: gateData.id,
                             dao_id: daoData.id,
@@ -402,7 +401,6 @@ const AddGateForm = () => {
                             // admins: adminList.map((admin) => admin.id),
                             keys: keyRequired,
                             published: gateData.published,
-                            // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
                                 name: badgeName,
                                 ipfsURL: gateData.badge.ipfsURL,

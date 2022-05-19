@@ -23,7 +23,6 @@ interface GateData extends Gates {
     keysNumber: number;
     taskStatus: Key_Progress[];
     adminList: Users[];
-    preRequisitesList: Gates[];
 }
 
 /**
@@ -85,7 +84,8 @@ const DaoGate: React.FC = () => {
                         • {gateData.holders} holder(s)
                     </Styled.TagsDiv>
                     <Styled.AdditionalInfoBox>
-                        <Styled.AdminsBox>
+                        {gateData.adminList.length > 0 && (
+                            <Styled.AdminsBox>
                             <Styled.BoldTextHeading>
                                 ADMINS
                             </Styled.BoldTextHeading>
@@ -105,23 +105,8 @@ const DaoGate: React.FC = () => {
                                 })}
                             </Styled.ContentContainer>
                         </Styled.AdminsBox>
-                        {gateData.preRequisitesList.length > 0 && (
-                            <Styled.PreRequisiteBox>
-                                <Styled.BoldTextHeading>
-                                    PRE REQUISITE
-                                </Styled.BoldTextHeading>
-                                <Styled.ContentContainer>
-                                    {gateData.preRequisitesList.map((gate, idx) => (
-                                        <Styled.InsideLink
-                                            key={idx}
-                                            to={`/gate/${gate.id}`}
-                                        >
-                                            {gate.badge.name} ⬈
-                                        </Styled.InsideLink>
-                                    ))}
-                                </Styled.ContentContainer>
-                            </Styled.PreRequisiteBox>
                         )}
+                        {/*
                         <Styled.LinksContainer>
                             <Styled.BoldTextHeading>
                                 LINKS
@@ -155,9 +140,10 @@ const DaoGate: React.FC = () => {
                                 )}
                             </Styled.ContentContainer>
                         </Styled.LinksContainer>
+                        */}
                     </Styled.AdditionalInfoBox>
                     <Styled.HeaderLine />
-                    {gateData?.keysNumber !== 0 && (
+                    {gateData?.keys !== 0 && (
                         <Styled.SecondDiv>
                             <Styled.SecondDivName>Keys</Styled.SecondDivName>
                             <Styled.AnotherDiv>
@@ -165,7 +151,7 @@ const DaoGate: React.FC = () => {
                                     <CircularProgressbar
                                         value={gateData.keysDone}
                                         minValue={0}
-                                        maxValue={gateData.keysNumber}
+                                        maxValue={gateData.keys}
                                         strokeWidth={15}
                                     />
                                 </Styled.CircleBox>
@@ -175,7 +161,7 @@ const DaoGate: React.FC = () => {
                                     </Styled.ProgressInfoDivOne>
                                     <Styled.ProgressInfoDivTwo>
                                         {gateData.keysDone} of{' '}
-                                        {gateData.keysNumber}
+                                        {gateData.keys}
                                     </Styled.ProgressInfoDivTwo>
                                 </Styled.ProgressInfoDiv>
                             </Styled.AnotherDiv>

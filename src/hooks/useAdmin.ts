@@ -1,46 +1,38 @@
 import { useAuth } from '../contexts/UserContext';
+import { useGetUserDaoPermissionsQuery, useGetUserGatePermissionsQuery } from '../graphql';
 
 interface Permissions {
     readonly isAdmin: boolean;
+    readonly isEditor: boolean;
 }
 
-export const useAdmin = (addressOrList: string | string[]): Permissions => {
+export const useAdmin = (dao_id: string): Permissions => {
     const { userInfo, walletConnected }: Record<string, any> = useAuth();
-
-    let isAdmin = false;
-
-    if (walletConnected && addressOrList instanceof Array) {
-        isAdmin = addressOrList.includes(userInfo?.wallet);
-    } else if (walletConnected && addressOrList instanceof String) {
-        isAdmin = addressOrList === userInfo?.wallet;
-    }
-
-    if (walletConnected && userInfo?.isAdmin) {
-        isAdmin = userInfo?.isAdmin;
-    }
+    const { data } = useGetUserDaoPermissionsQuery({
+        variables: {
+            dao_id,
+            user_id: userInfo?.id
+        }
+    })
 
     return {
-        isAdmin,
+        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || false,
+        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'dao_editor') || false,
     };
 };
 
-export const useGateAdmin = (addressOrList: string | string[]): Permissions => {
+export const useGateAdmin = (gate_id: string): Permissions => {
     const { userInfo, walletConnected }: Record<string, any> = useAuth();
-
-    let isAdmin = false;
-
-    if (walletConnected && addressOrList instanceof Array) {
-        isAdmin = addressOrList.includes(userInfo?.id);
-    } else if (walletConnected && addressOrList instanceof String) {
-        isAdmin = addressOrList === userInfo?.id;
-    }
-
-    if (walletConnected && userInfo?.isAdmin) {
-        isAdmin = userInfo?.isAdmin;
-    }
+    const { data } = useGetUserGatePermissionsQuery({
+        variables: {
+            gate_id,
+            user_id: userInfo?.id
+        }
+    })
 
     return {
-        isAdmin,
+        isAdmin: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || false,
+        isEditor: userInfo?.isAdmin || (data?.permissions[0]?.permission == 'admin') || (data?.permissions[0]?.permission == 'dao_editor') || false,
     };
 };
 

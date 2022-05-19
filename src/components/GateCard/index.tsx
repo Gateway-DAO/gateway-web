@@ -10,15 +10,18 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/UserContext';
-import { useGetGateProgressQuery } from '../../graphql';
+import { Gates, useGetGateProgressQuery, useGetKeyProgressQuery } from '../../graphql';
+
+interface IProps {
+    gate: Gates;
+    viewAsMember: boolean;
+    toSearch: boolean;
+}
 
 /* This is a card that displays information about a gate. */
-const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
-    // State
-    const [numberOfWords, setNumberOfWords] = useState(100);
-
+const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
     // Hooks
-    const { userInfo, activateWeb3, walletConnected } = useAuth();
+    const { userInfo, activateWeb3, walletConnected }: Record<string, any> = useAuth();
     const navigate = useNavigate();
     const { data } = useGetGateProgressQuery({
         variables: {
@@ -30,6 +33,26 @@ const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
             }
         }
     })
+
+    const {
+        data: keyProgressData,
+        loading: keyProgressLoading
+    } = useGetKeyProgressQuery({
+        variables: {
+            where: {
+                gate_id: {
+                    _eq: gate.id
+                },
+                user_id: {
+                    _eq: userInfo?.id
+                }
+            }
+        }
+    })
+
+    // State
+    const [numberOfWords, setNumberOfWords] = useState(100);
+    const [keysDone, setKeysDone] = useState<number>(keyProgressData?.key_progress.filter(kp => kp.completed !== 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0) || 0);
 
     useEffect(() => {
         if (window.innerWidth < 1171 && window.innerWidth > 900) {
@@ -50,8 +73,8 @@ const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
      * @returns The status of the gate.
      */
     const getButtonText = () => {
-        switch (data?.getGateStatusByUserID?.items[0]?.status) {
-            case 'COMPLETED':
+        switch (data?.gate_progress[0].status) {
+            case 'completed':
                 return 'Done';
             default:
                 return 'Details';
@@ -100,7 +123,7 @@ const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
                     ))}
                 </Styled.CategoryList>
                 <Styled.CardBody onClick={goToGate}>
-                    <Styled.CardTitle>{gate.name}</Styled.CardTitle>
+                    <Styled.CardTitle>{gate.gate_name}</Styled.CardTitle>
                     <Styled.CardDesc>
                         {gate.description.length > numberOfWords
                             ? gate.description
@@ -128,7 +151,7 @@ const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
                         </Styled.InfoBox>
                     ) */}
                     <Styled.InfoBox>
-                        {gate.keysNumber && (
+                        {gate.keys && (
                             <>
                                 <Styled.MediumHeading>
                                     KEYS REQUIRED
@@ -136,62 +159,32 @@ const GateCard = ({ gate, viewAsMember, toSearch = false }) => {
                                 <Styled.KeyBox>
                                     <Styled.Circle>
                                         <CircularProgressbar
-                                            value={
-                                                data?.getGateStatusByUserID
-                                                    ?.items[0]?.keysDone || 0
-                                            }
+                                            value={keysDone}
                                             minValue={0}
-                                            maxValue={gate.keysNumber}
+                                            maxValue={gate.keys}
                                             strokeWidth={20}
                                         />
                                     </Styled.Circle>
                                     <Styled.SmallText>
-                                        {data?.getGateStatusByUserID?.items[0]
-                                            ?.keysDone || 0}{' '}
-                                        of {gate.keysNumber}
+                                        {keysDone} of {gate.keys}
                                     </Styled.SmallText>
                                 </Styled.KeyBox>
                             </>
                         )}
                     </Styled.InfoBox>
-                    {/* </Styled.Column>
-                    <Styled.Column> */}
                     <Styled.InfoBox>
                         <Styled.MediumHeading>EARNERS</Styled.MediumHeading>
                         <Styled.InfoText>
-                            {gate.holders}{' '}
-                            {gate.holders !== 1 ? 'people have' : 'person has'}{' '}
+                            {gate.holders.length}{' '}
+                            {gate.holders.length !== 1 ? 'people have' : 'person has'}{' '}
                             earned it.
                         </Styled.InfoText>
                     </Styled.InfoBox>
-                    {/* </Styled.Column> */}
-                    {/* </Styled.InfoBox> */}
                 </Styled.InfoContainer>
                 <Styled.ActivityBox>
                     <Styled.ActionButton onClick={goToGate}>
                         <Styled.ButtonText>{getButtonText()}</Styled.ButtonText>
                     </Styled.ActionButton>
-                    {/*isAdmin && !viewAsMember && (
-                        <Styled.PublishContainer>
-                            <Styled.PublishText>PUBLISH</Styled.PublishText>
-                            <Switch
-                                checked={checked}
-                                onChange={toggleGatePublished}
-                                offColor='#FF003D'
-                                onColor='#27D5A2'
-                                onHandleColor='#FFFFFF'
-                                handleDiameter={20}
-                                uncheckedIcon={false}
-                                checkedIcon={false}
-                                boxShadow='0px 1px 5px rgba(0, 0, 0, 0.6)'
-                                activeBoxShadow='0px 0px 1px 10px rgba(0, 0, 0, 0.2)'
-                                height={18}
-                                width={44}
-                                className='react-switch'
-                                id='material-switch'
-                            />
-                        </Styled.PublishContainer>
-                    )*/}
                 </Styled.ActivityBox>
             </Styled.GateContainer>
         </Styled.GateCardBox>

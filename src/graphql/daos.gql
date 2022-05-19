@@ -1,4 +1,4 @@
-query getDAO($id: uuid!) {
+query getDAO($id: uuid!, $permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
     daos_by_pk(id: $id) {
         youtube_url
         whitelisted_flags
@@ -17,6 +17,33 @@ query getDAO($id: uuid!) {
         slug
         mv
         logo_url
+        chains
+        socials {
+            network
+            url
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
         id
         how_to_join
         hangouts
@@ -27,8 +54,27 @@ query getDAO($id: uuid!) {
         blacklisted_flags
         background_url
         accomplishments
+        name
+        description
         faq
         token
+        gates {
+            id
+            keys
+            attitudes
+            knowledge
+            links
+            nft_type
+            published
+            gate_name
+            badge
+            holders {
+                id
+                name
+            }
+            categories
+            description
+        }
         bounties {
             categories
             description
@@ -44,9 +90,11 @@ query getDAO($id: uuid!) {
     }
 }
 
-query getDAOBySlug($slug: String = "") {
+query getDAOBySlug($slug: String = "", $permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
     daos(where: { slug: { _eq: $slug } }) {
         accomplishments
+        name
+        description
         background_url
         blacklisted_flags
         categories
@@ -58,6 +106,33 @@ query getDAOBySlug($slug: String = "") {
         how_to_join
         id
         logo_url
+        chains
+        socials {
+            network
+            url
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
         mv
         slug
         token
@@ -75,6 +150,23 @@ query getDAOBySlug($slug: String = "") {
         wdwd
         whitelisted_flags
         youtube_url
+        gates {
+            id
+            keys
+            attitudes
+            knowledge
+            links
+            nft_type
+            published
+            gate_name
+            badge
+            holders {
+                id
+                name
+            }
+            categories
+            description
+        }
         bounties {
             categories
             description
@@ -90,7 +182,7 @@ query getDAOBySlug($slug: String = "") {
     }
 }
 
-query listDAOs {
+query listDAOs($permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
     daos {
         youtube_url
         whitelisted_flags
@@ -109,6 +201,33 @@ query listDAOs {
         slug
         mv
         logo_url
+        chains
+        socials {
+            network
+            url
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
         id
         how_to_join
         hangouts
@@ -119,8 +238,27 @@ query listDAOs {
         blacklisted_flags
         background_url
         accomplishments
+        name
+        description
         faq
         token
+        gates {
+            id
+            keys
+            attitudes
+            knowledge
+            links
+            nft_type
+            published
+            gate_name
+            badge
+            holders {
+                id
+                name
+            }
+            categories
+            description
+        }
         bounties {
             categories
             description
@@ -139,6 +277,8 @@ query listDAOs {
 mutation createDAO($object: daos_insert_input = {}) {
     insert_daos_one(object: $object) {
         accomplishments
+        name
+        description
         background_url
         blacklisted_flags
         categories
@@ -150,8 +290,36 @@ mutation createDAO($object: daos_insert_input = {}) {
         how_to_join
         id
         logo_url
+        chains
+        socials {
+            network
+            url
+        }
+        permissions {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
         mv
         name
+        description
         slug
         token
         updated_at
@@ -173,6 +341,33 @@ mutation updateDAO($id: uuid!, $set: daos_set_input = {}) {
         how_to_join
         id
         logo_url
+        chains
+        socials {
+            network
+            url
+        }
+        permissions {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
         mv
         slug
         updated_at
@@ -180,6 +375,8 @@ mutation updateDAO($id: uuid!, $set: daos_set_input = {}) {
         whitelisted_flags
         youtube_url
         accomplishments
+        name
+        description
         faq
         token
     }
@@ -190,6 +387,13 @@ mutation deleteDAO($id: uuid!) {
         id
     }
 }
+
+mutation updateDAOSocials($objects: [dao_socials_insert_input!] = {}) {
+  insert_dao_socials(objects: $objects, on_conflict: {constraint: dao_socials_dao_id_network_key, update_columns: url}) {
+    affected_rows
+  }
+}
+
 
 ### Bounties ###
 
