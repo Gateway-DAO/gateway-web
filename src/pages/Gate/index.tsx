@@ -67,7 +67,6 @@ const GatePage: React.FC = () => {
 
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
     const { isEditor } = useGateAdmin(gate);
-    console.log(isEditor)
 
     useEffect(() => {
         !active && activateWeb3().then(setDidConnect);

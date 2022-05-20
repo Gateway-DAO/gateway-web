@@ -16,10 +16,11 @@ interface IProps {
     gate: Gates;
     viewAsMember: boolean;
     toSearch: boolean;
+    showHolders: boolean;
 }
 
 /* This is a card that displays information about a gate. */
-const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
+const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders = true }) => {
     // Hooks
     const { userInfo, activateWeb3, walletConnected }: Record<string, any> = useAuth();
     const navigate = useNavigate();
@@ -27,12 +28,16 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
         variables: {
             where: {
                 _and: [
-                    { gate_id: {
-                        _eq: gate.id
-                    } },
-                    { user_id: {
-                        _eq: userInfo?.id
-                    } }
+                    {
+                        gate_id: {
+                            _eq: gate.id
+                        }
+                    },
+                    {
+                        user_id: {
+                            _eq: userInfo?.id
+                        }
+                    }
                 ]
             }
         }
@@ -176,14 +181,14 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
                             </>
                         )}
                     </Styled.InfoBox>
-                    <Styled.InfoBox>
+                    {showHolders && (<Styled.InfoBox>
                         <Styled.MediumHeading>EARNERS</Styled.MediumHeading>
                         <Styled.InfoText>
                             {gate.holders.length}{' '}
                             {gate.holders.length !== 1 ? 'people have' : 'person has'}{' '}
                             earned it.
                         </Styled.InfoText>
-                    </Styled.InfoBox>
+                    </Styled.InfoBox>)}
                 </Styled.InfoContainer>
                 <Styled.ActivityBox>
                     <Styled.ActionButton onClick={goToGate}>

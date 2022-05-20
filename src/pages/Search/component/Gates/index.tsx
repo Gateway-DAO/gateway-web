@@ -68,7 +68,7 @@ const GateTab = ({ filterQuery }) => {
             <Styled.GateCardBox>
                 {hits?.map((item, idx) => (
                     <Styled.GateItem key={idx}>
-                        <GateCard gate={item} viewAsMember={true} toSearch={true} />
+                        <GateCard gate={item} viewAsMember={true} toSearch={true} showHolders={false} />
                     </Styled.GateItem>
                 ))}
             </Styled.GateCardBox>

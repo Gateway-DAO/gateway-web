@@ -21,7 +21,7 @@ export const useKeyValidation = (data, gateData) => {
     const navigate = useNavigate();
 
     // Validation mutations
-    const [verifyTask, { data: validationData }] = useVerifyTaskMutation();
+    const [verifyTask] = useVerifyTaskMutation();
 
     useEffect(() => {
         switch (data?.task?.type) {
@@ -35,38 +35,21 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     user_id: userInfo.id,
                                     key_id: data.id,
-                                    gate_id: gateData.id,
                                     info: {
-                                        meetingCode: taskInformation.current
+                                        meeting_code: taskInformation.current,
                                     },
                                 },
                             });
 
-                            if (
-                                res.data.verifyMeetingCode.__typename !==
-                                'Error'
-                            ) {
-                                navigate('key-completed', {
-                                    state: {
-                                        key: data,
-                                        gate: gateData,
-                                        keysDone: gateData.keysDone + data.keys,
-                                        completedGate:
-                                            res.data.verifyMeetingCode
-                                                .completed_gate,
-                                    },
-                                });
-                            } else {
-                                const Error = () => (
-                                    <div>
-                                        <ThemeStyled.H2>
-                                            An error occurred
-                                        </ThemeStyled.H2>
-                                        <p>{res.data.verifyMeetingCode.msg}</p>
-                                    </div>
-                                );
-                                showModal(<Error />);
-                            }
+                            navigate('key-completed', {
+                                state: {
+                                    key: data,
+                                    gate: gateData,
+                                    keysDone: gateData.keysDone + data.keys,
+                                    completedGate:
+                                        res.data.verify_key.completed_gate,
+                                },
+                            });
 
                             setLoading(false);
                         } catch (err) {
@@ -77,7 +60,8 @@ export const useKeyValidation = (data, gateData) => {
                                         An error occurred
                                     </ThemeStyled.H2>
                                     <p>
-                                        {err.msg || 'Please try again later!'}
+                                        {err.message ||
+                                            'Please try again later!'}
                                     </p>
                                 </div>
                             );
@@ -101,37 +85,15 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             });
 
-                            if (
-                                res.data.verifyContractInteraction
-                                    .verify_key !== 'Error'
-                            ) {
-                                navigate('key-completed', {
-                                    state: {
-                                        key: data,
-                                        gate: gateData,
-                                        keysDone: gateData.keysDone + data.keys,
-                                        completedGate:
-                                            res.data.verifyContractInteraction
-                                                .completed_gate,
-                                    },
-                                });
-                            } else {
-                                const Error = () => (
-                                    <div>
-                                        <ThemeStyled.H2>
-                                            An error occurred
-                                        </ThemeStyled.H2>
-                                        <p>
-                                            {
-                                                res.data
-                                                    .verifyContractInteraction
-                                                    .msg
-                                            }
-                                        </p>
-                                    </div>
-                                );
-                                showModal(<Error />);
-                            }
+                            navigate('key-completed', {
+                                state: {
+                                    key: data,
+                                    gate: gateData,
+                                    keysDone: gateData.keysDone + data.keys,
+                                    completedGate:
+                                        res.data.verify_key.completed_gate,
+                                },
+                            });
 
                             setLoading(false);
                         } catch (err) {
@@ -142,7 +104,8 @@ export const useKeyValidation = (data, gateData) => {
                                         An error occurred
                                     </ThemeStyled.H2>
                                     <p>
-                                        {err.msg || 'Please try again later!'}
+                                        {err.message ||
+                                            'Please try again later!'}
                                     </p>
                                 </div>
                             );
@@ -161,34 +124,18 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     user_id: userInfo.id,
                                     key_id: data.id,
-                                    gate_id: gateData.id,
                                 },
                             });
 
-                            if (
-                                res.data.verify_key.__typename !== 'Error'
-                            ) {
-                                navigate('key-completed', {
-                                    state: {
-                                        key: data,
-                                        gate: gateData,
-                                        keysDone: gateData.keysDone + data.keys,
-                                        completedGate:
-                                            res.data.verifyHoldAToken
-                                                .completed_gate,
-                                    },
-                                });
-                            } else {
-                                const Error = () => (
-                                    <div>
-                                        <ThemeStyled.H2>
-                                            An error occurred
-                                        </ThemeStyled.H2>
-                                        <p>{res.data.verifyHoldAToken.msg}</p>
-                                    </div>
-                                );
-                                showModal(<Error />);
-                            }
+                            navigate('key-completed', {
+                                state: {
+                                    key: data,
+                                    gate: gateData,
+                                    keysDone: gateData.keysDone + data.keys,
+                                    completedGate:
+                                        res.data.verify_key.completed_gate,
+                                },
+                            });
 
                             setLoading(false);
                         } catch (err) {
@@ -199,7 +146,8 @@ export const useKeyValidation = (data, gateData) => {
                                         An error occurred
                                     </ThemeStyled.H2>
                                     <p>
-                                        {err.msg || 'Please try again later!'}
+                                        {err.message ||
+                                            'Please try again later!'}
                                     </p>
                                 </div>
                             );
@@ -230,34 +178,18 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     user_id: userInfo.id,
                                     key_id: data.id,
-                                    gate_id: gateData.id,
                                 },
                             });
 
-                            if (
-                                res.data.verify_key.__typename !== 'Error'
-                            ) {
-                                navigate('key-completed', {
-                                    state: {
-                                        key: data,
-                                        gate: gateData,
-                                        keysDone: gateData.keysDone + data.keys,
-                                        completedGate:
-                                            res.data.verify_key
-                                                .completed_gate,
-                                    },
-                                });
-                            } else {
-                                const Error = () => (
-                                    <div>
-                                        <ThemeStyled.H2>
-                                            An error occurred
-                                        </ThemeStyled.H2>
-                                        <p>{res.data.verify_key.msg}</p>
-                                    </div>
-                                );
-                                showModal(<Error />);
-                            }
+                            navigate('key-completed', {
+                                state: {
+                                    key: data,
+                                    gate: gateData,
+                                    keysDone: gateData.keysDone + data.keys,
+                                    completedGate:
+                                        res.data.verify_key.completed_gate,
+                                },
+                            });
 
                             setLoading(false);
                         } catch (err) {
@@ -268,7 +200,8 @@ export const useKeyValidation = (data, gateData) => {
                                         An error occurred
                                     </ThemeStyled.H2>
                                     <p>
-                                        {err.msg || 'Please try again later!'}
+                                        {err.message ||
+                                            'Please try again later!'}
                                     </p>
                                 </div>
                             );
@@ -287,34 +220,18 @@ export const useKeyValidation = (data, gateData) => {
                                 variables: {
                                     user_id: userInfo.id,
                                     key_id: data.id,
-                                    gate_id: gateData.id,
                                 },
                             });
 
-                            if (
-                                res.data.verify_key.__typename !== 'Error'
-                            ) {
-                                navigate('key-completed', {
-                                    state: {
-                                        key: data,
-                                        gate: gateData,
-                                        keysDone: gateData.keysDone + data.keys,
-                                        completedGate:
-                                            res.data.verifySnapshot
-                                                .completed_gate,
-                                    },
-                                });
-                            } else {
-                                const Error = () => (
-                                    <div>
-                                        <ThemeStyled.H2>
-                                            An error occurred
-                                        </ThemeStyled.H2>
-                                        <p>{res.data.verifySnapshot.msg}</p>
-                                    </div>
-                                );
-                                showModal(<Error />);
-                            }
+                            navigate('key-completed', {
+                                state: {
+                                    key: data,
+                                    gate: gateData,
+                                    keysDone: gateData.keysDone + data.keys,
+                                    completedGate:
+                                        res.data.verify_key.completed_gate,
+                                },
+                            });
 
                             setLoading(false);
                         } catch (err) {
@@ -325,7 +242,8 @@ export const useKeyValidation = (data, gateData) => {
                                         An error occurred
                                     </ThemeStyled.H2>
                                     <p>
-                                        {err.msg || 'Please try again later!'}
+                                        {err.message ||
+                                            'Please try again later!'}
                                     </p>
                                 </div>
                             );
