@@ -548,7 +548,7 @@ const selectStyle = `
     }
 
     & .select__option:hover, & .select__option:focus {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.1);
     }
 
     & .select__menu {

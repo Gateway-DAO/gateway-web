@@ -85,7 +85,7 @@ const DaoGate: React.FC = () => {
                         • {gateData.holders} holder(s)
                     </Styled.TagsDiv>
                     <Styled.AdditionalInfoBox>
-                        {gateData.adminList.length > 0 && (
+                        {gateData?.adminList?.length > 0 && (
                             <Styled.AdminsBox>
                             <Styled.BoldTextHeading>
                                 ADMINS
@@ -198,7 +198,7 @@ const DaoGate: React.FC = () => {
                                         data={key}
                                         gateData={gateData}
                                         blocked={
-                                            gateData.taskStatus.length > 0
+                                            gateData?.taskStatus?.length > 0
                                                 ? gateData.taskStatus
                                                       .map(
                                                           (ts: Key_Progress) =>

@@ -217,7 +217,10 @@ export const UserProvider = ({ children }) => {
                 },
             });
 
-            setUserInfo(user.data.insert_users_one);
+            setUserInfo({
+                ...user.data.insert_users_one,
+                ens: web3.chainId == 1 && await web3.library.lookupAddress(web3.account)
+            });
 
             return user.data.insert_users_one;
         }
@@ -259,6 +262,7 @@ export const UserProvider = ({ children }) => {
                 if (userDB.data.users.length > 0) {
                     setUserInfo({
                         ...userDB.data.users[0],
+                        ens: web3.chainId == 1 && await web3.library.lookupAddress(web3.account),
                         isAdmin: false,
                     });
                 } else {

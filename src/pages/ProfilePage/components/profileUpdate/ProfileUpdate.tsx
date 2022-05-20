@@ -11,35 +11,9 @@ import {
 	FaShareAlt,
 	FaTelegram,
 	FaTwitter,
-	FaMapMarkerAlt,
 } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import { BiCopy } from 'react-icons/bi';
-import {
-	WiDaySunny,
-	WiDaySunnyOvercast,
-	WiDayCloudyHigh,
-	WiCloudy,
-	WiFog,
-	WiShowers,
-	WiDayRainMix,
-	WiStormShowers,
-	WiRain,
-	WiSprinkle,
-	WiDayShowers,
-	WiSnowflakeCold,
-	WiDaySnow,
-	WiSleet,
-	WiRainMix,
-	WiHot,
-	WiWindy,
-	WiNightClear,
-	WiNightAltCloudy,
-	WiNightLightning,
-	WiNightAltShowers,
-	WiNightAltStormShowers,
-	WiNightAltSnow,
-} from 'react-icons/wi';
 import {
 	Container,
 	Row,
@@ -71,14 +45,10 @@ const ProfileUpdate = () => {
 	// State
 	const { userInfo, currentLocation, canEdit }: Record<string, any> =
 		useOutletContext();
-	const [currentTime, setCurrentTime] = useState(new Date());
-	const [weatherData, setWeatherData] = useState([]);
 
 	// Hooks
 	const [ref, { height: heightPfp }] = useMeasure();
 	const height = heightPfp > 40 ? heightPfp : 262;
-
-	const tick = () => setCurrentTime(new Date());
 
 	/**
 	 * It returns an icon based on the platform.
@@ -97,139 +67,6 @@ const ProfileUpdate = () => {
 				return <FaGithubAlt color='white' />;
 			default:
 				return <FaShareAlt color='white' />;
-		}
-	};
-
-	const timerID = setInterval(() => tick(), 1000);
-
-	/* Fetching the user info from the database and setting it to the state. */
-	useEffect(() => {
-		return clearInterval(timerID);
-	}, []);
-
-	/**
-	 * It takes the weather data and returns the appropriate icon.
-	 * @returns The weather icon.
-	 */
-	const getWeatherIcon = () => {
-		if (weatherData.length === 1) {
-			if (weatherData[0].WeatherText === 'Sunny') {
-				return <WiDaySunny color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Sunny') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Partly Sunny') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Hazy Sunshine') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
-				return <WiDayCloudyHigh color='white' />;
-			} else if (weatherData[0].WeatherText === 'Cloudy') {
-				return <WiCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Dreary (Overcast)') {
-				return <WiCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Fog') {
-				return <WiFog color='white' />;
-			} else if (weatherData[0].WeatherText === 'Showers') {
-				return <WiShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Sunny w/ Showers'
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (weatherData[0].WeatherText === 'T-Storms') {
-				return <WiStormShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Sunny w/ T-Storms'
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (weatherData[0].WeatherText === 'Rain') {
-				return <WiRain color='white' />;
-			} else if (weatherData[0].WeatherText === 'Flurries') {
-				return <WiSprinkle color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDayShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Sunny w/ Flurries'
-			) {
-				return <WiDayShowers color='white' />;
-			} else if (weatherData[0].WeatherText === 'Snow') {
-				return <WiSnowflakeCold color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDaySnow color='white' />;
-			} else if (weatherData[0].WeatherText === 'Ice') {
-				return <WiSnowflakeCold color='white' />;
-			} else if (weatherData[0].WeatherText === 'Sleet') {
-				return <WiSleet color='white' />;
-			} else if (weatherData[0].WeatherText === 'Freezing Rain') {
-				return <WiRain color='white' />;
-			} else if (weatherData[0].WeatherText === 'Rain and Snow') {
-				return <WiRainMix color='white' />;
-			} else if (weatherData[0].WeatherText === 'Hot') {
-				return <WiHot color='white' />;
-			} else if (weatherData[0].WeatherText === 'Cold') {
-				return <WiSnowflakeCold color='white' />;
-			} else if (weatherData[0].WeatherText === 'Windy') {
-				return <WiWindy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Clear') {
-				return <WiNightClear color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Clear') {
-				return <WiNightClear color='white' />;
-			} else if (weatherData[0].WeatherText === 'Partly Cloudy') {
-				return <WiNightAltCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
-				return <WiNightAltCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Hazy Moonlight') {
-				return <WiNightLightning color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
-				return <WiCloudy color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Cloudy w/ Showers'
-			) {
-				return <WiNightAltShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Cloudy w/ T-Storms'
-			) {
-				return <WiNightAltStormShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltStormShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltSnow color='white' />;
-			} else {
-				return <WiDaySunny color='white' />;
-			}
 		}
 	};
 
@@ -318,7 +155,7 @@ const ProfileUpdate = () => {
 												alt='image'
 											/>
 											<p>
-												{shortenAddress(
+												{userInfo.ens || shortenAddress(
 													userInfo.wallet
 												)}
 											</p>

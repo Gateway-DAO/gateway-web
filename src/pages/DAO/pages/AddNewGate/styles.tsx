@@ -267,4 +267,8 @@ export const FlexOption = styled(Option)`
     display: flex !important;
     flex-direction: row;
     align-items: center;
+
+    &:hover {
+        background: rgba(0,0,0,0.3)
+    }
 `
