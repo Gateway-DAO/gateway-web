@@ -44,6 +44,8 @@
         "@draft-js-plugins/image": "^4.1.2",
         "@metamask/eth-sig-util": "^4.0.0",
         "@portis/web3": "^4.0.7",
+        "@sentry/react": "^6.19.7",
+        "@sentry/tracing": "^6.19.7",
         "@testing-library/jest-dom": "^5.11.4",
         "@testing-library/react": "^11.1.0",
         "@testing-library/user-event": "^12.1.10",
