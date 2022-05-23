@@ -21,34 +21,8 @@ const Wallet = (props) => {
         useAuth();
     const { active, account } = useWeb3React();
     const [hidden, setHidden] = useState(false);
-    const [wrong, setWrong] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
-    const toggleModal = () => setShowModal(!showModal);
-    const navigate = useNavigate();
-
-    useEffect(
-        () =>
-            window.ethereum &&
-            window.ethereum.on('chainChanged', (chain) =>
-                setWrong(!SUPPORTED_CHAINS.includes(parseInt(chain, 16)))
-            )
-    );
-
-    if (wrong && !loggedIn) {
-        return (
-            <>
-                <WrongNetworkModal show={showModal} toggle={toggleModal} />
-                <Styled.ConnectToWallet
-                    wrong={true}
-                    onClick={(e) => setShowModal(true)}
-                >
-                    <Styled.ConnectText>WRONG NETWORK</Styled.ConnectText>
-                </Styled.ConnectToWallet>
-            </>
-        );
-    }
-
     return (
         <Styled.Container>
             <Styled.ConnectToWallet
@@ -63,7 +37,7 @@ const Wallet = (props) => {
                             ? `@${userInfo.username}`
                             : shortenAddress(account, 4, 12)
                         : 'Connect To Wallet'}
-                    {hidden ? (
+                    {userInfo?.username && (hidden ? (
                         <GoChevronUp
                             color='#FE02B9'
                             style={{ marginLeft: 10 }}
@@ -73,7 +47,7 @@ const Wallet = (props) => {
                             color='#FE02B9'
                             style={{ marginLeft: 10 }}
                         />
-                    )}
+                    ))}
                 </Styled.ConnectText>
             </Styled.ConnectToWallet>
             {hidden ? <DropDown toggle={setHidden} /> : null}
