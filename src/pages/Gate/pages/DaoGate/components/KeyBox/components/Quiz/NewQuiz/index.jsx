@@ -15,6 +15,7 @@ import { useAuth } from '../../../../../../../../../contexts/UserContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { useNavigate } from 'react-router-dom';
 import { useVerifyTaskMutation } from '../../../../../../../../../graphql';
+import { FormStyled } from '../../../../../../../../../components/Form';
 
 const Quiz = (props) => {
     // State
@@ -78,24 +79,24 @@ const Quiz = (props) => {
 
         if (props.type.toLowerCase() === 'next') {
             return (
-                <ActionButton
+                <FormStyled.Button
                     onClick={clickAble ? onNext : null}
                     active={props.active}
                     clickable={clickAble}
                 >
                     Next
-                </ActionButton>
+                </FormStyled.Button>
             );
         } else if (props.type.toLowerCase() === 'finish') {
             return (
-                <ActionButton
+                <FormStyled.Button
                     onClick={clickAble ? onFinish : null}
                     active={props.active}
                     clickable={clickAble}
                 >
                     {loading && <Loader color='white' />}
                     Finish
-                </ActionButton>
+                </FormStyled.Button>
             );
         }
     };

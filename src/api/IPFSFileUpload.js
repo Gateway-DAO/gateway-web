@@ -7,7 +7,7 @@ const PINATA = {
 
 export const uploadFileToIPFS = async (form) => {
     const res = await axios.post(
-        'https://gateway-dao.mypinata.cloud/pinning/pinFileToIPFS/',
+        'https://ipfs.mygateway.xyz/pinning/pinFileToIPFS/',
         form,
         {
             headers: {
@@ -23,7 +23,7 @@ export const uploadFileToIPFS = async (form) => {
 
 export const uploadMetadataToIPFS = async (obj) => {
     const res = await axios.post(
-        'https://gateway-dao.mypinata.cloud/pinning/pinJSONToIPFS/',
+        'https://ipfs.mygateway.xyz/pinning/pinJSONToIPFS/',
         obj,
         {
             headers: {

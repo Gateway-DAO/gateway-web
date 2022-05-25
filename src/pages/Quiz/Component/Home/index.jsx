@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+
+import { useFormContext } from 'react-hook-form';
 
 // Styling
 import { FormStyled } from '../../../../components/Form';
 
 const Home = (props) => {
-    const { formik } = useOutletContext();
-
-    const [title, setTitle] = useState(formik.values.quiz.title || '');
-    const [description, setDescription] = useState(
-        formik.values.quiz.description || ''
-    );
+    const { register, watch, formState: { errors }, setValue } = useFormContext();
 
     const saveContent = () => {
-        formik.setFieldValue('quiz.title', title);
-        formik.setFieldValue('quiz.description', description);
         props.setActiveModal('CREATE_QUIZ');
         props.setShowMessage(false);
     };
@@ -26,13 +20,8 @@ const Home = (props) => {
                     QUIZ TITLE*
                 </FormStyled.Label>
                 <FormStyled.Input
-                    onChange={(e) => setTitle(e.target.value)}
-                    type='text'
-                    id='title'
-                    name='quiz.title'
-                    placeholder='This will be the title of your Gate'
-                    value={title}
-                    required
+                    {...register('quiz.title')}
+                    placeholder='This will be the title of your quiz'
                 />
             </FormStyled.Fieldset>
 
@@ -42,12 +31,8 @@ const Home = (props) => {
                 </FormStyled.Label>
                 <FormStyled.Textarea
                     height='100px'
-                    id='description'
-                    onChange={(e) => setDescription(e.target.value)}
-                    name='quiz.description'
-                    placeholder='This will be the description of your Gate. We reccommend maximum of 2 lines.'
-                    value={description}
-                    required
+                    placeholder='This will be the description of your quiz. We reccommend a maximum of 2 lines.'
+                    {...register('quiz.description')}
                 ></FormStyled.Textarea>
             </FormStyled.Fieldset>
 

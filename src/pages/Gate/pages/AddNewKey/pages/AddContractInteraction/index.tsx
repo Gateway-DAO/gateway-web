@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { FormStyled } from '../../../../../../components/Form';
 import Loader from '../../../../../../components/Loader';
-import { FormikContextType } from 'formik';
 import { ethers } from 'ethers';
 import { useOutletContext } from 'react-router-dom';
+import { useFormContext } from 'react-hook-form';
+import { Gates, useCreateKeyMutation } from '../../../../../../graphql';
 
 interface Key {
     taskLink: string;
@@ -20,50 +21,47 @@ interface Key {
 
 const AddContractInteraction: React.FC = () => {
     const {
-        formik,
+        gateData,
         edit,
-        loading,
         setBackButton,
-        setValidator,
+        setCreatedKey
     }: {
-        formik: FormikContextType<Key>;
+        gateData: Gates;
         edit: boolean;
         loading: boolean;
         setBackButton(obj: Record<string, string | number>): void;
-        setValidator(func: () => void): void;
+        setCreatedKey(any): void;
     } = useOutletContext();
 
-    /**
-     * It checks if the address is a valid address.
-     */
-    const validate = (values) => {
-        // eslint-disable-next-line prefer-const
-        let errors: Record<string, string> = {};
+    const { register, handleSubmit, watch, formState: { errors } } = useFormContext();
 
-        if (!values.address) {
-            errors.address = 'Required';
-        } else if (!ethers.utils.isAddress(values.address)) {
-            errors.address = "That's not a valid address!";
-        }
+    const [createKey, { loading }] = useCreateKeyMutation()
 
-        if (!values.chain) {
-            errors.chain = 'Required';
-        }
+    const onSubmit = async data => {
+        await createKey({
+            variables: {
+                object: {
+                    gate_id: gateData.id,
+                    information: data.titleDescriptionPair,
+                    keys: data.keysRewarded,
+                    people_limit: data.peopleLimit,
+                    unlimited: data.unlimited,
+                    task_type: 'contract_interaction',
+                    task: {
+                        type: 'contract_interaction',
+                        chainID: data.chain,
+                        address: data.address,
+                        methodName: data.methodName || '',
+                    }
+                },
+            }
+        })
 
-        return errors;
-    };
-
-    useEffect(() => {
-        setBackButton({
-            url: -1,
-            text: 'Add a New Key',
-        });
-
-        setValidator(() => validate);
-    }, []);
+        setCreatedKey(true);
+    }
 
     return (
-        <FormStyled.FormBox onSubmit={formik.handleSubmit}>
+        <FormStyled.FormBox onSubmit={handleSubmit(onSubmit)}>
             <FormStyled.H1>
                 {edit
                     ? 'Edit Contract Interaction'
@@ -72,20 +70,20 @@ const AddContractInteraction: React.FC = () => {
 
             <FormStyled.Fieldset>
                 <FormStyled.Label>Chain*</FormStyled.Label>
-                <FormStyled.Select
+                <FormStyled.HTMLSelect
                     name='chain'
-                    onChange={formik.handleChange}
-                    valid={!formik.errors.chain}
+                    {...register("chain")}
+
                 >
                     <option value={1}>Ethereum</option>
                     <option value={42220}>Celo</option>
                     <option value={56}>Binance Smart Chain</option>
                     <option value={137}>Polygon/Matic</option>
                     <option value={43114}>Avalanche</option>
-                </FormStyled.Select>
-                {formik.errors.chain && (
+                </FormStyled.HTMLSelect>
+                {errors.chain && (
                     <FormStyled.SubText>
-                        {formik.errors.chain}
+                        {errors.chain}
                     </FormStyled.SubText>
                 )}
             </FormStyled.Fieldset>
@@ -94,16 +92,14 @@ const AddContractInteraction: React.FC = () => {
                 <FormStyled.Label>Contract Address*</FormStyled.Label>
                 <FormStyled.Input
                     title='Token'
-                    name='address'
                     placeholder='Token Address'
-                    value={formik.values.address}
-                    onChange={formik.handleChange}
-                    valid={!formik.errors.address}
+                    {...register("address", { required: true })}
+                    value={watch('address')}
                     required
                 />
-                {formik.errors.address && (
+                {errors.address && (
                     <FormStyled.SubText>
-                        {formik.errors.address}
+                        {errors.address}
                     </FormStyled.SubText>
                 )}
             </FormStyled.Fieldset>
@@ -113,8 +109,8 @@ const AddContractInteraction: React.FC = () => {
                 <FormStyled.Input
                     placeholder='Smart Contract Method Name. Ex: swapETHForToken'
                     name='methodName'
-                    value={formik.values.methodName}
-                    onChange={formik.handleChange}
+                    {...register("methodName")}
+                    value={watch('methodName')}
                 />
             </FormStyled.Fieldset>
 

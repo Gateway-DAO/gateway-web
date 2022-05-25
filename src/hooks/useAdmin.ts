@@ -19,10 +19,11 @@ export const useAdmin = (dao_id: string): Permissions => {
         },
     });
 
-    if (data?.permissions && data?.permissions?.length == 0) return {
-        isAdmin: false,
-        isEditor: false
-    }
+    if (data?.permissions && data?.permissions?.length == 0)
+        return {
+            isAdmin: false,
+            isEditor: false,
+        };
 
     return {
         isAdmin:
@@ -46,25 +47,23 @@ export const useGateAdmin = (gate_id: string): Permissions => {
         },
     });
 
-    if (data?.permissions && data?.permissions?.length == 0) return {
-        isAdmin: false,
-        isEditor: false
-    }
+    if (data?.permissions && data?.permissions?.length == 0)
+        return {
+            isAdmin: false,
+            isEditor: false,
+        };
 
-    return React.useMemo(
-        () => ({
-            isAdmin:
-                userInfo?.isAdmin ||
-                data?.permissions[0]?.permission == 'admin' ||
-                null,
-            isEditor:
-                userInfo?.isAdmin ||
-                data?.permissions[0]?.permission == 'admin' ||
-                data?.permissions[0]?.permission == 'gate_editor' ||
-                null,
-        }),
-        [data, userInfo]
-    );
+    return {
+        isAdmin:
+            userInfo?.isAdmin ||
+            data?.permissions[0]?.permission == 'admin' ||
+            null,
+        isEditor:
+            userInfo?.isAdmin ||
+            data?.permissions[0]?.permission == 'admin' ||
+            data?.permissions[0]?.permission == 'gate_editor' ||
+            null,
+    };
 };
 
 export default useAdmin;

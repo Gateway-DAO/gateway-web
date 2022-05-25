@@ -501,6 +501,7 @@ export const HTMLSelect = styled.select`
     background: #170627;
     color: #e5e5e5;
     margin: 15px 0;
+    outline: none;
 
     ${(props) => (props.valid === false ? InvalidInput : '')}
 `;

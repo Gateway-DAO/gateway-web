@@ -43,14 +43,11 @@ const RAW_USER: PartialDeep<Users> = {
     init: true,
     createdAt: Date.now(),
     updatedAt: Date.now(),
-    credentialsByTargetId: [],
-    credentialsByTargetId_aggregate: {
-        nodes: []
-    },
     gate_progresses: [],
     gate_progresses_aggregate: {
         nodes: []
-    }
+    },
+    credentials: []
 };
 
 /**

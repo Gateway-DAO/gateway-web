@@ -20,6 +20,27 @@ query getUserByUsername($username: String!) {
             url
         }
         updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
         username
         wallet
         whitelistedFlags
@@ -53,6 +74,27 @@ query getUserByAddress($wallet: String!) {
             url
         }
         updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
         username
         wallet
         whitelistedFlags
@@ -86,6 +128,27 @@ query listUsers {
             url
         }
         updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
         username
         wallet
         whitelistedFlags
@@ -121,6 +184,27 @@ mutation createUser($object: users_insert_input = {}) {
             url
         }
         updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
         username
         wallet
         whitelistedFlags
@@ -147,6 +231,27 @@ mutation updateUser($set: users_set_input = {}, $id: uuid = "") {
             url
         }
         updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
         username
         wallet
         whitelistedFlags
@@ -154,9 +259,15 @@ mutation updateUser($set: users_set_input = {}, $id: uuid = "") {
 }
 
 mutation updateSocials($objects: [user_socials_insert_input!] = {}) {
-  insert_user_socials(objects: $objects, on_conflict: {constraint: user_socials_user_id_network_key, update_columns: url}) {
-    affected_rows
-  }
+    insert_user_socials(
+        objects: $objects
+        on_conflict: {
+            constraint: user_socials_user_id_network_key
+            update_columns: url
+        }
+    ) {
+        affected_rows
+    }
 }
 
 mutation deleteUser($id: uuid!) {

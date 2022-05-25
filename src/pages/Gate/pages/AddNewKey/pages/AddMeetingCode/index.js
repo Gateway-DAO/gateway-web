@@ -2,32 +2,47 @@ import React, { useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { FormStyled } from '../../../../../../components/Form';
 import Loader from '../../../../../../components/Loader';
+import { useFormContext } from 'react-hook-form';
+import { useCreateKeyMutation } from '../../../../../../graphql';
 
 const AddMeetingCode = () => {
-    const { formik, edit, loading, setBackButton, setValidator } =
+    const { gateData, edit, setBackButton, setCreatedKey } =
         useOutletContext();
 
-    const validate = (values) => {
-        let errors = {};
+    const { register, handleSubmit, watch, formState: { errors } } = useFormContext();
 
-        if (!values.code) {
-            errors.code = 'Required';
-        }
-
-        return errors;
-    };
+    const [createKey, { loading }] = useCreateKeyMutation()
 
     useEffect(() => {
         setBackButton({
             url: -1,
             text: 'Add a New Key',
         });
-
-        setValidator(() => validate);
     }, []);
 
+    const onSubmit = async data => {
+        await createKey({
+            variables: {
+                object: {
+                    gate_id: gateData.id,
+                    information: data.titleDescriptionPair,
+                    keys: data.keysRewarded,
+                    people_limit: data.peopleLimit,
+                    unlimited: data.unlimited,
+                    task_type: 'meeting_code',
+                    task: {
+                        type: 'meeting_code',
+                        code: data.code,
+                        caseSensitive: true,
+                    }
+                },
+            },
+        })
+        setCreatedKey(true);
+    }
+
     return (
-        <FormStyled.FormBox onSubmit={formik.handleSubmit}>
+        <FormStyled.FormBox onSubmit={handleSubmit(onSubmit)}>
             <FormStyled.H1>
                 {edit ? 'Edit Meeting Code' : 'Add Meeting Code'}
             </FormStyled.H1>
@@ -36,15 +51,15 @@ const AddMeetingCode = () => {
                 <FormStyled.Label>What's the code?*</FormStyled.Label>
                 <FormStyled.Input
                     name='code'
-                    value={formik.values.code}
-                    valid={!formik.errors.code}
-                    onChange={formik.handleChange}
+                    {...register('code', { required: true })}
+                    value={watch('code')}
+                    valid={errors.code}
                     placeholder='Input the meeting code here'
                     required
                 />
-                {formik.errors.code && (
+                {errors.code && (
                     <FormStyled.SubText>
-                        {formik.errors.code}
+                        A code is required
                     </FormStyled.SubText>
                 )}
             </FormStyled.Fieldset>

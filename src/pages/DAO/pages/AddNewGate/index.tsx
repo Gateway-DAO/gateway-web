@@ -405,6 +405,7 @@ const AddGateForm = () => {
                     variables: {
                         objects: adminList.map(admin => ({
                             user_id: admin.id,
+                            gate_id: gateData.id,
                             permission: 'admin'
                         })),
                     }

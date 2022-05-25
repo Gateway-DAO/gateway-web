@@ -87,11 +87,11 @@ const ProfileUpdate = () => {
 	};
 
 	var daos: Record<string, any> = {}
-	userInfo?.credentials?.items?.map(item => {
-		if (daos[item.organizationID] == undefined) {
-			daos[item.organizationID] = [];
+	userInfo?.credentials?.map(item => {
+		if (daos[item.organization_id] == undefined) {
+			daos[item.organization_id] = [];
 		}
-		daos[item.organizationID].push(item);
+		daos[item.organization_id].push(item);
 	});
 
 	return (
@@ -243,7 +243,7 @@ const ProfileUpdate = () => {
 						)}
 
 						{/* Gateway Profile - Credentials */}
-						{userInfo?.credentials?.items?.length > 0 && (
+						{userInfo?.credentials?.length > 0 && (
 							<div className='gway-prfile-col'>
 								<div className='gway-about-hd'>
 									<h2>Experience</h2>
@@ -274,24 +274,24 @@ const ProfileUpdate = () => {
 										<div className='experience-profile-inner-section'>
 											<div className='creative-icon'>
 												<img
-													src={value[0]?.organization?.logoURL}
+													src={value[0]?.dao?.logo_url}
 													alt='image'
 												/>
 											</div>
 											<div className='finance-date'>
 												<div className='experience-profile-heading'>
-													<h3>{value[0]?.organization?.name}</h3>
+													<h3>{value[0]?.dao?.name}</h3>
 												</div>
 												<p>
 													{/* {value[0]?.organization?.name} */}
 													<span>
 														{MONTHS[
 															new Date(
-																value[0]?.createdAt
+																value[0]?.created_at
 															).getMonth()
 														].slice(0, 3)}{' '}
 														{new Date(
-															value[0]?.createdAt
+															value[0]?.created_at
 														).getFullYear()}
 													</span>
 												</p>

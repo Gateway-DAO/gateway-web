@@ -103,7 +103,7 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders 
         <Styled.GateCardBox>
             <Styled.GateContainer>
                 <Styled.GateBanner
-                    src={`https://ipfs.io/ipfs/${gate.badge.ipfsURL}`}
+                    src={`https://ipfs.mygateway.xyz/ipfs/${gate.badge.ipfsURL}`}
                     onClick={goToGate}
                 >
                     {false && (

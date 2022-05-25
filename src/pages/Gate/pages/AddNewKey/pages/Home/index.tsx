@@ -12,12 +12,9 @@ import RichTextEditor from '../../../../../../components/RichTextEditor';
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom';
 
-// Utils
-import space from '../../../../../../utils/canvas';
-import { FormikContextType } from 'formik';
-
 // Types
-import { Gates } from '../../../../../../graphql';
+import { Gates, useCreateKeyMutation } from '../../../../../../graphql';
+import { useFormContext } from 'react-hook-form';
 
 /* Defining a type called Key. */
 interface Key {
@@ -37,17 +34,19 @@ interface IErrors {
 const AddNewKey = () => {
     const {
         gateData,
-        formik,
         edit,
-        loading,
         state,
+        setCreatedKey
     }: {
         gateData: Gates;
-        formik: FormikContextType<Key>;
         edit: boolean;
-        loading: boolean;
         state: Record<string, any>;
+        setCreatedKey(any): any;
     } = useOutletContext();
+
+    const { register, handleSubmit, watch, formState: { errors }, setValue, resetField } = useFormContext();
+
+    const [createKey, { loading }] = useCreateKeyMutation()
 
     const [formErrors, setFormErrors] = useState<IErrors>({
         keysRewarded: '',
@@ -58,135 +57,62 @@ const AddNewKey = () => {
     const navigate = useNavigate();
 
     /**
-     * Updates a title on the titleDescriptionPair array.
-     * @returns None
-     */
-    const updateTitle = (e, idx) => {
-        e.preventDefault();
-        const newValue = e.target.value;
-
-        const add = formik.values.titleDescriptionPair.map((value, i) => {
-            if (idx === i) {
-                return {
-                    ...value,
-                    title: newValue,
-                };
-            }
-            return value;
-        });
-        formik.setFieldValue('titleDescriptionPair', add);
-    };
-
-    /**
-     * Updates a description on the titleDescriptionPair array.
-     * @returns None
-     */
-    const updateDescription = (e, idx) => {
-        // e.preventDefault();
-        const newValue = e;
-
-        const add = formik.values.titleDescriptionPair.map((value, i) => {
-            if (idx === i) {
-                return {
-                    ...value,
-                    description: newValue,
-                };
-            }
-            return value;
-        });
-
-        formik.setFieldValue('titleDescriptionPair', add);
-    };
-
-    /**
-     * Add a new title/description pair to the titleDescriptionPair array.
-     * @returns None
-     */
-    const addTitleDescription = (e) => {
-        e.preventDefault();
-
-        formik.setFieldValue('titleDescriptionPair', [
-            ...formik.values.titleDescriptionPair,
-            {
-                title: '',
-                description: '',
-            },
-        ]);
-
-        window.scrollBy(0, 30);
-    };
-
-    /**
-     * Deletes a pair on the titleDescriptionPair array.
-     * @returns None
-     */
-    const deletePair = (e, idx) => {
-        e.preventDefault();
-
-        formik.setFieldValue(
-            'titleDescriptionPair',
-            formik.values.titleDescriptionPair.filter((data, i) => i !== idx)
-        );
-    };
-
-    const unlimitedClicked = () => {
-        setFormErrors({
-            ...formErrors,
-            peopleLimit: ''
-        })
-        formik.setFieldValue('unlimited', !formik.values.unlimited);
-        if (formik.values.unlimited) {
-            formik.setFieldValue('peopleLimit', 0);
-        }
-    };
-
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
-
-    /**
      * Navigates to the next step of the task or, if it is a self verify task, adds a new key.
      * @returns None
      */
-    const submit = async (e) => {
-        e.preventDefault();
-
+    const onSubmit = async data => {
         setFormErrors({
-            keysRewarded: !formik.values.keysRewarded ? 'Keys Rewarded is required.' : '',
-            peopleLimit: !formik.values.unlimited && formik.values.peopleLimit <= 0 ? 'People limit can not be less than 0.' : ''
+            keysRewarded: !data.keysRewarded ? 'Keys Rewarded is required.' : '',
+            peopleLimit: !data.unlimited && data.peopleLimit <= 0 ? 'People limit can not be less than 0.' : ''
         })
 
         if (formErrors.keysRewarded || formErrors.peopleLimit) return;
 
-        formik.values.taskLink !== 'self-verify'
-            ? navigate(formik.values.taskLink, {
-                  state,
-              })
-            : formik.submitForm();
+        if (data.taskLink !== 'self-verify') navigate(data.taskLink, {
+            state,
+        })
+        else {
+            await createKey({
+                variables: {
+                    object: {
+                        gate_id: gateData.id,
+                        information: data.titleDescriptionPair,
+                        keys: data.keysRewarded,
+                        people_limit: data.peopleLimit,
+                        unlimited: data.unlimited,
+                        task_type: 'self_verify',
+                        task: {
+                            type: 'self_verify',
+                            chainID: data.chain,
+                            address: data.address,
+                            methodName: data.methodName || '',
+                        }
+                    }
+                }
+            })
+
+            setCreatedKey(true);
+        }
 
         return false;
     };
 
     return (
         <Styled.AddNewKeyContainer>
-            <Styled.SpaceBox id='space-canvas' />
-            <FormStyled.FormBox action='' onSubmit={submit}>
+            <FormStyled.FormBox action='' onSubmit={handleSubmit(onSubmit)}>
                 <FormStyled.H1>
                     {edit ? 'Edit Key' : 'Add a New Key'}
                 </FormStyled.H1>
 
-                {formik.values.titleDescriptionPair.map((pair, idx) => (
+                {watch('titleDescriptionPair').map((pair, idx) => (
                     <React.Fragment key={idx}>
                         <FormStyled.Fieldset marginBottom='0px'>
                             <FormStyled.Label htmlFor='title'>
                                 Key Title*
                             </FormStyled.Label>
                             <FormStyled.Input
-                                id={`title-${idx}`}
-                                name='title'
-                                onChange={(e) => updateTitle(e, idx)}
-                                value={pair.title}
+                                {...register(`titleDescriptionPair.${idx}.title`)}
+                                value={watch(`titleDescriptionPair.${idx}.title`)}
                                 placeholder='This will be the title of your Key'
                                 required
                             />
@@ -201,14 +127,14 @@ const AddNewKey = () => {
                                     [{ color: [] }],
                                     ['emoji'],
                                 ]}
-                                value={pair.description}
-                                set={(e) => updateDescription(e, idx)}
+                                value={watch(`titleDescriptionPair.${idx}.description`)}
+                                set={(e) => setValue(`titleDescriptionPair.${idx}.description`, e)}
                             />
                         </FormStyled.Fieldset>
 
-                        {formik.values.titleDescriptionPair.length > 1 && (
+                        {watch('titleDescriptionPair').length > 1 && (
                             <FormStyled.DeleteWrapper
-                                onClick={(e) => deletePair(e, idx)}
+                                onClick={(e) => resetField(`titleDescriptionPair.${idx}`)}
                             >
                                 <FormStyled.IconButton>
                                     <FaTrashAlt />
@@ -223,7 +149,7 @@ const AddNewKey = () => {
 
                 <FormStyled.AddWrapper>
                     <FormStyled.IconButton
-                        onClick={addTitleDescription}
+                        onClick={() => setValue(`titleDescriptionPair.${watch('titleDescriptionPair').length}`, { title: null, description: null })}
                         style={{
                             width: 'fit-content',
                             alignSelf: 'left',
@@ -235,37 +161,6 @@ const AddNewKey = () => {
                         Add another title and description
                     </FormStyled.TextLabel>
                 </FormStyled.AddWrapper>
-
-                {/*
-                <FormStyled.FieldsetRow marginBottom="0">
-                    <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="token">
-                            TOKEN
-                        </FormStyled.Label>
-                        <FormStyled.Input
-                            id="token"
-                            name="token"
-                            onChange={(e) => setToken(e.target.value)}
-                            placeholder="Search"
-                            value={token}
-                            required
-                        />
-                    </FormStyled.Fieldset>
-                    <FormStyled.Fieldset>
-                        <FormStyled.Label htmlFor="amount">
-                            AMOUNT
-                        </FormStyled.Label>
-                        <FormStyled.Input
-                            id="amount"
-                            name="amount"
-                            onChange={(e) => setAmount(e.target.value)}
-                            placeholder="amount"
-                            value={amount > 0 ? amount : ''}
-                            required
-                        />
-                    </FormStyled.Fieldset>
-                </FormStyled.FieldsetRow>
-                */}
 
                 {!edit && (
                     <FormStyled.FieldsetRow>
@@ -283,15 +178,10 @@ const AddNewKey = () => {
                             </FormStyled.Label>
                             <FormStyled.Input
                                 id='keysRewarded'
-                                name='keysRewarded'
-                                onChange={formik.handleChange}
-                                placeholder='0'
+                                {...register('keysRewarded', { required: true,})}
+                                placeholder='Insert Keys Rewarded'
+                                value={watch('keysRewarded')}
                                 min={0}
-                                value={
-                                    formik.values.keysRewarded > 0
-                                        ? formik.values.keysRewarded
-                                        : ''
-                                }
                                 required
                             />
                             <FormStyled.InputFeedback type='invalid'>{formErrors.keysRewarded}</FormStyled.InputFeedback>
@@ -303,33 +193,31 @@ const AddNewKey = () => {
                             </FormStyled.Label>
                             <Styled.InputContainer
                                 value={
-                                    !formik.values.unlimited
-                                        ? formik.values.peopleLimit
+                                    !watch('unlimited')
+                                        ? watch('peopleLimit')
                                         : ''
                                 }
                                 valid={!formErrors.peopleLimit}
                             >
                                 <Styled.Input
-                                    id='peopleLimit'
-                                    name='peopleLimit'
                                     type='number'
                                     min='0'
-                                    onChange={formik.handleChange}
+                                    {...register('peopleLimit')}
                                     placeholder={
-                                        formik.values.unlimited
+                                        watch('unlimited')
                                             ? 'Unlimited'
-                                            : ''
+                                            : 'Insert People Limit'
                                     }
                                     value={
-                                        !formik.values.unlimited
-                                            ? formik.values.peopleLimit
-                                            : ''
+                                        !watch('unlimited')
+                                            ? watch('peopleLimit') !== 0 ? watch('peopleLimit')
+                                                : '' : ''
                                     }
-                                    required={!formik.values.unlimited}
+                                    required={!watch('unlimited')}
                                 />
                                 <Styled.UnlimitedBoxContainer
-                                    onClick={unlimitedClicked}
-                                    value={formik.values.unlimited}
+                                    onClick={() => setValue('unlimited', !watch('unlimited'))}
+                                    value={watch('unlimited')}
                                 >
                                     Unlimited
                                 </Styled.UnlimitedBoxContainer>
@@ -346,19 +234,14 @@ const AddNewKey = () => {
                             You should select one task per key
                         </FormStyled.SubText>
                         <FormStyled.GridBox
-                            onChange={(e) =>
-                                formik.setFieldValue(
-                                    'taskLink',
-                                    (e.target as HTMLInputElement).value
-                                )
-                            }
+                            onChange={e => setValue('taskLink', (e.target as HTMLInputElement).value)}
                         >
                             <FormStyled.BigRadio
                                 id='task-1'
                                 name='task'
                                 value='quiz'
                                 label='Create a Quiz'
-                                checked={formik.values.taskLink === 'quiz'}
+                                checked={watch('taskLink') === 'quiz'}
                             />
                             <FormStyled.BigRadio
                                 id='task-2'
@@ -366,7 +249,7 @@ const AddNewKey = () => {
                                 value='meeting-code'
                                 label='Meeting Code'
                                 checked={
-                                    formik.values.taskLink === 'meeting-code'
+                                    watch('taskLink') === 'meeting-code'
                                 }
                             />
                             <FormStyled.BigRadio
@@ -374,7 +257,7 @@ const AddNewKey = () => {
                                 name='task'
                                 value='token'
                                 label='Hold a Token'
-                                checked={formik.values.taskLink === 'token'}
+                                checked={watch('taskLink') === 'token'}
                             />
                             <FormStyled.BigRadio
                                 id='task-4'
@@ -382,7 +265,7 @@ const AddNewKey = () => {
                                 value='sc-interaction'
                                 label='Contract Interaction'
                                 checked={
-                                    formik.values.taskLink === 'sc-interaction'
+                                    watch('taskLink') === 'sc-interaction'
                                 }
                             />
                             <FormStyled.BigRadio
@@ -391,7 +274,7 @@ const AddNewKey = () => {
                                 value='governance'
                                 label='Snapshot Governance'
                                 checked={
-                                    formik.values.taskLink === 'governance'
+                                    watch('taskLink') === 'governance'
                                 }
                             />
                             <FormStyled.BigRadio
@@ -400,7 +283,7 @@ const AddNewKey = () => {
                                 value='self-verify'
                                 label='Self Verify'
                                 checked={
-                                    formik.values.taskLink === 'self-verify'
+                                    watch('taskLink') === 'self-verify'
                                 }
                             />
                             {/*
@@ -409,7 +292,7 @@ const AddNewKey = () => {
                                 name='task'
                                 value='manual'
                                 label='Manual Task'
-                                checked={formik.values.taskLink === 'manual'}
+                                checked={watch('taskLink') === 'manual'}
                             />
                             */}
                         </FormStyled.GridBox>
@@ -417,7 +300,7 @@ const AddNewKey = () => {
                 )}
 
                 <FormStyled.Button type='submit'>
-                    {formik.isSubmitting && <Loader color='white' />}
+                    {loading && <Loader color='white' />}
                     Next
                 </FormStyled.Button>
             </FormStyled.FormBox>

@@ -41,20 +41,6 @@ const Search = () => {
         }
     };
 
-    const ActiveFilter = () => {
-        switch (tab) {
-            case 'daos':
-                return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
-            case 'users':
-                return <UserFilter setUserFilterQuery={setUserFilterQuery} />;
-            case 'gates':
-                return <GateFilter setGateFilterQuery={setGateFilterQuery} />;
-            default:
-                return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
-        }
-    };
-
-    const FilterComponent = React.useMemo(() => ActiveFilter, [tab]);
     const TabComponent = React.useMemo(() => ActiveTab, [
         tab,
         daoFilterQuery,
