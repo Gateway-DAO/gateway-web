@@ -15,7 +15,7 @@ import {
 } from '../../utils/nftMintConstants'
 
 const biconomyApiKey = BICONOMY_API_KEY;
-const activChainId = window.ethereum.networkVersion;
+const activatedChainId = window.ethereum.networkVersion;
 const Web3 = require('web3');
 
 const ipfsClient = create('https://ipfs.infura.io:5001/api/v0');
@@ -119,7 +119,7 @@ export const Minter = () => {
 
 	const mintNFT = async (to, tokenURI) => {
 		try {
-			if (activChainId && (activChainId != currentChainID)) {
+			if (activatedChainId && (activatedChainId != currentChainID)) {
 				await switchNetwork(currentChainID);
 			}
 			const res = contractInstance.methods
