@@ -12,22 +12,6 @@ const UserCard = (props) => {
     // let daos = props.daos;
     return (
         <Styled.BoxContainer>
-            {/* <Styled.UserCardBox src={props.pfp} onClick={traverse} />
-            <Styled.UserInfo>
-                <Styled.Name>{props.name}</Styled.Name>
-                <Styled.UserName onClick={traverse}>
-                    {props.username}
-                </Styled.UserName>
-                <Styled.DaosProfileContainer>
-                    {daos?.map((dao) => (
-                        <DaosProfile
-                            key={dao.id}
-                            imgURL={dao.logoURL}
-                            dao={dao.dao}
-                        />
-                    ))}
-                </Styled.DaosProfileContainer>
-            </Styled.UserInfo> */}
             <Styled.UserImage
                 background={props.pfp}
                 onClick={traverse}

@@ -1,7 +1,6 @@
 // Components
 import BackButtonDiv from './components/BackButtonDiv';
 import NftBadge from './components/NftBadge';
-import Loader from '../../../../components/Loader';
 import KeyBox from './components/KeyBox';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { GradientSVG } from '../../../../components/ProgressCircle';
@@ -12,21 +11,19 @@ import * as Styled from './style';
 
 // Hooks
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { useGateAdmin } from '../../../../hooks/useAdmin';
+import { useLocation } from 'react-use';
 
 // Types
-import { DAO, Gate, Key, TaskStatus, User } from '../../../../graphql/API';
-import { useLocation } from 'react-use';
+import { Daos, Gates, Keys, Key_Progress, Users } from '../../../../graphql';
+import { PartialDeep } from 'type-fest';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
-interface GateData extends Gate {
-    holders: number;
+interface GateData extends Gates {
     keysDone: number;
     keysNumber: number;
-    taskStatus: TaskStatus[];
-    adminList: User[];
-    preRequisitesList: Gate[];
+    taskStatus: Key_Progress[];
+    adminList: Users[];
 }
 
 /**
@@ -39,17 +36,17 @@ interface GateData extends Gate {
 const DaoGate: React.FC = () => {
     const {
         gateData,
-        isAdmin
-    }: { gateData: GateData; isAdmin: boolean; } =
+        isEditor
+    }: { gateData: GateData; isEditor: boolean; } =
         useOutletContext();
-    const dao: DAO = gateData.dao;
+    const dao: PartialDeep<Daos> = gateData.dao;
     const navigate = useNavigate();
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const toSearch = params.get('toSearch');
     const viewAsMember = params.get('viewAsMember');
 
-    const goBackURL = toSearch && toSearch === 'true' ? `/search/daos` : viewAsMember ? `/dao/${dao.dao}?tab=gates&viewAsMember=${viewAsMember}` : `/dao/${dao.dao}?tab=gates`;
+    const goBackURL = toSearch && toSearch === 'true' ? `/search/daos` : viewAsMember ? `/dao/${dao?.slug}?tab=gates&viewAsMember=${viewAsMember}` : `/dao/${dao?.slug}?tab=gates`;
 
     const handleClick = () => {
         navigate('add-key');
@@ -72,15 +69,15 @@ const DaoGate: React.FC = () => {
                 <NftBadge nft={gateData.badge} />
                 <Styled.MainContent>
                     <Styled.FirstDiv>
-                        <Styled.SmallLogo src={dao.logoURL} />
-                        <Styled.SmallText>{dao.name}</Styled.SmallText>
+                        <Styled.SmallLogo src={dao?.logo_url} />
+                        <Styled.SmallText>{dao?.name}</Styled.SmallText>
                     </Styled.FirstDiv>
-                    <Styled.HeadingDiv>{gateData.name}</Styled.HeadingDiv>
+                    <Styled.HeadingDiv>{gateData.gate_name}</Styled.HeadingDiv>
                     <Styled.Subheading>
-                        {gateData.description}
+                        {gateData?.description}
                     </Styled.Subheading>
                     <Styled.TagsDiv>
-                        {gateData.categories.map(
+                        {gateData?.categories?.map(
                             (category: string, idx: number) => (
                                 <Styled.Tag key={idx}>{category}</Styled.Tag>
                             )
@@ -88,7 +85,8 @@ const DaoGate: React.FC = () => {
                         • {gateData.holders} holder(s)
                     </Styled.TagsDiv>
                     <Styled.AdditionalInfoBox>
-                        <Styled.AdminsBox>
+                        {gateData?.adminList?.length > 0 && (
+                            <Styled.AdminsBox>
                             <Styled.BoldTextHeading>
                                 ADMINS
                             </Styled.BoldTextHeading>
@@ -108,23 +106,8 @@ const DaoGate: React.FC = () => {
                                 })}
                             </Styled.ContentContainer>
                         </Styled.AdminsBox>
-                        {gateData.preRequisitesList.length > 0 && (
-                            <Styled.PreRequisiteBox>
-                                <Styled.BoldTextHeading>
-                                    PRE REQUISITE
-                                </Styled.BoldTextHeading>
-                                <Styled.ContentContainer>
-                                    {gateData.preRequisitesList.map((gate, idx) => (
-                                        <Styled.InsideLink
-                                            key={idx}
-                                            to={`/gate/${gate.id}`}
-                                        >
-                                            {gate.badge.name} ⬈
-                                        </Styled.InsideLink>
-                                    ))}
-                                </Styled.ContentContainer>
-                            </Styled.PreRequisiteBox>
                         )}
+                        {/*
                         <Styled.LinksContainer>
                             <Styled.BoldTextHeading>
                                 LINKS
@@ -142,7 +125,7 @@ const DaoGate: React.FC = () => {
                                             </Styled.OutsideLink>
                                         );
                                     })}
-                                {isAdmin && (
+                                {isEditor && (
                                     <Styled.InsideLink
                                         to={`${
                                             gateData.links.length > 0
@@ -158,9 +141,10 @@ const DaoGate: React.FC = () => {
                                 )}
                             </Styled.ContentContainer>
                         </Styled.LinksContainer>
+                        */}
                     </Styled.AdditionalInfoBox>
                     <Styled.HeaderLine />
-                    {gateData?.keysNumber !== 0 && (
+                    {gateData?.keys !== 0 && (
                         <Styled.SecondDiv>
                             <Styled.SecondDivName>Keys</Styled.SecondDivName>
                             <Styled.AnotherDiv>
@@ -168,7 +152,7 @@ const DaoGate: React.FC = () => {
                                     <CircularProgressbar
                                         value={gateData.keysDone}
                                         minValue={0}
-                                        maxValue={gateData.keysNumber}
+                                        maxValue={gateData.keys}
                                         strokeWidth={15}
                                     />
                                 </Styled.CircleBox>
@@ -178,14 +162,14 @@ const DaoGate: React.FC = () => {
                                     </Styled.ProgressInfoDivOne>
                                     <Styled.ProgressInfoDivTwo>
                                         {gateData.keysDone} of{' '}
-                                        {gateData.keysNumber}
+                                        {gateData.keys}
                                     </Styled.ProgressInfoDivTwo>
                                 </Styled.ProgressInfoDiv>
                             </Styled.AnotherDiv>
                         </Styled.SecondDiv>
                     )}
                     <Styled.ThirdDiv>
-                        {isAdmin && (
+                        {isEditor && (
                             <Styled.Box>
                                 <Styled.BigText>
                                     Let’s create the Keys for your Gate.
@@ -197,16 +181,16 @@ const DaoGate: React.FC = () => {
                                 </Styled.StartButton>
                             </Styled.Box>
                         )}
-                        {gateData?.keys?.items?.map((key: Key, idx: number) => {
+                        {gateData?.keysByGateId.map((key: Keys, idx: number) => {
                             const LIMIT_REACHED =
-                                !key.unlimited && key.peopleLimit === 0;
+                                !key.unlimited && key.people_limit === 0;
 
                             if (
                                 !LIMIT_REACHED ||
                                 gateData.taskStatus
-                                    .map((ts: TaskStatus) => ts.keyID)
+                                    .map((ts: Key_Progress) => ts.key_id)
                                     .includes(key.id) ||
-                                isAdmin
+                                isEditor
                             ) {
                                 return (
                                     <KeyBox
@@ -214,11 +198,11 @@ const DaoGate: React.FC = () => {
                                         data={key}
                                         gateData={gateData}
                                         blocked={
-                                            gateData.taskStatus.length > 0
+                                            gateData?.taskStatus?.length > 0
                                                 ? gateData.taskStatus
                                                       .map(
-                                                          (ts: TaskStatus) =>
-                                                              ts.keyID
+                                                          (ts: Key_Progress) =>
+                                                              ts.key_id
                                                       )
                                                       .includes(key.id)
                                                 : false

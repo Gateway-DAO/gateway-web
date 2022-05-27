@@ -3,10 +3,8 @@ import * as Styled from './style';
 import { useNavigate } from 'react-router-dom';
 
 // queries
-import useSearchDAO from '../../../../api/database/useSearchDAO';
-import useSearchUsers from '../../../../api/database/useSearchUser';
-import useSearchGates from '../../../../api/database/useSearchGates';
 import Loader from '../../../Loader';
+import { useSearchDaOsQuery, useSearchGatesQuery, useSearchUsersQuery } from '../../../../graphql';
 
 interface Props {
 	query: string;
@@ -18,47 +16,41 @@ export default function SearchDropdown({ query }: Props) {
 	const {
 		data: searchDao,
 		loading: searchDaoLoading
-	} = useSearchDAO({
+	} = useSearchDaOsQuery({
 		variables: {
-			limit: 3,
-			from: 0,
-			filter: {
-				name: {
-					matchPhrasePrefix: query
-				}
+			query,
+			pagination: {
+				page: 0,
+				hitsPerPage: 3
 			}
-		},
-	});
+		}
+	})
 
 	const {
 		data: searchUser,
 		loading: searchUserLoading
-	} = useSearchUsers({
+	} = useSearchUsersQuery({
 		variables: {
-			limit: 3,
-			from: 0,
-			filter: {
-				name: {
-					matchPhrasePrefix: query
-				}
+			query,
+			pagination: {
+				page: 0,
+				hitsPerPage: 3
 			}
-		},
-	});
+		}
+	})
 
 	const {
 		data: searchGate,
 		loading: searchGateLoading
-	} = useSearchGates({
+	} = useSearchGatesQuery({
 		variables: {
-			limit: 3,
-			from: 0,
-			filter: {
-				name: {
-					matchPhrasePrefix: query
-				}
+			query,
+			pagination: {
+				page: 0,
+				hitsPerPage: 3
 			}
-		},
-	});
+		}
+	})
 
 	const goToAll = () => {
 		navigate(`/search/daos?query=${query}`);
@@ -77,19 +69,19 @@ export default function SearchDropdown({ query }: Props) {
 					!searchDaoLoading &&
 					!searchUserLoading &&
 					!searchGateLoading &&
-					!searchDao.searchDAOs?.items.length &&
-					!searchUser.searchUsers?.items.length &&
-					!searchGate.searchGates?.items.length &&
+					!searchDao.search_daos?.hits.length &&
+					!searchUser.search_users?.hits.length &&
+					!searchGate.search_gates?.hits.length &&
 					<Styled.Text>{`There is no "${query}" on our records :/`}</Styled.Text>
 				}
-				{searchDao && searchDao.searchDAOs?.items.map((item, idx) => (
+				{searchDao && searchDao.search_daos?.hits.map((item, idx) => (
 					<Styled.DropdownItem key={idx} onClick={() => navigate(`/dao/${item.dao}`)}>
 						<Styled.Img src={item.logoURL}></Styled.Img>
 						<Styled.Name>&nbsp;{item.name}</Styled.Name>
 						<Styled.Category>&nbsp;•&nbsp;DAO</Styled.Category>
 					</Styled.DropdownItem>
 				))}
-				{searchUser && searchUser.searchUsers?.items.map((item, idx) => (
+				{searchUser && searchUser.search_users?.hits.map((item, idx) => (
 					<Styled.DropdownItem key={idx} onClick={() => navigate(`/profile/${item.username}`)}>
 						<Styled.Img src={item.pfp}></Styled.Img>
 						<Styled.Name>&nbsp;{item.name}</Styled.Name>
@@ -99,7 +91,7 @@ export default function SearchDropdown({ query }: Props) {
 						</Styled.Info>
 					</Styled.DropdownItem>
 				))}
-				{searchGate && searchGate.searchGates?.items.map((item, idx) => (
+				{searchGate && searchGate.search_gates?.hits.map((item, idx) => (
 					<Styled.DropdownItem key={idx} onClick={() => navigate(`/gate/${item.id}?toSearch=true&viewAsMember=false`)}>
 						<Styled.Img src={item.badge.ipfsURL}></Styled.Img>
 						<Styled.Name>&nbsp;{item.name}</Styled.Name>

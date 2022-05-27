@@ -79,7 +79,7 @@ export const Option = styled.span`
 `;
 
 export const OptionAnswer = styled.div`
-    width: 339px; // TODO: remove absolute width
+    width: 339px;
     border: 1px solid #e5e5e5;
     color: #e5e5e5;
     box-sizing: border-box;
@@ -97,28 +97,4 @@ export const OptionAnswer = styled.div`
     display: flex;
     align-items: center;
     padding-left: 11px;
-`;
-
-export const ActionButton = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Poppins;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-align: center;
-    color: white;
-    width: 210px;
-    height: 40px;
-    border: ${(props) =>
-        props.clickable ? '1px solid #a5a5a5' : '1px solid #4a4a4a'};
-    box-sizing: border-box;
-    filter: drop-shadow(0px 6px 15px rgba(255, 0, 184, 0.3));
-    border-radius: 20px;
-    margin-top: 90px;
-    ${(props) => (props.active ? activeStyling : ' ')}
-    cursor: pointer;
-    color: ${(props) => (props.clickable ? '#a5a5a5' : '#4a4a4a')};
 `;

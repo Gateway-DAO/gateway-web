@@ -8,7 +8,7 @@ const Page = (props) => {
         <Styled.Container suppressContentEditableWarning={true}>
             <Header />
             <Styled.Children>
-                {props.space ? <Space>{props.children}</Space> : props.children}
+                {props.children}
             </Styled.Children>
             <Footer />
         </Styled.Container>

@@ -11,9 +11,8 @@ import Modal from '../index';
 import Loader from '../../Loader';
 import { Navigate } from 'react-router-dom';
 
-// API
-import { gql, useMutation } from '@apollo/client';
-import { updateDao } from '../../../graphql/mutations';
+// Hooks
+import { useUpdateDaoMutation } from '../../../graphql';
 
 /**
  * It creates a modal that allows the user to update the What Do We Do section of the DAO.
@@ -22,14 +21,14 @@ import { updateDao } from '../../../graphql/mutations';
  */
 const WDWDModal = (props) => {
     const [WDWD, setWDWD] = useState(props.data);
-    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
+    const [updateDAO, { loading, error }] = useUpdateDaoMutation();
 
     const submitToDB = async () => {
         await updateDAO({
             variables: {
-                input: {
-                    id: props.id,
-                    whatDoWeDo: WDWD,
+                id: props.id,
+                set: {
+                    wdwd: WDWD,
                 },
             },
         });

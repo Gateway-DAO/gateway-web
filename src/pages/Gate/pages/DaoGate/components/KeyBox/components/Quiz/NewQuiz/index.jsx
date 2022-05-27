@@ -11,10 +11,11 @@ import * as ThemeStyled from '../../../../../../../../../theme/style';
 // Hooks
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useVerifyQuiz } from '../../../../../../../../../api/database/useVerifyKeys';
 import { useAuth } from '../../../../../../../../../contexts/UserContext';
 import { useModal } from '../../../../../../../../../contexts/ModalContext';
 import { useNavigate } from 'react-router-dom';
+import { useVerifyTaskMutation } from '../../../../../../../../../graphql';
+import { FormStyled } from '../../../../../../../../../components/Form';
 
 const Quiz = (props) => {
     // State
@@ -24,7 +25,7 @@ const Quiz = (props) => {
     const [clickAble, setClickAble] = useState(false);
 
     // Hooks
-    const { verifyQuiz } = useVerifyQuiz();
+    const [verifyQuiz] = useVerifyTaskMutation();
     const { state } = useLocation();
     const { userInfo } = useAuth();
     const navigate = useNavigate();
@@ -46,32 +47,21 @@ const Quiz = (props) => {
 
                 const res = await verifyQuiz({
                     variables: {
-                        userID: userInfo.id,
-                        keyID: state.id,
-                        questions: answers,
+                        user_id: userInfo.id,
+                        key_id: state.id,
+                        info: {
+                            questions: answers
+                        },
                     },
                 });
-                console.log('res', res);
-                if (res.data.verifyQuiz.__typename !== 'Error') {
-                    navigate(`/gate/${state.gateData.id}/key-completed`, {
-                        state: {
-                            key: state,
-                            gate: state.gateData,
-                            keysDone: state.gateData.keysDone + state.keys,
-                        },
-                    });
-                } else {
-                    const Error = () => (
-                        <div>
-                            <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
-                            <p>{res.data.verifyQuiz.msg}</p>
-                        </div>
-                    );
-                    setTimeout(() => {
-                        navigate(`/gate/${state.gateData.id}`);
-                    }, 5000);
-                    showModal(<Error />);
-                }
+
+                navigate(`/gate/${state.gateData.id}/key-completed`, {
+                    state: {
+                        key: state,
+                        gate: state.gateData,
+                        keysDone: state.gateData.keysDone + state.keys,
+                    },
+                });
 
                 setLoading(false);
             } catch (err) {
@@ -79,7 +69,7 @@ const Quiz = (props) => {
                 const Error = () => (
                     <div>
                         <ThemeStyled.H2>An error occurred</ThemeStyled.H2>
-                        <p>{err.msg || 'Please try again later!'}</p>
+                        <p>{err.message || 'Please try again later!'}</p>
                     </div>
                 );
                 showModal(<Error />);
@@ -89,24 +79,24 @@ const Quiz = (props) => {
 
         if (props.type.toLowerCase() === 'next') {
             return (
-                <ActionButton
+                <FormStyled.Button
                     onClick={clickAble ? onNext : null}
                     active={props.active}
                     clickable={clickAble}
                 >
                     Next
-                </ActionButton>
+                </FormStyled.Button>
             );
         } else if (props.type.toLowerCase() === 'finish') {
             return (
-                <ActionButton
+                <FormStyled.Button
                     onClick={clickAble ? onFinish : null}
                     active={props.active}
                     clickable={clickAble}
                 >
                     {loading && <Loader color='white' />}
                     Finish
-                </ActionButton>
+                </FormStyled.Button>
             );
         }
     };
@@ -116,7 +106,7 @@ const Quiz = (props) => {
             <BackButton>Go back</BackButton>
             <Styled.Box>
                 <Styled.DaosContainer>
-                    <Styled.ImageConstainer src={state.gateData.dao.logoURL} />
+                    <Styled.ImageConstainer src={state.gateData.dao.logo_url} />
                     <Styled.DaoTextBox>
                         {state.gateData.dao.name}
                     </Styled.DaoTextBox>

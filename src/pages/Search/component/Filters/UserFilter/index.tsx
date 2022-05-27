@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useSearchCredentialsQuery, useSearchDaOsQuery } from '../../../../../graphql';
 import { useLocation } from 'react-router-dom';
-import { useSearchCredentials } from '../../../../../api/database/useSearchCredentials';
-import useSearchDAO from '../../../../../api/database/useSearchDAO';
 import * as Styled from '../../../style';
 import FilterDropdown from '../../FilterDropdown';
 
@@ -94,19 +93,23 @@ const UserFilter = function ({ setUserFilterQuery }) {
         loading: listLoading,
         error: listError,
         called: listCalled,
-    } = useSearchDAO();
+    } = useSearchDaOsQuery({ variables: {
+        query: searchTerm
+    } });
 
     const {
         data: credentialData,
         loading: credentialLoading,
         error: credentialError,
         called: credentialCalled,
-    } = useSearchCredentials();
+    } = useSearchCredentialsQuery({ variables: {
+        query: searchTerm
+    } });
 
     useEffect(() => {
         if (!listLoading && !listError) {
             const daoList = [];
-            listData.searchDAOs.items.map((item: any) => {
+            listData.search_daos.hits.map((item: any) => {
                 daoList.push({
                     value: item.dao,
                     label: item.name,
@@ -120,7 +123,7 @@ const UserFilter = function ({ setUserFilterQuery }) {
     useEffect(() => {
         if (!credentialLoading && !credentialError) {
             const credentailList = [];
-            credentialData.searchCredentials.items.map((item: any) => {
+            credentialData.search_credentials.hits.map((item: any) => {
                 credentailList.push({
                     value: item.name,
                     label: item.name,

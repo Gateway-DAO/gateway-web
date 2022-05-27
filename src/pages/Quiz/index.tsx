@@ -13,8 +13,8 @@ import Percentage from './Component/Persentage';
 
 // Hooks
 import { useOutletContext } from 'react-router-dom';
-import { FormikContextType } from 'formik';
-import { QuizOptionInput } from '../../graphql/API';
+import { Gates, useCreateKeyMutation } from '../../graphql';
+import { useFormContext } from 'react-hook-form';
 
 interface Key {
     taskLink: string;
@@ -30,7 +30,7 @@ interface Key {
         passedAt: number;
         questions: {
             question: string;
-            options: QuizOptionInput[];
+            options: Record<string, any>[];
             nrOfCorrectAnswers: number;
         }[];
     };
@@ -39,26 +39,29 @@ interface Key {
 /**
  * This function is responsible for creating a quiz.
  */
-const CreateQuiz = () => {
+const CreateQuiz: React.FC = () => {
     const {
-        formik,
+        gateData,
         edit,
-        loading,
         setBackButton,
-        setValidator,
+        setCreatedKey
     }: {
-        formik: FormikContextType<Key>;
+        gateData: Gates;
         edit: boolean;
         loading: boolean;
         setBackButton(obj: Record<string, string | number>): void;
-        setValidator(func: () => void): void;
+        setCreatedKey(any): void;
     } = useOutletContext();
+
+    const { handleSubmit, formState: { errors } } = useFormContext();
 
     // State
     const [message, setMessage] = useState('Processing your Quiz');
     const [showMessage, setShowMessage] = useState(false);
     const [activeModal, setActiveModal] = useState('HOME');
     const [optionsPerQuestion, setOptionsPerQuestion] = useState([0]);
+
+    const [createKey, { loading }] = useCreateKeyMutation()
 
     const ActiveModal = () => {
         switch (activeModal) {
@@ -79,7 +82,7 @@ const CreateQuiz = () => {
                     />
                 );
             case 'PERCENTAGE_PAGE':
-                return <Percentage />;
+                return <Percentage loading={loading} />;
             default:
                 return (
                     <Home
@@ -90,71 +93,42 @@ const CreateQuiz = () => {
         }
     };
 
-    /**
-     * It validates the form.
-     * @param values - The values of the form.
-     * @returns The validation function returns an object with errors.
-     */
-    const validate = async (values) => {
-        // eslint-disable-next-line prefer-const
-        let errors = {};
-
-        if (
-            values.quiz.title.length === 0 ||
-            values.quiz.description.length === 0
-        ) {
-            setMessage('Please enter title and description');
-        }
-
-        if (values.quiz.questions.length === 0) {
-            setMessage('Please enter at least one question');
-        }
-
-        values.quiz.questions.forEach((value, idx) => {
-            if (value.question.length === 0) {
-                setMessage(
-                    `In question ${idx + 1} please enter question title`
-                );
-                return false;
-            }
-            if (value.options.length === 0) {
-                setMessage(
-                    `In question ${idx + 1} please enter atleast one option`
-                );
-                return false;
-            }
-            if (
-                value.nrOfCorrectAnswers === 0 ||
-                value.nrOfCorrectAnswers > value.options.length
-            ) {
-                setMessage(`In question ${idx + 1} no correct answer is there`);
-            }
-            if (optionsPerQuestion[idx] !== value.options.length) {
-                setMessage(`In question ${idx + 1} there is a empty option`);
-            }
-        });
-
-        return errors;
-    };
-
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
-
     useEffect(() => {
         setBackButton({
             url: -1,
             text: 'Add a New Key',
         });
-
-        setValidator(() => validate);
     }, []);
 
+    const onSubmit = async data => {
+        await createKey({
+            variables: {
+                object: {
+                    gate_id: gateData.id,
+                    information: data.titleDescriptionPair,
+                    keys: data.keysRewarded,
+                    people_limit: data.peopleLimit || 0,
+                    unlimited: data.unlimited,
+                    task_type: 'quiz',
+                    task: {
+                        type: 'quiz',
+                        title: data.quiz.title,
+                        description: data.quiz.description,
+                        questions: data.quiz.questions,
+                        passedAt: Math.floor(
+                            data.quiz.questions.length *
+                            data.quiz.percentage
+                        ),
+                    }
+                }
+            }
+        })
+        setCreatedKey(true);
+    } 
+
     return (
-        <FormStyled.FormBox onSubmit={formik.handleSubmit}>
+        <FormStyled.FormBox onSubmit={handleSubmit(onSubmit)}>
             <Styled.Container>
-                <ThemeStyled.SpaceBox id='space-canvas' />
                 <FormStyled.H1>{edit ? 'Edit Quiz' : 'Add Quiz'}</FormStyled.H1>
                 <ActiveModal />
             </Styled.Container>

@@ -1,0 +1,406 @@
+### Queries ###
+
+query getGate($id: uuid!, $permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
+    gates_by_pk(id: $id) {
+        skills
+        published
+        holders {
+            id
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
+        earners {
+            gate_id
+            id
+            user_id
+            user {
+                id
+                wallet
+                name
+                pfp
+            }
+        }
+        keysByGateId {
+            gate_id
+            id
+            information
+            keys
+            people_limit
+            task
+            task_type
+            unlimited
+        }
+        dao {
+            name
+            youtube_url
+            whitelisted_flags
+            wdwd
+            updated_at
+            slug
+            mv
+            logo_url
+            id
+            how_to_join
+            hangouts
+            ens
+            description
+            created_at
+            categories
+            blacklisted_flags
+            background_url
+            accomplishments
+            faq
+            token
+        }
+        nft_type
+        links
+        knowledge
+        keys
+        id
+        gate_name
+        description
+        dao_id
+        categories
+        badge
+        attitudes
+    }
+}
+
+query listGates($permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
+    gates {
+        skills
+        published
+        holders {
+            id
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
+        earners {
+            gate_id
+            id
+            user_id
+        }
+        keysByGateId {
+            gate_id
+            id
+            information
+            keys
+            people_limit
+            task
+            task_type
+            unlimited
+        }
+        dao {
+            name
+            youtube_url
+            whitelisted_flags
+            wdwd
+            updated_at
+            slug
+            mv
+            logo_url
+            id
+            how_to_join
+            hangouts
+            ens
+            description
+            created_at
+            categories
+            blacklisted_flags
+            background_url
+            accomplishments
+            faq
+            token
+        }
+        nft_type
+        links
+        knowledge
+        keys
+        id
+        gate_name
+        description
+        dao_id
+        categories
+        badge
+        attitudes
+    }
+}
+
+query getKey($id: uuid!) {
+    keys_by_pk(id: $id) {
+        gate_id
+        id
+        information
+        keys
+        people_limit
+        task
+        task_type
+        unlimited
+    }
+}
+
+query getEarners($where: earners_bool_exp = {}) {
+  earners(where: $where) {
+    gate_id
+    id
+    user_id
+    user {
+      id
+      wallet
+      name
+      pfp
+    }
+  }
+}
+
+
+query getGateProgress($where: gate_progress_bool_exp = {}) {
+    gate_progress(where: $where) {
+        user_id
+        updated_at
+        status
+        id
+        gate_id
+        created_at
+    }
+}
+
+query getKeyProgress($where: key_progress_bool_exp = {}) {
+    key_progress(where: $where) {
+        completed
+        created_at
+        gate_id
+        id
+        key_id
+        updated_at
+        user_id
+        key {
+            keys
+        }
+    }
+}
+
+### Mutations ###
+
+mutation createGate($object: gates_insert_input = {}) {
+    insert_gates_one(object: $object) {
+        attitudes
+        badge
+        categories
+        dao_id
+        description
+        gate_name
+        id
+        keys
+        knowledge
+        links
+        nft_type
+        published
+        holders {
+            id
+        }
+        earners {
+            gate_id
+            id
+            user_id
+        }
+        keysByGateId {
+            gate_id
+            id
+            information
+            keys
+            people_limit
+            task
+            task_type
+            unlimited
+        }
+        dao {
+            name
+            youtube_url
+            whitelisted_flags
+            wdwd
+            updated_at
+            slug
+            mv
+            logo_url
+            id
+            how_to_join
+            hangouts
+            ens
+            description
+            created_at
+            categories
+            blacklisted_flags
+            background_url
+            accomplishments
+            faq
+            token
+        }
+        skills
+    }
+}
+
+mutation updateGate($id: uuid!, $set: gates_set_input = {}, $permissions_where: permissions_bool_exp = {permission: {_eq: "admin"}}) {
+    update_gates_by_pk(pk_columns: { id: $id }, _set: $set) {
+        attitudes
+        badge
+        categories
+        dao_id
+        description
+        gate_name
+        id
+        keys
+        knowledge
+        links
+        nft_type
+        published
+        holders {
+            id
+        }
+        permissions(where: $permissions_where) {
+            user {
+                about
+                attitudes
+                bio
+                blacklistedFlags
+                createdAt
+                device
+                id
+                init
+                knowledges
+                languages
+                name
+                pfp
+                skills
+                updatedAt
+                username
+                wallet
+                whitelistedFlags
+            }
+            permission
+        }
+        earners {
+            gate_id
+            id
+            user_id
+        }
+        keysByGateId {
+            gate_id
+            id
+            information
+            keys
+            people_limit
+            task
+            task_type
+            unlimited
+        }
+        dao {
+            name
+            youtube_url
+            whitelisted_flags
+            wdwd
+            updated_at
+            slug
+            mv
+            logo_url
+            id
+            how_to_join
+            hangouts
+            ens
+            description
+            created_at
+            categories
+            blacklisted_flags
+            background_url
+            accomplishments
+            faq
+            token
+        }
+        skills
+    }
+}
+
+mutation deleteGate($id: uuid!) {
+    delete_gates_by_pk(id: $id) {
+        id
+    }
+}
+
+mutation createKey($object: keys_insert_input = {}) {
+    insert_keys_one(object: $object) {
+        gate_id
+        id
+        information
+        keys
+        people_limit
+        task
+        task_type
+        unlimited
+    }
+}
+
+mutation updateKey($id: uuid = "", $set: keys_set_input = {}) {
+    update_keys_by_pk(pk_columns: { id: $id }, _set: $set) {
+        gate_id
+        id
+        information
+        keys
+        people_limit
+        task
+        task_type
+        unlimited
+    }
+}
+
+mutation deleteKey($id: uuid!) {
+    delete_keys_by_pk(id: $id) {
+        id
+    }
+}
+
+mutation verifyTask($key_id: uuid!, $user_id: uuid!, $info: json) {
+    verify_key(input: { key_id: $key_id, user_id: $user_id, info: $info }) {
+        completed_gate
+        task_info
+    }
+}

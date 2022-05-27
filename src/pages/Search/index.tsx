@@ -16,8 +16,6 @@ import GateTab from './component/Gates';
 
 // API
 import { DAOFilter, GateFilter, UserFilter } from './component/Filters';
-// import { gql, useQuery } from '@apollo/client';
-// import { searchDaos } from '../../graphql/queries';
 
 const Search = () => {
     const navigate = useNavigate();
@@ -43,20 +41,6 @@ const Search = () => {
         }
     };
 
-    const ActiveFilter = () => {
-        switch (tab) {
-            case 'daos':
-                return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
-            case 'users':
-                return <UserFilter setUserFilterQuery={setUserFilterQuery} />;
-            case 'gates':
-                return <GateFilter setGateFilterQuery={setGateFilterQuery} />;
-            default:
-                return <DAOFilter setDaoFilterQuery={setDaoFilterQuery} />;
-        }
-    };
-
-    const FilterComponent = React.useMemo(() => ActiveFilter, [tab]);
     const TabComponent = React.useMemo(() => ActiveTab, [
         tab,
         daoFilterQuery,
@@ -94,12 +78,12 @@ const Search = () => {
                         </Styled.SelectContainerText>
                     </Styled.SelectContainer>
                 </Styled.DAOAndUserSelectionContainer>
-                {
+                {/*
                     <Styled.LeftNav>
                         <Styled.FilterText>Filter:</Styled.FilterText>
                         <FilterComponent />
                     </Styled.LeftNav>
-                }
+                */}
             </Styled.Nav>
             <TabComponent />
             <Footer />

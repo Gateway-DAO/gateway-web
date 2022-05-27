@@ -8,8 +8,7 @@ import * as Styled from './style';
 // Hooks
 import { useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useListDAOs } from '../../api/database/useGetDAO';
-import { useSearchDAO } from '../../api/database/useSearchDAO';
+import { useListDaOsQuery, useSearchDaOsQuery } from '../../graphql'
 
 const DUMMY_CATEGORIES = [
     'Trending',
@@ -37,21 +36,17 @@ const Categories = (props) => {
         data: DAOData,
         loading: DAOLoading,
         error: DAOError,
-    } = useListDAOs();
+    } = useListDaOsQuery();
     const {
         data: searchData,
         loading: searchLoading,
         called: searchCalled,
         error: searchError,
-    } = useSearchDAO({
+    } = useSearchDaOsQuery({
         variables: {
-            filter: {
-                categories: {
-                    match: DUMMY_CATEGORIES[activeCategory],
-                },
-            },
-        },
-    });
+            query: DUMMY_CATEGORIES[activeCategory]
+        }
+    })
 
     // Fetch cards from DB
     useEffect(() => {

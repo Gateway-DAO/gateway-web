@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSearchDaOsQuery } from '../../../../../graphql';
 import { useLocation } from 'react-router-dom';
-import useSearchDAO from '../../../../../api/database/useSearchDAO';
 import * as Styled from '../../../style';
 import FilterDropdown from '../../FilterDropdown';
 
@@ -27,12 +28,18 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
         any[]
     >([]);
 
+    var { query: searchTerm } = useParams();
+
     const {
         data: organizationData,
         loading: listLoading,
         error: listError,
         called: listCalled,
-    } = useSearchDAO();
+    } = useSearchDaOsQuery({
+        variables: {
+            query: searchTerm
+        }
+    });
 
     const location = useLocation();
 	const params = new URLSearchParams(location.search);
@@ -59,7 +66,7 @@ const GateFilter = function ({ setGateFilterQuery }: any) {
     useEffect(() => {
         if (!listLoading && !listError) {
             const daoList = [];
-            organizationData.searchDAOs.items.map((item: any) => {
+            organizationData.search_daos.hits.map((item: any) => {
                 daoList.push({
                     value: item.dao,
                     label: item.name,

@@ -5,11 +5,11 @@ import { FormStyled } from '../../Form';
 import { useState } from 'react';
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 import RichEditor from '../../RichTextEditor';
-import { useCreateBounty } from '../../../api/database/useCreateBounty';
 import { Navigate } from 'react-router-dom';
 import normalizeUrl from 'normalize-url';
 import { v4 as uuidv4 } from 'uuid';
 import Loader from '../../Loader';
+import { useCreateBountyMutation } from '../../../graphql';
 
 const BountyModal = (props) => {
     const [headline, setHeadline] = useState(null);
@@ -21,7 +21,7 @@ const BountyModal = (props) => {
     const [links, setLinks] = useState(['']);
     const [endDate, setEndDate] = useState(null);
 
-    const { createBounty, error, loading } = useCreateBounty();
+    const [createBounty, { error, loading }] = useCreateBountyMutation();
 
     const submitToDB = async () => {
         let parsedCategories = [];
@@ -31,7 +31,7 @@ const BountyModal = (props) => {
 
         const newBounty = {
             id: uuidv4(),
-            daoID: props.id,
+            dao_id: props.id,
             headline,
             description,
             level,
@@ -43,13 +43,13 @@ const BountyModal = (props) => {
                     link.length > 0 &&
                     normalizeUrl(link, { defaultProtocol: 'https:' })
             ),
-            endDate: new Date(endDate).toISOString(),
-            postDate: currentDate,
+            end_date: new Date(endDate).toISOString(),
+            post_date: currentDate,
         };
 
         await createBounty({
             variables: {
-                input: newBounty,
+                object: newBounty,
             },
         });
 

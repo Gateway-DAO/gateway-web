@@ -4,9 +4,6 @@ import Select from 'react-select';
 import { Container, Button, Form, Col } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 import { FaTimes } from 'react-icons/fa';
-import { useMutation, gql } from '@apollo/client';
-import { updateUser } from '../../../../graphql/mutations';
-import Page from '../../../../components/Page';
 import './AddKnowledge.css';
 import Space from '../../../../components/Space';
 import Loader from '../../../../components/Loader';
@@ -100,7 +97,7 @@ const AddKnowledge = () => {
 	}
 
 	return (
-		<Space>
+		<>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
@@ -195,7 +192,7 @@ const AddKnowledge = () => {
 					</Container>
 				</div>
 			</div>
-		</Space>
+		</>
 	);
 };
 

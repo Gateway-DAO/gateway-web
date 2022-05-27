@@ -16,30 +16,10 @@ import { UserProvider } from './contexts/UserContext';
 import { ModalProvider } from './contexts/ModalContext';
 import ApolloAppSyncProvider from './contexts/ApolloAppSyncProvider';
 import { ReactNotifications } from 'react-notifications-component';
+import { BrowserRouter } from 'react-router-dom';
 
 // Styling
 import 'react-notifications-component/dist/theme.css';
-
-// AWS
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-// Analytics
-import { BrowserRouter } from 'react-router-dom';
-
-Amplify.configure(awsconfig);
-
-Sentry.init({
-    dsn: 'https://d0480028c21c460c89f2c88ee3221064@o1250209.ingest.sentry.io/6414301',
-    integrations: [new BrowserTracing()],
-
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
-    tracesSampleRate: 1.0,
-});
-
-// ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS || '');
 
 AOS.init();
 

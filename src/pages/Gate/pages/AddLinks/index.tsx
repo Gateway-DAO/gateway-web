@@ -4,11 +4,10 @@ import { FormStyled } from '../../../../components/Form';
 import { FaPlus, FaTrashAlt } from 'react-icons/fa';
 import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
-import { updateGate } from '../../../../graphql/mutations';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { Gate, TaskStatus } from '../../../../graphql/API';
 import normalizeUrl from 'normalize-url';
 import Loader from '../../../../components/Loader';
+import { Gates, Key_Progress, useUpdateGateMutation } from '../../../../graphql';
 
 /* This is a type definition for the Link interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -19,11 +18,10 @@ interface Link {
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
-interface GateData extends Gate {
-    holders: number;
+interface GateData extends Gates {
     keysDone: number;
     keysNumber: number;
-    taskStatus: TaskStatus[];
+    taskStatus: Key_Progress[];
 }
 
 interface IProps {
@@ -53,7 +51,7 @@ const LinksPage: React.FC<IProps> = ({ edit = false }) => {
     );
 
     // Hooks
-    const [update, { loading }] = useMutation(gql(updateGate));
+    const [update, { loading }] = useUpdateGateMutation();
     const navigate = useNavigate();
 
     /**
@@ -102,8 +100,8 @@ const LinksPage: React.FC<IProps> = ({ edit = false }) => {
         try {
             await update({
                 variables: {
-                    input: {
-                        id: gateData.id,
+                    id: gateData.id,
+                    set: {
                         links: links.map((link) => ({
                             name: link.name,
                             link: normalizeUrl(link.link, { forceHttps: true }),

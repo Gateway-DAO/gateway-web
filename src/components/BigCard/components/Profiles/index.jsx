@@ -3,8 +3,6 @@ import { useState } from 'react';
 import React from 'react';
 import parser from 'html-react-parser';
 
-// import useAdmin from '../../../../hooks/useAdmin';
-
 // Modals
 import BountyModal from '../../../Modal/BountyModal';
 import TokenBenefitModal from '../../../Modal/TokenBenefitModal';
@@ -35,13 +33,12 @@ import { ytVideoID } from '../../../../utils/functions';
 import RelatedDAOSection from '../../components/RelatedDAO';
 
 const Profile = (props) => {
-    // const { isAdmin } = useAdmin(props.whitelistedAddresses);
-    const [bounties, setBounties] = useState(props.bounties.items || []);
-    const [benefits, setBenefits] = useState(props.tokenBenefits.items || []);
-    const [HTJ, setHTJ] = useState(props.howToJoin || '');
-    const [WDWD, setWDWD] = useState(props.whatDoWeDo || '');
-    const [UH, setUH] = useState(props.upcomingHangouts || '');
-    const [MV, setMV] = useState(props.missionAndVision || '');
+    const [bounties, setBounties] = useState(props.bounties || []);
+    const [benefits, setBenefits] = useState(props.token_benefits || []);
+    const [HTJ, setHTJ] = useState(props.how_to_join || '');
+    const [WDWD, setWDWD] = useState(props.wdwd || '');
+    const [UH, setUH] = useState(props.hangouts || '');
+    const [MV, setMV] = useState(props.mv || '');
     const [ACC, setACC] = useState(props.accomplishments || '');
     const [FAQ, setFAQ] = useState(props.faq || []);
     
@@ -62,7 +59,7 @@ const Profile = (props) => {
     const [showMVModal, setShowMVModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
 
-    let youtubeID = props.youtubeURL ? ytVideoID(props.youtubeURL) : null;
+    let youtubeID = props.youtube_url ? ytVideoID(props.youtube_url) : null;
 
     const toggleBountyModal = () => setShowBountyModal(!showBountyModal);
     const toggleBountyInfoModal = (idx) =>
@@ -119,13 +116,6 @@ const Profile = (props) => {
                 data={UH}
                 set={(newUH) => setUH(newUH)}
             />
-            <BountyModal
-                id={props.id}
-                show={showBountyModal}
-                toggle={toggleBountyModal}
-                data={bounties}
-                set={(newBounties) => setBounties(newBounties)}
-            />
             <TokenBenefitModal
                 id={props.id}
                 show={showTBModal}
@@ -161,12 +151,12 @@ const Profile = (props) => {
             <Modals />
             <Styled.DAOContainer>
                 <Styled.DivideContainer>
-                    <Styled.ColumnOne fullWidth={!props.tokenAddress}>
+                    <Styled.ColumnOne fullWidth={!props.token}>
                         <Styled.Description>
                             {parser(props.description)}
                         </Styled.Description>
                         <Styled.DivContainer>
-                            {props.youtubeURL && youtubeID && (
+                            {props.youtube_url && youtubeID && (
                                 <Styled.YoutubeVideoContainer>
                                     <iframe
                                         width='90%'
@@ -277,42 +267,6 @@ const Profile = (props) => {
                                     )}
 
                                     {!!HTJ.length && <HTJCard steps={HTJ} />}
-                                </Styled.CollapsibleChildren>
-                            </Collapsible>
-
-                            <Collapsible title='Bounties'>
-                                <Styled.CollapsibleChildren>
-                                    {!props.viewAsMember && (
-                                        <Styled.Button
-                                            onClick={toggleBountyModal}
-                                        >
-                                            Add Bounty
-                                        </Styled.Button>
-                                    )}
-
-                                    {bounties &&
-                                        bounties.map((bounty, idx) => {
-                                            return (
-                                                <React.Fragment key={idx}>
-                                                    <BountyCard
-                                                        id={props.id}
-                                                        bounties={bounties}
-                                                        idx={idx}
-                                                        set={(newBounties) =>
-                                                            setBounties(
-                                                                newBounties
-                                                            )
-                                                        }
-                                                        admin={
-                                                            !props.viewAsMember
-                                                        }
-                                                        showInfo={
-                                                            toggleBountyInfoModal
-                                                        }
-                                                    />
-                                                </React.Fragment>
-                                            );
-                                        })}
                                 </Styled.CollapsibleChildren>
                             </Collapsible>
                             <Collapsible title='Governance Proposals'>

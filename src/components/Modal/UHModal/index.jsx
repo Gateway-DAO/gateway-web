@@ -9,22 +9,21 @@ import { FormStyled } from '../../Form';
 import RichEditor from '../../RichTextEditor';
 import { Navigate } from 'react-router-dom';
 import Modal from '../index';
-
-// API
-import { useMutation, gql } from '@apollo/client';
-import { updateDao } from '../../../graphql/mutations';
 import Loader from '../../Loader';
+
+// Hooks
+import { useUpdateDaoMutation } from '../../../graphql';
 
 const UHModal = (props) => {
     const [UH, setUH] = useState(props.data);
-    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
+    const [updateDAO, { loading, error }] = useUpdateDaoMutation();
 
     const submitToDB = async () => {
         await updateDAO({
             variables: {
+                id: props.id,
                 input: {
-                    id: props.id,
-                    upcomingHangouts: UH,
+                    hangouts: UH,
                 },
             },
         });

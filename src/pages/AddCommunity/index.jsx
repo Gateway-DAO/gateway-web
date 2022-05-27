@@ -17,8 +17,8 @@ import { ImageUpload } from '../../components/Form';
 // Hooks
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/UserContext';
-import { useCreateDAOWithChannels } from '../../api/database/useCreateDAO';
-import useFileUpload from '../../api/useFileUpload';
+import useFile from '../../api/useFile';
+import { useCreateDaoMutation } from '../../graphql';
 
 // Utils
 import space from '../../utils/canvas';
@@ -27,7 +27,7 @@ import { Form } from 'react-bootstrap';
 
 const AddCommunity = () => {
     const { userInfo, walletConnected } = useAuth();
-    const { uploadFile } = useFileUpload();
+    const { uploadFile } = useFile();
 
     const [name, setName] = useState('');
     const [tokenAddress, setTokenAddress] = useState('');
@@ -52,8 +52,7 @@ const AddCommunity = () => {
     const [spaceId, setSpaceId] = useState('');
     const [updateLoading, setUpdateLoading] = useState(false);
 
-    const { createDAO, data, error, called, loading } =
-        useCreateDAOWithChannels();
+    const [createDAO, { data, error, called, loading }] = useCreateDaoMutation();
 
     useEffect(() => {
         if (walletConnected) {
@@ -114,12 +113,12 @@ const AddCommunity = () => {
 
             // Upload files to S3
             const logoURL = await uploadFile(
-                `daos/${id}/logo.${logoFile.name.split('.').pop()}`,
-                logoFile
+                logoFile,
+                `/daos/${id}/`
             );
             const backgroundURL = await uploadFile(
-                `daos/${id}/background.${bgFile.name.split('.').pop()}`,
-                bgFile
+                bgFile,
+                `daos/${id}/`
             );
 
             const newInfo = {

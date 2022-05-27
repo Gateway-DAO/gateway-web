@@ -11,7 +11,6 @@ import SearchedAdmin from './Components/SearchedAdmin';
 import { ImageUpload } from '../../../../components/Form';
 
 // Hooks
-import { useCreateGate } from '../../../../api/database/useCreateGate';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../../contexts/UserContext';
 
@@ -21,33 +20,21 @@ import FormData from 'form-data';
 import Loader from '../../../../components/Loader';
 import { useEffect } from 'react';
 
-// API
-import useUpdateGate from '../../../../api/database/useUpdateGate';
-import { gql, useLazyQuery } from '@apollo/client';
-import { searchGates, searchUsers } from '../../../../graphql/queries';
-import {
-    DAO,
-    Gate,
-    PublishedState,
-    TaskStatus,
-    User,
-} from '../../../../graphql/API';
-
 // Components
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
 import { ProfilePicture } from './Components/SearchedAdmin/style';
+import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus, Permissions_Constraint, Permissions_Update_Column, Earners_Constraint, Earners_Update_Column, useDeleteAllGatePermissionsMutation, useUpdateGatePermissionsMutation } from '../../../../graphql';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
-interface GateData extends Gate {
-    holders: number;
+interface GateData extends Gates {
     keysDone: number;
     keysNumber: number;
-    taskStatus: TaskStatus[];
-    adminList: User[];
-    preRequisitesList: Gate[];
-    retroactiveEarnersList: User[];
+    taskStatus: Key_Progress[];
+    adminList: Users[];
+    preRequisitesList: Gates[];
+    retroactiveEarnersList: Users[];
 }
 
 /* Defining a type for the admin object. */
@@ -85,7 +72,7 @@ const AddGateForm = () => {
     const gateData: GateData | null = edit ? state.gateData : null;
 
     // State
-    const [title, setTitle] = useState<string>(edit ? gateData.name : '');
+    const [title, setTitle] = useState<string>(edit ? gateData.gate_name : '');
     const [description, setDescription] = useState<string>(
         edit ? gateData.description : ''
     );
@@ -94,12 +81,12 @@ const AddGateForm = () => {
     const [retroactiveEarners, setRetroactiveEarners] = useState<IAdmin[]>(
         edit
             ? gateData.retroactiveEarnersList.map((retro) => ({
-                  name: retro?.name || '',
-                  username: retro?.username || '',
-                  pfp: retro?.pfp || '',
-                  id: retro?.id || '',
-                  wallet: retro?.wallet || '',
-              }))
+                name: retro?.name || '',
+                username: retro?.username || '',
+                pfp: retro?.pfp || '',
+                id: retro?.id || '',
+                wallet: retro?.wallet || '',
+            }))
             : []
     );
     const [uploadFile, setUploadFile] = useState(null);
@@ -127,33 +114,32 @@ const AddGateForm = () => {
     const [adminList, setAdminList] = useState<IAdmin[]>(
         edit
             ? gateData.adminList.map((admin) => ({
-                  name: admin?.name || '',
-                  username: admin?.username || '',
-                  pfp: admin?.pfp || '',
-                  id: admin?.id || '',
-                  wallet: admin?.wallet || '',
-              }))
+                name: admin?.name || '',
+                username: admin?.username || '',
+                pfp: admin?.pfp || '',
+                id: admin?.id || '',
+                wallet: admin?.wallet || '',
+            }))
             : [
-                  {
-                      name: userInfo?.name || '',
-                      username: userInfo?.username || '',
-                      pfp: userInfo?.pfp || '',
-                      id: userInfo?.id || '',
-                      wallet: userInfo?.wallet || '',
-                  },
-              ]
+                {
+                    name: userInfo?.name || '',
+                    username: userInfo?.username || '',
+                    pfp: userInfo?.pfp || '',
+                    id: userInfo?.id || '',
+                    wallet: userInfo?.wallet || '',
+                },
+            ]
     );
     //const [adminIDList, setAdminIDList] = useState(edit?gateData.admins:[userInfo.id]);
     const [updateLoading, setUpdateeLoading] = useState<boolean>(false);
-    const [adminSearch, setAdminSearch] = useState([]);
     const [NFTupdated, setNFTupdated] = useState<boolean>(edit);
     const [prereqsSearch, setPrereqsSearch] = useState([]);
     const [NFTType, setNFTType] = useState<NFT | null>(
         edit
-            ? (((gateData.nftType as string).charAt(0).toUpperCase() +
-                  (gateData.nftType as string)
-                      .substring(1)
-                      .toLowerCase()) as NFT)
+            ? (((gateData.nft_type as string).charAt(0).toUpperCase() +
+                (gateData.nft_type as string)
+                    .substring(1)
+                    .toLowerCase()) as NFT)
             : null
     );
     const [wantPreReqs, setWantPreReqs] = useState<YesNo | null>(
@@ -161,39 +147,29 @@ const AddGateForm = () => {
     );
 
     // Hooks
-    const { daoData }: { daoData: DAO } = useOutletContext();
-    const { createGate } = useCreateGate();
-    const { updateGate } = useUpdateGate();
+    const { daoData }: { daoData: Daos } = useOutletContext();
+    const [createGate] = useCreateGateMutation();
+    const [updateGate] = useUpdateGateMutation();
+    const [updateAdmins] = useUpdateGatePermissionsMutation();
+    const [deleteAllAdmins] = useDeleteAllGatePermissionsMutation({
+        variables: {
+            gate_id: edit ? gateData.id : null
+        }
+    });
 
     const [
         searchByUsers,
-    ] = useLazyQuery(gql(searchUsers), {
+    ] = useSearchUsersLazyQuery({
         variables: {
-            filter: {
-                or: [
-                    { name: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { username: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { bio: { wildcard: `*${admin.toLowerCase()}*` } },
-                    { wallet: { wildcard: `*${admin.toLowerCase()}*` } },
-                ],
-            },
-        },
-    });
+            query: admin
+        }
+    })
 
-    const [searchByGates, { data: searchGateData, called: searchGateCalled }] =
-        useLazyQuery(gql(searchGates), {
-            variables: {
-                filter: {
-                    or: [
-                        {
-                            name: {
-                                wildcard: `*${prerequisite.toLowerCase()}*`,
-                            },
-                        },
-                    ],
-                },
-            },
-        });
+    const [searchByGates, { data: searchGateData, called: searchGateCalled }] = useSearchGatesLazyQuery({
+        variables: {
+            query: prerequisite
+        }
+    });
 
     const navigate = useNavigate();
 
@@ -327,19 +303,17 @@ const AddGateForm = () => {
             form.append('file', uploadFile, 'image.png');
 
             const hash = await uploadFileToIPFS(form);
-            const gateID = uuidv4();
 
-            await createGate({
+            const res = await createGate({
                 variables: {
-                    input: {
-                        id: gateID,
-                        daoID: daoData.id,
-                        name: title,
+                    object: {
+                        dao_id: daoData.id,
+                        gate_name: title,
                         description,
                         categories: categoryList,
-                        admins: adminList.map((admin) => admin.id),
-                        ...(wantPreReqs && { keysNumber: keyRequired }),
-                        nftType: (NFTType as string).toUpperCase(),
+                        // admins: adminList.map((admin) => admin.id),
+                        ...(wantPreReqs && { keys: keyRequired }),
+                        nft_type: (NFTType as string).toLowerCase(),
                         ...(skillList.length > 0 && { skills: skillList }),
                         ...(attitudeList.length > 0 && {
                             attitudes: attitudeList,
@@ -347,14 +321,30 @@ const AddGateForm = () => {
                         ...(knowledgeList.length > 0 && {
                             knowledge: knowledgeList,
                         }),
-                        published: 'NOT_PUBLISHED',
-                        holders: 0,
                         links: [],
-                        retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
-                        preRequisites: {
+                        permissions: {
+                            data: adminList.map(admin => ({
+                                user_id: admin.id,
+                                permission: 'admin'
+                            })),
+                            on_conflict: {
+                                constraint: Permissions_Constraint.PermissionsUserIdDaoIdGateIdKey,
+                                update_columns: [Permissions_Update_Column.Permission],
+                            }
+                        },
+                        /* preRequisites: {
                             completedGates: prerequisiteList.map(
                                 (prereq) => prereq.id
                             ),
+                        }, */
+                        earners: {
+                            data: retroactiveEarners.map(earner => ({
+                                user_id: earner.id
+                            })),
+                            on_conflict: {
+                                constraint: Earners_Constraint.EarnersPk,
+                                update_columns: [Earners_Update_Column.GateId, Earners_Update_Column.UserId],
+                            }
                         },
                         badge: {
                             name: badgeName,
@@ -364,7 +354,7 @@ const AddGateForm = () => {
                 },
             });
 
-            navigate(`/gate/${gateID}`);
+            navigate(`/gate/${res.data.insert_gates_one.id}`);
         } catch (err) {
             alert('An error occurred. Please try again later!');
             console.log(err);
@@ -390,16 +380,17 @@ const AddGateForm = () => {
 
                 await updateGate({
                     variables: {
-                        input: {
+                        id: gateData.id,
+                        set: {
                             id: gateData.id,
-                            daoID: daoData.id,
-                            name: title,
+                            dao_id: daoData.id,
+                            gate_name: title,
                             description,
                             categories: categoryList,
-                            admins: adminList.map((admin) => admin.id),
-                            keysNumber: keyRequired,
+                            // admins: adminList.map((admin) => admin.id),
+                            keys: keyRequired,
                             published: gateData.published,
-                            retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
+                            // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
                                 name: badgeName,
                                 ipfsURL: gateData.badge.ipfsURL,
@@ -407,6 +398,18 @@ const AddGateForm = () => {
                         },
                     },
                 });
+
+                await deleteAllAdmins();
+
+                await updateAdmins({
+                    variables: {
+                        objects: adminList.map(admin => ({
+                            user_id: admin.id,
+                            gate_id: gateData.id,
+                            permission: 'admin'
+                        })),
+                    }
+                })
                 navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
@@ -421,16 +424,16 @@ const AddGateForm = () => {
 
                 await updateGate({
                     variables: {
-                        input: {
+                        id: gateData.id,
+                        set: {
                             id: gateData.id,
-                            daoID: daoData.id,
-                            name: title,
+                            dao_id: daoData.id,
+                            gate_name: title,
                             description,
                             categories: categoryList,
-                            admins: adminList.map((admin) => admin.id),
-                            keysNumber: keyRequired,
+                            // admins: adminList.map((admin) => admin.id),
+                            keys: keyRequired,
                             published: gateData.published,
-                            retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
                                 name: badgeName,
                                 ipfsURL: gateData.badge.ipfsURL,
@@ -438,6 +441,17 @@ const AddGateForm = () => {
                         },
                     },
                 });
+
+                await deleteAllAdmins();
+
+                await updateAdmins({
+                    variables: {
+                        objects: adminList.map(admin => ({
+                            user_id: admin.id,
+                            permission: 'admin'
+                        })),
+                    }
+                })
                 navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
@@ -465,7 +479,7 @@ const AddGateForm = () => {
 
     useEffect(() => {
         if (searchGateCalled && !!searchGateData) {
-            const query = searchGateData.searchGates.items;
+            const query = searchGateData.search_gates.hits;
             const results = query.slice(0, 5).map((gate) => {
                 return {
                     name: gate.name,
@@ -480,21 +494,10 @@ const AddGateForm = () => {
         return (
             await searchByUsers({
                 variables: {
-                    filter: {
-                        or: [
-                            { name: { wildcard: `*${param.toLowerCase()}*` } },
-                            {
-                                username: {
-                                    wildcard: `*${param.toLowerCase()}*`,
-                                },
-                            },
-                            { bio: { wildcard: `*${param.toLowerCase()}*` } },
-                            { bio: { wildcard: `*${param.toLowerCase()}*` } },
-                        ],
-                    },
+                    query: param
                 },
             })
-        ).data.searchUsers.items.map((user) => ({
+        ).data.search_users.hits.map((user) => ({
             ...user,
             label: user.name,
             value: user,
@@ -510,22 +513,21 @@ const AddGateForm = () => {
 
     return (
         <Styled.Page>
-            <Space>
-                <BackButton
-                    url={edit ? `/gate/${gateData.id}` : `/dao/${daoData.dao}`}
-                    style={{
-                        marginTop: '20px',
-                    }}
-                >
-                    Back to Onboarding
-                </BackButton>
-                <Styled.FormContainer onSubmit={edit ? onEdit : onSave}>
-                    <Styled.Header>
-                        {edit ? `Edit Gate` : `Create a New Gate`}
-                    </Styled.Header>
-                    {(!edit ||
-                        gateData?.published ===
-                            PublishedState.NOT_PUBLISHED) && (
+            <BackButton
+                url={edit ? `/gate/${gateData.id}` : `/dao/${daoData.slug}`}
+                style={{
+                    marginTop: '20px',
+                }}
+            >
+                Back to Onboarding
+            </BackButton>
+            <Styled.FormContainer onSubmit={edit ? onEdit : onSave}>
+                <Styled.Header>
+                    {edit ? `Edit Gate` : `Create a New Gate`}
+                </Styled.Header>
+                {(!edit ||
+                    gateData?.published ===
+                    GatePublishedStatus.not_published) && (
                         <>
                             <FormStyled.Fieldset>
                                 <FormStyled.Label htmlFor='title'>
@@ -658,37 +660,37 @@ const AddGateForm = () => {
                         </>
                     )}
 
-                    {NFTType && wantPreReqs && (
-                        <>
-                            {wantPreReqs === YesNo.YES && (
-                                <FormStyled.Fieldset>
-                                    <FormStyled.Label htmlFor='title'>
-                                        KEYS REQUIRED*
-                                    </FormStyled.Label>
-                                    <Styled.InputSmall
-                                        onKeyPress={(e) => {
-                                            e.key === 'Enter' &&
-                                                e.preventDefault();
-                                        }}
-                                        onChange={(e) => {
+                {NFTType && wantPreReqs && (
+                    <>
+                        {wantPreReqs === YesNo.YES && (
+                            <FormStyled.Fieldset>
+                                <FormStyled.Label htmlFor='title'>
+                                    KEYS REQUIRED*
+                                </FormStyled.Label>
+                                <Styled.InputSmall
+                                    onKeyPress={(e) => {
+                                        e.key === 'Enter' &&
                                             e.preventDefault();
-                                            setKeyRequired(e.target.value);
-                                        }}
-                                        type='number'
-                                        id='keyReq'
-                                        name='keyReq'
-                                        placeholder='0'
-                                        value={
-                                            keyRequired > 0 ? keyRequired : null
-                                        }
-                                        required
-                                    />
-                                </FormStyled.Fieldset>
-                            )}
+                                    }}
+                                    onChange={(e) => {
+                                        e.preventDefault();
+                                        setKeyRequired(e.target.value);
+                                    }}
+                                    type='number'
+                                    id='keyReq'
+                                    name='keyReq'
+                                    placeholder='0'
+                                    value={
+                                        keyRequired > 0 ? keyRequired : null
+                                    }
+                                    required
+                                />
+                            </FormStyled.Fieldset>
+                        )}
 
-                            {(!edit ||
-                                gateData?.published ===
-                                    PublishedState.NOT_PUBLISHED) && (
+                        {(!edit ||
+                            gateData?.published ===
+                            GatePublishedStatus.not_published) && (
                                 <>
                                     {NFTType === 'Reward' && (
                                         <>
@@ -862,46 +864,46 @@ const AddGateForm = () => {
                                     </FormStyled.Fieldset>
                                 </>
                             )}
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label htmlFor='admins'>
-                                    Admin Privileges*
-                                </FormStyled.Label>
-                                <FormStyled.AsyncSelect
-                                    id={`admins`}
-                                    isMulti
-                                    controlShouldRenderValue={false}
-                                    onInputChange={(e) => setAdmin(e)}
-                                    onChange={handleAdmin}
-                                    loadOptions={async () =>
-                                        (await getOptions(admin)).filter(
-                                            (user: User) =>
-                                                !adminList
-                                                    .map((admins) => admins.id)
-                                                    .includes(user.id)
-                                        )
-                                    }
-                                    defaultValue={adminList}
-                                    value={adminList}
-                                    components={{
-                                        Option: UserOption,
-                                    }}
-                                    menuPortalTarget={document.body}
-                                />
+                        <FormStyled.Fieldset>
+                            <FormStyled.Label htmlFor='admins'>
+                                Admin Privileges*
+                            </FormStyled.Label>
+                            <FormStyled.AsyncSelect
+                                id={`admins`}
+                                isMulti
+                                controlShouldRenderValue={false}
+                                onInputChange={(e) => setAdmin(e)}
+                                onChange={handleAdmin}
+                                loadOptions={async () =>
+                                    (await getOptions(admin)).filter(
+                                        (user: Users) =>
+                                            !adminList
+                                                .map((admins) => admins.id)
+                                                .includes(user.id)
+                                    )
+                                }
+                                defaultValue={adminList}
+                                value={adminList}
+                                components={{
+                                    Option: UserOption,
+                                }}
+                                menuPortalTarget={document.body}
+                            />
 
-                                {adminList.length > 0 && (
-                                    <Styled.CategoryList>
-                                        {adminList.map((admin) => (
-                                            <SearchedAdmin
-                                                val={admin}
-                                                id={admin.id}
-                                                removeAdmin={removeAdmin}
-                                            />
-                                        ))}
-                                    </Styled.CategoryList>
-                                )}
-                            </FormStyled.Fieldset>
+                            {adminList.length > 0 && (
+                                <Styled.CategoryList>
+                                    {adminList.map((admin) => (
+                                        <SearchedAdmin
+                                            val={admin}
+                                            id={admin.id}
+                                            removeAdmin={removeAdmin}
+                                        />
+                                    ))}
+                                </Styled.CategoryList>
+                            )}
+                        </FormStyled.Fieldset>
 
-                            {/*(!edit ||
+                        {/*(!edit ||
                                 gateData?.published ===
                                     PublishedState.NOT_PUBLISHED) && (
                                 <FormStyled.Fieldset>
@@ -1002,14 +1004,13 @@ const AddGateForm = () => {
                             </FormStyled.Fieldset>
                                             */}
 
-                            <FormStyled.Button type='submit'>
-                                {updateLoading && <Loader color='white' />}
-                                Submit
-                            </FormStyled.Button>
-                        </>
-                    )}
-                </Styled.FormContainer>
-            </Space>
+                        <FormStyled.Button type='submit'>
+                            {updateLoading && <Loader color='white' />}
+                            Submit
+                        </FormStyled.Button>
+                    </>
+                )}
+            </Styled.FormContainer>
         </Styled.Page>
     );
 };

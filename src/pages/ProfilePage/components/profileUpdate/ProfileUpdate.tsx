@@ -11,35 +11,9 @@ import {
 	FaShareAlt,
 	FaTelegram,
 	FaTwitter,
-	FaMapMarkerAlt,
 } from 'react-icons/fa';
 import { MdEdit } from 'react-icons/md';
 import { BiCopy } from 'react-icons/bi';
-import {
-	WiDaySunny,
-	WiDaySunnyOvercast,
-	WiDayCloudyHigh,
-	WiCloudy,
-	WiFog,
-	WiShowers,
-	WiDayRainMix,
-	WiStormShowers,
-	WiRain,
-	WiSprinkle,
-	WiDayShowers,
-	WiSnowflakeCold,
-	WiDaySnow,
-	WiSleet,
-	WiRainMix,
-	WiHot,
-	WiWindy,
-	WiNightClear,
-	WiNightAltCloudy,
-	WiNightLightning,
-	WiNightAltShowers,
-	WiNightAltStormShowers,
-	WiNightAltSnow,
-} from 'react-icons/wi';
 import {
 	Container,
 	Row,
@@ -60,7 +34,6 @@ import parser from 'html-react-parser';
 import { Store } from 'react-notifications-component';
 
 // Types
-import { Credential, Social, SocialInput } from '../../../../graphql/API';
 import copy from 'copy-to-clipboard';
 import { MONTHS } from '../../../../utils/constants';
 
@@ -72,21 +45,17 @@ const ProfileUpdate = () => {
 	// State
 	const { userInfo, currentLocation, canEdit }: Record<string, any> =
 		useOutletContext();
-	const [currentTime, setCurrentTime] = useState(new Date());
-	const [weatherData, setWeatherData] = useState([]);
 
 	// Hooks
 	const [ref, { height: heightPfp }] = useMeasure();
 	const height = heightPfp > 40 ? heightPfp : 262;
-
-	const tick = () => setCurrentTime(new Date());
 
 	/**
 	 * It returns an icon based on the platform.
 	 * @param platform - The social media platform you want to share to.
 	 * @returns A function that returns a React component.
 	 */
-	const getSocialIcon = (platform: Social) => {
+	const getSocialIcon = (platform) => {
 		switch (platform.network) {
 			case 'twitter':
 				return <FaTwitter color='white' />;
@@ -98,139 +67,6 @@ const ProfileUpdate = () => {
 				return <FaGithubAlt color='white' />;
 			default:
 				return <FaShareAlt color='white' />;
-		}
-	};
-
-	const timerID = setInterval(() => tick(), 1000);
-
-	/* Fetching the user info from the database and setting it to the state. */
-	useEffect(() => {
-		return clearInterval(timerID);
-	}, []);
-
-	/**
-	 * It takes the weather data and returns the appropriate icon.
-	 * @returns The weather icon.
-	 */
-	const getWeatherIcon = () => {
-		if (weatherData.length === 1) {
-			if (weatherData[0].WeatherText === 'Sunny') {
-				return <WiDaySunny color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Sunny') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Partly Sunny') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Hazy Sunshine') {
-				return <WiDaySunnyOvercast color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
-				return <WiDayCloudyHigh color='white' />;
-			} else if (weatherData[0].WeatherText === 'Cloudy') {
-				return <WiCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Dreary (Overcast)') {
-				return <WiCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Fog') {
-				return <WiFog color='white' />;
-			} else if (weatherData[0].WeatherText === 'Showers') {
-				return <WiShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Sunny w/ Showers'
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (weatherData[0].WeatherText === 'T-Storms') {
-				return <WiStormShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Sunny w/ T-Storms'
-			) {
-				return <WiDayRainMix color='white' />;
-			} else if (weatherData[0].WeatherText === 'Rain') {
-				return <WiRain color='white' />;
-			} else if (weatherData[0].WeatherText === 'Flurries') {
-				return <WiSprinkle color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDayShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Sunny w/ Flurries'
-			) {
-				return <WiDayShowers color='white' />;
-			} else if (weatherData[0].WeatherText === 'Snow') {
-				return <WiSnowflakeCold color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' &&
-				weatherData[0].IsDayTime === true
-			) {
-				return <WiDaySnow color='white' />;
-			} else if (weatherData[0].WeatherText === 'Ice') {
-				return <WiSnowflakeCold color='white' />;
-			} else if (weatherData[0].WeatherText === 'Sleet') {
-				return <WiSleet color='white' />;
-			} else if (weatherData[0].WeatherText === 'Freezing Rain') {
-				return <WiRain color='white' />;
-			} else if (weatherData[0].WeatherText === 'Rain and Snow') {
-				return <WiRainMix color='white' />;
-			} else if (weatherData[0].WeatherText === 'Hot') {
-				return <WiHot color='white' />;
-			} else if (weatherData[0].WeatherText === 'Cold') {
-				return <WiSnowflakeCold color='white' />;
-			} else if (weatherData[0].WeatherText === 'Windy') {
-				return <WiWindy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Clear') {
-				return <WiNightClear color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Clear') {
-				return <WiNightClear color='white' />;
-			} else if (weatherData[0].WeatherText === 'Partly Cloudy') {
-				return <WiNightAltCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Intermittent Clouds') {
-				return <WiNightAltCloudy color='white' />;
-			} else if (weatherData[0].WeatherText === 'Hazy Moonlight') {
-				return <WiNightLightning color='white' />;
-			} else if (weatherData[0].WeatherText === 'Mostly Cloudy') {
-				return <WiCloudy color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Cloudy w/ Showers'
-			) {
-				return <WiNightAltShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Showers' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Partly Cloudy w/ T-Storms'
-			) {
-				return <WiNightAltStormShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ T-Storms' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltStormShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Flurries' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltShowers color='white' />;
-			} else if (
-				weatherData[0].WeatherText === 'Mostly Cloudy w/ Snow' &&
-				weatherData[0].IsDayTime === false
-			) {
-				return <WiNightAltSnow color='white' />;
-			} else {
-				return <WiDaySunny color='white' />;
-			}
 		}
 	};
 
@@ -251,11 +87,11 @@ const ProfileUpdate = () => {
 	};
 
 	var daos: Record<string, any> = {}
-	userInfo?.credentials?.items?.map(item => {
-		if (daos[item.organizationID] == undefined) {
-			daos[item.organizationID] = [];
+	userInfo?.credentials?.map(item => {
+		if (daos[item.organization_id] == undefined) {
+			daos[item.organization_id] = [];
 		}
-		daos[item.organizationID].push(item);
+		daos[item.organization_id].push(item);
 	});
 
 	return (
@@ -280,9 +116,9 @@ const ProfileUpdate = () => {
 										<div className='user-bio'>
 											{userInfo.bio}
 										</div>
-										{userInfo.socials?.filter((item: SocialInput) => item.network == 'website').length > 0 && (
+										{userInfo.socials?.filter((item) => item.network == 'website').length > 0 && (
 											<div className='hostName'>
-												<a href={userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}>{userInfo.socials?.filter((item: SocialInput) => item.network == 'website')[0].url}</a>
+												<a href={userInfo.socials?.filter((item) => item.network == 'website')[0].url}>{userInfo.socials?.filter((item) => item.network == 'website')[0].url}</a>
 											</div>
 										)}
 										<div className='social'>
@@ -319,7 +155,7 @@ const ProfileUpdate = () => {
 												alt='image'
 											/>
 											<p>
-												{shortenAddress(
+												{userInfo.ens || shortenAddress(
 													userInfo.wallet
 												)}
 											</p>
@@ -407,7 +243,7 @@ const ProfileUpdate = () => {
 						)}
 
 						{/* Gateway Profile - Credentials */}
-						{userInfo?.credentials?.items?.length > 0 && (
+						{userInfo?.credentials?.length > 0 && (
 							<div className='gway-prfile-col'>
 								<div className='gway-about-hd'>
 									<h2>Experience</h2>
@@ -438,24 +274,24 @@ const ProfileUpdate = () => {
 										<div className='experience-profile-inner-section'>
 											<div className='creative-icon'>
 												<img
-													src={value[0]?.organization?.logoURL}
+													src={value[0]?.dao?.logo_url}
 													alt='image'
 												/>
 											</div>
 											<div className='finance-date'>
 												<div className='experience-profile-heading'>
-													<h3>{value[0]?.organization?.name}</h3>
+													<h3>{value[0]?.dao?.name}</h3>
 												</div>
 												<p>
 													{/* {value[0]?.organization?.name} */}
 													<span>
 														{MONTHS[
 															new Date(
-																value[0]?.createdAt
+																value[0]?.created_at
 															).getMonth()
 														].slice(0, 3)}{' '}
 														{new Date(
-															value[0]?.createdAt
+															value[0]?.created_at
 														).getFullYear()}
 													</span>
 												</p>
@@ -494,49 +330,6 @@ const ProfileUpdate = () => {
 					</Col>
 
 					<Col md={3}>
-						{/* {(userInfo?.timezone?.shouldTrack || canEdit) && (
-							<div className='gateway-profile-right'>
-								<div className='gateway-profile-right-top'>
-									<p>Time Zone</p>
-									<a>
-										<FaMapMarkerAlt color='white' />
-									</a>
-								</div>
-								<div className='gateway-profile-right-content'>
-									<img src='/profile/weather.svg' />
-									{getWeatherIcon()}
-									<h3>
-										{currentTime.toLocaleTimeString(
-											'en-US',
-											{
-												hour: 'numeric',
-												minute: 'numeric',
-												hour12: true,
-												...(currentLocation.tz.name && {
-													timeZone:
-														currentLocation.tz.name,
-												}),
-											}
-										)}
-									</h3>
-									<span>
-										{currentLocation.tz.name}
-										{currentLocation.tz.abbreviated} (
-										{
-											new Date().toLocaleTimeString('en-us', {
-												timeZoneName: 'short',
-												...(currentLocation.tz.name && {
-													timeZone:
-														currentLocation.tz.name,
-												})
-											})
-												.split(' ')[2]
-										}
-										)
-									</span>
-								</div>
-							</div>
-						)} */}
 						<div className='gateway-skill gway-skill-col skill-second-sec'>
 							<div className='gway-skill-col-hd'>
 								<h3>Skills</h3>

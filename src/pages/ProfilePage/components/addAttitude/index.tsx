@@ -93,7 +93,7 @@ const AddAttitude: React.FC = () => {
 	}
 
 	return (
-		<Space>
+		<>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
@@ -188,7 +188,7 @@ const AddAttitude: React.FC = () => {
 					</Container>
 				</div>
 			</div>
-		</Space>
+		</>
 	);
 };
 

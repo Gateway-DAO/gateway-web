@@ -2,7 +2,6 @@
 import { useParams, Navigate, Outlet } from 'react-router-dom';
 
 // Hooks
-import { gql, useQuery } from '@apollo/client';
 import { useAuth } from '../../contexts/UserContext';
 
 // Components
@@ -15,10 +14,12 @@ import Loader from '../../components/Loader';
 import { LoaderBox } from './pages/DaoGate/style';
 
 // API
-import { getGate, listGates, listUsers } from '../../graphql/queries';
-import { Gate, User } from '../../graphql/API';
-import { useGateAdmin } from '../../hooks/useAdmin';
 import { useWeb3React } from '@web3-react/core';
+import { Gates, Key_Progress, useGetGateQuery, useGetGateUsersQuery, useGetKeyProgressQuery, Users } from '../../graphql';
+
+// Types
+import { PartialDeep } from 'type-fest';
+import { useGateAdmin } from '../../hooks/useAdmin';
 
 /**
  * This function is responsible for rendering the page
@@ -27,7 +28,7 @@ import { useWeb3React } from '@web3-react/core';
 const GatePage: React.FC = () => {
     // State
     const { gate } = useParams();
-    const { userInfo, activateWeb3, loggingIn, loadingWallet }: { userInfo?: User; activateWeb3?(): Promise<boolean>; loggingIn?: boolean; loadingWallet?: boolean; } =
+    const { userInfo, activateWeb3, loggingIn, loadingWallet }: { userInfo?: Users; activateWeb3?(): Promise<boolean>; loggingIn?: boolean; loadingWallet?: boolean; } =
         useAuth();
     const { active } = useWeb3React();
     const [didConnect, setDidConnect] = useState(true);
@@ -37,96 +38,35 @@ const GatePage: React.FC = () => {
         data: dbData,
         loading: gateLoading,
         error,
-    } = useQuery(gql(getGate), {
+    } = useGetGateQuery({
         variables: {
             id: gate,
-        },
+            permissions_where: {
+                permission: {
+                    _in: ["admin", "gate_editor"]
+                }
+            }
+        }
     });
 
     const {
-        data: adminsData,
-        loading: adminsLoading,
-        error: adminsError,
-    } = useQuery(gql(listUsers), {
+        data: keyProgressData,
+        loading: keyProgressLoading
+    } = useGetKeyProgressQuery({
         variables: {
-            filter: {
-                ...(dbData &&
-                    dbData?.getGate.admins.length > 0 && {
-                        or: dbData?.getGate.admins.map((admin) => ({
-                            id: {
-                                eq: admin,
-                            },
-                        })),
-                    }),
-            },
-        },
-    });
-
-    const {
-        data: earnersData,
-        loading: earnersLoading,
-        error: earnersError,
-    } = useQuery(gql(listUsers), {
-        variables: {
-            filter: {
-                ...(dbData &&
-                    dbData?.getGate.admins.length > 0 && {
-                        or: dbData?.getGate.retroactiveEarners.map((admin) => ({
-                            wallet: {
-                                eq: admin,
-                            },
-                        })),
-                    }),
-            },
-        },
-    });
-
-    const {
-        data: preRequisitesData,
-        loading: preRequisitesLoading,
-        error: preRequisitesError,
-    } = useQuery(gql(listGates), {
-        variables: {
-            filter: {
-                ...(dbData &&
-                    dbData?.getGate.preRequisites.completedGates.length > 0 && {
-                        or: dbData?.getGate.preRequisites.completedGates.map(
-                            (gateID) => ({
-                                id: {
-                                    eq: gateID,
-                                },
-                            })
-                        ),
-                    }),
-            },
-        },
-    });
+            where: {
+                gate_id: {
+                    _eq: gate
+                },
+                user_id: {
+                    _eq: userInfo?.id
+                }
+            }
+        }
+    })
 
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
-    const [gateData, setGateData] = useState<Gate | null>(dbData?.getGate || {});
-    const [keysDone, setKeysDone] = useState<number>(
-        userInfo?.gates?.items?.filter(
-            (obj: Record<string, any>) => obj.gateID === gate
-        )[0]?.keysDone || 0
-    );
-    const [taskStatus, setTaskStatus] = useState(
-        userInfo?.gates?.items?.filter(
-            (obj: Record<string, any>) => obj.gateID !== gate
-        ).length > 0
-            ? userInfo?.gates?.items
-                  ?.filter((obj: Record<string, any>) => obj.gateID !== gate)[0]
-                  .tasks?.items?.map(
-                      (obj: Record<string, any>) =>
-                          obj.userID === userInfo.id && obj
-                  )
-            : []
-    );
-    const [admins, setAdmins] = useState<User[]>(adminsData?.listUsers.items);
-    const [earners, setEarners] = useState<User[]>(earnersData?.listUsers.items);
-    const [isAdmin, setIsAdmin] = useState<boolean>(false);
-    const [preRequisites, setPreRequisites] = useState<Gate[]>(
-        preRequisitesData?.listGates.items
-    );
+    const { isEditor } = useGateAdmin(gate);
 
     useEffect(() => {
         !active && activateWeb3().then(setDidConnect);
@@ -135,59 +75,10 @@ const GatePage: React.FC = () => {
     /* This is a React Hook that is being used to check if the data has been loaded. If the data has
     been loaded, then the `loaded` state is set to `true`. */
     useEffect(() => {
-        let loading = (gateLoading && !dbData?.getGate) || ((loadingWallet || loggingIn) || typeof userInfo === "undefined") || (adminsLoading && !adminsData?.listUsers) || (preRequisitesLoading && !preRequisitesData?.listGates);
-
-        if (!loading && (dbData?.getGate || false)) {
-            setGateData(dbData.getGate);
-
-            console.log(dbData?.getGate?.admins);
-            console.log(userInfo);
-            
-            if (userInfo?.id && dbData?.getGate?.admins.includes(userInfo.id)) {
-                setIsAdmin(true);
-            }
-        }
+        let loading = (gateLoading && !dbData?.gates_by_pk) || ((loadingWallet || loggingIn) || typeof userInfo === "undefined") || isEditor == null;
 
         setInternalLoading(loading);
-    }, [gateLoading, dbData, loggingIn, userInfo, adminsLoading, admins, preRequisitesLoading, preRequisitesData]);
-
-    /* Fetching the data from the database. */
-    useEffect(() => {
-        setKeysDone(
-            userInfo?.gates?.items?.filter(
-                (obj: Record<string, any>) => obj.gateID === gate
-            )[0]?.keysDone || 0
-        );
-        setTaskStatus(
-            userInfo?.gates?.items?.filter(
-                (obj: Record<string, any>) => obj.gateID === gate && obj
-            ).length > 0
-                ? userInfo?.gates?.items
-                      ?.filter(
-                          (obj: Record<string, any>) =>
-                              obj.gateID === gate && obj
-                      )[0]
-                      .tasks?.items?.filter(
-                          (obj: Record<string, any>) =>
-                              obj.userID === userInfo.id
-                      )
-                : []
-        );
-    }, [gate, userInfo]);
-
-    useEffect(() => {
-        adminsData && setAdmins(adminsData?.listUsers.items);
-    }, [gate, adminsData]);
-
-    useEffect(() => {
-        preRequisitesData &&
-            setPreRequisites(preRequisitesData?.listGates.items);
-    }, [gate, preRequisitesData]);
-
-    useEffect(() => {
-        earnersData &&
-            setEarners(earnersData?.listUsers.items);
-    }, [gate, earnersData]);
+    }, [gateLoading, dbData, loggingIn, userInfo, isEditor]);
 
     /* This is a catch-all error handler. If there is an error, it will be logged to the console and
     the user will be redirected to the 404 page. */
@@ -209,10 +100,10 @@ const GatePage: React.FC = () => {
         );
     } else {
         if ((
-            !isAdmin &&
-            (gateData.published == 'NOT_PUBLISHED' ||
-                gateData.published == 'PAUSED')
-        ) ) {
+            !isEditor &&
+            (dbData?.gates_by_pk.published == 'not_published' ||
+                dbData?.gates_by_pk.published == 'paused')
+        )) {
             return <Navigate to='/not-authorized' />;
         }
     }
@@ -222,17 +113,15 @@ const GatePage: React.FC = () => {
             <Outlet
                 context={{
                     gateData: {
-                        ...gateData,
-                        holders: dbData?.getGate?.holders || 0,
-                        keysDone,
-                        taskStatus,
-                        adminList: admins || [],
-                        preRequisitesList: preRequisites || [],
-                        retroactiveEarnersList: earners || [],
+                        ...dbData?.gates_by_pk,
+                        holders: dbData?.gates_by_pk.holders.length || 0,
+                        keysDone: keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0),
+                        taskStatus: keyProgressData?.key_progress || [],
+                        adminList: dbData?.gates_by_pk.permissions.map(perms => perms.user) || [],
+                        retroactiveEarnersList: dbData?.gates_by_pk.earners?.map(earner => earner.user) || [],
                     },
-                    setGateData,
                     loading: internalLoading,
-                    isAdmin,
+                    isEditor,
                 }}
             />
         </Page>

@@ -9,16 +9,14 @@ import {
 import { Container, Button, Form } from 'react-bootstrap';
 import { useAuth } from '../../../../contexts/UserContext';
 
-import useFileUpload from '../../../../api/useFileUpload';
+import { useFile } from '../../../../api/useFile';
 import normalizeUrl from 'normalize-url';
 import './CompleteProfile.css';
 import Page from '../../../../components/Page';
 import { FormStyled, RawImageUpload } from '../../../../components/Form';
 import { FaTrashAlt } from 'react-icons/fa';
-import { useLazyQuery, gql } from '@apollo/client';
-import { getUserByUsername } from '../../../../graphql/queries';
-import { usernameGenerator } from '../../../../utils/functions';
 import Space from '../../../../components/Space';
+import { useGetUserByUsernameLazyQuery } from '../../../../graphql';
 import Loader from '../../../../components/Loader';
 
 const platforms = [
@@ -44,9 +42,9 @@ interface IErrors {
 
 const CompleteProfile: React.FC = () => {
 	// Hooks
-	const { uploadFile } = useFileUpload();
+	const { uploadFile } = useFile();
 	const navigate = useNavigate();
-	const [getUser, { data }] = useLazyQuery(gql(getUserByUsername));
+	const [getUser, { data }] = useGetUserByUsernameLazyQuery();
 	const {
 		updateUserInfo,
 	}: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
@@ -58,7 +56,6 @@ const CompleteProfile: React.FC = () => {
 	const [isValidated, setIsValidated] = useState(false);
 	const [defaultPfp, setDefaultPfp] = useState(userInfo?.pfp || null);
 	const [file, setFile] = useState(null);
-	const [tz, setTZ] = useState(userInfo?.timezone?.shouldTrack || false);
 	const [user, setUser] = useState({
 		displayName: userInfo?.name || '',
 		userName: userInfo?.username || '',
@@ -107,7 +104,7 @@ const CompleteProfile: React.FC = () => {
 		if (
 			user.userName !== userInfo?.username &&
 			user.userName.length != 0 &&
-			data.getUserByUsername.items.length > 0
+			data.users.length > 0
 		)
 			errors.userName = 'This username is already taken!';
 
@@ -201,20 +198,17 @@ const CompleteProfile: React.FC = () => {
 			try {
 				// Upload files to S3
 				setIsLoading(true);
-				const avatarURL = file
-					? await uploadFile(
-						`users/${userInfo.id}/${Date.now()}/file.name
-							.split('.')
-							.pop()}`,
+				const pfp = file
+					? `http://api.staging.mygateway.xyz/storage/file?key=${(await uploadFile(
 						file,
-						{ contentType: `image` }
-					)
+						`users/${userInfo.id}/${Date.now()}/`
+					)).key}`
 					: defaultPfp;
 
 				await updateUserInfo({
 					name: user.displayName,
 					username: user.userName.toLowerCase(),
-					pfp: avatarURL,
+					pfp,
 					bio: user.userBio,
 					socials: user.socials
 						.filter((social) => social.platform_value !== null)
@@ -223,11 +217,8 @@ const CompleteProfile: React.FC = () => {
 							url: normalizeUrl(social.platform_value, {
 								forceHttps: true,
 							}),
+							user_id: userInfo.id
 						})),
-					timezone: {
-						shouldTrack: tz,
-						...(tz && { tz: Intl.DateTimeFormat().resolvedOptions().timeZone })
-					},
 					init: true,
 				});
 
@@ -249,7 +240,7 @@ const CompleteProfile: React.FC = () => {
 	}
 
 	return (
-		<Space>
+		<>
 			<div className='main-about-section'>
 				<Container>
 					<div className='back-link'>
@@ -497,7 +488,7 @@ const CompleteProfile: React.FC = () => {
 					</Container>
 				</div>
 			</div>
-		</Space>
+		</>
 	);
 };
 

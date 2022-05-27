@@ -4,41 +4,44 @@ import * as ModalStyled from '../style';
 import { FormStyled, ImageUpload } from '../../Form';
 import { useState } from 'react';
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
-import { useUpdateDAO } from '../../../api/database/useUpdateDAO';
 import { Navigate } from 'react-router-dom';
-import useFileUpload from '../../../api/useFileUpload';
+import useFile from '../../../api/useFile';
 import normalizeUrl from 'normalize-url';
 import Loader from '../../Loader';
 import { ytVideoID } from '../../../utils/functions';
+import { useUpdateDaoMutation, useUpdateDaoSocialsMutation } from '../../../graphql';
 
 const EditCardModal = (props) => {
     const [name, setName] = useState(props.name);
     const [backgroundFile, setBackgroundFile] = useState(null);
-    const [youtubeURL, setYoutubeURL] = useState(props.youtubeURL || '');
+    const [youtubeURL, setYoutubeURL] = useState(props.youtube_url || '');
     const [validYoutubeURL, setValidYoutubeURL] = useState(true);
     const [logoFile, setLogoFile] = useState(null);
-    const [tokenAddress, setTokenAddress] = useState(props.tokenAddress);
+    const [tokenAddress, setTokenAddress] = useState(props.token);
     const [description, setDescription] = useState(props.description);
     const [categories, setCategories] = useState(props.categories);
     const [socials, setSocials] = useState(props.socials || []);
-    const [snapshotID, setSnapshotID] = useState(props.snapshotID);
+    const [snapshotID, setSnapshotID] = useState(props.ens);
     const [chains, setChains] = useState(props.chains || []);
-    const [whitelistedAddresses, setWhitelistedAddresses] = useState(
-        props.whitelistedAddresses || ['']
-    );
     const [errorMessage, setErrorMessage] = useState(
         'An error occurred. Try again later!'
     );
     const [updateLoading, setUpdateLoading] = useState(false);
 
-    const { updateDAO, data, error, loading } = useUpdateDAO();
-    const { uploadFile } = useFileUpload();
+    const [updateDAO, { error }] = useUpdateDaoMutation();
+    const [updateSocials] = useUpdateDaoSocialsMutation();
+    const [admins, setAdmins] = useState(props.permissions.map(perms => ({
+        wallet: perms.user.wallet,
+        id: perms.user.id
+    })))
+
+    const { uploadFile } = useFile();
 
     const submitToDB = async () => {
         setUpdateLoading(true);
         try {
             // Upload files to S3
-            if ((logoFile === null && props.logoURL === null) || (backgroundFile === null && props.backgroundURL === null)) {
+            if ((logoFile === null && props.logo_url === null) || (backgroundFile === null && props.background_url === null)) {
                 setErrorMessage('Files not uploaded');
                 console.log(logoFile);
                 console.log(backgroundFile);
@@ -55,48 +58,48 @@ const EditCardModal = (props) => {
             const logoURL =
                 logoFile ?
                 (await uploadFile(
-                    `daos/${props.id}/logo.${logoFile.name.split('.').pop()}`,
-                    logoFile
-                )) : props.logoURL;
+                    logoFile,
+                    `/daos/${props.id}/`
+                )) : props.logo_url;
             const backgroundURL =
                 backgroundFile ?
                 (await uploadFile(
-                    `daos/${props.id}/background.${backgroundFile.name
-                        .split('.')
-                        .pop()}`,
-                    backgroundFile
-                )) : props.backgroundURL;
+                    backgroundFile,
+                    `/daos/${props.id}/`
+                )) : props.background_url;
 
             const newInfo = {
                 name,
-                ...(backgroundFile ? { backgroundURL } : {}),
+                ...(backgroundFile ? { background_url: backgroundURL } : {}),
                 ...(youtubeURL && validYoutubeURL
                     ? {
-                          youtubeURL: normalizeUrl(youtubeURL, {
+                          youtube_url: normalizeUrl(youtubeURL, {
                               defaultProtocol: 'https:',
                           }),
                       }
                     : {}),
-                ...(logoFile ? { logoURL } : {}),
-                tokenAddress,
+                ...(logoFile ? { logo_url: logoURL } : {}),
+                token: tokenAddress,
                 description,
                 categories,
-                socials: socials.map((social) => {
-                    return { network: social.network, url: social.url };
-                }),
                 chains,
-                whitelistedAddresses,
-                snapshotID,
+                ens: snapshotID,
             };
 
             await updateDAO({
                 variables: {
-                    input: {
-                        id: props.id,
-                        ...newInfo,
-                    },
+                    id: props.id,
+                    set: newInfo,
                 },
             });
+
+            await updateSocials({
+                variables: {
+                    objects: socials.map((social) => {
+                        return { dao_id: props.id, network: social.network, url: social.url };
+                    })
+                }
+            })
 
             props.changeDAOData(newInfo);
             props.toggle();
@@ -190,13 +193,13 @@ const EditCardModal = (props) => {
                     htmlFor='logo'
                     label='Logo'
                     setImage={setLogoFile}
-                    defaultImageURL={props.logoURL}
+                    defaultImageURL={props.logo_url}
                 />
                 <ImageUpload
                     htmlFor='background'
                     label='Background'
                     setImage={setBackgroundFile}
-                    defaultImageURL={props.backgroundURL}
+                    defaultImageURL={props.background_url}
                 />
 
                 <FormStyled.Fieldset>
@@ -483,11 +486,12 @@ const EditCardModal = (props) => {
                     </Styled.GridBox>
                 </FormStyled.Fieldset>
 
+                {/*
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='whitelistedAddress'>
-                        Whitelisted Addresses
+                        Admins
                     </FormStyled.Label>
-                    {whitelistedAddresses.map((address, idx) => {
+                    {admins.map((admin, idx) => {
                         return (
                             <FormStyled.InputWrapper key={idx}>
                                 <FormStyled.Input
@@ -496,12 +500,12 @@ const EditCardModal = (props) => {
                                     onChange={(e) =>
                                         changeWhitelistedAddress(e, idx)
                                     }
-                                    value={whitelistedAddresses[idx]}
+                                    value={admins[idx]}
                                 />
                                 <FormStyled.IconButton
                                     onClick={() =>
                                         setWhitelistedAddresses(
-                                            whitelistedAddresses.filter(
+                                            admins.filter(
                                                 (addr, index) => idx !== index
                                             )
                                         )
@@ -525,6 +529,7 @@ const EditCardModal = (props) => {
                         <FaPlus />
                     </FormStyled.IconButton>
                 </FormStyled.Fieldset>
+                */}
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='tokenAddress'>

@@ -1,10 +1,8 @@
 import React from 'react';
 
-// Types
-import { Credential } from '../../../../../../graphql/API';
-
 // Components
 import { Col } from 'react-bootstrap';
+import { NavLink as Link } from 'react-router-dom';
 
 // Styling
 import '../../Profile.css';
@@ -12,12 +10,13 @@ import '../../Profile.css';
 // Utils
 import { MONTHS } from '../../../../../../utils/constants';
 
-import { NavLink as Link } from 'react-router-dom';
+// Types
+import { Credentials } from '../../../../../../graphql';
 
 /* This is a TypeScript interface. It is a way to define the shape of an object. In this case, the
 shape of the object is `IProps`. */
 interface IProps {
-    credential: Credential;
+    credential: Partial<Credentials>;
 }
 
 /**
@@ -45,9 +44,9 @@ const CredentialCard: React.FC<IProps> = ({ credential }: IProps) => (
                         Earned{' '}
                         <span>
                             {MONTHS[
-                                new Date(credential.createdAt).getMonth()
+                                new Date(credential.created_at).getMonth()
                             ].slice(0, 3)}{' '}
-                            {new Date(credential.createdAt).getFullYear()}
+                            {new Date(credential.created_at).getFullYear()}
                         </span>
                     </p>
                 </div>

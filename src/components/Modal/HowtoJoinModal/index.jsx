@@ -11,13 +11,12 @@ import Modal from '../index';
 import Loader from '../../Loader';
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
 
-// API
-import { useMutation, gql } from '@apollo/client';
-import { updateDao } from '../../../graphql/mutations';
+// Hooks
+import { useUpdateDaoMutation } from '../../../graphql';
 
 const HowtoJoinModal = (props) => {
     const [inputs, setInputs] = useState(props.data);
-    const [updateDAO, { loading, error }] = useMutation(gql(updateDao));
+    const [updateDAO, { loading, error }] = useUpdateDaoMutation();
 
     const submitToDB = async () => {
         const newHTJ = inputs
@@ -28,9 +27,9 @@ const HowtoJoinModal = (props) => {
 
         await updateDAO({
             variables: {
+                id: props.id,
                 input: {
-                    id: props.id,
-                    howToJoin: newHTJ,
+                    how_to_join: newHTJ,
                 },
             },
         });

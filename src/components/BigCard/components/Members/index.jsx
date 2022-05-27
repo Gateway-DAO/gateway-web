@@ -2,9 +2,9 @@ import * as Styled from './style';
 import { useEffect, useState } from 'react';
 
 import UserCard from '../../../UserCard';
-import { useLazySearchUsers } from '../../../../api/database/useSearchUser';
 
 const Members = (props) => {
+    /*
     const [hits, setHits] = useState([]);
     const { searchUsers, data, loading, error } = useLazySearchUsers();
 
@@ -40,6 +40,7 @@ const Members = (props) => {
             ))}
         </Styled.UserCardBox>
     );
+    */
 };
 
 export default Members;

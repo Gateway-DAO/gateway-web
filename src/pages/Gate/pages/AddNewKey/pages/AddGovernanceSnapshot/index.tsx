@@ -6,6 +6,8 @@ import { useOutletContext } from 'react-router-dom';
 import Loader from '../../../../../../components/Loader';
 import { FormikContextType } from 'formik';
 import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Gates, useCreateKeyMutation } from '../../../../../../graphql';
 
 interface Key {
     taskLink: string;
@@ -27,54 +29,54 @@ enum ActiveGovernance {
 
 const AddGovernanceSnapshot = () => {
     const {
-        formik,
         edit,
-        loading,
+        gateData,
         setBackButton,
-        setValidator,
+        setCreatedKey
     }: {
-        formik: FormikContextType<Key>;
         edit: boolean;
+        gateData: Gates;
         loading: boolean;
         setBackButton(obj: Record<string, string | number>): void;
-        setValidator(func: () => void): void;
+        setCreatedKey(any): any;
     } = useOutletContext();
 
-    /**
-     * It checks if the address is a valid address.
-     */
-    const validate = (values) => {
-        // eslint-disable-next-line prefer-const
-        let errors: Record<string, string> = {};
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useFormContext();
 
-        if (!values.govActive) {
-            errors.govActive = 'You need to pick one';
-        }
-
-        if (!values.spaceID) {
-            errors.spaceID = 'Required';
-        }
-
-        /*
-        if ((values.govActive = ActiveGovernance.VOTE && !values.proposal)) {
-            errors.proposal = 'Required';
-        }
-        */
-
-        return errors;
-    };
+    const [createKey, { loading }] = useCreateKeyMutation()
 
     useEffect(() => {
         setBackButton({
             url: -1,
             text: 'Add a New Key',
         });
-
-        setValidator(() => validate);
     }, []);
 
+    const onSubmit = async data => {
+        await createKey({
+            variables: {
+                object: {
+                    gate_id: gateData.id,
+                    information: data.titleDescriptionPair,
+                    keys: data.keysRewarded,
+                    people_limit: data.peopleLimit || 0,
+                    unlimited: data.unlimited,
+                    task_type: 'snapshot',
+                    task: {
+                        type: 'snapshot',
+                        snapshotType: data.govActive.toUpperCase(),
+                        spaceID: data.spaceID,
+                        proposal: data.proposal,
+                    }
+                },
+            }
+        })
+
+        setCreatedKey(true);
+    }
+
     return (
-        <FormStyled.FormBox onSubmit={formik.handleSubmit}>
+        <FormStyled.FormBox onSubmit={handleSubmit(onSubmit)}>
             <FormStyled.H1>
                 {edit ? 'Edit Snapshot Governance' : 'Add Snapshot Governance'}
             </FormStyled.H1>
@@ -83,7 +85,7 @@ const AddGovernanceSnapshot = () => {
                     cols='2'
                     gap='30px'
                     onChange={(e) =>
-                        formik.setFieldValue('govActive', e.target.value)
+                        setValue('govActive', e.target.value)
                     }
                 >
                     <FormStyled.BigRadio
@@ -92,7 +94,7 @@ const AddGovernanceSnapshot = () => {
                         value={ActiveGovernance.PROPOSAL as string}
                         label='Create a Proposal'
                         checked={
-                            formik.values.govActive ===
+                            watch('govActive') ===
                             ActiveGovernance.PROPOSAL
                         }
                     />
@@ -102,53 +104,51 @@ const AddGovernanceSnapshot = () => {
                         value={ActiveGovernance.VOTE as string}
                         label='Vote'
                         checked={
-                            formik.values.govActive === ActiveGovernance.VOTE
+                            watch('govActive') === ActiveGovernance.VOTE
                         }
                     />
                 </FormStyled.GridBox>
             </FormStyled.Fieldset>
 
-            {formik.values.govActive === ActiveGovernance.VOTE && (
+            {watch('govActive') === ActiveGovernance.VOTE && (
                 <FormStyled.Fieldset>
                     <FormStyled.Label>Specific Proposal*</FormStyled.Label>
                     <FormStyled.Input
-                        value={formik.values.proposal}
-                        onChange={formik.handleChange}
+                        {...register('proposal', { required: true })}
                         name='proposal'
                         placeholder='Input Snapshot Number'
-                        valid={!formik.errors.proposal}
-                        required
+                        value={watch('proposal')}
+                        valid={!errors.proposal}
                     />
-                    {formik.errors.proposal && (
+                    {errors.proposal && (
                         <FormStyled.SubText>
-                            {formik.errors.proposal}
+                            {errors.proposal}
                         </FormStyled.SubText>
                     )}
                 </FormStyled.Fieldset>
             )}
 
-            {(formik.values.govActive === ActiveGovernance.PROPOSAL ||
-                formik.values.govActive === ActiveGovernance.VOTE) && (
+            {(watch('govActive')=== ActiveGovernance.PROPOSAL ||
+                watch('govActive')=== ActiveGovernance.VOTE) && (
                 <FormStyled.Fieldset>
                     <FormStyled.Label>Space ID*</FormStyled.Label>
                     <FormStyled.Input
-                        value={formik.values.spaceID}
-                        name='spaceID'
-                        onChange={formik.handleChange}
+                        {...register('spaceID', { required: true })}
                         placeholder='Use an existing ENS name'
-                        valid={!formik.errors.spaceID}
+                        valid={!errors.spaceID}
+                        value={watch('spaceID')}
                         required
                     />
-                    {formik.errors.spaceID && (
+                    {errors.spaceID && (
                         <FormStyled.SubText>
-                            {formik.errors.spaceID}
+                            {errors.spaceID}
                         </FormStyled.SubText>
                     )}
                 </FormStyled.Fieldset>
             )}
 
             <FormStyled.Button type='submit'>
-                {formik.isSubmitting && <Loader color='white' />}
+                {loading && <Loader color='white' />}
                 Submit
             </FormStyled.Button>
         </FormStyled.FormBox>

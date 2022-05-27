@@ -1,0 +1,277 @@
+### Queries ###
+
+query getUserByUsername($username: String!) {
+    users(where: { username: { _eq: $username } }) {
+        about
+        attitudes
+        bio
+        blacklistedFlags
+        createdAt
+        device
+        id
+        init
+        knowledges
+        languages
+        name
+        pfp
+        skills
+        socials {
+            network
+            url
+        }
+        updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
+        username
+        wallet
+        whitelistedFlags
+        gate_progresses {
+            created_at
+            gate_id
+            id
+            status
+            updated_at
+        }
+    }
+}
+
+query getUserByAddress($wallet: String!) {
+    users(where: { wallet: { _eq: $wallet } }) {
+        about
+        attitudes
+        bio
+        blacklistedFlags
+        createdAt
+        device
+        id
+        init
+        knowledges
+        languages
+        name
+        pfp
+        skills
+        socials {
+            network
+            url
+        }
+        updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
+        username
+        wallet
+        whitelistedFlags
+        gate_progresses {
+            created_at
+            gate_id
+            id
+            status
+            updated_at
+        }
+    }
+}
+
+query listUsers {
+    users {
+        about
+        attitudes
+        bio
+        blacklistedFlags
+        createdAt
+        device
+        id
+        init
+        knowledges
+        languages
+        name
+        pfp
+        skills
+        socials {
+            network
+            url
+        }
+        updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
+        username
+        wallet
+        whitelistedFlags
+        gate_progresses {
+            created_at
+            gate_id
+            id
+            status
+            updated_at
+        }
+    }
+}
+
+### Mutations ###
+
+mutation createUser($object: users_insert_input = {}) {
+    insert_users_one(object: $object) {
+        about
+        attitudes
+        bio
+        blacklistedFlags
+        createdAt
+        device
+        id
+        init
+        knowledges
+        languages
+        name
+        pfp
+        skills
+        socials {
+            network
+            url
+        }
+        updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
+        username
+        wallet
+        whitelistedFlags
+    }
+}
+
+mutation updateUser($set: users_set_input = {}, $id: uuid = "") {
+    update_users_by_pk(pk_columns: { id: $id }, _set: $set) {
+        about
+        attitudes
+        bio
+        blacklistedFlags
+        createdAt
+        device
+        id
+        init
+        knowledges
+        languages
+        name
+        pfp
+        skills
+        socials {
+            network
+            url
+        }
+        updatedAt
+        credentials {
+            attitudes
+            ceramic
+            created_at
+            dao_id
+            dao {
+                logo_url
+                name
+            }
+            description
+            gate
+            id
+            image
+            issuer_id
+            knowledges
+            name
+            pow
+            skills
+            target_id
+            updated_at
+        }
+        username
+        wallet
+        whitelistedFlags
+    }
+}
+
+mutation updateSocials($objects: [user_socials_insert_input!] = {}) {
+    insert_user_socials(
+        objects: $objects
+        on_conflict: {
+            constraint: user_socials_user_id_network_key
+            update_columns: url
+        }
+    ) {
+        affected_rows
+    }
+}
+
+mutation deleteUser($id: uuid!) {
+    delete_users_by_pk(id: $id) {
+        id
+    }
+}

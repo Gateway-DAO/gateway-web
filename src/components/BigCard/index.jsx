@@ -43,7 +43,7 @@ const NewCard = (props) => {
     const web3 = useWeb3React();
     const navigate = useNavigate();
     const history = createBrowserHistory();
-    const { isAdmin } = useAdmin(props.whitelistedAddresses);
+    const { isAdmin } = useAdmin(props.id);
     const [viewAsMember, setViewAsMember] = useState(!isAdmin);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -269,12 +269,6 @@ const NewCard = (props) => {
         switch (searchParams.get('tab')) {
             case 'profile':
                 return <Profile {...props} viewAsMember={viewAsMember} />;
-            /*
-            case 'feed':
-                return <Feed {...props} />;
-            case 'members':
-                return <Members daoName={props.name} />;
-            */
             case 'gates':
                 return <Gates {...props} viewAsMember={viewAsMember} />;
             case 'Plugins':
@@ -292,7 +286,7 @@ const NewCard = (props) => {
                 <Modals />
                 <Styled.ProfileInfoWrapper>
                     <Styled.ProfileInfoContainer>
-                        <Styled.ProfileImageContainer src={props?.logoURL} />
+                        <Styled.ProfileImageContainer src={props?.logo_url} />
                         <Styled.DaoBioInfo>
                             <Styled.DaoTagContainer>
                                 {props.categories.map((category, idx) => (
@@ -324,7 +318,7 @@ const NewCard = (props) => {
                             <Styled.SocialContainer>
                                 {socials}
                                 {web3.active &&
-                                    props.tokenAddress &&
+                                    props.token &&
                                     props.showTokenFeed && (
                                         <Styled.TokenHolding>
                                             <Styled.TokenText>
@@ -381,33 +375,6 @@ const NewCard = (props) => {
                         >
                             Profile
                         </Styled.SelectedTab>
-
-                        {/*
-                        <Styled.SelectedTab
-                            showActive={searchParams.get('tab') === 'feed'}
-                            onClick={() => setSearchParams({ tab: 'feed' })}
-                        >
-                            Discussion
-                        </Styled.SelectedTab>
-                        */}
-
-                        {/*
-                        <Styled.SelectedTab
-                            showActive={searchParams.get('tab') === 'members'}
-                            onClick={() => setSearchParams({ tab: 'members' })}
-                        >
-                            Members
-                        </Styled.SelectedTab>
-                        */}
-
-                        {/*
-                        <Styled.SelectedTab
-                            showActive={activeTab === 'Plugins'}
-                            onClick={() => setActiveTab('Plugins')}
-                        >
-                            Plugins
-                        </Styled.SelectedTab>
-                        */}
                     </Styled.ProfileDiv>
                     {isAdmin && (
                         <Styled.AdminAndMemberViewWrapper>
@@ -419,20 +386,9 @@ const NewCard = (props) => {
                                     ? `View AS ADMIN`
                                     : `View AS MEMBER`}
                             </Styled.ChangeViewButton>
-                            {/* <Styled.ChangeViewButton
-                                active={viewAsMember}
-                                onClick={() => setViewAsMember(true)}
-                            >
-                                View AS MEMBER
-                            </Styled.ChangeViewButton> */}
                         </Styled.AdminAndMemberViewWrapper>
                     )}
                 </Styled.ProfileAndFeedContainer>
-                {/* {activeTab === 'profile' ? (
-                    <Profile {...props} />
-                ) : activeTab === 'feed' ? (
-                    <Feed cardName={props.id} />
-                ) : <Onboarding/>} */}
                 <ActiveTab />
             </Styled.DaoWrapper>
         </>

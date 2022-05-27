@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 const PINATA = {
-    key: 'fc6144cc69bc1f4061b5',
-    secret: 'f83edb3f5ac9cfff930880678ac72764af712779ce4ea8960883bb9f3dd95a99',
+    key: process.env.REACT_APP_PINATA_KEY,
+    secret: process.env.REACT_APP_PINATA_SECRET
 };
 
 export const uploadFileToIPFS = async (form) => {
     const res = await axios.post(
-        'https://api.pinata.cloud/pinning/pinFileToIPFS/',
+        'https://ipfs.mygateway.xyz/pinning/pinFileToIPFS/',
         form,
         {
             headers: {
@@ -23,7 +23,7 @@ export const uploadFileToIPFS = async (form) => {
 
 export const uploadMetadataToIPFS = async (obj) => {
     const res = await axios.post(
-        'https://api.pinata.cloud/pinning/pinJSONToIPFS/',
+        'https://ipfs.mygateway.xyz/pinning/pinJSONToIPFS/',
         obj,
         {
             headers: {

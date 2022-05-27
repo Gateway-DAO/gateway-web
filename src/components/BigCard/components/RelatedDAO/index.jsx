@@ -3,9 +3,9 @@ import CardsScrollWrapper from '../../../Card/CardsScrollWrapper';
 import * as Styled from './style';
 import React, { useEffect, useState } from 'react';
 
-import { useLazySearchDAO } from '../../../../api/database/useSearchDAO';
 import { useNavigate } from 'react-router-dom';
 import { createBrowserHistory } from "history";
+import { useSearchDaOsLazyQuery } from '../../../../graphql';
 
 const RelatedDAOSection = ({ name, categories }) => {
     const navigate = useNavigate();
@@ -13,12 +13,14 @@ const RelatedDAOSection = ({ name, categories }) => {
 
     const [limitedCards, setLimitedCards] = useState([]);
 
-    const {
+    const [
         searchDAO,
-        data: searchData,
-        loading: searchLoading,
-        error: searchError,
-    } = useLazySearchDAO();
+        {
+            data: searchData,
+            loading: searchLoading,
+            error: searchError,
+        }
+    ] = useSearchDaOsLazyQuery();
 
     const filterCurrent = (oldArray, checkName) => {
         return oldArray.filter((card) => card.name !== checkName);
@@ -28,15 +30,11 @@ const RelatedDAOSection = ({ name, categories }) => {
         categories.forEach(async (category) => {
             const res = await searchDAO({
                 variables: {
-                    filter: {
-                        categories: {
-                            match: category,
-                        },
-                    },
+                    query: category
                 },
             });
 
-            const data = res.data.searchDAOs.items;
+            const data = res.data.search_daos.hits;
 
             setLimitedCards((prev) => {
                 if (prev.length !== 0) {

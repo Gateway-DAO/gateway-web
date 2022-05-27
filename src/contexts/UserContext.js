@@ -4,29 +4,16 @@ import { v4 as uuidv4 } from 'uuid';
 // Web3
 import { shortenAddress } from '../utils/web3';
 import { useWeb3React } from '@web3-react/core';
-import {
-    updateUser as UPDATE_USER,
-    createUser as CREATE_USER,
-} from '../graphql/mutations';
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Portis from '@portis/web3';
 
-// AWS/GraphQL
-import awsconfig from '../aws-exports';
-import { getNonce } from '../api/database/getNonce';
-import { getUserByAddress as getUserByAddressQuery } from '../graphql/queries';
-import { useLazyQuery, gql, useMutation } from '@apollo/client';
-import Amplify, { Hub, Auth } from 'aws-amplify';
-import useGetFile from '../api/useGetFile';
+// GraphQL
 import { useModal } from './ModalContext';
 import { Web3ModalConnector } from '../utils/Web3ModalConnector';
-import getIPLocation, { getIP } from '../api/getIPLocation';
 import { usernameGenerator } from '../utils/functions';
+import { useGetUserByAddressLazyQuery, useUpdateUserMutation, useCreateUserMutation, useUpdateSocialsMutation} from '../graphql';
 import { useNavigate } from 'react-router-dom';
 // import use3ID from '../hooks/use3ID';
-
-Amplify.configure(awsconfig);
-Auth.configure(awsconfig);
 
 export const userContext = createContext({});
 const { Provider } = userContext;
@@ -101,26 +88,22 @@ export const UserProvider = ({ children }) => {
     const { showErrorModal } = useModal();
 
     // Database
-    const [getUserByAddress, { data: fetchedUserData }] = useLazyQuery(
-        gql(getUserByAddressQuery),
-        {
-            variables: {
-                wallet: web3.account,
-            },
+    const [getUserByAddress, { data: fetchedUserData }] = useGetUserByAddressLazyQuery({
+        variables: {
+            wallet: web3.account,
         }
-    );
-    const [updateUser] = useMutation(gql(UPDATE_USER));
-    const [createUser] = useMutation(gql(CREATE_USER));
-
-    const { getFile } = useGetFile();
-
+    });
+    const [updateUser] = useUpdateUserMutation();
+    const [createUser] = useCreateUserMutation();
+    const [updateSocials] = useUpdateSocialsMutation();
+    
     /* State */
     const [loggedIn, setLoggedIn] = useState(false);
     const [walletConnected, setWalletConnected] = useState(false);
     const [loggingIn, setLoggingIn] = useState(false);
     const [loadingWallet, setLoadingWallet] = useState(false);
     const [userInfo, setUserInfo] = useState(
-        fetchedUserData?.getUserByAddress?.items[0] || null
+        fetchedUserData?.users[0] || null
     );
 
     /**
@@ -174,30 +157,10 @@ export const UserProvider = ({ children }) => {
     };
 
     /**
-     * With the `signInUserSession` property, checks if loggedIn user is admin.
-     * @param signInUserSession - The user's sign-in session.
-     * @returns The object containing the `isAdmin` property.
-     */
-    const getUserGroups = (signInUserSession) => {
-        const rval = {};
-
-        if (
-            (
-                signInUserSession.idToken.payload['cognito:groups'] || []
-            ).includes('Admin')
-        ) {
-            rval.isAdmin = true;
-        }
-
-        return rval;
-    };
-
-    /**
      * Signs a user out of the platform, on Cognito.
      * @returns None
      */
     const userSignOut = async () => {
-        await Auth.signOut();
         await web3.deactivate();
         localStorage.setItem('gateway-wallet', '0');
         setLoggedIn(false);
@@ -211,11 +174,21 @@ export const UserProvider = ({ children }) => {
      * @returns None
      */
     const updateUserInfo = async (info) => {
+        const { socials, ...newInfo } = info;
         await updateUser({
             variables: {
-                input: { ...info, id: userInfo?.id || info?.id },
+                id: userInfo?.id || info?.id,
+                set: newInfo,
             },
         });
+
+        if (socials) {
+            await updateSocials({
+                variables: {
+                    objects: socials
+                }
+            })
+        }
 
         setUserInfo((prev) => ({
             ...prev,
@@ -230,38 +203,26 @@ export const UserProvider = ({ children }) => {
      */
     const createNewUser = async (info = { variables: { input: {} } }) => {
         if (web3.active && !!web3.account) {
-            const id = uuidv4();
-
-            await Auth.signUp({
-                username: id,
-                password: 'password',
-                attributes: {
-                    email: 'no-reply@mygateway.xyz',
-                },
-            });
-
             const user = await createUser({
                 ...info,
                 variables: {
-                    input: {
-                        id: id,
+                    object: {
                         wallet: web3.account,
                         username: usernameGenerator(),
                         name: shortenAddress(web3.account),
                         init: false,
-                        nonce: Math.round(Math.random() * 1000000),
-                        pfp: await getFile('logo.png'),
-                        timezone: {
-                            shouldTrack: false
-                        },
+                        pfp: `https://api.staging.mygateway.xyz/storage/file?key=logo.png`,
                         ...(info.variables.input || {}),
                     },
                 },
             });
 
-            setUserInfo(user.data.createUser);
+            setUserInfo({
+                ...user.data.insert_users_one,
+                ens: web3.chainId == 1 && await web3.library.lookupAddress(web3.account)
+            });
 
-            return user.data.createUser;
+            return user.data.insert_users_one;
         }
     };
 
@@ -273,29 +234,7 @@ export const UserProvider = ({ children }) => {
         const callback = async () => {
             !web3.active && (await activateWeb3());
 
-            const { data } = await getNonce(web3.account);
-
-            const signer = web3.library.getSigner();
-
-            const signature = await signer.signMessage(
-                `Welcome to Gateway!\n\nPlease sign this message for access: ${data.getAuthenticationNonce.nonce}`
-            );
-
-            const user = await Auth.signIn(data.getAuthenticationNonce.userId);
-            const res = await Auth.sendCustomChallengeAnswer(
-                user,
-                JSON.stringify({
-                    signature,
-                    publicAddress: web3.account,
-                    nonce: data.getAuthenticationNonce.nonce,
-                })
-            );
-
-            if (!res.signInUserSession) {
-                showErrorModal(
-                    'An error occurred while signing in. Please try again later.'
-                );
-            }
+            // TODO: implement authentication system
         };
 
         setLoggingIn(true);
@@ -311,9 +250,7 @@ export const UserProvider = ({ children }) => {
     /* If the user has their wallet connected, get the user's info from the database. */
     useEffect(() => {
         const callback = async () => {
-            // Since state update is asynchrounous, let's keep track of the current value using an internal variable
-            let userInfo_INTERNAL = userInfo;
-
+            // TODO: implement authentication method
             if (web3.active && web3.account) {
                 // 1. fetch/create user based on the wallet
                 const userDB = await getUserByAddress({
@@ -322,54 +259,17 @@ export const UserProvider = ({ children }) => {
                     },
                 });
 
-                if (userDB.data.getUserByAddress.items.length > 0) {
+                if (userDB.data.users.length > 0) {
                     setUserInfo({
-                        ...userDB.data.getUserByAddress.items[0],
+                        ...userDB.data.users[0],
+                        ens: web3.chainId == 1 && await web3.library.lookupAddress(web3.account),
                         isAdmin: false,
                     });
-
-                    userInfo_INTERNAL = {
-                        ...userDB.data.getUserByAddress.items[0],
-                        isAdmin: false,
-                    };
-
-                    try {
-                        const tz_info = Intl.DateTimeFormat().resolvedOptions();
-                        userInfo_INTERNAL.timezone.shouldTrack && await updateUserInfo({
-                            id: userInfo_INTERNAL.id,
-                            timezone: {
-                                tz: tz_info.timeZone,
-                            },
-                        });
-                    } catch (err) {
-                        console.log(`[sign-in] Can't get timezone: ${err}`);
-                    }
                 } else {
-                    userInfo_INTERNAL = await createNewUser();
+                    await createNewUser();
                 }
 
                 setWalletConnected(true);
-
-                // 2. check Cognito
-                const { username, signInUserSession } =
-                    await Auth.currentAuthenticatedUser();
-
-                if (username) {
-                    // Cognito has credentials
-                    if (username === userInfo_INTERNAL?.id) {
-                        // If the Cognito session matches current user, mark them as logged in
-                        setUserInfo({
-                            ...userInfo_INTERNAL,
-                            ...getUserGroups(signInUserSession),
-                        });
-
-                        setLoggedIn(true);
-                    } else {
-                        // If the Cognito session doesn't match the current user, clean Cognito
-                        await Auth.signOut();
-                        setLoggedIn(false);
-                    }
-                }
             }
         };
 
@@ -381,41 +281,6 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         JSON.parse(localStorage.getItem('gateway-wallet')) && activateWeb3();
     }, []);
-
-    useEffect(() => {
-        if (userInfo && !userInfo.init) {
-            navigate('/profile/complete-profile');
-        }
-    }, [userInfo]);
-
-    /**
-     * When the user signs in, get the user's information from the database and set it in the state.
-     * When the user signs out, set states to false.
-     * @returns None
-     */
-    const listener = async ({ payload: { event, data } }) => {
-        console.log('event', event);
-        switch (event) {
-            case 'signIn':
-                setUserInfo({
-                    ...userInfo,
-                    ...getUserGroups(data.signInUserSession),
-                });
-                setLoggedIn(true);
-                setLoggingIn(false);
-                break;
-            case 'signOut':
-                setLoggedIn(false);
-                setLoggingIn(false);
-                break;
-            default:
-        }
-    };
-
-    useEffect(() => {
-        Hub.listen('auth', listener);
-        return () => Hub.remove('auth', listener);
-    });
 
     const value = React.useMemo(
         () => ({

@@ -12,18 +12,10 @@ import Header from '../../components/Header';
 import Loader from '../../components/Loader';
 import { ImageUpload } from '../../components/Form';
 
-// AWS
-import Amplify from 'aws-amplify';
-import awsconfig from '../../aws-exports';
-
 // Hooks
-import { useSearchDAO } from '../../api/database/useSearchDAO';
-import { useListDAOs } from '../../api/database/useGetDAO';
-import { useFileUpload } from '../../api/useFileUpload';
-import { useGetFile } from '../../api/useGetFile';
+import { useFile } from '../../api/useFile';
 import { useAuth } from '../../contexts/UserContext';
-
-Amplify.configure(awsconfig);
+import { useSearchDaOsQuery } from '../../graphql';
 
 const CreateProfile = () => {
     const { userInfo, updateUserInfo } = useAuth();
@@ -41,37 +33,21 @@ const CreateProfile = () => {
     const [searchRes, setSearchRes] = useState([]);
     const [updateLoading, setUpdateLoading] = useState(false);
 
-    const {
-        loading: listLoading,
-        data: listData,
-        error: listError,
-    } = useListDAOs();
-
     // Search DAO
     const {
         loading: searchLoading,
         data: searchData,
         error: searchError,
-    } = useSearchDAO({
+    } = useSearchDaOsQuery({
         variables: {
-            filter: {
-                or: [
-                    { dao: { wildcard: `*${searchTerm.toLowerCase()}*` } },
-                    { name: { wildcard: `*${searchTerm.toLowerCase()}*` } },
-                    {
-                        description: {
-                            wildcard: `*${searchTerm.toLowerCase()}*`,
-                        },
-                    },
-                ],
-            },
-        },
-    });
+            query: searchTerm
+        }
+    })
+
     const [loading, setLoading] = useState(false);
 
     // Upload file hook
-    const { uploadFile, imgLoading } = useFileUpload();
-    const { getFile, imgLoading: getImgLoading } = useGetFile();
+    const { uploadFile, imgLoading } = useFile();
 
     // Handlers
     const changeSocial = (idx, e) => {
@@ -102,8 +78,8 @@ const CreateProfile = () => {
         const file = picture;
         // const { key } = await Storage.put(`users/${userInfo.wallet}/profile.${file.name.split('.').pop()}`, file)
         return await uploadFile(
-            `users/${userInfo.id}/profile.${file.name.split('.').pop()}`,
-            file
+            file,
+            `/users/${userInfo.id}/`
         );
     };
 
