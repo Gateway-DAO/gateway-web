@@ -6,7 +6,7 @@
 
 **Gateway** is the largest professional decentralized networking platform. Leveraging open and collaborative infrastructure, Gateway helps Web3 users to onboard into their favorite communities, build out their decentralized resumes, and begin developing credentials across the ecosystem. Users receive membership NFTs, reward NFTs, and community verified skills and competencies from DAOs.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), [AWS Amplify](https://aws.amazon.com/amplify/), [Apollo Client](https://www.apollographql.com/apollo-client), [Ceramic](https://ceramic.network), and other tools.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), [Hasura](https://hasura.io), [Apollo Client](https://www.apollographql.com/apollo-client), [Ceramic](https://ceramic.network), and other tools.
 
 ## Available Scripts
 
@@ -55,63 +55,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## Local environment - instructions to build
 
-**Note:** since Gateway currently relies on AWS Amplify for backend management, you will only be able to successfully build the project on your machine if you have permissions within Gateway's team to access our AWS console. Make sure the team has provided you an `Access Key ID` and `Access Key Secret`.
-
-### 1. install `npm i -g @aws-amplify/cli`
-
-If you haven't installed Amplify already, please make sure you have it globally installed on your machine by running `npm i -g @aws-amplify/cli`. This way, you will be able to run Amplify successfully and initialize the project.
-
-### 2. configure Amplify with `amplify init`
-
-Within the project's repository (assuming it's already cloned into your machine), run `amplify init`. It will ask your for some inputs.
-
-1. Environment selection
-
-        ? Do you want to use an existing environment? (Y/n)
-
-    Select `yes`/`y`.
-
-        ? Choose the environment you would like to use: (Use arrow keys)
-        ❯ dev
-        main
-    
-    Please select *dev*, or else you might not be able to run the environment correctly.
-
-2. Default editor
-
-        ? Choose your default editor: (Use arrow keys)
-        ❯ Visual Studio Code
-        Android Studio
-        Xcode (macOS only)
-        Atom Editor
-        Sublime Text
-        IntelliJ IDEA
-        Vim (via Terminal, macOS only)
-
-    Choose the editor that you intend to use with the repository/Amplify. No specific editor required: it's a matter of personal preference.
-
-3. Authentication method
-
-        ? Select the authentication method you want to use:
-        AWS profile
-        ❯ AWS access keys
-
-    Please select `AWS access keys`, so you can use the provided keys to login to AWS and use Amplify's capabilities.
-
-    **Note:** if you don't have these credentials, you've probably not supposed to - these keys are only issued to Gateway's core contributors at this stage. However, if you were supposed to have these keys, or want to contribute to the project, please [join our Discord](https://discord.com/invite/78wuJuKFVK) and contact `Sanket#8142` or `MasterStarkk#4282`.
-
-4. Region
-
-        ? region:  (Use arrow keys)
-        ❯ us-east-1
-        us-east-2
-        us-west-1
-        us-west-2
-        eu-north-1
-        eu-west-1
-        eu-west-2
-
-    Please select North Virginia's region, `us-east-1`.
+*TODO*: documentation on building Dockerized Hasura/PostgreSQL
 
 ### 3. run `yarn` and `yarn start`
 
@@ -124,7 +68,6 @@ Note: Running `yarn` (esp. the first time) might take a few mins.
 
 ### Some considerations
 
-- you can *mock* the backend locally by using `amplify mock`. However, some services like [AWS OpenSearch](https://aws.amazon.com/opensearch-service/the-elk-stack/what-is-opensearch/) won't work.
 - to outside contributors: always PR your changes with an extensive description on how they're improving the project, as well as a technical description for new functionalities and/or tech stacks.
 
 ## Troubleshooting
