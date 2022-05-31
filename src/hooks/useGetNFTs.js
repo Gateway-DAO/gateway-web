@@ -917,7 +917,7 @@ export const useGetNFTs = () => {
                             ...nft,
                             metadata: {
                                 ...json3,
-                                image: `https://gateway.pinata.cloud/ipfs/${json3.image}`,
+                                image: `https://ipfs.mygateway.xyz/ipfs/${json3.image}`,
                             },
                         };
                     }

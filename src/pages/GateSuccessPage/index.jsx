@@ -30,7 +30,7 @@ const GateSuccessPage = (props) => {
                     Badge from {state.usr.gateData.dao.name}
                 </Styled.Text>
                 <Styled.NFT
-                    src={`https://gateway.pinata.cloud/ipfs/${state.usr?.gateData.badge.ipfsURL}`}
+                    src={`https://ipfs.mygateway.xyz/ipfs/${state.usr?.gateData.badge.ipfsURL}`}
                 />
                 <Styled.SmallTextContainer>
                     Redirecting...

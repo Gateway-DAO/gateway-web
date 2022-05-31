@@ -29,7 +29,7 @@ const CredentialCard: React.FC<IProps> = ({ credential }: IProps) => (
             <div className='img-box'>
                 <Link to={`/credential/${credential.id}`} style={{ height: "inherit" }}>
                     <img
-                        src={`https://gateway.pinata.cloud/ipfs/${credential.image}`}
+                        src={`https://ipfs.mygateway.xyz/ipfs/${credential.image}`}
                         alt={credential.name}
                     />
                 </Link>

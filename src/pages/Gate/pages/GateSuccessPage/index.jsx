@@ -51,7 +51,7 @@ const GateSuccessPage = (props) => {
       </Styled.Text>
       <Styled.BoxContainer>
         <Styled.NFT
-          src={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
+          src={`https://ipfs.mygateway.xyz/ipfs/${gateData.badge.ipfsURL}`}
         />
         <Styled.BadgeBottomText>
           <Styled.BadgeText>

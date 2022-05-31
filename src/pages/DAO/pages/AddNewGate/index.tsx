@@ -822,7 +822,7 @@ const AddGateForm = () => {
                                                 htmlFor='ProfileImage'
                                                 label='Upload Badge Image*'
                                                 setImage={setUploadFile}
-                                                defaultImageURL={`https://gateway.pinata.cloud/ipfs/${gateData.badge.ipfsURL}`}
+                                                defaultImageURL={`https://ipfs.mygateway.xyz/ipfs/${gateData.badge.ipfsURL}`}
                                             />
                                         ) : (
                                             <ImageUpload

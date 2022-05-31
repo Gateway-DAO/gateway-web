@@ -78,7 +78,7 @@ const CredentialPage = () => {
                             <Col md={4} className='credentials-img'>
                                 <div className='credentials-profile-left'>
                                     <img
-                                        src={`https://gateway.pinata.cloud/ipfs/${data.credentials_by_pk.image}`}
+                                        src={`https://ipfs.mygateway.xyz/ipfs/${data.credentials_by_pk.image}`}
                                     />
                                     <div className='credential-nft-heading'>
                                         <span>NFT Badge</span>

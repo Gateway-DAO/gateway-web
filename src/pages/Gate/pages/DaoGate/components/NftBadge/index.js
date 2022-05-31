@@ -5,7 +5,7 @@ const NftBadge = ({ nft }) => {
         <Styled.CardWrapper>
             <Styled.CardBox>
                 <Styled.CardBanner
-                    src={`https://gateway.pinata.cloud/ipfs/${nft.ipfsURL}`}
+                    src={`https://ipfs.mygateway.xyz/ipfs/${nft.ipfsURL}`}
                 />
                 <Styled.CardBody>
                     <Styled.CardBadge>Badge</Styled.CardBadge>
