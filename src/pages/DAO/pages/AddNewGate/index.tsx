@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 import BackButton from '../../../../components/BackButton';
 import Space from '../../../../components/Space';
 import { ProfilePicture } from './Components/SearchedAdmin/style';
-import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus, Permissions_Constraint, Permissions_Update_Column, Earners_Constraint, Earners_Update_Column, useDeleteAllGatePermissionsMutation, useUpdateGatePermissionsMutation } from '../../../../graphql';
+import { Key_Progress, Users, Gates, Daos, useCreateGateMutation, useUpdateGateMutation, useSearchUsersLazyQuery, useSearchGatesLazyQuery, GatePublishedStatus, Permissions_Constraint, Permissions_Update_Column, Earners_Constraint, Earners_Update_Column, useDeleteAllGatePermissionsMutation, useUpdateGatePermissionsMutation, GetDaoBySlugDocument } from '../../../../graphql';
 
 /* This is a type definition for the GateData interface. It is used to make sure that the data that is
 passed to the component is of the correct type. */
@@ -148,7 +148,24 @@ const AddGateForm = () => {
 
     // Hooks
     const { daoData }: { daoData: Daos } = useOutletContext();
-    const [createGate] = useCreateGateMutation();
+    const [createGate] = useCreateGateMutation({
+        update: (cache, { data: { insert_gates_one } }) => {
+            const { daos: dao } = cache.readQuery({ query: GetDaoBySlugDocument, variables: { slug: daoData.slug } })
+
+            console.log(dao);
+
+            const gates = [...dao[0].gates, insert_gates_one]
+
+            cache.writeQuery({
+                query: GetDaoBySlugDocument, variables: { slug: daoData.slug }, data: {
+                    daos: {
+                        ...dao,
+                        gates
+                    }
+                }
+            })
+        }
+    });
     const [updateGate] = useUpdateGateMutation();
     const [updateAdmins] = useUpdateGatePermissionsMutation();
     const [deleteAllAdmins] = useDeleteAllGatePermissionsMutation({

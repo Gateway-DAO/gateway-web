@@ -279,7 +279,7 @@ export const UserProvider = ({ children }) => {
     }, [web3.account, web3.active]);
 
     useEffect(() => {
-        JSON.parse(localStorage.getItem('gateway-wallet')) && activateWeb3();
+        activateWeb3();
     }, []);
 
     const value = React.useMemo(

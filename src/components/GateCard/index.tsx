@@ -168,14 +168,14 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders 
                                 <Styled.KeyBox>
                                     <Styled.Circle>
                                         <CircularProgressbar
-                                            value={keysDone}
+                                            value={keysDone || 0}
                                             minValue={0}
                                             maxValue={gate.keys}
                                             strokeWidth={20}
                                         />
                                     </Styled.Circle>
                                     <Styled.SmallText>
-                                        {keysDone} of {gate.keys}
+                                        {keysDone || 0} of {gate.keys}
                                     </Styled.SmallText>
                                 </Styled.KeyBox>
                             </>

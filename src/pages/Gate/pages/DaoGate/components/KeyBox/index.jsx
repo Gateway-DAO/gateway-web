@@ -15,7 +15,7 @@ import ManualTask from './components/ManualTask';
 import Loader from '../../../../../../components/Loader';
 
 // API
-import { useDeleteKeyMutation } from '../../../../../../graphql';
+import { GetGateDocument, useDeleteKeyMutation } from '../../../../../../graphql';
 
 const parsedKeyName = (name) => {
     switch (name) {
@@ -52,6 +52,32 @@ const KeyBox = (props) => {
         variables: {
             id: data.id,
         },
+        optimisticResponse: true,
+        update: cache => {
+            const { gates_by_pk: gate } = cache.readQuery({ query: GetGateDocument, variables: {
+                id: props.data.gate_id,
+                permissions_where: {
+                    permission: {
+                        _in: ["admin", "gate_editor"]
+                    }
+                }
+            } })
+
+            const keys = gate.keysByGateId.filter(key => key.id !== data.id)
+
+            cache.writeQuery({
+                query: GetGateDocument,
+                variables: {
+                    id: props.data.gate_id
+                },
+                data: {
+                    gates_by_pk: {
+                        ...gate,
+                        keysByGateId: keys
+                    }
+                }
+            })
+        }
     });
 
     /**
@@ -73,7 +99,7 @@ const KeyBox = (props) => {
      * Navigates to the edit key page for the given gate.
      */
     const editKey = () => {
-        const link = '/gate/' + props.data.gateID + '/edit-key';
+        const link = '/gate/' + props.data.gate_id + '/edit-key';
         navigate(link, {
             state: { data },
         });

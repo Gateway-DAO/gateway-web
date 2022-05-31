@@ -45,7 +45,7 @@ const GateSuccessPage = (props) => {
         </Styled.PurpleText>
         {' '}Badge from{' '}
         <Styled.DaoIcon
-          src={gateData.dao.logoURL}
+          src={gateData.dao.logo_url}
         />
         {' '}{gateData.dao.name}
       </Styled.Text>

@@ -60,6 +60,7 @@ const Quiz = (props) => {
                         key: state,
                         gate: state.gateData,
                         keysDone: state.gateData.keysDone + state.keys,
+                        completedGate: res.data.verify_key.completed_gate,
                     },
                 });
 

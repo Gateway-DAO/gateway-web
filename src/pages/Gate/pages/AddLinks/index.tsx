@@ -3,7 +3,6 @@ import BackButton from '../../../../components/BackButton';
 import { FormStyled } from '../../../../components/Form';
 import { FaPlus, FaTrashAlt } from 'react-icons/fa';
 import React, { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import normalizeUrl from 'normalize-url';
 import Loader from '../../../../components/Loader';
