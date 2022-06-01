@@ -54,6 +54,13 @@ query getUserByUsername($username: String!) {
     }
 }
 
+query checkUsername($username: String!) {
+    users(where: { username: { _eq: $username } }) {
+        id
+        username
+    }
+}
+
 query getUserByAddress($wallet: String!) {
     users(where: { wallet: { _eq: $wallet } }) {
         about

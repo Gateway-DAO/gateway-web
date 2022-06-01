@@ -58,9 +58,6 @@ const AddGovernanceSnapshot = () => {
                 object: {
                     gate_id: gateData.id,
                     information: data.titleDescriptionPair,
-                    keys: data.keysRewarded,
-                    people_limit: data.peopleLimit || 0,
-                    unlimited: data.unlimited,
                     task_type: 'snapshot',
                     task: {
                         type: 'snapshot',

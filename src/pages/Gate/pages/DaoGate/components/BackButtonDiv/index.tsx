@@ -10,7 +10,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 
 //Hooks
 import { To, useNavigate } from 'react-router-dom';
-import { useGateAdmin } from '../../../../../../hooks/useAdmin';
+import useAdmin, { useGateAdmin } from '../../../../../../hooks/useAdmin';
 
 // Types
 import { useModal } from '../../../../../../contexts/ModalContext';
@@ -56,7 +56,7 @@ const BackButton: React.FC<Props> = ({
     //Hooks
     const [updateGate] = useUpdateGateMutation();
     const navigate = useNavigate();
-    const { isAdmin } = useGateAdmin(gateData?.id);
+    const { isAdmin } = useAdmin(props.daoData.id);
     const [deleteGate] = useDeleteGateMutation();
     const { showErrorModal, discardModal }: Record<string, any> = useModal();
 
@@ -142,17 +142,17 @@ const BackButton: React.FC<Props> = ({
     const copyShareLink = async () => {
         navigator.clipboard.writeText(window.location.href);
         Store.addNotification({
-			title: 'Sharable Link has been copied!',
-			type: 'info',
-			insert: 'top',
-			container: 'top-center',
-			animationIn: ['animate__animated', 'animate__fadeIn'],
-			animationOut: ['animate__animated', 'animate__fadeOut'],
-			dismiss: {
-				duration: 2000,
-				onScreen: true,
-			},
-		});
+            title: 'Sharable Link has been copied!',
+            type: 'info',
+            insert: 'top',
+            container: 'top-center',
+            animationIn: ['animate__animated', 'animate__fadeIn'],
+            animationOut: ['animate__animated', 'animate__fadeOut'],
+            dismiss: {
+                duration: 2000,
+                onScreen: true,
+            },
+        });
     }
 
     return (
@@ -209,13 +209,15 @@ const BackButton: React.FC<Props> = ({
                                     ? 'Unpublish'
                                     : 'Publish'}
                             </Styled.ButtonWrapper>
-                            <Styled.ButtonWrapper
-                                onClick={editGate}
-                                ml='20'
-                                data-title='Edit Gate'
-                            >
-                                <MdModeEditOutline />
-                            </Styled.ButtonWrapper>
+                            {published == GatePublishedStatus.not_published && (
+                                <Styled.ButtonWrapper
+                                    onClick={editGate}
+                                    ml='20'
+                                    data-title='Edit Gate'
+                                >
+                                    <MdModeEditOutline />
+                                </Styled.ButtonWrapper>
+                            )}
                             <Styled.ButtonWrapper
                                 onClick={showDeleteModal}
                                 ml='20'

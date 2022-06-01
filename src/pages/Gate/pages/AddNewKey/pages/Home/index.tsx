@@ -16,15 +16,6 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Gates, useCreateKeyMutation } from '../../../../../../graphql';
 import { useFormContext } from 'react-hook-form';
 
-/* Defining a type called Key. */
-interface Key {
-    taskLink: string;
-    titleDescriptionPair: { title: string; description: string }[];
-    keysRewarded: number;
-    peopleLimit: number;
-    unlimited: boolean;
-}
-
 /* Defining a type for the errors object. */
 interface IErrors {
     keysRewarded?: string;
@@ -48,11 +39,6 @@ const AddNewKey = () => {
 
     const [createKey, { loading }] = useCreateKeyMutation()
 
-    const [formErrors, setFormErrors] = useState<IErrors>({
-        keysRewarded: '',
-        peopleLimit: ''
-    })
-
     // Hooks
     const navigate = useNavigate();
 
@@ -61,13 +47,6 @@ const AddNewKey = () => {
      * @returns None
      */
     const onSubmit = async data => {
-        setFormErrors({
-            keysRewarded: !data.keysRewarded ? 'Keys Rewarded is required.' : '',
-            peopleLimit: !data.unlimited && data.peopleLimit <= 0 ? 'People limit can not be less than 0.' : ''
-        })
-
-        if (formErrors.keysRewarded || formErrors.peopleLimit) return;
-
         if (data.taskLink !== 'self-verify') navigate(data.taskLink, {
             state,
         })
@@ -77,9 +56,6 @@ const AddNewKey = () => {
                     object: {
                         gate_id: gateData.id,
                         information: data.titleDescriptionPair,
-                        keys: data.keysRewarded,
-                        people_limit: data.peopleLimit || 0,
-                        unlimited: data.unlimited,
                         task_type: 'self_verify',
                         task: {
                             type: 'self_verify',
@@ -161,71 +137,6 @@ const AddNewKey = () => {
                         Add another title and description
                     </FormStyled.TextLabel>
                 </FormStyled.AddWrapper>
-
-                {!edit && (
-                    <FormStyled.FieldsetRow>
-                        <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor='keysRewarded'>
-                                Keys REWARDED*{' '}
-                                <FormStyled.QuestionIcon
-                                    data-title='Enter the number of keys user gets on
-                                        successfully compleating a task.'
-                                    height={60}
-                                    width={300}
-                                >
-                                    ?
-                                </FormStyled.QuestionIcon>
-                            </FormStyled.Label>
-                            <FormStyled.Input
-                                id='keysRewarded'
-                                {...register('keysRewarded', { required: true,})}
-                                placeholder='Insert Keys Rewarded'
-                                value={watch('keysRewarded')}
-                                min={0}
-                                required
-                            />
-                            <FormStyled.InputFeedback type='invalid'>{formErrors.keysRewarded}</FormStyled.InputFeedback>
-                        </FormStyled.Fieldset>
-
-                        <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor='peopleLimit'>
-                                PEOPLE LIMIT*{' '}
-                            </FormStyled.Label>
-                            <Styled.InputContainer
-                                value={
-                                    !watch('unlimited')
-                                        ? watch('peopleLimit')
-                                        : ''
-                                }
-                                valid={!formErrors.peopleLimit}
-                            >
-                                <Styled.Input
-                                    type='number'
-                                    min='1'
-                                    {...register('peopleLimit', { required: true })}
-                                    placeholder={
-                                        watch('unlimited')
-                                            ? 'Unlimited'
-                                            : 'Insert People Limit'
-                                    }
-                                    value={
-                                        !watch('unlimited')
-                                            ? watch('peopleLimit') !== 0 ? watch('peopleLimit')
-                                                : '' : ''
-                                    }
-                                    required={!watch('unlimited')}
-                                />
-                                <Styled.UnlimitedBoxContainer
-                                    onClick={() => setValue('unlimited', !watch('unlimited'))}
-                                    value={watch('unlimited')}
-                                >
-                                    Unlimited
-                                </Styled.UnlimitedBoxContainer>
-                            </Styled.InputContainer>
-                            <FormStyled.InputFeedback type='invalid'>{formErrors.peopleLimit}</FormStyled.InputFeedback>
-                        </FormStyled.Fieldset>
-                    </FormStyled.FieldsetRow>
-                )}
 
                 {!edit && (
                     <FormStyled.Fieldset marginBottom='30px'>

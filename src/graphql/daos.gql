@@ -74,6 +74,9 @@ query getDAO($id: uuid!, $permissions_where: permissions_bool_exp = {permission:
             }
             categories
             description
+            tasks {
+                id
+            }
         }
         bounties {
             categories
@@ -163,6 +166,9 @@ query getDAOBySlug($slug: String = "", $permissions_where: permissions_bool_exp 
             holders {
                 id
                 name
+            }
+            tasks {
+                id
             }
             categories
             description
@@ -255,6 +261,9 @@ query listDAOs($permissions_where: permissions_bool_exp = {permission: {_eq: "ad
             holders {
                 id
                 name
+            }
+            tasks {
+                id
             }
             categories
             description

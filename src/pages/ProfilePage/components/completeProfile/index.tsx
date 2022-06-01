@@ -16,7 +16,7 @@ import Page from '../../../../components/Page';
 import { FormStyled, RawImageUpload } from '../../../../components/Form';
 import { FaTrashAlt } from 'react-icons/fa';
 import Space from '../../../../components/Space';
-import { useGetUserByUsernameLazyQuery } from '../../../../graphql';
+import { useCheckUsernameLazyQuery, useCheckUsernameQuery, useGetUserByUsernameLazyQuery } from '../../../../graphql';
 import Loader from '../../../../components/Loader';
 
 const platforms = [
@@ -44,7 +44,6 @@ const CompleteProfile: React.FC = () => {
 	// Hooks
 	const { uploadFile } = useFile();
 	const navigate = useNavigate();
-	const [getUser, { data }] = useGetUserByUsernameLazyQuery();
 	const {
 		updateUserInfo,
 	}: { updateUserInfo?(info: Record<string, any>): void } = useAuth();
@@ -76,8 +75,15 @@ const CompleteProfile: React.FC = () => {
 					},
 				],
 	});
+
 	const [errors, setErrors] = useState<IErrors>({});
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+
+	const [checkUsername, { data: checkUsernameData }] = useCheckUsernameLazyQuery({
+		variables: {
+			username: user.userName
+		}
+	});
 
 	const checkErrors = async () => {
 		let errors: IErrors = {};
@@ -95,18 +101,14 @@ const CompleteProfile: React.FC = () => {
 			errors.userName =
 				'Usernames need to be all lower-caps and can only contain letters(a-z), numbers(0-9) and dashes(-)';
 
-		const { data } = await getUser({
-			variables: {
-				username: user?.userName,
-			},
-		});
+		const { data } = await checkUsername();
 
 		if (
 			user.userName !== userInfo?.username &&
 			user.userName.length != 0 &&
 			data.users.length > 0
 		)
-			errors.userName = 'This username is already taken!';
+			errors.userName = `This username (${user.userName}) is already taken!`;
 
 		if (user.userBio && user.userBio.length < 3)
 			errors.userBio = 'The headline is too short!';
@@ -169,20 +171,6 @@ const CompleteProfile: React.FC = () => {
 		setUser((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const handleNameChange = async (event) => {
-		event.preventDefault();
-		const { name, value } = event.target;
-		setUser((prev) => ({ ...prev, [name]: value }));
-		const nameFormErrors = await checkErrors();
-		if (Object.keys(nameFormErrors).length) {
-			setErrors(nameFormErrors);
-			setIsValidated(false);
-		} else {
-			setErrors({});
-			setIsValidated(true);
-		}
-	};
-
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -230,6 +218,24 @@ const CompleteProfile: React.FC = () => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		const callback = async () => {
+			const nameFormErrors = await checkErrors();
+
+			if (Object.keys(nameFormErrors).length) {
+				setErrors(nameFormErrors);
+				setIsValidated(false);
+			} else {
+				setErrors({});
+				setIsValidated(true);
+			}
+		}
+
+		console.log(user.displayName, user.userBio, user.userName)
+		setErrors({});
+		callback();
+	}, [user.displayName, user.userBio, user.userName])
 
 	if (redirect) {
 		return <Navigate to={searchParams.get('to') || '..'} />;
@@ -314,7 +320,7 @@ const CompleteProfile: React.FC = () => {
 										type='text'
 										placeholder='mygateway.xyz/username'
 										onChange={(e) => {
-											handleNameChange(e);
+											handleChange(e);
 										}}
 										value={user.userName}
 										isInvalid={!!errors.userName}
@@ -343,7 +349,7 @@ const CompleteProfile: React.FC = () => {
 								>
 									<Form.Label>AVATAR</Form.Label>
 									<RawImageUpload
-										defaultImageURL={`${defaultPfp}?${Date.now()}`}
+										defaultImageURL={`${defaultPfp}`}
 										setImage={setFile}
 									/>
 								</Form.Group>

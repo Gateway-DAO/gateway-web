@@ -40,15 +40,12 @@ query getGate($id: uuid!, $permissions_where: permissions_bool_exp = {permission
                 pfp
             }
         }
-        keysByGateId {
+        tasks {
             gate_id
             id
             information
-            keys
-            people_limit
             task
             task_type
-            unlimited
         }
         dao {
             name
@@ -120,15 +117,12 @@ query listGates($permissions_where: permissions_bool_exp = {permission: {_eq: "a
             id
             user_id
         }
-        keysByGateId {
+        tasks {
             gate_id
             id
             information
-            keys
-            people_limit
             task
             task_type
-            unlimited
         }
         dao {
             name
@@ -171,11 +165,8 @@ query getKey($id: uuid!) {
         gate_id
         id
         information
-        keys
-        people_limit
         task
         task_type
-        unlimited
     }
 }
 
@@ -202,6 +193,7 @@ query getGateProgress($where: gate_progress_bool_exp = {}) {
         id
         gate_id
         created_at
+        tasks_completed
     }
 }
 
@@ -214,9 +206,6 @@ query getKeyProgress($where: key_progress_bool_exp = {}) {
         key_id
         updated_at
         user_id
-        key {
-            keys
-        }
     }
 }
 
@@ -244,15 +233,12 @@ mutation createGate($object: gates_insert_input = {}) {
             id
             user_id
         }
-        keysByGateId {
+        tasks {
             gate_id
             id
             information
-            keys
-            people_limit
             task
             task_type
-            unlimited
         }
         dao {
             name
@@ -324,15 +310,12 @@ mutation updateGate($id: uuid!, $set: gates_set_input = {}, $permissions_where: 
             id
             user_id
         }
-        keysByGateId {
+        tasks {
             gate_id
             id
             information
-            keys
-            people_limit
             task
             task_type
-            unlimited
         }
         dao {
             name
@@ -371,11 +354,8 @@ mutation createKey($object: keys_insert_input = {}) {
         gate_id
         id
         information
-        keys
-        people_limit
         task
         task_type
-        unlimited
     }
 }
 
@@ -384,11 +364,8 @@ mutation updateKey($id: uuid = "", $set: keys_set_input = {}) {
         gate_id
         id
         information
-        keys
-        people_limit
         task
         task_type
-        unlimited
     }
 }
 

@@ -63,7 +63,7 @@ const KeyBox = (props) => {
                 }
             } })
 
-            const keys = gate.keysByGateId.filter(key => key.id !== data.id)
+            const keys = gate.tasks.filter(key => key.id !== data.id)
 
             cache.writeQuery({
                 query: GetGateDocument,
@@ -73,7 +73,7 @@ const KeyBox = (props) => {
                 data: {
                     gates_by_pk: {
                         ...gate,
-                        keysByGateId: keys
+                        tasks: keys
                     }
                 }
             })
@@ -255,17 +255,9 @@ const KeyBox = (props) => {
                         </Styled.ActionButton>
                         {!opened && (
                             <Styled.InformationDiv>
-                                <Styled.KeyRewardBox>
-                                    <Styled.InformationBoxHeading>
-                                        Key Reward
-                                    </Styled.InformationBoxHeading>
-                                    <Styled.InformationBoxInfoText>
-                                        {data.keys}
-                                    </Styled.InformationBoxInfoText>
-                                </Styled.KeyRewardBox>
                                 <Styled.CompensationBox>
                                     <Styled.InformationBoxHeading>
-                                        Key Type
+                                        Task Type
                                     </Styled.InformationBoxHeading>
                                     <Styled.InformationBoxInfoText>
                                         {parsedKeyName(data.task.type)}

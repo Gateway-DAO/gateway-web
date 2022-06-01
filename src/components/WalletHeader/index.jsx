@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 
 const Wallet = (props) => {
-    const { loggedIn, loggingIn, activateWeb3, loadingWallet, userInfo } =
+    const { loggingIn, activateWeb3, loadingWallet, userInfo } =
         useAuth();
     const { active, account } = useWeb3React();
     const [hidden, setHidden] = useState(false);

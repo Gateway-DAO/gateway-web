@@ -82,97 +82,17 @@ const DaoGate: React.FC = () => {
                                 <Styled.Tag key={idx}>{category}</Styled.Tag>
                             )
                         )}
-                        • {gateData.holders} holder(s)
+                        Completed by {gateData.holders} holder(s)
                     </Styled.TagsDiv>
-                    <Styled.AdditionalInfoBox>
-                        {gateData?.adminList?.length > 0 && (
-                            <Styled.AdminsBox>
-                            <Styled.BoldTextHeading>
-                                ADMINS
-                            </Styled.BoldTextHeading>
-                            <Styled.ContentContainer>
-                                {gateData.adminList.map((admin, idx) => {
-                                    return (
-                                        <Link
-                                            to={`/profile/${admin.username}`}
-                                            key={idx}
-                                        >
-                                            <Styled.PfpAdmin
-                                                src={admin.pfp}
-                                                data-title={admin.name}
-                                            />
-                                        </Link>
-                                    );
-                                })}
-                            </Styled.ContentContainer>
-                        </Styled.AdminsBox>
-                        )}
-                        {/*
-                        <Styled.LinksContainer>
-                            <Styled.BoldTextHeading>
-                                LINKS
-                            </Styled.BoldTextHeading>
-                            <Styled.ContentContainer>
-                                {gateData.links.length > 0 &&
-                                    gateData.links.map((link, idx) => {
-                                        return (
-                                            <Styled.OutsideLink
-                                                key={idx}
-                                                href={link.link}
-                                                target='_blank'
-                                            >
-                                                {link.name} ⬈
-                                            </Styled.OutsideLink>
-                                        );
-                                    })}
-                                {isEditor && (
-                                    <Styled.InsideLink
-                                        to={`${
-                                            gateData.links.length > 0
-                                                ? 'edit'
-                                                : 'add'
-                                        }-links`}
-                                    >
-                                        {gateData.links.length > 0
-                                            ? 'Edit'
-                                            : 'Add'}{' '}
-                                        Links ⬈
-                                    </Styled.InsideLink>
-                                )}
-                            </Styled.ContentContainer>
-                        </Styled.LinksContainer>
-                        */}
-                    </Styled.AdditionalInfoBox>
                     <Styled.HeaderLine />
-                    {gateData?.keys !== 0 && (
-                        <Styled.SecondDiv>
-                            <Styled.SecondDivName>Keys</Styled.SecondDivName>
-                            <Styled.AnotherDiv>
-                                <Styled.CircleBox>
-                                    <CircularProgressbar
-                                        value={gateData.keysDone}
-                                        minValue={0}
-                                        maxValue={gateData.keys}
-                                        strokeWidth={15}
-                                    />
-                                </Styled.CircleBox>
-                                <Styled.ProgressInfoDiv>
-                                    <Styled.ProgressInfoDivOne>
-                                        Keys
-                                    </Styled.ProgressInfoDivOne>
-                                    <Styled.ProgressInfoDivTwo>
-                                        {gateData.keysDone} of{' '}
-                                        {gateData.keys}
-                                    </Styled.ProgressInfoDivTwo>
-                                </Styled.ProgressInfoDiv>
-                            </Styled.AnotherDiv>
-                        </Styled.SecondDiv>
-                    )}
+                    <Styled.SecondDiv>
+                        <Styled.SecondDivName>Tasks</Styled.SecondDivName>
+                    </Styled.SecondDiv>
                     <Styled.ThirdDiv>
                         {isEditor && (
                             <Styled.Box>
                                 <Styled.BigText>
-                                    Let’s create the Keys for your Gate.
+                                    Let’s create the tasks for your Gate.
                                 </Styled.BigText>
                                 <Styled.StartButton onClick={handleClick}>
                                     <Styled.ButtonText>
@@ -181,12 +101,8 @@ const DaoGate: React.FC = () => {
                                 </Styled.StartButton>
                             </Styled.Box>
                         )}
-                        {gateData?.keysByGateId.map((key: Keys, idx: number) => {
-                            const LIMIT_REACHED =
-                                !key.unlimited && key.people_limit === 0;
-
+                        {gateData.tasks.map((key: Keys, idx: number) => {
                             if (
-                                !LIMIT_REACHED ||
                                 gateData.taskStatus
                                     .map((ts: Key_Progress) => ts.key_id)
                                     .includes(key.id) ||
@@ -200,11 +116,11 @@ const DaoGate: React.FC = () => {
                                         blocked={
                                             gateData?.taskStatus?.length > 0
                                                 ? gateData.taskStatus
-                                                      .map(
-                                                          (ts: Key_Progress) =>
-                                                              ts.key_id
-                                                      )
-                                                      .includes(key.id)
+                                                    .map(
+                                                        (ts: Key_Progress) =>
+                                                            ts.key_id
+                                                    )
+                                                    .includes(key.id)
                                                 : false
                                         }
                                     />

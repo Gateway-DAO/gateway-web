@@ -24,6 +24,7 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders 
     // Hooks
     const { userInfo, activateWeb3, walletConnected }: Record<string, any> = useAuth();
     const navigate = useNavigate();
+
     const { data } = useGetGateProgressQuery({
         variables: {
             where: {
@@ -41,27 +42,12 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders 
                 ]
             }
         }
-    })
+    });
 
-    const {
-        data: keyProgressData,
-        loading: keyProgressLoading
-    } = useGetKeyProgressQuery({
-        variables: {
-            where: {
-                gate_id: {
-                    _eq: gate.id
-                },
-                user_id: {
-                    _eq: userInfo?.id
-                }
-            }
-        }
-    })
+    const keysDone = data?.gate_progress[0]?.tasks_completed || 0;
 
     // State
     const [numberOfWords, setNumberOfWords] = useState(100);
-    const keysDone = keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0);
 
     useEffect(() => {
         if (window.innerWidth < 1171 && window.innerWidth > 900) {
@@ -163,19 +149,19 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders 
                         {gate.keys && (
                             <>
                                 <Styled.MediumHeading>
-                                    KEYS REQUIRED
+                                    TASKS COMPLETED
                                 </Styled.MediumHeading>
                                 <Styled.KeyBox>
                                     <Styled.Circle>
                                         <CircularProgressbar
                                             value={keysDone || 0}
                                             minValue={0}
-                                            maxValue={gate.keys}
+                                            maxValue={gate.tasks?.length}
                                             strokeWidth={20}
                                         />
                                     </Styled.Circle>
                                     <Styled.SmallText>
-                                        {keysDone || 0} of {gate.keys}
+                                        {keysDone || 0} of {gate.tasks?.length}
                                     </Styled.SmallText>
                                 </Styled.KeyBox>
                             </>

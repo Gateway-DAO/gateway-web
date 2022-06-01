@@ -41,9 +41,6 @@ const AddHoldToken = (props) => {
                 object: {
                     gate_id: gateData.id,
                     information: data.titleDescriptionPair,
-                    keys: data.keysRewarded,
-                    people_limit: data.peopleLimit || 0,
-                    unlimited: data.unlimited,
                     task_type: 'token_hold',
                     task: {
                         type: 'token_hold',

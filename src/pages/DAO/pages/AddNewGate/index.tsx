@@ -104,33 +104,9 @@ const AddGateForm = () => {
     const [prerequisiteList, setPrerequisiteList] = useState<
         (IPrerequisite | null)[]
     >([]);
-    const [keyRequired, setKeyRequired] = useState<number>(
-        edit ? gateData.keysNumber : 0
-    );
     const [badgeName, setBadgeName] = useState<string>(
         edit ? gateData.badge.name : ''
     );
-    const [admin, setAdmin] = useState<string>('');
-    const [adminList, setAdminList] = useState<IAdmin[]>(
-        edit
-            ? gateData.adminList.map((admin) => ({
-                name: admin?.name || '',
-                username: admin?.username || '',
-                pfp: admin?.pfp || '',
-                id: admin?.id || '',
-                wallet: admin?.wallet || '',
-            }))
-            : [
-                {
-                    name: userInfo?.name || '',
-                    username: userInfo?.username || '',
-                    pfp: userInfo?.pfp || '',
-                    id: userInfo?.id || '',
-                    wallet: userInfo?.wallet || '',
-                },
-            ]
-    );
-    //const [adminIDList, setAdminIDList] = useState(edit?gateData.admins:[userInfo.id]);
     const [updateLoading, setUpdateeLoading] = useState<boolean>(false);
     const [NFTupdated, setNFTupdated] = useState<boolean>(edit);
     const [prereqsSearch, setPrereqsSearch] = useState([]);
@@ -167,20 +143,6 @@ const AddGateForm = () => {
         }
     });
     const [updateGate] = useUpdateGateMutation();
-    const [updateAdmins] = useUpdateGatePermissionsMutation();
-    const [deleteAllAdmins] = useDeleteAllGatePermissionsMutation({
-        variables: {
-            gate_id: edit ? gateData.id : null
-        }
-    });
-
-    const [
-        searchByUsers,
-    ] = useSearchUsersLazyQuery({
-        variables: {
-            query: admin
-        }
-    })
 
     const [searchByGates, { data: searchGateData, called: searchGateCalled }] = useSearchGatesLazyQuery({
         variables: {
@@ -277,17 +239,6 @@ const AddGateForm = () => {
         setPrerequisiteList((prev) => prev.filter((gate) => gate.id !== id));
     };
 
-    /* Creating a function that will be called when the adminList is updated. */
-    const handleAdmin = useCallback((adminList) => {
-        setAdminList(adminList);
-    }, []);
-
-    /**
-     * It removes the admin from the list of admins.
-     */
-    const removeAdmin = (id: string) => {
-        setAdminList((prev) => prev.filter((adm) => adm.id !== id));
-    };
     /* Creating a function that will be called when the retroactiveEarners list is updated. */
     const handleEarner = useCallback((earnerList) => {
         setRetroactiveEarners(earnerList);
@@ -329,7 +280,6 @@ const AddGateForm = () => {
                         description,
                         categories: categoryList,
                         // admins: adminList.map((admin) => admin.id),
-                        ...(wantPreReqs && { keys: keyRequired }),
                         nft_type: (NFTType as string).toLowerCase(),
                         ...(skillList.length > 0 && { skills: skillList }),
                         ...(attitudeList.length > 0 && {
@@ -339,16 +289,6 @@ const AddGateForm = () => {
                             knowledge: knowledgeList,
                         }),
                         links: [],
-                        permissions: {
-                            data: adminList.map(admin => ({
-                                user_id: admin.id,
-                                permission: 'admin'
-                            })),
-                            on_conflict: {
-                                constraint: Permissions_Constraint.PermissionsUserIdDaoIdGateIdKey,
-                                update_columns: [Permissions_Update_Column.Permission],
-                            }
-                        },
                         /* preRequisites: {
                             completedGates: prerequisiteList.map(
                                 (prereq) => prereq.id
@@ -405,7 +345,6 @@ const AddGateForm = () => {
                             description,
                             categories: categoryList,
                             // admins: adminList.map((admin) => admin.id),
-                            keys: keyRequired,
                             published: gateData.published,
                             // retroactiveEarners: retroactiveEarners.map(earner => earner.wallet),
                             badge: {
@@ -416,17 +355,6 @@ const AddGateForm = () => {
                     },
                 });
 
-                await deleteAllAdmins();
-
-                await updateAdmins({
-                    variables: {
-                        objects: adminList.map(admin => ({
-                            user_id: admin.id,
-                            gate_id: gateData.id,
-                            permission: 'admin'
-                        })),
-                    }
-                })
                 navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
@@ -449,7 +377,6 @@ const AddGateForm = () => {
                             description,
                             categories: categoryList,
                             // admins: adminList.map((admin) => admin.id),
-                            keys: keyRequired,
                             published: gateData.published,
                             badge: {
                                 name: badgeName,
@@ -459,16 +386,6 @@ const AddGateForm = () => {
                     },
                 });
 
-                await deleteAllAdmins();
-
-                await updateAdmins({
-                    variables: {
-                        objects: adminList.map(admin => ({
-                            user_id: admin.id,
-                            permission: 'admin'
-                        })),
-                    }
-                })
                 navigate(`/gate/${gateData.id}`);
             } catch (e) {
                 alert('We are facing issues please try again later');
@@ -477,22 +394,6 @@ const AddGateForm = () => {
         }
         setUpdateeLoading(false);
     };
-
-    useEffect(() => {
-        const clear = setTimeout(() => {
-            searchByUsers();
-        }, 2000);
-
-        return () => clearTimeout(clear);
-    }, [admin]);
-
-    useEffect(() => {
-        const clear = setTimeout(() => {
-            searchByGates();
-        }, 2000);
-
-        return () => clearTimeout(clear);
-    }, [admin]);
 
     useEffect(() => {
         if (searchGateCalled && !!searchGateData) {
@@ -506,20 +407,6 @@ const AddGateForm = () => {
             setPrereqsSearch(results);
         }
     }, [searchGateData]);
-
-    const getOptions = async (param) => {
-        return (
-            await searchByUsers({
-                variables: {
-                    query: param
-                },
-            })
-        ).data.search_users.hits.map((user) => ({
-            ...user,
-            label: user.name,
-            value: user,
-        }));
-    };
 
     const UserOption = (props) => (
         <Styled.FlexOption {...props}>
@@ -644,67 +531,11 @@ const AddGateForm = () => {
                                     />
                                 </FormStyled.GridBox>
                             </FormStyled.Fieldset>
-
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label>
-                                    Would you like to have keys?
-                                </FormStyled.Label>
-                                <FormStyled.GridBox
-                                    cols={2}
-                                    onChange={(e) =>
-                                        setWantPreReqs(
-                                            (e.target as HTMLInputElement)
-                                                .value as YesNo
-                                        )
-                                    }
-                                >
-                                    <FormStyled.Radio
-                                        id='wantPreReqs-1'
-                                        name='wantPreReqs'
-                                        value='Yes'
-                                        label='Yes'
-                                        checked={wantPreReqs === YesNo.YES}
-                                    />
-                                    <FormStyled.Radio
-                                        id='wantPreReqs-2'
-                                        name='wantPreReqs'
-                                        value='No'
-                                        label='No'
-                                        checked={wantPreReqs === YesNo.NO}
-                                    />
-                                </FormStyled.GridBox>
-                            </FormStyled.Fieldset>
                         </>
                     )}
 
-                {NFTType && wantPreReqs && (
+                {NFTType && (
                     <>
-                        {wantPreReqs === YesNo.YES && (
-                            <FormStyled.Fieldset>
-                                <FormStyled.Label htmlFor='title'>
-                                    KEYS REQUIRED*
-                                </FormStyled.Label>
-                                <Styled.InputSmall
-                                    onKeyPress={(e) => {
-                                        e.key === 'Enter' &&
-                                            e.preventDefault();
-                                    }}
-                                    onChange={(e) => {
-                                        e.preventDefault();
-                                        setKeyRequired(e.target.value);
-                                    }}
-                                    type='number'
-                                    id='keyReq'
-                                    name='keyReq'
-                                    placeholder='0'
-                                    value={
-                                        keyRequired > 0 ? keyRequired : null
-                                    }
-                                    required
-                                />
-                            </FormStyled.Fieldset>
-                        )}
-
                         {(!edit ||
                             gateData?.published ===
                             GatePublishedStatus.not_published) && (
@@ -881,44 +712,6 @@ const AddGateForm = () => {
                                     </FormStyled.Fieldset>
                                 </>
                             )}
-                        <FormStyled.Fieldset>
-                            <FormStyled.Label htmlFor='admins'>
-                                Admin Privileges*
-                            </FormStyled.Label>
-                            <FormStyled.AsyncSelect
-                                id={`admins`}
-                                isMulti
-                                controlShouldRenderValue={false}
-                                onInputChange={(e) => setAdmin(e)}
-                                onChange={handleAdmin}
-                                loadOptions={async () =>
-                                    (await getOptions(admin)).filter(
-                                        (user: Users) =>
-                                            !adminList
-                                                .map((admins) => admins.id)
-                                                .includes(user.id)
-                                    )
-                                }
-                                defaultValue={adminList}
-                                value={adminList}
-                                components={{
-                                    Option: UserOption,
-                                }}
-                                menuPortalTarget={document.body}
-                            />
-
-                            {adminList.length > 0 && (
-                                <Styled.CategoryList>
-                                    {adminList.map((admin) => (
-                                        <SearchedAdmin
-                                            val={admin}
-                                            id={admin.id}
-                                            removeAdmin={removeAdmin}
-                                        />
-                                    ))}
-                                </Styled.CategoryList>
-                            )}
-                        </FormStyled.Fieldset>
 
                         {/*(!edit ||
                                 gateData?.published ===

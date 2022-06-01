@@ -31,7 +31,8 @@ const Gates = (props) => {
                 id={props.id}
                 viewAsMember={props.viewAsMember}
             />
-            <Styled.GatesContainer>
+            {gates.length !== 0 ? (
+                <Styled.GatesContainer>
                 {gates.map((gate, idx) => {
                     if (isAdmin && !props.viewAsMember) {
                         return (
@@ -61,6 +62,9 @@ const Gates = (props) => {
                     return null;
                 })}
             </Styled.GatesContainer>
+            ) : (
+                <p>There are no gates available at the moment</p>
+            )}
             {!!gates.length && <Pagination pageCount={pageCount} setPageNumber={setPageNumber} />}
         </Styled.Wrapper>
     );

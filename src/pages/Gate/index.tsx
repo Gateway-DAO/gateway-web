@@ -15,11 +15,10 @@ import { LoaderBox } from './pages/DaoGate/style';
 
 // API
 import { useWeb3React } from '@web3-react/core';
-import { Gates, Key_Progress, useGetGateQuery, useGetGateUsersQuery, useGetKeyProgressQuery, Users } from '../../graphql';
+import { useGetGateQuery, useGetKeyProgressQuery, Users } from '../../graphql';
 
 // Types
-import { PartialDeep } from 'type-fest';
-import { useGateAdmin } from '../../hooks/useAdmin';
+import useAdmin from '../../hooks/useAdmin';
 
 /**
  * This function is responsible for rendering the page
@@ -66,10 +65,10 @@ const GatePage: React.FC = () => {
     })
 
     const [internalLoading, setInternalLoading] = useState<boolean>(true);
-    const { isEditor } = useGateAdmin(gate);
+    const { isEditor } = useAdmin(dbData?.gates_by_pk.dao_id);
 
     useEffect(() => {
-        !active && activateWeb3().then(setDidConnect);
+        !JSON.parse(localStorage.getItem('gateway-wallet')) && activateWeb3().then(setDidConnect);
     }, [])
 
     /* This is a React Hook that is being used to check if the data has been loaded. If the data has
@@ -115,7 +114,6 @@ const GatePage: React.FC = () => {
                     gateData: {
                         ...dbData?.gates_by_pk,
                         holders: dbData?.gates_by_pk.holders.length || 0,
-                        keysDone: keyProgressData?.key_progress.filter(kp => kp.completed == 'done').map(kp => kp.key.keys).reduce((total, num) => total + num, 0),
                         taskStatus: keyProgressData?.key_progress || [],
                         adminList: dbData?.gates_by_pk.permissions.map(perms => perms.user) || [],
                         retroactiveEarnersList: dbData?.gates_by_pk.earners?.map(earner => earner.user) || [],
