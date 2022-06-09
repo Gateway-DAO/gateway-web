@@ -30,7 +30,9 @@ query getUserByUsername($username: String!) {
                 name
             }
             description
-            gate
+            info
+            status
+            namespace
             id
             image
             issuer_id
@@ -91,7 +93,9 @@ query getUserByAddress($wallet: String!) {
                 name
             }
             description
-            gate
+            info
+            namespace
+            status
             id
             image
             issuer_id
@@ -145,7 +149,9 @@ query listUsers {
                 name
             }
             description
-            gate
+            info
+            namespace
+            status
             id
             image
             issuer_id
@@ -201,7 +207,9 @@ mutation createUser($object: users_insert_input = {}) {
                 name
             }
             description
-            gate
+            info
+            namespace
+            status
             id
             image
             issuer_id
@@ -248,7 +256,9 @@ mutation updateUser($set: users_set_input = {}, $id: uuid = "") {
                 name
             }
             description
-            gate
+            info
+            namespace
+            status
             id
             image
             issuer_id

@@ -16,11 +16,10 @@ interface IProps {
     gate: Gates;
     viewAsMember: boolean;
     toSearch: boolean;
-    showHolders: boolean;
 }
 
 /* This is a card that displays information about a gate. */
-const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders = true }) => {
+const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch }) => {
     // Hooks
     const { userInfo, activateWeb3, walletConnected }: Record<string, any> = useAuth();
     const navigate = useNavigate();
@@ -145,29 +144,31 @@ const GateCard: React.FC<IProps> = ({ gate, viewAsMember, toSearch, showHolders 
                             </Styled.InfoText>
                         </Styled.InfoBox>
                     ) */}
-                    <Styled.InfoBox>
-                        {gate.keys && (
-                            <>
-                                <Styled.MediumHeading>
-                                    TASKS COMPLETED
-                                </Styled.MediumHeading>
-                                <Styled.KeyBox>
-                                    <Styled.Circle>
-                                        <CircularProgressbar
-                                            value={keysDone || 0}
-                                            minValue={0}
-                                            maxValue={gate.tasks?.length}
-                                            strokeWidth={20}
-                                        />
-                                    </Styled.Circle>
-                                    <Styled.SmallText>
-                                        {keysDone || 0} of {gate.tasks?.length}
-                                    </Styled.SmallText>
-                                </Styled.KeyBox>
-                            </>
-                        )}
-                    </Styled.InfoBox>
-                    {showHolders && (<Styled.InfoBox>
+                    {!toSearch && (
+                        <Styled.InfoBox>
+                            {gate.keys && (
+                                <>
+                                    <Styled.MediumHeading>
+                                        TASKS COMPLETED
+                                    </Styled.MediumHeading>
+                                    <Styled.KeyBox>
+                                        <Styled.Circle>
+                                            <CircularProgressbar
+                                                value={keysDone || 0}
+                                                minValue={0}
+                                                maxValue={gate.tasks?.length}
+                                                strokeWidth={20}
+                                            />
+                                        </Styled.Circle>
+                                        <Styled.SmallText>
+                                            {keysDone || 0} of {gate.tasks?.length}
+                                        </Styled.SmallText>
+                                    </Styled.KeyBox>
+                                </>
+                            )}
+                        </Styled.InfoBox>
+                    )}
+                    {!toSearch && (<Styled.InfoBox>
                         <Styled.MediumHeading>EARNERS</Styled.MediumHeading>
                         <Styled.InfoText>
                             {gate.holders.length}{' '}

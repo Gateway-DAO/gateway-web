@@ -124,7 +124,7 @@ const KeyBox = (props) => {
                 );
             case 'snapshot':
                 return <Snapshot data={data} />;
-            case 'manual_task':
+            case 'manual':
                 return (
                     <ManualTask
                         data={data}

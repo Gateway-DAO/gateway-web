@@ -5,7 +5,6 @@ import * as Styled from './style';
 import { useFormik } from 'formik';
 import { useForm, FormProvider } from 'react-hook-form';
 import KeySuccess from './pages/AddKeySuccess';
-import Space from '../../../../components/Space';
 import { Gates, useCreateKeyMutation } from '../../../../graphql';
 
 /**

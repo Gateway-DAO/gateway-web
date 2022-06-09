@@ -5,18 +5,6 @@ import Loader from '../../../../../../components/Loader';
 import { useFormContext } from 'react-hook-form';
 import { Gates, useCreateKeyMutation } from '../../../../../../graphql';
 
-interface Key {
-    taskLink: string;
-    titleDescriptionPair: { title: string; description: string }[];
-    keysRewarded: number;
-    peopleLimit: number;
-    unlimited: boolean;
-
-    // Contract Interaction
-    address?: string;
-    amount?: number;
-}
-
 const AddHoldToken = (props) => {
     const {
         edit,

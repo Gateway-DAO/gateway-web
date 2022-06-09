@@ -170,7 +170,7 @@ const AddNewKey = () => {
                                 label='Hold a Token'
                                 checked={watch('taskLink') === 'token'}
                             />
-                            <FormStyled.BigRadio
+                            {/* <FormStyled.BigRadio
                                 id='task-4'
                                 name='task'
                                 value='sc-interaction'
@@ -178,7 +178,7 @@ const AddNewKey = () => {
                                 checked={
                                     watch('taskLink') === 'sc-interaction'
                                 }
-                            />
+                            /> */}
                             <FormStyled.BigRadio
                                 id='task-5'
                                 name='task'
@@ -197,7 +197,6 @@ const AddNewKey = () => {
                                     watch('taskLink') === 'self-verify'
                                 }
                             />
-                            {/*
                             <FormStyled.BigRadio
                                 id='task-6'
                                 name='task'
@@ -205,7 +204,6 @@ const AddNewKey = () => {
                                 label='Manual Task'
                                 checked={watch('taskLink') === 'manual'}
                             />
-                            */}
                         </FormStyled.GridBox>
                     </FormStyled.Fieldset>
                 )}

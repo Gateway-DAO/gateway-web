@@ -22,6 +22,7 @@ export type Scalars = {
   key_status: any;
   nft_type: any;
   permission_types: any;
+  submission_state: any;
   task_type: any;
   timestamp: any;
   uuid: any;
@@ -35,6 +36,12 @@ export type AlgoliaPaginationInput = {
 export type AlgoliaSearchResults = {
   __typename?: 'AlgoliaSearchResults';
   hits: Scalars['jsonb'];
+};
+
+export type ApproveMtInput = {
+  admin_id?: InputMaybe<Scalars['uuid']>;
+  comment?: InputMaybe<Scalars['String']>;
+  submission_id: Scalars['uuid'];
 };
 
 /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -72,6 +79,11 @@ export type LoginOutput = {
 export type NonceOutput = {
   __typename?: 'NonceOutput';
   nonce: Scalars['Int'];
+};
+
+export type RejectMtOutput = {
+  __typename?: 'RejectMTOutput';
+  message: Scalars['String'];
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -422,18 +434,20 @@ export type Credentials = {
   ceramic: Scalars['String'];
   created_at: Scalars['timestamp'];
   /** An object relationship */
-  dao: Daos;
-  dao_id: Scalars['uuid'];
+  dao?: Maybe<Daos>;
+  dao_id?: Maybe<Scalars['uuid']>;
   description: Scalars['String'];
-  gate: Scalars['jsonb'];
   id: Scalars['uuid'];
   image: Scalars['String'];
-  is_approved: Scalars['Boolean'];
+  info: Scalars['jsonb'];
   issuer_id?: Maybe<Scalars['uuid']>;
   knowledges?: Maybe<Scalars['jsonb']>;
   name: Scalars['String'];
+  namespace: Scalars['String'];
   pow?: Maybe<Scalars['jsonb']>;
+  signature?: Maybe<Scalars['String']>;
   skills?: Maybe<Scalars['jsonb']>;
+  status: Scalars['submission_state'];
   target_id: Scalars['uuid'];
   updated_at: Scalars['timestamp'];
   /** An object relationship */
@@ -450,7 +464,7 @@ export type CredentialsAttitudesArgs = {
 
 
 /** columns and relationships of "credentials" */
-export type CredentialsGateArgs = {
+export type CredentialsInfoArgs = {
   path?: InputMaybe<Scalars['String']>;
 };
 
@@ -504,7 +518,7 @@ export type Credentials_Aggregate_Order_By = {
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Credentials_Append_Input = {
   attitudes?: InputMaybe<Scalars['jsonb']>;
-  gate?: InputMaybe<Scalars['jsonb']>;
+  info?: InputMaybe<Scalars['jsonb']>;
   knowledges?: InputMaybe<Scalars['jsonb']>;
   pow?: InputMaybe<Scalars['jsonb']>;
   skills?: InputMaybe<Scalars['jsonb']>;
@@ -528,15 +542,17 @@ export type Credentials_Bool_Exp = {
   dao?: InputMaybe<Daos_Bool_Exp>;
   dao_id?: InputMaybe<Uuid_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
-  gate?: InputMaybe<Jsonb_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   image?: InputMaybe<String_Comparison_Exp>;
-  is_approved?: InputMaybe<Boolean_Comparison_Exp>;
+  info?: InputMaybe<Jsonb_Comparison_Exp>;
   issuer_id?: InputMaybe<Uuid_Comparison_Exp>;
   knowledges?: InputMaybe<Jsonb_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  namespace?: InputMaybe<String_Comparison_Exp>;
   pow?: InputMaybe<Jsonb_Comparison_Exp>;
+  signature?: InputMaybe<String_Comparison_Exp>;
   skills?: InputMaybe<Jsonb_Comparison_Exp>;
+  status?: InputMaybe<Submission_State_Comparison_Exp>;
   target_id?: InputMaybe<Uuid_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
@@ -554,7 +570,7 @@ export enum Credentials_Constraint {
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Credentials_Delete_At_Path_Input = {
   attitudes?: InputMaybe<Array<Scalars['String']>>;
-  gate?: InputMaybe<Array<Scalars['String']>>;
+  info?: InputMaybe<Array<Scalars['String']>>;
   knowledges?: InputMaybe<Array<Scalars['String']>>;
   pow?: InputMaybe<Array<Scalars['String']>>;
   skills?: InputMaybe<Array<Scalars['String']>>;
@@ -563,7 +579,7 @@ export type Credentials_Delete_At_Path_Input = {
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Credentials_Delete_Elem_Input = {
   attitudes?: InputMaybe<Scalars['Int']>;
-  gate?: InputMaybe<Scalars['Int']>;
+  info?: InputMaybe<Scalars['Int']>;
   knowledges?: InputMaybe<Scalars['Int']>;
   pow?: InputMaybe<Scalars['Int']>;
   skills?: InputMaybe<Scalars['Int']>;
@@ -572,7 +588,7 @@ export type Credentials_Delete_Elem_Input = {
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Credentials_Delete_Key_Input = {
   attitudes?: InputMaybe<Scalars['String']>;
-  gate?: InputMaybe<Scalars['String']>;
+  info?: InputMaybe<Scalars['String']>;
   knowledges?: InputMaybe<Scalars['String']>;
   pow?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Scalars['String']>;
@@ -586,15 +602,17 @@ export type Credentials_Insert_Input = {
   dao?: InputMaybe<Daos_Obj_Rel_Insert_Input>;
   dao_id?: InputMaybe<Scalars['uuid']>;
   description?: InputMaybe<Scalars['String']>;
-  gate?: InputMaybe<Scalars['jsonb']>;
   id?: InputMaybe<Scalars['uuid']>;
   image?: InputMaybe<Scalars['String']>;
-  is_approved?: InputMaybe<Scalars['Boolean']>;
+  info?: InputMaybe<Scalars['jsonb']>;
   issuer_id?: InputMaybe<Scalars['uuid']>;
   knowledges?: InputMaybe<Scalars['jsonb']>;
   name?: InputMaybe<Scalars['String']>;
+  namespace?: InputMaybe<Scalars['String']>;
   pow?: InputMaybe<Scalars['jsonb']>;
+  signature?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Scalars['jsonb']>;
+  status?: InputMaybe<Scalars['submission_state']>;
   target_id?: InputMaybe<Scalars['uuid']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -612,6 +630,9 @@ export type Credentials_Max_Fields = {
   image?: Maybe<Scalars['String']>;
   issuer_id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  namespace?: Maybe<Scalars['String']>;
+  signature?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['submission_state']>;
   target_id?: Maybe<Scalars['uuid']>;
   updated_at?: Maybe<Scalars['timestamp']>;
 };
@@ -626,6 +647,9 @@ export type Credentials_Max_Order_By = {
   image?: InputMaybe<Order_By>;
   issuer_id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  namespace?: InputMaybe<Order_By>;
+  signature?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   target_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -641,6 +665,9 @@ export type Credentials_Min_Fields = {
   image?: Maybe<Scalars['String']>;
   issuer_id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
+  namespace?: Maybe<Scalars['String']>;
+  signature?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['submission_state']>;
   target_id?: Maybe<Scalars['uuid']>;
   updated_at?: Maybe<Scalars['timestamp']>;
 };
@@ -655,6 +682,9 @@ export type Credentials_Min_Order_By = {
   image?: InputMaybe<Order_By>;
   issuer_id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  namespace?: InputMaybe<Order_By>;
+  signature?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   target_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
 };
@@ -683,15 +713,17 @@ export type Credentials_Order_By = {
   dao?: InputMaybe<Daos_Order_By>;
   dao_id?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
-  gate?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   image?: InputMaybe<Order_By>;
-  is_approved?: InputMaybe<Order_By>;
+  info?: InputMaybe<Order_By>;
   issuer_id?: InputMaybe<Order_By>;
   knowledges?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  namespace?: InputMaybe<Order_By>;
   pow?: InputMaybe<Order_By>;
+  signature?: InputMaybe<Order_By>;
   skills?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   target_id?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
@@ -706,7 +738,7 @@ export type Credentials_Pk_Columns_Input = {
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Credentials_Prepend_Input = {
   attitudes?: InputMaybe<Scalars['jsonb']>;
-  gate?: InputMaybe<Scalars['jsonb']>;
+  info?: InputMaybe<Scalars['jsonb']>;
   knowledges?: InputMaybe<Scalars['jsonb']>;
   pow?: InputMaybe<Scalars['jsonb']>;
   skills?: InputMaybe<Scalars['jsonb']>;
@@ -725,13 +757,11 @@ export enum Credentials_Select_Column {
   /** column name */
   Description = 'description',
   /** column name */
-  Gate = 'gate',
-  /** column name */
   Id = 'id',
   /** column name */
   Image = 'image',
   /** column name */
-  IsApproved = 'is_approved',
+  Info = 'info',
   /** column name */
   IssuerId = 'issuer_id',
   /** column name */
@@ -739,9 +769,15 @@ export enum Credentials_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  Namespace = 'namespace',
+  /** column name */
   Pow = 'pow',
   /** column name */
+  Signature = 'signature',
+  /** column name */
   Skills = 'skills',
+  /** column name */
+  Status = 'status',
   /** column name */
   TargetId = 'target_id',
   /** column name */
@@ -755,15 +791,17 @@ export type Credentials_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamp']>;
   dao_id?: InputMaybe<Scalars['uuid']>;
   description?: InputMaybe<Scalars['String']>;
-  gate?: InputMaybe<Scalars['jsonb']>;
   id?: InputMaybe<Scalars['uuid']>;
   image?: InputMaybe<Scalars['String']>;
-  is_approved?: InputMaybe<Scalars['Boolean']>;
+  info?: InputMaybe<Scalars['jsonb']>;
   issuer_id?: InputMaybe<Scalars['uuid']>;
   knowledges?: InputMaybe<Scalars['jsonb']>;
   name?: InputMaybe<Scalars['String']>;
+  namespace?: InputMaybe<Scalars['String']>;
   pow?: InputMaybe<Scalars['jsonb']>;
+  signature?: InputMaybe<Scalars['String']>;
   skills?: InputMaybe<Scalars['jsonb']>;
+  status?: InputMaybe<Scalars['submission_state']>;
   target_id?: InputMaybe<Scalars['uuid']>;
   updated_at?: InputMaybe<Scalars['timestamp']>;
 };
@@ -781,13 +819,11 @@ export enum Credentials_Update_Column {
   /** column name */
   Description = 'description',
   /** column name */
-  Gate = 'gate',
-  /** column name */
   Id = 'id',
   /** column name */
   Image = 'image',
   /** column name */
-  IsApproved = 'is_approved',
+  Info = 'info',
   /** column name */
   IssuerId = 'issuer_id',
   /** column name */
@@ -795,9 +831,15 @@ export enum Credentials_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  Namespace = 'namespace',
+  /** column name */
   Pow = 'pow',
   /** column name */
+  Signature = 'signature',
+  /** column name */
   Skills = 'skills',
+  /** column name */
+  Status = 'status',
   /** column name */
   TargetId = 'target_id',
   /** column name */
@@ -3059,14 +3101,17 @@ export enum Keys_Update_Column {
 /** columns and relationships of "manual_task_submission" */
 export type Manual_Task_Submission = {
   __typename?: 'manual_task_submission';
-  admin_comment: Scalars['String'];
+  /** An object relationship */
+  admin?: Maybe<Users>;
+  admin_comment?: Maybe<Scalars['String']>;
+  admin_id?: Maybe<Scalars['uuid']>;
   comment?: Maybe<Scalars['String']>;
   discord_id: Scalars['String'];
   id: Scalars['uuid'];
-  is_approved?: Maybe<Scalars['Boolean']>;
   /** An object relationship */
   key: Keys;
   key_id: Scalars['uuid'];
+  status: Scalars['submission_state'];
   submission_url: Scalars['String'];
   /** An object relationship */
   user: Users;
@@ -3115,13 +3160,15 @@ export type Manual_Task_Submission_Bool_Exp = {
   _and?: InputMaybe<Array<Manual_Task_Submission_Bool_Exp>>;
   _not?: InputMaybe<Manual_Task_Submission_Bool_Exp>;
   _or?: InputMaybe<Array<Manual_Task_Submission_Bool_Exp>>;
+  admin?: InputMaybe<Users_Bool_Exp>;
   admin_comment?: InputMaybe<String_Comparison_Exp>;
+  admin_id?: InputMaybe<Uuid_Comparison_Exp>;
   comment?: InputMaybe<String_Comparison_Exp>;
   discord_id?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
-  is_approved?: InputMaybe<Boolean_Comparison_Exp>;
   key?: InputMaybe<Keys_Bool_Exp>;
   key_id?: InputMaybe<Uuid_Comparison_Exp>;
+  status?: InputMaybe<Submission_State_Comparison_Exp>;
   submission_url?: InputMaybe<String_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -3138,13 +3185,15 @@ export enum Manual_Task_Submission_Constraint {
 
 /** input type for inserting data into table "manual_task_submission" */
 export type Manual_Task_Submission_Insert_Input = {
+  admin?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   admin_comment?: InputMaybe<Scalars['String']>;
+  admin_id?: InputMaybe<Scalars['uuid']>;
   comment?: InputMaybe<Scalars['String']>;
   discord_id?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
-  is_approved?: InputMaybe<Scalars['Boolean']>;
   key?: InputMaybe<Keys_Obj_Rel_Insert_Input>;
   key_id?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Scalars['submission_state']>;
   submission_url?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   user_id?: InputMaybe<Scalars['uuid']>;
@@ -3155,10 +3204,12 @@ export type Manual_Task_Submission_Insert_Input = {
 export type Manual_Task_Submission_Max_Fields = {
   __typename?: 'manual_task_submission_max_fields';
   admin_comment?: Maybe<Scalars['String']>;
+  admin_id?: Maybe<Scalars['uuid']>;
   comment?: Maybe<Scalars['String']>;
   discord_id?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   key_id?: Maybe<Scalars['uuid']>;
+  status?: Maybe<Scalars['submission_state']>;
   submission_url?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['uuid']>;
   wallet?: Maybe<Scalars['String']>;
@@ -3167,10 +3218,12 @@ export type Manual_Task_Submission_Max_Fields = {
 /** order by max() on columns of table "manual_task_submission" */
 export type Manual_Task_Submission_Max_Order_By = {
   admin_comment?: InputMaybe<Order_By>;
+  admin_id?: InputMaybe<Order_By>;
   comment?: InputMaybe<Order_By>;
   discord_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   key_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   submission_url?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
   wallet?: InputMaybe<Order_By>;
@@ -3180,10 +3233,12 @@ export type Manual_Task_Submission_Max_Order_By = {
 export type Manual_Task_Submission_Min_Fields = {
   __typename?: 'manual_task_submission_min_fields';
   admin_comment?: Maybe<Scalars['String']>;
+  admin_id?: Maybe<Scalars['uuid']>;
   comment?: Maybe<Scalars['String']>;
   discord_id?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['uuid']>;
   key_id?: Maybe<Scalars['uuid']>;
+  status?: Maybe<Scalars['submission_state']>;
   submission_url?: Maybe<Scalars['String']>;
   user_id?: Maybe<Scalars['uuid']>;
   wallet?: Maybe<Scalars['String']>;
@@ -3192,10 +3247,12 @@ export type Manual_Task_Submission_Min_Fields = {
 /** order by min() on columns of table "manual_task_submission" */
 export type Manual_Task_Submission_Min_Order_By = {
   admin_comment?: InputMaybe<Order_By>;
+  admin_id?: InputMaybe<Order_By>;
   comment?: InputMaybe<Order_By>;
   discord_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   key_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   submission_url?: InputMaybe<Order_By>;
   user_id?: InputMaybe<Order_By>;
   wallet?: InputMaybe<Order_By>;
@@ -3219,13 +3276,15 @@ export type Manual_Task_Submission_On_Conflict = {
 
 /** Ordering options when selecting data from "manual_task_submission". */
 export type Manual_Task_Submission_Order_By = {
+  admin?: InputMaybe<Users_Order_By>;
   admin_comment?: InputMaybe<Order_By>;
+  admin_id?: InputMaybe<Order_By>;
   comment?: InputMaybe<Order_By>;
   discord_id?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  is_approved?: InputMaybe<Order_By>;
   key?: InputMaybe<Keys_Order_By>;
   key_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
   submission_url?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_id?: InputMaybe<Order_By>;
@@ -3242,15 +3301,17 @@ export enum Manual_Task_Submission_Select_Column {
   /** column name */
   AdminComment = 'admin_comment',
   /** column name */
+  AdminId = 'admin_id',
+  /** column name */
   Comment = 'comment',
   /** column name */
   DiscordId = 'discord_id',
   /** column name */
   Id = 'id',
   /** column name */
-  IsApproved = 'is_approved',
-  /** column name */
   KeyId = 'key_id',
+  /** column name */
+  Status = 'status',
   /** column name */
   SubmissionUrl = 'submission_url',
   /** column name */
@@ -3262,11 +3323,12 @@ export enum Manual_Task_Submission_Select_Column {
 /** input type for updating data in table "manual_task_submission" */
 export type Manual_Task_Submission_Set_Input = {
   admin_comment?: InputMaybe<Scalars['String']>;
+  admin_id?: InputMaybe<Scalars['uuid']>;
   comment?: InputMaybe<Scalars['String']>;
   discord_id?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['uuid']>;
-  is_approved?: InputMaybe<Scalars['Boolean']>;
   key_id?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Scalars['submission_state']>;
   submission_url?: InputMaybe<Scalars['String']>;
   user_id?: InputMaybe<Scalars['uuid']>;
   wallet?: InputMaybe<Scalars['String']>;
@@ -3277,15 +3339,17 @@ export enum Manual_Task_Submission_Update_Column {
   /** column name */
   AdminComment = 'admin_comment',
   /** column name */
+  AdminId = 'admin_id',
+  /** column name */
   Comment = 'comment',
   /** column name */
   DiscordId = 'discord_id',
   /** column name */
   Id = 'id',
   /** column name */
-  IsApproved = 'is_approved',
-  /** column name */
   KeyId = 'key_id',
+  /** column name */
+  Status = 'status',
   /** column name */
   SubmissionUrl = 'submission_url',
   /** column name */
@@ -3297,6 +3361,7 @@ export enum Manual_Task_Submission_Update_Column {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  approve_manual_task?: Maybe<VerifyOutput>;
   /** delete data from the table: "bounties" */
   delete_bounties?: Maybe<Bounties_Mutation_Response>;
   /** delete single row from the table: "bounties" */
@@ -3406,6 +3471,8 @@ export type Mutation_Root = {
   /** login */
   login?: Maybe<LoginOutput>;
   refresh?: Maybe<LoginOutput>;
+  /** reject_manual_task */
+  reject_manual_task?: Maybe<RejectMtOutput>;
   /** revoke */
   revoke?: Maybe<LoginOutput>;
   /** update data of the table: "bounties" */
@@ -3460,6 +3527,12 @@ export type Mutation_Root = {
   update_users_by_pk?: Maybe<Users>;
   /** verify_key */
   verify_key?: Maybe<VerifyOutput>;
+};
+
+
+/** mutation root */
+export type Mutation_RootApprove_Manual_TaskArgs = {
+  input: ApproveMtInput;
 };
 
 
@@ -3819,6 +3892,12 @@ export type Mutation_RootLoginArgs = {
 /** mutation root */
 export type Mutation_RootRefreshArgs = {
   token?: InputMaybe<Scalars['String']>;
+};
+
+
+/** mutation root */
+export type Mutation_RootReject_Manual_TaskArgs = {
+  input: ApproveMtInput;
 };
 
 
@@ -4770,6 +4849,19 @@ export type Query_RootUsers_By_PkArgs = {
   id: Scalars['uuid'];
 };
 
+/** Boolean expression to compare columns of type "submission_state". All fields are combined with logical 'AND'. */
+export type Submission_State_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['submission_state']>;
+  _gt?: InputMaybe<Scalars['submission_state']>;
+  _gte?: InputMaybe<Scalars['submission_state']>;
+  _in?: InputMaybe<Array<Scalars['submission_state']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['submission_state']>;
+  _lte?: InputMaybe<Scalars['submission_state']>;
+  _neq?: InputMaybe<Scalars['submission_state']>;
+  _nin?: InputMaybe<Array<Scalars['submission_state']>>;
+};
+
 export type Subscription_Root = {
   __typename?: 'subscription_root';
   /** An array relationship */
@@ -5586,6 +5678,7 @@ export type Users = {
   /** An aggregate relationship */
   credentials_aggregate: Credentials_Aggregate;
   device?: Maybe<Scalars['String']>;
+  discord_id?: Maybe<Scalars['String']>;
   email_address?: Maybe<Scalars['citext']>;
   /** An array relationship */
   gate_progresses: Array<Gate_Progress>;
@@ -5800,6 +5893,7 @@ export type Users_Bool_Exp = {
   createdAt?: InputMaybe<Timestamp_Comparison_Exp>;
   credentials?: InputMaybe<Credentials_Bool_Exp>;
   device?: InputMaybe<String_Comparison_Exp>;
+  discord_id?: InputMaybe<String_Comparison_Exp>;
   email_address?: InputMaybe<Citext_Comparison_Exp>;
   gate_progresses?: InputMaybe<Gate_Progress_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
@@ -5878,6 +5972,7 @@ export type Users_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamp']>;
   credentials?: InputMaybe<Credentials_Arr_Rel_Insert_Input>;
   device?: InputMaybe<Scalars['String']>;
+  discord_id?: InputMaybe<Scalars['String']>;
   email_address?: InputMaybe<Scalars['citext']>;
   gate_progresses?: InputMaybe<Gate_Progress_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
@@ -5903,6 +5998,7 @@ export type Users_Max_Fields = {
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamp']>;
   device?: Maybe<Scalars['String']>;
+  discord_id?: Maybe<Scalars['String']>;
   email_address?: Maybe<Scalars['citext']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
@@ -5919,6 +6015,7 @@ export type Users_Max_Order_By = {
   bio?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   device?: InputMaybe<Order_By>;
+  discord_id?: InputMaybe<Order_By>;
   email_address?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -5936,6 +6033,7 @@ export type Users_Min_Fields = {
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['timestamp']>;
   device?: Maybe<Scalars['String']>;
+  discord_id?: Maybe<Scalars['String']>;
   email_address?: Maybe<Scalars['citext']>;
   id?: Maybe<Scalars['uuid']>;
   name?: Maybe<Scalars['String']>;
@@ -5952,6 +6050,7 @@ export type Users_Min_Order_By = {
   bio?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   device?: InputMaybe<Order_By>;
+  discord_id?: InputMaybe<Order_By>;
   email_address?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -5995,6 +6094,7 @@ export type Users_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   credentials_aggregate?: InputMaybe<Credentials_Aggregate_Order_By>;
   device?: InputMaybe<Order_By>;
+  discord_id?: InputMaybe<Order_By>;
   email_address?: InputMaybe<Order_By>;
   gate_progresses_aggregate?: InputMaybe<Gate_Progress_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
@@ -6043,6 +6143,8 @@ export enum Users_Select_Column {
   /** column name */
   Device = 'device',
   /** column name */
+  DiscordId = 'discord_id',
+  /** column name */
   EmailAddress = 'email_address',
   /** column name */
   Id = 'id',
@@ -6080,6 +6182,7 @@ export type Users_Set_Input = {
   blacklistedFlags?: InputMaybe<Scalars['_text']>;
   createdAt?: InputMaybe<Scalars['timestamp']>;
   device?: InputMaybe<Scalars['String']>;
+  discord_id?: InputMaybe<Scalars['String']>;
   email_address?: InputMaybe<Scalars['citext']>;
   id?: InputMaybe<Scalars['uuid']>;
   init?: InputMaybe<Scalars['Boolean']>;
@@ -6154,6 +6257,8 @@ export enum Users_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Device = 'device',
+  /** column name */
+  DiscordId = 'discord_id',
   /** column name */
   EmailAddress = 'email_address',
   /** column name */
@@ -6235,7 +6340,7 @@ export type GetCredentialQueryVariables = Exact<{
 }>;
 
 
-export type GetCredentialQuery = { __typename?: 'query_root', credentials_by_pk?: { __typename?: 'credentials', updated_at: any, target_id: any, skills?: any | null | undefined, pow?: any | null | undefined, name: string, knowledges?: any | null | undefined, issuer_id?: any | null | undefined, image: string, id: any, gate: any, description: string, dao_id: any, created_at: any, ceramic: string, attitudes?: any | null | undefined, dao: { __typename?: 'daos', background_url: string, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, id: any, logo_url: string, name: string, slug: string } } | null | undefined };
+export type GetCredentialQuery = { __typename?: 'query_root', credentials_by_pk?: { __typename?: 'credentials', updated_at: any, target_id: any, skills?: any | null | undefined, pow?: any | null | undefined, name: string, knowledges?: any | null | undefined, issuer_id?: any | null | undefined, image: string, id: any, info: any, description: string, dao_id?: any | null | undefined, created_at: any, ceramic: string, attitudes?: any | null | undefined, namespace: string, status: any, dao?: { __typename?: 'daos', background_url: string, categories?: any | null | undefined, created_at: any, description: string, ens?: string | null | undefined, id: any, logo_url: string, name: string, slug: string } | null | undefined } | null | undefined };
 
 export type GetDaoQueryVariables = Exact<{
   id: Scalars['uuid'];
@@ -6505,7 +6610,7 @@ export type GetUserByUsernameQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id: any, description: string, gate: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao: { __typename?: 'daos', logo_url: string, name: string } }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type GetUserByUsernameQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id?: any | null | undefined, description: string, info: any, status: any, namespace: string, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao?: { __typename?: 'daos', logo_url: string, name: string } | null | undefined }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type CheckUsernameQueryVariables = Exact<{
   username: Scalars['String'];
@@ -6519,19 +6624,19 @@ export type GetUserByAddressQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id: any, description: string, gate: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao: { __typename?: 'daos', logo_url: string, name: string } }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type GetUserByAddressQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id?: any | null | undefined, description: string, info: any, namespace: string, status: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao?: { __typename?: 'daos', logo_url: string, name: string } | null | undefined }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type ListUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id: any, description: string, gate: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao: { __typename?: 'daos', logo_url: string, name: string } }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
+export type ListUsersQuery = { __typename?: 'query_root', users: Array<{ __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id?: any | null | undefined, description: string, info: any, namespace: string, status: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao?: { __typename?: 'daos', logo_url: string, name: string } | null | undefined }>, gate_progresses: Array<{ __typename?: 'gate_progress', created_at: any, gate_id: any, id: any, status: any, updated_at: any }> }> };
 
 export type CreateUserMutationVariables = Exact<{
   object?: InputMaybe<Users_Insert_Input>;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id: any, description: string, gate: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao: { __typename?: 'daos', logo_url: string, name: string } }> } | null | undefined };
+export type CreateUserMutation = { __typename?: 'mutation_root', insert_users_one?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id?: any | null | undefined, description: string, info: any, namespace: string, status: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao?: { __typename?: 'daos', logo_url: string, name: string } | null | undefined }> } | null | undefined };
 
 export type UpdateUserMutationVariables = Exact<{
   set?: InputMaybe<Users_Set_Input>;
@@ -6539,7 +6644,7 @@ export type UpdateUserMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id: any, description: string, gate: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao: { __typename?: 'daos', logo_url: string, name: string } }> } | null | undefined };
+export type UpdateUserMutation = { __typename?: 'mutation_root', update_users_by_pk?: { __typename?: 'users', about?: any | null | undefined, attitudes?: any | null | undefined, bio?: string | null | undefined, blacklistedFlags: any, createdAt: any, device?: string | null | undefined, id: any, init: boolean, knowledges?: any | null | undefined, languages?: any | null | undefined, name?: string | null | undefined, pfp: string, skills?: any | null | undefined, updatedAt: any, username?: string | null | undefined, wallet?: string | null | undefined, whitelistedFlags: any, socials: Array<{ __typename?: 'user_socials', network: string, url: string }>, credentials: Array<{ __typename?: 'credentials', attitudes?: any | null | undefined, ceramic: string, created_at: any, dao_id?: any | null | undefined, description: string, info: any, namespace: string, status: any, id: any, image: string, issuer_id?: any | null | undefined, knowledges?: any | null | undefined, name: string, pow?: any | null | undefined, skills?: any | null | undefined, target_id: any, updated_at: any, dao?: { __typename?: 'daos', logo_url: string, name: string } | null | undefined }> } | null | undefined };
 
 export type UpdateSocialsMutationVariables = Exact<{
   objects?: InputMaybe<Array<User_Socials_Insert_Input> | User_Socials_Insert_Input>;
@@ -6568,12 +6673,14 @@ export const GetCredentialDocument = gql`
     issuer_id
     image
     id
-    gate
+    info
     description
     dao_id
     created_at
     ceramic
     attitudes
+    namespace
+    status
     dao {
       background_url
       categories
@@ -8597,7 +8704,9 @@ export const GetUserByUsernameDocument = gql`
         name
       }
       description
-      gate
+      info
+      status
+      namespace
       id
       image
       issuer_id
@@ -8716,7 +8825,9 @@ export const GetUserByAddressDocument = gql`
         name
       }
       description
-      gate
+      info
+      namespace
+      status
       id
       image
       issuer_id
@@ -8799,7 +8910,9 @@ export const ListUsersDocument = gql`
         name
       }
       description
-      gate
+      info
+      namespace
+      status
       id
       image
       issuer_id
@@ -8881,7 +8994,9 @@ export const CreateUserDocument = gql`
         name
       }
       description
-      gate
+      info
+      namespace
+      status
       id
       image
       issuer_id
@@ -8955,7 +9070,9 @@ export const UpdateUserDocument = gql`
         name
       }
       description
-      gate
+      info
+      namespace
+      status
       id
       image
       issuer_id
