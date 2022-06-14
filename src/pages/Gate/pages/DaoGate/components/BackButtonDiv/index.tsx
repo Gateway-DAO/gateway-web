@@ -15,7 +15,7 @@ import useAdmin, { useGateAdmin } from '../../../../../../hooks/useAdmin';
 // Types
 import { useModal } from '../../../../../../contexts/ModalContext';
 import ConfirmationModal from '../../../../../../components/Modal/ConfirmationModal';
-import { Daos, Users, Key_Progress, Gates as Gate, GatePublishedStatus, useDeleteGateMutation, useUpdateGateMutation } from '../../../../../../graphql';
+import { Daos, Users, Key_Progress, Gates as Gate, GatePublishedStatus, useDeleteGateMutation, useUpdateGateMutation, GetDaoBySlugDocument } from '../../../../../../graphql';
 import { Store } from 'react-notifications-component';
 import { PartialDeep } from 'type-fest';
 
@@ -57,7 +57,22 @@ const BackButton: React.FC<Props> = ({
     const [updateGate] = useUpdateGateMutation();
     const navigate = useNavigate();
     const { isAdmin } = useAdmin(props.daoData.id);
-    const [deleteGate] = useDeleteGateMutation();
+    const [deleteGate] = useDeleteGateMutation({
+        update: (cache, { data: { delete_gates_by_pk } }) => {
+            const { daos: dao } = cache.readQuery({ query: GetDaoBySlugDocument, variables: { slug: props.daoData.slug } })
+
+            const gates = dao[0].gates.filter(obj => obj.id !== gateData.id)
+
+            cache.writeQuery({
+                query: GetDaoBySlugDocument, variables: { slug: props.daoData.slug }, data: {
+                    daos: {
+                        ...dao,
+                        gates
+                    }
+                }
+            })
+        }
+    });
     const { showErrorModal, discardModal }: Record<string, any> = useModal();
 
     /**

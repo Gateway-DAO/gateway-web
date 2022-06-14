@@ -1,16 +1,18 @@
 import React from 'react';
 import * as Styled from './style';
-import Input from './components/Input';
+import SubmissionModal from './components/Input';
 // import Success from './components/Success';
 const ManualTask = (props) => {
     const data = props.data;
+
     return (
         <Styled.Container>
             {props.start ? (
-                <Input
+                <SubmissionModal
                     setStart={props.setStart}
                     setOpened={props.setOpened}
                     keyValidation={props.keyValidation}
+                    data={data}
                 />
             ) : props.opened ? (
                 data.map((val) => (

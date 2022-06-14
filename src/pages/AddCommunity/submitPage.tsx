@@ -1,25 +1,18 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../../components/Header';
-import space from '../../utils/canvas';
 import * as Styled from './style';
 import { FormStyled } from '../../components/Form';
+import Page from '../../components/Page';
 
 const SubmitPage = (): JSX.Element => {
     const navigate = useNavigate();
-
-    useEffect(
-        () => space(window.innerHeight, window.innerWidth),
-        [window.innerHeight, window.innerWidth]
-    );
 
     const backToHome = () => {
         navigate('/');
     };
 
     return (
-        <Styled.Page>
-            <Header />
+        <Page space>
             <Styled.SpaceBox id='space-canvas' />
             <Styled.Container>
                 <Styled.Heading>
@@ -36,8 +29,7 @@ const SubmitPage = (): JSX.Element => {
                     Back To Home
                 </FormStyled.Button>
             </Styled.Container>
-            {/* <Footer /> */}
-        </Styled.Page>
+        </Page>
     );
 };
 

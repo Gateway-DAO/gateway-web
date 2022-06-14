@@ -381,3 +381,18 @@ mutation verifyTask($key_id: uuid!, $user_id: uuid!, $info: json) {
         task_info
     }
 }
+
+mutation createManualTaskSubmission($object: manual_task_submission_insert_input = {}) {
+    insert_manual_task_submission_one(object: $object) {
+        admin_comment
+        admin_id
+        comment
+        discord_id
+        id
+        key_id
+        status
+        submission_url
+        user_id
+        wallet
+    }
+}

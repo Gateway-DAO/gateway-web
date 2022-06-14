@@ -128,8 +128,6 @@ const AddGateForm = () => {
         update: (cache, { data: { insert_gates_one } }) => {
             const { daos: dao } = cache.readQuery({ query: GetDaoBySlugDocument, variables: { slug: daoData.slug } })
 
-            console.log(dao);
-
             const gates = [...dao[0].gates, insert_gates_one]
 
             cache.writeQuery({

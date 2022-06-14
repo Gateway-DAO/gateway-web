@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import * as Styled from './style';
 import useKeyValidation from '../../../../../../hooks/useKeyValidation';
 import { AiFillCheckCircle } from 'react-icons/ai';
-import { useGateAdmin } from '../../../../../../hooks/useAdmin';
+import { useAdmin } from '../../../../../../hooks/useAdmin';
 import { useNavigate } from 'react-router-dom';
 import parser from 'html-react-parser';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
 import ConfirmationModal from '../../../../../../components/Modal/ConfirmationModal';
 
 // Task Components
@@ -44,7 +44,7 @@ const KeyBox = (props) => {
     const [startBox, setStartBox] = useState(false);
     const data = props.data;
     const keyValidation = useKeyValidation(data, props.gateData);
-    const { isAdmin } = useGateAdmin(props.gateData.id);
+    const { isAdmin } = useAdmin(props.gateData.dao.id);
     const [showModal, setShowModal] = useState(false);
 
     // API

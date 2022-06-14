@@ -15,6 +15,7 @@ export type Scalars = {
   Float: number;
   _text: any;
   citext: any;
+  following_state: any;
   gate_state: any;
   gate_status: any;
   json: any;
@@ -846,6 +847,189 @@ export enum Credentials_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
+/** columns and relationships of "dao_following" */
+export type Dao_Following = {
+  __typename?: 'dao_following';
+  /** An object relationship */
+  dao: Daos;
+  dao_id: Scalars['uuid'];
+  followed_at: Scalars['timestamp'];
+  follower_id: Scalars['uuid'];
+  status: Scalars['following_state'];
+  updated_at: Scalars['timestamp'];
+  /** An object relationship */
+  user: Users;
+};
+
+/** aggregated selection of "dao_following" */
+export type Dao_Following_Aggregate = {
+  __typename?: 'dao_following_aggregate';
+  aggregate?: Maybe<Dao_Following_Aggregate_Fields>;
+  nodes: Array<Dao_Following>;
+};
+
+/** aggregate fields of "dao_following" */
+export type Dao_Following_Aggregate_Fields = {
+  __typename?: 'dao_following_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Dao_Following_Max_Fields>;
+  min?: Maybe<Dao_Following_Min_Fields>;
+};
+
+
+/** aggregate fields of "dao_following" */
+export type Dao_Following_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "dao_following" */
+export type Dao_Following_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Dao_Following_Max_Order_By>;
+  min?: InputMaybe<Dao_Following_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "dao_following" */
+export type Dao_Following_Arr_Rel_Insert_Input = {
+  data: Array<Dao_Following_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Dao_Following_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "dao_following". All fields are combined with a logical 'AND'. */
+export type Dao_Following_Bool_Exp = {
+  _and?: InputMaybe<Array<Dao_Following_Bool_Exp>>;
+  _not?: InputMaybe<Dao_Following_Bool_Exp>;
+  _or?: InputMaybe<Array<Dao_Following_Bool_Exp>>;
+  dao?: InputMaybe<Daos_Bool_Exp>;
+  dao_id?: InputMaybe<Uuid_Comparison_Exp>;
+  followed_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  follower_id?: InputMaybe<Uuid_Comparison_Exp>;
+  status?: InputMaybe<Following_State_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "dao_following" */
+export enum Dao_Following_Constraint {
+  /** unique or primary key constraint */
+  DaoFollowingDaoIdFollowerIdUindex = 'dao_following_dao_id_follower_id_uindex'
+}
+
+/** input type for inserting data into table "dao_following" */
+export type Dao_Following_Insert_Input = {
+  dao?: InputMaybe<Daos_Obj_Rel_Insert_Input>;
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  followed_at?: InputMaybe<Scalars['timestamp']>;
+  follower_id?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Scalars['following_state']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Dao_Following_Max_Fields = {
+  __typename?: 'dao_following_max_fields';
+  dao_id?: Maybe<Scalars['uuid']>;
+  followed_at?: Maybe<Scalars['timestamp']>;
+  follower_id?: Maybe<Scalars['uuid']>;
+  status?: Maybe<Scalars['following_state']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+};
+
+/** order by max() on columns of table "dao_following" */
+export type Dao_Following_Max_Order_By = {
+  dao_id?: InputMaybe<Order_By>;
+  followed_at?: InputMaybe<Order_By>;
+  follower_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Dao_Following_Min_Fields = {
+  __typename?: 'dao_following_min_fields';
+  dao_id?: Maybe<Scalars['uuid']>;
+  followed_at?: Maybe<Scalars['timestamp']>;
+  follower_id?: Maybe<Scalars['uuid']>;
+  status?: Maybe<Scalars['following_state']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+};
+
+/** order by min() on columns of table "dao_following" */
+export type Dao_Following_Min_Order_By = {
+  dao_id?: InputMaybe<Order_By>;
+  followed_at?: InputMaybe<Order_By>;
+  follower_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "dao_following" */
+export type Dao_Following_Mutation_Response = {
+  __typename?: 'dao_following_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Dao_Following>;
+};
+
+/** on_conflict condition type for table "dao_following" */
+export type Dao_Following_On_Conflict = {
+  constraint: Dao_Following_Constraint;
+  update_columns?: Array<Dao_Following_Update_Column>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "dao_following". */
+export type Dao_Following_Order_By = {
+  dao?: InputMaybe<Daos_Order_By>;
+  dao_id?: InputMaybe<Order_By>;
+  followed_at?: InputMaybe<Order_By>;
+  follower_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+};
+
+/** select columns of table "dao_following" */
+export enum Dao_Following_Select_Column {
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  FollowedAt = 'followed_at',
+  /** column name */
+  FollowerId = 'follower_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
+/** input type for updating data in table "dao_following" */
+export type Dao_Following_Set_Input = {
+  dao_id?: InputMaybe<Scalars['uuid']>;
+  followed_at?: InputMaybe<Scalars['timestamp']>;
+  follower_id?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Scalars['following_state']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+};
+
+/** update columns of table "dao_following" */
+export enum Dao_Following_Update_Column {
+  /** column name */
+  DaoId = 'dao_id',
+  /** column name */
+  FollowedAt = 'followed_at',
+  /** column name */
+  FollowerId = 'follower_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updated_at'
+}
+
 /** columns and relationships of "dao_socials" */
 export type Dao_Socials = {
   __typename?: 'dao_socials';
@@ -1010,6 +1194,10 @@ export type Daos = {
   ens?: Maybe<Scalars['String']>;
   faq?: Maybe<Scalars['jsonb']>;
   /** An array relationship */
+  followers: Array<Dao_Following>;
+  /** An aggregate relationship */
+  followers_aggregate: Dao_Following_Aggregate;
+  /** An array relationship */
   gates: Array<Gates>;
   /** An aggregate relationship */
   gates_aggregate: Gates_Aggregate;
@@ -1082,6 +1270,26 @@ export type DaosChainsArgs = {
 /** columns and relationships of "daos" */
 export type DaosFaqArgs = {
   path?: InputMaybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "daos" */
+export type DaosFollowersArgs = {
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
+};
+
+
+/** columns and relationships of "daos" */
+export type DaosFollowers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
 };
 
 
@@ -1230,6 +1438,7 @@ export type Daos_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   ens?: InputMaybe<String_Comparison_Exp>;
   faq?: InputMaybe<Jsonb_Comparison_Exp>;
+  followers?: InputMaybe<Dao_Following_Bool_Exp>;
   gates?: InputMaybe<Gates_Bool_Exp>;
   guild_id?: InputMaybe<String_Comparison_Exp>;
   hangouts?: InputMaybe<String_Comparison_Exp>;
@@ -1306,6 +1515,7 @@ export type Daos_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   ens?: InputMaybe<Scalars['String']>;
   faq?: InputMaybe<Scalars['jsonb']>;
+  followers?: InputMaybe<Dao_Following_Arr_Rel_Insert_Input>;
   gates?: InputMaybe<Gates_Arr_Rel_Insert_Input>;
   guild_id?: InputMaybe<Scalars['String']>;
   hangouts?: InputMaybe<Scalars['String']>;
@@ -1400,6 +1610,7 @@ export type Daos_Order_By = {
   description?: InputMaybe<Order_By>;
   ens?: InputMaybe<Order_By>;
   faq?: InputMaybe<Order_By>;
+  followers_aggregate?: InputMaybe<Dao_Following_Aggregate_Order_By>;
   gates_aggregate?: InputMaybe<Gates_Aggregate_Order_By>;
   guild_id?: InputMaybe<Order_By>;
   hangouts?: InputMaybe<Order_By>;
@@ -1718,6 +1929,27 @@ export enum Earners_Update_Column {
   /** column name */
   UserId = 'user_id'
 }
+
+export type Follow_Dao_Args = {
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+export type Follow_User_Args = {
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Boolean expression to compare columns of type "following_state". All fields are combined with logical 'AND'. */
+export type Following_State_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['following_state']>;
+  _gt?: InputMaybe<Scalars['following_state']>;
+  _gte?: InputMaybe<Scalars['following_state']>;
+  _in?: InputMaybe<Array<Scalars['following_state']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['following_state']>;
+  _lte?: InputMaybe<Scalars['following_state']>;
+  _neq?: InputMaybe<Scalars['following_state']>;
+  _nin?: InputMaybe<Array<Scalars['following_state']>>;
+};
 
 /** columns and relationships of "gate_progress" */
 export type Gate_Progress = {
@@ -3370,6 +3602,8 @@ export type Mutation_Root = {
   delete_credentials?: Maybe<Credentials_Mutation_Response>;
   /** delete single row from the table: "credentials" */
   delete_credentials_by_pk?: Maybe<Credentials>;
+  /** delete data from the table: "dao_following" */
+  delete_dao_following?: Maybe<Dao_Following_Mutation_Response>;
   /** delete data from the table: "dao_socials" */
   delete_dao_socials?: Maybe<Dao_Socials_Mutation_Response>;
   /** delete data from the table: "daos" */
@@ -3406,12 +3640,18 @@ export type Mutation_Root = {
   delete_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
   /** delete single row from the table: "token_benefits" */
   delete_token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** delete data from the table: "user_following" */
+  delete_user_following?: Maybe<User_Following_Mutation_Response>;
   /** delete data from the table: "user_socials" */
   delete_user_socials?: Maybe<User_Socials_Mutation_Response>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
   delete_users_by_pk?: Maybe<Users>;
+  /** execute VOLATILE function "follow_dao" which returns "dao_following" */
+  follow_dao?: Maybe<Dao_Following>;
+  /** execute VOLATILE function "follow_user" which returns "user_following" */
+  follow_user?: Maybe<User_Following>;
   /** insert data into the table: "bounties" */
   insert_bounties?: Maybe<Bounties_Mutation_Response>;
   /** insert a single row into the table: "bounties" */
@@ -3420,6 +3660,10 @@ export type Mutation_Root = {
   insert_credentials?: Maybe<Credentials_Mutation_Response>;
   /** insert a single row into the table: "credentials" */
   insert_credentials_one?: Maybe<Credentials>;
+  /** insert data into the table: "dao_following" */
+  insert_dao_following?: Maybe<Dao_Following_Mutation_Response>;
+  /** insert a single row into the table: "dao_following" */
+  insert_dao_following_one?: Maybe<Dao_Following>;
   /** insert data into the table: "dao_socials" */
   insert_dao_socials?: Maybe<Dao_Socials_Mutation_Response>;
   /** insert a single row into the table: "dao_socials" */
@@ -3460,6 +3704,10 @@ export type Mutation_Root = {
   insert_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
   /** insert a single row into the table: "token_benefits" */
   insert_token_benefits_one?: Maybe<Token_Benefits>;
+  /** insert data into the table: "user_following" */
+  insert_user_following?: Maybe<User_Following_Mutation_Response>;
+  /** insert a single row into the table: "user_following" */
+  insert_user_following_one?: Maybe<User_Following>;
   /** insert data into the table: "user_socials" */
   insert_user_socials?: Maybe<User_Socials_Mutation_Response>;
   /** insert a single row into the table: "user_socials" */
@@ -3475,6 +3723,10 @@ export type Mutation_Root = {
   reject_manual_task?: Maybe<RejectMtOutput>;
   /** revoke */
   revoke?: Maybe<LoginOutput>;
+  /** execute VOLATILE function "unfollow_dao" which returns "dao_following" */
+  unfollow_dao?: Maybe<Dao_Following>;
+  /** execute VOLATILE function "unfollow_user" which returns "user_following" */
+  unfollow_user?: Maybe<User_Following>;
   /** update data of the table: "bounties" */
   update_bounties?: Maybe<Bounties_Mutation_Response>;
   /** update single row of the table: "bounties" */
@@ -3483,6 +3735,8 @@ export type Mutation_Root = {
   update_credentials?: Maybe<Credentials_Mutation_Response>;
   /** update single row of the table: "credentials" */
   update_credentials_by_pk?: Maybe<Credentials>;
+  /** update data of the table: "dao_following" */
+  update_dao_following?: Maybe<Dao_Following_Mutation_Response>;
   /** update data of the table: "dao_socials" */
   update_dao_socials?: Maybe<Dao_Socials_Mutation_Response>;
   /** update data of the table: "daos" */
@@ -3519,6 +3773,8 @@ export type Mutation_Root = {
   update_token_benefits?: Maybe<Token_Benefits_Mutation_Response>;
   /** update single row of the table: "token_benefits" */
   update_token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** update data of the table: "user_following" */
+  update_user_following?: Maybe<User_Following_Mutation_Response>;
   /** update data of the table: "user_socials" */
   update_user_socials?: Maybe<User_Socials_Mutation_Response>;
   /** update data of the table: "users" */
@@ -3557,6 +3813,12 @@ export type Mutation_RootDelete_CredentialsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Credentials_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Dao_FollowingArgs = {
+  where: Dao_Following_Bool_Exp;
 };
 
 
@@ -3669,6 +3931,12 @@ export type Mutation_RootDelete_Token_Benefits_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_User_FollowingArgs = {
+  where: User_Following_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_User_SocialsArgs = {
   where: User_Socials_Bool_Exp;
 };
@@ -3683,6 +3951,28 @@ export type Mutation_RootDelete_UsersArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Users_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+/** mutation root */
+export type Mutation_RootFollow_DaoArgs = {
+  args: Follow_Dao_Args;
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
+};
+
+
+/** mutation root */
+export type Mutation_RootFollow_UserArgs = {
+  args: Follow_User_Args;
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
 };
 
 
@@ -3711,6 +4001,20 @@ export type Mutation_RootInsert_CredentialsArgs = {
 export type Mutation_RootInsert_Credentials_OneArgs = {
   object: Credentials_Insert_Input;
   on_conflict?: InputMaybe<Credentials_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Dao_FollowingArgs = {
+  objects: Array<Dao_Following_Insert_Input>;
+  on_conflict?: InputMaybe<Dao_Following_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Dao_Following_OneArgs = {
+  object: Dao_Following_Insert_Input;
+  on_conflict?: InputMaybe<Dao_Following_On_Conflict>;
 };
 
 
@@ -3855,6 +4159,20 @@ export type Mutation_RootInsert_Token_Benefits_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_User_FollowingArgs = {
+  objects: Array<User_Following_Insert_Input>;
+  on_conflict?: InputMaybe<User_Following_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_User_Following_OneArgs = {
+  object: User_Following_Insert_Input;
+  on_conflict?: InputMaybe<User_Following_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_User_SocialsArgs = {
   objects: Array<User_Socials_Insert_Input>;
   on_conflict?: InputMaybe<User_Socials_On_Conflict>;
@@ -3908,6 +4226,28 @@ export type Mutation_RootRevokeArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUnfollow_DaoArgs = {
+  args: Unfollow_Dao_Args;
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUnfollow_UserArgs = {
+  args: Unfollow_User_Args;
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_BountiesArgs = {
   _set?: InputMaybe<Bounties_Set_Input>;
   where: Bounties_Bool_Exp;
@@ -3942,6 +4282,13 @@ export type Mutation_RootUpdate_Credentials_By_PkArgs = {
   _prepend?: InputMaybe<Credentials_Prepend_Input>;
   _set?: InputMaybe<Credentials_Set_Input>;
   pk_columns: Credentials_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Dao_FollowingArgs = {
+  _set?: InputMaybe<Dao_Following_Set_Input>;
+  where: Dao_Following_Bool_Exp;
 };
 
 
@@ -4102,6 +4449,13 @@ export type Mutation_RootUpdate_Token_BenefitsArgs = {
 export type Mutation_RootUpdate_Token_Benefits_By_PkArgs = {
   _set?: InputMaybe<Token_Benefits_Set_Input>;
   pk_columns: Token_Benefits_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_User_FollowingArgs = {
+  _set?: InputMaybe<User_Following_Set_Input>;
+  where: User_Following_Bool_Exp;
 };
 
 
@@ -4413,6 +4767,10 @@ export type Query_Root = {
   credentials_aggregate: Credentials_Aggregate;
   /** fetch data from the table: "credentials" using primary key columns */
   credentials_by_pk?: Maybe<Credentials>;
+  /** fetch data from the table: "dao_following" */
+  dao_following: Array<Dao_Following>;
+  /** fetch aggregated fields from the table: "dao_following" */
+  dao_following_aggregate: Dao_Following_Aggregate;
   /** fetch data from the table: "dao_socials" */
   dao_socials: Array<Dao_Socials>;
   /** fetch aggregated fields from the table: "dao_socials" */
@@ -4483,6 +4841,10 @@ export type Query_Root = {
   token_benefits_aggregate: Token_Benefits_Aggregate;
   /** fetch data from the table: "token_benefits" using primary key columns */
   token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** fetch data from the table: "user_following" */
+  user_following: Array<User_Following>;
+  /** fetch aggregated fields from the table: "user_following" */
+  user_following_aggregate: User_Following_Aggregate;
   /** fetch data from the table: "user_socials" */
   user_socials: Array<User_Socials>;
   /** fetch aggregated fields from the table: "user_socials" */
@@ -4539,6 +4901,24 @@ export type Query_RootCredentials_AggregateArgs = {
 
 export type Query_RootCredentials_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Query_RootDao_FollowingArgs = {
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
+};
+
+
+export type Query_RootDao_Following_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
 };
 
 
@@ -4809,6 +5189,24 @@ export type Query_RootToken_Benefits_By_PkArgs = {
 };
 
 
+export type Query_RootUser_FollowingArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+
+export type Query_RootUser_Following_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+
 export type Query_RootUser_SocialsArgs = {
   distinct_on?: InputMaybe<Array<User_Socials_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4876,6 +5274,10 @@ export type Subscription_Root = {
   credentials_aggregate: Credentials_Aggregate;
   /** fetch data from the table: "credentials" using primary key columns */
   credentials_by_pk?: Maybe<Credentials>;
+  /** fetch data from the table: "dao_following" */
+  dao_following: Array<Dao_Following>;
+  /** fetch aggregated fields from the table: "dao_following" */
+  dao_following_aggregate: Dao_Following_Aggregate;
   /** fetch data from the table: "dao_socials" */
   dao_socials: Array<Dao_Socials>;
   /** fetch aggregated fields from the table: "dao_socials" */
@@ -4936,6 +5338,10 @@ export type Subscription_Root = {
   token_benefits_aggregate: Token_Benefits_Aggregate;
   /** fetch data from the table: "token_benefits" using primary key columns */
   token_benefits_by_pk?: Maybe<Token_Benefits>;
+  /** fetch data from the table: "user_following" */
+  user_following: Array<User_Following>;
+  /** fetch aggregated fields from the table: "user_following" */
+  user_following_aggregate: User_Following_Aggregate;
   /** fetch data from the table: "user_socials" */
   user_socials: Array<User_Socials>;
   /** fetch aggregated fields from the table: "user_socials" */
@@ -4992,6 +5398,24 @@ export type Subscription_RootCredentials_AggregateArgs = {
 
 export type Subscription_RootCredentials_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootDao_FollowingArgs = {
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
+};
+
+
+export type Subscription_RootDao_Following_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dao_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dao_Following_Order_By>>;
+  where?: InputMaybe<Dao_Following_Bool_Exp>;
 };
 
 
@@ -5230,6 +5654,24 @@ export type Subscription_RootToken_Benefits_AggregateArgs = {
 
 export type Subscription_RootToken_Benefits_By_PkArgs = {
   id: Scalars['uuid'];
+};
+
+
+export type Subscription_RootUser_FollowingArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_Following_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
 };
 
 
@@ -5518,6 +5960,197 @@ export enum Token_Benefits_Update_Column {
   UpdatedAt = 'updated_at'
 }
 
+export type Unfollow_Dao_Args = {
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+export type Unfollow_User_Args = {
+  id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** columns and relationships of "user_following" */
+export type User_Following = {
+  __typename?: 'user_following';
+  followed_at: Scalars['timestamp'];
+  /** An object relationship */
+  follower: Users;
+  follower_id: Scalars['uuid'];
+  status: Scalars['following_state'];
+  updated_at: Scalars['timestamp'];
+  /** An object relationship */
+  user: Users;
+  user_id: Scalars['uuid'];
+};
+
+/** aggregated selection of "user_following" */
+export type User_Following_Aggregate = {
+  __typename?: 'user_following_aggregate';
+  aggregate?: Maybe<User_Following_Aggregate_Fields>;
+  nodes: Array<User_Following>;
+};
+
+/** aggregate fields of "user_following" */
+export type User_Following_Aggregate_Fields = {
+  __typename?: 'user_following_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<User_Following_Max_Fields>;
+  min?: Maybe<User_Following_Min_Fields>;
+};
+
+
+/** aggregate fields of "user_following" */
+export type User_Following_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Following_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "user_following" */
+export type User_Following_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<User_Following_Max_Order_By>;
+  min?: InputMaybe<User_Following_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "user_following" */
+export type User_Following_Arr_Rel_Insert_Input = {
+  data: Array<User_Following_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<User_Following_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "user_following". All fields are combined with a logical 'AND'. */
+export type User_Following_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Following_Bool_Exp>>;
+  _not?: InputMaybe<User_Following_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Following_Bool_Exp>>;
+  followed_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  follower?: InputMaybe<Users_Bool_Exp>;
+  follower_id?: InputMaybe<Uuid_Comparison_Exp>;
+  status?: InputMaybe<Following_State_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "user_following" */
+export enum User_Following_Constraint {
+  /** unique or primary key constraint */
+  UserFollowingUserIdFollowerIdUindex = 'user_following_user_id_follower_id_uindex'
+}
+
+/** input type for inserting data into table "user_following" */
+export type User_Following_Insert_Input = {
+  followed_at?: InputMaybe<Scalars['timestamp']>;
+  follower?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  follower_id?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Scalars['following_state']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type User_Following_Max_Fields = {
+  __typename?: 'user_following_max_fields';
+  followed_at?: Maybe<Scalars['timestamp']>;
+  follower_id?: Maybe<Scalars['uuid']>;
+  status?: Maybe<Scalars['following_state']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by max() on columns of table "user_following" */
+export type User_Following_Max_Order_By = {
+  followed_at?: InputMaybe<Order_By>;
+  follower_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type User_Following_Min_Fields = {
+  __typename?: 'user_following_min_fields';
+  followed_at?: Maybe<Scalars['timestamp']>;
+  follower_id?: Maybe<Scalars['uuid']>;
+  status?: Maybe<Scalars['following_state']>;
+  updated_at?: Maybe<Scalars['timestamp']>;
+  user_id?: Maybe<Scalars['uuid']>;
+};
+
+/** order by min() on columns of table "user_following" */
+export type User_Following_Min_Order_By = {
+  followed_at?: InputMaybe<Order_By>;
+  follower_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "user_following" */
+export type User_Following_Mutation_Response = {
+  __typename?: 'user_following_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Following>;
+};
+
+/** on_conflict condition type for table "user_following" */
+export type User_Following_On_Conflict = {
+  constraint: User_Following_Constraint;
+  update_columns?: Array<User_Following_Update_Column>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_following". */
+export type User_Following_Order_By = {
+  followed_at?: InputMaybe<Order_By>;
+  follower?: InputMaybe<Users_Order_By>;
+  follower_id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "user_following" */
+export enum User_Following_Select_Column {
+  /** column name */
+  FollowedAt = 'followed_at',
+  /** column name */
+  FollowerId = 'follower_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** input type for updating data in table "user_following" */
+export type User_Following_Set_Input = {
+  followed_at?: InputMaybe<Scalars['timestamp']>;
+  follower_id?: InputMaybe<Scalars['uuid']>;
+  status?: InputMaybe<Scalars['following_state']>;
+  updated_at?: InputMaybe<Scalars['timestamp']>;
+  user_id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "user_following" */
+export enum User_Following_Update_Column {
+  /** column name */
+  FollowedAt = 'followed_at',
+  /** column name */
+  FollowerId = 'follower_id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserId = 'user_id'
+}
+
 /** columns and relationships of "user_socials" */
 export type User_Socials = {
   __typename?: 'user_socials';
@@ -5681,6 +6314,14 @@ export type Users = {
   discord_id?: Maybe<Scalars['String']>;
   email_address?: Maybe<Scalars['citext']>;
   /** An array relationship */
+  followed_by: Array<User_Following>;
+  /** An aggregate relationship */
+  followed_by_aggregate: User_Following_Aggregate;
+  /** An array relationship */
+  following: Array<User_Following>;
+  /** An aggregate relationship */
+  following_aggregate: User_Following_Aggregate;
+  /** An array relationship */
   gate_progresses: Array<Gate_Progress>;
   /** An aggregate relationship */
   gate_progresses_aggregate: Gate_Progress_Aggregate;
@@ -5737,6 +6378,46 @@ export type UsersCredentials_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Credentials_Order_By>>;
   where?: InputMaybe<Credentials_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersFollowed_ByArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersFollowed_By_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersFollowingArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
+};
+
+
+/** columns and relationships of "users" */
+export type UsersFollowing_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Following_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Following_Order_By>>;
+  where?: InputMaybe<User_Following_Bool_Exp>;
 };
 
 
@@ -5895,6 +6576,8 @@ export type Users_Bool_Exp = {
   device?: InputMaybe<String_Comparison_Exp>;
   discord_id?: InputMaybe<String_Comparison_Exp>;
   email_address?: InputMaybe<Citext_Comparison_Exp>;
+  followed_by?: InputMaybe<User_Following_Bool_Exp>;
+  following?: InputMaybe<User_Following_Bool_Exp>;
   gate_progresses?: InputMaybe<Gate_Progress_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   init?: InputMaybe<Boolean_Comparison_Exp>;
@@ -5974,6 +6657,8 @@ export type Users_Insert_Input = {
   device?: InputMaybe<Scalars['String']>;
   discord_id?: InputMaybe<Scalars['String']>;
   email_address?: InputMaybe<Scalars['citext']>;
+  followed_by?: InputMaybe<User_Following_Arr_Rel_Insert_Input>;
+  following?: InputMaybe<User_Following_Arr_Rel_Insert_Input>;
   gate_progresses?: InputMaybe<Gate_Progress_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']>;
   init?: InputMaybe<Scalars['Boolean']>;
@@ -6096,6 +6781,8 @@ export type Users_Order_By = {
   device?: InputMaybe<Order_By>;
   discord_id?: InputMaybe<Order_By>;
   email_address?: InputMaybe<Order_By>;
+  followed_by_aggregate?: InputMaybe<User_Following_Aggregate_Order_By>;
+  following_aggregate?: InputMaybe<User_Following_Aggregate_Order_By>;
   gate_progresses_aggregate?: InputMaybe<Gate_Progress_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   init?: InputMaybe<Order_By>;
@@ -6518,6 +7205,13 @@ export type VerifyTaskMutationVariables = Exact<{
 
 
 export type VerifyTaskMutation = { __typename?: 'mutation_root', verify_key?: { __typename?: 'VerifyOutput', completed_gate: boolean, task_info: any } | null | undefined };
+
+export type CreateManualTaskSubmissionMutationVariables = Exact<{
+  object?: InputMaybe<Manual_Task_Submission_Insert_Input>;
+}>;
+
+
+export type CreateManualTaskSubmissionMutation = { __typename?: 'mutation_root', insert_manual_task_submission_one?: { __typename?: 'manual_task_submission', admin_comment?: string | null | undefined, admin_id?: any | null | undefined, comment?: string | null | undefined, discord_id: string, id: any, key_id: any, status: any, submission_url: string, user_id: any, wallet: string } | null | undefined };
 
 export type GetUserGatePermissionsQueryVariables = Exact<{
   gate_id?: InputMaybe<Scalars['uuid']>;
@@ -8226,6 +8920,48 @@ export function useVerifyTaskMutation(baseOptions?: Apollo.MutationHookOptions<V
 export type VerifyTaskMutationHookResult = ReturnType<typeof useVerifyTaskMutation>;
 export type VerifyTaskMutationResult = Apollo.MutationResult<VerifyTaskMutation>;
 export type VerifyTaskMutationOptions = Apollo.BaseMutationOptions<VerifyTaskMutation, VerifyTaskMutationVariables>;
+export const CreateManualTaskSubmissionDocument = gql`
+    mutation createManualTaskSubmission($object: manual_task_submission_insert_input = {}) {
+  insert_manual_task_submission_one(object: $object) {
+    admin_comment
+    admin_id
+    comment
+    discord_id
+    id
+    key_id
+    status
+    submission_url
+    user_id
+    wallet
+  }
+}
+    `;
+export type CreateManualTaskSubmissionMutationFn = Apollo.MutationFunction<CreateManualTaskSubmissionMutation, CreateManualTaskSubmissionMutationVariables>;
+
+/**
+ * __useCreateManualTaskSubmissionMutation__
+ *
+ * To run a mutation, you first call `useCreateManualTaskSubmissionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateManualTaskSubmissionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createManualTaskSubmissionMutation, { data, loading, error }] = useCreateManualTaskSubmissionMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useCreateManualTaskSubmissionMutation(baseOptions?: Apollo.MutationHookOptions<CreateManualTaskSubmissionMutation, CreateManualTaskSubmissionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateManualTaskSubmissionMutation, CreateManualTaskSubmissionMutationVariables>(CreateManualTaskSubmissionDocument, options);
+      }
+export type CreateManualTaskSubmissionMutationHookResult = ReturnType<typeof useCreateManualTaskSubmissionMutation>;
+export type CreateManualTaskSubmissionMutationResult = Apollo.MutationResult<CreateManualTaskSubmissionMutation>;
+export type CreateManualTaskSubmissionMutationOptions = Apollo.BaseMutationOptions<CreateManualTaskSubmissionMutation, CreateManualTaskSubmissionMutationVariables>;
 export const GetUserGatePermissionsDocument = gql`
     query getUserGatePermissions($gate_id: uuid, $user_id: uuid) {
   permissions(where: {gate_id: {_eq: $gate_id}, user_id: {_eq: $user_id}}) {

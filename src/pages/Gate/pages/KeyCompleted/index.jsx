@@ -12,7 +12,7 @@ import * as ThemeStyled from '../../../../theme/style';
 import { useNavigate, useOutletContext, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-const KeyCompletedPage = (props) => {
+const TaskCompletedPage = (props) => {
     // Hooks
     const { gateData } = useOutletContext();
     const { state } = useLocation();
@@ -29,7 +29,7 @@ const KeyCompletedPage = (props) => {
             } else {
                 window.location.href = `/gate/${gateData.id}/`;
             }
-        }, 1000);
+        }, 2000);
 
         return () => clearTimeout(clear);
     }, []);
@@ -43,14 +43,14 @@ const KeyCompletedPage = (props) => {
             </Styled.Heading>
             <Styled.CircleBox>
                 <CircularProgressbarWithChildren
-                    value={gateData.keysDone + state.key.keys}
+                    value={state.keysDone}
                     minValue={0}
-                    maxValue={gateData.keys}
+                    maxValue={gateData.tasks.length}
                     strokeWidth={18}
                 >
                     <Styled.CircleText>
-                        {gateData.keysDone + state.key.keys} out of{' '}
-                        {gateData.keys}
+                        {state.keysDone} out of{' '}
+                        {gateData.tasks.length}
                     </Styled.CircleText>
                 </CircularProgressbarWithChildren>
             </Styled.CircleBox>
@@ -59,4 +59,4 @@ const KeyCompletedPage = (props) => {
     );
 };
 
-export default KeyCompletedPage;
+export default TaskCompletedPage;

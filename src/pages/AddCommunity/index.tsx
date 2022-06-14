@@ -8,11 +8,10 @@ import * as Styled from './style';
 import { FormStyled } from '../../components/Form';
 
 // Components
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
 import Loader from '../../components/Loader';
 import SubmitPage from './submitPage';
 import { ImageUpload } from '../../components/Form';
+import Page from '../../components/Page';
 
 // Hooks
 import { useState, useEffect } from 'react';
@@ -21,137 +20,121 @@ import useFile from '../../api/useFile';
 import { useCreateDaoMutation } from '../../graphql';
 
 // Utils
-import space from '../../utils/canvas';
 import { v4 as uuidv4 } from 'uuid';
 import { Form } from 'react-bootstrap';
+import { useFieldArray, useForm } from 'react-hook-form';
 
 const AddCommunity = () => {
-    const { userInfo, walletConnected } = useAuth();
-    const { uploadFile } = useFile();
-
-    const [name, setName] = useState('');
-    const [tokenAddress, setTokenAddress] = useState('');
-    const [whitelistedAddresses, setWhitelistedAddresses] = useState([
-        walletConnected ? userInfo.wallet : '',
-    ]);
-    const [description, setDescription] = useState('');
-    const [categories, setCategories] = useState([]);
-    const [socials, setSocials] = useState([
-        {
-            network: 'twitter',
-            url: '',
-        },
-        {
-            network: 'discord',
-            url: '',
-        },
-    ]);
-    const [chains, setChains] = useState([]);
+    const { userInfo, walletConnected }: Record<string, any> = useAuth();
     const [bgFile, setBGFile] = useState();
     const [logoFile, setLogoFile] = useState();
-    const [spaceId, setSpaceId] = useState('');
-    const [updateLoading, setUpdateLoading] = useState(false);
 
-    const [createDAO, { data, error, called, loading }] = useCreateDaoMutation();
+    const { uploadFile } = useFile();
 
-    useEffect(() => {
-        if (walletConnected) {
-            space(window.innerHeight, window.innerWidth);
-        }
-    }, [window.innerHeight, window.innerWidth]);
+    const [createDAO, { data, error, called, loading }] =
+        useCreateDaoMutation();
+
+    const { register, handleSubmit, control, watch, setValue } = useForm({
+        defaultValues: {
+            name: null,
+            description: null,
+            socials: [
+                {
+                    network: 'twitter',
+                    url: '',
+                },
+                {
+                    network: 'discord',
+                    url: '',
+                },
+            ],
+            admins: [userInfo && {
+                id: userInfo.id
+            }],
+            categories: [],
+            chains: [],
+            tokenAddress: null,
+            spaceId: null,
+        },
+    });
+
+    const {
+        fields: socials,
+        append: socials_append,
+        remove: socials_remove,
+        update: socials_update
+    } = useFieldArray({
+        control,
+        name: 'socials',
+    });
+
+    const {
+        fields: admins,
+        append: admins_append,
+        remove: admins_remove,
+    } = useFieldArray({
+        control,
+        name: 'admins',
+    });
 
     const toggleCheckbox = (e) => {
-        const value = e.target.value;
-        // console.log(categories)
+        const value = (e.target as HTMLInputElement).value;
+
+        const categories: string[] = watch('categories');
 
         if (categories.includes(value) && !e.target.checked) {
-            setCategories(categories.filter((cat) => cat !== value));
+            setValue('categories', categories.filter(obj => obj !== value));
         } else if (e.target.checked) {
-            setCategories([...categories, value]);
+            setValue('categories', [...categories, value]);
         }
     };
 
     const toggleCheckboxChain = (e) => {
-        const value = e.target.value;
+        const value = (e.target as HTMLInputElement).value;
+
+        const chains: string[] = watch('chains');
+
         if (chains.includes(value) && !e.target.checked) {
-            setChains(chains.filter((cat) => cat !== value));
+            setValue('chains', chains.filter(obj => obj !== value));
         } else if (e.target.checked) {
-            setChains([...chains, value]);
+            setValue('chains', [...chains, value]);
         }
     };
 
-    // Handlers
-    const changeSocial = (idx, e) => {
-        e.preventDefault();
-        let copy = [...socials];
-        copy[idx].url = e.target.value;
-        setSocials(copy);
-    };
-
-    const deleteSocial = (idx) =>
-        setSocials(socials.filter((social, i) => i !== idx));
-
-    const changeSocialName = (idx, newName) => {
-        let copy = socials.map((social, i) => {
-            if (i === idx) {
-                return {
-                    ...social,
-                    network: newName,
-                };
-            }
-
-            return social;
-        });
-        setSocials(copy);
-    };
-
-    const submitToDB = async () => {
-        setUpdateLoading(true);
+    const onSubmit = async (data) => {
         try {
             // DAO ID
             const id = uuidv4();
 
             // Upload files to S3
-            const logoURL = await uploadFile(
-                logoFile,
-                `/daos/${id}/`
-            );
-            const backgroundURL = await uploadFile(
-                bgFile,
-                `daos/${id}/`
-            );
-
-            const newInfo = {
-                id,
-                dao: name
-                    .toLowerCase()
-                    .replace(/ /g, '-')
-                    .replace(/[-]+/g, '-')
-                    .replace(/[^\w-]+/g, ''),
-                name,
-                backgroundURL,
-                logoURL,
-                tokenAddress,
-                description,
-                categories,
-                chains,
-                socials,
-                whitelistedAddresses,
-                snapshotID: spaceId,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-            };
+            const logoURL = await uploadFile(logoFile, `/daos/${id}/`);
+            const backgroundURL = await uploadFile(bgFile, `/daos/${id}/`);
 
             await createDAO({
                 variables: {
-                    input: newInfo,
+                    object: {
+                        id,
+                        slug: data.name
+                            .toLowerCase()
+                            .replace(/ /g, '-')
+                            .replace(/[-]+/g, '-')
+                            .replace(/[^\w-]+/g, ''),
+                        name: data.name,
+                        background_url: backgroundURL,
+                        logo_url: logoURL,
+                        token: data.tokenAddress,
+                        description: data.description,
+                        categories: data.categories,
+                        chains: data.chains,
+                        socials: data.socials,
+                        ens: data.spaceId,
+                    },
                 },
             });
         } catch (err) {
             alert('An error occurred. Please try again later!');
             console.log(err);
         }
-        setUpdateLoading(false);
     };
 
     if (error) {
@@ -159,42 +142,19 @@ const AddCommunity = () => {
         return <Navigate to='/404' />;
     }
 
-    const changeWhitelistedAddress = (e, idx) => {
-        e.preventDefault();
-        let newList = [...whitelistedAddresses];
-        newList[idx] = e.target.value;
-        setWhitelistedAddresses(newList);
-    };
-
-    if (!walletConnected) {
-        return <Navigate to='/not-authorized' />;
-    }
-
     return data && called ? (
-        <SubmitPage
-            dao={name
-                .toLowerCase()
-                .replace(/ /g, '-')
-                .replace(/[-]+/g, '-')
-                .replace(/[^\w-]+/g, '')}
-        />
+        <SubmitPage />
     ) : (
-        <Styled.Page>
-            <Header />
-            <Styled.Container>
-                <Styled.SpaceBox id='space-canvas' />
-                <Styled.Heading>Add your Community</Styled.Heading>
+        <Page>
+            <Styled.Heading>Add your Community</Styled.Heading>
 
+            <FormStyled.FormBox onSubmit={handleSubmit(onSubmit)}>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='name'>Name*</FormStyled.Label>
                     <FormStyled.Input
-                        onChange={(e) => setName(e.target.value)}
+                        {...register('name', { required: true })}
                         type='text'
-                        id='name'
-                        name='name'
                         placeholder='Your Community Name'
-                        value={name}
-                        required
                     />
                 </FormStyled.Fieldset>
 
@@ -214,8 +174,7 @@ const AddCommunity = () => {
                         Description*
                     </FormStyled.Label>
                     <FormStyled.Textarea
-                        onChange={(e) => setDescription(e.target.value)}
-                        value={description}
+                        {...register('description', { required: true })}
                     />
                 </FormStyled.Fieldset>
 
@@ -228,7 +187,7 @@ const AddCommunity = () => {
                             value='Protocol'
                             label='Protocol'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('Protocol')}
+                            checked={watch('categories').includes('Protocol')}
                         />
                         <FormStyled.Checkbox
                             id='category-2'
@@ -236,7 +195,7 @@ const AddCommunity = () => {
                             value='DeFi'
                             label='DeFi'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('DeFi')}
+                            checked={watch('categories').includes('DeFi')}
                         />
                         <FormStyled.Checkbox
                             id='category-3'
@@ -244,7 +203,7 @@ const AddCommunity = () => {
                             value='Social'
                             label='Social'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('Social')}
+                            checked={watch('categories').includes('Social')}
                         />
                         <FormStyled.Checkbox
                             id='category-4'
@@ -252,7 +211,7 @@ const AddCommunity = () => {
                             value='Grant'
                             label='Grant'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('Grant')}
+                            checked={watch('categories').includes('Grant')}
                         />
                         <FormStyled.Checkbox
                             id='category-5'
@@ -260,7 +219,7 @@ const AddCommunity = () => {
                             value='Investment'
                             label='Investment'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('Investment')}
+                            checked={watch('categories').includes('Investment')}
                         />
                         <FormStyled.Checkbox
                             id='category-6'
@@ -268,7 +227,7 @@ const AddCommunity = () => {
                             value='Collector'
                             label='Collector'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('Collector')}
+                            checked={watch('categories').includes('Collector')}
                         />
                         <FormStyled.Checkbox
                             id='category-7'
@@ -276,7 +235,7 @@ const AddCommunity = () => {
                             value='Framework'
                             label='Framework'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('Framework')}
+                            checked={watch('categories').includes('Framework')}
                         />
                         <FormStyled.Checkbox
                             id='category-8'
@@ -284,7 +243,7 @@ const AddCommunity = () => {
                             value='Gaming'
                             label='Gaming'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('Gaming')}
+                            checked={watch('categories').includes('Gaming')}
                         />
                         <FormStyled.Checkbox
                             id='category-9'
@@ -292,7 +251,7 @@ const AddCommunity = () => {
                             value='DeSci'
                             label='DeSci'
                             onChange={toggleCheckbox}
-                            checked={categories.includes('DeSci')}
+                            checked={watch('categories').includes('DeSci')}
                         />
                     </FormStyled.GridBox>
                 </FormStyled.Fieldset>
@@ -306,10 +265,7 @@ const AddCommunity = () => {
                             <FormStyled.InputWrapper key={idx}>
                                 <Form.Select
                                     style={{ marginRight: '10px' }}
-                                    onChange={(e) =>
-                                        changeSocialName(idx, e.target.value)
-                                    }
-                                    value={social.network}
+                                    {...register(`socials.${idx}.network`)}
                                 >
                                     <option
                                         value='twitter'
@@ -367,20 +323,21 @@ const AddCommunity = () => {
                                     >
                                         Chat
                                     </option>
-                                    <option value='other'>
-                                        Other
-                                    </option>
+                                    <option value='other'>Other</option>
                                 </Form.Select>
                                 <FormStyled.Input
                                     id={`social-${social.network}`}
                                     type='text'
-                                    onChange={(e) => changeSocial(idx, e)}
+                                    onChange={(e) => socials_update(idx, {
+                                        network: social.network,
+                                        url: e.target.value
+                                    })}
                                     value={social.url}
                                     placeholder='Add your network URL'
                                     required
                                 />
                                 <FormStyled.IconButton
-                                    onClick={() => deleteSocial(idx)}
+                                    onClick={() => socials_remove(idx)}
                                     style={{ marginLeft: '10px' }}
                                 >
                                     <FaTrashAlt />
@@ -390,13 +347,10 @@ const AddCommunity = () => {
                     })}
                     <FormStyled.IconButton
                         onClick={() =>
-                            setSocials([
-                                ...socials,
-                                {
-                                    network: `any-${socials.length}`,
-                                    url: '',
-                                },
-                            ])
+                            socials_append({
+                                network: `any-${socials.length}`,
+                                url: '',
+                            })
                         }
                         style={{
                             width: 'fit-content',
@@ -416,7 +370,7 @@ const AddCommunity = () => {
                             value='ethereum'
                             label='Ethereum'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('Ethereum')}
+                            checked={watch('chains').includes('Ethereum')}
                         />
                         <FormStyled.Checkbox
                             id='chain-2'
@@ -424,7 +378,7 @@ const AddCommunity = () => {
                             value='solana'
                             label='Solana'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('Solana')}
+                            checked={watch('chains').includes('Solana')}
                         />
                         <FormStyled.Checkbox
                             id='chain-3'
@@ -432,7 +386,7 @@ const AddCommunity = () => {
                             value='Polygon'
                             label='Polygon'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('Polygon')}
+                            checked={watch('chains').includes('Polygon')}
                         />
                         <FormStyled.Checkbox
                             id='chain-4'
@@ -440,7 +394,7 @@ const AddCommunity = () => {
                             value='NEAR'
                             label='NEAR'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('NEAR')}
+                            checked={watch('chains').includes('NEAR')}
                         />
                         <FormStyled.Checkbox
                             id='chain-5'
@@ -448,7 +402,7 @@ const AddCommunity = () => {
                             value='Avalanche'
                             label='Avalanche'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('Avalanche')}
+                            checked={watch('chains').includes('Avalanche')}
                         />
                         <FormStyled.Checkbox
                             id='chain-6'
@@ -456,7 +410,7 @@ const AddCommunity = () => {
                             value='Binance'
                             label='Binance'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('Binance')}
+                            checked={watch('chains').includes('Binance')}
                         />
                         <FormStyled.Checkbox
                             id='chain-7'
@@ -464,7 +418,7 @@ const AddCommunity = () => {
                             value='Bitcoin'
                             label='Bitcoin'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('Bitcoin')}
+                            checked={watch('chains').includes('Bitcoin')}
                         />
                         <FormStyled.Checkbox
                             id='chain-8'
@@ -472,35 +426,24 @@ const AddCommunity = () => {
                             value='Other'
                             label='Other'
                             onChange={toggleCheckboxChain}
-                            checked={chains.includes('Other')}
+                            checked={watch('chains').includes('Other')}
                         />
                     </FormStyled.GridBox>
                 </FormStyled.Fieldset>
 
+                {/*
                 <FormStyled.Fieldset>
-                    <FormStyled.Label htmlFor='whitelistedAddress'>
-                        Whitelisted Addresses
-                    </FormStyled.Label>
-                    {whitelistedAddresses.map((address, idx) => {
+                    <FormStyled.Label htmlFor='admins'>Admins</FormStyled.Label>
+                    {admins.map((address, idx) => {
                         return (
                             <FormStyled.InputWrapper key={idx}>
                                 <FormStyled.Input
-                                    id={`social-${idx}`}
+                                    id={`admin-${idx}`}
                                     type='text'
-                                    onChange={(e) =>
-                                        changeWhitelistedAddress(e, idx)
-                                    }
-                                    value={whitelistedAddresses[idx]}
-                                    required
+                                    {...register(`admins.${idx}`, { required: true })}
                                 />
                                 <FormStyled.IconButton
-                                    onClick={() =>
-                                        setWhitelistedAddresses(
-                                            whitelistedAddresses.filter(
-                                                (addr, index) => idx !== index
-                                            )
-                                        )
-                                    }
+                                    onClick={() => admins_remove(idx)}
                                     style={{ marginLeft: '10px' }}
                                 >
                                     <FaTrashAlt />
@@ -509,12 +452,7 @@ const AddCommunity = () => {
                         );
                     })}
                     <FormStyled.IconButton
-                        onClick={() =>
-                            setWhitelistedAddresses([
-                                ...whitelistedAddresses,
-                                '',
-                            ])
-                        }
+                        onClick={() => admins_append('')}
                         style={{
                             width: 'fit-content',
                             alignSelf: 'center',
@@ -523,6 +461,7 @@ const AddCommunity = () => {
                         <FaPlus />
                     </FormStyled.IconButton>
                 </FormStyled.Fieldset>
+                */}
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='tokenAddress'>
@@ -531,9 +470,7 @@ const AddCommunity = () => {
                     <FormStyled.Input
                         id='tokenAddress'
                         type='text'
-                        onChange={(e) => setTokenAddress(e.target.value)}
-                        value={tokenAddress}
-                        required
+                        {...register('tokenAddress', { required: true })}
                     />
                 </FormStyled.Fieldset>
 
@@ -544,19 +481,16 @@ const AddCommunity = () => {
                     <FormStyled.Input
                         id='SpaceId'
                         type='text'
-                        onChange={(e) => setSpaceId(e.target.value)}
-                        value={spaceId}
-                        required
+                        {...register('spaceId')}
                     />
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button id='submit_msg' onClick={submitToDB}>
-                    {updateLoading && <Loader color='white' />}
+                <FormStyled.Button id='submit_msg'>
+                    {loading && <Loader color='white' />}
                     Save Changes
                 </FormStyled.Button>
-            </Styled.Container>
-            <Footer />
-        </Styled.Page>
+            </FormStyled.FormBox>
+        </Page>
     );
 };
 

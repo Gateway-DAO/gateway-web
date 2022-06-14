@@ -4,6 +4,7 @@ import { IoMdClose } from 'react-icons/io';
 export const Modal = styled.div`
     position: relative;
 `;
+
 export const Container = styled.div`
     position: fixed;
     top: 0;
@@ -16,6 +17,7 @@ export const Container = styled.div`
     width: 100%;
     height: 100vh;
 `;
+
 export const Wrapper = styled.div`
     background: #170627;
     box-shadow: 0px 6px 15px rgba(255, 0, 184, 0.3);
@@ -31,6 +33,7 @@ export const Wrapper = styled.div`
     padding-left: 80px;
     padding-right: 80px;
 `;
+
 export const CloseBtn = styled(IoMdClose)`
     /* Background */
     background: linear-gradient(

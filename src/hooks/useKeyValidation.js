@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../contexts/ModalContext';
 import { useAuth } from '../contexts/UserContext';
-import { useVerifyTaskMutation } from '../graphql';
+import { useVerifyTaskMutation, useGetGateProgressLazyQuery, GetGateDocument } from '../graphql';
 import * as ThemeStyled from '../theme/style';
 
 export const useKeyValidation = (data, gateData) => {
@@ -19,6 +19,25 @@ export const useKeyValidation = (data, gateData) => {
     const { userInfo } = useAuth();
     const { showModal } = useModal();
     const navigate = useNavigate();
+
+    const [getGateProgress, { data: gp }] = useGetGateProgressLazyQuery({
+        variables: {
+            where: {
+                _and: [
+                    {
+                        gate_id: {
+                            _eq: gateData.id,
+                        },
+                    },
+                    {
+                        user_id: {
+                            _eq: userInfo?.id,
+                        },
+                    },
+                ],
+            },
+        },
+    });
 
     // Validation mutations
     const [verifyTask] = useVerifyTaskMutation();
@@ -41,11 +60,15 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             });
 
+                            const { data: gp } = await getGateProgress();
+                            const keysDone =
+                                gp?.gate_progress[0]?.tasks_completed;
+
                             navigate('key-completed', {
                                 state: {
                                     key: data,
                                     gate: gateData,
-                                    keysDone: gateData.keysDone + data.keys,
+                                    keysDone,
                                     completedGate:
                                         res.data.verify_key.completed_gate,
                                 },
@@ -85,11 +108,15 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             });
 
+                            const { data: gp } = await getGateProgress();
+                            const keysDone =
+                                gp?.gate_progress[0]?.tasks_completed;
+
                             navigate('key-completed', {
                                 state: {
                                     key: data,
                                     gate: gateData,
-                                    keysDone: gateData.keysDone + data.keys,
+                                    keysDone,
                                     completedGate:
                                         res.data.verify_key.completed_gate,
                                 },
@@ -127,11 +154,15 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             });
 
+                            const { data: gp } = await getGateProgress();
+                            const keysDone =
+                                gp?.gate_progress[0]?.tasks_completed;
+
                             navigate('key-completed', {
                                 state: {
                                     key: data,
                                     gate: gateData,
-                                    keysDone: gateData.keysDone + data.keys,
+                                    keysDone,
                                     completedGate:
                                         res.data.verify_key.completed_gate,
                                 },
@@ -181,11 +212,15 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             });
 
+                            const { data: gp } = await getGateProgress();
+                            const keysDone =
+                                gp?.gate_progress[0]?.tasks_completed;
+
                             navigate('key-completed', {
                                 state: {
                                     key: data,
                                     gate: gateData,
-                                    keysDone: gateData.keysDone + data.keys,
+                                    keysDone,
                                     completedGate:
                                         res.data.verify_key.completed_gate,
                                 },
@@ -223,11 +258,15 @@ export const useKeyValidation = (data, gateData) => {
                                 },
                             });
 
+                            const { data: gp } = await getGateProgress();
+                            const keysDone =
+                                gp?.gate_progress[0]?.tasks_completed;
+
                             navigate('key-completed', {
                                 state: {
                                     key: data,
                                     gate: gateData,
-                                    keysDone: gateData.keysDone + data.keys,
+                                    keysDone,
                                     completedGate:
                                         res.data.verify_key.completed_gate,
                                 },
