@@ -131,7 +131,7 @@ const SubmissionModal = (props) => {
                                 >
                                     You're connected as <strong>{`${discord.username}#${discord.discriminator}`}</strong>. If this is the not your account, try
                                     <a
-                                        href='https://discord.com/api/oauth2/authorize?client_id=985976856559902750&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fdiscord&response_type=token&scope=identify'
+                                        href={`https://discord.com/api/oauth2/authorize?client_id=985976856559902750&redirect_uri=${window.location.protocol + '//' + window.location.hostname + (window.location.port && `:${window.location.port}`) + '/'}auth%2Fdiscord&response_type=token&scope=identify`}
                                         target='_blank'
                                     >
                                         connecting again.
@@ -144,7 +144,7 @@ const SubmissionModal = (props) => {
                                     If you don't know your Discord ID, please
                                     find it
                                     <a
-                                        href='https://discord.com/api/oauth2/authorize?client_id=985976856559902750&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fdiscord&response_type=token&scope=identify'
+                                        href={`https://discord.com/api/oauth2/authorize?client_id=985976856559902750&redirect_uri=${window.location.protocol + '//' + window.location.hostname + (window.location.port && `:${window.location.port}`) + '/'}auth/discord&response_type=token&scope=identify`}
                                         target='_blank'
                                     >
                                         {' here'}
