@@ -1,7 +1,7 @@
 // Libraries/components
 import React from 'react';
 import { FaTrashAlt, FaPlus } from 'react-icons/fa';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 // Styling
 import * as Styled from './style';
@@ -30,6 +30,7 @@ const AddCommunity = () => {
     const [logoFile, setLogoFile] = useState();
 
     const { uploadFile } = useFile();
+    const navigate = useNavigate();
 
     const [createDAO, { data, error, called, loading }] =
         useCreateDaoMutation();
@@ -68,15 +69,6 @@ const AddCommunity = () => {
         name: 'socials',
     });
 
-    const {
-        fields: admins,
-        append: admins_append,
-        remove: admins_remove,
-    } = useFieldArray({
-        control,
-        name: 'admins',
-    });
-
     const toggleCheckbox = (e) => {
         const value = (e.target as HTMLInputElement).value;
 
@@ -107,10 +99,10 @@ const AddCommunity = () => {
             const id = uuidv4();
 
             // Upload files to S3
-            const logoURL = await uploadFile(logoFile, `/daos/${id}/`);
-            const backgroundURL = await uploadFile(bgFile, `/daos/${id}/`);
+            const { key: logoURL } = await uploadFile(logoFile, `/daos/${id}/`);
+            const { key: backgroundURL } = await uploadFile(bgFile, `/daos/${id}/`);
 
-            await createDAO({
+            const { data: dao } = await createDAO({
                 variables: {
                     object: {
                         id,
@@ -120,17 +112,32 @@ const AddCommunity = () => {
                             .replace(/[-]+/g, '-')
                             .replace(/[^\w-]+/g, ''),
                         name: data.name,
-                        background_url: backgroundURL,
-                        logo_url: logoURL,
+                        background_url: `https://api.staging.mygateway.xyz/storage/file?key=${backgroundURL}`,
+                        logo_url: `https://api.staging.mygateway.xyz/storage/file?key=${logoURL}`,
                         token: data.tokenAddress,
                         description: data.description,
                         categories: data.categories,
                         chains: data.chains,
-                        socials: data.socials,
+                        socials: {
+                            data: data.socials.map(social => ({
+                                network: social.network,
+                                url: social.url
+                            }))
+                        },
                         ens: data.spaceId,
+                        ...(userInfo && {
+                            permissions: {
+                                data: [{
+                                    user_id: userInfo.id,
+                                    permission: 'admin'
+                                }]
+                            }
+                        })
                     },
                 },
             });
+
+            navigate(`/dao/${dao.insert_daos_one.slug}`);
         } catch (err) {
             alert('An error occurred. Please try again later!');
             console.log(err);
@@ -148,13 +155,15 @@ const AddCommunity = () => {
         <Page>
             <Styled.Heading>Add your Community</Styled.Heading>
 
-            <FormStyled.FormBox onSubmit={handleSubmit(onSubmit)}>
+            <FormStyled.FormBox action='' onSubmit={handleSubmit(onSubmit)}>
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='name'>Name*</FormStyled.Label>
                     <FormStyled.Input
                         {...register('name', { required: true })}
+                        value={watch('name')}
                         type='text'
                         placeholder='Your Community Name'
+                        required
                     />
                 </FormStyled.Fieldset>
 
@@ -175,6 +184,9 @@ const AddCommunity = () => {
                     </FormStyled.Label>
                     <FormStyled.Textarea
                         {...register('description', { required: true })}
+                        value={watch('description')}
+                        type='text'
+                        required
                     />
                 </FormStyled.Fieldset>
 
@@ -465,12 +477,12 @@ const AddCommunity = () => {
 
                 <FormStyled.Fieldset>
                     <FormStyled.Label htmlFor='tokenAddress'>
-                        Token Address*
+                        Token Address
                     </FormStyled.Label>
                     <FormStyled.Input
                         id='tokenAddress'
                         type='text'
-                        {...register('tokenAddress', { required: true })}
+                        {...register('tokenAddress')}
                     />
                 </FormStyled.Fieldset>
 
@@ -485,7 +497,7 @@ const AddCommunity = () => {
                     />
                 </FormStyled.Fieldset>
 
-                <FormStyled.Button id='submit_msg'>
+                <FormStyled.Button id='submit_msg' type='submit'>
                     {loading && <Loader color='white' />}
                     Save Changes
                 </FormStyled.Button>
